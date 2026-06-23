@@ -564,20 +564,14 @@ Complete the sentence. Choose <strong>NO MORE THAN THREE WORDS</strong> from the
 
     window.addEventListener('DOMContentLoaded', () => {
         let sid = localStorage.getItem('youpass_student_id');
-        let mainLayout = document.querySelector('.main-layout') || document.querySelector('.container') || document.body.firstElementChild;
         let overlay = document.getElementById('login-overlay');
         
-        // Hide main content initially
-        if(mainLayout && mainLayout.id !== 'login-overlay') {
-            if (mainLayout.style) {
-                // If the layout was natively display:none in HTML, we shouldn't save 'none' as original.
-                // We default it to 'flex' for main-layout and 'block' for others.
-                let orig = mainLayout.style.display;
-                if (orig === 'none' || orig === '') {
-                    orig = mainLayout.classList.contains('main-layout') ? 'flex' : 'block';
-                }
-                mainLayout.setAttribute('data-original-display', orig);
-                mainLayout.style.display = 'none';
+        // Hide all body children except login-overlay
+        let children = document.body.children;
+        for (let i = 0; i < children.length; i++) {
+            let el = children[i];
+            if (el.id !== 'login-overlay' && el.tagName !== 'SCRIPT' && el.tagName !== 'STYLE') {
+                el.style.display = 'none';
             }
         }
         
@@ -624,16 +618,19 @@ Complete the sentence. Choose <strong>NO MORE THAN THREE WORDS</strong> from the
                 
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
-                    let mainLayout = document.querySelector('.main-layout') || document.querySelector('.container') || document.body.firstElementChild;
-                    if(mainLayout && mainLayout.id !== 'login-overlay') {
-                        let targetDisplay = mainLayout.getAttribute('data-original-display') || 'block';
-                        if(targetDisplay === 'none') {
-                            targetDisplay = mainLayout.classList.contains('main-layout') ? 'flex' : 'block';
+                    
+                    // Unhide all body children
+                    let children = document.body.children;
+                    for (let i = 0; i < children.length; i++) {
+                        let el = children[i];
+                        if (el.id !== 'login-overlay' && el.tagName !== 'SCRIPT' && el.tagName !== 'STYLE') {
+                            el.style.display = '';
+                            el.style.visibility = 'visible';
+                            el.style.opacity = '1';
                         }
-                        mainLayout.style.display = targetDisplay;
                     }
                     
-                    // Show audio container if hidden
+                    // Show audio container explicitly if it was handled specially
                     let audioContainer = document.querySelector('.audio-fixed-bottom');
                     if (audioContainer) audioContainer.style.display = 'block';
                 }, 2200);
