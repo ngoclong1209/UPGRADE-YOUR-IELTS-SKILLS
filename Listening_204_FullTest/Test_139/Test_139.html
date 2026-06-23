@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IELTS Listening Practice - Test 139</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent: #111827;
+            --accent-hover: #1f2937;
+            --success: #059669;
+            --error: #dc2626;
+            --success-bg: #ecfdf5;
+            --error-bg: #fef2f2;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+            flex-shrink: 0;
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .main-layout {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .passage-pane {
+            flex: 2;
+            overflow-y: auto;
+            padding: 2.5rem 3.5rem;
+            border-right: 1px solid var(--border-color);
+            padding-bottom: 110px;
+            position: relative;
+        }
+
+        .answer-pane {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2.5rem 2rem;
+            background-color: var(--bg-secondary);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            width: 380px;
+            padding-bottom: 110px;
+        }
+
+        .audio-fixed-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: #ffffff;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 2rem;
+            z-index: 1000;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .audio-fixed-bottom audio {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .content-html {
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .content-html p {
+            margin-bottom: 1rem;
+        }
+
+        .content-html table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        .content-html th, .content-html td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .content-html img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1.5rem auto;
+            border-radius: 8px;
+        }
+
+        .content-html button, .content-html [id^="bg-showmore-hidden"] {
+            display: none !important;
+        }
+
+        .sheet-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .answer-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .answer-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--bg-primary);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .q-number {
+            font-weight: 700;
+            color: var(--accent);
+            width: 30px;
+        }
+
+        .q-input {
+            flex: 1;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .q-input:focus {
+            border-color: var(--accent);
+        }
+
+        .feedback-msg {
+            font-size: 0.9rem;
+            display: none;
+            font-weight: 600;
+        }
+
+        .feedback-correct {
+            border-color: var(--success) !important;
+            background-color: var(--success-bg) !important;
+            color: var(--success) !important;
+        }
+
+        .feedback-incorrect {
+            border-color: var(--error) !important;
+            background-color: var(--error-bg) !important;
+            color: var(--error) !important;
+        }
+
+        .check-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 100%;
+        }
+
+        .check-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .score-display {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--success-bg);
+            border: 1px solid var(--success);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        /* Highlight tool styling */
+        .text-highlight {
+            background-color: #fef08a !important;
+            color: #000000 !important;
+            cursor: pointer;
+        }
+        
+        .highlight-floating-btn {
+            position: absolute;
+            display: none;
+            background-color: #111827;
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 10000;
+        }
+        
+        .highlight-floating-btn:hover {
+            background-color: #1f2937;
+        }
+
+        @media (max-width: 900px) {
+            body {
+                overflow: auto;
+                height: auto;
+            }
+            .main-layout {
+                flex-direction: column;
+                height: auto;
+                overflow: visible;
+            }
+            .passage-pane {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 2rem;
+            }
+            .answer-pane {
+                width: 100%;
+                padding-bottom: 100px;
+            }
+        }
+    </style>
+<style>
+.login-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 100000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+
+        .login-box {
+            width: 580px;
+            max-width: 92%;
+            padding: 4.5rem 3.5rem;
+            text-align: center;
+            border-radius: 40px;
+            border: 6px dashed var(--border-color);
+            box-shadow: 0 30px 70px rgba(255, 133, 162, 0.35), inset 0 0 30px rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .login-header {
+            font-family: 'DynaPuff', cursive;
+            font-size: 2.3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            text-shadow: 3px 3px 0px #fff;
+        }
+
+        .login-subheader {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 1.1rem 1.5rem;
+            border-radius: 24px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .login-box button {
+            font-size: 1.25rem;
+            padding: 1.1rem;
+            border-radius: 24px;
+            width: 100%;
+        }
+
+        /* --- 5 FAIRYTALE THEMES --- */
+        /* --- 5 FAIRYTALE THEMES --- */
+        .login-overlay.theme-aladdin {
+            background: url('https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1600&q=80') no-repeat center center / cover;
+        }
+        .theme-aladdin .login-box {
+            background: rgba(46, 16, 101, 0.9);
+            border: 4px double #fbbf24;
+            box-shadow: 0 20px 50px rgba(251, 191, 36, 0.25);
+            color: #fef08a;
+        }
+        .theme-aladdin .login-header {
+            color: #fbbf24;
+            text-shadow: 2px 2px 0px #1e1b4b;
+        }
+        .theme-aladdin .login-subheader {
+            color: #e9d5ff;
+        }
+        .theme-aladdin .login-input {
+            background: #1e1b4b;
+            border-color: #fbbf24;
+            color: #fef08a;
+        }
+
+        /* 2. Grimm Theme */
+        .login-overlay.theme-grimm {
+            background: url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1600&q=80') no-repeat center center / cover;
+        }
+        .theme-grimm .login-box {
+            background: rgba(20, 83, 45, 0.92);
+            border: 4px solid #b45309;
+            box-shadow: 0 20px 50px rgba(180, 83, 9, 0.3);
+            color: #fef3c7;
+        }
+        .theme-grimm .login-header {
+            color: #f59e0b;
+            text-shadow: 2px 2px 0px #022c22;
+        }
+        .theme-grimm .login-subheader {
+            color: #a7f3d0;
+        }
+        .theme-grimm .login-input {
+            background: #022c22;
+            border-color: #b45309;
+            color: #fef3c7;
+        }
+
+        /* 3. Andersen Theme */
+        .login-overlay.theme-andersen {
+            background: url('https://images.unsplash.com/photo-1491002052546-bf38f186af56?auto=format&fit=crop&w=1600&q=80') no-repeat center center / cover;
+        }
+        .theme-andersen .login-box {
+            background: rgba(224, 242, 254, 0.94);
+            border: 4px dashed #38bdf8;
+            box-shadow: 0 20px 50px rgba(56, 189, 248, 0.2);
+            color: #0c4a6e;
+        }
+        .theme-andersen .login-header {
+            color: #0284c7;
+            text-shadow: 2px 2px 0px #fff;
+        }
+        .theme-andersen .login-subheader {
+            color: #0369a1;
+        }
+        .theme-andersen .login-input {
+            background: #fff;
+            border-color: #38bdf8;
+            color: #0c4a6e;
+        }
+
+        /* 4. Wonderland Theme */
+        .login-overlay.theme-wonderland {
+            background: url('https://images.unsplash.com/photo-1518887570146-0612132dd618?auto=format&fit=crop&w=1600&q=80') no-repeat center center / cover;
+        }
+        .theme-wonderland .login-box {
+            background: rgba(255, 255, 255, 0.95);
+            border: 4px solid #db2777;
+            box-shadow: 0 20px 50px rgba(236, 72, 153, 0.35);
+            color: #9d174d;
+        }
+        .theme-wonderland .login-header {
+            color: #db2777;
+            text-shadow: 2px 2px 0px #fce7f3;
+        }
+        .theme-wonderland .login-subheader {
+            color: #be185d;
+        }
+        .theme-wonderland .login-input {
+            background: #fff0f6;
+            border-color: #db2777;
+            color: #9d174d;
+        }
+
+        /* 5. Pixie Theme */
+        .login-overlay.theme-pixie {
+            background: url('https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1600&q=80') no-repeat center center / cover;
+        }
+        .theme-pixie .login-box {
+            background: rgba(255, 255, 255, 0.92);
+            border: 4px double #4ade80;
+            box-shadow: 0 20px 50px rgba(74, 222, 128, 0.25);
+            color: #14532d;
+        }
+        .theme-pixie .login-header {
+            color: #16a34a;
+            text-shadow: 2px 2px 0px #fff;
+        }
+        .theme-pixie .login-subheader {
+            color: #15803d;
+        }
+        .theme-pixie .login-input {
+            background: #f0fdf4;
+            border-color: #4ade80;
+            color: #14532d;
+        }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&amp;family=DynaPuff:wght@400..700&amp;family=Quicksand:wght@300..700&amp;display=swap" rel="stylesheet"/></head>
+<body>
+<!-- UNIFIED LOGIN OVERLAY -->
+<div class="login-overlay" id="login-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px);">
+<div class="login-box" style="background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5;">
+<div class="login-header" style="font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2);">🍭 Study Room 🍭</div>
+<div class="login-subheader" style="font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif;">Hệ thống: 204 bài thi Listening Full Test ✨</div>
+<div id="login-form-fields">
+<input autofocus="" class="login-input" id="nickname-input" onblur="this.style.borderColor='#ffccd5'; this.style.boxShadow='none';" onfocus="this.style.borderColor='#ff85a2'; this.style.boxShadow='0 0 15px rgba(255,133,162,0.3)';" placeholder="Nhập ID học viên của bạn..." style="width: 100%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif;" type="text"/>
+<button class="check-btn" onclick="grantAccess()" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(255,94,126,0.3)';" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 25px rgba(255,94,126,0.4)';" style="width: 100%; padding: 18px 30px; font-size: 1.2rem; color: white; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%); border: none; border-radius: 25px; cursor: pointer; font-weight: 700; transition: 0.3s; box-shadow: 0 10px 20px rgba(255,94,126,0.3); font-family: 'Quicksand', sans-serif;">
+                    LET'S GO! 🌸
+                </button>
+</div>
+<div id="login-loading-fields" style="display: none; padding: 20px 0;">
+<div class="loading-status" id="loading-status" style="font-family: 'Quicksand', sans-serif; font-size: 1.15rem; font-weight: 600; margin-bottom: 15px; color: #333;">Đang kết nối hệ thống...</div>
+<div class="progress-bar-container" style="width: 100%; height: 20px; background: rgba(0, 0, 0, 0.1); border-radius: 10px; overflow: hidden; margin-bottom: 25px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.15);">
+<div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%; height: 100%; background: linear-gradient(90deg, #ff758c 0%, #ff7eb3 100%); border-radius: 10px; transition: width 0.1s linear;"></div>
+</div>
+<div class="payment-card" style="background: rgba(255, 255, 255, 0.95); border: 2.5px solid #e5e7eb; border-radius: 20px; padding: 20px; text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.05); font-family: 'Quicksand', sans-serif;">
+<div style="font-size: 1.1rem; font-weight: 700; color: #ff5e7e; margin-bottom: 12px; border-bottom: 2px dashed rgba(0,0,0,0.1); padding-bottom: 8px; text-align: center;">🎫 THÔNG TIN THANH TOÁN</div>
+<div style="font-size: 0.95rem; line-height: 1.6; color: #333;">
+<p style="margin: 6px 0;">💵 <b>Nội dung khoá học:</b> <span style="color: #2b9348; font-weight: bold;">1232 bài tập Đọc hiểu, 102 bài tập Nghe, 204 bài thi Listening Full, 315 bài thi Reading Full</span></p>
+<p style="margin: 6px 0;">💰 <b>Giá trị:</b> <span style="color: #e91e63; font-weight: bold;">1,599,000 VND</span></p>
+<p style="margin: 6px 0;">👤 <b>Đã được trả phí bởi:</b> <span style="color: #0077b6; font-weight: bold;">VŨ NGỌC LONG</span> <span id="payment-nickname-badge" style="font-size: 0.8rem; background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 12px; font-weight: 700; margin-left: 5px;"></span></p>
+<p style="margin: 6px 0; font-size: 0.85rem; color: #666; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 8px;">⏱️ <b>Thời hạn sử dụng:</b> 1 năm.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- UNIFIED LOGIN OVERLAY -->
+
+<!-- UNIFIED LOGIN OVERLAY -->
+<!-- UNIFIED LOGIN OVERLAY -->
+<!-- UNIFIED LOGIN OVERLAY -->
+<audio id="sfx-click" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio><audio id="sfx-success" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3"></audio><script>
+    const APP_URL = "https://script.google.com/macros/s/AKfycbx7lOgaMcHm0ofxpG3V9bi52rMbL7wBXIzAHovP5xBrp9XbyuZp7QNKbSg2-UTJoauyOg/exec";
+
+    function getDeviceId() {
+        let did = localStorage.getItem('youpass_device_id');
+        if(!did) {
+            let fp = btoa(navigator.userAgent + screen.width + screen.height + navigator.language).substring(0, 15);
+            did = fp + '_' + Math.random().toString(36).substr(2, 5);
+            localStorage.setItem('youpass_device_id', did);
+        }
+        return did;
+    }
+    
+    function playSfx(id) {
+        try { let a = document.getElementById(id); if(a) { a.currentTime = 0; a.play().catch(e=>{}); } } catch(e){}
+    }
+
+    async function grantAccess() {
+        const input = document.getElementById('nickname-input');
+        let nickname = input ? input.value.trim().toUpperCase() : '';
+        if (!nickname) { alert("Vui lòng nhập ID học viên của bạn! 🌸"); return; }
+        
+        playSfx('sfx-click');
+        let formFields = document.getElementById('login-form-fields');
+        if(formFields) formFields.style.display = "none";
+        let loadFields = document.getElementById('login-loading-fields');
+        if(loadFields) loadFields.style.display = "block";
+        let badge = document.getElementById('payment-nickname-badge');
+        if(badge) badge.innerText = nickname;
+        
+        const progressFill = document.getElementById('progress-bar-fill');
+        const statusText = document.getElementById('loading-status');
+        let deviceId = getDeviceId();
+        
+        if(progressFill) progressFill.style.width = '10%';
+        if(statusText) statusText.innerText = "Đang kiểm tra thiết bị & IP...";
+
+        try {
+            let ipData = {};
+            try {
+                let ipRes = await fetch('https://api.ipify.org?format=json');
+                ipData = await ipRes.json();
+            } catch(e) { console.log("IP fetch failed", e); }
+            
+            if(progressFill) progressFill.style.width = '40%';
+            if(statusText) statusText.innerText = "Đang xác thực tài khoản qua máy chủ an toàn...";
+
+            let loginRes = await fetch(APP_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'login', student_id: nickname, device_id: deviceId, ip: ipData.ip || 'unknown' })
+            });
+            
+            let data = await loginRes.json();
+            if(progressFill) progressFill.style.width = '100%';
+
+            if (data.status === 'success') {
+                if(statusText) statusText.innerText = "Xác nhận thành công! Chuẩn bị phòng học...";
+                setTimeout(() => {
+                    let overlay = document.getElementById('login-overlay');
+                    if(overlay) overlay.style.display = "none";
+                    let mainLayout = document.querySelector('.main-layout');
+                    if(mainLayout) mainLayout.style.display = "flex";
+                    localStorage.setItem('youpass_student_id', nickname);
+                    playSfx('sfx-success');
+                    if(typeof startTimer === 'function') startTimer();
+                }, 500);
+            } else {
+                if(statusText) statusText.innerText = "LỖI: " + data.message;
+                if(statusText) statusText.style.color = "red";
+                alert(data.message);
+                setTimeout(() => {
+                    if(loadFields) loadFields.style.display = "none";
+                    if(formFields) formFields.style.display = "block";
+                    if(progressFill) progressFill.style.width = '0%';
+                }, 2000);
+            }
+        } catch(err) {
+            alert("Lỗi kết nối máy chủ! Vui lòng kiểm tra lại đường truyền.");
+            if(loadFields) loadFields.style.display = "none";
+            if(formFields) formFields.style.display = "block";
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        let overlay = document.getElementById('login-overlay');
+        let mainLayout = document.querySelector('.main-layout');
+        if(sid) {
+            if(overlay) overlay.style.display = "none";
+            if(mainLayout) mainLayout.style.display = "flex";
+            if(typeof startTimer === 'function') startTimer();
+        } else {
+            if(overlay) overlay.style.display = "flex";
+            if(mainLayout) mainLayout.style.display = "none";
+        }
+    });
+</script></body>
+</html>
