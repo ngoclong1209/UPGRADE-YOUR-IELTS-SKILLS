@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listening Full Test - Test_68</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=DynaPuff:wght@400..700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0; padding: 0; font-family: 'Quicksand', sans-serif;
+            background: #fdf2f8; color: #333; overflow-x: hidden;
+        }
+        .main-layout {
+            display: flex; height: 100vh; overflow: hidden;
+        }
+        .passage-pane {
+            flex: 6; overflow-y: auto; padding: 30px;
+            background: white; margin: 10px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            font-size: 1.15rem; line-height: 1.8;
+            padding-bottom: 100px; /* For audio player */
+        }
+        .answer-pane {
+            flex: 4; overflow-y: auto; padding: 30px;
+            background: linear-gradient(145deg, #ffffff, #fff0f5);
+            margin: 10px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .q-row {
+            display: flex; align-items: center; margin-bottom: 15px;
+            background: white; padding: 10px 15px; border-radius: 12px;
+            border: 2px solid #ffccd5;
+        }
+        .q-num {
+            font-weight: bold; color: #ff85a2; font-size: 1.2rem;
+            width: 40px;
+        }
+        .q-input {
+            flex: 1; border: none; outline: none; font-size: 1.1rem;
+            font-family: 'Quicksand', sans-serif;
+            border-bottom: 2px dashed #ffccd5; background: transparent;
+            padding: 5px;
+        }
+        .q-input:focus { border-bottom: 2px solid #ff85a2; }
+        .submit-btn {
+            width: 100%; padding: 18px; font-size: 1.2rem; color: white;
+            background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            border: none; border-radius: 25px; cursor: pointer; font-weight: 700;
+            margin-top: 20px; box-shadow: 0 10px 20px rgba(255,94,126,0.3);
+            font-family: 'Quicksand', sans-serif;
+        }
+        .audio-fixed-bottom {
+            position: fixed; bottom: 0; left: 0; width: 60%;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px);
+            padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            border-top-right-radius: 20px; z-index: 1000;
+        }
+        audio { width: 100%; outline: none; }
+        /* LOGIN OVERLAY CSS */
+        
+        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
+        .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
+        .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
+        .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+
+    </style>
+</head>
+<body>
+    
+    <div class="login-overlay" id="login-overlay">
+        <div class="login-box">
+            <div class="login-header">🍭 Study Room 🍭</div>
+            <div class="login-subheader">Hệ thống: 204 bài thi Listening Full Test ✨</div>
+            <div id="login-form-fields">
+                <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
+                <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
+            </div>
+            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="main-layout" style="display: none;">
+        <div class="passage-pane">
+            <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_68</h1>
+            <p>IELTS Listening Practice - Test 68</p>
+<p>Part 1: Questions 1-4
+Choose the correct letter A, B or C.</p>
+<p>Types of membership – 2</p>
+<p>1. How much is the life-time membership of the Society?
+[ ]  £1,535
+[ ]  B £1,935
+[ ]  C £1,537</p>
+<p>2. How much does the ordinary membership cost per year?
+[ ]  A £293
+[ ]  B £396
+[ ]  C £193</p>
+<p>3. What are the opening times on week-days?
+[ ]  A 9 am to 10 pm
+[ ]  B 10 am to 9 pm
+[ ]  C 10 am to 5 pm</p>
+<p>4. What is the arts programme at the Society like?
+[ ]  A limited
+[ ]  B wide
+[ ]  C interesting</p>
+<p>Questions 5-10
+Complete the notes below. Write NO MORE THAN TWO WORDS AND/OR A NUMBER.</p>
+<p>Name Margaret (5)  _______ 
+Address 55 (6)  _______ 
+Postcode (7)  _______ 
+Work number 0207 895 2220 Extension (8)  _______ 
+Payment terms by (9)  _______ 
+Guest restrictions one per (10)  _______</p>
+<p>Part 2: Questions 11 and 12
+Choose TWO letters A-E.</p>
+<p>What TWO changes to the organization of this year’s festival are mentioned?
+[ ]  A free parking
+[ ]  B free refreshments
+[ ]  C new uniforms
+[ ]  D free concert
+[ ]  E large tents</p>
+<p>Questions 13-15
+Complete the table below. Write NO MORE THAN ONE WORD AND/OR A NUMBER for each answer.</p>
+<p>(13)  _______ 
+(14)  _______ 
+(15)  _______</p>
+<p>Questions 16-20
+Choose the correct letter A, B or C.</p>
+<p>16. What does the speaker say about the judges in the competitions?
+[ ]  A Most people judging will have some experience
+[ ]  B None of the judges will have experience
+[ ]  C Every judge will be experienced</p>
+<p>17. The winner in each of the competitions will
+[ ]  A be given vouchers
+[ ]  B be awarded a cash prize
+[ ]  C receive book-tokens</p>
+<p>18. The profits from the marathon will be given to the Children’s Hospital to help
+[ ]  A buy new specialist equipment
+[ ]  B decorate the hospital wards
+[ ]  C provide books for the children</p>
+<p>19. Wardens will be needed at the car park because
+[ ]  A they helped organize the parking well last year
+[ ]  B the parking last year was disorganized
+[ ]  C they will be needed to collect parking fees</p>
+<p>20. Bags will be provided by the council
+[ ]  A for all the rubbish
+[ ]  B only for food rubbish
+[ ]  C only for material that can be recycled</p>
+<p>Part 3: Questions 21-23
+Choose the correct letter A, B or C.</p>
+<p>21. In the practice exams, the students did
+[ ]  A two exams altogether
+[ ]  B seven exams in total
+[ ]  C eleven exams in total</p>
+<p>22. Adam thinks that essay papers are
+[ ]  A inappropriate for assessing theoretical medical knowledge
+[ ]  B not good for assessing practical medical knowledge
+[ ]  C suitable for testing theoretical medical knowledge</p>
+<p>23. Mary criticizes multiple-choice questions, because
+[ ]  A they require detailed instructions
+[ ]  B they benefit women more than men
+[ ]  C they favour men rather than women</p>
+<p>Questions 24 and 25
+Choose TWO letters A-E.</p>
+<p>Which TWO aspects of the role-play examination are mentioned?
+[ ]  A the rest stations
+[ ]  B 24 test stations
+[ ]  C the recording
+[ ]  D the examiners
+[ ]  E the simulated patients</p>
+<p>Questions 26-30
+Complete the summary below. Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.</p>
+<p>In the problem-solving tests, students had to work in groups of four people and (26)  _______  to solve a problem. As they discussed the problem, (27)  _______  watched them. As well as assessing the ability to speak, the problem-solving tested if people can (28)  _______  , organize their thoughts and demonstrate they can be part of a (29)  _______  Re-sits of the final exams are held in September. After that any problems are dealt with by (30)  _______</p>
+<p>Part 4: Questions 31-33
+Choose the correct letter A, B or C.</p>
+<p>31. The Indian Ocean differs from the Atlantic and Pacific Oceans
+[ ]  A by being closed in to the north
+[ ]  B by being warmer than both
+[ ]  C by extending into cold regions</p>
+<p>32. Approximately how much of the world’s total ocean area does the Indian Ocean constitute?
+[ ]  A 7%
+[ ]  B 20%
+[ ]  C 25%</p>
+<p>33. The island of Madagascar is
+[ ]  A the tip of a submerged ridge
+[ ]  B the result of a volcanic eruption
+[ ]  C structurally part of the continent of Africa</p>
+<p>Questions 34 and 35
+Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.</p>
+<p>34. Oceanographers and meteorologists are monitoring changes in the Indian ocean’s temperature and  _______ 
+35. An assessment is being made of the impact of the changes on low-lying  _______  and  _______</p>
+<p>Questions 36-40
+Complete the flow-chart below. Write NO MORE THAN THREE WORDS for each answer .</p>
+<p>Data Processing</p>
+<p>Step 1: Ship off Antarctica</p>
+<p>Step 2: Buoys anchored at sea</p>
+<p>Step 3: Five buoys off Antarctica which are (36)………….and icebergs</p>
+<p>Step 4: Satellites recording the (37)……………of icebergs</p>
+<p>Step 5: (38)……………data received at institute</p>
+<p>Step 6: Constantly processed by a (39)…………of computers</p>
+<p>Step 7: Data collated</p>
+<p>Step 8: Then analysed by (40)……………around the world</p>
+<p>(36)  _______                   (37)  _______ 
+(38)  _______                   (39)  _______ 
+(40)  _______</p>
+<p>ANSWER KEY</p>
+<p>1. C</p>
+<p>2. C</p>
+<p>3. B</p>
+<p>4. B</p>
+<p>5. Rochester</p>
+<p>6. stone avenue</p>
+<p>7. MA7 4PQ</p>
+<p>8. 6633</p>
+<p>9. (monthly) instalments</p>
+<p>10. fortnight</p>
+<p>11. B</p>
+<p>12. D</p>
+<p>13. shop</p>
+<p>14. seating</p>
+<p>15. 9.30</p>
+<p>16. A</p>
+<p>17. B</p>
+<p>18. A</p>
+<p>19. B</p>
+<p>20. C</p>
+<p>21. B</p>
+<p>22. A</p>
+<p>23. C</p>
+<p>24. B</p>
+<p>25. E</p>
+<p>26. prioritize</p>
+<p>27. examiners</p>
+<p>28. listen</p>
+<p>29. team</p>
+<p>30. appeal</p>
+<p>31. A</p>
+<p>32. B</p>
+<p>33. C</p>
+<p>34. acidity</p>
+<p>35. habitals, people</p>
+<p>36. observing ice packs</p>
+<p>37. size</p>
+<p>38. raw</p>
+<p>39. bank</p>
+<p>40. experts</p>
+
+        </div>
+        <div class="answer-pane">
+            <h2 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0; text-align: center;">Answers (40 Questions)</h2>
+            <div id="questions-container">
+                
+        <div class="q-row">
+            <div class="q-num">1</div>
+            <input type="text" class="q-input" id="q1" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">2</div>
+            <input type="text" class="q-input" id="q2" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">3</div>
+            <input type="text" class="q-input" id="q3" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">4</div>
+            <input type="text" class="q-input" id="q4" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">5</div>
+            <input type="text" class="q-input" id="q5" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">6</div>
+            <input type="text" class="q-input" id="q6" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">7</div>
+            <input type="text" class="q-input" id="q7" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">8</div>
+            <input type="text" class="q-input" id="q8" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">9</div>
+            <input type="text" class="q-input" id="q9" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">10</div>
+            <input type="text" class="q-input" id="q10" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">11</div>
+            <input type="text" class="q-input" id="q11" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">12</div>
+            <input type="text" class="q-input" id="q12" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">13</div>
+            <input type="text" class="q-input" id="q13" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">14</div>
+            <input type="text" class="q-input" id="q14" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">15</div>
+            <input type="text" class="q-input" id="q15" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">16</div>
+            <input type="text" class="q-input" id="q16" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">17</div>
+            <input type="text" class="q-input" id="q17" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">18</div>
+            <input type="text" class="q-input" id="q18" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">19</div>
+            <input type="text" class="q-input" id="q19" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">20</div>
+            <input type="text" class="q-input" id="q20" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">21</div>
+            <input type="text" class="q-input" id="q21" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">22</div>
+            <input type="text" class="q-input" id="q22" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">23</div>
+            <input type="text" class="q-input" id="q23" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">24</div>
+            <input type="text" class="q-input" id="q24" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">25</div>
+            <input type="text" class="q-input" id="q25" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">26</div>
+            <input type="text" class="q-input" id="q26" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">27</div>
+            <input type="text" class="q-input" id="q27" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">28</div>
+            <input type="text" class="q-input" id="q28" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">29</div>
+            <input type="text" class="q-input" id="q29" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">30</div>
+            <input type="text" class="q-input" id="q30" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">31</div>
+            <input type="text" class="q-input" id="q31" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">32</div>
+            <input type="text" class="q-input" id="q32" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">33</div>
+            <input type="text" class="q-input" id="q33" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">34</div>
+            <input type="text" class="q-input" id="q34" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">35</div>
+            <input type="text" class="q-input" id="q35" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">36</div>
+            <input type="text" class="q-input" id="q36" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">37</div>
+            <input type="text" class="q-input" id="q37" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">38</div>
+            <input type="text" class="q-input" id="q38" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">39</div>
+            <input type="text" class="q-input" id="q39" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">40</div>
+            <input type="text" class="q-input" id="q40" placeholder="Type answer...">
+        </div>
+        
+            </div>
+            <button class="submit-btn" id="btn-submit">SUBMIT ANSWERS 🌸</button>
+            <div id="result-msg" style="text-align: center; margin-top: 15px; font-weight: bold; color: #2b9348; display: none;"></div>
+        </div>
+    </div>
+
+    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_68.mp3"></audio></div>
+
+    
+<script>
+    // const APP_URL = "https://script.google.com/macros/s/AKfycbx7lOgaMcHm0ofxpG3V9bi52rMbL7wBXIzAHovP5xBrp9XbyuZp7QNKbSg2-UTJoauyOg/exec";
+    const APP_URL = "https://script.google.com/macros/s/AKfycbzgBPDHt8g35pxQllRcuVTWJq5OaQnuUuQAt93yGs_kqRVOly4Wd1A_jGtgxh5MaKOJMw/exec"; // NEWEST ONE FROM USER
+
+    async function grantAccess() {
+        const input = document.getElementById('nickname-input');
+        let nickname = input ? input.value.trim().toUpperCase() : '';
+        if (!nickname) { alert("Vui lòng nhập ID!"); return; }
+        
+        document.getElementById('login-form-fields').style.display = "none";
+        document.getElementById('login-loading-fields').style.display = "block";
+        document.getElementById('loading-status').innerText = "Đang kiểm tra ID...";
+
+        try {
+            let loginRes = await fetch(APP_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'login', student_id: nickname })
+            });
+            let data = await loginRes.json();
+
+            if (data.status === 'success') {
+                document.getElementById('loading-status').innerText = "Thành công!";
+                setTimeout(() => {
+                    document.getElementById('login-overlay').style.display = "none";
+                    document.querySelector('.main-layout').style.display = "flex";
+                    localStorage.setItem('youpass_student_id', nickname);
+                }, 500);
+            } else {
+                alert("Lỗi: " + data.message);
+                document.getElementById('login-loading-fields').style.display = "none";
+                document.getElementById('login-form-fields').style.display = "block";
+            }
+        } catch(err) {
+            alert("Lỗi kết nối máy chủ!");
+            document.getElementById('login-loading-fields').style.display = "none";
+            document.getElementById('login-form-fields').style.display = "block";
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('login-overlay').style.display = "none";
+            document.querySelector('.main-layout').style.display = "flex";
+        }
+    });
+</script>
+
+    
+    <script>
+        document.getElementById('btn-submit').addEventListener('click', async () => {
+            let btn = document.getElementById('btn-submit');
+            let resultMsg = document.getElementById('result-msg');
+            btn.innerText = "Submitting...";
+            btn.disabled = true;
+
+            let answers = [];
+            for (let i = 1; i <= 40; i++) {
+                let val = document.getElementById('q' + i).value.trim();
+                answers.push(val);
+            }
+
+            let payload = {
+                action: 'submit_full_test',
+                student_id: localStorage.getItem('youpass_student_id') || 'UNKNOWN',
+                module: 'Listening Full Test',
+                test_name: 'Test_68',
+                answers: answers
+            };
+
+            try {
+                let res = await fetch(APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                let data = await res.json();
+                if (data.status === 'success') {
+                    resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
+                    resultMsg.style.display = 'block';
+                    btn.innerText = "SUBMITTED!";
+                } else {
+                    alert("Lỗi: " + data.message);
+                    btn.innerText = "SUBMIT ANSWERS 🌸";
+                    btn.disabled = false;
+                }
+            } catch(e) {
+                alert("Lỗi mạng! Không thể gửi.");
+                btn.innerText = "SUBMIT ANSWERS 🌸";
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
