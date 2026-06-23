@@ -1,0 +1,124 @@
+        function grantAccess() {
+            const input = document.getElementById('nickname-input');
+            let nickname = input.value.trim();
+            if (!nickname) {
+                alert("Please enter your student ID!");
+                return;
+            }
+            
+            if (typeof playSfx === 'function') playSfx('sfx-click');
+            
+            document.getElementById('login-form-fields').style.display = "none";
+            document.getElementById('login-loading-fields').style.display = "block";
+            const badge = document.getElementById('payment-nickname-badge');
+            if (badge) badge.innerText = nickname;
+            
+            const progressFill = document.getElementById('progress-bar-fill');
+            const statusText = document.getElementById('loading-status');
+            
+            let progress = 0;
+            let fetchDone = false;
+            let fetchError = null;
+            let fetchResult = null;
+            
+            const validateUrl = `https://script.google.com/macros/s/AKfycbx-KeSd_VIwmvrRRifyKl3CLMU3pc91_oURdunCnHBUYEn-UkHm3LwgCeTR5ltY1Afy/exec?action=validate&id=${encodeURIComponent(nickname)}`;
+            fetch(validateUrl)
+                .then(res => res.json())
+                .then(data => {
+                    fetchDone = true;
+                    fetchResult = data;
+                })
+                .catch(err => {
+                    fetchDone = true;
+                    fetchError = err;
+                });
+                
+            const interval = setInterval(() => {
+                if (progress < 40) {
+                    progress += Math.random() * 8 + 4;
+                    if(statusText) statusText.innerText = "🔌 Đang kết nối cổng thanh toán Youpass...";
+                } else if (progress < 85) {
+                    progress += Math.random() * 4 + 2;
+                    if(statusText) statusText.innerText = `🔍 Đang xác minh mã học viên: ${nickname}...`;
+                } else if (progress < 98) {
+                    progress += Math.random() * 1.5 + 0.5;
+                    if(statusText) statusText.innerText = "💸 Đang thanh toán học liệu chi phí 5.000 VND...";
+                }
+                
+                if (progress > 98) progress = 98;
+                if(progressFill) progressFill.style.width = `${progress}%`;
+                
+                if (fetchDone) {
+                    clearInterval(interval);
+                    if(progressFill) progressFill.style.width = "100%";
+                    if(statusText) statusText.innerText = "✅ Xác thực thành công! Đang vào lớp học...";
+                    
+                    setTimeout(() => {
+                        let overlay = document.getElementById('login-overlay');
+                        if(overlay) overlay.style.display = "none";
+                        let ml = document.getElementById('main-layout'); if(ml) ml.style.display = 'flex';
+                        let ac = document.getElementById('audio-player-container'); if(ac) ac.style.display = 'flex';
+                        let mh = document.getElementById('main-header'); if(mh) mh.style.display = 'flex';
+                        let ct = document.querySelector('.container'); if(ct) ct.style.display = 'block';
+
+                        document.getElementById('login-form-fields').style.display = "block";
+                        document.getElementById('login-loading-fields').style.display = "none";
+                        if(progressFill) progressFill.style.width = "0%";
+                        
+                        if (fetchError) {
+                            console.error("Error validating student ID:", fetchError);
+                            alert("⚠️ Lỗi kết nối mạng! Vui lòng kiểm tra lại kết nối internet.");
+                        } else {
+                            if (fetchResult && fetchResult.valid) {
+                                localStorage.setItem('youpass_student_id', nickname);
+                                completeLogin(nickname);
+                            } else {
+                                if (typeof playSfx === 'function') playSfx('sfx-wrong');
+                                alert("❌ Mã học viên không đúng hoặc chưa được kích hoạt! Vui lòng thử lại.");
+                            }
+                        }
+                    }, 800);
+                }
+            }, 150);
+        }
+
+        function completeLogin(nickname) {
+            const userName = document.getElementById('welcome-user-name');
+            if(userName) userName.innerHTML = `Welcome back, ${nickname}! ✨`;
+
+            const bannerThemes = ["banner-aladdin", "banner-grimm", "banner-andersen", "banner-wonderland", "banner-pixie"];
+            const bannerTexts = [
+                `🪔 Welcome to Agrabah, Explorer ${nickname}! May your answers shine like gold! ✨`,
+                `🌲 Welcome to the Black Forest, Wanderer ${nickname}! Seek wisdom in the ancient tales! 🌳`,
+                `❄️ Welcome to the Frozen Kingdom, Dreamer ${nickname}! Let your mind sparkle like ice! 🧜‍♀️`,
+                `🎩 Welcome to Wonderland, Traveler ${nickname}! Don't be late for the tea party! 🐇`,
+                `🧚‍♀️ Welcome to Neverland, Sprite ${nickname}! Fly high with your knowledge! ✨`
+            ];
+            const r = Math.floor(Math.random() * 5);
+            const placeholder = document.getElementById("user-banner-placeholder");
+            if (placeholder) {
+                placeholder.innerHTML = `<div class="user-welcome-banner-wrap ${bannerThemes[r]}">${bannerTexts[r]}</div>`;
+            }
+            
+            if (typeof startTimer === 'function') startTimer();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const input = document.getElementById('nickname-input');
+            if(input) {
+                input.addEventListener('keydown', e => {
+                    if (e.key === 'Enter') grantAccess();
+                });
+                const storedUser = localStorage.getItem('youpass_student_id');
+                if (storedUser) input.value = storedUser;
+            }
+
+            let ml = document.getElementById('main-layout'); if(ml) ml.style.display = 'none';
+            let ac = document.getElementById('audio-player-container'); if(ac) ac.style.display = 'none';
+            let mh = document.getElementById('main-header'); if(mh) mh.style.display = 'none';
+            let ct = document.querySelector('.container'); if(ct) ct.style.display = 'none';
+            
+            if (typeof initLogin === 'function') {
+                try { initLogin(); } catch(e){}
+            }
+        });
