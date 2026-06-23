@@ -1075,6 +1075,51 @@
 
 </style>
 <link href="../../../Assets/highlighter.css" rel="stylesheet"/>
+<style>
+        /* [COPYING CSS FROM build_full_tests.py] */
+        .login-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: rgba(0, 0, 0, 0.85); background-size: cover; background-position: center;
+            display: flex; justify-content: center; align-items: center; z-index: 9999;
+            backdrop-filter: blur(8px);
+        }
+        .login-box {
+            background: rgba(255, 255, 255, 0.95); padding: 50px 40px; border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; max-width: 450px; width: 90%;
+            border: 2px solid #ffb6c1; position: relative; overflow: hidden;
+        }
+        .login-header {
+            font-family: 'DynaPuff', cursive; font-size: 2.5rem; color: #ff5e7e;
+            margin-bottom: 10px; text-shadow: 2px 2px 0px #ffe4e1;
+        }
+        .login-subheader { font-size: 1.1rem; color: #555; margin-bottom: 30px; font-weight: 500; }
+        .login-input {
+            width: 100%; padding: 15px; border: 2px solid #ffb6c1; border-radius: 12px;
+            font-size: 1.1rem; margin-bottom: 25px; outline: none; transition: all 0.3s ease;
+            text-align: center; box-sizing: border-box; font-family: 'Quicksand', sans-serif;
+            font-weight: bold; color: #333;
+        }
+        .login-input:focus { border-color: #ff5e7e; box-shadow: 0 0 10px rgba(255, 94, 126, 0.3); }
+        .submit-btn {
+            background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            color: white; border: none; padding: 15px 30px; font-size: 1.3rem;
+            border-radius: 30px; cursor: pointer; font-family: 'DynaPuff', cursive;
+            transition: all 0.3s ease; width: 100%; box-shadow: 0 5px 15px rgba(255, 94, 126, 0.4);
+        }
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(255, 94, 126, 0.6); }
+        .progress-container {
+            width: 100%; background: #f0f0f0; border-radius: 10px;
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
+    </style>
 
 <style>
         /* [COPYING CSS FROM build_full_tests.py] */
@@ -1143,8 +1188,8 @@
 </div>
 </div>
 
-<!-- UNIFIED LOGIN OVERLAY -->
 
+<!-- UNIFIED LOGIN OVERLAY -->
 <!-- UNIFIED LOGIN OVERLAY -->
 <!-- UNIFIED LOGIN OVERLAY -->
 <header id="main-header">
@@ -1574,9 +1619,9 @@
             }, 1000);
         }
 </script>
-
 <script src="../../../Assets/highlighter.js"></script>
 <script>
+
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
     
     const backgrounds = [
@@ -1592,13 +1637,22 @@
         "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
     ];
 
+    function getDeviceId() {
+        let id = localStorage.getItem('youpass_device_id');
+        if (!id) {
+            id = 'device_' + Math.random().toString(36).substr(2, 9) + Date.now();
+            localStorage.setItem('youpass_device_id', id);
+        }
+        return id;
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
         let sid = localStorage.getItem('youpass_student_id');
         let mainLayout = document.querySelector('.main-layout') || document.querySelector('.container') || document.body.firstElementChild;
         let overlay = document.getElementById('login-overlay');
         
-        // Hide main content until logged in
-        if(!sid && mainLayout && mainLayout.id !== 'login-overlay') {
+        // Hide main content initially
+        if(mainLayout && mainLayout.id !== 'login-overlay') {
             if (mainLayout.style) {
                 mainLayout.setAttribute('data-original-display', mainLayout.style.display || 'block');
                 mainLayout.style.display = 'none';
@@ -1606,15 +1660,12 @@
         }
         
         if(sid) {
-            document.getElementById('nickname-input').value = sid;
-            if(overlay) overlay.style.display = "none";
-            if(mainLayout && mainLayout.id !== 'login-overlay') {
-                mainLayout.style.display = mainLayout.getAttribute('data-original-display') || '';
-            }
-        } else {
-            let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-            if(overlay) overlay.style.backgroundImage = `url(${randomBg})`;
+            let nickInput = document.getElementById('nickname-input');
+            if(nickInput) nickInput.value = sid;
         }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        if(overlay) overlay.style.backgroundImage = `url(${randomBg})`;
     });
 
     async function grantAccess() {
@@ -1630,7 +1681,7 @@
             let loginRes = await fetch(APP_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ action: 'login', student_id: nickname })
+                body: JSON.stringify({ action: 'login', student_id: nickname, device_id: getDeviceId() })
             });
             let data = await loginRes.json();
 
@@ -1641,12 +1692,10 @@
                 document.getElementById('payment-message').style.display = "block";
                 document.getElementById('progress-container').style.display = "block";
                 
-                // Animate progress bar
                 setTimeout(() => {
                     document.getElementById('progress-bar').style.width = "100%";
                 }, 100);
                 
-                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     let mainLayout = document.querySelector('.main-layout') || document.querySelector('.container') || document.body.firstElementChild;
@@ -1661,7 +1710,8 @@
                 document.getElementById('login-form-fields').style.display = "block";
             }
         } catch(err) {
-            alert("Lỗi kết nối máy chủ!");
+            alert("Lỗi kết nối máy chủ! Có thể Apps Script chưa được cấp quyền 'Anyone' (Bất kỳ ai). Vui lòng báo Admin.");
+            console.error("Fetch error:", err);
             document.getElementById('login-loading-fields').style.display = "none";
             document.getElementById('login-form-fields').style.display = "block";
         }

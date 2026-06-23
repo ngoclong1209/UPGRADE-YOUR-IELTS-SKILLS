@@ -74,6 +74,7 @@ LOGIN_HTML_TMPL = """
 """
 
 LOGIN_JS = """
+
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
     
     const backgrounds = [
@@ -89,13 +90,22 @@ LOGIN_JS = """
         "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
     ];
 
+    function getDeviceId() {
+        let id = localStorage.getItem('youpass_device_id');
+        if (!id) {
+            id = 'device_' + Math.random().toString(36).substr(2, 9) + Date.now();
+            localStorage.setItem('youpass_device_id', id);
+        }
+        return id;
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
         let sid = localStorage.getItem('youpass_student_id');
         let mainLayout = document.querySelector('.main-layout') || document.querySelector('.container') || document.body.firstElementChild;
         let overlay = document.getElementById('login-overlay');
         
-        // Hide main content until logged in
-        if(!sid && mainLayout && mainLayout.id !== 'login-overlay') {
+        // Hide main content initially
+        if(mainLayout && mainLayout.id !== 'login-overlay') {
             if (mainLayout.style) {
                 mainLayout.setAttribute('data-original-display', mainLayout.style.display || 'block');
                 mainLayout.style.display = 'none';
@@ -103,15 +113,12 @@ LOGIN_JS = """
         }
         
         if(sid) {
-            document.getElementById('nickname-input').value = sid;
-            if(overlay) overlay.style.display = "none";
-            if(mainLayout && mainLayout.id !== 'login-overlay') {
-                mainLayout.style.display = mainLayout.getAttribute('data-original-display') || '';
-            }
-        } else {
-            let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-            if(overlay) overlay.style.backgroundImage = `url(${randomBg})`;
+            let nickInput = document.getElementById('nickname-input');
+            if(nickInput) nickInput.value = sid;
         }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        if(overlay) overlay.style.backgroundImage = `url(${randomBg})`;
     });
 
     async function grantAccess() {
@@ -127,7 +134,7 @@ LOGIN_JS = """
             let loginRes = await fetch(APP_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ action: 'login', student_id: nickname })
+                body: JSON.stringify({ action: 'login', student_id: nickname, device_id: getDeviceId() })
             });
             let data = await loginRes.json();
 
@@ -138,12 +145,10 @@ LOGIN_JS = """
                 document.getElementById('payment-message').style.display = "block";
                 document.getElementById('progress-container').style.display = "block";
                 
-                // Animate progress bar
                 setTimeout(() => {
                     document.getElementById('progress-bar').style.width = "100%";
                 }, 100);
                 
-                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     let mainLayout = document.querySelector('.main-layout') || document.querySelector('.container') || document.body.firstElementChild;
@@ -158,7 +163,8 @@ LOGIN_JS = """
                 document.getElementById('login-form-fields').style.display = "block";
             }
         } catch(err) {
-            alert("Lỗi kết nối máy chủ!");
+            alert("Lỗi kết nối máy chủ! Có thể Apps Script chưa được cấp quyền 'Anyone' (Bất kỳ ai). Vui lòng báo Admin.");
+            console.error("Fetch error:", err);
             document.getElementById('login-loading-fields').style.display = "none";
             document.getElementById('login-form-fields').style.display = "block";
         }
