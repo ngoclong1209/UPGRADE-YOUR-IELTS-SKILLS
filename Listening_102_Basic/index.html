@@ -246,6 +246,51 @@
             margin-top: 20px; display: none; line-height: 1.5;
         }
     </style>
+<style>
+        /* [COPYING CSS FROM build_full_tests.py] */
+        .login-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: rgba(0, 0, 0, 0.85); background-size: cover; background-position: center;
+            display: flex; justify-content: center; align-items: center; z-index: 9999;
+            backdrop-filter: blur(8px);
+        }
+        .login-box {
+            background: rgba(255, 255, 255, 0.95); padding: 50px 40px; border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; max-width: 450px; width: 90%;
+            border: 2px solid #ffb6c1; position: relative; overflow: hidden;
+        }
+        .login-header {
+            font-family: 'DynaPuff', cursive; font-size: 2.5rem; color: #ff5e7e;
+            margin-bottom: 10px; text-shadow: 2px 2px 0px #ffe4e1;
+        }
+        .login-subheader { font-size: 1.1rem; color: #555; margin-bottom: 30px; font-weight: 500; }
+        .login-input {
+            width: 100%; padding: 15px; border: 2px solid #ffb6c1; border-radius: 12px;
+            font-size: 1.1rem; margin-bottom: 25px; outline: none; transition: all 0.3s ease;
+            text-align: center; box-sizing: border-box; font-family: 'Quicksand', sans-serif;
+            font-weight: bold; color: #333;
+        }
+        .login-input:focus { border-color: #ff5e7e; box-shadow: 0 0 10px rgba(255, 94, 126, 0.3); }
+        .submit-btn {
+            background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            color: white; border: none; padding: 15px 30px; font-size: 1.3rem;
+            border-radius: 30px; cursor: pointer; font-family: 'DynaPuff', cursive;
+            transition: all 0.3s ease; width: 100%; box-shadow: 0 5px 15px rgba(255, 94, 126, 0.4);
+        }
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(255, 94, 126, 0.6); }
+        .progress-container {
+            width: 100%; background: #f0f0f0; border-radius: 10px;
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
+    </style>
 
 <style>
         /* [COPYING CSS FROM build_full_tests.py] */
@@ -513,7 +558,13 @@
         // Hide main content initially
         if(mainLayout && mainLayout.id !== 'login-overlay') {
             if (mainLayout.style) {
-                mainLayout.setAttribute('data-original-display', mainLayout.style.display || 'block');
+                // If the layout was natively display:none in HTML, we shouldn't save 'none' as original.
+                // We default it to 'flex' for main-layout and 'block' for others.
+                let orig = mainLayout.style.display;
+                if (orig === 'none' || orig === '') {
+                    orig = mainLayout.classList.contains('main-layout') ? 'flex' : 'block';
+                }
+                mainLayout.setAttribute('data-original-display', orig);
                 mainLayout.style.display = 'none';
             }
         }
@@ -525,6 +576,10 @@
         
         let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
         if(overlay) overlay.style.backgroundImage = `url(${randomBg})`;
+        
+        // Auto-focus logic
+        let nickInput = document.getElementById('nickname-input');
+        if(nickInput) nickInput.focus();
     });
 
     async function grantAccess() {
@@ -559,8 +614,16 @@
                     document.getElementById('login-overlay').style.display = "none";
                     let mainLayout = document.querySelector('.main-layout') || document.querySelector('.container') || document.body.firstElementChild;
                     if(mainLayout && mainLayout.id !== 'login-overlay') {
-                        mainLayout.style.display = mainLayout.getAttribute('data-original-display') || '';
+                        let targetDisplay = mainLayout.getAttribute('data-original-display') || 'block';
+                        if(targetDisplay === 'none') {
+                            targetDisplay = mainLayout.classList.contains('main-layout') ? 'flex' : 'block';
+                        }
+                        mainLayout.style.display = targetDisplay;
                     }
+                    
+                    // Show audio container if hidden
+                    let audioContainer = document.querySelector('.audio-fixed-bottom');
+                    if (audioContainer) audioContainer.style.display = 'block';
                 }, 2200);
                 
             } else {

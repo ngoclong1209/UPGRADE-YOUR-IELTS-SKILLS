@@ -368,7 +368,13 @@ LOGIN_JS = """
         // Hide main content initially
         if(mainLayout && mainLayout.id !== 'login-overlay') {
             if (mainLayout.style) {
-                mainLayout.setAttribute('data-original-display', mainLayout.style.display || 'block');
+                // If the layout was natively display:none in HTML, we shouldn't save 'none' as original.
+                // We default it to 'flex' for main-layout and 'block' for others.
+                let orig = mainLayout.style.display;
+                if (orig === 'none' || orig === '') {
+                    orig = mainLayout.classList.contains('main-layout') ? 'flex' : 'block';
+                }
+                mainLayout.setAttribute('data-original-display', orig);
                 mainLayout.style.display = 'none';
             }
         }
@@ -380,6 +386,10 @@ LOGIN_JS = """
         
         let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
         if(overlay) overlay.style.backgroundImage = `url(${randomBg})`;
+        
+        // Auto-focus logic
+        let nickInput = document.getElementById('nickname-input');
+        if(nickInput) nickInput.focus();
     });
 
     async function grantAccess() {
@@ -414,8 +424,16 @@ LOGIN_JS = """
                     document.getElementById('login-overlay').style.display = "none";
                     let mainLayout = document.querySelector('.main-layout') || document.querySelector('.container') || document.body.firstElementChild;
                     if(mainLayout && mainLayout.id !== 'login-overlay') {
-                        mainLayout.style.display = mainLayout.getAttribute('data-original-display') || '';
+                        let targetDisplay = mainLayout.getAttribute('data-original-display') || 'block';
+                        if(targetDisplay === 'none') {
+                            targetDisplay = mainLayout.classList.contains('main-layout') ? 'flex' : 'block';
+                        }
+                        mainLayout.style.display = targetDisplay;
                     }
+                    
+                    // Show audio container if hidden
+                    let audioContainer = document.querySelector('.audio-fixed-bottom');
+                    if (audioContainer) audioContainer.style.display = 'block';
                 }, 2200);
                 
             } else {
