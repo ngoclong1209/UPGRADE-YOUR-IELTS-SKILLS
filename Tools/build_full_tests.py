@@ -1,11 +1,8 @@
 import os
+import glob
 import docx
-from bs4 import BeautifulSoup
 
 BASE_DIR = "/Users/vungoclong/Desktop/Antigravity/UPGRADE YOUR ILETS SKILLS"
-READING_DOCX_DIR = os.path.join(BASE_DIR, "Reading_docx")
-LISTENING_DOCX_DIR = os.path.join(BASE_DIR, "Listening_docx")
-
 READING_OUT_DIR = os.path.join(BASE_DIR, "Reading_315_FullTest")
 LISTENING_OUT_DIR = os.path.join(BASE_DIR, "Listening_204_FullTest")
 
@@ -29,26 +26,41 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{MODULE_TYPE} - {TEST_NAME}</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=DynaPuff:wght@400..700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../Assets/highlighter.css">
     <style>
         body {
             margin: 0; padding: 0; font-family: 'Quicksand', sans-serif;
-            background: #fdf2f8; color: #333; overflow-x: hidden;
+            background: #fdf2f8; color: #333; overflow: hidden; height: 100vh;
         }
         .main-layout {
-            display: flex; height: 100vh; overflow: hidden;
+            display: flex; height: 100vh; width: 100vw;
         }
         .passage-pane {
-            flex: 6; overflow-y: auto; padding: 30px;
-            background: white; margin: 10px; border-radius: 20px;
+            flex: 0 0 60%; overflow-y: auto; padding: 30px;
+            background: white; border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             font-size: 1.15rem; line-height: 1.8;
-            padding-bottom: 100px; /* For audio player */
+            padding-bottom: 100px;
+            margin: 10px 0 10px 10px;
+        }
+        .resizer {
+            flex: 0 0 10px;
+            cursor: col-resize;
+            background: rgba(255,133,162,0.1);
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.3s;
+        }
+        .resizer:hover { background: rgba(255,133,162,0.5); }
+        .resizer::after {
+            content: '⋮';
+            color: #ff85a2; font-size: 20px;
         }
         .answer-pane {
-            flex: 4; overflow-y: auto; padding: 30px;
+            flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
-            margin: 10px; border-radius: 20px;
+            margin: 10px 10px 10px 0; border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding-bottom: 100px;
         }
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
@@ -74,13 +86,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             font-family: 'Quicksand', sans-serif;
         }
         .audio-fixed-bottom {
-            position: fixed; bottom: 0; left: 0; width: 60%;
+            position: fixed; bottom: 0; left: 0; width: 100%;
             background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px);
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
-            border-top-right-radius: 20px; z-index: 1000;
+            border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
-        audio { width: 100%; outline: none; }
-        /* LOGIN OVERLAY CSS */
+        audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
+        
         {LOGIN_CSS}
     </style>
 </head>
@@ -88,11 +100,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     {LOGIN_HTML}
     
     <div class="main-layout" style="display: none;">
-        <div class="passage-pane">
+        <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">{TEST_NAME}</h1>
             {DOC_CONTENT}
         </div>
-        <div class="answer-pane">
+        <div class="resizer" id="resizer"></div>
+        <div class="answer-pane" id="right-pane">
             <h2 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0; text-align: center;">Answers (40 Questions)</h2>
             <div id="questions-container">
                 {QUESTIONS_HTML}
@@ -105,8 +118,66 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     {AUDIO_HTML}
 
     {LOGIN_JS}
-    
+    <script src="../../Assets/highlighter.js"></script>
     <script>
+        // Resizer Logic
+        const resizer = document.getElementById('resizer');
+        const leftPane = document.getElementById('left-pane');
+        const rightPane = document.getElementById('right-pane');
+        let isResizing = false;
+
+        resizer.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            document.body.style.cursor = 'col-resize';
+            leftPane.style.pointerEvents = 'none';
+            rightPane.style.pointerEvents = 'none';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+            let containerWidth = document.querySelector('.main-layout').offsetWidth;
+            let newLeftWidth = (e.clientX / containerWidth) * 100;
+            if (newLeftWidth > 20 && newLeftWidth < 80) {
+                leftPane.style.flex = `0 0 ${newLeftWidth}%`;
+                rightPane.style.flex = `1 1 0%`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isResizing) {
+                isResizing = false;
+                document.body.style.cursor = 'default';
+                leftPane.style.pointerEvents = 'auto';
+                rightPane.style.pointerEvents = 'auto';
+            }
+        });
+
+        resizer.addEventListener('touchstart', (e) => {
+            isResizing = true;
+            leftPane.style.pointerEvents = 'none';
+            rightPane.style.pointerEvents = 'none';
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isResizing) return;
+            let touch = e.touches[0];
+            let containerWidth = document.querySelector('.main-layout').offsetWidth;
+            let newLeftWidth = (touch.clientX / containerWidth) * 100;
+            if (newLeftWidth > 20 && newLeftWidth < 80) {
+                leftPane.style.flex = `0 0 ${newLeftWidth}%`;
+                rightPane.style.flex = `1 1 0%`;
+            }
+        });
+
+        document.addEventListener('touchend', () => {
+            if (isResizing) {
+                isResizing = false;
+                leftPane.style.pointerEvents = 'auto';
+                rightPane.style.pointerEvents = 'auto';
+            }
+        });
+
+        // Submit Logic
         document.getElementById('btn-submit').addEventListener('click', async () => {
             let btn = document.getElementById('btn-submit');
             let resultMsg = document.getElementById('result-msg');
@@ -181,8 +252,7 @@ LOGIN_HTML_TMPL = """
 
 LOGIN_JS = """
 <script>
-    // const APP_URL = "https://script.google.com/macros/s/AKfycbx7lOgaMcHm0ofxpG3V9bi52rMbL7wBXIzAHovP5xBrp9XbyuZp7QNKbSg2-UTJoauyOg/exec";
-    const APP_URL = "https://script.google.com/macros/s/AKfycbzgBPDHt8g35pxQllRcuVTWJq5OaQnuUuQAt93yGs_kqRVOly4Wd1A_jGtgxh5MaKOJMw/exec"; // NEWEST ONE FROM USER
+    const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -241,70 +311,60 @@ def generate_questions_html():
         '''
     return h
 
-def main():
+def build_tests(base_dir, module_type, module_text):
     q_html = generate_questions_html()
+    
+    # We find all docx files recursively inside the base_dir
+    docx_files = glob.glob(os.path.join(base_dir, "**", "*.docx"), recursive=True)
+    
+    for docx_path in docx_files:
+        if os.path.basename(docx_path).startswith('~'): continue
+        
+        # We assume the directory name or the file name is the Test_name
+        name = os.path.basename(docx_path).replace('.docx', '')
+        
+        print(f"Building {name} from {docx_path}...")
+        doc_html = parse_docx_to_html(docx_path)
+        
+        out_dir = os.path.dirname(docx_path)
+        out_file = os.path.join(out_dir, f"{name}.html")
+        
+        html = HTML_TEMPLATE.replace("{MODULE_TYPE}", module_type)
+        html = html.replace("{TEST_NAME}", name)
+        html = html.replace("{DOC_CONTENT}", doc_html)
+        html = html.replace("{QUESTIONS_HTML}", q_html)
+        html = html.replace("{LOGIN_CSS}", LOGIN_CSS)
+        html = html.replace("{LOGIN_HTML}", LOGIN_HTML_TMPL.replace("{MODULE_TEXT}", module_text))
+        html = html.replace("{LOGIN_JS}", LOGIN_JS)
+        
+        if module_type == "Listening Full Test":
+            test_num = "".join(filter(str.isdigit, name))
+            # Audio is usually in the same directory as the html for Listening 101-204, 
+            # Or in ../../Listening_audios/audio_X.mp3 for 1-100?
+            # Actually, Listening_204_FullTest structure puts audio_X.mp3 in the Test_X directory!
+            # Let's check if audio_{test_num}.mp3 exists in the same dir.
+            audio_path_local = os.path.join(out_dir, f"audio_{test_num}.mp3")
+            if os.path.exists(audio_path_local):
+                audio_src = f"audio_{test_num}.mp3"
+            else:
+                audio_src = f"../../Listening_audios/audio_{test_num}.mp3"
+                
+            audio_html = f'''<div class="audio-fixed-bottom"><audio controls src="{audio_src}"></audio></div>'''
+            html = html.replace("{AUDIO_HTML}", audio_html)
+        else:
+            html = html.replace("{AUDIO_HTML}", "")
+            
+        with open(out_file, 'w', encoding='utf-8') as out:
+            out.write(html)
 
-    # 1. READINGS
-    if not os.path.exists(READING_OUT_DIR):
-        os.makedirs(READING_OUT_DIR)
-
-    if os.path.exists(READING_DOCX_DIR):
-        for f in os.listdir(READING_DOCX_DIR):
-            if f.endswith('.docx') and not f.startswith('~'):
-                name = f.replace('.docx', '')
-                doc_html = parse_docx_to_html(os.path.join(READING_DOCX_DIR, f))
-                
-                out_dir = os.path.join(READING_OUT_DIR, name)
-                os.makedirs(out_dir, exist_ok=True)
-                out_file = os.path.join(out_dir, f"{name}.html")
-                
-                html = HTML_TEMPLATE.replace("{MODULE_TYPE}", "Reading Full Test")
-                html = html.replace("{TEST_NAME}", name)
-                html = html.replace("{DOC_CONTENT}", doc_html)
-                html = html.replace("{QUESTIONS_HTML}", q_html)
-                html = html.replace("{LOGIN_CSS}", LOGIN_CSS)
-                html = html.replace("{LOGIN_HTML}", LOGIN_HTML_TMPL.replace("{MODULE_TEXT}", "315 bài thi Reading Full Test"))
-                html = html.replace("{LOGIN_JS}", LOGIN_JS)
-                html = html.replace("{AUDIO_HTML}", "")
-                
-                with open(out_file, 'w', encoding='utf-8') as out:
-                    out.write(html)
-                print(f"Generated Reading: {name}")
-
-    # 2. LISTENINGS
-    if not os.path.exists(LISTENING_OUT_DIR):
-        os.makedirs(LISTENING_OUT_DIR)
-
-    if os.path.exists(LISTENING_DOCX_DIR):
-        for f in os.listdir(LISTENING_DOCX_DIR):
-            if f.endswith('.docx') and not f.startswith('~'):
-                name = f.replace('.docx', '')
-                doc_html = parse_docx_to_html(os.path.join(LISTENING_DOCX_DIR, f))
-                
-                out_dir = os.path.join(LISTENING_OUT_DIR, name)
-                os.makedirs(out_dir, exist_ok=True)
-                out_file = os.path.join(out_dir, f"{name}.html")
-                
-                html = HTML_TEMPLATE.replace("{MODULE_TYPE}", "Listening Full Test")
-                html = html.replace("{TEST_NAME}", name)
-                html = html.replace("{DOC_CONTENT}", doc_html)
-                html = html.replace("{QUESTIONS_HTML}", q_html)
-                html = html.replace("{LOGIN_CSS}", LOGIN_CSS)
-                html = html.replace("{LOGIN_HTML}", LOGIN_HTML_TMPL.replace("{MODULE_TEXT}", "204 bài thi Listening Full Test"))
-                html = html.replace("{LOGIN_JS}", LOGIN_JS)
-                
-                # Audio logic: usually audio_X.mp3 where X is the test number
-                # Or just ../../Listening_audios/audio_X.mp3
-                # Let's try to extract number from name (e.g. Test_1 -> 1)
-                test_num = "".join(filter(str.isdigit, name))
-                audio_path = f"../../Listening_audios/audio_{test_num}.mp3"
-                audio_html = f'''<div class="audio-fixed-bottom"><audio controls src="{audio_path}"></audio></div>'''
-                
-                html = html.replace("{AUDIO_HTML}", audio_html)
-                
-                with open(out_file, 'w', encoding='utf-8') as out:
-                    out.write(html)
-                print(f"Generated Listening: {name}")
+def main():
+    if os.path.exists(READING_OUT_DIR):
+        print(f"--- BUILDING READING 315 FULL TESTS ---")
+        build_tests(READING_OUT_DIR, "Reading Full Test", "315 bài thi Reading Full Test")
+    
+    if os.path.exists(LISTENING_OUT_DIR):
+        print(f"--- BUILDING LISTENING 204 FULL TESTS ---")
+        build_tests(LISTENING_OUT_DIR, "Listening Full Test", "204 bài thi Listening Full Test")
 
 if __name__ == "__main__":
     main()

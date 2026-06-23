@@ -1,585 +1,728 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>IELTS Listening Practice - Test 204</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<style>
-        :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f9fafb;
-            --text-primary: #111827;
-            --text-secondary: #4b5563;
-            --border-color: #e5e7eb;
-            --accent: #111827;
-            --accent-hover: #1f2937;
-            --success: #059669;
-            --error: #dc2626;
-            --success-bg: #ecfdf5;
-            --error-bg: #fef2f2;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listening Full Test - Test_204</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=DynaPuff:wght@400..700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../Assets/highlighter.css">
+    <style>
         body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
+            margin: 0; padding: 0; font-family: 'Quicksand', sans-serif;
+            background: #fdf2f8; color: #333; overflow: hidden; height: 100vh;
         }
-
-        header {
-            background-color: var(--bg-primary);
-            border-bottom: 1px solid var(--border-color);
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 70px;
-            flex-shrink: 0;
-        }
-
-        h1 {
-            font-size: 1.4rem;
-            font-weight: 700;
-        }
-
         .main-layout {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-            position: relative;
+            display: flex; height: 100vh; width: 100vw;
         }
-
         .passage-pane {
-            flex: 2;
-            overflow-y: auto;
-            padding: 2.5rem 3.5rem;
-            border-right: 1px solid var(--border-color);
-            padding-bottom: 110px;
-            position: relative;
+            flex: 0 0 60%; overflow-y: auto; padding: 30px;
+            background: white; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            font-size: 1.15rem; line-height: 1.8;
+            padding-bottom: 100px;
+            margin: 10px 0 10px 10px;
         }
-
+        .resizer {
+            flex: 0 0 10px;
+            cursor: col-resize;
+            background: rgba(255,133,162,0.1);
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.3s;
+        }
+        .resizer:hover { background: rgba(255,133,162,0.5); }
+        .resizer::after {
+            content: '⋮';
+            color: #ff85a2; font-size: 20px;
+        }
         .answer-pane {
-            flex: 1;
-            overflow-y: auto;
-            padding: 2.5rem 2rem;
-            background-color: var(--bg-secondary);
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-            width: 380px;
-            padding-bottom: 110px;
+            flex: 1 1 0%; overflow-y: auto; padding: 30px;
+            background: linear-gradient(145deg, #ffffff, #fff0f5);
+            margin: 10px 10px 10px 0; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding-bottom: 100px;
         }
-
-        .audio-fixed-bottom {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 80px;
-            background: #ffffff;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 2rem;
-            z-index: 1000;
-            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+        .q-row {
+            display: flex; align-items: center; margin-bottom: 15px;
+            background: white; padding: 10px 15px; border-radius: 12px;
+            border: 2px solid #ffccd5;
         }
-
-        .audio-fixed-bottom audio {
-            width: 100%;
-            max-width: 800px;
+        .q-num {
+            font-weight: bold; color: #ff85a2; font-size: 1.2rem;
+            width: 40px;
         }
-
-        .content-html {
-            font-size: 1.05rem;
-            line-height: 1.8;
-        }
-
-        .content-html p {
-            margin-bottom: 1rem;
-        }
-
-        .content-html table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-        }
-
-        .content-html th, .content-html td {
-            border: 1px solid var(--border-color);
-            padding: 0.75rem;
-            text-align: left;
-        }
-
-        .content-html img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 1.5rem auto;
-            border-radius: 8px;
-        }
-
-        .content-html button, .content-html [id^="bg-showmore-hidden"] {
-            display: none !important;
-        }
-
-        .sheet-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 0.5rem;
-        }
-
-        .answer-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .answer-row {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: var(--bg-primary);
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        .q-number {
-            font-weight: 700;
-            color: var(--accent);
-            width: 30px;
-        }
-
         .q-input {
-            flex: 1;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 0.5rem 0.75rem;
-            border-radius: 6px;
-            font-size: 1rem;
-            outline: none;
+            flex: 1; border: none; outline: none; font-size: 1.1rem;
+            font-family: 'Quicksand', sans-serif;
+            border-bottom: 2px dashed #ffccd5; background: transparent;
+            padding: 5px;
         }
-
-        .q-input:focus {
-            border-color: var(--accent);
+        .q-input:focus { border-bottom: 2px solid #ff85a2; }
+        .submit-btn {
+            width: 100%; padding: 18px; font-size: 1.2rem; color: white;
+            background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            border: none; border-radius: 25px; cursor: pointer; font-weight: 700;
+            margin-top: 20px; box-shadow: 0 10px 20px rgba(255,94,126,0.3);
+            font-family: 'Quicksand', sans-serif;
         }
-
-        .feedback-msg {
-            font-size: 0.9rem;
-            display: none;
-            font-weight: 600;
+        .audio-fixed-bottom {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px);
+            padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
-
-        .feedback-correct {
-            border-color: var(--success) !important;
-            background-color: var(--success-bg) !important;
-            color: var(--success) !important;
-        }
-
-        .feedback-incorrect {
-            border-color: var(--error) !important;
-            background-color: var(--error-bg) !important;
-            color: var(--error) !important;
-        }
-
-        .check-btn {
-            background-color: var(--accent);
-            color: white;
-            border: none;
-            padding: 1rem;
-            font-size: 1.1rem;
-            font-weight: 700;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            width: 100%;
-        }
-
-        .check-btn:hover {
-            background-color: var(--accent-hover);
-        }
-
-        .score-display {
-            display: none;
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background: var(--success-bg);
-            border: 1px solid var(--success);
-            border-radius: 8px;
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--success);
-        }
-
-        /* Highlight tool styling */
-        .text-highlight {
-            background-color: #fef08a !important;
-            color: #000000 !important;
-            cursor: pointer;
-        }
+        audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
-        .highlight-floating-btn {
-            position: absolute;
-            display: none;
-            background-color: #111827;
-            color: #ffffff;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 10000;
-        }
         
-        .highlight-floating-btn:hover {
-            background-color: #1f2937;
-        }
+        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
+        .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
+        .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
+        .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
 
-        @media (max-width: 900px) {
-            body {
-                overflow: auto;
-                height: auto;
-            }
-            .main-layout {
-                flex-direction: column;
-                height: auto;
-                overflow: visible;
-            }
-            .passage-pane {
-                border-right: none;
-                border-bottom: 1px solid var(--border-color);
-                padding-bottom: 2rem;
-            }
-            .answer-pane {
-                width: 100%;
-                padding-bottom: 100px;
-            }
-        }
     </style>
-<style>
-.login-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            z-index: 100000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s ease, visibility 0.5s;
-        }
-
-        .login-box {
-            width: 580px;
-            max-width: 92%;
-            padding: 4.5rem 3.5rem;
-            text-align: center;
-            border-radius: 40px;
-            border: 6px dashed var(--border-color);
-            box-shadow: 0 30px 70px rgba(255, 133, 162, 0.35), inset 0 0 30px rgba(255, 255, 255, 0.8);
-            transition: all 0.3s ease;
-        }
-
-        .login-header {
-            font-family: 'DynaPuff', cursive;
-            font-size: 2.3rem;
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-            text-shadow: 3px 3px 0px #fff;
-        }
-
-        .login-subheader {
-            font-family: 'Fredoka', sans-serif;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .login-input {
-            width: 100%;
-            padding: 1.1rem 1.5rem;
-            border-radius: 24px;
-            font-size: 1.3rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 2rem;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        .login-box button {
-            font-size: 1.25rem;
-            padding: 1.1rem;
-            border-radius: 24px;
-            width: 100%;
-        }
-
-        /* --- 5 FAIRYTALE THEMES --- */
-        /* --- 5 FAIRYTALE THEMES --- */
-        .login-overlay.theme-aladdin {
-            background: url('https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1600&q=80') no-repeat center center / cover;
-        }
-        .theme-aladdin .login-box {
-            background: rgba(46, 16, 101, 0.9);
-            border: 4px double #fbbf24;
-            box-shadow: 0 20px 50px rgba(251, 191, 36, 0.25);
-            color: #fef08a;
-        }
-        .theme-aladdin .login-header {
-            color: #fbbf24;
-            text-shadow: 2px 2px 0px #1e1b4b;
-        }
-        .theme-aladdin .login-subheader {
-            color: #e9d5ff;
-        }
-        .theme-aladdin .login-input {
-            background: #1e1b4b;
-            border-color: #fbbf24;
-            color: #fef08a;
-        }
-
-        /* 2. Grimm Theme */
-        .login-overlay.theme-grimm {
-            background: url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1600&q=80') no-repeat center center / cover;
-        }
-        .theme-grimm .login-box {
-            background: rgba(20, 83, 45, 0.92);
-            border: 4px solid #b45309;
-            box-shadow: 0 20px 50px rgba(180, 83, 9, 0.3);
-            color: #fef3c7;
-        }
-        .theme-grimm .login-header {
-            color: #f59e0b;
-            text-shadow: 2px 2px 0px #022c22;
-        }
-        .theme-grimm .login-subheader {
-            color: #a7f3d0;
-        }
-        .theme-grimm .login-input {
-            background: #022c22;
-            border-color: #b45309;
-            color: #fef3c7;
-        }
-
-        /* 3. Andersen Theme */
-        .login-overlay.theme-andersen {
-            background: url('https://images.unsplash.com/photo-1491002052546-bf38f186af56?auto=format&fit=crop&w=1600&q=80') no-repeat center center / cover;
-        }
-        .theme-andersen .login-box {
-            background: rgba(224, 242, 254, 0.94);
-            border: 4px dashed #38bdf8;
-            box-shadow: 0 20px 50px rgba(56, 189, 248, 0.2);
-            color: #0c4a6e;
-        }
-        .theme-andersen .login-header {
-            color: #0284c7;
-            text-shadow: 2px 2px 0px #fff;
-        }
-        .theme-andersen .login-subheader {
-            color: #0369a1;
-        }
-        .theme-andersen .login-input {
-            background: #fff;
-            border-color: #38bdf8;
-            color: #0c4a6e;
-        }
-
-        /* 4. Wonderland Theme */
-        .login-overlay.theme-wonderland {
-            background: url('https://images.unsplash.com/photo-1518887570146-0612132dd618?auto=format&fit=crop&w=1600&q=80') no-repeat center center / cover;
-        }
-        .theme-wonderland .login-box {
-            background: rgba(255, 255, 255, 0.95);
-            border: 4px solid #db2777;
-            box-shadow: 0 20px 50px rgba(236, 72, 153, 0.35);
-            color: #9d174d;
-        }
-        .theme-wonderland .login-header {
-            color: #db2777;
-            text-shadow: 2px 2px 0px #fce7f3;
-        }
-        .theme-wonderland .login-subheader {
-            color: #be185d;
-        }
-        .theme-wonderland .login-input {
-            background: #fff0f6;
-            border-color: #db2777;
-            color: #9d174d;
-        }
-
-        /* 5. Pixie Theme */
-        .login-overlay.theme-pixie {
-            background: url('https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1600&q=80') no-repeat center center / cover;
-        }
-        .theme-pixie .login-box {
-            background: rgba(255, 255, 255, 0.92);
-            border: 4px double #4ade80;
-            box-shadow: 0 20px 50px rgba(74, 222, 128, 0.25);
-            color: #14532d;
-        }
-        .theme-pixie .login-header {
-            color: #16a34a;
-            text-shadow: 2px 2px 0px #fff;
-        }
-        .theme-pixie .login-subheader {
-            color: #15803d;
-        }
-        .theme-pixie .login-input {
-            background: #f0fdf4;
-            border-color: #4ade80;
-            color: #14532d;
-        }
-</style>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&amp;family=DynaPuff:wght@400..700&amp;family=Quicksand:wght@300..700&amp;display=swap" rel="stylesheet"/></head>
+</head>
 <body>
-<!-- UNIFIED LOGIN OVERLAY -->
-<div class="login-overlay" id="login-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px);">
-<div class="login-box" style="background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5;">
-<div class="login-header" style="font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2);">🍭 Study Room 🍭</div>
-<div class="login-subheader" style="font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif;">Hệ thống: 204 bài thi Listening Full Test ✨</div>
-<div id="login-form-fields">
-<input autofocus="" class="login-input" id="nickname-input" onblur="this.style.borderColor='#ffccd5'; this.style.boxShadow='none';" onfocus="this.style.borderColor='#ff85a2'; this.style.boxShadow='0 0 15px rgba(255,133,162,0.3)';" placeholder="Nhập ID học viên của bạn..." style="width: 100%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif;" type="text"/>
-<button class="check-btn" onclick="grantAccess()" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(255,94,126,0.3)';" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 25px rgba(255,94,126,0.4)';" style="width: 100%; padding: 18px 30px; font-size: 1.2rem; color: white; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%); border: none; border-radius: 25px; cursor: pointer; font-weight: 700; transition: 0.3s; box-shadow: 0 10px 20px rgba(255,94,126,0.3); font-family: 'Quicksand', sans-serif;">
-                    LET'S GO! 🌸
-                </button>
-</div>
-<div id="login-loading-fields" style="display: none; padding: 20px 0;">
-<div class="loading-status" id="loading-status" style="font-family: 'Quicksand', sans-serif; font-size: 1.15rem; font-weight: 600; margin-bottom: 15px; color: #333;">Đang kết nối hệ thống...</div>
-<div class="progress-bar-container" style="width: 100%; height: 20px; background: rgba(0, 0, 0, 0.1); border-radius: 10px; overflow: hidden; margin-bottom: 25px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.15);">
-<div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%; height: 100%; background: linear-gradient(90deg, #ff758c 0%, #ff7eb3 100%); border-radius: 10px; transition: width 0.1s linear;"></div>
-</div>
-<div class="payment-card" style="background: rgba(255, 255, 255, 0.95); border: 2.5px solid #e5e7eb; border-radius: 20px; padding: 20px; text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.05); font-family: 'Quicksand', sans-serif;">
-<div style="font-size: 1.1rem; font-weight: 700; color: #ff5e7e; margin-bottom: 12px; border-bottom: 2px dashed rgba(0,0,0,0.1); padding-bottom: 8px; text-align: center;">🎫 THÔNG TIN THANH TOÁN</div>
-<div style="font-size: 0.95rem; line-height: 1.6; color: #333;">
-<p style="margin: 6px 0;">💵 <b>Nội dung khoá học:</b> <span style="color: #2b9348; font-weight: bold;">1232 bài tập Đọc hiểu, 102 bài tập Nghe, 204 bài thi Listening Full, 315 bài thi Reading Full</span></p>
-<p style="margin: 6px 0;">💰 <b>Giá trị:</b> <span style="color: #e91e63; font-weight: bold;">1,599,000 VND</span></p>
-<p style="margin: 6px 0;">👤 <b>Đã được trả phí bởi:</b> <span style="color: #0077b6; font-weight: bold;">VŨ NGỌC LONG</span> <span id="payment-nickname-badge" style="font-size: 0.8rem; background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 12px; font-weight: 700; margin-left: 5px;"></span></p>
-<p style="margin: 6px 0; font-size: 0.85rem; color: #666; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 8px;">⏱️ <b>Thời hạn sử dụng:</b> 1 năm.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<!-- UNIFIED LOGIN OVERLAY -->
-
-<!-- UNIFIED LOGIN OVERLAY -->
-<!-- UNIFIED LOGIN OVERLAY -->
-<!-- UNIFIED LOGIN OVERLAY -->
-<audio id="sfx-click" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio><audio id="sfx-success" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3"></audio><script>
-    const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
-
-    function getDeviceId() {
-        let did = localStorage.getItem('youpass_device_id');
-        if(!did) {
-            let fp = btoa(navigator.userAgent + screen.width + screen.height + navigator.language).substring(0, 15);
-            did = fp + '_' + Math.random().toString(36).substr(2, 5);
-            localStorage.setItem('youpass_device_id', did);
-        }
-        return did;
-    }
     
-    function playSfx(id) {
-        try { let a = document.getElementById(id); if(a) { a.currentTime = 0; a.play().catch(e=>{}); } } catch(e){}
-    }
+    <div class="login-overlay" id="login-overlay">
+        <div class="login-box">
+            <div class="login-header">🍭 Study Room 🍭</div>
+            <div class="login-subheader">Hệ thống: 204 bài thi Listening Full Test ✨</div>
+            <div id="login-form-fields">
+                <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
+                <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
+            </div>
+            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="main-layout" style="display: none;">
+        <div class="passage-pane" id="left-pane">
+            <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_204</h1>
+            <p>IELTS Listening Practice - Test 204</p>
+<p>Part 1: Questions 1-10
+
+Complete the notes below. Write ONE WORD AND/ OR A NUMBER for each answer.</p>
+<p>Advice on family visit
+
+Accommodation
+
+• (1)  _______  hotel on George Street
+
+• cost of family room per night: £ (2)  _______  (approx.)</p>
+<p>Recommended trips
+
+• a (3)  _______  tour of the city centre (starts in Carlton Square)
+
+• a trip by (4)  _______  to the old fort</p>
+<p>Science Museum
+
+• best day to visit: (5)  _______ 
+
+• see the exhibition about (6) _______  , which opens soon</p>
+<p>Food
+
+• Clacton Market:
+
+o good for (7) _______  food
+
+o need to have lunch before (8)  _______  p.m.</p>
+<p>Theatre tickets
+
+• save up to (9)  _______  % on ticket prices at bargaintickets.com</p>
+<p>Free activities
+
+• Blakewell Gardens:
+
+• Roots Music Festival
+
+• climb Telegraph Hill to see a view of the (10)  _______</p>
+<p>Part 2: Questions 11 and 12</p>
+<p>Choose TWO letters, A-E.
+
+Which TWO things does the speaker say about visiting the football stadium with children?
+
+
+
+[ ] A Children can get their photo taken with a football player.
+
+[ ] B There is a competition for children today.
+
+[ ] C Parents must stay with their children at all times.
+
+[ ] D Children will need sunhats and drinks.
+
+[ ] E The cafe has a special offer on meals for children.</p>
+<p>Questions 13 and 14
+
+Choose TWO letters, A-E.
+
+Which TWO features of the stadium tour are new this year?
+
+
+
+[ ] A VIP tour
+
+[ ] B 360 cinema experience
+
+[ ] C audio guide
+
+[ ] D dressing room tour
+
+[ ] E tours in other languages</p>
+<p>Questions 15 – 20
+
+Which event in the history of football in the UK took place in each of the following years? Choose SIX answers from the box and write the correct letter, A- H, next to Questions 15- 20.</p>
+<p>Events in the history of football</p>
+<p>15. 1870  _______ 
+
+16. 1874  _______ 
+
+17. 1875  _______ 
+
+18. 1877  _______ 
+
+19. 1878  _______ 
+
+20. 1880  _______</p>
+<p>A The introduction of pay for the players
+
+B a change to the design of the goal
+
+C the first use of lights for matches
+
+D the Introduction of goalkeepers
+
+E the first International match
+
+F two changes to the rules of the game
+
+G the introduction of a fee for spectators
+
+H an agreement on the length of a game</p>
+<p>Part 3: Questions 21 and 22</p>
+<p>Choose TWO letters, A-E.
+
+Which TWO benefits for children of learning to write did both students find surprising?</p>
+<p>[ ] A improved fine motor skills
+
+[ ] B improved memory
+
+[ ] C improved concentration
+
+[ ] D improved imagination
+
+[ ] E improved spatial awareness</p>
+<p>Questions 23 and 24
+
+Choose TWO letters, A-E.
+
+For children with dyspraxia, which TWO problems with handwriting do the students think are easiest to correct?</p>
+<p>[ ] A not spacing letters correctly
+
+[ ] B not writing in a straight line
+
+[ ] C applying too much pressure when writing
+
+[ ] D confusing letter shapes
+
+[ ] E writing very slowly</p>
+<p>Questions 25-30
+
+Choose the correct letter, A, B or C.</p>
+<p>Teaching handwriting</p>
+<p>25. What does the woman say about using laptops to teach writing to children with dyslexia?
+
+[ ] A Children often lack motivation to learn that way.
+
+[ ] B Children become fluent relatively quickly.
+
+[ ] C Children react more positively if they make a mistake.
+
+
+
+26. When discussing whether to teach cursive or print writing, the woman thinks that
+
+[ ] A cursive writing disadvantages a certain group of children.
+
+[ ] B print writing is associated with lower academic performance.
+
+[ ] C most teachers in the UK prefer a traditional approach to handwriting.</p>
+<p>27. According to the students, what impact does poor handwriting have on exam performance?
+
+[ ] A There is evidence to suggest grades are affected by poor handwriting.
+
+[ ] B Neat handwriting is less important now than it used to be.
+
+[ ] C Candidates write more slowly and produce shorter answers.</p>
+<p>28. What prediction does the man make about the future of handwriting?
+
+[ ] A Touch typing will be taught before writing by hand.
+
+[ ] B Children will continue to learn to write by hand.
+
+[ ] C People will dislike handwriting on digital devices.</p>
+<p>29. The woman is concerned that relying on digital devices has made it difficult for her to
+
+[ ] A take detailed notes.
+
+[ ] B spell and punctuate.
+
+[ ] C read old documents.</p>
+<p>30. How do the students feel about their own handwriting?
+
+[ ] A concerned they are unable to write quickly
+
+[ ] B embarrassed by comments made about it
+
+[ ] C regretful that they have lost the habit</p>
+<p>Part 4: Questions 31 – 40
+
+Complete the notes below. Write ONE WORD ONLY for each answer.</p>
+<p>Research in the area around the Chembe Bird Sanctuary</p>
+<p>The importance of birds of prey to the local communities
+
+• They destroy (31)  _______  and other rodents.
+
+• They help to prevent farmers from being bitten by (32)  _______ 
+
+• They have been an important part of the local culture for many years.
+
+• They now support the economy by encouraging (33)  _______  in the area.</p>
+<p>Falling numbers of birds of prey
+
+• The birds may be accidentally killed
+
+o By (34)  _______  when they are hunting or sleeping
+
+o by electrocution from contact with power lines, especially at times when there is a lot of (35)  _______ 
+
+• Local farmers may illegally shoot them or (36)  _______  them.</p>
+<p>Ways of protecting chickens from birds of prey
+
+• clearing away vegetation from the area (unhelpful)
+
+• providing a (37)  _______  for chickens (expensive)
+
+• frightening birds of prey by
+
+o keeping a (38) _______ 
+
+o making a (39)  _______ 
+
+o e.g. with metal objects
+
+• A (40)  _______  of methods is usually most effective.</p>
+<p>ANSWER KEY</p>
+<p>1. King’s/ Kings</p>
+<p>2. 125</p>
+<p>3. Walking</p>
+<p>4. Boat</p>
+<p>5. Tuesday</p>
+<p>6. Space</p>
+<p>7. Vegetarian</p>
+<p>2.30/ two-thirty</p>
+<p>9. 75/ seventy-five</p>
+<p>10. Port</p>
+<p>11. B, C</p>
+<p>12. B, C</p>
+<p>13. A, C</p>
+<p>14. A, C</p>
+<p>15. D</p>
+<p>16. F</p>
+<p>17. B</p>
+<p>18. H</p>
+<p>19. C</p>
+<p>20. G</p>
+<p>21. C, E</p>
+<p>22. C, E</p>
+<p>23. A, C</p>
+<p>24. A, C</p>
+<p>25. C</p>
+<p>26. A</p>
+<p>27. A</p>
+<p>28. B</p>
+<p>29. B</p>
+<p>30. C</p>
+<p>31. Rats</p>
+<p>32. Snakes</p>
+<p>33. Tourism</p>
+<p>34. Traffic</p>
+<p>35. Rain</p>
+<p>36. Poison</p>
+<p>37. Building</p>
+<p>38. Dog</p>
+<p>39. Noise</p>
+<p>40. Combination</p>
+
+        </div>
+        <div class="resizer" id="resizer"></div>
+        <div class="answer-pane" id="right-pane">
+            <h2 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0; text-align: center;">Answers (40 Questions)</h2>
+            <div id="questions-container">
+                
+        <div class="q-row">
+            <div class="q-num">1</div>
+            <input type="text" class="q-input" id="q1" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">2</div>
+            <input type="text" class="q-input" id="q2" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">3</div>
+            <input type="text" class="q-input" id="q3" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">4</div>
+            <input type="text" class="q-input" id="q4" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">5</div>
+            <input type="text" class="q-input" id="q5" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">6</div>
+            <input type="text" class="q-input" id="q6" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">7</div>
+            <input type="text" class="q-input" id="q7" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">8</div>
+            <input type="text" class="q-input" id="q8" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">9</div>
+            <input type="text" class="q-input" id="q9" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">10</div>
+            <input type="text" class="q-input" id="q10" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">11</div>
+            <input type="text" class="q-input" id="q11" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">12</div>
+            <input type="text" class="q-input" id="q12" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">13</div>
+            <input type="text" class="q-input" id="q13" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">14</div>
+            <input type="text" class="q-input" id="q14" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">15</div>
+            <input type="text" class="q-input" id="q15" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">16</div>
+            <input type="text" class="q-input" id="q16" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">17</div>
+            <input type="text" class="q-input" id="q17" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">18</div>
+            <input type="text" class="q-input" id="q18" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">19</div>
+            <input type="text" class="q-input" id="q19" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">20</div>
+            <input type="text" class="q-input" id="q20" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">21</div>
+            <input type="text" class="q-input" id="q21" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">22</div>
+            <input type="text" class="q-input" id="q22" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">23</div>
+            <input type="text" class="q-input" id="q23" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">24</div>
+            <input type="text" class="q-input" id="q24" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">25</div>
+            <input type="text" class="q-input" id="q25" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">26</div>
+            <input type="text" class="q-input" id="q26" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">27</div>
+            <input type="text" class="q-input" id="q27" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">28</div>
+            <input type="text" class="q-input" id="q28" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">29</div>
+            <input type="text" class="q-input" id="q29" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">30</div>
+            <input type="text" class="q-input" id="q30" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">31</div>
+            <input type="text" class="q-input" id="q31" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">32</div>
+            <input type="text" class="q-input" id="q32" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">33</div>
+            <input type="text" class="q-input" id="q33" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">34</div>
+            <input type="text" class="q-input" id="q34" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">35</div>
+            <input type="text" class="q-input" id="q35" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">36</div>
+            <input type="text" class="q-input" id="q36" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">37</div>
+            <input type="text" class="q-input" id="q37" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">38</div>
+            <input type="text" class="q-input" id="q38" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">39</div>
+            <input type="text" class="q-input" id="q39" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">40</div>
+            <input type="text" class="q-input" id="q40" placeholder="Type answer...">
+        </div>
+        
+            </div>
+            <button class="submit-btn" id="btn-submit">SUBMIT ANSWERS 🌸</button>
+            <div id="result-msg" style="text-align: center; margin-top: 15px; font-weight: bold; color: #2b9348; display: none;"></div>
+        </div>
+    </div>
+
+    <div class="audio-fixed-bottom"><audio controls src="audio_204.mp3"></audio></div>
+
+    
+<script>
+    const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
         let nickname = input ? input.value.trim().toUpperCase() : '';
-        if (!nickname) { alert("Vui lòng nhập ID học viên của bạn! 🌸"); return; }
+        if (!nickname) { alert("Vui lòng nhập ID!"); return; }
         
-        playSfx('sfx-click');
-        let formFields = document.getElementById('login-form-fields');
-        if(formFields) formFields.style.display = "none";
-        let loadFields = document.getElementById('login-loading-fields');
-        if(loadFields) loadFields.style.display = "block";
-        let badge = document.getElementById('payment-nickname-badge');
-        if(badge) badge.innerText = nickname;
-        
-        const progressFill = document.getElementById('progress-bar-fill');
-        const statusText = document.getElementById('loading-status');
-        let deviceId = getDeviceId();
-        
-        if(progressFill) progressFill.style.width = '10%';
-        if(statusText) statusText.innerText = "Đang kiểm tra thiết bị & IP...";
+        document.getElementById('login-form-fields').style.display = "none";
+        document.getElementById('login-loading-fields').style.display = "block";
+        document.getElementById('loading-status').innerText = "Đang kiểm tra ID...";
 
         try {
-            let ipData = {};
-            try {
-                let ipRes = await fetch('https://api.ipify.org?format=json');
-                ipData = await ipRes.json();
-            } catch(e) { console.log("IP fetch failed", e); }
-            
-            if(progressFill) progressFill.style.width = '40%';
-            if(statusText) statusText.innerText = "Đang xác thực tài khoản qua máy chủ an toàn...";
-
             let loginRes = await fetch(APP_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ action: 'login', student_id: nickname, device_id: deviceId, ip: ipData.ip || 'unknown' })
+                body: JSON.stringify({ action: 'login', student_id: nickname })
             });
-            
             let data = await loginRes.json();
-            if(progressFill) progressFill.style.width = '100%';
 
             if (data.status === 'success') {
-                if(statusText) statusText.innerText = "Xác nhận thành công! Chuẩn bị phòng học...";
+                document.getElementById('loading-status').innerText = "Thành công!";
                 setTimeout(() => {
-                    let overlay = document.getElementById('login-overlay');
-                    if(overlay) overlay.style.display = "none";
-                    let mainLayout = document.querySelector('.main-layout');
-                    if(mainLayout) mainLayout.style.display = "flex";
+                    document.getElementById('login-overlay').style.display = "none";
+                    document.querySelector('.main-layout').style.display = "flex";
                     localStorage.setItem('youpass_student_id', nickname);
-                    playSfx('sfx-success');
-                    if(typeof startTimer === 'function') startTimer();
                 }, 500);
             } else {
-                if(statusText) statusText.innerText = "LỖI: " + data.message;
-                if(statusText) statusText.style.color = "red";
-                alert(data.message);
-                setTimeout(() => {
-                    if(loadFields) loadFields.style.display = "none";
-                    if(formFields) formFields.style.display = "block";
-                    if(progressFill) progressFill.style.width = '0%';
-                }, 2000);
+                alert("Lỗi: " + data.message);
+                document.getElementById('login-loading-fields').style.display = "none";
+                document.getElementById('login-form-fields').style.display = "block";
             }
         } catch(err) {
-            alert("Lỗi kết nối máy chủ! Vui lòng kiểm tra lại đường truyền.");
-            if(loadFields) loadFields.style.display = "none";
-            if(formFields) formFields.style.display = "block";
+            alert("Lỗi kết nối máy chủ!");
+            document.getElementById('login-loading-fields').style.display = "none";
+            document.getElementById('login-form-fields').style.display = "block";
         }
     }
 
     window.addEventListener('DOMContentLoaded', () => {
         let sid = localStorage.getItem('youpass_student_id');
-        let overlay = document.getElementById('login-overlay');
-        let mainLayout = document.querySelector('.main-layout');
         if(sid) {
-            if(overlay) overlay.style.display = "none";
-            if(mainLayout) mainLayout.style.display = "flex";
-            if(typeof startTimer === 'function') startTimer();
-        } else {
-            if(overlay) overlay.style.display = "flex";
-            if(mainLayout) mainLayout.style.display = "none";
+            document.getElementById('login-overlay').style.display = "none";
+            document.querySelector('.main-layout').style.display = "flex";
         }
     });
-</script></body>
+</script>
+
+    <script src="../../Assets/highlighter.js"></script>
+    <script>
+        // Resizer Logic
+        const resizer = document.getElementById('resizer');
+        const leftPane = document.getElementById('left-pane');
+        const rightPane = document.getElementById('right-pane');
+        let isResizing = false;
+
+        resizer.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            document.body.style.cursor = 'col-resize';
+            leftPane.style.pointerEvents = 'none';
+            rightPane.style.pointerEvents = 'none';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+            let containerWidth = document.querySelector('.main-layout').offsetWidth;
+            let newLeftWidth = (e.clientX / containerWidth) * 100;
+            if (newLeftWidth > 20 && newLeftWidth < 80) {
+                leftPane.style.flex = `0 0 ${newLeftWidth}%`;
+                rightPane.style.flex = `1 1 0%`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isResizing) {
+                isResizing = false;
+                document.body.style.cursor = 'default';
+                leftPane.style.pointerEvents = 'auto';
+                rightPane.style.pointerEvents = 'auto';
+            }
+        });
+
+        resizer.addEventListener('touchstart', (e) => {
+            isResizing = true;
+            leftPane.style.pointerEvents = 'none';
+            rightPane.style.pointerEvents = 'none';
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isResizing) return;
+            let touch = e.touches[0];
+            let containerWidth = document.querySelector('.main-layout').offsetWidth;
+            let newLeftWidth = (touch.clientX / containerWidth) * 100;
+            if (newLeftWidth > 20 && newLeftWidth < 80) {
+                leftPane.style.flex = `0 0 ${newLeftWidth}%`;
+                rightPane.style.flex = `1 1 0%`;
+            }
+        });
+
+        document.addEventListener('touchend', () => {
+            if (isResizing) {
+                isResizing = false;
+                leftPane.style.pointerEvents = 'auto';
+                rightPane.style.pointerEvents = 'auto';
+            }
+        });
+
+        // Submit Logic
+        document.getElementById('btn-submit').addEventListener('click', async () => {
+            let btn = document.getElementById('btn-submit');
+            let resultMsg = document.getElementById('result-msg');
+            btn.innerText = "Submitting...";
+            btn.disabled = true;
+
+            let answers = [];
+            for (let i = 1; i <= 40; i++) {
+                let val = document.getElementById('q' + i).value.trim();
+                answers.push(val);
+            }
+
+            let payload = {
+                action: 'submit_full_test',
+                student_id: localStorage.getItem('youpass_student_id') || 'UNKNOWN',
+                module: 'Listening Full Test',
+                test_name: 'Test_204',
+                answers: answers
+            };
+
+            try {
+                let res = await fetch(APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                let data = await res.json();
+                if (data.status === 'success') {
+                    resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
+                    resultMsg.style.display = 'block';
+                    btn.innerText = "SUBMITTED!";
+                } else {
+                    alert("Lỗi: " + data.message);
+                    btn.innerText = "SUBMIT ANSWERS 🌸";
+                    btn.disabled = false;
+                }
+            } catch(e) {
+                alert("Lỗi mạng! Không thể gửi.");
+                btn.innerText = "SUBMIT ANSWERS 🌸";
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
 </html>
