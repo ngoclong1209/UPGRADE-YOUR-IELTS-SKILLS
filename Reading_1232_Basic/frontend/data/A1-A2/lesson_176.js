@@ -1,0 +1,135 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_176",
+  "title": "The Power of Renewable Energy",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>What is Renewable Energy?</h2><p>Renewable energy is energy from natural sources. These sources can be used again and again. Examples of renewable energy are sunlight, wind, and water. They give us power without polluting the air.</p><h2>Types of Renewable Energy</h2><p>There are many types of renewable energy. Solar energy comes from the sun. Wind energy comes from the wind. Hydropower comes from water. Each type has its own benefits.</p><h2>Why Use Renewable Energy?</h2><p>Using renewable energy helps the environment. It produces less pollution. This is better for our planet. Also, renewable energy can help reduce the cost of electricity.</p><h2>Future of Renewable Energy</h2><p>Many countries are using more renewable energy. This is important for our future. It can create jobs and help people save money. We should all support renewable energy!</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is renewable energy?",
+      "options": {
+        "A": "Energy from natural sources",
+        "B": "Energy from coal",
+        "C": "Energy from gas",
+        "D": "Energy from nuclear power"
+      },
+      "answer": "A",
+      "explanation": "Renewable energy is defined as energy from natural sources in the passage."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which is NOT a type of renewable energy?",
+      "options": {
+        "A": "Solar energy",
+        "B": "Wind energy",
+        "C": "Hydropower",
+        "D": "Fossil fuel"
+      },
+      "answer": "D",
+      "explanation": "Fossil fuel is not a renewable energy source, as stated in the passage."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Renewable energy is bad for the environment.",
+      "answer": "False",
+      "explanation": "The passage states that renewable energy helps the environment."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "Solar energy comes from the sun.",
+      "answer": "True",
+      "explanation": "The passage clearly states that solar energy comes from the sun."
+    },
+    {
+      "id": "q5",
+      "type": "yes_no_not_given",
+      "text": "Is renewable energy cheaper than traditional energy?",
+      "answer": "Not Given",
+      "explanation": "The passage does not provide specific information about the cost comparison."
+    },
+    {
+      "id": "q6",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What can renewable energy create?",
+      "options": {
+        "A": "Pollution",
+        "B": "Jobs",
+        "C": "Waste",
+        "D": "None of the above"
+      },
+      "answer": "B",
+      "explanation": "The passage mentions that renewable energy can create jobs."
+    },
+    {
+      "id": "q7",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "Renewable energy helps to reduce __________.",
+      "answer": "pollution",
+      "explanation": "The passage states that it produces less pollution."
+    },
+    {
+      "id": "q8",
+      "type": "short-answer",
+      "instruction": "Answer the question with NO MORE THAN TWO WORDS.",
+      "text": "What are two sources of renewable energy?",
+      "answer": "wind, water",
+      "explanation": "The passage lists wind and water as examples of renewable energy sources."
+    },
+    {
+      "id": "q9",
+      "type": "matching_information",
+      "instruction": "Match the type of energy with its source.",
+      "options": {
+        "A": "Solar energy",
+        "B": "Wind energy",
+        "C": "Hydropower"
+      },
+      "answers": {
+        "A": "sun",
+        "B": "wind",
+        "C": "water"
+      }
+    },
+    {
+      "id": "q10",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "Renewable energy is important for our __________.",
+      "answer": "future",
+      "explanation": "The passage emphasizes that renewable energy is important for our future."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "renewable",
+      "meaning": "able to be used again"
+    },
+    {
+      "word": "pollution",
+      "meaning": "harmful substances in the air"
+    },
+    {
+      "word": "energy",
+      "meaning": "power that can be used"
+    },
+    {
+      "word": "source",
+      "meaning": "place where something comes from"
+    },
+    {
+      "word": "environment",
+      "meaning": "natural world around us"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully. Pay attention to the definitions and examples. Look for keywords in the questions that match the passage. Remember to answer based on the text, not your opinion.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

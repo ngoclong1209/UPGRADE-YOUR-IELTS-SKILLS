@@ -1,0 +1,114 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_164",
+  "title": "The Rise of Autonomous Intelligence: Navigating the Future of Robotics",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Autonomous Intelligence and the Future of Robotics</h2><p>In recent years, the field of robotics has witnessed a remarkable transformation, primarily driven by advancements in artificial intelligence (AI). As robots become increasingly autonomous, they are not only performing tasks traditionally reserved for humans but are also making decisions based on complex algorithms that mimic cognitive functions. These developments raise profound questions about the implications of AI on society, ethics, and the labor market.</p><p>One significant aspect of this evolution is the capability of robots to learn from their environment. Machine learning, a subset of AI, enables robots to adapt their behaviors in response to changing conditions. For instance, in manufacturing settings, robots equipped with machine learning algorithms can optimize their performance by analyzing efficiency data and adjusting their actions accordingly. This adaptability not only enhances productivity but also reduces operational costs, thereby reshaping the dynamics of various industries.</p><p>However, the increasing reliance on autonomous systems brings forth ethical dilemmas. The decision-making processes of AI systems can often be opaque, leading to concerns regarding accountability. If a robot makes a mistake that results in harm, determining liability becomes complex. Furthermore, as machines take over tasks previously performed by humans, the potential for job displacement raises socioeconomic issues that society must address.</p><p>In conclusion, while the rise of autonomous intelligence presents exciting opportunities for innovation and efficiency, it also necessitates a thorough examination of the ethical, social, and economic ramifications. Balancing technological advancement with responsible governance will be crucial as we navigate this evolving landscape.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the main benefits of robots equipped with machine learning algorithms?",
+      "options": {
+        "A": "They can independently devise complex algorithms.",
+        "B": "They can continuously enhance their productivity.",
+        "C": "They eliminate the need for human supervision entirely.",
+        "D": "They ensure complete transparency in decision-making."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct because the passage states that robots can optimize their performance by analyzing efficiency data, which enhances productivity."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "The decision-making processes of AI systems are always transparent.",
+      "answer": "False",
+      "explanation": "The passage indicates that the decision-making processes of AI systems can be opaque, thereby making this statement false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The passage suggests that job displacement is a concern related to the rise of autonomous systems.",
+      "answer": "Yes",
+      "explanation": "The passage mentions that the potential for job displacement raises socioeconomic issues, implying that it is a concern."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements with the correct paragraph.",
+      "options": {
+        "1": "The adaptation of robots in manufacturing.",
+        "2": "Ethical dilemmas surrounding AI decision-making.",
+        "3": "The need for responsible governance."
+      },
+      "answers": {
+        "1": "Paragraph 2",
+        "2": "Paragraph 3",
+        "3": "Paragraph 4"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings with the corresponding paragraphs.",
+      "options": {
+        "A": "Challenges posed by AI",
+        "B": "Learning capabilities of robots",
+        "C": "Future implications of robotics",
+        "D": "Economic advantages of automation"
+      },
+      "answers": {
+        "1": "B",
+        "2": "D",
+        "3": "A",
+        "4": "C"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN THREE WORDS.",
+      "text": "The ability of robots to learn from their environment is primarily attributed to __________.",
+      "answer": "machine learning",
+      "explanation": "The passage refers to machine learning as a key capability that enables robots to learn and adapt."
+    },
+    {
+      "id": "q7",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The rise of autonomous intelligence offers __________ and __________ opportunities.",
+      "answers": {
+        "1": "innovation",
+        "2": "efficiency"
+      },
+      "explanation": "The passage highlights both innovation and efficiency as key opportunities presented by autonomous intelligence."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following question with NO MORE THAN THREE WORDS.",
+      "text": "What does the passage suggest is crucial for navigating the landscape of autonomous intelligence?",
+      "answer": "responsible governance",
+      "explanation": "The conclusion emphasizes the importance of balancing technological advancement with responsible governance."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "autonomous",
+      "meaning": "able to operate independently without human intervention."
+    },
+    {
+      "word": "opaque",
+      "meaning": "not able to be seen through; not transparent."
+    },
+    {
+      "word": "socioeconomic",
+      "meaning": "relating to or concerned with the interaction of social and economic factors."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the implications of AI and robotics as discussed. Pay attention to the nuances in the language used, especially in terms of the ethical considerations and potential societal impacts. Skim for main ideas and scan for specific details to answer questions accurately.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

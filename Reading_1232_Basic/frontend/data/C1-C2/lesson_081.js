@@ -1,0 +1,96 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_081",
+  "title": "The Diverging Paths of Higher Education and Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Higher Education vs Vocational Training: A Comparative Analysis</h2><p>In contemporary society, the dichotomy between higher education and vocational training has become increasingly pronounced. As economies evolve and job markets shift, the value of traditional academic paths is often juxtaposed against the pragmatic allure of vocational programs. Proponents of higher education argue that it cultivates critical thinking, fosters innovation, and equips students with a broad knowledge base essential for navigating complex societal challenges. Conversely, advocates for vocational training emphasize its role in providing direct pathways to employment, often leading to lucrative careers without the burden of extensive student debt.</p><p>The ongoing debate centers around the perceived merits and drawbacks of each educational approach. While higher education institutions are lauded for their research contributions and academic rigor, questions arise about their relevance in a rapidly changing job landscape that increasingly favors practical skills over theoretical knowledge. In contrast, vocational training programs are criticized for their potential to limit intellectual growth and reduce the scope of career flexibility. Yet, the reality is that many successful professionals emerge from both tracks, illustrating that neither path is inherently superior.</p><p>Furthermore, recent studies suggest that a hybrid approach, integrating elements of both higher education and vocational training, may offer the most comprehensive solution to current educational dilemmas. By blending theoretical frameworks with hands-on experience, students can cultivate a versatile skill set that enhances their employability and adaptability in an unpredictable economy.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a primary argument made by proponents of higher education?",
+      "options": {
+        "A": "It provides immediate job placement.",
+        "B": "It fosters critical thinking and innovation.",
+        "C": "It reduces student debt significantly.",
+        "D": "It guarantees lucrative careers."
+      },
+      "answer": "B",
+      "explanation": "Proponents of higher education emphasize its role in cultivating critical thinking and fostering innovation, distinguishing it from vocational training, which focuses on direct job placement."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False or Not Given.",
+      "text": "Vocational training is often criticized for encouraging intellectual growth.",
+      "answer": "False",
+      "explanation": "The passage states that vocational training is criticized for its potential to limit intellectual growth, indicating that the statement is false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No or Not Given.",
+      "text": "Is the hybrid approach to education mentioned as a potential solution?",
+      "answer": "Yes",
+      "explanation": "The passage explicitly states that a hybrid approach integrating higher education and vocational training may offer a comprehensive solution, confirming the statement."
+    },
+    {
+      "id": "q4",
+      "type": "matching_headings",
+      "instruction": "Match the following headings with the corresponding paragraphs.",
+      "options": {
+        "A": "The Limitations of Vocational Training",
+        "B": "A Balanced Educational Approach",
+        "C": "The Role of Higher Education in Society",
+        "D": "The Ongoing Debate in Education"
+      },
+      "answers": {
+        "1": "C",
+        "2": "D",
+        "3": "A",
+        "4": "B"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentences with NO MORE THAN TWO WORDS.",
+      "text": "Higher education is said to equip students with a broad __________.",
+      "answer": "knowledge base",
+      "explanation": "The passage mentions that higher education provides students with a broad knowledge base, confirming the completion."
+    },
+    {
+      "id": "q6",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The integration of both educational approaches may lead to a more __________ skill set.",
+      "answer": "versatile",
+      "explanation": "The passage indicates that a hybrid approach helps cultivate a versatile skill set, supporting the summary completion."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "dichotomy",
+      "meaning": "a division or contrast between two things that are represented as being opposed or entirely different."
+    },
+    {
+      "word": "juxtaposed",
+      "meaning": "placed side by side for comparison or contrast."
+    },
+    {
+      "word": "proponents",
+      "meaning": "supporters or advocates of a particular idea or cause."
+    },
+    {
+      "word": "pragmatic",
+      "meaning": "dealing with things sensibly and realistically in a way that is based on practical rather than theoretical considerations."
+    },
+    {
+      "word": "lucrative",
+      "meaning": "producing a great deal of profit."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle this passage, focus on understanding the nuances between higher education and vocational training. Pay attention to how arguments are presented and the implications behind the author's tone. Look for synonyms and paraphrasing as these will be key in answering the questions accurately. Additionally, while matching headings, ensure you grasp the main idea of each paragraph to avoid common traps. Finally, practice skimming and scanning techniques to enhance your reading efficiency.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

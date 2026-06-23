@@ -1,0 +1,105 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_586",
+  "title": "Harnessing the Future: The Promise of Renewable Energy",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Renewable Energy: A Paradigm Shift</h2><p>The transition from fossil fuels to renewable energy sources is not merely a trend, but a critical necessity for the sustainability of our planet. As climate change accelerates, the role of renewable energy becomes increasingly pivotal. Solar, wind, hydroelectric, and geothermal energies are at the forefront of this revolution, each offering unique advantages and challenges. Solar energy, for instance, harnesses sunlight through photovoltaic cells, converting it into electricity. This technology has seen exponential growth in efficiency and affordability over the past decade, making it a viable option for both residential and commercial use. Wind energy, on the other hand, relies on the kinetic energy from wind currents, which is converted into mechanical power using turbines. Despite its potential, wind energy faces opposition due to concerns regarding its impact on wildlife and aesthetics.</p><p>In contrast, hydroelectric power utilizes the flow of water to generate electricity, representing one of the oldest forms of renewable energy. While highly efficient, large-scale hydro projects can disrupt local ecosystems and displace communities. Geothermal energy, tapping into the Earth’s internal heat, presents a less common yet effective solution, particularly in regions with volcanic activity. Each of these energy sources contributes to a diversified energy portfolio aimed at reducing dependence on carbon-heavy fuels.</p><p>However, the integration of renewable energy into existing grids presents significant challenges. Energy storage technologies, such as batteries, must evolve to accommodate the intermittent nature of solar and wind power. Furthermore, policy frameworks must adapt to incentivize investment in renewable infrastructure. As nations strive to meet ambitious climate targets, collaboration between governments, private sectors, and research institutions will be crucial in overcoming these hurdles.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main argument presented by the author regarding renewable energy?",
+      "options": {
+        "A": "Renewable energy will replace fossil fuels entirely within a decade.",
+        "B": "The transition to renewable energy is essential for planetary sustainability.",
+        "C": "All forms of renewable energy have negligible environmental impacts.",
+        "D": "Investment in renewable energy is primarily driven by economic factors."
+      },
+      "answer": "B",
+      "explanation": "The author emphasizes the critical necessity of transitioning to renewable energy for the sustainability of our planet, indicating that this shift is essential rather than merely beneficial."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the following statements are True, False, or Not Given.",
+      "text": "Solar energy technology has not improved significantly in the past decade.",
+      "answer": "False",
+      "explanation": "The passage states that solar technology has seen exponential growth in efficiency and affordability, contradicting the statement."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that wind energy is the most effective form of renewable energy.",
+      "answer": "No",
+      "explanation": "While the passage discusses wind energy, it also mentions concerns about its impact, indicating that the author does not deem it the most effective."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following energy sources with their characteristics.",
+      "text": [
+        "Solar energy",
+        "Wind energy",
+        "Hydroelectric power",
+        "Geothermal energy"
+      ],
+      "options": [
+        "A. Utilizes sunlight for electricity generation.",
+        "B. Relies on water flow but can disrupt ecosystems.",
+        "C. Converts wind currents into mechanical power.",
+        "D. Taps into the Earth's internal heat."
+      ],
+      "answers": {
+        "Solar energy": "A",
+        "Wind energy": "C",
+        "Hydroelectric power": "B",
+        "Geothermal energy": "D"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the following headings with the appropriate paragraphs.",
+      "text": [
+        "The challenges of energy storage",
+        "The advantages of solar energy",
+        "The impact of renewable energy on ecosystems",
+        "The necessity of a diversified energy portfolio"
+      ],
+      "options": [
+        "A. Paragraph discussing solar energy.",
+        "B. Paragraph outlining the disruptions caused by hydroelectric projects.",
+        "C. Paragraph on the integration challenges of renewable energy.",
+        "D. Paragraph emphasizing the need for various energy sources."
+      ],
+      "answers": {
+        "The challenges of energy storage": "C",
+        "The advantages of solar energy": "A",
+        "The impact of renewable energy on ecosystems": "B",
+        "The necessity of a diversified energy portfolio": "D"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "paradigm shift",
+      "meaning": "a fundamental change in approach or underlying assumptions"
+    },
+    {
+      "word": "intermittent",
+      "meaning": "occurring at irregular intervals; not continuous or steady"
+    },
+    {
+      "word": "kinetic energy",
+      "meaning": "the energy that a body possesses by virtue of being in motion"
+    },
+    {
+      "word": "ecosystem",
+      "meaning": "a biological community of interacting organisms and their physical environment"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle this passage, pay attention to the nuances of the language used, especially regarding the advantages and disadvantages of each energy source. Note the author's tone and purpose, as these will guide you in answering questions about inference and attitude. Familiarize yourself with the academic vocabulary presented, as it will aid in comprehending the complexities of the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

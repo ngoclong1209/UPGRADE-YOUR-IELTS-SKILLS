@@ -1,0 +1,103 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_168",
+  "title": "The Internet: Our Daily Friend",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>The Role of the Internet in Modern Society</h2><p>The internet is very important in our lives today. Many people use the internet every day. They use it to find information, talk to friends, and shop. The internet helps us learn new things quickly. For example, students can find books and videos for their homework. They can also talk to teachers online.</p><p>People use the internet to stay in touch with family and friends. They send emails and messages. They can also video call. This makes it easy to connect with people far away. Many people share photos and videos on social media. This is fun and helps friends see what others are doing.</p><p>Shopping online is very popular. People can buy clothes, food, and many other things. They can compare prices and find good deals. Online shopping saves time. However, it is important to be careful and buy from trusted websites.</p><p>In conclusion, the internet plays a big role in modern society. It helps us learn, connect, and shop. We should use it wisely.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do students use the internet for?",
+      "options": {
+        "A": "To find information",
+        "B": "To play games",
+        "C": "To watch TV",
+        "D": "To cook food"
+      },
+      "answer": "A",
+      "explanation": "Students use the internet to find information for their homework."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "People use the internet to send letters.",
+      "answer": "False",
+      "explanation": "The passage states that people send emails and messages, not letters."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What can people do on social media?",
+      "options": {
+        "A": "Buy clothes",
+        "B": "Share photos",
+        "C": "Do homework",
+        "D": "Call friends"
+      },
+      "answer": "B",
+      "explanation": "The passage mentions that many people share photos and videos on social media."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "Shopping online is not popular.",
+      "answer": "False",
+      "explanation": "The passage states that shopping online is very popular."
+    },
+    {
+      "id": "q5",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is important when shopping online?",
+      "options": {
+        "A": "To buy only expensive things",
+        "B": "To buy from trusted websites",
+        "C": "To visit many stores",
+        "D": "To ask friends"
+      },
+      "answer": "B",
+      "explanation": "The passage mentions that it is important to buy from trusted websites."
+    },
+    {
+      "id": "q6",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the internet help us do?",
+      "options": {
+        "A": "Connect with friends",
+        "B": "Cook food",
+        "C": "Sleep better",
+        "D": "Exercise more"
+      },
+      "answer": "A",
+      "explanation": "The passage states that the internet helps us connect with family and friends."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "information",
+      "meaning": "facts or details about something"
+    },
+    {
+      "word": "connect",
+      "meaning": "to join or link together"
+    },
+    {
+      "word": "trusted",
+      "meaning": "reliable or safe to use"
+    },
+    {
+      "word": "share",
+      "meaning": "to give a part of something to others"
+    },
+    {
+      "word": "society",
+      "meaning": "a group of people living together"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully. Look for keywords in the questions. Pay attention to details. Use skimming to find main ideas and scanning for specific information.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

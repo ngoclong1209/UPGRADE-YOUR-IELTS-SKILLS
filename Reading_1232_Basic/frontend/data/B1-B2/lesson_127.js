@@ -1,0 +1,86 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_127",
+  "title": "The Battle of Wheels: Public Transportation vs Private Cars",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Public Transportation vs Private Cars</h2><p>In modern cities, the debate between public transportation and private cars is becoming increasingly relevant. Public transportation systems, such as buses and trains, offer a cost-effective way to travel, reducing the need for individuals to own a vehicle. These systems are designed to accommodate large numbers of passengers, which can lead to lower traffic congestion and decreased carbon emissions. Moreover, public transport is often subsidized by the government, making it accessible for a wider range of people.</p><p>On the other hand, private cars provide convenience and flexibility that public transportation cannot match. Owning a car allows individuals to travel on their own schedule and reach locations that may not be easily accessible by public transport. However, the rise in private car ownership has contributed to traffic jams, increased pollution, and higher infrastructure costs for cities. Furthermore, the financial burden of maintaining a car, including fuel, insurance, and repairs, can be significant.</p><p>Ultimately, the choice between public transportation and private cars depends on various factors, including personal preferences, urban infrastructure, and environmental considerations. Some cities have successfully integrated both systems, encouraging residents to utilize public transportation while still allowing for private vehicle use when necessary. This balance may be the key to sustainable urban development.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one advantage of public transportation mentioned in the passage?",
+      "options": {
+        "A": "It is more expensive than owning a car.",
+        "B": "It helps reduce traffic congestion.",
+        "C": "It offers more flexibility than private cars.",
+        "D": "It is always faster than private transport."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct because the passage states that public transportation can lead to lower traffic congestion."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which of the following is a disadvantage of private cars according to the text?",
+      "options": {
+        "A": "They are subsidized by the government.",
+        "B": "They can lead to increased pollution.",
+        "C": "They accommodate many passengers.",
+        "D": "They are less convenient than public transport."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct as the passage indicates that private car ownership contributes to increased pollution."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Public transportation is always the most convenient option for everyone.",
+      "answer": "False",
+      "explanation": "The passage implies that while public transport is beneficial, it does not match the convenience of private cars for all individuals."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "text": "The author believes that private cars should be completely banned in cities.",
+      "answer": "No",
+      "explanation": "The passage suggests a balance between both systems rather than a complete ban on private cars."
+    },
+    {
+      "id": "q5",
+      "type": "matching_information",
+      "text": "Match the benefits with public transportation or private cars.",
+      "options": {
+        "1": "Cost-effective",
+        "2": "Flexible travel schedule",
+        "3": "Reduces carbon emissions",
+        "4": "Greater convenience",
+        "5": "Accessible for all"
+      },
+      "answers": {
+        "1": "Public Transportation",
+        "2": "Private Cars",
+        "3": "Public Transportation",
+        "4": "Private Cars",
+        "5": "Public Transportation"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "congestion",
+      "meaning": "a situation in which a place is crowded and blocked with vehicles or people"
+    },
+    {
+      "word": "subsidized",
+      "meaning": "partially funded by the government to make it more affordable"
+    },
+    {
+      "word": "infrastructure",
+      "meaning": "the basic physical and organizational structures needed for the operation of a society or enterprise"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching the reading passage, pay attention to the main ideas presented in each paragraph. Look for keywords that may help you identify the correct answers. For multiple choice questions, remember to consider both the details and the general meaning of the options. For True/False/Not Given questions, focus on the author's opinion and whether the information is explicitly mentioned in the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,98 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_230",
+  "title": "The Impact of Nutrition on Mental Health",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Connection Between Nutrition and Mental Health</h2><p>In recent years, the relationship between diet and mental health has garnered increasing attention from researchers. Various studies have indicated that a well-balanced diet, rich in fruits, vegetables, whole grains, and omega-3 fatty acids, can significantly influence mood and cognitive function. Conversely, diets high in processed foods and sugars have been linked to an increase in symptoms of depression and anxiety.</p><p>One pivotal study conducted by a team at the University of Queensland found that participants who adhered to a Mediterranean diet reported lower levels of depressive symptoms compared to those who consumed a typical Western diet. This suggests that dietary patterns may play a critical role in managing mental health issues.</p><p>Moreover, the gut-brain axis—a bidirectional communication system between the gastrointestinal tract and the brain—has been a focal point in understanding how dietary choices affect mental well-being. Recent research indicates that gut microbiota can influence mood and behavior through the production of neurotransmitters and other metabolites.</p><p>It is essential to recognize that while nutrition is a significant factor, it is not a panacea. Mental health disorders often have multifaceted causes, including genetic, environmental, and psychological factors. Therefore, integrating dietary changes with other therapeutic approaches is crucial for a holistic treatment plan.</p><p>As we continue to explore the intricate links between food and mental health, it becomes increasingly clear that what we eat has profound implications for our psychological well-being. Future research must aim to further elucidate these connections and promote dietary guidelines that support mental health.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the study conducted by the University of Queensland suggest about diet and mental health?",
+      "options": {
+        "A": "A Mediterranean diet may reduce depressive symptoms.",
+        "B": "Processed foods are beneficial for mental health.",
+        "C": "All diets have the same impact on mental well-being.",
+        "D": "Dietary changes should be made without professional guidance."
+      },
+      "answer": "A",
+      "explanation": "The passage states that participants adhering to a Mediterranean diet reported lower levels of depressive symptoms, indicating that this dietary pattern may be beneficial for mental health."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "A typical Western diet is linked to a decrease in anxiety symptoms.",
+      "answer": "False",
+      "explanation": "The passage indicates that diets high in processed foods and sugars are linked to an increase in symptoms of depression and anxiety, not a decrease."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer 'Yes', 'No' or 'Not Given'.",
+      "text": "The author believes that nutrition alone can treat mental health disorders.",
+      "answer": "No",
+      "explanation": "The passage emphasizes that while nutrition is significant, it is not a panacea and that mental health disorders often have multifaceted causes."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following findings with their descriptions.",
+      "text": {
+        "1": "Mediterranean diet",
+        "2": "Gut-brain axis",
+        "3": "Processed foods",
+        "4": "Holistic treatment plan"
+      },
+      "options": {
+        "A": "Linked to increased depressive symptoms.",
+        "B": "May reduce depressive symptoms.",
+        "C": "Involves dietary changes and therapeutic approaches.",
+        "D": "Connects gut health with mental well-being."
+      },
+      "answers": {
+        "1": "B",
+        "2": "D",
+        "3": "A",
+        "4": "C"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The gut-brain axis is important for understanding the relationship between ________ and mental health.",
+      "answer": "gut microbiota",
+      "explanation": "The passage states that gut microbiota can influence mood and behavior, highlighting its relevance to mental health."
+    },
+    {
+      "id": "q6",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "Future research should aim to further elucidate the connections between ________ and mental health.",
+      "answer": "food choices",
+      "explanation": "The concluding sentence of the passage emphasizes the need for future research to promote dietary guidelines that support mental health."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "cognitive",
+      "meaning": "related to the mental processes of perception, memory, judgment, and reasoning."
+    },
+    {
+      "word": "panacea",
+      "meaning": "a solution or remedy for all difficulties or diseases."
+    },
+    {
+      "word": "bidirectional",
+      "meaning": "involving two different directions."
+    },
+    {
+      "word": "multifaceted",
+      "meaning": "having many aspects or phases."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on understanding the main arguments regarding the relationship between diet and mental health. Pay attention to the specific studies mentioned and the implications of dietary choices. For multiple-choice questions, look for subtle differences in the options. For True/False/Not Given questions, be cautious about assumptions and read carefully to discern what is explicitly stated or implied. Use the vocabulary section to familiarize yourself with complex terms that may appear in the questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,100 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_324",
+  "title": "The Rise of Autonomous Intelligence: Navigating the Future of Robotics",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Autonomous Intelligence in Robotics</h2><p>The rapid advancement of artificial intelligence (AI) technologies has catalyzed a transformative era in robotics, where machines are no longer mere tools but autonomous entities capable of making decisions. This evolution raises profound questions about the implications of deploying such intelligent systems in various spheres of life, including healthcare, transportation, and even warfare. As robotics integrates deeper into societal frameworks, understanding the ethical, social, and economic ramifications becomes imperative.</p><p>AI-driven robots are engineered to learn from their environments, adapt to new challenges, and operate independently. This capability can enhance productivity and efficiency in industries but also poses risks related to job displacement and the inherent biases embedded in algorithms. These concerns necessitate a thorough examination of the frameworks governing AI development, ensuring they align with human values and societal well-being.</p><p>Moreover, the philosophical dimensions of AI challenge traditional notions of consciousness and agency. If machines can simulate human-like reasoning and emotional responses, what does this mean for our understanding of personhood? The discourse surrounding the rights of intelligent machines, their responsibilities, and the ethical treatment of such entities is gaining traction among scholars and ethicists alike.</p><p>As we stand at the precipice of this new technological paradigm, it is crucial to foster interdisciplinary dialogue that encompasses perspectives from technology, ethics, sociology, and law. Only through collaborative efforts can we navigate the complexities of autonomous intelligence while safeguarding the interests of humanity.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern regarding AI-driven robots as mentioned in the passage?",
+      "options": {
+        "A": "They are capable of replacing human jobs.",
+        "B": "They will enhance productivity in industries.",
+        "C": "They can learn from their environments.",
+        "D": "They require significant human oversight."
+      },
+      "answer": "A",
+      "explanation": "The passage explicitly states that AI-driven robots pose risks related to job displacement, highlighting the concern over their impact on employment."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "The passage suggests that AI technologies are completely free of biases.",
+      "answer": "False",
+      "explanation": "The passage mentions the risks related to biases embedded in algorithms, indicating that AI technologies are not free of biases."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that interdisciplinary dialogue is essential for managing the implications of AI?",
+      "answer": "Yes",
+      "explanation": "The passage emphasizes the importance of fostering interdisciplinary dialogue to navigate the complexities of autonomous intelligence."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following aspects of AI's impact with their corresponding implications.",
+      "items": [
+        "Job displacement",
+        "Ethical treatment of AI",
+        "Productivity enhancement"
+      ],
+      "matches": [
+        "Concerns about societal well-being",
+        "Philosophical debates on personhood",
+        "Increased operational efficiency"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph with its corresponding heading.",
+      "headings": [
+        "The philosophical implications of AI",
+        "The economic impact of robotics",
+        "The necessity for ethical frameworks"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence using NO MORE THAN TWO WORDS.",
+      "text": "AI-driven robots are designed to learn from their ______."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using NO MORE THAN TWO WORDS.",
+      "text": "The passage discusses the rise of autonomous intelligence in robotics and the importance of interdisciplinary dialogue to address the ______ and ______ associated with AI."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer",
+      "instruction": "Provide a brief answer using NO MORE THAN THREE WORDS.",
+      "text": "What does the author suggest needs to align with human values?"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "autonomous",
+      "meaning": "acting independently or having the freedom to do so"
+    },
+    {
+      "word": "ramifications",
+      "meaning": "consequences that are usually unwelcome or unexpected"
+    },
+    {
+      "word": "displacement",
+      "meaning": "the act of moving something from its place or position"
+    },
+    {
+      "word": "interdisciplinary",
+      "meaning": "involving two or more academic, scientific, or artistic disciplines"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, pay close attention to the implications of AI as discussed by the author. Look for subtle cues in language that indicate the author's attitude towards the integration of AI in society. Additionally, practice skimming for main ideas and scanning for specific details that support your answers.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

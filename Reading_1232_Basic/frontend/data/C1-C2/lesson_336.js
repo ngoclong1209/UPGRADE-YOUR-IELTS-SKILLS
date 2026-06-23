@@ -1,0 +1,79 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_336",
+  "title": "Harnessing the Winds of Change: Innovations in Renewable Energy",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Innovative Approaches to Renewable Energy</h2><p>As the urgency for sustainable solutions escalates amid climate change discussions, the field of renewable energy has witnessed extraordinary advancements. Wind, solar, and hydroelectric power are no longer viewed as mere alternatives but as integral components of a comprehensive energy strategy. The integration of smart technologies, such as the Internet of Things (IoT) and artificial intelligence (AI), has revolutionized energy management systems, enabling real-time data analysis and enhanced efficiency. For instance, predictive analytics can optimize energy distribution, reducing waste and lowering costs.</p><p>Additionally, the rise of decentralized energy systems has empowered communities to generate their own energy, fostering resilience and independence. These systems not only mitigate reliance on fossil fuels but also contribute to local economies. However, the transition to renewable sources is not devoid of challenges. Investment in infrastructure, policy support, and innovation in storage technologies—such as advanced battery systems—are paramount for overcoming intermittency issues associated with renewable sources.</p><p>Moreover, public perception and education play crucial roles in the adoption of renewable technologies. Misinformation and skepticism can hinder progress, thus emphasizing the need for comprehensive outreach programs that highlight the benefits and feasibility of renewables. Ultimately, the path toward a sustainable future hinges on collaborative efforts among stakeholders, including governments, private sectors, and communities.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is emphasized as a key factor in the transition to renewable energy sources?",
+      "options": {
+        "A": "Investment in infrastructure and policy support",
+        "B": "Public resistance to renewable technologies",
+        "C": "The declining cost of fossil fuels",
+        "D": "The effectiveness of traditional energy sources"
+      },
+      "answer": "A",
+      "explanation": "The passage clearly states that 'Investment in infrastructure, policy support, and innovation in storage technologies are paramount for overcoming intermittency issues,' emphasizing their critical role in the transition."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Decentralized energy systems diminish community resilience.",
+      "answer": "False",
+      "explanation": "The passage states that decentralized energy systems 'foster resilience and independence,' indicating that they enhance rather than diminish community resilience."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that misinformation can slow the adoption of renewable energy.",
+      "answer": "Yes",
+      "explanation": "The passage mentions that 'misinformation and skepticism can hinder progress,' indicating the author's belief in the negative impact of misinformation."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct paragraphs.",
+      "text": "Match the following statements to the appropriate paragraph in the passage.",
+      "options": {
+        "A": "Decentralized energy promotes local economies.",
+        "B": "AI enhances energy efficiency.",
+        "C": "Public education is essential for adoption."
+      },
+      "answers": {
+        "A": "Paragraph 2",
+        "B": "Paragraph 1",
+        "C": "Paragraph 3"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using NO MORE THAN TWO WORDS.",
+      "text": "The integration of __________ technologies is crucial for optimizing energy management systems.",
+      "answer": "smart",
+      "explanation": "The passage mentions 'smart technologies' as key elements in enhancing energy management systems, fitting the summary's requirement."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "intermittency",
+      "meaning": "the quality of occurring at irregular intervals; the periodic nature of renewable energy supply."
+    },
+    {
+      "word": "decentralized",
+      "meaning": "distributing authority or functions away from a central location or authority."
+    },
+    {
+      "word": "predictive analytics",
+      "meaning": "the use of data, statistical algorithms, and machine learning techniques to identify the likelihood of future outcomes based on historical data."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the underlying themes of sustainability and the specific technologies mentioned. Pay attention to the author's tone and purpose, as they will guide you in answering the questions accurately. Note the importance of context when interpreting statements, and practice skimming for main ideas while scanning for specific details.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

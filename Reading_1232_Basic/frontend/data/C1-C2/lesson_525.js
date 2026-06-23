@@ -1,0 +1,98 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_525",
+  "title": "Beyond Earth: The Uncharted Depths of Space Exploration",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Future of Space Exploration</h2><p>As humanity stands on the precipice of a new era in space exploration, the endeavors to unravel the mysteries of the cosmos are more ambitious than ever. Missions to Mars, the establishment of lunar bases, and the exploration of asteroids are not merely figments of scientific imagination but tangible plans in the near future. With advancements in technology, we are now able to conceive of human colonization of other planets, which presents both unprecedented opportunities and formidable challenges. The implications of these explorations extend beyond mere scientific inquiry; they encompass ethical considerations, potential economic benefits, and the quest for extraterrestrial life.</p><p>In the pursuit of these goals, international collaborations are essential. Space agencies such as NASA, ESA, and emerging players like ISRO and CNSA are forging partnerships that transcend national borders. This pooling of resources and knowledge is vital for tackling the multifaceted issues inherent in space travel. However, as we venture further into the unknown, the question of sustainability arises. How do we ensure that our explorations do not lead to the exploitation of celestial bodies? The principles of responsible exploration must guide our actions, fostering a balance between scientific advancement and environmental stewardship.</p><p>Moreover, the philosophical ramifications of discovering extraterrestrial life are profound. The notion that we are not alone in the universe could alter our understanding of existence itself. It raises questions about humanity's place in the cosmos and challenges our preconceived notions of life and intelligence. As we venture deeper into the universe, it is imperative that we approach these discoveries with humility and caution, recognizing the vast unknowns that lie ahead.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary focus of the passage?",
+      "options": {
+        "A": "The potential for human colonization of Mars.",
+        "B": "The technological advancements in space exploration.",
+        "C": "The philosophical implications of extraterrestrial life.",
+        "D": "The necessity for international collaboration in space endeavors."
+      },
+      "answer": "D",
+      "explanation": "The passage emphasizes the importance of international collaborations in space exploration, indicating that various space agencies are working together to address the challenges of exploring the cosmos."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Humanity is currently capable of colonizing other planets without any challenges.",
+      "answer": "False",
+      "explanation": "The passage mentions that colonization presents formidable challenges, indicating that it is not without difficulties."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that ethical considerations are important in space exploration.",
+      "answer": "Yes",
+      "explanation": "The passage discusses ethical considerations as part of the implications of space exploration, suggesting the author's belief in their importance."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements to the correct paragraph.",
+      "text": "1. The necessity for sustainable exploration.<br>2. The role of international partnerships.<br>3. The potential impact of discovering extraterrestrial life.",
+      "answers": {
+        "1": "Paragraph 2",
+        "2": "Paragraph 1",
+        "3": "Paragraph 3"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the correct paragraphs.",
+      "options": {
+        "A": "The Role of Technology in Space Exploration",
+        "B": "Ethics of Space Travel",
+        "C": "Humanity's Cosmic Perspective",
+        "D": "Collaborative Efforts in Space Research"
+      },
+      "answers": {
+        "1": "D",
+        "2": "B",
+        "3": "C"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Write no more than two words and/or a number.",
+      "text": "What is one ethical consideration mentioned in the passage?",
+      "answer": "Sustainability",
+      "explanation": "The passage discusses the need for responsible exploration practices that ensure sustainability."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "precipice",
+      "meaning": "a situation of great peril or risk"
+    },
+    {
+      "word": "unprecedented",
+      "meaning": "never done or known before"
+    },
+    {
+      "word": "multifaceted",
+      "meaning": "having many aspects or sides"
+    },
+    {
+      "word": "stewardship",
+      "meaning": "the careful and responsible management of something entrusted to one's care"
+    },
+    {
+      "word": "humility",
+      "meaning": "a modest or low view of one's importance"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on understanding the main ideas presented in each paragraph. Pay attention to the nuances in the author's tone and the implications of their arguments. For multiple-choice questions, eliminate options that do not align closely with the passage's content. For True/False/Not Given and Yes/No/Not Given questions, be careful to distinguish between what is stated and what is implied.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

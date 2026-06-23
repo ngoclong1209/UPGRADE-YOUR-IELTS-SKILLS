@@ -1,0 +1,69 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_089",
+  "title": "Exploring the Effects of Tourism on Local Communities",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dual Nature of Tourism</h2><p>Tourism has become a vital part of many economies around the world. It drives local businesses, creates jobs, and promotes cultural exchange. However, it also brings challenges that can affect the very communities it aims to support. The benefits of tourism can be seen in increased revenue for local shops and restaurants, which leads to economic growth. Moreover, cultural interactions can foster a greater understanding between visitors and residents, enriching both parties.</p><p>Despite these advantages, tourism can also lead to negative impacts. Overcrowding is a common issue in popular destinations, often resulting in a strain on local resources. In many cases, the influx of tourists can drive up the cost of living, making it difficult for local residents to afford housing and basic services. Additionally, the environmental footprint of tourism can be significant; increased waste, pollution, and habitat destruction are all consequences that need to be managed.</p><p>Local governments are now faced with the challenge of balancing the benefits of tourism with its impacts. Sustainable tourism practices are being implemented to minimize negative outcomes while maximizing economic benefits. Examples include promoting eco-friendly accommodations and encouraging tourists to participate in local conservation efforts. By understanding both the positive and negative aspects of tourism, communities can work towards a future where tourism supports rather than hinders their development.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the main benefits of tourism mentioned in the passage?",
+      "options": {
+        "A": "Increased job opportunities for locals",
+        "B": "Lower housing costs for residents",
+        "C": "Less cultural exchange between visitors and locals",
+        "D": "Reduction in local businesses"
+      },
+      "answer": "A",
+      "explanation": "The passage states that tourism drives local businesses and creates jobs, highlighting the benefit of increased job opportunities."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Tourism only has positive effects on local communities.",
+      "answer": "False",
+      "explanation": "The passage discusses both positive and negative effects of tourism, indicating that it is not solely beneficial."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes that tourism should be limited to protect local resources.",
+      "answer": "Not Given",
+      "explanation": "The passage does not provide the author's opinion on limiting tourism, only on sustainable practices."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following aspects of tourism with their effects.",
+      "options": {
+        "1": "Economic growth",
+        "2": "Cultural understanding",
+        "3": "Overcrowding",
+        "4": "Environmental impact"
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C",
+        "4": "D"
+      },
+      "explanation": "The passage associates economic growth with increased revenue, cultural understanding with interactions, overcrowding with local resource strain, and environmental impact with pollution."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "sustainable",
+      "meaning": "able to be maintained at a certain rate or level without causing harm to the environment."
+    },
+    {
+      "word": "overcrowding",
+      "meaning": "the state of being filled beyond normal or comfortable levels."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on identifying the main ideas and details that support them. Pay attention to the contrast between the benefits and drawbacks of tourism for a better understanding of the topic.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

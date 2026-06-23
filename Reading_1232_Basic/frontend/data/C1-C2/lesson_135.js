@@ -1,0 +1,146 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_135",
+  "title": "The Cosmic Odyssey: Unraveling the Mysteries of Space Exploration",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Cosmic Odyssey: Unraveling the Mysteries of Space Exploration</h2><p>Space exploration has become a pivotal domain of human inquiry, driven by both the innate curiosity of humankind and the relentless pursuit of knowledge that transcends our terrestrial limitations. From the early days of human flights, such as Yuri Gagarin's historic journey in 1961, to the sophisticated Mars rovers of today, the quest to understand the cosmos has evolved remarkably. This evolution reflects not only technological advancements but also a profound philosophical shift regarding our place in the universe.</p><p>As we delve deeper into the fabric of the cosmos, the scientific community has begun to grapple with questions that challenge our understanding of existence itself. Theories surrounding dark matter and dark energy, once relegated to the confines of theoretical physics, have become focal points of contemporary research, propelling debates that bridge the gap between science and philosophy. The implications of these theories suggest that the universe is far more complex than previously envisioned, prompting a reevaluation of established paradigms.</p><p>Moreover, the geopolitical landscape of space exploration has transformed in recent decades. The advent of private space enterprises has democratized access to space, allowing entities beyond government agencies to contribute to this expansive field. This shift not only fosters innovation but also raises ethical questions about the commercialization of outer space.</p><p>In conclusion, as we stand on the precipice of a new era in space exploration, it is imperative to consider both the scientific advancements and the ethical implications of our endeavors. The cosmos beckons, not merely as a frontier to conquer, but as a realm of profound mysteries that invites us to ponder our very existence.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the passage primarily suggest about the evolution of space exploration?",
+      "options": {
+        "A": "It has been driven solely by technological advancements.",
+        "B": "It reflects a deepening philosophical understanding of humanity's place in the universe.",
+        "C": "It is becoming increasingly commercialized, diminishing its scientific value.",
+        "D": "It has remained consistent in its objectives since the 1960s."
+      },
+      "answer": "B",
+      "explanation": "The passage indicates that the evolution of space exploration is linked to a philosophical shift regarding our existence, especially in light of complex theories like dark matter and energy."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "The commercialization of space exploration has led to a decline in ethical considerations.",
+      "answer": "Not Given",
+      "explanation": "While the passage discusses the commercialization of space exploration, it does not explicitly state whether this has led to a decline in ethical considerations."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that space exploration should be a collective human endeavor?",
+      "answer": "Yes",
+      "explanation": "The passage emphasizes the importance of considering both scientific advancements and ethical implications, suggesting a collective approach."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following concepts with their descriptions.",
+      "options": {
+        "A": "Dark Matter",
+        "B": "Private Space Enterprises",
+        "C": "Geopolitical Landscape",
+        "D": "Philosophical Shift"
+      },
+      "descriptions": {
+        "1": "Entities contributing to space beyond government control.",
+        "2": "Reevaluation of humanity's existence in the cosmos.",
+        "3": "Challenges traditional models of physics.",
+        "4": "Changes in how nations approach space exploration."
+      },
+      "answers": {
+        "A": "3",
+        "B": "1",
+        "C": "4",
+        "D": "2"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Match the following sections with the appropriate headings.",
+      "headings": {
+        "A": "The Historical Context of Space Exploration",
+        "B": "The Challenges of Understanding the Universe",
+        "C": "The Impact of Private Companies",
+        "D": "Ethical Considerations in Space Research"
+      },
+      "sections": {
+        "1": "Discusses the origin of human space travel.",
+        "2": "Explores the complexities of dark matter.",
+        "3": "Examines the roles of commercial entities.",
+        "4": "Highlights the need for ethical frameworks."
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C",
+        "4": "D"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences with NO MORE THAN TWO WORDS.",
+      "text": "The passage suggests that space exploration invites humanity to ponder our very __________.",
+      "answer": "existence",
+      "explanation": "The phrase 'to ponder our very existence' directly reflects the author's viewpoint in the conclusion."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The passage illustrates that the evolution of space exploration is marked by significant __________ and philosophical inquiries.",
+      "answer": "scientific advancements",
+      "explanation": "This summary highlights the dual focus on advancements and philosophical implications indicated throughout the passage."
+    },
+    {
+      "id": "q8",
+      "type": "diagram_label_completion",
+      "text": "Label the diagram showing the stages of space exploration with the correct terms.",
+      "labels": {
+        "1": "Early Human Space Flights",
+        "2": "Mars Exploration",
+        "3": "Private Sector Involvement"
+      },
+      "answers": {
+        "1": "Yuri Gagarin",
+        "2": "Rovers",
+        "3": "Commercial companies"
+      }
+    },
+    {
+      "id": "q9",
+      "type": "short_answer",
+      "instruction": "Answer the following question in NO MORE THAN THREE WORDS.",
+      "text": "What are the two main focuses of the passage?",
+      "answer": "scientific advancements, ethical implications",
+      "explanation": "The passage discusses both scientific advancements and ethical considerations as dual focuses."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "terrestrial",
+      "meaning": "Relating to the Earth or land."
+    },
+    {
+      "word": "geopolitical",
+      "meaning": "Relating to politics, especially international relations, as influenced by geographical factors."
+    },
+    {
+      "word": "philosophical",
+      "meaning": "Relating to the study of fundamental nature of knowledge, reality, and existence."
+    },
+    {
+      "word": "commercialization",
+      "meaning": "The process of managing or running something principally for financial gain."
+    },
+    {
+      "word": "curiosity",
+      "meaning": "A strong desire to know or learn something."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on identifying the main themes and arguments presented by the author. Pay attention to the nuances in language, particularly in questions regarding writer's attitude and implications. Familiarize yourself with complex vocabulary and sentence structures, and practice skimming for key ideas while scanning for specific details to answer questions accurately.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,84 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_474",
+  "title": "The Intersection of Artificial Intelligence and Human Cognition",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Intersection of Artificial Intelligence and Human Cognition</h2><p>The rapid advancement of artificial intelligence (AI) has ushered in a new era of technological innovation, prompting profound questions regarding the nature of human cognition. As machines become increasingly capable of performing tasks traditionally reserved for humans, such as reasoning, problem-solving, and even creative endeavors, the delineation between human thought and machine processing becomes increasingly blurred. Scholars in cognitive science and AI research are now engaged in a dialogue that seeks to understand not only the capabilities of these technologies but also the implications they hold for our understanding of intelligence itself.</p><p>One significant area of research focuses on the concept of machine learning, where algorithms are designed to improve their performance through experience. This facet of AI mimics certain aspects of human learning, yet it operates on fundamentally different principles. While human beings often rely on intuition and emotional judgment, AI systems utilize vast datasets and statistical analyses to inform their decisions. This divergence raises the question: can a machine truly replicate human-like understanding, or is it merely simulating intelligence through sophisticated pattern recognition?</p><p>Furthermore, the ethical implications of AI deployment cannot be overlooked. As machines gain the ability to make decisions that affect human lives, concerns arise regarding accountability and bias. The potential for AI to perpetuate existing societal inequalities or to function as a tool for manipulation has prompted calls for rigorous regulatory frameworks. In essence, the introduction of AI into sectors such as healthcare, law enforcement, and finance necessitates a thoughtful examination of not only the technology itself but also the societal contexts in which it operates.</p><p>The evolving relationship between AI and human cognition invites a re-evaluation of what it means to be intelligent. Are we prepared to redefine intelligence in a manner that encompasses both human and machine capabilities? As we stand on the precipice of a future where AI is ubiquitous, it is imperative that we engage in critical discourse surrounding these technologies, ensuring that advancements serve the greater good while preserving the essence of human thought.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the passage primarily discuss?",
+      "options": {
+        "A": "The ethical implications of artificial intelligence in various sectors.",
+        "B": "The advancements in machine learning and their impact on human cognition.",
+        "C": "The differences between human and machine intelligence.",
+        "D": "The necessity of regulatory frameworks for AI technologies."
+      },
+      "answer": "B",
+      "explanation": "The passage focuses on the advancements in AI, particularly machine learning, and explores their implications for human cognition, making option B the correct choice."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Artificial intelligence systems rely on emotional judgment similar to humans.",
+      "answer": "False",
+      "explanation": "The passage states that AI operates on statistical analyses rather than intuition and emotional judgment, making this statement false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that AI can fully replicate human understanding.",
+      "answer": "No",
+      "explanation": "The passage questions whether machines can replicate human-like understanding, suggesting the author's belief is that they cannot, hence the answer is No."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the correct sections of the passage.",
+      "text": "1. Machines utilizing vast datasets.<br>2. Concerns about accountability in AI.<br>3. The need for a new definition of intelligence.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answers": {
+        "1": "B",
+        "2": "C",
+        "3": "D"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "short_answer_questions",
+      "instruction": "Answer using NO MORE THAN TWO WORDS.",
+      "text": "What aspect of AI is emphasized in terms of societal implications?",
+      "answer": "ethical implications",
+      "explanation": "The passage emphasizes the ethical implications of AI deployment in various sectors, providing a critical lens on its societal impact."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "delineation",
+      "meaning": "the action of describing or portraying something precisely."
+    },
+    {
+      "word": "mimics",
+      "meaning": "to imitate or replicate certain characteristics or behaviors."
+    },
+    {
+      "word": "perpetuate",
+      "meaning": "to cause something to continue indefinitely."
+    },
+    {
+      "word": "ubiquitous",
+      "meaning": "present, appearing, or found everywhere."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the main arguments presented in each paragraph. Pay attention to the nuanced differences in language to identify the correct answers, especially in multiple choice and true/false questions. For matching questions, skim quickly through the text to locate the relevant sections. Lastly, for short-answer questions, ensure your responses are concise and directly related to the information provided in the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

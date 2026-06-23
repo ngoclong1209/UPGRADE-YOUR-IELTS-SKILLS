@@ -1,0 +1,100 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_118",
+  "title": "The Digital Nexus: Unraveling the Internet's Impact on Society",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Role of the Internet in Modern Society</h2><p>The advent of the internet has heralded an unprecedented transformation in the fabric of modern society. It serves not merely as a conduit for information but as a complex web that interlinks personal relationships, economic structures, and cultural paradigms. With billions of users worldwide, the internet has transcended geographical barriers, enabling instantaneous communication and access to resources that were once confined to specific locales. This phenomenon has engendered a plethora of sociological implications, reshaping how we perceive community, identity, and even governance.</p><p>At its core, the internet functions as a double-edged sword. While it democratizes knowledge, granting individuals the power to access information freely, it simultaneously raises concerns regarding misinformation and the erosion of critical thinking. The proliferation of social media platforms has further complicated this landscape, facilitating the rapid spread of both ideas and disinformation. Scholars argue that the resulting echo chambers can lead to polarized views and a fragmented society, where individuals are less inclined to engage in constructive dialogue.</p><p>Moreover, the economic ramifications of the internet are profound. E-commerce has revolutionized retail, compelling traditional businesses to adapt or face obsolescence. This shift not only alters consumer behavior but also impacts employment dynamics, as automation and online services replace conventional jobs. The gig economy exemplifies this transformation, offering flexibility and autonomy to workers while simultaneously raising questions about job security and workers’ rights.</p><p>In the realm of culture, the internet acts as both a unifying force and a source of cultural dilution. It allows for the global dissemination of art, music, and literature, fostering cross-cultural appreciation. However, critics contend that the dominance of certain cultural narratives can marginalize local traditions and languages, rendering them vulnerable to extinction. Thus, the internet's role in cultural exchange is a double-edged sword, enhancing visibility while potentially undermining diversity.</p><p>Ultimately, the internet's role in modern society reflects a complex interplay of benefits and drawbacks. As we navigate this digital landscape, it is crucial to cultivate digital literacy and critical engagement to harness the potential of the internet while mitigating its adverse effects. Understanding this balance will be pivotal in shaping a future that upholds the values of inclusivity and informed participation in a digitally interconnected world.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern regarding the spread of information on social media?",
+      "options": {
+        "A": "It enhances community engagement.",
+        "B": "It fosters critical thinking skills.",
+        "C": "It can lead to polarized views.",
+        "D": "It supports cultural diversity."
+      },
+      "answer": "C",
+      "explanation": "Option C is correct as the passage indicates that social media can lead to echo chambers and polarized views, undermining constructive dialogue."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "The internet has completely eliminated traditional retail businesses.",
+      "answer": "False",
+      "explanation": "The passage states that traditional businesses must adapt due to e-commerce, implying they still exist but are challenged."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe the internet's impact on culture is entirely positive?",
+      "answer": "No",
+      "explanation": "The author discusses both benefits and drawbacks of the internet's cultural impact, suggesting a balanced view."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following concepts with their descriptions.",
+      "options": [
+        "A. E-commerce",
+        "B. Gig economy",
+        "C. Cultural dilution"
+      ],
+      "descriptions": [
+        "1. A shift in consumer behavior and traditional business adaptation.",
+        "2. A new employment model characterized by flexibility but also insecurity.",
+        "3. The risk of local traditions being overshadowed by dominant narratives."
+      ],
+      "answers": {
+        "A": "1",
+        "B": "2",
+        "C": "3"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Choose the correct heading for each paragraph.",
+      "headings": [
+        "1. The Internet as a Connector",
+        "2. The Dangers of Misinformation",
+        "3. Economic Shifts and Their Consequences",
+        "4. Cultural Exchange: A Double-Edged Sword",
+        "5. The Need for Digital Literacy"
+      ],
+      "answers": {
+        "1": "1",
+        "2": "2",
+        "3": "3",
+        "4": "4",
+        "5": "5"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Write no more than two words and/or a number.",
+      "text": "What is one significant effect of the internet on traditional jobs?",
+      "answer": "automation",
+      "explanation": "The passage mentions that automation replaces conventional jobs, highlighting a significant effect of the internet."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "proliferation",
+      "meaning": "rapid increase or spread of something."
+    },
+    {
+      "word": "echo chambers",
+      "meaning": "enclosed environments where a person only hears beliefs similar to their own."
+    },
+    {
+      "word": "cultural dilution",
+      "meaning": "the reduction of cultural diversity due to the dominance of certain narratives."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the nuanced arguments presented. Pay attention to the author's tone, especially when discussing the implications of the internet. Look for paraphrases in the questions and options, and be prepared to infer meanings based on context. Note the use of complex sentence structures that may require careful reading to fully grasp the intended message.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

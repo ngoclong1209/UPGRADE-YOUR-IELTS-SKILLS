@@ -1,0 +1,107 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_211",
+  "title": "Navigating the Divide: Higher Education vs. Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Value of Education: A Comparative Analysis</h2><p>In the modern landscape of career preparation, the dichotomy between higher education and vocational training has become increasingly pronounced. Higher education, often perceived as the traditional pathway to professional success, encompasses a broad array of academic disciplines, each designed to cultivate critical thinking, analytical skills, and a deep understanding of complex concepts. Conversely, vocational training emphasizes practical skills and direct job readiness, catering to specific trades and industries. Advocates of higher education argue that it not only opens doors to advanced career prospects but also fosters personal growth and intellectual development. On the other hand, proponents of vocational training highlight its efficiency and relevance in today’s job market, asserting that it equips individuals with the immediate skills necessary to thrive in an increasingly technical workforce.</p><p>The debate surrounding these educational paradigms raises pertinent questions regarding the efficacy and value of each. For instance, while higher education typically requires a substantial investment of time and resources, vocational training is often more accessible and economically feasible. Furthermore, as technological advancements continue to reshape the job market, the skills gap has become a pressing concern, with many employers expressing frustration over the lack of suitably trained candidates. In this context, vocational training emerges as a vital solution, providing targeted education that directly addresses industry needs.</p><p>Nevertheless, the choice between higher education and vocational training is not merely a matter of practicality; it is intertwined with cultural perceptions and societal values. In many societies, a university degree is synonymous with prestige and success, potentially overshadowing the legitimacy of vocational paths. This cultural bias can discourage talented individuals from pursuing vocational training, despite its merits. As such, a paradigm shift is necessary to recognize and valorize the diverse forms of education that contribute to a well-rounded, skilled workforce.</p><p>Ultimately, the decision between higher education and vocational training should be informed by individual career goals, learning preferences, and economic realities. As the workforce evolves, so too must our understanding of what constitutes valuable education, ensuring that all pathways to success are equally respected and supported.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument made by advocates of higher education?",
+      "options": {
+        "A": "It provides practical skills for immediate job readiness.",
+        "B": "It fosters personal growth and intellectual development.",
+        "C": "It is more economically feasible than vocational training.",
+        "D": "It directly addresses industry needs."
+      },
+      "answer": "B",
+      "explanation": "Advocates of higher education believe it cultivates critical thinking and personal growth, which is highlighted clearly in the text."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Vocational training is widely regarded as prestigious in many cultures.",
+      "answer": "False",
+      "explanation": "The passage indicates that vocational training is often overshadowed by the prestige associated with university degrees."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that higher education is the only valid pathway to success.",
+      "answer": "No",
+      "explanation": "The author discusses both pathways and suggests that both can lead to success, indicating a more nuanced view."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the appropriate paragraph.",
+      "text": [
+        "Emphasizes practical skills.",
+        "Requires significant time investment.",
+        "Addresses the skills gap in the workforce.",
+        "Cultural perceptions influence educational choices."
+      ],
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answers": {
+        "Emphasizes practical skills.": "A",
+        "Requires significant time investment.": "B",
+        "Addresses the skills gap in the workforce.": "B",
+        "Cultural perceptions influence educational choices.": "C"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the corresponding paragraphs.",
+      "text": [
+        "The impact of technology on education",
+        "The effectiveness of vocational training",
+        "Cultural biases against vocational paths",
+        "The benefits of higher education"
+      ],
+      "answers": {
+        "The impact of technology on education": "B",
+        "The effectiveness of vocational training": "B",
+        "Cultural biases against vocational paths": "C",
+        "The benefits of higher education": "A"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short-answer",
+      "instruction": "Answer using NO MORE THAN TWO WORDS.",
+      "text": "What do proponents of vocational training argue it addresses?",
+      "answer": "skills gap",
+      "explanation": "The passage mentions that vocational training addresses the skills gap in the workforce."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "dichotomy",
+      "meaning": "a division into two contrasting parts."
+    },
+    {
+      "word": "prestige",
+      "meaning": "widespread respect and admiration felt for someone or something."
+    },
+    {
+      "word": "valorize",
+      "meaning": "to enhance or glorify the worth of something."
+    },
+    {
+      "word": "paradigm shift",
+      "meaning": "a fundamental change in approach or underlying assumptions."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on understanding the key arguments presented in each paragraph. Pay attention to the nuances in language, as the questions may require you to discern implied meanings. When answering multiple-choice questions, eliminate options that do not directly reflect the author's claims. Practice skimming to grasp the main ideas quickly, and use scanning techniques to find specific information for detailed questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

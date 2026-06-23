@@ -1,0 +1,82 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_369",
+  "title": "The Dual Nature of Tourism: Benefits and Challenges",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Impact of Tourism on Society and the Environment</h2><p>Tourism is a significant driver of economic growth in many countries; however, it often comes with various social and environmental challenges. On one hand, tourism can create jobs, generate income, and support local businesses. It encourages the preservation of cultural heritage and natural landscapes. For instance, many countries rely heavily on tourist attractions to bring in revenue. On the other hand, the influx of tourists can lead to overcrowding, increased pollution, and depletion of natural resources. In popular destinations, local communities may struggle to maintain their way of life amidst the rapid changes brought about by tourism.</p><p>Moreover, the environmental impacts of tourism are profound. Wildlife habitats may be threatened as resorts and facilities are built to accommodate visitors. This can lead to biodiversity loss and disrupt local ecosystems. To combat these issues, sustainable tourism practices are being promoted. These practices aim to minimize negative effects while maximizing the benefits of tourism. This includes responsible travel initiatives that encourage visitors to respect local cultures and environments.</p><p>In conclusion, while tourism can significantly contribute to economic development, it is essential to balance these benefits with the potential drawbacks. Stakeholders, including governments, businesses, and tourists, must work together to ensure that tourism becomes a force for good.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the main benefits of tourism mentioned in the passage?",
+      "options": {
+        "A": "It leads to job creation and income generation.",
+        "B": "It always preserves local cultures.",
+        "C": "It reduces pollution in tourist areas.",
+        "D": "It guarantees the protection of wildlife."
+      },
+      "answer": "A",
+      "explanation": "The passage states that tourism can create jobs and generate income, making option A correct."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What negative impact of tourism is highlighted in the passage?",
+      "options": {
+        "A": "Tourism encourages cultural heritage preservation.",
+        "B": "Tourism can lead to overcrowding and pollution.",
+        "C": "Tourism helps maintain local ecosystems.",
+        "D": "Tourism generates local income."
+      },
+      "answer": "B",
+      "explanation": "The passage discusses how tourism can lead to overcrowding and increased pollution, which makes option B correct."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Local communities always benefit positively from increased tourism.",
+      "answer": "False",
+      "explanation": "The passage mentions that local communities may struggle to maintain their way of life amidst changes from tourism, indicating that the benefits are not always positive."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "text": "Does the passage suggest that all forms of tourism are harmful to the environment?",
+      "answer": "No",
+      "explanation": "The passage suggests that sustainable tourism practices can minimize harm, indicating not all tourism is harmful."
+    },
+    {
+      "id": "q5",
+      "type": "matching_information",
+      "text": "Match the following impacts of tourism to their descriptions.",
+      "options": [
+        "A. Economic growth",
+        "B. Environmental degradation",
+        "C. Cultural preservation"
+      ],
+      "matches": {
+        "1": "Can support local businesses.",
+        "2": "Threatens wildlife habitats.",
+        "3": "Encourages the protection of cultural heritage."
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "sustainable",
+      "meaning": "Able to be maintained at a certain rate or level without depleting resources."
+    },
+    {
+      "word": "biodiversity",
+      "meaning": "The variety of plant and animal life in a particular habitat."
+    },
+    {
+      "word": "overcrowding",
+      "meaning": "The state of being filled beyond normal or capacity limits."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To successfully answer the questions, focus on the main ideas and detailed information in the passage. Pay attention to keywords and their synonyms, and make sure to understand the context of each statement. For multiple choice questions, eliminate options that are clearly incorrect and look for paraphrases in the text. For true/false/not given questions, carefully assess the author's intent and the information provided in the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

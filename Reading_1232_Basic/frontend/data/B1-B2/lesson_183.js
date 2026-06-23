@@ -1,0 +1,85 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_183",
+  "title": "Understanding Climate Change: A Global Challenge",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Impact of Climate Change</h2><p>Climate change refers to significant changes in global temperatures and weather patterns over time. While climate change is a natural phenomenon, scientific evidence shows that human activities have been the primary driver of recent global warming. The burning of fossil fuels, deforestation, and industrial processes release greenhouse gases such as carbon dioxide and methane into the atmosphere. These gases trap heat, leading to a rise in global temperatures.</p><p>One of the most significant effects of climate change is the increase in extreme weather events. Regions around the world are experiencing more frequent and severe storms, droughts, and heatwaves. For example, the frequency of hurricanes has increased in the Atlantic Ocean, causing devastating impacts on communities and ecosystems. Additionally, rising temperatures contribute to the melting of glaciers and ice caps, resulting in rising sea levels that threaten coastal cities.</p><p>Moreover, climate change affects biodiversity. Many plant and animal species struggle to adapt to the changing climate, leading to shifts in ecosystems. Some species may face extinction if they cannot migrate or adapt quickly enough. This loss of biodiversity can disrupt food chains and lead to further ecological issues.</p><p>To combat climate change, various strategies are being proposed. Transitioning to renewable energy sources such as wind, solar, and hydroelectric power can significantly reduce greenhouse gas emissions. Governments and organizations are also encouraging sustainable practices, such as reforestation and energy efficiency. Public awareness and grassroots movements play a crucial role in pushing for policy changes and encouraging individuals to adopt more sustainable lifestyles.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main cause of recent global warming according to the passage?",
+      "options": {
+        "A": "Natural climate changes",
+        "B": "Human activities",
+        "C": "Solar radiation",
+        "D": "Volcanic eruptions"
+      },
+      "answer": "B",
+      "explanation": "The passage states that scientific evidence shows human activities have been the primary driver of recent global warming."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which of the following events has increased due to climate change?",
+      "options": {
+        "A": "Earthquakes",
+        "B": "Storms",
+        "C": "Tsunamis",
+        "D": "Floods"
+      },
+      "answer": "B",
+      "explanation": "The passage mentions that the frequency of hurricanes has increased, which is an example of storms."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Climate change has led to the extinction of many species.",
+      "answer": "Not Given",
+      "explanation": "The passage discusses the struggle of species to adapt but does not explicitly state that they have gone extinct."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "text": "The author believes that renewable energy can help reduce greenhouse gas emissions.",
+      "answer": "Yes",
+      "explanation": "The passage suggests transitioning to renewable energy sources as a strategy to combat climate change."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the following headings to the paragraphs in the passage.",
+      "options": {
+        "A": "The role of human activity",
+        "B": "Effects on biodiversity",
+        "C": "Strategies for combatting climate change",
+        "D": "The consequences of rising sea levels"
+      },
+      "paragraphs": {
+        "1": "A",
+        "2": "D",
+        "3": "B",
+        "4": "C"
+      },
+      "explanation": "Each heading corresponds to the main idea of the respective paragraphs."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "greenhouse gases",
+      "meaning": "Gases that trap heat in the atmosphere, contributing to global warming."
+    },
+    {
+      "word": "biodiversity",
+      "meaning": "The variety of plant and animal life in a particular habitat, often considered important for ecological balance."
+    },
+    {
+      "word": "sustainable",
+      "meaning": "Methods or practices that do not deplete resources or harm ecological balance."
+    }
+  ],
+  "tactics": "<h2>Tips for Reading Comprehension</h2><p>Focus on understanding the main idea of each paragraph. Look for keywords that indicate the topic of discussion. Pay attention to the details provided, as they often include specific examples or statistics that can help answer the questions. Practice skimming for general ideas and scanning for specific information.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

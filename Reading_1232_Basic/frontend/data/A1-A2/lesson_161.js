@@ -1,0 +1,85 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_161",
+  "title": "Choosing Your Path: Higher Education or Vocational Training?",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Higher Education vs Vocational Training</h2><p>Many students finish school and need to choose what to do next. They can go to a university for higher education or choose vocational training. Higher education is for students who want to learn more about subjects like science, art, or business. In university, students study for many years. They read a lot of books and write many papers. After finishing, they can get a degree.</p><p>Vocational training is different. It helps students learn specific skills for jobs, like cooking, plumbing, or car repair. This training takes less time. Students learn by doing. They often work in real jobs while they learn. This helps them get jobs quickly after training.</p><p>Both options are good but for different reasons. Higher education can lead to many job opportunities. However, it can be expensive and take a long time. Vocational training is usually cheaper and faster. Students can start working sooner. They can also earn money while they learn.</p><p>In the end, the choice depends on what the student wants. Some want to study a lot and go to university. Others want to start working quickly with practical skills.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do students learn in vocational training?",
+      "options": {
+        "A": "Specific skills for jobs",
+        "B": "Many subjects like science",
+        "C": "Only reading and writing",
+        "D": "Nothing at all"
+      },
+      "answer": "A",
+      "explanation": "Vocational training helps students learn specific skills for jobs, as mentioned in the passage."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "How long does higher education usually take?",
+      "options": {
+        "A": "A few months",
+        "B": "Many years",
+        "C": "One year",
+        "D": "A few weeks"
+      },
+      "answer": "B",
+      "explanation": "Higher education usually takes many years, as stated in the passage."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Vocational training is more expensive than higher education.",
+      "answer": "False",
+      "explanation": "The passage states that vocational training is usually cheaper than higher education."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "Students in vocational training learn by doing.",
+      "answer": "True",
+      "explanation": "The passage mentions that students learn by doing in vocational training."
+    },
+    {
+      "id": "q5",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What can students get after finishing higher education?",
+      "options": {
+        "A": "A job immediately",
+        "B": "A degree",
+        "C": "Vocational skills",
+        "D": "Free training"
+      },
+      "answer": "B",
+      "explanation": "After finishing higher education, students can get a degree, as stated in the passage."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "university",
+      "meaning": "A place where students study for higher education."
+    },
+    {
+      "word": "vocational",
+      "meaning": "Related to training for specific jobs."
+    },
+    {
+      "word": "degree",
+      "meaning": "A qualification given to students after they finish university."
+    },
+    {
+      "word": "skills",
+      "meaning": "The abilities to do something well."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully. Look for key details to answer the questions. Pay attention to specific vocabulary and phrases. Try to understand the main ideas and the differences between higher education and vocational training.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

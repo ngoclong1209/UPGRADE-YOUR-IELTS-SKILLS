@@ -1,0 +1,117 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_138",
+  "title": "The Internet: A Double-Edged Sword in Contemporary Society",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Internet: A Double-Edged Sword in Contemporary Society</h2><p>The advent of the Internet has revolutionized how individuals interact, access information, and conduct business. However, this technological marvel also presents significant challenges. While it fosters connectivity and democratizes information, it simultaneously exacerbates issues such as misinformation, privacy invasion, and the erosion of social skills. The dual nature of the Internet reflects a complex relationship with modern society, where the benefits are often juxtaposed with detrimental effects.</p><p>One of the most profound impacts of the Internet is its ability to facilitate communication across vast distances. Social media platforms have transformed personal relationships, allowing users to maintain connections regardless of geographic barriers. However, this has led to a paradox; while individuals may have hundreds of online friends, their offline social skills may deteriorate. A study conducted by the Pew Research Center indicates that heavy social media users report feeling more isolated than their less-active counterparts.</p><p>Furthermore, the Internet serves as a vast repository of knowledge. Educational resources are more accessible than ever, empowering learners worldwide. Yet, this abundance of information can be overwhelming and misleading. The prevalence of 'fake news' has prompted concerns regarding the credibility of online sources, leading to an urgent need for digital literacy education. As users navigate this complex landscape, discerning fact from fiction becomes a crucial skill.</p><p>Another critical issue is the erosion of privacy. As individuals share personal information online, they inadvertently expose themselves to data breaches and surveillance. The Cambridge Analytica scandal exemplifies the potential for misuse of personal data in political campaigns, raising ethical questions about the responsibilities of technology companies. This intersection of technology and ethics underscores the need for regulations that protect user privacy without stifling innovation.</p><p>In conclusion, while the Internet is an indispensable tool in modern society, it embodies both opportunities and threats. As individuals and communities adapt to this digital age, a balanced approach that maximizes benefits while mitigating risks is essential for fostering a healthier relationship with technology.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern regarding the effect of social media on interpersonal relationships?",
+      "options": {
+        "A": "It enhances face-to-face communication.",
+        "B": "It contributes to feelings of isolation.",
+        "C": "It decreases the number of online friends.",
+        "D": "It encourages real-life social gatherings."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct because the passage explicitly states that heavy social media users report feeling more isolated, highlighting the negative impact on offline social skills."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "The Internet has made it easier for people to verify information.",
+      "answer": "False",
+      "explanation": "The passage mentions that the abundance of information can be overwhelming and misleading, indicating that it is not easier to verify information."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer with Yes, No, or Not Given.",
+      "text": "The author believes that technology companies should have more responsibilities regarding user privacy.",
+      "answer": "Yes",
+      "explanation": "The passage discusses the ethical questions raised by the Cambridge Analytica scandal, implying that the author believes in increased responsibilities for technology companies."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following issues with their descriptions.",
+      "text": {
+        "A": "Erosion of social skills",
+        "B": "Misinformation prevalence",
+        "C": "Privacy invasion",
+        "D": "Digital literacy education"
+      },
+      "options": {
+        "1": "Refers to the need for users to discern factual information online.",
+        "2": "Involves the risks associated with sharing personal data.",
+        "3": "Highlights the paradox of many online connections but few real-life interactions.",
+        "4": "A growing concern highlighted by the rise of fake news."
+      },
+      "answers": {
+        "A": "3",
+        "B": "4",
+        "C": "2",
+        "D": "1"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings with the corresponding paragraphs.",
+      "text": {
+        "A": "The contradictory nature of social media.",
+        "B": "The necessity for user education.",
+        "C": "Consequences of data misuse.",
+        "D": "A technological revolution."
+      },
+      "options": {
+        "1": "Paragraph discussing the benefits of online communication.",
+        "2": "Paragraph addressing the need for discerning online information.",
+        "3": "Paragraph describing issues related to personal data exposure.",
+        "4": "Paragraph presenting the dual effects of the Internet."
+      },
+      "answers": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "4"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short-answer",
+      "instruction": "Answer using NO MORE THAN THREE WORDS.",
+      "text": "What research center is mentioned in relation to social media use?",
+      "answer": "Pew Research Center",
+      "explanation": "This is a direct reference from the passage indicating the source of the study related to social media users."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "democratizes",
+      "meaning": "makes something accessible to everyone, promoting equal opportunity."
+    },
+    {
+      "word": "paradox",
+      "meaning": "a situation that seems contradictory but may reveal a deeper truth."
+    },
+    {
+      "word": "repository",
+      "meaning": "a place where things are stored, often used to refer to a collection of information."
+    },
+    {
+      "word": "ethical",
+      "meaning": "relating to moral principles or the branch of knowledge dealing with these."
+    },
+    {
+      "word": "inadvertently",
+      "meaning": "without intention; accidentally."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the author's overall argument and the nuances in their language. Pay special attention to the implications of the text and the relationships between different concepts discussed. Consider how each question relates to the main ideas presented, and practice skimming for key points while also scanning for specific details.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,93 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_070",
+  "title": "Eating Well: The Key to a Healthy Life",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Importance of Nutrition</h2><p>Nutrition plays a vital role in maintaining health and preventing diseases. A balanced diet, rich in fruits, vegetables, whole grains, and lean proteins, is essential for the body to function effectively. Many people today are unaware of the impact that poor dietary choices can have on their overall well-being. For instance, excessive consumption of processed foods can lead to obesity and other health issues.</p><h2>Understanding Food Groups</h2><p>To achieve a balanced diet, it is important to understand the different food groups. Fruits and vegetables are crucial as they provide essential vitamins and minerals. Whole grains, such as brown rice and oats, offer fiber which aids digestion. Lean proteins, including chicken and fish, are necessary for muscle repair and growth. Lastly, healthy fats from sources like avocados and nuts should be included in moderation.</p><h2>The Role of Hydration</h2><p>Staying hydrated is just as important as eating the right foods. Water is vital for many bodily functions, including digestion and temperature regulation. Experts recommend drinking at least eight glasses of water a day, but individual needs may vary. Beverages high in sugar should be avoided as they can lead to weight gain and other health problems.</p><h2>Making Healthy Choices</h2><p>Making healthy dietary choices involves planning and discipline. One effective strategy is meal prepping, which allows individuals to control portions and ensure they have healthy options readily available. Additionally, reading food labels can help consumers make informed decisions about what they are eating. </p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main purpose of the passage?",
+      "options": {
+        "A": "To explain the benefits of a balanced diet.",
+        "B": "To discuss the importance of exercise.",
+        "C": "To highlight different food recipes.",
+        "D": "To promote a specific diet plan."
+      },
+      "answer": "A",
+      "explanation": "The passage discusses the significance of nutrition and balanced diets, making option A the correct choice."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which food group is mentioned as necessary for muscle repair?",
+      "options": {
+        "A": "Fruits",
+        "B": "Whole grains",
+        "C": "Lean proteins",
+        "D": "Processed foods"
+      },
+      "answer": "C",
+      "explanation": "The passage states that lean proteins are necessary for muscle repair, thus making option C correct."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Water consumption is only necessary during physical activities.",
+      "answer": "False",
+      "explanation": "The passage indicates that water is vital for many bodily functions, not just during physical activities."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "text": "Does the author suggest that meal prepping can help with healthy eating?",
+      "answer": "Yes",
+      "explanation": "The passage mentions meal prepping as an effective strategy for making healthy dietary choices."
+    },
+    {
+      "id": "q5",
+      "type": "matching_information",
+      "text": "Match the food group with its benefit.",
+      "options": [
+        {
+          "A": "Fruits and vegetables",
+          "B": "Whole grains",
+          "C": "Healthy fats",
+          "D": "Lean proteins"
+        },
+        {
+          "1": "Aids digestion",
+          "2": "Provides essential vitamins",
+          "3": "Necessary for muscle repair",
+          "4": "Should be eaten in moderation"
+        }
+      ],
+      "answers": {
+        "A": "2",
+        "B": "1",
+        "C": "4",
+        "D": "3"
+      },
+      "explanation": "The pairs matched correctly indicate the benefits associated with each food group."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "nutrition",
+      "meaning": "the process of providing or obtaining the food necessary for health and growth"
+    },
+    {
+      "word": "hydration",
+      "meaning": "the process of causing something to absorb water"
+    },
+    {
+      "word": "processed foods",
+      "meaning": "foods that have been packaged or prepared in a way that alters their natural state"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully and pay attention to keywords. For multiple choice questions, eliminate options that do not directly relate to the passage's content. For true/false/not given questions, focus on the exact phrasing and information in the text. Use skimming to find main ideas and scanning for specific details.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

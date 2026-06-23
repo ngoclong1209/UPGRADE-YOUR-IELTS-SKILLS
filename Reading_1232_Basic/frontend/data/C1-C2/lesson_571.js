@@ -1,0 +1,115 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_571",
+  "title": "Navigating the Divide: Higher Education vs Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Educational Landscape: A Comparative Analysis</h2><p>In today's rapidly evolving job market, the discourse surrounding higher education and vocational training has gained significant momentum. Advocates for higher education often argue that a university degree is a prerequisite for long-term career success. They posit that higher learning cultivates critical thinking, advanced knowledge, and a breadth of skills that are indispensable in a knowledge-based economy. Conversely, proponents of vocational training emphasize the practical skills and direct job readiness that such programs provide, which can lead to immediate employment and often at a lower financial cost.</p><p>Many students find themselves at a crossroads when deciding between these two educational pathways. Higher education, characterized by its theoretical framework, often involves a prolonged commitment that can lead to substantial debt. In contrast, vocational training programs are typically shorter, more cost-effective, and tailored to meet specific industry demands. This distinction raises essential questions about the value of a traditional degree versus the tangible skills acquired through vocational training.</p><p>Furthermore, the societal perception of vocational training has shifted over recent years. Once viewed as a less prestigious alternative to university education, vocational programs have begun to gain recognition as viable pathways to success, especially in fields such as technology, healthcare, and skilled trades. As industries evolve and the demand for specialized skills increases, there is a growing acknowledgment that vocational training can lead to lucrative careers that rival those typically associated with a university education.</p><p>Ultimately, the choice between higher education and vocational training should be informed by individual career goals, financial considerations, and the specific demands of the job market. As the landscape of work continues to change, both educational pathways offer unique benefits and challenges that deserve careful consideration.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one argument made by advocates of higher education?",
+      "options": {
+        "A": "It leads to immediate job readiness.",
+        "B": "It cultivates critical thinking and advanced knowledge.",
+        "C": "It is more cost-effective than vocational training.",
+        "D": "It provides practical skills for specific industries."
+      },
+      "answer": "B",
+      "explanation": "Advocates for higher education argue that it cultivates critical thinking and advanced knowledge, which are essential in a knowledge-based economy."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Vocational training programs are generally more expensive than university degrees.",
+      "answer": "False",
+      "explanation": "The passage states that vocational training programs are typically shorter and more cost-effective, indicating they are generally less expensive."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Are vocational training programs gaining recognition as prestigious educational options?",
+      "answer": "Yes",
+      "explanation": "The passage mentions that vocational training has begun to gain recognition as a viable pathway to success, especially in specific fields."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct sections of the passage.",
+      "text": "Match each statement to the correct part of the passage.",
+      "options": {
+        "A": "Higher education is associated with substantial debt.",
+        "B": "Vocational training leads to immediate employment.",
+        "C": "The perception of vocational training has changed.",
+        "D": "The choice should consider individual goals."
+      },
+      "answers": {
+        "A": "Paragraph 2",
+        "B": "Paragraph 1",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the best heading for each section of the passage.",
+      "text": "Match the headings to the relevant paragraphs.",
+      "options": {
+        "1": "The Financial Implications of Education Choices",
+        "2": "Shifting Attitudes Towards Vocational Training",
+        "3": "Navigating Career Pathways",
+        "4": "The Role of Theoretical Knowledge in Employment"
+      },
+      "answers": {
+        "1": "Paragraph 2",
+        "2": "Paragraph 3",
+        "3": "Paragraph 4",
+        "4": "Paragraph 1"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN THREE WORDS.",
+      "text": "Higher education is often viewed as a prerequisite for __________.",
+      "answer": "long-term career success",
+      "explanation": "The passage states that advocates argue a university degree is necessary for long-term career success."
+    },
+    {
+      "id": "q7",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary using NO MORE THAN TWO WORDS.",
+      "text": "Vocational training provides __________ skills for immediate employment.",
+      "answer": "practical",
+      "explanation": "The passage emphasizes that vocational training leads to practical skills."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the question with NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "What has increased recognition for vocational training in recent years?",
+      "answer": "prestige",
+      "explanation": "The passage notes that vocational training has begun to gain recognition as a prestigious option."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "prerequisite",
+      "meaning": "a thing that is required as a prior condition for something else to happen."
+    },
+    {
+      "word": "cultivate",
+      "meaning": "to foster growth or development."
+    },
+    {
+      "word": "lucrative",
+      "meaning": "producing a great deal of profit."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When tackling this passage, focus on understanding the nuanced arguments presented by both sides of the educational debate. Pay attention to key phrases that indicate the author's attitude and purpose. Look for paraphrased information to answer questions accurately and ensure comprehension of the text's implications.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

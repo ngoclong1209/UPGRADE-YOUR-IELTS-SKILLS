@@ -1,0 +1,84 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_426",
+  "title": "Harnessing the Power of Nature: The Future of Renewable Energy",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Evolution of Renewable Energy Sources</h2><p>The unprecedented global energy crisis has catalyzed a significant shift towards renewable energy sources, which are increasingly seen not just as alternatives but as essential components of a sustainable future. Renewable energy, derived from natural processes that are replenished constantly, includes solar, wind, hydro, geothermal, and biomass energy. These energy forms are pivotal in mitigating climate change, reducing greenhouse gas emissions, and providing energy security.</p><p>The transition to renewables is driven by advancements in technology, which have significantly lowered the costs associated with solar and wind energy production. For instance, the cost of solar photovoltaics has plummeted by nearly 90% over the past decade, making it one of the most economically viable energy sources globally. Additionally, innovations in energy storage technologies, such as batteries, have addressed the intermittency issues associated with renewable sources, thereby enhancing their reliability.</p><p>However, the transition is not devoid of challenges. The integration of renewable energy into existing grids requires substantial investment in infrastructure and regulatory frameworks. Moreover, the variability of renewable sources necessitates sophisticated management and forecasting methods to ensure a stable energy supply. It is crucial for policymakers to facilitate this transition by implementing supportive legislation, incentivizing investments, and promoting public awareness about the benefits of renewables.</p><p>Furthermore, the socio-economic impacts of renewable energy initiatives must be considered. While the growth of the renewable sector can create jobs and stimulate economic development, it is essential to ensure that these benefits are equitably distributed across communities. This entails addressing potential disparities that may arise, particularly in regions dependent on fossil fuels for employment.</p><p>In conclusion, while the shift towards renewable energy presents formidable challenges, it also offers unprecedented opportunities for innovation, economic development, and environmental sustainability. The future of energy lies in harnessing the power of nature, and it is imperative for all stakeholders to collaborate towards this common goal.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary reason for the shift towards renewable energy sources according to the passage?",
+      "options": {
+        "A": "To find alternatives to fossil fuels.",
+        "B": "To mitigate climate change effects.",
+        "C": "To reduce energy costs significantly.",
+        "D": "To enhance energy security."
+      },
+      "answer": "B",
+      "explanation": "The passage states that renewable energy sources are pivotal in mitigating climate change, which indicates that this is a primary reason for the shift."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "The cost of solar energy has increased over the past decade.",
+      "answer": "False",
+      "explanation": "The passage explicitly states that the cost of solar photovoltaics has plummeted by nearly 90%, indicating a decrease, not an increase."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that the transition to renewable energy will lead to job creation?",
+      "answer": "Yes",
+      "explanation": "The passage mentions that the growth of the renewable sector can create jobs, indicating the author's belief in job creation."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following challenges of renewable energy integration with their descriptions.",
+      "options": {
+        "A": "Infrastructure investment",
+        "B": "Regulatory frameworks",
+        "C": "Intermittency issues",
+        "D": "Socio-economic disparities"
+      },
+      "descriptions": {
+        "1": "Requires significant financial resources.",
+        "2": "Needs to be addressed for stability in energy supply.",
+        "3": "Can lead to unequal benefits across communities.",
+        "4": "Must be modernized to accommodate new technologies."
+      },
+      "matches": {
+        "A": "1",
+        "B": "4",
+        "C": "2",
+        "D": "3"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "mitigating",
+      "meaning": "making less severe or serious"
+    },
+    {
+      "word": "intermittency",
+      "meaning": "the quality of not being continuous or steady"
+    },
+    {
+      "word": "equitably",
+      "meaning": "in a fair and impartial manner"
+    },
+    {
+      "word": "catalyzed",
+      "meaning": "caused or accelerated a change"
+    },
+    {
+      "word": "pivotal",
+      "meaning": "of crucial importance in relation to the development or success of something else"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the main arguments presented. Pay particular attention to the author's tone and purpose, as well as the implications behind the data provided. Skimming for the main ideas and scanning for specific details will be essential in answering the questions accurately.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

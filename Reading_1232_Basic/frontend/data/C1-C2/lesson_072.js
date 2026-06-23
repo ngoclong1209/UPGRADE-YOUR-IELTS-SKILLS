@@ -1,0 +1,86 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_072",
+  "title": "Navigating the Digital Classroom: The Evolution of Online Learning",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Shift to Online Learning</h2><p>In recent years, the landscape of education has undergone a significant transformation, catalyzed by advances in technology and the increasing necessity for flexible learning environments. Online learning, once regarded as a supplementary mode of education, has emerged as a primary method of instruction for millions globally. This transition is not merely a response to external pressures, such as the COVID-19 pandemic, but rather a reflection of evolving pedagogical theories that emphasize learner-centered approaches.</p><p>The advantages of online education are manifold. It offers unparalleled accessibility, allowing students from diverse backgrounds and locations to engage with content that was previously out of reach. Furthermore, it fosters self-directed learning, encouraging individuals to take ownership of their educational journeys. However, these benefits are accompanied by challenges, including issues related to digital equity, student engagement, and the effectiveness of assessment methods.</p><p>Critics of online learning often highlight the potential for isolation among students, raising concerns about the efficacy of virtual interactions compared to traditional face-to-face communication. Nonetheless, proponents argue that asynchronous and synchronous learning modalities can create rich, interactive experiences that rival conventional classrooms when designed thoughtfully.</p><p>In conclusion, as the educational sector continues to adapt to technological advancements, the future of online learning appears promising yet complex. It necessitates ongoing research and innovation to address the nuanced needs of learners and educators alike.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the passage suggest about the traditional view of online learning?",
+      "options": {
+        "A": "It was once seen as a less effective educational method.",
+        "B": "It has always been the preferred mode of education.",
+        "C": "It has never been accepted in academic circles.",
+        "D": "It is solely a response to the pandemic."
+      },
+      "answer": "A",
+      "explanation": "The passage indicates that online learning was previously regarded as supplementary, suggesting it was viewed as less effective compared to traditional methods."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Online education provides a completely isolated learning environment.",
+      "answer": "False",
+      "explanation": "The passage acknowledges concerns about isolation but argues that online learning can create interactive experiences."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author believe that online learning can be as effective as traditional education?",
+      "answer": "Yes",
+      "explanation": "The author highlights that well-designed online learning experiences can rival traditional classrooms."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the appropriate paragraphs.",
+      "text": "1. Accessibility of online education. 2. Challenges faced by online learners. 3. The future of online learning.",
+      "answers": {
+        "1": "Paragraph 2",
+        "2": "Paragraph 3",
+        "3": "Paragraph 4"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph to its main heading.",
+      "text": "Headings: A. Challenges of Online Education B. The Benefits of Online Learning C. Future Perspectives on Online Learning D. The Historical Context of Online Education",
+      "answers": {
+        "1": "D",
+        "2": "B",
+        "3": "A",
+        "4": "C"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following question in NO MORE THAN THREE WORDS.",
+      "text": "What are two types of learning modalities mentioned in the passage?",
+      "answer": "asynchronous and synchronous",
+      "explanation": "These modalities are specifically referenced in relation to creating interactive experiences."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "pedagogical",
+      "meaning": "related to the methods and practice of teaching."
+    },
+    {
+      "word": "self-directed",
+      "meaning": "taking initiative to manage one's own learning."
+    },
+    {
+      "word": "digital equity",
+      "meaning": "fair access to digital tools and technologies."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, pay attention to the nuances in language that indicate the author's perspective. Look for keywords that signal contrasting ideas, and be mindful of the implications behind statements regarding online learning. Take note of the structure of paragraphs, as this will help you match headings and information accurately.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

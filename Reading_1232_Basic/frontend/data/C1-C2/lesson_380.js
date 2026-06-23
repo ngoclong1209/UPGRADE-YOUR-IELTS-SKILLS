@@ -1,0 +1,123 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_380",
+  "title": "The Impact of Diet on Mental Health: A Comprehensive Overview",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Intersection of Diet and Mental Health</h2><p>Recent scientific research has increasingly emphasized the profound connection between diet and mental health, suggesting that nutritional choices significantly influence psychological well-being. A growing body of evidence indicates that certain dietary patterns can mitigate the risk of developing mental disorders, including anxiety and depression. For instance, diets rich in omega-3 fatty acids, found in fish and nuts, have been correlated with lower levels of depressive symptoms. Conversely, diets high in refined sugars and processed foods have been linked to exacerbated mental health issues.</p><p>Moreover, the gut-brain axis has emerged as a crucial area of study, illustrating how gut microbiota can affect brain function and mood regulation. Studies suggest that a balanced diet, which includes a variety of fruits, vegetables, and whole grains, supports a healthy gut microbiome, thereby potentially enhancing mental health. This relationship underscores the importance of not only what we eat but also how our dietary patterns can foster or hinder mental health.</p><p>Furthermore, cultural and socio-economic factors play a significant role in dietary choices, impacting individuals' mental health outcomes. Access to nutritious foods is often limited in lower socio-economic communities, leading to a reliance on cheaper, less healthy options. This disparity highlights the need for public health initiatives aimed at improving food accessibility and promoting nutritional education, particularly in vulnerable populations.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the passage suggest is a significant factor in determining mental health outcomes?",
+      "options": {
+        "A": "The availability of processed foods in one's diet.",
+        "B": "The variety of foods consumed, especially those rich in nutrients.",
+        "C": "The cultural beliefs surrounding food choices.",
+        "D": "The frequency of meals throughout the day."
+      },
+      "answer": "B",
+      "explanation": "The passage emphasizes that a balanced diet, including a variety of fruits, vegetables, and whole grains, supports a healthy gut microbiome, which is crucial for mental health."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given based on the passage.",
+      "text": "Diets high in vitamins and minerals have no effect on mental health.",
+      "answer": "False",
+      "explanation": "The passage indicates that certain dietary patterns, specifically those rich in nutrients, can mitigate the risk of developing mental disorders."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Choose Yes, No, or Not Given.",
+      "text": "The passage states that access to nutritious foods is equal across all socio-economic groups.",
+      "answer": "No",
+      "explanation": "The passage highlights that access to nutritious foods is often limited in lower socio-economic communities, leading to disparities in dietary choices."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the correct paragraphs.",
+      "text": "1. The link between gut health and mental well-being. 2. The role of socio-economic factors in dietary choices. 3. The impact of omega-3 fatty acids on mood.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3"
+      },
+      "answers": {
+        "1": "B",
+        "2": "C",
+        "3": "A"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the correct paragraphs.",
+      "text": "1. The role of diet in preventing mental disorders. 2. Cultural influences on dietary habits. 3. Nutritional components beneficial for mental health.",
+      "options": [
+        "A: Introduction to Diet and Mental Health",
+        "B: The Importance of Omega-3 Fatty Acids",
+        "C: Socio-economic Barriers to Healthy Eating",
+        "D: Gut Health and Psychological Well-being"
+      ],
+      "answers": {
+        "1": "A",
+        "2": "C",
+        "3": "B"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentences with NO MORE THAN TWO WORDS.",
+      "text": "A balanced diet improves mental health by supporting a healthy __________.",
+      "answer": "gut microbiome",
+      "explanation": "The passage discusses how a balanced diet helps maintain a healthy gut microbiome, which is essential for mental health."
+    },
+    {
+      "id": "q7",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary using NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "The relationship between diet and mental health is influenced by __________ factors, as individuals with limited access to __________ tend to have poorer mental health outcomes.",
+      "answers": [
+        "socio-economic",
+        "nutritious foods"
+      ],
+      "explanation": "The passage states that cultural and socio-economic factors significantly impact dietary choices and mental health."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following questions with NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "What type of fatty acids are mentioned as beneficial for mental health?",
+      "answer": "omega-3",
+      "explanation": "The passage explicitly mentions omega-3 fatty acids as being correlated with lower levels of depressive symptoms."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "nutritional",
+      "meaning": "relating to the substances that provide nourishment essential for health."
+    },
+    {
+      "word": "microbiota",
+      "meaning": "the community of microorganisms living in a particular environment, including the human body."
+    },
+    {
+      "word": "mitigate",
+      "meaning": "to make less severe, serious, or painful."
+    },
+    {
+      "word": "exacerbate",
+      "meaning": "to make a problem, bad situation, or negative feeling worse."
+    },
+    {
+      "word": "disparity",
+      "meaning": "a great difference."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, pay close attention to the relationships between diet and mental health as discussed in various contexts. Focus on understanding the implications of dietary choices and the socio-economic factors mentioned. Make sure to identify the main arguments and the author's perspective on the importance of nutrition in psychological well-being.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

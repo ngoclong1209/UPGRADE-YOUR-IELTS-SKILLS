@@ -1,0 +1,84 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_123",
+  "title": "Understanding Climate Change: A Growing Concern",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Climate Change and Its Impact</h2><p>Climate change is one of the most pressing global issues of our time. It refers to significant changes in global temperatures and weather patterns over time. While climate change is a natural phenomenon, scientific evidence shows that human activities are currently driving unprecedented changes in the climate. The burning of fossil fuels, deforestation, and industrial processes release greenhouse gases into the atmosphere, leading to a rise in global temperatures.</p><p>One of the most serious consequences of climate change is the increase in extreme weather events. As the planet warms, we see more frequent and severe storms, droughts, and heatwaves. These changes not only pose threats to human life but also disrupt ecosystems and wildlife. For example, rising ocean temperatures can lead to coral bleaching, which threatens marine biodiversity.</p><p>Furthermore, climate change affects agriculture. Farmers face challenges such as altered rainfall patterns and increased pests, which can reduce crop yields. This, in turn, can lead to food shortages and higher prices. To combat climate change, many experts advocate for sustainable practices, including renewable energy sources, conservation efforts, and policy changes to reduce carbon emissions.</p><p>In conclusion, while climate change poses significant challenges, there are many solutions available. By taking immediate action, we can work towards a more sustainable future.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main cause of the current climate change according to the passage?",
+      "options": {
+        "A": "Natural weather patterns.",
+        "B": "Human activities.",
+        "C": "Volcanic eruptions.",
+        "D": "Solar radiation."
+      },
+      "answer": "B",
+      "explanation": "The passage states that human activities, such as burning fossil fuels and deforestation, are driving unprecedented changes in the climate."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Climate change has no impact on agriculture.",
+      "answer": "False",
+      "explanation": "The passage explains that climate change affects agriculture by altering rainfall patterns and increasing pests, which can reduce crop yields."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Decide if the statement reflects the author's opinion: Yes, No, or Not Given.",
+      "text": "The author believes that immediate action is necessary to combat climate change.",
+      "answer": "Yes",
+      "explanation": "The conclusion of the passage emphasizes the need for immediate action to work towards a sustainable future."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the consequences of climate change with the appropriate details.",
+      "options": [
+        "Increased extreme weather events",
+        "Impact on marine biodiversity",
+        "Challenges for farmers"
+      ],
+      "details": [
+        "Coral bleaching due to rising ocean temperatures.",
+        "More frequent storms and droughts.",
+        "Altered rainfall patterns affecting crop yields."
+      ],
+      "answer": {
+        "Increased extreme weather events": "More frequent storms and droughts.",
+        "Impact on marine biodiversity": "Coral bleaching due to rising ocean temperatures.",
+        "Challenges for farmers": "Altered rainfall patterns affecting crop yields."
+      },
+      "explanation": "Each consequence is clearly linked to the details provided in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The burning of fossil fuels leads to an increase in __________.",
+      "answer": "greenhouse gases",
+      "explanation": "The passage states that burning fossil fuels releases greenhouse gases into the atmosphere."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "deforestation",
+      "meaning": "The clearing of trees, transforming a forest into cleared land."
+    },
+    {
+      "word": "ecosystem",
+      "meaning": "A biological community of interacting organisms and their physical environment."
+    },
+    {
+      "word": "sustainable",
+      "meaning": "Able to be maintained at a certain rate or level; avoiding depletion of natural resources."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on identifying the main ideas and supporting details. Pay attention to the specific examples provided, as they often help clarify the author's points. Skim through the passage for keywords related to the questions, and make sure to understand the author's opinion regarding climate change solutions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,117 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_097",
+  "title": "Navigating the Urban Landscape: Public Transportation vs Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Exploring the Dichotomy of Transportation Modes</h2><p>In contemporary urban settings, the debate surrounding public transportation versus private cars persists as a focal point of discussion among policymakers, environmentalists, and citizens alike. Public transportation, often perceived as a sustainable alternative to the convenience of private vehicles, offers numerous advantages including reduced traffic congestion, lower emissions, and enhanced accessibility. However, it is not without its challenges. Issues such as reliability, coverage, and user experience can deter individuals from opting for public systems. Conversely, private cars provide unparalleled convenience and autonomy, yet contribute significantly to urban pollution and traffic woes. The choice between these modes of transport is not merely a matter of preference but is deeply intertwined with socio-economic factors, urban planning, and individual lifestyle choices.</p><p>Research indicates that cities with robust public transportation systems tend to exhibit lower rates of vehicle ownership, leading to improved air quality and a more vibrant urban life. Such systems not only alleviate the burden on roads but also promote social equity by providing mobility options to those without access to private vehicles. On the other hand, the rise of car culture, fueled by the allure of personal freedom and status, has led to an increase in traffic-related fatalities and environmental degradation. The dichotomy between public transportation and private cars thus encapsulates a broader discourse on sustainability, community wellbeing, and urban development.</p><p>Ultimately, the future of urban transportation may lie in a balanced coexistence of both modalities. Innovative solutions such as car-sharing programs, electric public transit options, and integrated mobility platforms are paving the way for a more sustainable approach to urban mobility. As cities evolve, so too must our perceptions and policies regarding transportation, ensuring that the needs of all citizens are met while safeguarding the environment for future generations.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is suggested as a potential benefit of robust public transportation systems in cities?",
+      "options": {
+        "A": "They increase vehicle ownership among residents.",
+        "B": "They contribute to improved air quality.",
+        "C": "They reduce the need for urban planning.",
+        "D": "They are less convenient than private cars."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct as the passage indicates that cities with strong public transportation systems have better air quality and lower vehicle ownership."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Private cars are seen as a sustainable option compared to public transportation.",
+      "answer": "False",
+      "explanation": "The passage clearly states that private cars contribute significantly to pollution, indicating they are not a sustainable choice."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that public transportation can improve social equity?",
+      "answer": "Yes",
+      "explanation": "The passage mentions that public transportation provides mobility options to those without access to private vehicles, suggesting the author's support for its role in enhancing social equity."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following benefits to their corresponding transportation modes.",
+      "options": {
+        "A": "Convenience and autonomy",
+        "B": "Sustainable mobility",
+        "C": "Improved air quality"
+      },
+      "answers": {
+        "1": "Private Cars",
+        "2": "Public Transportation",
+        "3": "Public Transportation"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Match the following headings to the corresponding paragraphs in the passage.",
+      "options": {
+        "A": "The Environmental Impact of Cars",
+        "B": "Social Implications of Transport Choices",
+        "C": "The Future of Urban Mobility",
+        "D": "Public Transportation Advantages"
+      },
+      "answers": {
+        "1": "D",
+        "2": "B",
+        "3": "C",
+        "4": "A"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence using NO MORE THAN TWO WORDS.",
+      "text": "The rise of car culture has led to an increase in __________.",
+      "answer": "traffic-related fatalities",
+      "explanation": "The passage states that the increase in car culture has resulted in more traffic-related fatalities."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the following summary using NO MORE THAN TWO WORDS.",
+      "text": "The future of urban transportation may involve a balanced coexistence of public and private transport, supported by innovative solutions such as __________.",
+      "answer": "car-sharing programs",
+      "explanation": "The passage mentions car-sharing programs as part of the innovative solutions for urban mobility."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer",
+      "instruction": "Answer the following question using NO MORE THAN THREE WORDS.",
+      "text": "What is a key factor influencing the choice between public transportation and private cars?",
+      "answer": "socio-economic factors",
+      "explanation": "The passage highlights that socio-economic factors are deeply intertwined with the choice of transportation modes."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "dichotomy",
+      "meaning": "a division into two contrasting or non-overlapping parts"
+    },
+    {
+      "word": "robust",
+      "meaning": "strong and effective in all or most situations and conditions"
+    },
+    {
+      "word": "autonomy",
+      "meaning": "the right or condition of self-government"
+    },
+    {
+      "word": "socio-economic",
+      "meaning": "relating to or concerned with the interaction of social and economic factors"
+    },
+    {
+      "word": "sustainability",
+      "meaning": "the ability to be maintained at a certain rate or level, often in relation to environmental health"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the main arguments presented in each paragraph. Pay attention to the nuances in language, particularly in the questions that ask for inferential reasoning. For multiple choice questions, eliminate options that are clearly incorrect based on the passage context. For True/False/Not Given questions, be cautious of assumptions that go beyond what is directly stated. Lastly, familiarize yourself with the vocabulary used in the passage to aid comprehension.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

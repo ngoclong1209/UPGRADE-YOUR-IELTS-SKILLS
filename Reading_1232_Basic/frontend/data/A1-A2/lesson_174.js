@@ -1,0 +1,71 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_174",
+  "title": "Understanding Robots and AI",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>What is Artificial Intelligence?</h2><p>Artificial Intelligence, or AI, is the ability of a computer or robot to do tasks that are usually done by humans. These tasks include learning, thinking, and solving problems. AI can help us in many ways. For example, it can help doctors find the right treatment for patients. AI can also help in schools to make learning fun.</p><h2>What are Robots?</h2><p>Robots are machines that can do tasks automatically. They can be simple, like a vacuum cleaner that cleans the floor, or complex, like robots that can help in factories. Some robots can even move and talk like humans. They use AI to understand what to do. Robots can work in different places such as homes, schools, and hospitals.</p><h2>How Do AI and Robots Work Together?</h2><p>AI and robots work together to make our lives easier. For example, a robot can use AI to understand commands. If you say, 'Robot, clean the room,' the robot will know what to do. AI helps robots learn from their experiences. This means that robots can get better over time.</p><h2>Future of AI and Robots</h2><p>In the future, AI and robots will be more common in our daily lives. They may help us with cooking, cleaning, and even driving cars. Many people believe that AI will make the world a better place. However, we must also think about how to use AI safely.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does AI help doctors do?",
+      "options": {
+        "A": "Find treatments",
+        "B": "Clean hospitals",
+        "C": "Teach students",
+        "D": "Make robots"
+      },
+      "answer": "A",
+      "explanation": "AI helps doctors find the right treatment for patients, as mentioned in the passage."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Robots can talk like humans.",
+      "answer": "True"
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "AI only works in schools.",
+      "answer": "False"
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "text": "Will AI make the world worse?",
+      "answer": "No"
+    },
+    {
+      "id": "q5",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What can robots do in homes?",
+      "options": {
+        "A": "Cook food",
+        "B": "Drive cars",
+        "C": "Clean floors",
+        "D": "Teach lessons"
+      },
+      "answer": "C",
+      "explanation": "Robots can clean floors, as stated in the passage."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "Artificial Intelligence",
+      "meaning": "The ability of a computer or robot to do tasks that usually require human intelligence."
+    },
+    {
+      "word": "Robot",
+      "meaning": "A machine that can perform tasks automatically."
+    },
+    {
+      "word": "Command",
+      "meaning": "An order to a robot or computer to do something."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on the main ideas in each section. Look for keywords in the questions that match the passage. Remember, answers often use the same words as the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

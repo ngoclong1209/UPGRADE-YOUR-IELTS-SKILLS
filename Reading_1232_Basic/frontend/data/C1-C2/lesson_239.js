@@ -1,0 +1,113 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_239",
+  "title": "The Dual Nature of Tourism: Benefits and Consequences",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dual Nature of Tourism: Benefits and Consequences</h2><p>Tourism is often heralded as a vital economic engine, capable of generating substantial revenue for local communities and countries alike. It creates employment opportunities, stimulates local economies, and promotes cultural exchange. However, the existence of tourism is not without its repercussions. Environmental degradation, cultural commodification, and social displacement are among the darker facets of this industry. As the number of tourists continues to rise, driven by the allure of exotic destinations and unique experiences, the strain on local resources intensifies.</p><p>One critical aspect of this duality is the environmental impact. Popular tourist destinations often face challenges such as overcrowding, which can lead to the degradation of natural habitats and wildlife. For instance, the Great Barrier Reef has seen significant coral bleaching attributed to increased tourist activity and climate change. Conversely, sustainable tourism practices are being advocated to mitigate these impacts, promoting an approach that balances economic growth with environmental stewardship.</p><p>Moreover, the commodification of culture poses another threat. As local traditions become packaged for tourist consumption, the authenticity of cultural practices may be compromised. This phenomenon is evident in various regions where traditional performances or crafts are altered to meet the expectations of visitors, leading to a dilution of cultural identity. Nevertheless, some communities have embraced this change, leveraging tourism as a means to revitalize their cultural heritage and generate income.</p><p>In conclusion, the implications of tourism are complex and multifaceted. While it offers undeniable economic benefits, it is imperative to consider the associated costs. Striking a balance between promoting tourism and preserving the integrity of local ecosystems and cultures is essential for sustainable development in the sector.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the passage primarily suggest about the impact of tourism on local cultures?",
+      "options": {
+        "A": "Tourism always enhances cultural authenticity.",
+        "B": "Tourism can lead to the commodification of local traditions.",
+        "C": "Tourism has no significant effects on cultural practices.",
+        "D": "Tourism solely benefits local communities economically."
+      },
+      "answer": "B",
+      "explanation": "The passage discusses how local traditions may be altered to meet tourist expectations, indicating that tourism can lead to commodification."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "The Great Barrier Reef's coral bleaching is wholly due to tourism.",
+      "answer": "False",
+      "explanation": "The passage states that coral bleaching is attributed to both increased tourist activity and climate change, indicating that tourism is not the sole cause."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer with 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes that all forms of tourism are detrimental to the environment.",
+      "answer": "No",
+      "explanation": "The author discusses sustainable tourism practices as a way to mitigate negative impacts, suggesting that not all tourism is harmful."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match each statement with the correct paragraph.",
+      "text": "1. The economic benefits of tourism. 2. The environmental consequences of tourism. 3. The cultural challenges posed by tourism.",
+      "options": {
+        "1": "Paragraph 1",
+        "2": "Paragraph 2",
+        "3": "Paragraph 3"
+      },
+      "answer": {
+        "1": "1",
+        "2": "2",
+        "3": "3"
+      },
+      "explanation": "Each paragraph discusses a specific aspect of tourism's impact, matching them accurately to the statements."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the paragraph with the appropriate heading.",
+      "text": "1. Economic advantages of tourism. 2. Environmental challenges posed by increased tourism. 3. The balance between tourism and local culture.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3"
+      },
+      "answer": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      },
+      "explanation": "The headings correspond to the main ideas presented in each paragraph."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The rise in tourist numbers has led to increased ________ on local resources.",
+      "answer": "strain",
+      "explanation": "The passage states that the rise in tourists intensifies the strain on local resources."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "Sustainable tourism practices aim to balance ________ growth with environmental stewardship.",
+      "answer": "economic",
+      "explanation": "The passage emphasizes the need to balance economic growth with environmental preservation through sustainable tourism."
+    },
+    {
+      "id": "q8",
+      "type": "short-answer",
+      "instruction": "Answer using NO MORE THAN THREE WORDS.",
+      "text": "What can tourism lead to, according to the passage?",
+      "answer": "cultural commodification",
+      "explanation": "The passage mentions that tourism can lead to the commodification of local cultures."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "commodification",
+      "meaning": "the process of turning something into a commodity, often leading to a loss of value or authenticity."
+    },
+    {
+      "word": "sustainable",
+      "meaning": "capable of being maintained over the long term without damaging the environment."
+    },
+    {
+      "word": "degradation",
+      "meaning": "the reduction or deterioration of something's quality or value."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, readers should focus on identifying key themes and implications regarding tourism's impacts. Pay close attention to the nuances in language used to describe the benefits and drawbacks of tourism, as these will often be the basis for the questions. Practicing skimming for main ideas and scanning for specific details will enhance comprehension and improve accuracy in answering questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

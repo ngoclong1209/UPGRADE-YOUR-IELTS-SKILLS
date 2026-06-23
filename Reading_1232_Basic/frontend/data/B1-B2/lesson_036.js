@@ -1,0 +1,79 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_036",
+  "title": "Harnessing Nature: The Future of Renewable Energy",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Promise of Renewable Energy</h2><p>Renewable energy sources, such as solar, wind, and hydroelectric power, are becoming increasingly vital in our quest to combat climate change. Unlike fossil fuels, which release harmful greenhouse gases into the atmosphere, renewable energy offers a cleaner alternative that can be replenished naturally. Solar energy, for instance, harnesses sunlight through photovoltaic cells, converting it into electricity. This technology has advanced significantly, becoming more efficient and affordable over the past decade.</p><p>Wind energy is another promising renewable source. Wind turbines, often found in large farms, convert kinetic energy from wind into electrical power. These turbines can generate electricity even at low wind speeds, making them a reliable source of energy in many regions. Additionally, hydroelectric power, generated from flowing water, has been a staple in energy production for over a century. Dams create reservoirs that can be tapped for energy as water flows downstream.</p><p>Despite the advantages, there are challenges to overcome. For example, the production and installation of solar panels and wind turbines require significant resources and energy, which can offset some environmental benefits. Furthermore, renewable energy is often dependent on weather conditions, making it less consistent than fossil fuels. Therefore, integrating renewable sources into the existing energy grid presents logistical challenges.</p><p>To address these issues, governments and private companies are investing in research and infrastructure. Innovations such as energy storage systems, which store excess energy generated during peak production times for later use, are being developed. This technology can help ensure a stable energy supply and reduce reliance on fossil fuels.</p><p>In conclusion, while renewable energy sources are not without their challenges, their potential to create a sustainable future is undeniable. Continued investment in technology and infrastructure will be crucial in maximizing their benefits and minimizing their drawbacks.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main benefit of renewable energy mentioned in the passage?",
+      "options": {
+        "A": "It can reduce greenhouse gas emissions.",
+        "B": "It is the cheapest energy source available.",
+        "C": "It requires no technological advancements.",
+        "D": "It is always available regardless of conditions."
+      },
+      "answer": "A",
+      "explanation": "A is correct because the passage states that renewable energy offers a cleaner alternative to fossil fuels, which release harmful greenhouse gases."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "State whether the following statement is True, False, or Not Given.",
+      "text": "Solar energy technology has become less efficient over the years.",
+      "answer": "False",
+      "explanation": "The passage mentions that solar technology has advanced significantly, becoming more efficient, which contradicts the statement."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Indicate whether the author's opinion is Yes, No, or Not Given.",
+      "text": "The author believes renewable energy can replace fossil fuels entirely.",
+      "answer": "Not Given",
+      "explanation": "The passage does not provide a clear opinion from the author regarding the complete replacement of fossil fuels."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following renewable energy sources with their descriptions.",
+      "text": "1. Solar Energy\n2. Wind Energy\n3. Hydroelectric Power",
+      "options": {
+        "A": "Uses sunlight to generate electricity.",
+        "B": "Converts kinetic energy from wind.",
+        "C": "Generated from flowing water."
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence using NO MORE THAN TWO WORDS.",
+      "text": "Wind turbines convert __________ energy into electrical power.",
+      "answer": "kinetic energy",
+      "explanation": "The passage states that wind turbines convert kinetic energy from wind into electrical power."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "photovoltaic",
+      "meaning": "relating to the conversion of light into electricity using semiconducting materials."
+    },
+    {
+      "word": "kinetic",
+      "meaning": "relating to or resulting from motion."
+    },
+    {
+      "word": "reservoir",
+      "meaning": "a large natural or artificial lake used to store water for various purposes."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on the main ideas and how the details support them. Look for keywords in the questions that match with phrases in the text. Pay attention to contrasts or comparisons that may indicate a change in information. For multiple-choice questions, eliminate the clearly wrong answers first to increase your chances of selecting the correct option.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

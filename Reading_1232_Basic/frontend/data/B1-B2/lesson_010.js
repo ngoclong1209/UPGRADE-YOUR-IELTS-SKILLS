@@ -1,0 +1,78 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_010",
+  "title": "Eating Well: The Key to a Healthy Life",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Importance of a Balanced Diet</h2><p>A balanced diet is crucial for maintaining good health and well-being. It provides the body with essential nutrients, including carbohydrates, proteins, fats, vitamins, and minerals. Eating a variety of foods helps ensure that you get all the necessary nutrients. For example, fruits and vegetables are rich in vitamins and minerals, while whole grains provide fiber, which is important for digestive health.</p><p>Moreover, a balanced diet can help prevent chronic diseases such as obesity, diabetes, and heart disease. Research has shown that individuals who consume a diet high in processed foods and sugars are at a greater risk for these health issues. Therefore, it is important to focus on whole, unprocessed foods whenever possible.</p><p>In addition to food choices, portion control is also important. Overeating, even healthy foods, can lead to weight gain. It is advisable to pay attention to serving sizes and to listen to your body's hunger signals. Eating mindfully can help you enjoy your meals more and prevent overeating.</p><p>Finally, staying hydrated is a key aspect of a healthy diet. Water plays a vital role in numerous bodily functions, including temperature regulation and nutrient transportation. Aim to drink at least eight glasses of water a day for optimal health.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main purpose of a balanced diet according to the passage?",
+      "options": {
+        "A": "To provide essential nutrients for the body.",
+        "B": "To promote physical activity.",
+        "C": "To reduce stress levels.",
+        "D": "To increase sugar intake."
+      },
+      "answer": "A",
+      "explanation": "A is correct because the passage states that a balanced diet provides the body with essential nutrients."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Determine if the statement is True, False or Not Given.",
+      "text": "Processed foods are beneficial for health.",
+      "answer": "False",
+      "explanation": "The passage indicates that a diet high in processed foods increases the risk of chronic diseases, which implies that they are not beneficial."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Choose Yes, No, or Not Given.",
+      "text": "The author believes that portion control is unnecessary.",
+      "answer": "No",
+      "explanation": "The passage clearly states that portion control is important, thus the author's belief is the opposite."
+    },
+    {
+      "id": "q4",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "text": [
+        "1. Hydration and its importance",
+        "2. Understanding portion sizes",
+        "3. The components of a balanced diet",
+        "4. Effects of processed foods on health"
+      ],
+      "paragraphs": {
+        "1": "The Importance of a Balanced Diet",
+        "2": "Moreover, a balanced diet can help prevent chronic diseases...",
+        "3": "In addition to food choices, portion control is also important...",
+        "4": "Finally, staying hydrated is a key aspect of a healthy diet."
+      },
+      "answers": {
+        "1": "3",
+        "2": "4",
+        "3": "1",
+        "4": "2"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "nutrients",
+      "meaning": "Substances that provide nourishment essential for growth and the maintenance of life."
+    },
+    {
+      "word": "portion control",
+      "meaning": "The practice of controlling the amount of food you eat to prevent overeating."
+    },
+    {
+      "word": "hydrated",
+      "meaning": "Having absorbed enough water to maintain health and normal bodily functions."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully and take notes on the main ideas and details. Pay attention to the structure of each paragraph as it can help you answer the questions more effectively. When approaching multiple choice questions, eliminate the clearly incorrect options first. For True/False/Not Given questions, look for specific statements in the text that support or negate the claims made. Lastly, practice skimming for headings that encapsulate the main idea of each paragraph.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

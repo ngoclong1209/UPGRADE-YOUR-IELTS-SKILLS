@@ -1,0 +1,111 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_443",
+  "title": "The Looming Crisis: Understanding Climate Change and Global Warming",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Multifaceted Nature of Climate Change</h2><p>Climate change represents one of the most formidable challenges of our time, encompassing an array of interrelated phenomena that disrupt both natural ecosystems and human societies. As global temperatures rise due to the accumulation of greenhouse gases, the consequences are increasingly dire and complex, demanding an urgent reevaluation of our environmental policies and practices. The scientific consensus underscores that human activities, particularly the burning of fossil fuels, are primary contributors to this alarming trend. In addition to the direct impacts of warming, such as the melting of polar ice caps and the increase in extreme weather events, secondary effects include shifts in biodiversity, alterations in agricultural production, and heightened sea levels threatening coastal communities. Furthermore, the socio-economic ramifications are profound, disproportionately affecting marginalized populations who are least equipped to adapt to these changes. Thus, addressing climate change necessitates not only scientific innovation but also a concerted global effort to foster sustainable development and equitable resource distribution.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is primarily responsible for the increase in global temperatures according to the passage?",
+      "options": {
+        "A": "Natural fluctuations in the climate system",
+        "B": "The destruction of the ozone layer",
+        "C": "The burning of fossil fuels",
+        "D": "Deforestation and land use changes"
+      },
+      "answer": "C",
+      "explanation": "The passage clearly states that human activities, particularly the burning of fossil fuels, are primary contributors to the rise in global temperatures."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "Climate change equally affects all populations worldwide.",
+      "answer": "False",
+      "explanation": "The passage indicates that marginalized populations are disproportionately affected by climate change, suggesting that the impact is not equal."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer with 'Yes', 'No' or 'Not Given'.",
+      "text": "The passage suggests that scientific innovation alone can solve climate change.",
+      "answer": "No",
+      "explanation": "The passage emphasizes the need for a concerted global effort, indicating that scientific innovation alone is insufficient."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following consequences of climate change with their descriptions.",
+      "options": [
+        {
+          "description": "Affects agricultural production.",
+          "letter": "1"
+        },
+        {
+          "description": "Threatens coastal communities.",
+          "letter": "2"
+        },
+        {
+          "description": "Leads to biodiversity shifts.",
+          "letter": "3"
+        }
+      ],
+      "answers": {
+        "1": "Affects agricultural production.",
+        "2": "Threatens coastal communities.",
+        "3": "Leads to biodiversity shifts."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the following headings with the corresponding paragraphs.",
+      "options": {
+        "A": "The role of human activity",
+        "B": "Impacts of climate change",
+        "C": "Global response strategies",
+        "D": "Socio-economic effects"
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "D"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short-answer",
+      "instruction": "Answer using no more than three words.",
+      "text": "What is required for addressing climate change according to the passage?",
+      "answer": "Global effort",
+      "explanation": "The passage states that addressing climate change necessitates a concerted global effort."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "formidable",
+      "meaning": "inspiring fear or respect through being impressively large, powerful, intense, or capable"
+    },
+    {
+      "word": "phenomena",
+      "meaning": "observable events or occurrences, especially those that are extraordinary"
+    },
+    {
+      "word": "disrupt",
+      "meaning": "to interrupt the normal course of something"
+    },
+    {
+      "word": "accumulation",
+      "meaning": "the process of gradually gathering or amassing"
+    },
+    {
+      "word": "ramifications",
+      "meaning": "a consequence of an action or event, especially when complex or unwelcome"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle the questions effectively, focus on identifying keywords in both the questions and the passage. Pay attention to the nuances in language to avoid misleading options, and ensure you understand the author's stance and the implications of their arguments. Skimming for main ideas and scanning for specific information will enhance your efficiency during the reading.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

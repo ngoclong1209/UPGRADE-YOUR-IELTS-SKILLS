@@ -1,0 +1,121 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_305",
+  "title": "The Cosmic Frontier: Challenges and Innovations in Space Exploration",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Exploring the Unknown</h2><p>The realm of space exploration represents humanity's relentless pursuit of knowledge beyond the terrestrial confines of our planet. As we venture further into the cosmos, we encounter a myriad of challenges, both technological and ethical. The complexities of conducting experiments in microgravity, for instance, demand innovations in engineering and scientific methodologies. Furthermore, the implications of colonizing other planets raise profound questions regarding sustainability and the preservation of extraterrestrial environments.</p><p>Recent advancements in propulsion technology, such as ion thrusters and nuclear thermal rockets, have revolutionized our capabilities, allowing us to contemplate manned missions to Mars and beyond. Yet, the psychological effects of long-duration space travel on humans remain an under-researched area, necessitating comprehensive studies to ensure the well-being of astronauts. These factors collectively underscore the intricate balance between exploration and responsibility.</p><p>Moreover, the increasing participation of private enterprises in space exploration has transformed the landscape. Companies like SpaceX and Blue Origin have pioneered reusable rocket technologies, significantly reducing costs and increasing accessibility to space. This shift not only enhances competition but also fosters innovation, prompting governmental agencies to rethink their strategies and collaborations with the private sector.</p><p>In conclusion, while the journey into space is fraught with uncertainties, it is also ripe with opportunities for discovery and advancement. The future of space exploration hinges on our ability to navigate these challenges while remaining committed to a sustainable and ethical approach to the cosmos.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the major challenges mentioned in the passage concerning space exploration?",
+      "options": {
+        "A": "The cost of rocket technologies.",
+        "B": "The psychological effects on astronauts.",
+        "C": "The competition between private enterprises.",
+        "D": "The feasibility of colonizing other planets."
+      },
+      "answer": "B",
+      "explanation": "The passage specifically highlights the psychological effects of long-duration space travel as an under-researched area, making option B the correct answer."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide whether the following statements are True, False, or Not Given based on the passage.",
+      "text": "Humanity has fully understood the implications of colonizing other planets.",
+      "answer": "False",
+      "explanation": "The passage states that colonizing other planets raises profound questions regarding sustainability, indicating that humanity has not fully understood these implications."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given based on the passage.",
+      "text": "Does the author believe that private enterprises are detrimental to space exploration?",
+      "answer": "No",
+      "explanation": "The passage suggests that private enterprises foster innovation and enhance competition, implying that the author does not view them as detrimental."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the challenges to their descriptions.",
+      "text": "Match the following challenges to their respective descriptions.",
+      "options": [
+        "A. Psychological effects",
+        "B. Technological advancements",
+        "C. Ethical implications",
+        "D. Cost reduction"
+      ],
+      "descriptions": [
+        "1. Necessary for ensuring astronaut well-being.",
+        "2. Key to sustainable exploration.",
+        "3. Revolutionized access to space.",
+        "4. Enhancements in engineering methodologies."
+      ],
+      "answer": {
+        "A": "1",
+        "B": "4",
+        "C": "2",
+        "D": "3"
+      },
+      "explanation": "The explanations reflect the specific mentions in the passage, showing how each challenge aligns with its description."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the corresponding paragraphs.",
+      "text": "Choose the correct heading for each paragraph.",
+      "headings": [
+        "A. The Role of Private Enterprises",
+        "B. Psychological Challenges of Space Travel",
+        "C. Technological Innovations in Space",
+        "D. Ethical Considerations in Colonization"
+      ],
+      "paragraphs": [
+        "1. Exploring the Unknown",
+        "2. Recent advancements in propulsion technology",
+        "3. Moreover, the increasing participation of private enterprises",
+        "4. In conclusion, while the journey into space"
+      ],
+      "answer": {
+        "1": "D",
+        "2": "C",
+        "3": "A",
+        "4": "B"
+      },
+      "explanation": "Each heading accurately reflects the main idea of the respective paragraph, demonstrating the author's organization of topics."
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer the following question in NO MORE THAN THREE WORDS.",
+      "text": "What is one example of a technological advancement mentioned in the passage?",
+      "answer": "Ion thrusters",
+      "explanation": "The passage specifically mentions ion thrusters as a significant technological advancement in propulsion technology."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "microgravity",
+      "meaning": "A condition in which objects appear to be weightless and experience very little gravitational pull."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "The ability to maintain ecological balance by avoiding depletion of natural resources."
+    },
+    {
+      "word": "propulsion",
+      "meaning": "The action of driving or pushing something forward, especially in the context of spacecraft."
+    },
+    {
+      "word": "extraterrestrial",
+      "meaning": "Relating to or denoting beings or phenomena beyond the Earth."
+    },
+    {
+      "word": "reusable",
+      "meaning": "Capable of being used again, especially in reference to rocket technology."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When tackling this passage, focus on understanding the nuances of language used to describe complex scientific concepts. Pay attention to the author's tone, as it can provide insights into the implications of the statements made. Skimming for main ideas while scanning for specific details will be crucial in answering the questions accurately.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

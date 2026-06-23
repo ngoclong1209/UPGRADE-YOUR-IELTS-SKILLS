@@ -1,0 +1,121 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_330",
+  "title": "The Interplay of Nutrition and Mental Health",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Interconnection of Diet and Psychological Well-being</h2><p>In recent years, an increasing body of research has underscored the profound impact that dietary choices can have on mental health. This emerging field of study posits that the nutrients we consume not only fuel our physical bodies but also significantly affect our emotional states and cognitive functions. For instance, omega-3 fatty acids, predominantly found in fatty fish, have been linked to lower levels of depression and anxiety. Similarly, the consumption of fruits and vegetables, which are rich in antioxidants, may mitigate the effects of oxidative stress associated with various mental disorders.</p><p>Moreover, the gut-brain axis has garnered attention as a pivotal pathway through which diet influences psychological health. The microbiome, a complex community of microorganisms residing in our intestines, has been shown to play a crucial role in the production of neurotransmitters, including serotonin, often referred to as the 'happiness hormone'. A diet high in processed foods, which typically lack the necessary nutrients to support a healthy microbiome, can thus lead to imbalances that might exacerbate mental health issues.</p><p>Furthermore, the implications of socio-economic factors cannot be overlooked. Individuals from lower socio-economic backgrounds frequently experience food insecurity, leading to a reliance on calorie-dense, nutrient-poor foods. This not only affects their physical health but can also contribute to a cycle of poor mental health outcomes. Therefore, addressing these disparities is essential for promoting overall well-being.</p><p>In conclusion, as the stigma surrounding mental health continues to diminish, it is imperative to consider the role of diet as a fundamental component of mental wellness. Future research should aim to unravel the complexities of this relationship and advocate for dietary interventions as a viable avenue for enhancing psychological health.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does recent research suggest about the relationship between diet and mental health?",
+      "options": {
+        "A": "Dietary choices have a negligible effect on psychological well-being.",
+        "B": "Only the quantity of food consumed influences mental health.",
+        "C": "Nutrients in our diet play a significant role in emotional and cognitive functioning.",
+        "D": "Mental health is solely determined by genetic factors."
+      },
+      "answer": "C",
+      "explanation": "Option C is correct as the passage highlights the significant impact of dietary choices on emotional states and cognitive functions, emphasizing the importance of nutrients in mental health."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write True, False or Not Given.",
+      "text": "Omega-3 fatty acids are only beneficial for physical health.",
+      "answer": "False",
+      "explanation": "The passage states that omega-3 fatty acids are linked to lower levels of depression and anxiety, indicating their benefit to mental health as well."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write Yes, No or Not Given.",
+      "text": "The author believes that addressing socio-economic factors is irrelevant to mental health improvement.",
+      "answer": "No",
+      "explanation": "The passage clearly states that socio-economic factors are crucial and must be addressed to promote overall well-being, indicating the author's belief in their relevance."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct sections of the passage.",
+      "options": {
+        "A": "Nutrients affect neurotransmitter production.",
+        "B": "Socio-economic factors contribute to food choices.",
+        "C": "Diet can influence emotional states.",
+        "D": "Antioxidants reduce oxidative stress."
+      },
+      "answers": {
+        "A": "Second paragraph.",
+        "B": "Third paragraph.",
+        "C": "First paragraph.",
+        "D": "First paragraph."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the appropriate heading for each paragraph.",
+      "options": {
+        "1": "The role of diet in emotional health.",
+        "2": "Socio-economic implications of dietary choices.",
+        "3": "Understanding the gut-brain connection.",
+        "4": "Future directions in mental health research."
+      },
+      "answers": {
+        "1": "First paragraph.",
+        "2": "Third paragraph.",
+        "3": "Second paragraph.",
+        "4": "Fourth paragraph."
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The microbiome influences the production of __________.",
+      "answer": "neurotransmitters",
+      "explanation": "The passage mentions the microbiome's crucial role in neurotransmitter production."
+    },
+    {
+      "id": "q7",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "Dietary interventions could be a viable __________ for enhancing psychological health.",
+      "answer": "avenue",
+      "explanation": "The passage concludes that dietary interventions should be considered as a viable avenue for enhancing psychological health."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following question with NO MORE THAN THREE WORDS.",
+      "text": "Which nutrient is linked to lower levels of depression?",
+      "answer": "omega-3 fatty acids",
+      "explanation": "The passage specifically links omega-3 fatty acids to lower levels of depression."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "nutrients",
+      "meaning": "substances that provide nourishment essential for growth and the maintenance of life."
+    },
+    {
+      "word": "microbiome",
+      "meaning": "the community of microorganisms living in a particular environment, especially the gut."
+    },
+    {
+      "word": "antioxidants",
+      "meaning": "molecules that inhibit the oxidation of other molecules, preventing cellular damage."
+    },
+    {
+      "word": "neurotransmitters",
+      "meaning": "chemical substances that transmit signals across a synapse from one neuron to another."
+    },
+    {
+      "word": "interventions",
+      "meaning": "actions taken to improve a situation, especially in health care."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the connections between dietary choices and mental health. Pay attention to the nuances in how the author presents evidence and claims. Take note of the structure of arguments and the importance placed on socio-economic factors. Always consider the implications of the information presented and be prepared to make inferences based on the context.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

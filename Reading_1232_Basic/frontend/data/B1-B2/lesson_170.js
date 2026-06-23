@@ -1,0 +1,84 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_170",
+  "title": "The Importance of a Balanced Diet for Health",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Importance of a Balanced Diet</h2><p>A balanced diet is essential for maintaining good health and well-being. It provides the body with the necessary nutrients it needs to function correctly. This includes proteins, carbohydrates, fats, vitamins, and minerals. Each of these nutrients plays a specific role in the body, and consuming them in the right proportions is crucial.</p><p>Proteins are vital for building and repairing tissues. They are made up of amino acids, which are the building blocks of life. Carbohydrates, on the other hand, are the body's primary source of energy. They are found in foods such as bread, rice, and potatoes. Fats, while often viewed negatively, are also important as they help with hormone production and nutrient absorption.</p><p>Vitamins and minerals are essential for various bodily functions, including immune response and bone health. A deficiency in any of these nutrients can lead to health issues. For instance, a lack of vitamin C can cause scurvy, while insufficient calcium can result in weakened bones.</p><p>Moreover, maintaining a balanced diet can help prevent chronic diseases such as obesity, diabetes, and heart disease. Eating a variety of foods ensures that the body receives all the nutrients it needs, which can improve overall health and longevity.</p><p>In conclusion, a balanced diet is not just about eating less but about eating the right foods in the right amounts. It is important to be mindful of food choices and to incorporate a wide range of nutrients into daily meals.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary role of carbohydrates according to the passage?",
+      "options": {
+        "A": "To build and repair tissues.",
+        "B": "To provide the body with energy.",
+        "C": "To help with hormone production.",
+        "D": "To improve overall health."
+      },
+      "answer": "B",
+      "explanation": "Carbohydrates are identified in the passage as the body's primary source of energy."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Proteins are made up of simple sugars.",
+      "answer": "False",
+      "explanation": "The passage states that proteins are made up of amino acids, not simple sugars."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that fats should be completely avoided for good health.",
+      "answer": "No",
+      "explanation": "The passage mentions that fats are important for hormone production and nutrient absorption, suggesting they should not be completely avoided."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the nutrient with its function.",
+      "options": {
+        "A": "Proteins",
+        "B": "Carbohydrates",
+        "C": "Vitamins",
+        "D": "Fats"
+      },
+      "functions": {
+        "1": "Help with hormone production",
+        "2": "Primary source of energy",
+        "3": "Building and repairing tissues",
+        "4": "Essential for immune response"
+      },
+      "answers": {
+        "A": "3",
+        "B": "2",
+        "C": "4",
+        "D": "1"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "A deficiency in calcium can lead to __________.",
+      "answer": "weakened bones",
+      "explanation": "The passage directly states that insufficient calcium can result in weakened bones."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "nutrients",
+      "meaning": "Substances that provide nourishment essential for growth and the maintenance of life."
+    },
+    {
+      "word": "deficiency",
+      "meaning": "A lack or shortage of something necessary, such as nutrients."
+    },
+    {
+      "word": "chronic diseases",
+      "meaning": "Long-lasting conditions that can be controlled but not cured."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the main functions of each nutrient mentioned. Pay attention to the details regarding the consequences of deficiencies and the overall importance of a balanced diet. Look for keywords in the questions that can lead you back to specific information in the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

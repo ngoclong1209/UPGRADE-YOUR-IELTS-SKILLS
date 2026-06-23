@@ -1,0 +1,120 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_313",
+  "title": "The Unseen Consequences of Climate Change",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Climate and Its Discontents</h2><p>The discourse surrounding climate change and global warming has escalated in recent decades, revealing an intricate tapestry of environmental, social, and economic implications. As temperatures rise and weather patterns shift, the ripple effects can be observed in ecosystems across the globe. The increasing frequency of extreme weather events, such as hurricanes, droughts, and floods, underscores the urgency of addressing these changes. </p><p>Yet, the nuances of climate change extend beyond mere physical phenomena; they encapsulate profound philosophical questions regarding humanity's relationship with nature and our ethical responsibilities towards future generations. The anthropogenic nature of climate change—stemming primarily from industrial activities and carbon emissions—poses a challenge to traditional economic models, which often fail to incorporate environmental costs. This dissonance raises critical inquiries about sustainability and the feasibility of continued growth in a finite world.</p><p>Moreover, the socio-economic dimensions of climate change are starkly evident. Vulnerable populations, particularly those in developing nations, face the brunt of climate impacts, despite contributing minimally to the problem. This injustice ignites debates around equity and the moral imperatives of wealthier nations to assist those disproportionately affected. The intersectionality of climate change with social justice emphasizes the need for inclusive policies that prioritize marginalized communities.</p><p>As we navigate these complexities, it becomes imperative to foster a multidisciplinary approach to climate action, integrating insights from environmental science, economics, and ethics. Only through collaborative efforts can we hope to mitigate the impending crises wrought by climate change, ensuring a sustainable and equitable future for all.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary focus of the passage?",
+      "options": {
+        "A": "The economic implications of climate change.",
+        "B": "The philosophical questions raised by climate change.",
+        "C": "The societal impacts of climate change on vulnerable populations.",
+        "D": "The necessity for a multidisciplinary approach to climate action."
+      },
+      "answer": "D",
+      "explanation": "The passage emphasizes the need for a multidisciplinary approach to effectively address the multifaceted challenges posed by climate change."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "The passage suggests that climate change primarily affects developed nations.",
+      "answer": "False",
+      "explanation": "The passage explicitly states that vulnerable populations in developing nations face the brunt of climate impacts."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that current economic models adequately address environmental costs?",
+      "answer": "No",
+      "explanation": "The passage indicates that traditional economic models often fail to incorporate environmental costs."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the paragraphs.",
+      "pairs": [
+        {
+          "statement": "Discussion of extreme weather events",
+          "paragraph": "1"
+        },
+        {
+          "statement": "Moral obligations of wealthier nations",
+          "paragraph": "3"
+        },
+        {
+          "statement": "Philosophical implications of climate change",
+          "paragraph": "2"
+        },
+        {
+          "statement": "Need for interdisciplinary strategies",
+          "paragraph": "4"
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph from the list provided.",
+      "headings": [
+        "A. The urgency of climate action",
+        "B. Economic models and environmental costs",
+        "C. Climate change as a social justice issue",
+        "D. The role of philosophy in environmental discourse",
+        "E. The challenges of extreme weather"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence using no more than two words.",
+      "text": "The rising frequency of extreme weather events highlights the urgency of addressing __________.",
+      "answer": "climate change",
+      "explanation": "The passage indicates that the increasing frequency of extreme weather events underscores the urgency of addressing climate change."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using no more than two words.",
+      "text": "The passage discusses the need for __________ approaches to tackle climate change effectively.",
+      "answer": "multidisciplinary",
+      "explanation": "The passage emphasizes the necessity for a multidisciplinary approach to climate action."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer",
+      "instruction": "Answer the following question in no more than two words.",
+      "text": "Who faces the most significant impacts of climate change according to the passage?",
+      "answer": "vulnerable populations",
+      "explanation": "The passage states that vulnerable populations, particularly in developing nations, face the brunt of climate impacts."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "anthropogenic",
+      "meaning": "resulting from the influence of human beings on nature"
+    },
+    {
+      "word": "dissonance",
+      "meaning": "the lack of harmony or agreement between elements"
+    },
+    {
+      "word": "intersectionality",
+      "meaning": "the interconnected nature of social categorizations such as race, class, and gender"
+    },
+    {
+      "word": "sustainability",
+      "meaning": "the ability to be maintained at a certain rate or level without depleting resources"
+    },
+    {
+      "word": "equity",
+      "meaning": "the quality of being fair and impartial"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on understanding the main ideas and the relationships between different concepts. Pay attention to the nuanced language used, as it may include subtle hints about the author's attitude and purpose. Skim the headings and summary sections to grasp the overall structure before diving into the details. For multiple-choice questions, eliminate options that do not align closely with the passage's intent. Remember to differentiate between implied information and explicit statements when answering True/False/Not Given questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

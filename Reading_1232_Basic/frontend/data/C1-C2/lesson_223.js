@@ -1,0 +1,99 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_223",
+  "title": "The Unfolding Crisis: Understanding Climate Change and Global Warming",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Unfolding Crisis: Understanding Climate Change and Global Warming</h2><p>Climate change, a complex and multifaceted phenomenon, poses one of the most significant threats to global stability and sustainability. The consensus among scientists is that human activities, particularly the burning of fossil fuels and deforestation, have led to unprecedented levels of greenhouse gases in the atmosphere. This accumulation has resulted in a marked increase in global temperatures, disrupting weather patterns and leading to severe environmental consequences.</p><p>One of the most alarming aspects of climate change is its impact on biodiversity. As habitats shift and temperatures rise, many species face extinction, unable to adapt quickly enough to the changing conditions. The concept of 'climate refugees' has emerged, referring to populations that are displaced due to climate-related disasters such as floods, droughts, and hurricanes. These changes not only threaten ecological balance but also challenge social and economic systems worldwide.</p><p>Governments and organizations are increasingly recognizing the urgency of addressing climate change. International agreements, such as the Paris Accord, aim to limit global warming to below 2 degrees Celsius above pre-industrial levels. However, the effectiveness of such agreements is often undermined by political and economic interests that prioritize short-term gains over long-term sustainability.</p><p>Furthermore, the rhetoric surrounding climate change often lacks the necessary urgency. While some leaders advocate for immediate action, others remain skeptical, viewing climate change as an exaggerated threat. This dichotomy complicates the global response, as public opinion sways based on the narratives presented by influential figures.</p><p>In conclusion, tackling climate change requires a collective effort that transcends national borders and political ideologies. It demands a reevaluation of our economic systems, energy consumption, and individual behaviors. Only through collaborative action can we hope to mitigate the devastating effects of this global crisis.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary cause of the increase in greenhouse gases according to the passage?",
+      "options": {
+        "A": "Natural climate cycles.",
+        "B": "Human industrial activities.",
+        "C": "Volcanic eruptions.",
+        "D": "Changes in solar radiation."
+      },
+      "answer": "B",
+      "explanation": "The passage clearly states that human activities, particularly the burning of fossil fuels and deforestation, have led to unprecedented levels of greenhouse gases in the atmosphere."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Climate change has no impact on human populations.",
+      "answer": "False",
+      "explanation": "The passage discusses the emergence of 'climate refugees' and the displacement of populations due to climate-related disasters, indicating a significant impact on human populations."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that political interests often hinder effective climate action.",
+      "answer": "Yes",
+      "explanation": "The passage mentions that political and economic interests prioritize short-term gains over long-term sustainability, illustrating the author's belief that such interests hinder effective climate action."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct paragraphs.",
+      "text": {
+        "1": "The role of international agreements in addressing climate change.",
+        "2": "The impact of climate change on biodiversity.",
+        "3": "Public perception of climate change."
+      },
+      "answers": {
+        "1": "Paragraph 3",
+        "2": "Paragraph 2",
+        "3": "Paragraph 4"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the appropriate paragraphs.",
+      "text": {
+        "A": "The urgency of climate action.",
+        "B": "Biodiversity at risk.",
+        "C": "The role of human activity.",
+        "D": "Challenges in global cooperation."
+      },
+      "answers": {
+        "1": "B",
+        "2": "C",
+        "3": "D",
+        "4": "A"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short-answer",
+      "instruction": "Answer the question using no more than two words.",
+      "text": "What term is used to describe populations displaced due to climate disasters?",
+      "answer": "climate refugees",
+      "explanation": "The passage explicitly mentions 'climate refugees' as a term for displaced populations due to climate-related disasters."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "unprecedented",
+      "meaning": "never done or known before; without previous example."
+    },
+    {
+      "word": "biodiversity",
+      "meaning": "the variety of life in the world or in a particular habitat or ecosystem."
+    },
+    {
+      "word": "displacement",
+      "meaning": "the action of moving something from its place or position."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "the ability to be maintained at a certain rate or level."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To succeed in this passage, focus on understanding the main ideas and the implications of the author’s arguments. Pay attention to the nuances in language that indicate the author's attitude and purpose. When answering questions, look for synonyms and paraphrases that may not directly match the wording in the passage. Practice skimming for main ideas and scanning for specific details to improve efficiency.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,89 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_133",
+  "title": "Understanding Climate Change: Causes and Solutions",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Climate Change and Its Impact</h2><p>Climate change refers to significant alterations in global temperatures and weather patterns over time. While climate change is a natural phenomenon, human activities have accelerated its pace through the emission of greenhouse gases. These gases trap heat in the atmosphere, leading to global warming. One of the primary contributors is the burning of fossil fuels, such as coal, oil, and gas, which releases carbon dioxide into the air.</p><p>As a result of climate change, we are witnessing extreme weather events more frequently, including hurricanes, floods, and droughts. These changes not only threaten ecosystems but also affect human health, agriculture, and economy. It is essential to acknowledge that while developed countries have historically contributed more to greenhouse gas emissions, developing nations are often the most affected by climate impacts.</p><p>To combat climate change, various strategies can be employed. Transitioning to renewable energy sources like wind, solar, and hydroelectric power can significantly reduce emissions. Additionally, enhancing energy efficiency in buildings and transportation can also help. Governments and individuals alike play a crucial role in implementing changes that lead to a more sustainable future.</p><p>Public awareness and education regarding climate change are vital. By understanding the science behind climate change, individuals can make informed decisions about their lifestyle choices. Simple actions, such as reducing waste, recycling, and conserving energy, can contribute to the global effort against climate change.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major cause of climate change mentioned in the passage?",
+      "options": {
+        "A": "Deforestation",
+        "B": "Burning of fossil fuels",
+        "C": "Increased population",
+        "D": "Natural disasters"
+      },
+      "answer": "B",
+      "explanation": "The passage clearly states that the burning of fossil fuels is a primary contributor to climate change through the release of carbon dioxide."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which of the following is NOT a consequence of climate change according to the text?",
+      "options": {
+        "A": "Extreme weather events",
+        "B": "Increased greenhouse gases",
+        "C": "Threat to agriculture",
+        "D": "Public health issues"
+      },
+      "answer": "B",
+      "explanation": "The passage discusses the consequences of climate change but does not state that increased greenhouse gases are a consequence; rather, they are a cause."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Developing countries contribute more to greenhouse gas emissions than developed countries.",
+      "answer": "False",
+      "explanation": "The passage states that developed countries have historically contributed more to greenhouse gas emissions."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that public education is important in addressing climate change.",
+      "answer": "Yes",
+      "explanation": "The passage emphasizes the importance of public awareness and education regarding climate change."
+    },
+    {
+      "id": "q5",
+      "type": "matching_information",
+      "instruction": "Match the strategies to combat climate change with their descriptions.",
+      "options": {
+        "1": "Transition to renewable energy",
+        "2": "Enhance energy efficiency",
+        "3": "Public awareness campaigns"
+      },
+      "descriptions": {
+        "A": "Reduce reliance on fossil fuels.",
+        "B": "Encourage sustainable practices.",
+        "C": "Improve performance of buildings and transport."
+      },
+      "matches": {
+        "1": "A",
+        "2": "C",
+        "3": "B"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "greenhouse gases",
+      "meaning": "Gases that trap heat in the atmosphere, which contribute to global warming."
+    },
+    {
+      "word": "renewable energy",
+      "meaning": "Energy from sources that are naturally replenished, such as wind and solar."
+    },
+    {
+      "word": "ecosystem",
+      "meaning": "A community of living organisms and their physical environment interacting as a system."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on the main ideas and supporting details to answer the questions accurately. Pay attention to keywords in the questions that may help you locate answers in the text. For multiple-choice questions, eliminate options that you know are incorrect to improve your chances of selecting the right answer.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

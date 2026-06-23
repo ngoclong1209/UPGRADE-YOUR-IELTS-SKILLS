@@ -1,0 +1,77 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_272",
+  "title": "The Rise of Online Learning: A New Era in Education",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Online Learning: A Modern Approach to Education</h2><p>In recent years, online learning has become increasingly popular among students of all ages. With advancements in technology, distance education offers a flexible and accessible way for learners to pursue their studies. Many educational institutions now provide a wide range of courses online, allowing students to learn at their own pace and from the comfort of their own homes.</p><p>One major advantage of online learning is the convenience it offers. Students can access course materials at any time, which makes it easier to balance studies with work or personal commitments. Furthermore, online platforms often include interactive elements such as quizzes and forums, encouraging student engagement and collaboration.</p><p>However, online learning also presents challenges. Some students may struggle with self-discipline and time management, leading to difficulties in completing their courses. Additionally, the lack of face-to-face interaction can result in feelings of isolation for some learners.</p><p>Despite these challenges, the benefits of online education are significant. It opens up opportunities for those who may not have access to traditional learning environments, such as individuals in remote areas. Moreover, it allows for a diverse range of courses and subjects, catering to various interests and career paths.</p><p>In conclusion, while online learning is not without its drawbacks, it represents a transformative shift in how education is delivered. As technology continues to evolve, the potential for online education to enhance learning experiences is immense.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a key benefit of online learning mentioned in the passage?",
+      "options": {
+        "A": "It allows students to learn at their own pace.",
+        "B": "It requires strict classroom attendance.",
+        "C": "It limits course options available to students.",
+        "D": "It provides mandatory face-to-face interaction."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct because the passage states that online learning offers flexibility, allowing students to learn at their own pace."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Online learning has no disadvantages.",
+      "answer": "False",
+      "explanation": "The passage mentions that online learning presents challenges, indicating that it does have disadvantages."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer 'Yes', 'No', or 'Not Given'.",
+      "text": "Does the author believe online learning is beneficial for everyone?",
+      "answer": "Not Given",
+      "explanation": "The passage discusses benefits and challenges of online learning but does not explicitly say it is beneficial for everyone."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statement with the correct paragraph.",
+      "text": "Students can feel isolated when studying online.",
+      "options": {
+        "1": "Paragraph 1",
+        "2": "Paragraph 2",
+        "3": "Paragraph 3",
+        "4": "Paragraph 4"
+      },
+      "answer": "3",
+      "explanation": "The statement about students feeling isolated relates to the challenges mentioned in Paragraph 3."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence using NO MORE THAN TWO WORDS.",
+      "text": "One major advantage of online learning is its ________.",
+      "answer": "convenience",
+      "explanation": "The passage emphasizes that convenience is a key advantage of online learning."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "flexible",
+      "meaning": "able to change or be changed easily according to the situation."
+    },
+    {
+      "word": "isolation",
+      "meaning": "the state of being separated from others."
+    },
+    {
+      "word": "transformative",
+      "meaning": "causing a marked change in someone or something."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading about online learning, pay attention to both the advantages and disadvantages mentioned. Look for keywords that indicate opinions or conclusions, such as 'however' or 'in conclusion'. This will help you understand the author's perspective and the main ideas of the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

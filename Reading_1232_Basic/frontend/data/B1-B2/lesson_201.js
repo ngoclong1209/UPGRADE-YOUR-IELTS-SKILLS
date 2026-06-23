@@ -1,0 +1,82 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_201",
+  "title": "Exploring Pathways: Higher Education vs Vocational Training",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Higher Education vs Vocational Training</h2><p>In today's fast-paced world, individuals are faced with numerous options when it comes to their education and career paths. Higher education, which typically includes university degrees, offers an academic approach that can lead to various professions. Conversely, vocational training focuses on practical skills and prepares students for specific trades and careers. Both pathways have their advantages and disadvantages, and the best choice often depends on individual goals and circumstances.</p><p>Higher education is often perceived as a traditional route to success. Universities provide students with a broad range of knowledge, critical thinking skills, and the opportunity to explore various fields. Graduates with degrees tend to have access to higher-paying jobs and are often viewed as more competitive in the job market. However, the cost of tuition and student debt can be significant drawbacks of pursuing a university degree. Many graduates find themselves burdened by loans without guaranteed employment in their field of study.</p><p>On the other hand, vocational training is designed to equip individuals with the skills needed for specific occupations, such as carpentry, plumbing, or culinary arts. This type of training often takes less time to complete and is generally more affordable. Students can enter the workforce sooner, which can lead to immediate income. Furthermore, many vocational careers are in high demand, meaning that graduates may find stable employment opportunities more readily. However, vocational training may not provide the same level of academic credentialing that a university degree offers, which could limit career advancement in certain fields.</p><p>Ultimately, the decision between higher education and vocational training should be made based on personal interests, career aspirations, and financial circumstances. Some individuals may thrive in an academic environment and pursue advanced degrees, while others may prefer hands-on work and the quick transition to employment that vocational training provides. Both pathways can lead to fulfilling careers, but understanding the differences is crucial for making an informed choice.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a major advantage of higher education?",
+      "options": {
+        "A": "Access to higher-paying jobs",
+        "B": "Less time to complete",
+        "C": "Immediate income after graduation",
+        "D": "Focus on practical skills"
+      },
+      "answer": "A",
+      "explanation": "Higher education offers access to higher-paying jobs, while vocational training leads to immediate income."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which of the following is a disadvantage of vocational training?",
+      "options": {
+        "A": "It is more affordable than university education.",
+        "B": "It takes longer to complete than higher education.",
+        "C": "It may limit career advancement opportunities.",
+        "D": "It prepares students for specific trades."
+      },
+      "answer": "C",
+      "explanation": "Vocational training may limit career advancement opportunities compared to higher education."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Higher education is always the best option for everyone.",
+      "answer": "False",
+      "explanation": "The passage states that the best choice depends on individual goals and circumstances."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "instruction": "Indicate whether the statement is Yes, No, or Not Given.",
+      "text": "Vocational training is always less expensive than higher education.",
+      "answer": "Yes",
+      "explanation": "The passage mentions that vocational training is generally more affordable."
+    },
+    {
+      "id": "q5",
+      "type": "matching_information",
+      "instruction": "Match the descriptions with the correct pathway.",
+      "options": {
+        "A": "Offers immediate income",
+        "B": "Provides broad knowledge",
+        "C": "Involves significant tuition costs",
+        "D": "Focuses on specific skills"
+      },
+      "answers": {
+        "A": "Vocational Training",
+        "B": "Higher Education",
+        "C": "Higher Education",
+        "D": "Vocational Training"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "vocational",
+      "meaning": "Related to training for a specific career or occupation."
+    },
+    {
+      "word": "credentialing",
+      "meaning": "The process of verifying qualifications or competencies."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, pay attention to the main ideas and specific details about both higher education and vocational training. Look for keywords that indicate advantages and disadvantages, and consider the context in which each pathway may be preferable. Use skimming techniques to grasp the overall message before tackling specific questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

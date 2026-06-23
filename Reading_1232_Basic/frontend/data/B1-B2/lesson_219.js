@@ -1,0 +1,91 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_219",
+  "title": "The Dual Impact of Tourism on Local Communities",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dual Impact of Tourism on Local Communities</h2><p>Tourism is one of the world's largest industries, providing jobs and economic opportunities for millions of people worldwide. However, while it can boost local economies, it also creates various challenges for communities. The impact of tourism is multifaceted, encompassing both benefits and drawbacks.</p><p>On one hand, tourism generates significant revenue for local businesses. Hotels, restaurants, and shops thrive as more visitors arrive. This influx of tourists can help fund public services such as transportation and infrastructure improvements. For example, in many coastal towns, the revenue from tourism has been used to enhance beach facilities and promote conservation efforts.</p><p>On the other hand, the rapid increase in tourists can lead to overcrowding. Many popular destinations face the issue of too many visitors, which can degrade the quality of life for local residents. Increased traffic congestion and noise pollution are common complaints, as well as the rising cost of living due to higher demand for goods and services.</p><p>Moreover, cultural impacts must be considered. While tourism can promote cultural exchange, it may also result in the commercialization of local traditions. Authentic cultural practices might be altered to cater to tourist expectations, leading to a loss of cultural identity. For instance, traditional festivals might be modified to attract more tourists, which can dilute their original significance.</p><p>In conclusion, tourism presents both opportunities and challenges for local communities. Balancing the economic benefits with the need to preserve cultural and environmental integrity is crucial for sustainable tourism development.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one positive effect of tourism mentioned in the passage?",
+      "options": {
+        "A": "It increases the cost of living.",
+        "B": "It helps fund public services.",
+        "C": "It leads to cultural identity loss.",
+        "D": "It creates traffic congestion."
+      },
+      "answer": "B",
+      "explanation": "The passage states that tourism generates significant revenue which can be used to fund public services."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Tourism only benefits the local economy without any negative effects.",
+      "answer": "False",
+      "explanation": "The passage discusses both benefits and drawbacks of tourism, indicating that negative effects do exist."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Decide if the author's opinion is Yes, No, or Not Given.",
+      "text": "The author believes that tourism should be limited to preserve culture.",
+      "answer": "Not Given",
+      "explanation": "The passage does not explicitly state the author's opinion on limiting tourism."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following impacts of tourism with their descriptions.",
+      "text": "1. Economic Benefits\n2. Cultural Challenges\n3. Environmental Issues",
+      "options": {
+        "A": "Can lead to commercialization of traditions.",
+        "B": "Provides funding for infrastructure improvements.",
+        "C": "May cause pollution and overcrowding."
+      },
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "C"
+      },
+      "explanation": "Each description aligns with the impacts as detailed in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "Tourism can enhance _______ services in local communities.",
+      "answer": "public",
+      "explanation": "The passage states that revenue from tourism can help fund public services."
+    },
+    {
+      "id": "q6",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "Tourism can provide significant _______ for local businesses but can also lead to _______ for residents.",
+      "answers": [
+        "revenue",
+        "overcrowding"
+      ],
+      "explanation": "The passage mentions both revenue generation and issues like overcrowding."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "influx",
+      "meaning": "a large number of people or things arriving at the same time."
+    },
+    {
+      "word": "dilute",
+      "meaning": "to make something weaker or less effective."
+    },
+    {
+      "word": "commercialization",
+      "meaning": "the process of managing or running something principally for financial gain."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on understanding both the benefits and drawbacks of tourism as presented in the passage. Pay attention to specific terms that indicate positive or negative impacts. Use skimming for main ideas and scanning for detailed information to answer the questions effectively.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

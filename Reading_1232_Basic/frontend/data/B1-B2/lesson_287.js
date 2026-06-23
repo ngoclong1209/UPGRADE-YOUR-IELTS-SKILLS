@@ -1,0 +1,87 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_287",
+  "title": "The Great Debate: Public Transportation vs Private Cars",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Great Debate: Public Transportation vs Private Cars</h2><p>In today's fast-paced world, the choice between public transportation and private cars is a significant topic of discussion. Public transportation systems, such as buses and trains, offer an affordable means of travel for millions. They help reduce traffic congestion and decrease air pollution. In contrast, private cars provide flexibility and convenience, allowing individuals to travel at their own pace without waiting for schedules. However, the environmental impact of private vehicles cannot be overlooked, as they contribute to greenhouse gas emissions and urban sprawl. Many cities are now investing in expanding public transit networks to encourage more people to choose this option. This expansion aims to make public transport more efficient and attractive compared to driving a private vehicle.</p><p>Advocates of public transportation argue that it is a more sustainable choice. They emphasize the importance of reducing carbon footprints and the need for people to consider the collective benefits of using buses and trains. Moreover, public transport systems can be enhanced with technology, such as real-time tracking and mobile ticketing, making them more user-friendly. On the other hand, some people prefer private cars due to the comfort and privacy they offer. They argue that public transportation can be unreliable, often leading to delays and overcrowding, which can detract from the travel experience.</p><p>Ultimately, the decision between public transportation and private cars depends on various factors, including personal preferences, location, and lifestyle. While public transport offers many benefits, the convenience of a private car remains appealing to many. As cities continue to grow and evolve, finding a balance between these two modes of transport will be crucial for future urban planning.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one advantage of public transportation mentioned in the passage?",
+      "options": {
+        "A": "It reduces traffic congestion.",
+        "B": "It allows for personal privacy.",
+        "C": "It is always on time.",
+        "D": "It is more expensive than cars."
+      },
+      "answer": "A",
+      "explanation": "The passage states that public transportation helps reduce traffic congestion, which is one of its key advantages."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False or Not Given.",
+      "text": "Private cars are preferred by everyone for their comfort.",
+      "answer": "False",
+      "explanation": "The passage mentions that many prefer private cars for comfort, but it does not say everyone prefers them."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No or Not Given.",
+      "text": "The author believes that public transportation is the best option for all.",
+      "answer": "No",
+      "explanation": "The author presents both sides of the argument, indicating that the decision depends on various factors."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the advantages to the transportation options.",
+      "text": "1. Flexibility and convenience<br>2. Reduced carbon footprint<br>3. More user-friendly with technology",
+      "options": {
+        "A": "Public Transportation",
+        "B": "Private Cars"
+      },
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "A"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "options": {
+        "A": "The environmental impact of cars",
+        "B": "Personal preferences in transportation",
+        "C": "The benefits of public transport",
+        "D": "Urban planning for the future"
+      },
+      "answers": {
+        "1": "C",
+        "2": "B",
+        "3": "A",
+        "4": "D"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "congestion",
+      "meaning": "a situation in which a place is crowded with too many people or vehicles."
+    },
+    {
+      "word": "sustainable",
+      "meaning": "capable of being maintained at a steady level without exhausting natural resources."
+    },
+    {
+      "word": "advocates",
+      "meaning": "people who publicly support or recommend a particular cause or policy."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching the passage, first skim for the main ideas. Pay attention to the advantages and disadvantages of both public transportation and private cars. Look for keywords in the questions that may help you locate the relevant sections in the text. Make sure to understand the author's tone and viewpoint when answering opinion-based questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

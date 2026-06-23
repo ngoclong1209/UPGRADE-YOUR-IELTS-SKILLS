@@ -1,0 +1,121 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_587",
+  "title": "Navigating Urban Mobility: Public Transportation vs Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dynamics of Urban Mobility</h2><p>In contemporary urban settings, the debate between public transportation and private car usage has become increasingly pertinent. As cities expand and populations grow, the pressures on transportation systems intensify, leading to a complex interplay between these two modes of mobility. Public transportation, characterized by its accessibility and efficiency, often presents a viable alternative to private vehicles, which are frequently associated with individualism and convenience. However, this dichotomy is not merely about preference; it encapsulates broader themes of environmental sustainability, economic impacts, and social equity.</p><p>Public transportation systems, such as buses, subways, and trams, are designed to accommodate large numbers of passengers, thereby reducing the per capita carbon footprint associated with travel. Studies indicate that cities with robust public transportation networks experience lower levels of traffic congestion, which not only enhances quality of life but also contributes to economic vitality. Conversely, reliance on private cars can exacerbate urban sprawl, leading to increased greenhouse gas emissions and a host of socio-economic challenges.</p><p>Nevertheless, the effectiveness of public transport is contingent on various factors, including government investment, public policy, and user perception. In many regions, inadequate funding and maintenance result in unreliable services, deterring potential users and perpetuating a cycle of dependence on private vehicles. This phenomenon raises questions about urban planning and the necessity for a balanced approach that prioritizes both modes of transport.</p><p>Critically, the choice between public transportation and private cars also reflects broader societal values. While private vehicles offer unparalleled freedom and flexibility, they may inadvertently foster social isolation and contribute to a culture of individualism. In contrast, public transportation promotes communal engagement and can serve as a catalyst for social interaction. Thus, the discourse surrounding urban mobility extends beyond logistics; it encompasses philosophical inquiries into the nature of community and belonging.</p><p>In conclusion, as urban areas continue to evolve, the interplay between public transportation and private vehicles will remain a focal point for policymakers, urban planners, and citizens alike. Embracing a multifaceted approach that recognizes the merits and drawbacks of both systems is essential for fostering sustainable, inclusive urban environments.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary focus of the passage?",
+      "options": {
+        "A": "The environmental impact of private cars compared to public transport.",
+        "B": "The debate surrounding the advantages and disadvantages of public transportation and private cars within urban mobility.",
+        "C": "The economic benefits of public transportation systems.",
+        "D": "The psychological effects of urban sprawl on city dwellers."
+      },
+      "answer": "B",
+      "explanation": "The passage primarily discusses the debate between public transportation and private cars, examining their implications for urban mobility."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide whether the following statements are True, False, or Not Given in the passage.",
+      "text": "Public transportation systems are always more environmentally friendly than private cars.",
+      "answer": "Not Given",
+      "explanation": "The passage suggests that public transportation has lower per capita emissions but does not categorically state that it is always more environmentally friendly than private cars in every context."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author advocate for a sole reliance on public transportation?",
+      "answer": "No",
+      "explanation": "The author emphasizes the importance of a balanced approach that recognizes the merits of both public transportation and private vehicles."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the correct paragraphs.",
+      "text": "1. The relationship between transportation and social interaction. 2. Challenges faced by public transportation systems. 3. Environmental implications of urban mobility.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answers": {
+        "1": "D",
+        "2": "C",
+        "3": "B"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph.",
+      "text": "1. The impact of public transportation on the environment. 2. The social implications of transportation choices. 3. The necessity for comprehensive urban planning.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answers": {
+        "1": "B",
+        "2": "D",
+        "3": "C"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence using NO MORE THAN TWO WORDS.",
+      "text": "Public transportation can reduce traffic congestion and enhances __________.",
+      "answer": "quality of life",
+      "explanation": "The passage states that lower levels of traffic congestion enhance quality of life."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using NO MORE THAN TWO WORDS.",
+      "text": "The passage discusses the interplay between public transportation and private vehicles and highlights the need for __________ urban environments.",
+      "answer": "sustainable, inclusive",
+      "explanation": "The conclusion of the passage emphasizes the importance of fostering sustainable and inclusive urban environments."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer",
+      "instruction": "Answer the following question using NO MORE THAN THREE WORDS.",
+      "text": "What can public transportation promote according to the passage?",
+      "answer": "communal engagement",
+      "explanation": "The passage states that public transportation promotes communal engagement."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "interplay",
+      "meaning": "the way in which two or more things have an effect on each other."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "the ability to be maintained at a certain rate or level, often in relation to environmental health."
+    },
+    {
+      "word": "urban sprawl",
+      "meaning": "the uncontrolled expansion of urban areas."
+    },
+    {
+      "word": "individualism",
+      "meaning": "a social theory advocating the liberty, rights, or independent action of the individual."
+    },
+    {
+      "word": "communal",
+      "meaning": "relating to a community or its members."
+    }
+  ],
+  "tactics": "<h2>Tips for Effective Reading</h2><p>1. Pay attention to the main ideas in each paragraph to help answer questions about the overall focus.</p><p>2. Look for synonyms and paraphrases that may differ from the text but convey the same meaning.</p><p>3. Be cautious of options that seem correct but do not fully align with the author's intent or nuances.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

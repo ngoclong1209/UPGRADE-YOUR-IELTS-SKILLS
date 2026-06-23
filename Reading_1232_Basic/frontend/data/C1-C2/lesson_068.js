@@ -1,0 +1,83 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_068",
+  "title": "The Internet: A Double-Edged Sword in Contemporary Society",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Internet: A Double-Edged Sword in Contemporary Society</h2><p>The advent of the Internet has revolutionized the way individuals communicate, access information, and conduct business. While it has facilitated unprecedented levels of connectivity and access to knowledge, it has simultaneously introduced a plethora of challenges that demand critical examination. The rapid dissemination of information has rendered traditional gatekeeping mechanisms obsolete, leading to an overwhelming influx of data. This phenomenon has raised concerns regarding misinformation, where false narratives can proliferate unchecked across platforms, undermining public discourse and democratic processes.</p><p>Moreover, the Internet has significantly altered the landscape of personal privacy. With the advent of data mining and surveillance technologies, individuals' private lives are increasingly commodified. This raises ethical questions about consent and the ownership of personal data. The implications of these developments extend beyond individual privacy concerns; they reflect broader societal shifts towards surveillance capitalism, where personal information becomes a lucrative asset for corporations.</p><p>Furthermore, the Internet has been a catalyst for social movements, empowering marginalized voices and facilitating grassroots activism. Platforms such as Twitter and Facebook have been instrumental in mobilizing communities around critical issues, from climate change to social justice. However, these same platforms are also rife with toxic discourse and polarization, raising questions about the efficacy of online activism and its impact on real-world change.</p><p>In summary, the Internet embodies a dual nature, serving both as a tool for empowerment and as a source of significant societal challenges. A nuanced understanding of its role in modern society is essential for navigating the complexities it presents.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one significant consequence of the Internet's rapid information dissemination?",
+      "options": {
+        "A": "It enhances traditional gatekeeping mechanisms.",
+        "B": "It has increased the amount of misinformation.",
+        "C": "It guarantees the accuracy of all information.",
+        "D": "It eliminates the need for personal privacy."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct because the passage clearly states that the rapid dissemination of information has led to concerns about misinformation proliferating unchecked."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "State whether the following statements are True, False, or Not Given.",
+      "text": "The Internet has completely eliminated the need for privacy.",
+      "answer": "False",
+      "explanation": "The passage discusses how the Internet has altered personal privacy but does not claim that the need for privacy has been eliminated."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes online activism is always effective.",
+      "answer": "No",
+      "explanation": "The passage mentions concerns about the efficacy of online activism, indicating that the author does not believe it is always effective."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following concepts with their descriptions.",
+      "items": [
+        {
+          "concept": "Surveillance capitalism",
+          "description": "A system where personal data is commodified."
+        },
+        {
+          "concept": "Grassroots activism",
+          "description": "Local movements leveraging social media for mobilization."
+        }
+      ],
+      "answer": {
+        "Surveillance capitalism": "A system where personal data is commodified.",
+        "Grassroots activism": "Local movements leveraging social media for mobilization."
+      },
+      "explanation": "The passage describes surveillance capitalism in terms of data commodification and grassroots activism as mobilizing communities."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences with NO MORE THAN TWO WORDS.",
+      "text": "The rise of __________ has led to an increase in misinformation.",
+      "answer": "data dissemination",
+      "explanation": "The term 'data dissemination' summarizes the rapid spread of information discussed in the passage."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "gatekeeping",
+      "meaning": "The act of controlling access to information."
+    },
+    {
+      "word": "commodified",
+      "meaning": "Transformed into a product for sale."
+    },
+    {
+      "word": "polarization",
+      "meaning": "The division of opinions into two sharply contrasting groups."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the nuances of the author's arguments. Pay attention to the implications of statements regarding privacy and activism. Familiarize yourself with advanced vocabulary and practice paraphrasing key concepts to enhance comprehension.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

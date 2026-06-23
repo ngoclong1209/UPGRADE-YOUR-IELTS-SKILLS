@@ -1,0 +1,110 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_540",
+  "title": "The Intricacies of Nutritional Science: Unraveling Dietary Myths",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Impact of Nutrition on Human Health</h2><p>Nutrition plays a pivotal role in maintaining human health and preventing diseases. Recent studies have illuminated the complexities surrounding dietary choices and their long-term implications. As the prevalence of chronic diseases continues to rise globally, understanding the interplay between diet and health has never been more critical. The ongoing debate between various dietary paradigms, including plant-based diets versus high-protein regimens, highlights the necessity of personalized nutrition. Moreover, the influence of socio-economic factors on dietary habits cannot be overlooked, as they often dictate what individuals can feasibly consume.</p><p>Furthermore, emerging research suggests that the gut microbiome significantly affects how our bodies process food. This intricate ecosystem of microorganisms not only aids digestion but also impacts mental health and immune function. Consequently, dietary interventions aimed at nurturing a diverse microbiome may offer new avenues for enhancing overall well-being.</p><p>Despite the overwhelming evidence supporting the benefits of a balanced diet rich in whole foods, misconceptions persist. For instance, the notion that all fats are detrimental has been debunked in favor of understanding the difference between saturated and unsaturated fats. Such distinctions are crucial as they inform healthier food choices.</p><p>In summation, navigating the landscape of nutrition requires critical thinking and an openness to new information. As scientific research evolves, so too must our dietary practices, aligning them with evidence-based recommendations to foster better health outcomes.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the passage suggest about the relationship between diet and chronic diseases?",
+      "options": {
+        "A": "Dietary choices have minimal impact on chronic disease prevalence.",
+        "B": "Understanding nutrition is essential for preventing chronic diseases.",
+        "C": "Chronic diseases are solely influenced by genetic factors.",
+        "D": "High-protein diets are the most effective for disease prevention."
+      },
+      "answer": "B",
+      "explanation": "The passage emphasizes the critical role of understanding the interplay between diet and health, especially in the context of preventing chronic diseases."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False or Not Given.",
+      "text": "The gut microbiome has no effect on mental health.",
+      "answer": "False",
+      "explanation": "The passage states that the gut microbiome impacts mental health, indicating that this statement is incorrect."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author believe all fats are bad for health?",
+      "answer": "No",
+      "explanation": "The passage clarifies that the author refutes the idea that all fats are harmful, demonstrating a nuanced understanding of dietary fats."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following concepts to their corresponding descriptions.",
+      "text": "Match the concepts with the correct descriptions.",
+      "items": {
+        "A": "Personalized nutrition",
+        "B": "Gut microbiome",
+        "C": "Balanced diet",
+        "D": "Dietary misconceptions"
+      },
+      "descriptions": {
+        "1": "Influences digestion and mental health.",
+        "2": "Involves tailored dietary choices.",
+        "3": "Supports overall health through whole foods.",
+        "4": "Includes erroneous beliefs about food."
+      },
+      "answers": {
+        "A": "2",
+        "B": "1",
+        "C": "3",
+        "D": "4"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph.",
+      "paragraphs": {
+        "1": "The role of nutrition in health.",
+        "2": "The significance of gut health.",
+        "3": "Debunking dietary myths.",
+        "4": "The necessity of adapting dietary practices."
+      },
+      "headings": {
+        "A": "The importance of adapting to new evidence",
+        "B": "How dietary choices affect well-being",
+        "C": "Misunderstandings about food types",
+        "D": "The influence of microbiomes on health"
+      },
+      "answers": {
+        "1": "B",
+        "2": "D",
+        "3": "C",
+        "4": "A"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "pivotal",
+      "meaning": "of crucial importance in relation to the development or success of something."
+    },
+    {
+      "word": "interplay",
+      "meaning": "the way in which two or more things have an effect on each other."
+    },
+    {
+      "word": "debunked",
+      "meaning": "to expose the falseness or hollowness of a myth, idea, or belief."
+    },
+    {
+      "word": "nuanced",
+      "meaning": "characterized by subtle shades of meaning or expression."
+    },
+    {
+      "word": "misconception",
+      "meaning": "a view or opinion that is incorrect based on faulty thinking or understanding."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on understanding the main ideas and the author's arguments. Pay attention to the nuances in language, especially around dietary misconceptions and the role of the gut microbiome. When answering questions, consider both direct statements and implied meanings. Skim the headings and paragraph structures to identify key themes quickly.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

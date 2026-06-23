@@ -1,0 +1,91 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_189",
+  "title": "The Dual Nature of Tourism: A Blessing and a Curse",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dual Nature of Tourism: A Blessing and a Curse</h2><p>Tourism has long been heralded as a significant driver of economic growth, often epitomized as a golden opportunity for job creation and cultural exchange. However, beneath this seemingly benevolent surface lies a complex web of impacts that can lead to environmental degradation, cultural commodification, and social displacement. The paradox of tourism lies in its duality; while it can engender prosperity for local communities, it can simultaneously precipitate unforeseen consequences that threaten their very existence.</p><p>In many regions, particularly those rich in biodiversity and cultural heritage, tourism often leads to an influx of visitors that can overwhelm local infrastructure. Overcrowding in popular destinations not only diminishes the quality of life for residents but also contributes to the erosion of natural landscapes and historical sites. This phenomenon, known as 'overtourism', poses a significant challenge for policymakers seeking to balance economic benefits with sustainable practices.</p><p>Moreover, tourism can inadvertently lead to cultural homogenization. As global brands and tourist expectations infiltrate local customs, there is a risk that unique cultural identities will be diluted. This is particularly evident in regions where indigenous practices are repackaged for tourist consumption, stripping them of their authentic significance and transforming them into mere spectacles.</p><p>Furthermore, the economic benefits of tourism are often unevenly distributed. Large corporations frequently dominate the tourism sector, siphoning profits away from local economies and exacerbating inequalities. Small businesses and local entrepreneurs often struggle to compete, leading to a scenario where the very communities that provide the tourist experiences may not reap the rewards.</p><p>Nevertheless, there are burgeoning movements advocating for sustainable tourism practices that emphasize the preservation of local culture and environment. Initiatives focusing on ecotourism, community-based tourism, and responsible travel aim to foster a more equitable distribution of benefits while minimizing adverse impacts. As travelers become increasingly aware of their ecological footprint, the demand for such practices is likely to rise, offering a glimmer of hope for the future of tourism.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the main arguments made by the author regarding the impacts of tourism?",
+      "options": {
+        "A": "Tourism exclusively benefits local economies without any drawbacks.",
+        "B": "Tourism can lead to both positive and negative consequences for communities.",
+        "C": "Tourism is primarily harmful to the environment but good for culture.",
+        "D": "Tourism does not affect local infrastructures significantly."
+      },
+      "answer": "B",
+      "explanation": "The author discusses how tourism can lead to economic growth while also causing environmental degradation and cultural homogenization, which supports option B."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write True, False or Not Given.",
+      "text": "The passage states that local communities always benefit financially from tourism.",
+      "answer": "False",
+      "explanation": "The passage mentions that profits from tourism are often siphoned away by large corporations, indicating that local communities do not always benefit financially."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No or Not Given.",
+      "text": "Does the author believe that sustainable tourism practices can mitigate negative impacts?",
+      "answer": "Yes",
+      "explanation": "The author refers to movements advocating for sustainable tourism practices and suggests that they may offer a solution to the negative impacts of tourism."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the impacts of tourism with the corresponding consequences.",
+      "text": "Match the following: 1. Overtourism 2. Cultural Homogenization 3. Economic Inequality",
+      "options": {
+        "A": "Leads to the erosion of unique cultural identities.",
+        "B": "Results in overcrowding and infrastructure strain.",
+        "C": "Causes profits to be concentrated in large corporations."
+      },
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "C"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the following headings to the corresponding paragraphs.",
+      "text": "Headings: A. The Future of Tourism B. The Economic Divide C. The Impact of Overtourism D. Cultural Changes",
+      "answers": {
+        "1": "C",
+        "2": "D",
+        "3": "B",
+        "4": "A"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer in NO MORE THAN THREE WORDS.",
+      "text": "What term describes the phenomenon of excessive tourist presence leading to negative impacts?",
+      "answer": "overtourism",
+      "explanation": "The passage specifically refers to the problem of 'overtourism' as a key issue."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "commodification",
+      "meaning": "the process of turning something into a commodity, often stripping it of its original value."
+    },
+    {
+      "word": "ecotourism",
+      "meaning": "a form of sustainable tourism that focuses on experiencing natural areas while conserving the environment."
+    },
+    {
+      "word": "homogenization",
+      "meaning": "the process of making things uniform or similar, often leading to a loss of diversity."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When tackling this passage, pay close attention to the nuances in the author's arguments. Look for keywords that indicate contrast, such as 'however' and 'nevertheless', to understand the complexities of tourism's impacts. Additionally, for multiple choice questions, ensure to read all options carefully as distractors can be quite subtle. Familiarize yourself with the vocabulary related to tourism and its effects, as understanding these terms will aid in answering both comprehension and vocabulary questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,115 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_047",
+  "title": "Navigating the Urban Mobility Dilemma: Public Transportation vs. Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Urban Mobility Dilemma</h2><p>In contemporary society, the choice between utilizing public transportation systems and relying on private vehicles has sparked an ongoing debate, accentuating the juxtaposition of convenience against environmental sustainability. Public transportation, encompassing buses, trains, and subways, offers a collective means of mobility, often seen as a solution to urban congestion and pollution. Proponents argue that it significantly reduces the carbon footprint per capita, thereby contributing to a greener planet. Conversely, private cars epitomize personal freedom and convenience, allowing individuals to traverse urban landscapes at their own pace. However, this autonomy comes with a price, as the proliferation of vehicles on the road exacerbates traffic congestion and environmental degradation.</p><p>Moreover, the infrastructure supporting public transport is often criticized for being underfunded and inadequate, leading to inefficiencies that deter potential users. The reliability of schedules, the frequency of services, and overall safety can significantly influence public perception and usage rates. On the other hand, advocates of private car ownership emphasize the comfort and privacy it provides, as well as the ability to travel spontaneously without adhering to strict timetables.</p><p>In light of these contrasting advantages and disadvantages, a nuanced understanding of urban mobility is crucial. Policymakers must weigh the immediate benefits of private car usage against the long-term implications for urban sustainability. Initiatives such as congestion pricing and investments in public transport infrastructure could serve to balance these competing interests, fostering a culture of shared mobility while addressing the pressing challenges of urbanization.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is primarily highlighted as a significant advantage of public transportation in the passage?",
+      "options": {
+        "A": "It provides personal freedom to users.",
+        "B": "It contributes to reducing the overall carbon footprint.",
+        "C": "It guarantees comfort and privacy.",
+        "D": "It allows for spontaneous travel without schedules."
+      },
+      "answer": "B",
+      "explanation": "The passage emphasizes that public transportation significantly reduces the carbon footprint per capita, which contributes to environmental sustainability."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "The passage states that private cars are always more efficient than public transportation.",
+      "answer": "False",
+      "explanation": "The passage does not claim that private cars are always more efficient; it discusses the advantages and disadvantages of both modes of transport."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author suggest that public transportation systems need more funding?",
+      "answer": "Yes",
+      "explanation": "The passage mentions that the infrastructure supporting public transport is often criticized for being underfunded, implying that more funding is needed."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements with the correct paragraphs.",
+      "options": {
+        "1": "Public transport reduces urban pollution.",
+        "2": "Private cars allow for spontaneous travel.",
+        "3": "Public transport systems are often criticized for inefficiencies.",
+        "4": "Private cars contribute to traffic congestion."
+      },
+      "paragraphs": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 2",
+        "D": "Paragraph 1"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph.",
+      "options": {
+        "A": "The Impact of Transportation on Urban Life",
+        "B": "Advantages of Public Transportation",
+        "C": "Challenges of Private Car Ownership",
+        "D": "Balancing Urban Mobility Solutions"
+      },
+      "paragraphs": {
+        "1": "A",
+        "2": "B",
+        "3": "C",
+        "4": "D"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence with NO MORE THAN TWO WORDS.",
+      "text": "Public transportation is seen as a solution to urban ________ and pollution.",
+      "answer": "congestion",
+      "explanation": "The passage explicitly mentions that public transportation is a solution to urban congestion."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The debate between public transportation and private cars revolves around ___________ and convenience.",
+      "answer": "sustainability",
+      "explanation": "The passage discusses the juxtaposition of convenience against environmental sustainability."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer",
+      "instruction": "Answer the following question with NO MORE THAN THREE WORDS.",
+      "text": "What do policymakers need to balance according to the passage?",
+      "answer": "competing interests",
+      "explanation": "The passage states that policymakers must weigh the benefits of private car usage against the long-term implications for urban sustainability."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "juxtaposition",
+      "meaning": "the act of placing two or more concepts, ideas, or places side by side for comparison."
+    },
+    {
+      "word": "epitomize",
+      "meaning": "to be a perfect example of something."
+    },
+    {
+      "word": "autonomy",
+      "meaning": "the right or condition of self-government."
+    },
+    {
+      "word": "infrastructure",
+      "meaning": "the basic physical and organizational structures and facilities needed for the operation of a society."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this reading passage, focus on understanding the main arguments presented by the author. Pay attention to the nuances in language and the implied meanings behind statements. Additionally, practice skimming for main ideas and scanning for specific details to efficiently answer the questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

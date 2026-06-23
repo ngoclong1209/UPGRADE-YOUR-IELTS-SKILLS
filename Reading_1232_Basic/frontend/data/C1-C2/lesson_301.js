@@ -1,0 +1,92 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_301",
+  "title": "Navigating the Divide: Higher Education vs Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dichotomy of Educational Paths</h2><p>In contemporary society, the debate surrounding higher education and vocational training has intensified, reflecting broader discussions about the value of different forms of learning in relation to employability and personal development. Advocates for higher education argue that it fosters critical thinking, creativity, and a comprehensive understanding of complex societal issues, preparing individuals for a variety of professional roles in an increasingly competitive job market. On the contrary, proponents of vocational training posit that it equips students with practical skills tailored to specific industries, thus enhancing immediate employability and addressing skills shortages in various sectors.</p><p>The tension between these two educational pathways is exacerbated by cultural perceptions that often equate higher education with prestige and success, while vocational training is sometimes viewed as a lesser option. However, this binary perspective neglects the nuances and overlaps between the two systems. Many vocational programs now incorporate theoretical frameworks that align with academic institutions, suggesting a convergence of educational philosophies that transcends traditional boundaries.</p><p>Furthermore, as the job market evolves, so too do the requirements for candidates. Employers increasingly value skill sets that are adaptable and relevant, often obtained through a combination of academic and vocational experiences. The integration of internships and cooperative education within higher education institutions exemplifies this trend, aiming to bridge the gap between theoretical knowledge and practical application.</p><p>In conclusion, while both higher education and vocational training have their respective merits and limitations, a symbiotic relationship between the two is essential for fostering a well-rounded workforce capable of meeting the demands of a dynamic economy. Future discussions should focus on dismantling stereotypes and recognizing the equal importance of diverse educational pathways in achieving individual and societal progress.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument made by advocates of higher education?",
+      "options": {
+        "A": "It provides practical skills for immediate employment.",
+        "B": "It prepares individuals for diverse professional roles.",
+        "C": "It focuses solely on theoretical knowledge.",
+        "D": "It is less valuable than vocational training."
+      },
+      "answer": "B",
+      "explanation": "Advocates for higher education argue that it fosters critical thinking and prepares individuals for various professional roles, which aligns with option B."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Vocational training does not involve any theoretical learning.",
+      "answer": "False",
+      "explanation": "The passage indicates that many vocational programs now incorporate theoretical frameworks, contradicting the statement."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer with Yes, No, or Not Given.",
+      "text": "The author believes vocational training is inferior to higher education.",
+      "answer": "No",
+      "explanation": "The author discusses the merits of both educational paths and advocates for a symbiotic relationship, implying that neither is inferior."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the correct educational path.",
+      "options": {
+        "A": "Fosters critical thinking and creativity.",
+        "B": "Equips students with practical skills.",
+        "C": "Often viewed as a lesser option.",
+        "D": "Incorporates internships to bridge theory and practice."
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C",
+        "4": "D"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The integration of ______ and cooperative education enhances the relevance of higher education.",
+      "answer": "internships",
+      "explanation": "The passage states that the integration of internships within higher education exemplifies bridging the gap between theory and practice."
+    },
+    {
+      "id": "q6",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The relationship between higher education and vocational training should focus on dismantling ______ and recognizing their equal importance.",
+      "answer": "stereotypes",
+      "explanation": "The passage mentions the need to dismantle stereotypes regarding the value of each educational path."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "advocate",
+      "meaning": "a person who publicly supports or recommends a particular cause or policy."
+    },
+    {
+      "word": "symbiotic",
+      "meaning": "involving interaction between two different organisms living in close physical association."
+    },
+    {
+      "word": "nuance",
+      "meaning": "a subtle difference in or shade of meaning, expression, or sound."
+    },
+    {
+      "word": "equips",
+      "meaning": "provides someone with the necessary items for a particular purpose."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, pay close attention to the author's tone and the nuances in their argument. Look for keywords that indicate the author's perspective on both educational paths. Practice skimming for main ideas and scanning for specific details to improve your efficiency in answering the questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

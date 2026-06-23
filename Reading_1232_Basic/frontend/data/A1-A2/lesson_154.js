@@ -1,0 +1,110 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_154",
+  "title": "Understanding Robots and AI",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>What is Artificial Intelligence?</h2><p>Artificial Intelligence, or AI, is a way for machines to think like humans. AI can learn and solve problems. For example, AI can help us find information on the internet. It can also understand what we say. Many people use AI every day in their phones or computers.</p><h2>What are Robots?</h2><p>Robots are machines that can do tasks. Some robots can work in factories. They can build cars or pack boxes. Other robots can help at home. For example, some robots can clean floors. Robots can be very helpful for people.</p><h2>AI and Robots Together</h2><p>When AI and robots work together, they can do many things. For example, a robot with AI can talk to people and help them with questions. This is very useful in hospitals and schools. AI makes robots smarter.</p><h2>The Future of AI and Robots</h2><p>In the future, more robots will use AI. They will help us with more tasks. AI will make robots better at understanding us. This will make our lives easier and safer.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does AI help us find?",
+      "options": {
+        "A": "information",
+        "B": "robots",
+        "C": "cars",
+        "D": "boxes"
+      },
+      "answer": "A",
+      "explanation": "AI helps us find information on the internet."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "AI can help us in hospitals.",
+      "answer": "True",
+      "explanation": "The passage states that AI can help robots talk to people in hospitals."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What can robots do at home?",
+      "options": {
+        "A": "build cars",
+        "B": "clean floors",
+        "C": "pack boxes",
+        "D": "find information"
+      },
+      "answer": "B",
+      "explanation": "The passage mentions that some robots can clean floors at home."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "All robots can think like humans.",
+      "answer": "False",
+      "explanation": "The passage does not say that all robots can think like humans."
+    },
+    {
+      "id": "q5",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do robots with AI do?",
+      "options": {
+        "A": "Make cars",
+        "B": "Talk to people",
+        "C": "Help in factories",
+        "D": "Find information"
+      },
+      "answer": "B",
+      "explanation": "Robots with AI can talk to people as stated in the passage."
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "text": "AI will make robots better.",
+      "answer": "True",
+      "explanation": "The passage says that AI will make robots better at understanding us."
+    },
+    {
+      "id": "q7",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What will happen in the future?",
+      "options": {
+        "A": "Less robots",
+        "B": "More robots with AI",
+        "C": "No robots",
+        "D": "More factories"
+      },
+      "answer": "B",
+      "explanation": "The passage mentions that more robots will use AI in the future."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "Artificial Intelligence",
+      "meaning": "A way for machines to think like humans."
+    },
+    {
+      "word": "robots",
+      "meaning": "Machines that can do tasks."
+    },
+    {
+      "word": "tasks",
+      "meaning": "Jobs or work that needs to be done."
+    },
+    {
+      "word": "clean",
+      "meaning": "To make something free of dirt."
+    },
+    {
+      "word": "future",
+      "meaning": "The time that comes after now."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully. Look for key information and details. Pay attention to what robots and AI can do. Answer the questions based on the information in the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

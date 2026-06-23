@@ -1,0 +1,186 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_448",
+  "title": "Navigating the Digital Landscape: The Internet's Influence on Contemporary Society",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Internet's Pervasive Impact</h2><p>In the modern era, the internet has transformed the way individuals interact, consume information, and perceive societal norms. Its omnipresence has fostered a myriad of changes in communication styles, shifting from traditional face-to-face encounters to predominantly digital interactions. This transition has not only revolutionized personal relationships but has also influenced how businesses operate and how governments engage with citizens. Furthermore, the internet serves as a double-edged sword; while it facilitates the rapid dissemination of knowledge, it also presents challenges such as misinformation and the erosion of privacy.</p><p>One critical aspect to consider is the role of social media platforms, which have become essential tools for self-expression and activism. These platforms allow voices that were traditionally marginalized to gain visibility and mobilize support for various causes. However, the algorithms that govern these platforms can create echo chambers, reinforcing existing beliefs and stifling diverse perspectives. Thus, while the internet democratizes information access, it simultaneously raises concerns about the authenticity and reliability of that information.</p><p>Moreover, the economic landscape has been altered significantly by the internet. E-commerce has burgeoned, enabling consumers to engage with products and services from the comfort of their homes. This shift has not only reshaped consumer behavior but has also prompted traditional retailers to adapt or face obsolescence. The gig economy, fueled by online platforms, showcases another dimension of this transformation, offering flexibility for workers yet raising questions about job security and workers' rights.</p><p>In conclusion, the internet's role in modern society is multifaceted, embodying both opportunities and challenges. As we continue to navigate this digital landscape, it is imperative to critically assess its implications for communication, information dissemination, and economic structures.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern regarding social media algorithms as mentioned in the passage?",
+      "options": {
+        "A": "They enhance the diversity of opinions shared.",
+        "B": "They may reinforce existing beliefs.",
+        "C": "They promote the rapid spread of misinformation.",
+        "D": "They ensure equal visibility for all voices."
+      },
+      "answer": "B",
+      "explanation": "The passage states that algorithms can create echo chambers that reinforce existing beliefs, which is a primary concern."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "The internet has only positive impacts on communication styles.",
+      "answer": "False",
+      "explanation": "The passage discusses both the positive and negative impacts of the internet on communication."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author believe that the internet helps to maintain privacy?",
+      "answer": "No",
+      "explanation": "The passage suggests that the internet presents challenges such as the erosion of privacy."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the appropriate sections of the passage.",
+      "text": "Identify the section that discusses the impact of e-commerce on consumer behavior.",
+      "options": [
+        "Impact on communication",
+        "Role of social media",
+        "Economic transformation"
+      ],
+      "answer": "Economic transformation",
+      "explanation": "The relevant section describes how e-commerce has reshaped consumer behavior."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "text": "Choose the correct heading for each paragraph.",
+      "options": [
+        "The risks of digital communication",
+        "The evolution of e-commerce",
+        "Empowerment through social media",
+        "Challenges of information reliability"
+      ],
+      "answer": {
+        "1": "The risks of digital communication",
+        "2": "Empowerment through social media",
+        "3": "The evolution of e-commerce",
+        "4": "Challenges of information reliability"
+      },
+      "explanation": "Each heading corresponds to the main idea discussed in the respective paragraphs."
+    },
+    {
+      "id": "q6",
+      "type": "matching_features",
+      "instruction": "Match the features to the relevant aspects of the internet's influence.",
+      "text": "Connect the aspects of the internet's influence with their descriptions.",
+      "options": [
+        "Facilitates rapid information sharing",
+        "Encourages economic flexibility",
+        "Supports marginalized voices",
+        "Creates information echo chambers"
+      ],
+      "answer": {
+        "1": "Facilitates rapid information sharing",
+        "2": "Encourages economic flexibility",
+        "3": "Supports marginalized voices",
+        "4": "Creates information echo chambers"
+      },
+      "explanation": "The descriptions align with the respective aspects of the internet's influence mentioned in the passage."
+    },
+    {
+      "id": "q7",
+      "type": "matching_sentence_endings",
+      "instruction": "Complete the sentences using the options provided.",
+      "text": "The internet has resulted in... ",
+      "options": [
+        "the decline of traditional retailing.",
+        "an increase in face-to-face communication.",
+        "greater job security for workers.",
+        "more diverse perspectives being heard."
+      ],
+      "answer": "the decline of traditional retailing.",
+      "explanation": "The passage notes that traditional retailers must adapt or face obsolescence due to the rise of the internet."
+    },
+    {
+      "id": "q8",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence using NO MORE THAN TWO WORDS.",
+      "text": "The advent of the internet has led to the creation of the _____ economy.",
+      "answer": "gig",
+      "explanation": "The passage specifically mentions the 'gig economy' as a result of the internet's influence."
+    },
+    {
+      "id": "q9",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary using NO MORE THAN THREE WORDS.",
+      "text": "The internet's influence is characterized by both _____ and challenges.",
+      "answer": "opportunities",
+      "explanation": "The passage concludes that the internet embodies both opportunities and challenges."
+    },
+    {
+      "id": "q10",
+      "type": "diagram_label_completion",
+      "instruction": "Label the diagram with the appropriate terms.",
+      "text": "Label the sections of the diagram related to the internet's impact on society.",
+      "answer": {
+        "1": "Communication",
+        "2": "Economics",
+        "3": "Information reliability"
+      },
+      "explanation": "The terms correspond to the main themes discussed in the passage."
+    },
+    {
+      "id": "q11",
+      "type": "short_answer",
+      "instruction": "Answer using NO MORE THAN TWO WORDS.",
+      "text": "What has the internet allowed for marginalized voices?",
+      "answer": "visibility",
+      "explanation": "The passage states that social media has allowed marginalized voices to gain visibility."
+    },
+    {
+      "id": "q12",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which of the following best describes the author's tone regarding the internet?",
+      "options": {
+        "A": "Overly optimistic about its benefits.",
+        "B": "Cautiously optimistic about its dual nature.",
+        "C": "Completely critical of its effects.",
+        "D": "Indifferent to its societal impact."
+      },
+      "answer": "B",
+      "explanation": "The author expresses a cautious optimism, acknowledging both benefits and challenges of the internet."
+    },
+    {
+      "id": "q13",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "The rise of the internet has led to less job flexibility.",
+      "answer": "False",
+      "explanation": "The passage indicates that the gig economy, facilitated by the internet, encourages economic flexibility."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "omnipresence",
+      "meaning": "the state of being everywhere at once, often used to describe the internet's pervasive nature."
+    },
+    {
+      "word": "echo chambers",
+      "meaning": "environments where a person only encounters information or opinions that reflect and reinforce their own."
+    },
+    {
+      "word": "marginalized",
+      "meaning": "describes groups or individuals who are pushed to the edges of society and have less power or representation."
+    },
+    {
+      "word": "obsolescence",
+      "meaning": "the process of becoming outdated or no longer used."
+    },
+    {
+      "word": "dissemination",
+      "meaning": "the act of spreading something, especially information, widely."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on understanding the main ideas of each paragraph. Pay close attention to the author's tone and perspective, as it plays a crucial role in answering the questions accurately. Look for paraphrased information and be ready to identify implied meanings. Make sure to manage your time wisely to review all sections adequately.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

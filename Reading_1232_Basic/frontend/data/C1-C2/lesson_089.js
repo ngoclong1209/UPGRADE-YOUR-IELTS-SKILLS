@@ -1,0 +1,120 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_089",
+  "title": "The Dual Nature of Tourism: Benefits and Detriments",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Complex Tapestry of Tourism</h2><p>Tourism, a multifaceted industry, serves as both a boon and a bane to economies worldwide. On one hand, it contributes significantly to GDP, generates employment, and fosters cultural exchange. Destinations often witness a surge in investment, leading to infrastructure improvements that benefit both visitors and locals alike. However, this influx can also precipitate adverse effects such as environmental degradation, cultural commodification, and social unrest. The paradox lies in the transient nature of tourist populations; while they temporarily invigorate local economies, their presence can strain resources and disrupt community dynamics. To navigate this duality, stakeholders must adopt sustainable practices that balance economic growth with ecological preservation and cultural integrity.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main argument presented by the author regarding tourism?",
+      "options": {
+        "A": "Tourism solely benefits local economies without any drawbacks.",
+        "B": "Tourism has both positive and negative impacts that require careful management.",
+        "C": "The environmental consequences of tourism are the most critical concern.",
+        "D": "Cultural exchange is the primary advantage of tourism."
+      },
+      "answer": "B",
+      "explanation": "The passage outlines that tourism has both benefits, such as economic growth, and detriments like environmental degradation, indicating the need for careful management."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False or Not Given.",
+      "text": "Tourism leads to permanent improvements in local infrastructure.",
+      "answer": "False",
+      "explanation": "The passage suggests that while tourism can lead to infrastructure improvements, these are often temporary and dependent on tourist populations."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that cultural commodification is a minor issue compared to economic benefits.",
+      "answer": "No",
+      "explanation": "The passage highlights cultural commodification as one of the adverse effects of tourism, suggesting it is a significant concern."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following effects of tourism with their descriptions.",
+      "text": "1. Economic Growth\n2. Environmental Degradation\n3. Cultural Commodification\n4. Social Unrest",
+      "options": {
+        "A": "The alteration of local traditions and practices for tourist appeal.",
+        "B": "The strain on local resources due to increased visitor numbers.",
+        "C": "The influx of funds and job creation in tourism-dependent areas.",
+        "D": "The potential conflict arising from differing interests between locals and tourists."
+      },
+      "answer": {
+        "1": "C",
+        "2": "B",
+        "3": "A",
+        "4": "D"
+      },
+      "explanation": "Each effect of tourism is matched with its corresponding description based on the implications discussed in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the following paragraphs with their appropriate headings.",
+      "text": "1. The Economic Upsurge\n2. The Ecological Cost\n3. Navigating Challenges\n4. Cultural Integrity at Risk",
+      "options": {
+        "A": "The need for sustainable practices in tourism.",
+        "B": "The financial benefits that arise from increased tourism.",
+        "C": "The environmental impact resulting from tourist activities.",
+        "D": "The threat posed to local cultures by globalization."
+      },
+      "answer": {
+        "1": "B",
+        "2": "C",
+        "3": "A",
+        "4": "D"
+      },
+      "explanation": "The headings are matched with the corresponding ideas presented in the passage, reflecting the various aspects of tourism discussed."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence with NO MORE THAN TWO WORDS.",
+      "text": "Sustainable practices in tourism are essential to balance economic growth with _____ and _____ integrity.",
+      "answer": "ecological, cultural",
+      "explanation": "The passage emphasizes the need for balancing economic growth with ecological preservation and cultural integrity."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS for each blank.",
+      "text": "Tourism has a dual impact characterized by economic benefits such as _____ and _____, alongside challenges including environmental harm and cultural loss.",
+      "answer": [
+        "employment",
+        "investment"
+      ],
+      "explanation": "The summary reflects the key points made in the passage about the economic contributions of tourism."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer",
+      "instruction": "Answer the following question with NO MORE THAN THREE WORDS.",
+      "text": "What does the author suggest is necessary for managing tourism's impacts?",
+      "answer": "sustainable practices",
+      "explanation": "The author advocates for the adoption of sustainable practices to effectively manage the impacts of tourism."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "commodification",
+      "meaning": "The process of turning something into a commodity, often leading to its loss of original value or meaning."
+    },
+    {
+      "word": "sustainable",
+      "meaning": "Capable of being maintained over the long term without causing harm to ecological or cultural systems."
+    },
+    {
+      "word": "exacerbate",
+      "meaning": "To make a problem, situation, or feeling worse."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on understanding the nuanced arguments presented in the passage. Pay close attention to the author's tone and the implications of the statements made regarding the impacts of tourism. Look for context clues within the text to deduce meanings and relationships.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

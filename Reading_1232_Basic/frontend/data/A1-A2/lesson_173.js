@@ -1,0 +1,79 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_173",
+  "title": "Understanding Climate Change",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>What is Climate Change?</h2><p>Climate change is when the weather in the world changes. It can be hot or cold. Many scientists say that climate change is happening quickly now. This is because of global warming. Global warming is when the Earth gets hotter.</p><p>One reason for climate change is pollution. People use cars, factories, and many other things that make pollution. Pollution goes into the air and makes it dirty. This is bad for the Earth.</p><p>Another reason is deforestation. This means cutting down trees. Trees are important. They give us oxygen and clean the air. When we cut down too many trees, the air gets worse.</p><p>To help with climate change, we can do many things. We can use less plastic. We can recycle. We can also plant more trees. These actions help the Earth.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is climate change?",
+      "options": {
+        "A": "When the weather changes",
+        "B": "When it rains",
+        "C": "When it snows",
+        "D": "When it is sunny"
+      },
+      "answer": "A",
+      "explanation": "Climate change is defined in the passage as when the weather in the world changes."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What makes the Earth hotter?",
+      "options": {
+        "A": "Deforestation",
+        "B": "Global warming",
+        "C": "Recycling",
+        "D": "Using less plastic"
+      },
+      "answer": "B",
+      "explanation": "The passage states that global warming is when the Earth gets hotter."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Pollution makes the air dirty.",
+      "answer": "True"
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "Trees are not important for the Earth.",
+      "answer": "False"
+    },
+    {
+      "id": "q5",
+      "type": "short_answer",
+      "instruction": "Write one word or a number.",
+      "text": "What do trees give us?",
+      "answer": "Oxygen"
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Write one word or a number.",
+      "text": "What can we use less of to help the Earth?",
+      "answer": "Plastic"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "pollution",
+      "meaning": "Dirty air from cars and factories."
+    },
+    {
+      "word": "deforestation",
+      "meaning": "Cutting down trees."
+    },
+    {
+      "word": "recycle",
+      "meaning": "Using things again to help the Earth."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully. Look for keywords in the questions. Use the information in the passage to find the answers. Pay attention to words like 'important' and 'bad' to understand the meanings clearly.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,74 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_175",
+  "title": "Exploring the Stars",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Space Exploration</h2><p>Space exploration is very exciting. People want to learn about space. They want to know if there is life on other planets. Many countries have space programs. NASA is the space program of the United States. They send rockets and satellites into space. The first man on the Moon was Neil Armstrong. He went to the Moon in 1969. Many people watched this on TV. It was a big event. Now, NASA has robots on Mars. These robots take pictures and send data back to Earth. Other countries, like China and Russia, also explore space. They have their own missions and goals. Space exploration helps us understand our universe better.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Who was the first man on the Moon?",
+      "options": {
+        "A": "Neil Armstrong",
+        "B": "Buzz Aldrin",
+        "C": "Yuri Gagarin",
+        "D": "John Glenn"
+      },
+      "answer": "A",
+      "explanation": "Neil Armstrong was the first man on the Moon, as stated in the passage."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which program is from the United States?",
+      "options": {
+        "A": "NASA",
+        "B": "ESA",
+        "C": "ISRO",
+        "D": "Roscosmos"
+      },
+      "answer": "A",
+      "explanation": "NASA is the space program of the United States mentioned in the passage."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "NASA sends astronauts to Mars.",
+      "answer": "False",
+      "explanation": "The passage states that NASA has robots on Mars, not astronauts."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "Space exploration helps us understand the universe.",
+      "answer": "True",
+      "explanation": "The passage mentions that space exploration helps us understand our universe better."
+    },
+    {
+      "id": "q5",
+      "type": "short_answer",
+      "text": "What year did Neil Armstrong go to the Moon?",
+      "answer": "1969",
+      "explanation": "The passage states that Neil Armstrong went to the Moon in 1969."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "exploration",
+      "meaning": "the action of traveling in or through an unfamiliar area."
+    },
+    {
+      "word": "program",
+      "meaning": "a planned series of events or activities."
+    },
+    {
+      "word": "universe",
+      "meaning": "all existing matter and space."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully. Look for key details and facts. Pay attention to names and dates. Use the questions to help find information in the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

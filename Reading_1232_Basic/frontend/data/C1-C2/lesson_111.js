@@ -1,0 +1,87 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_111",
+  "title": "Navigating the Divergent Paths: Higher Education vs Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dichotomy of Learning: Higher Education versus Vocational Training</h2><p>In today's rapidly changing job market, the debate surrounding the efficacy of higher education versus vocational training has garnered significant attention. Proponents of traditional academia argue that university education equips students with critical thinking skills, theoretical frameworks, and a broad knowledge base. This perspective posits that such an education not only prepares individuals for specific careers but also fosters a well-rounded intellectual foundation. Conversely, advocates of vocational training contend that practical skills and hands-on experience are paramount in the workforce, particularly in sectors such as technology, healthcare, and skilled trades. They assert that vocational programs provide targeted training that aligns closely with employer needs, thus enhancing employability right after graduation. This discourse raises pivotal questions about the value of theoretical knowledge versus practical skills and the evolving demands of the modern economy.</p><p>Recent studies reveal a growing trend towards vocational pathways, especially in regions where job markets are saturated with degree holders who struggle to find employment in their fields of study. In contrast, vocational graduates often secure jobs more quickly, as they enter the workforce with specific competencies that are in high demand. Critics of vocational training, however, highlight the potential for limited career advancement for those without a degree, suggesting that higher education remains essential for long-term success and leadership roles.</p><p>Ultimately, the choice between higher education and vocational training is influenced by a multitude of factors, including personal career goals, financial considerations, and the economic landscape. As society evolves, so too must our educational systems, adapting to fulfill the diverse needs of students and the labor market. The challenge lies in striking a balance that recognizes the value of both educational paths, fostering a workforce that is not only skilled but also adaptable to the complexities of a dynamic economy.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "According to the passage, what do proponents of higher education believe it provides?",
+      "options": {
+        "A": "A narrow focus on specific job skills.",
+        "B": "A comprehensive intellectual foundation.",
+        "C": "Immediate employment opportunities.",
+        "D": "A direct pathway to vocational training."
+      },
+      "answer": "B",
+      "explanation": "The passage states that proponents of traditional academia argue that university education equips students with critical thinking skills and a broad knowledge base, thus supporting option B."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "State whether the following statements are True, False or Not Given.",
+      "text": "Vocational training is considered less valuable than higher education.",
+      "answer": "Not Given",
+      "explanation": "The passage discusses the benefits of vocational training but does not explicitly state that it is considered less valuable than higher education."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer yes, no or not given.",
+      "text": "Is it implied that vocational training graduates find jobs faster than those with degrees?",
+      "answer": "Yes",
+      "explanation": "The passage mentions that vocational graduates often secure jobs more quickly due to their specific competencies that are in high demand, implying that they find jobs faster."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements to the correct paragraph.",
+      "text": "1. The demand for skilled trades is increasing. 2. Higher education fosters critical thinking skills.",
+      "answers": {
+        "1": "Paragraph 1",
+        "2": "Paragraph 2"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "text": "1. The Rapid Shift in Educational Preferences 2. The Role of Higher Education in Career Advancement",
+      "answers": {
+        "1": "Paragraph 2",
+        "2": "Paragraph 1"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer the following question using no more than three words.",
+      "text": "What is a key factor influencing the choice between higher education and vocational training?",
+      "answer": "personal career goals",
+      "explanation": "The passage states that personal career goals are one of the multiple factors influencing this choice."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "proponents",
+      "meaning": "supporters or advocates of a particular idea or course of action."
+    },
+    {
+      "word": "dichotomy",
+      "meaning": "a division or contrast between two things that are represented as being opposed or entirely different."
+    },
+    {
+      "word": "saturated",
+      "meaning": "filled to capacity; oversupplied, especially in the context of job markets."
+    },
+    {
+      "word": "competencies",
+      "meaning": "skills or abilities that enable someone to perform a specific task effectively."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on understanding the main arguments presented in each paragraph. Pay attention to the nuances in language, especially in the context of comparisons between higher education and vocational training. Note any specific examples or statistics that support the claims made. This will help in answering questions that require inference and critical thinking.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

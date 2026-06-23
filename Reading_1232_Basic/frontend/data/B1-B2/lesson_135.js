@@ -1,0 +1,89 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_135",
+  "title": "The Wonders of Space Exploration",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Exploring the Universe</h2><p>Space exploration has fascinated humans for centuries, igniting our imagination and curiosity about the universe. From the first moon landing in 1969 to the recent Mars rover missions, advances in technology have allowed us to reach new frontiers. The journey into space not only expands our scientific knowledge but also inspires future generations. One of the key goals of space exploration is to understand the origins of our planet and the possibility of life beyond Earth. Scientists utilize telescopes, satellites, and robotic spacecraft to gather data that helps them answer fundamental questions about the cosmos.</p><p>In recent years, private companies have joined government space agencies in the quest for exploration. Companies like SpaceX and Blue Origin are developing new technologies to make space travel more accessible and affordable. Their ambitions include sending humans to Mars and establishing a human presence on other celestial bodies. This shift towards privatization has sparked debates about the future of space exploration and the role of commercial enterprises in it.</p><p>Moreover, international collaboration has become increasingly important in space missions. The International Space Station (ISS) serves as a platform for scientists from around the world to conduct research and experiments in microgravity. Such cooperation highlights the potential for peaceful collaboration in the pursuit of knowledge, despite geopolitical tensions on Earth. As we look to the future, the mysteries of space continue to beckon, promising new discoveries that could change our understanding of life itself.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the main goals of space exploration?",
+      "options": {
+        "A": "To understand the origins of our planet.",
+        "B": "To develop new technologies for Earth.",
+        "C": "To establish commercial space travel.",
+        "D": "To create international conflicts."
+      },
+      "answer": "A",
+      "explanation": "The passage states that one of the key goals of space exploration is to understand the origins of our planet and the possibility of life beyond Earth."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Private companies are only focused on Earth-based projects.",
+      "answer": "False",
+      "explanation": "The passage discusses how private companies like SpaceX and Blue Origin are developing technologies for space travel, indicating they are focused on projects beyond Earth."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that international collaboration in space exploration is beneficial?",
+      "answer": "Yes",
+      "explanation": "The passage highlights the importance of international collaboration in missions like the ISS, suggesting that the author views it positively."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following terms with their descriptions.",
+      "options": {
+        "A": "SpaceX",
+        "B": "International Space Station",
+        "C": "Mars rover missions"
+      },
+      "descriptions": {
+        "1": "A platform for international research.",
+        "2": "A company focused on private space travel.",
+        "3": "Robotic missions to explore the surface of another planet."
+      },
+      "answers": {
+        "A": "2",
+        "B": "1",
+        "C": "3"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Choose the correct heading for each paragraph.",
+      "options": {
+        "A": "The importance of space technology",
+        "B": "Human curiosity about the universe",
+        "C": "The role of private companies",
+        "D": "International scientific cooperation"
+      },
+      "paragraphs": {
+        "1": "B",
+        "2": "C",
+        "3": "D"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "fascinated",
+      "meaning": "extremely interested and attracted by something."
+    },
+    {
+      "word": "microgravity",
+      "meaning": "a condition in which objects appear to be weightless."
+    },
+    {
+      "word": "collaboration",
+      "meaning": "the act of working together with others to achieve a common goal."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, pay attention to the main ideas of each paragraph. Look for keywords in the questions that can help you locate the relevant sections in the text. For multiple choice questions, eliminate the options that clearly do not match the information provided. For true/false/not given questions, focus on the specific statements and compare them with the passage's content to determine their accuracy.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

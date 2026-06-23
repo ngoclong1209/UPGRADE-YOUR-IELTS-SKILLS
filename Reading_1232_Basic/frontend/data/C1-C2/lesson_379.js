@@ -1,0 +1,97 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_379",
+  "title": "The Dual Nature of Tourism: Economic Growth and Environmental Degradation",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Complex Dynamics of Tourism</h2><p>Tourism has emerged as one of the most significant economic drivers globally, contributing to the GDP of many nations. However, this surge in travel is not without repercussions. The intricate relationship between tourism and environmental sustainability presents a paradox: while tourism generates revenue and employment opportunities, it simultaneously exerts unsustainable pressure on natural ecosystems. The phenomenon known as 'over-tourism' has been linked to the degradation of local environments, from coastal erosion to wildlife disturbance. Consequently, stakeholders must navigate the delicate balance between capitalizing on tourism's benefits while mitigating its adverse effects.</p><p>Critics argue that the traditional tourism model prioritizes short-term economic gain over long-term ecological health. This perspective is echoed in studies indicating that regions heavily reliant on tourism often experience a decline in biodiversity, as natural habitats are converted into tourist facilities. Moreover, the cultural implications of mass tourism cannot be overlooked; local traditions may be commodified, leading to a dilution of cultural identity.</p><p>In response, sustainable tourism practices have been proposed as a viable alternative. These practices advocate for a model that respects local communities and environments, promoting responsible travel that prioritizes conservation over consumption. By fostering a deeper connection between tourists and their destinations, sustainable tourism aims to ensure that economic benefits do not come at the expense of ecological integrity.</p><p>Ultimately, the challenge lies in transforming the tourism sector into a force for good, one that supports both economic development and environmental stewardship. As awareness of these issues grows, the travel industry is gradually shifting towards more sustainable practices, reflecting a broader societal commitment to preserving the planet for future generations.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main concern raised by critics of traditional tourism models?",
+      "options": {
+        "A": "They lead to immediate economic benefits without considering environmental impacts.",
+        "B": "They solely focus on cultural preservation.",
+        "C": "They promote biodiversity in tourist regions.",
+        "D": "They reduce the employment opportunities for local communities."
+      },
+      "answer": "A",
+      "explanation": "Critics argue that traditional tourism prioritizes short-term economic gain at the expense of long-term ecological health."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "Sustainable tourism practices have been widely adopted globally.",
+      "answer": "Not Given",
+      "explanation": "The passage discusses sustainable tourism practices but does not provide information on their global adoption."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The passage suggests that tourism can be beneficial without causing environmental harm.",
+      "answer": "Yes",
+      "explanation": "The passage indicates that tourism can be transformed into a force for good, supporting economic development while ensuring environmental stewardship."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the correct paragraph.",
+      "text": "1. The paradox of tourism<br>2. The cultural impact of tourism<br>3. The potential of sustainable tourism",
+      "options": {
+        "1": "Paragraph 1",
+        "2": "Paragraph 2",
+        "3": "Paragraph 3"
+      },
+      "answer": {
+        "1": "Paragraph 1",
+        "2": "Paragraph 2",
+        "3": "Paragraph 3"
+      },
+      "explanation": "Each statement corresponds to the main ideas presented in the respective paragraphs."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph.",
+      "text": "A. The need for a new tourism model<br>B. Economic benefits of tourism<br>C. Environmental and cultural consequences",
+      "options": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      },
+      "answer": {
+        "1": "C",
+        "2": "B",
+        "3": "A"
+      },
+      "explanation": "The headings reflect the main ideas discussed in each paragraph."
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer in NO MORE THAN TWO WORDS.",
+      "text": "What term is used to describe the excessive pressure on local environments due to tourism?",
+      "answer": "over-tourism",
+      "explanation": "The passage defines 'over-tourism' as a significant issue resulting from increased travel."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "over-tourism",
+      "meaning": "The phenomenon where excessive tourist numbers lead to environmental degradation."
+    },
+    {
+      "word": "commodified",
+      "meaning": "To turn something into a commodity, losing its original value or significance."
+    },
+    {
+      "word": "sustainable",
+      "meaning": "Capable of being maintained over the long term without harming the environment."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on understanding the nuanced relationships between tourism, economic growth, and environmental impacts. Pay special attention to the language used to describe the effects of tourism and the proposed solutions. Skimming for main ideas and scanning for specific details will be crucial in answering the questions accurately.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

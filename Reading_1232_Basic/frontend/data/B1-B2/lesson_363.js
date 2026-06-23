@@ -1,0 +1,84 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_363",
+  "title": "The Rising Tide: Understanding Climate Change and Global Warming",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Climate Change: A Global Challenge</h2><p>Climate change refers to significant changes in global temperatures and weather patterns over time. While climate change is a natural phenomenon, scientific evidence shows that human activities are currently driving an unprecedented rate of change. The burning of fossil fuels, such as coal, oil, and gas, has led to increased concentrations of greenhouse gases in the atmosphere, contributing to global warming. This warming results in severe weather events, rising sea levels, and disruptions to ecosystems.</p><p>One of the most alarming consequences of climate change is the melting of polar ice caps. As temperatures rise, glaciers and ice sheets in places like Greenland and Antarctica are shrinking. This melting contributes to rising sea levels, which threaten coastal communities and ecosystems. Additionally, warmer ocean temperatures can lead to more intense hurricanes and typhoons, causing destruction in affected areas.</p><p>Efforts to combat climate change have increased in recent years. Many countries have committed to reducing their carbon emissions through international agreements like the Paris Agreement. This treaty aims to limit global warming to well below 2 degrees Celsius above pre-industrial levels. However, achieving these goals requires significant changes in energy production, transportation, and industrial processes.</p><p>Individuals can also take action to mitigate climate change. Simple changes in daily habits, such as using public transportation, recycling, and conserving energy at home, can collectively make a difference. Furthermore, supporting renewable energy initiatives, like solar or wind power, can help reduce reliance on fossil fuels.</p><p>In conclusion, climate change is one of the most pressing issues of our time. It demands urgent action from governments, businesses, and individuals alike. By working together, we can help protect our planet for future generations.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is currently driving the rapid rate of climate change?",
+      "options": {
+        "A": "Natural phenomena only",
+        "B": "Human activities such as fossil fuel burning",
+        "C": "Normal variations in climate",
+        "D": "Changes in animal populations"
+      },
+      "answer": "B",
+      "explanation": "The passage states that while climate change is a natural phenomenon, it is currently human activities, particularly the burning of fossil fuels, that are driving an unprecedented rate of change."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one effect of melting polar ice caps mentioned in the passage?",
+      "options": {
+        "A": "Increased biodiversity",
+        "B": "Rising sea levels",
+        "C": "More stable weather patterns",
+        "D": "Lower global temperatures"
+      },
+      "answer": "B",
+      "explanation": "The passage mentions that melting polar ice caps contribute to rising sea levels, which is a significant consequence of climate change."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "The Paris Agreement aims to completely stop global warming.",
+      "answer": "False",
+      "explanation": "The passage states that the Paris Agreement aims to limit global warming to well below 2 degrees Celsius, not to completely stop it."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe individual actions can help combat climate change?",
+      "answer": "Yes",
+      "explanation": "The passage suggests that individuals can take actions, such as using public transportation and supporting renewable energy, which implies the author believes these efforts can help."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the following headings with the appropriate paragraphs.",
+      "options": {
+        "1": "Consequences of Climate Change",
+        "2": "Global Agreements on Climate Action",
+        "3": "Individual Contributions to Mitigation",
+        "4": "Understanding Climate Change"
+      },
+      "answers": {
+        "1": "Consequences of Climate Change",
+        "2": "Global Agreements on Climate Action",
+        "3": "Individual Contributions to Mitigation",
+        "4": "Understanding Climate Change"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "greenhouse gases",
+      "meaning": "Gases that trap heat in the atmosphere, contributing to global warming."
+    },
+    {
+      "word": "emissions",
+      "meaning": "The act of releasing something, typically gases, into the atmosphere."
+    },
+    {
+      "word": "ecosystems",
+      "meaning": "A biological community of interacting organisms and their physical environment."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on understanding the main ideas of each paragraph. Pay attention to keywords that may help you identify the correct answers. For multiple-choice questions, eliminate options that are clearly incorrect. For True/False/Not Given questions, look for specific information in the text that supports your answer. Practice skimming for main ideas and scanning for details.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

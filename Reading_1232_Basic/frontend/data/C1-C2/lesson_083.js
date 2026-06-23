@@ -1,0 +1,95 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_083",
+  "title": "The Unseen Consequences of Climate Change",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Understanding the Ripple Effects of Climate Change</h2><p>Climate change, often viewed through the lens of rising temperatures and melting ice caps, presents a complex tapestry of consequences that extend far beyond the immediate environmental impacts. Scientists have observed that the ramifications are not merely ecological; they infiltrate social, economic, and psychological dimensions of human life. For instance, the increase in extreme weather events has triggered not only physical displacement but also profound psychological distress among affected communities. As the planet warms, the frequency and intensity of hurricanes, droughts, and floods are projected to escalate, leading to significant socioeconomic upheaval. This phenomenon is particularly pronounced in developing nations, where adaptive capacity is limited, exacerbating existing inequalities.</p><p>In addition to these tangible effects, climate change amplifies the prevalence of mental health issues. Research indicates that individuals exposed to natural disasters exhibit higher rates of anxiety, depression, and post-traumatic stress disorder. This intersection of environmental degradation and mental health underscores the urgent need for interdisciplinary approaches to tackle climate change. Moreover, the socio-political ramifications are equally alarming; as resources become scarcer, competition may lead to conflicts, further destabilizing regions already vulnerable to political unrest.</p><p>Furthermore, the economic implications of climate change are staggering. Industries such as agriculture and tourism face unprecedented challenges, prompting shifts in market stability and employment patterns. As crop yields fluctuate due to erratic weather patterns, food security becomes a pressing concern, particularly in regions dependent on agriculture for sustenance. Policymakers are thus confronted with the dual challenge of mitigating climate impacts while fostering resilience in affected sectors.</p><p>In conclusion, addressing climate change necessitates a holistic understanding of its multifaceted consequences. The interplay between environmental shifts and human health, economic stability, and social cohesion demands innovative solutions that transcend traditional disciplinary boundaries. Only through comprehensive strategies can we hope to navigate the complexities of a warming world and safeguard the future for generations to come.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the psychological effects of climate change mentioned in the passage?",
+      "options": {
+        "A": "Increased rates of anxiety and depression",
+        "B": "Improved mental health resources",
+        "C": "Decreased social unrest",
+        "D": "Enhanced community resilience"
+      },
+      "answer": "A",
+      "explanation": "The passage states that individuals exposed to natural disasters exhibit higher rates of anxiety, depression, and post-traumatic stress disorder, making A the correct choice."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Climate change only affects the environment and not human health.",
+      "answer": "False",
+      "explanation": "The passage explicitly discusses how climate change impacts mental health and social dimensions, indicating that the statement is false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The passage suggests that developing countries are more vulnerable to climate change impacts.",
+      "answer": "Yes",
+      "explanation": "The text indicates that developing nations have limited adaptive capacity and are thus more affected by climate change, supporting a 'Yes' answer."
+    },
+    {
+      "id": "q4",
+      "type": "matching_headings",
+      "instruction": "Match the following headings to the paragraphs.",
+      "options": {
+        "A": "The need for interdisciplinary solutions",
+        "B": "Psychological impacts of climate-related disasters",
+        "C": "Economic challenges faced by industries",
+        "D": "Social and political implications of resource scarcity"
+      },
+      "paragraphs": {
+        "Paragraph 1": "A",
+        "Paragraph 2": "B",
+        "Paragraph 3": "C",
+        "Paragraph 4": "D"
+      },
+      "answer": {
+        "Paragraph 1": "D",
+        "Paragraph 2": "B",
+        "Paragraph 3": "C",
+        "Paragraph 4": "A"
+      },
+      "explanation": "Each paragraph discusses topics that align closely with the headings provided, demonstrating a clear connection."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The increase in extreme weather events has triggered physical displacement and profound __________.",
+      "answer": "psychological distress",
+      "explanation": "The passage mentions psychological distress as a significant impact alongside physical displacement."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "tapestry",
+      "meaning": "A complex combination of elements or factors."
+    },
+    {
+      "word": "infiltrate",
+      "meaning": "To permeate or penetrate gradually."
+    },
+    {
+      "word": "erratic",
+      "meaning": "Not even or regular in pattern; unpredictable."
+    },
+    {
+      "word": "interdisciplinary",
+      "meaning": "Involving two or more academic, scientific, or artistic disciplines."
+    },
+    {
+      "word": "resilience",
+      "meaning": "The ability to recover quickly from difficulties."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the interconnectedness of climate change impacts. Pay attention to the nuances in the text regarding psychological and economic consequences, and ensure to identify the author's tone and purpose in discussing these multifaceted issues.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

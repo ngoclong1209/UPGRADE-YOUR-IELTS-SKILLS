@@ -1,0 +1,97 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_014",
+  "title": "The Duality of Automation: Enhancing Human Capability or Replacing It?",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Duality of Automation: Enhancing Human Capability or Replacing It?</h2><p>Artificial Intelligence (AI) and robotics have rapidly evolved to become integral components of modern society. As these technologies advance, the debate surrounding their implications intensifies. Proponents argue that AI enhances human capabilities, augmenting productivity and efficiency in various sectors, from manufacturing to healthcare. Conversely, critics express concerns about job displacement, ethical dilemmas, and the potential for unintended consequences. This dichotomy raises essential questions about the future of work and the role of human agency in an increasingly automated world.</p><p>At the heart of the discussion is the concept of collaboration between humans and machines. Collaborative robots, or cobots, are designed to work alongside human operators, facilitating complex tasks that combine human intuition and machine precision. This partnership can lead to innovations that were previously unimaginable, allowing for improved outcomes in diverse fields. However, the reliance on automation also necessitates a critical examination of the skills required in the workforce, as traditional roles evolve and new competencies emerge.</p><p>Furthermore, the ethical implications of AI cannot be overlooked. The decision-making processes of AI systems often lack transparency, raising concerns regarding accountability and fairness. Instances of algorithmic bias have been documented, where systems inadvertently perpetuate discrimination, particularly in high-stakes areas such as criminal justice and employment. As AI systems increasingly influence societal outcomes, the challenge lies in ensuring that these technologies are developed and implemented responsibly.</p><p>The environmental impact of robotics also warrants attention. Automation can lead to increased resource efficiency, yet it may also result in significant ecological footprints associated with manufacturing and energy consumption. Striking a balance between technological advancement and sustainability is crucial as society moves forward.</p><p>In conclusion, the intersection of artificial intelligence and robotics presents a complex landscape that requires careful navigation. While these technologies hold the promise of enhancing human potential, they also pose risks that must be addressed. Engaging in open dialogues about their implications will be essential in shaping a future where technology serves humanity's best interests.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "According to the passage, what is one primary concern regarding the advancement of AI?",
+      "options": {
+        "A": "It may enhance productivity without ethical considerations.",
+        "B": "It will entirely replace human jobs without creating new ones.",
+        "C": "It will lead to increased collaboration in all industries.",
+        "D": "It is always transparent in its decision-making processes."
+      },
+      "answer": "A",
+      "explanation": "The passage highlights ethical dilemmas and concerns regarding job displacement as major issues related to AI, indicating that while productivity may be enhanced, ethical considerations are often neglected."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Collaborative robots are designed to completely replace human workers.",
+      "answer": "False",
+      "explanation": "The passage states that cobots are intended to work alongside humans, not to replace them entirely."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that the environmental impact of robotics is negligible?",
+      "answer": "No",
+      "explanation": "The passage discusses the environmental impact of robotics and suggests that it is a significant concern, indicating that it is not negligible."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following concepts with their descriptions.",
+      "items": [
+        {
+          "concept": "Algorithmic bias",
+          "description": "Perpetuates discrimination in decision-making."
+        },
+        {
+          "concept": "Cobot",
+          "description": "Works alongside humans for enhanced productivity."
+        },
+        {
+          "concept": "Environmental impact",
+          "description": "Involves ecological footprints of manufacturing."
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Choose the correct heading for each paragraph.",
+      "paragraphs": [
+        "The evolution of AI and robotics has led to varying viewpoints.",
+        "The synergy between human intuition and machine accuracy.",
+        "Ethical considerations in AI decision-making.",
+        "The need for sustainable practices in technology."
+      ],
+      "headings": [
+        "A. The dual nature of technological advancement",
+        "B. Human-machine collaboration",
+        "C. The ethical dilemmas of AI",
+        "D. Environmental sustainability in robotics"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer using NO MORE THAN THREE WORDS.",
+      "text": "What is the term used for robots that collaborate with humans?",
+      "answer": "Collaborative robots",
+      "explanation": "The passage refers to these robots as 'cobots' or collaborative robots."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "dichotomy",
+      "meaning": "A division into two contrasting or opposing parts."
+    },
+    {
+      "word": "algorithmic",
+      "meaning": "Relating to a process or set of rules to be followed in calculations or other problem-solving operations."
+    },
+    {
+      "word": "accountability",
+      "meaning": "The fact or condition of being accountable; responsibility."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To succeed in this passage, focus on understanding the nuanced arguments presented. Pay attention to the author's tone and the implications of various statements regarding AI and robotics. Look for keywords that indicate contrast or emphasis, as these can guide you to the main ideas. Additionally, practice skimming for general ideas and scanning for specific details to improve your efficiency.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

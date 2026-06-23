@@ -1,0 +1,123 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_277",
+  "title": "The Urban Dilemma: Public Transportation vs Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Urban Dilemma: Public Transportation vs Private Cars</h2><p>In contemporary urban settings, the debate surrounding the efficacy and sustainability of public transportation systems versus private vehicles remains fervent. Advocates for public transit argue that it not only alleviates congestion but also significantly reduces carbon emissions, thus contributing to environmental preservation. Conversely, supporters of private automobile ownership contend that personal vehicles provide unmatched convenience and flexibility, essential in today's fast-paced society.</p><p>Research indicates that cities with robust public transportation networks experience lower levels of traffic congestion and enhanced air quality. For instance, cities like Tokyo and Copenhagen have invested heavily in their public transit infrastructure, resulting in a modal shift away from private car usage. This shift is attributed to both governmental policies and public awareness campaigns emphasizing the environmental benefits of using public transport.</p><p>On the other hand, the allure of private cars cannot be dismissed. Many individuals cite the comfort and privacy of their own vehicles as a paramount factor influencing their transportation choices. Furthermore, the advent of ride-sharing services has added a layer of convenience that intertwines with the traditional car ownership model, creating a hybrid approach to urban mobility.</p><p>However, the implications of these choices extend beyond individual preferences. Urban planners face the challenge of balancing the needs of drivers with the imperative to promote sustainable transportation solutions. Policymakers are increasingly recognizing that a multi-faceted approach, which includes enhancing public transportation, implementing car-sharing programs, and encouraging non-motorized transport, is essential for fostering a more sustainable urban environment.</p><p>Ultimately, the decision between public transportation and private vehicles hinges on a complex interplay of convenience, environmental impact, and urban policy. As cities continue to evolve, the strategies employed to manage urban mobility will significantly shape the future of urban living.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "According to advocates of public transit, what is one primary benefit of using public transportation?",
+      "options": {
+        "A": "It enhances personal convenience and comfort.",
+        "B": "It significantly reduces carbon emissions.",
+        "C": "It encourages the use of private vehicles.",
+        "D": "It increases traffic congestion."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct because the passage states that advocates for public transit argue it reduces carbon emissions, contributing to environmental preservation."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Robust public transportation networks are associated with lower air quality.",
+      "answer": "False",
+      "explanation": "The passage mentions that cities with robust public transportation experience enhanced air quality, making the statement false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The passage suggests that private vehicles are becoming less popular in urban settings.",
+      "answer": "Not Given",
+      "explanation": "The passage does not provide clear evidence about the popularity of private vehicles, only discussing their advantages."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct paragraph numbers.",
+      "text": "1. Cities that have successfully implemented public transit<br>2. The personal benefits of owning a car<br>3. The role of urban planners in transit solutions",
+      "options": {
+        "1": "Paragraph 2",
+        "2": "Paragraph 3",
+        "3": "Paragraph 4"
+      },
+      "answer": {
+        "1": "2",
+        "2": "3",
+        "3": "4"
+      },
+      "explanation": "Each statement corresponds directly to the respective paragraphs discussing those topics."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph with the correct heading.",
+      "text": "A. The challenge of urban mobility<br>B. The environmental benefits of public transport<br>C. The personal appeal of private cars<br>D. The evolution of transportation methods",
+      "options": {
+        "1": "B",
+        "2": "D",
+        "3": "C",
+        "4": "A"
+      },
+      "answer": {
+        "1": "B",
+        "2": "D",
+        "3": "C",
+        "4": "A"
+      },
+      "explanation": "The headings align with the content of each paragraph, focusing on environmental and personal aspects of transit."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN THREE WORDS.",
+      "text": "Cities like Tokyo and Copenhagen have invested heavily in their __________.",
+      "answer": "public transit infrastructure",
+      "explanation": "The passage specifically mentions the investment in public transit infrastructure by these cities."
+    },
+    {
+      "id": "q7",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The evolution of urban transportation has led to a need for __________ solutions.",
+      "answer": "sustainable transportation",
+      "explanation": "The passage indicates that sustainable transportation solutions are essential for urban mobility."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the question using NO MORE THAN THREE WORDS.",
+      "text": "What has added convenience to the personal vehicle ownership model?",
+      "answer": "ride-sharing services",
+      "explanation": "The passage mentions the advent of ride-sharing services as a convenience factor."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "modal shift",
+      "meaning": "A change in the mode of transportation used by people, typically from private cars to public transit."
+    },
+    {
+      "word": "congestion",
+      "meaning": "Overcrowding, particularly in relation to traffic on roads."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "Meeting present needs without compromising the ability of future generations to meet their own needs."
+    },
+    {
+      "word": "imperative",
+      "meaning": "A crucial or urgent requirement."
+    },
+    {
+      "word": "intertwined",
+      "meaning": "Closely connected or related to each other."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle this passage, focus on understanding the nuanced arguments presented for both public transportation and private cars. Pay attention to the author's tone and the implications of their claims. Make sure to identify key terms that indicate the benefits and drawbacks of each transport mode, and practice skimming for main ideas while scanning for specific details.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

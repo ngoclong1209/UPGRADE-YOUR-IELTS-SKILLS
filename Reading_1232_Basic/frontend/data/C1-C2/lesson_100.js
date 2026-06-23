@@ -1,0 +1,103 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_100",
+  "title": "The Impact of Dietary Choices on Long-Term Health",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Complex Relationship Between Diet and Health</h2><p>In recent decades, the discourse surrounding diet and health has evolved from simplistic notions of calorie counting and macronutrient ratios to a more nuanced understanding that incorporates the complex interplay of various dietary components, lifestyle factors, and individual physiological responses. Researchers have begun to unravel the intricate web connecting dietary choices with chronic diseases, highlighting that it is not merely the types of food consumed, but also the timing, preparation methods, and psychological associations that can influence health outcomes.</p><p>Studies have shown that a diet rich in whole foods, including fruits, vegetables, whole grains, and lean proteins, is correlated with lower incidences of cardiovascular disease, diabetes, and certain cancers. However, the challenge lies in translating these findings into practical dietary recommendations that accommodate diverse cultural preferences and socioeconomic constraints. For instance, while the Mediterranean diet is often lauded for its health benefits, its adoption may be limited in populations unfamiliar with its principles or lacking access to its key components.</p><p>Moreover, emerging research suggests that the psychological aspect of eating—how food choices are influenced by emotions, stress, and social contexts—plays a crucial role in dietary habits. This perspective urges a shift towards holistic approaches that not only address nutritional intake but also consider mental well-being and social factors. As healthcare professionals and policymakers navigate this complex landscape, an emphasis on personalized nutrition, taking into account individual genetic predispositions and lifestyle factors, may offer a promising avenue for improving public health outcomes.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary focus of recent dietary research highlighted in the passage?",
+      "options": {
+        "A": "The importance of calorie counting in weight management.",
+        "B": "The psychological factors influencing food choices.",
+        "C": "The effectiveness of the Mediterranean diet across cultures.",
+        "D": "The relationship between specific foods and chronic diseases."
+      },
+      "answer": "D",
+      "explanation": "The passage emphasizes the connection between dietary choices and chronic diseases, making D the most accurate choice."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "The Mediterranean diet is universally applicable to all populations.",
+      "answer": "False",
+      "explanation": "The passage states that the adoption of the Mediterranean diet may be limited in populations unfamiliar with it."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The passage suggests that psychological factors are irrelevant to dietary habits.",
+      "answer": "No",
+      "explanation": "The passage acknowledges the significant role of psychological aspects in influencing dietary choices."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following concepts with the correct statements.",
+      "items": [
+        "A diet rich in whole foods",
+        "Cultural preferences in diet",
+        "Personalized nutrition"
+      ],
+      "statements": [
+        "Can improve public health outcomes.",
+        "May limit acceptance of certain diets.",
+        "Is associated with lower incidences of chronic diseases."
+      ],
+      "answers": {
+        "A diet rich in whole foods": "Is associated with lower incidences of chronic diseases.",
+        "Cultural preferences in diet": "May limit acceptance of certain diets.",
+        "Personalized nutrition": "Can improve public health outcomes."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph with the appropriate heading.",
+      "paragraphs": [
+        "The evolution of dietary research.",
+        "The Mediterranean diet and its limitations.",
+        "Holistic approaches to nutrition."
+      ],
+      "headings": [
+        "A. The significance of cultural context in dietary habits.",
+        "B. Understanding the multifaceted nature of dietary choices.",
+        "C. A brief overview of dietary recommendations."
+      ],
+      "answers": {
+        "The evolution of dietary research.": "B",
+        "The Mediterranean diet and its limitations.": "A",
+        "Holistic approaches to nutrition.": "C"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Write no more than three words.",
+      "text": "What type of foods is associated with lower incidences of chronic diseases?",
+      "answer": "whole foods",
+      "explanation": "The passage specifies 'a diet rich in whole foods' is correlated with better health outcomes."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "nuanced",
+      "meaning": "having subtle differences in meaning or opinion."
+    },
+    {
+      "word": "physiological",
+      "meaning": "related to the functions and activities of living organisms."
+    },
+    {
+      "word": "holistic",
+      "meaning": "considering the whole system rather than just its parts."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the main ideas in each paragraph and how they connect to the overall theme of diet and health. Pay attention to the nuanced language that may indicate the author's attitude towards dietary recommendations. Practice skimming for key terms and scanning for specific details to efficiently answer the questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

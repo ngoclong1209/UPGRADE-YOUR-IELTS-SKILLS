@@ -1,0 +1,100 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_531",
+  "title": "Navigating the Choice: Higher Education vs Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Diverging Paths of Higher Education and Vocational Training</h2><p>In contemporary society, the dichotomy between higher education and vocational training has emerged as a significant topic of debate. Higher education, often associated with universities and academic institutions, traditionally emphasizes theoretical knowledge and critical thinking skills. Conversely, vocational training focuses on practical skills and direct employment readiness, preparing individuals for specific trades and professions. This distinction raises pertinent questions about the value and relevance of each educational pathway in addressing the demands of the modern workforce.</p><p>Proponents of higher education argue that it fosters intellectual growth and cultivates a well-rounded, informed citizenry. They contend that graduates from universities are better equipped to adapt to changing job markets due to their broad skill set. On the other hand, advocates for vocational training posit that it directly addresses the skills gap in many industries, providing students with immediate job opportunities and reducing unemployment rates.</p><p>Moreover, the financial implications of both paths cannot be overlooked. Higher education often comes with significant debt, while vocational training typically incurs lower costs and can lead to quicker returns on investment. This economic aspect further complicates the decision-making process for prospective students.</p><p>Ultimately, the choice between higher education and vocational training may depend on individual career goals and personal circumstances. As the landscape of employment continues to evolve, it is crucial for individuals and policymakers to consider both options carefully to ensure a skilled and adaptable workforce.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one main argument in favor of higher education mentioned in the passage?",
+      "options": {
+        "A": "It provides immediate job opportunities.",
+        "B": "It promotes intellectual growth and adaptability.",
+        "C": "It incurs lower financial costs.",
+        "D": "It focuses solely on practical skills."
+      },
+      "answer": "B",
+      "explanation": "The passage states that proponents of higher education argue it fosters intellectual growth and cultivates a well-rounded citizenry, thus enhancing adaptability to changing job markets."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Vocational training is more expensive than higher education.",
+      "answer": "False",
+      "explanation": "The passage indicates that vocational training typically incurs lower costs compared to higher education."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The passage suggests that higher education is essential for all career paths.",
+      "answer": "No",
+      "explanation": "The text suggests the choice depends on individual career goals and personal circumstances, implying that higher education is not essential for all."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct sections of the passage.",
+      "text": "1. Focuses on immediate job readiness. 2. Involves significant financial investment.",
+      "options": {
+        "A": "Higher education",
+        "B": "Vocational training"
+      },
+      "answers": {
+        "1": "B",
+        "2": "A"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings with the appropriate paragraphs.",
+      "headings": {
+        "A": "The Financial Burden of Higher Education",
+        "B": "Understanding Vocational Training",
+        "C": "The Skills Gap in Modern Industries"
+      },
+      "answers": {
+        "1": "C",
+        "2": "A",
+        "3": "B"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short_answer_questions",
+      "instruction": "Answer in NO MORE THAN THREE WORDS.",
+      "text": "What is a key benefit of vocational training according to the passage?",
+      "answer": "Immediate job opportunities",
+      "explanation": "The passage highlights that vocational training prepares individuals for specific trades and provides immediate job opportunities."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "dichotomy",
+      "meaning": "a division or contrast between two things that are represented as being opposed or entirely different."
+    },
+    {
+      "word": "proponents",
+      "meaning": "individuals who advocate for a particular cause or idea."
+    },
+    {
+      "word": "adaptability",
+      "meaning": "the ability to change or be changed in order to fit or work better in some situation or for some purpose."
+    },
+    {
+      "word": "financial implications",
+      "meaning": "the possible effects that financial decisions can have on future outcomes."
+    },
+    {
+      "word": "skilled workforce",
+      "meaning": "a group of workers who have specialized training or skills necessary for specific jobs."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the nuances in the arguments presented. Take note of the definitions and implications of key terms like 'dichotomy' and 'adaptive skills.' Pay close attention to the financial aspects discussed, as they play a significant role in the debate. Skim through the headings and match them with the appropriate paragraphs to grasp the main ideas quickly.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

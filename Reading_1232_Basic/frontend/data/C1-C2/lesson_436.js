@@ -1,0 +1,117 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_436",
+  "title": "Harnessing Nature's Power: The Future of Renewable Energy",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Evolution of Renewable Energy Technologies</h2><p>In recent decades, the conversation surrounding energy generation has increasingly gravitated towards renewable sources. The urgency of climate change has catalyzed advancements in various renewable technologies, enabling a transition from fossil fuels to more sustainable alternatives. Solar, wind, hydroelectric, and geothermal energy are at the forefront of this shift, each offering unique advantages and challenges. For instance, solar energy has seen significant reductions in cost due to technological innovations, while wind energy continues to expand rapidly in both onshore and offshore installations.</p><p>Despite their benefits, the integration of renewable energy sources into existing grids poses substantial obstacles. Issues related to intermittency, storage, and infrastructure must be addressed to realize the full potential of renewables. Additionally, policy frameworks and economic incentives play crucial roles in fostering an environment conducive to investment in renewable technologies. As nations strive to meet their emissions targets, the collaboration between governments, private sectors, and research institutions becomes increasingly vital.</p><p>This paradigm shift towards renewable energy is not merely an environmental imperative but also a socio-economic opportunity. The creation of green jobs, enhancement of energy security, and reduction of dependence on imported fuels are compelling reasons for this transition. Furthermore, as technological advancements continue to emerge, the prospect of a carbon-neutral future becomes more attainable.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary challenge mentioned regarding the integration of renewable energy sources?",
+      "options": {
+        "A": "The high cost of renewable technologies.",
+        "B": "The need for better policy frameworks.",
+        "C": "Managing issues related to intermittency and storage.",
+        "D": "The lack of interest from the private sector."
+      },
+      "answer": "C",
+      "explanation": "The passage states that 'issues related to intermittency, storage, and infrastructure must be addressed' as substantial obstacles to the integration of renewable energy."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "The cost of solar energy has decreased significantly due to technological innovations.",
+      "answer": "True",
+      "explanation": "The passage confirms that 'solar energy has seen significant reductions in cost due to technological innovations.'"
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author suggest that renewable energy sources can create job opportunities?",
+      "answer": "Yes",
+      "explanation": "The passage indicates that the transition to renewable energy is a 'socio-economic opportunity' that includes 'the creation of green jobs.'"
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the renewable energy source to its characteristic.",
+      "options": [
+        {
+          "source": "Solar Energy",
+          "characteristic": "Reductions in cost due to technological innovations."
+        },
+        {
+          "source": "Wind Energy",
+          "characteristic": "Rapid expansion in installations."
+        },
+        {
+          "source": "Hydroelectric Energy",
+          "characteristic": "Offers unique advantages."
+        },
+        {
+          "source": "Geothermal Energy",
+          "characteristic": "Challenges in integration."
+        }
+      ],
+      "answer": [
+        {
+          "source": "Solar Energy",
+          "characteristic": "Reductions in cost due to technological innovations."
+        },
+        {
+          "source": "Wind Energy",
+          "characteristic": "Rapid expansion in installations."
+        }
+      ],
+      "explanation": "The passage provides specific details about solar and wind energy, confirming their advancements and growth."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Match the headings to the corresponding paragraphs.",
+      "options": [
+        "The socio-economic impacts of renewable energy.",
+        "Challenges of integrating renewable energy.",
+        "Technological advancements in renewable energy.",
+        "The role of policy in renewable energy investment."
+      ],
+      "answer": [
+        {
+          "paragraph": 1,
+          "heading": "Technological advancements in renewable energy."
+        },
+        {
+          "paragraph": 2,
+          "heading": "Challenges of integrating renewable energy."
+        },
+        {
+          "paragraph": 3,
+          "heading": "The socio-economic impacts of renewable energy."
+        }
+      ],
+      "explanation": "The headings correspond directly to the main ideas presented in each paragraph."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "intermittency",
+      "meaning": "The quality of occurring at irregular intervals; not continuous or steady."
+    },
+    {
+      "word": "socio-economic",
+      "meaning": "Relating to or concerned with the interaction of social and economic factors."
+    },
+    {
+      "word": "catalyzed",
+      "meaning": "Caused or accelerated a reaction or change."
+    },
+    {
+      "word": "infrastructure",
+      "meaning": "The basic physical and organizational structures and facilities needed for the operation of a society."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To approach this passage effectively, focus on understanding the main ideas presented in each paragraph. Pay attention to the details regarding the challenges and advancements in renewable energy technologies. Look for clues in the language that indicate the author's attitude towards the transition to renewable energy and the role of policy and economics. Be mindful of the nuances in questions, especially regarding implied meanings.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,79 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_483",
+  "title": "The Unseen Cost of Climate Change: A Global Perspective",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Unseen Cost of Climate Change: A Global Perspective</h2><p>Climate change, an insidious phenomenon characterized by long-term shifts in temperatures and weather patterns, is a multifaceted issue that transcends national borders. While its immediate effects are observable in rising sea levels and increasing temperatures, the deeper, less visible repercussions are profoundly affecting various socio-economic landscapes worldwide. This article explores the intricate interplay between climate change and global socio-economic stability, highlighting the often-overlooked costs that accompany environmental degradation.</p><p>Research indicates that the economic implications of climate change are staggering. The World Bank estimates that without significant interventions, global economic losses could reach into the trillions by the year 2050. These losses are not merely fiscal but are deeply intertwined with social fabric, exacerbating inequalities and marginalizing vulnerable populations. The agricultural sector, for instance, is increasingly susceptible to erratic weather patterns, leading to food insecurity and heightened prices. As crop yields diminish, communities reliant on agriculture face existential threats, forcing many to migrate in search of better living conditions.</p><p>Moreover, the health impacts of climate change are equally alarming. Increased air pollution, associated with climate-related changes, is linked to respiratory illnesses, which disproportionately affect lower-income groups. Access to clean air and water is becoming a privilege rather than a right, with wealthy nations often implementing measures that shield their citizens while neglecting global commitments to environmental justice.</p><p>In addressing climate change, it is crucial to recognize not only the environmental but also the ethical dimensions of our responses. The notion of climate justice emphasizes the responsibility of developed nations, historically the largest polluters, to support developing countries in their adaptation efforts. This includes financial aid, technology transfer, and capacity building. Failure to act on these fronts not only undermines global efforts to mitigate climate change but also perpetuates a cycle of poverty and environmental degradation.</p><p>In conclusion, climate change is a pressing global issue that necessitates a holistic approach. The intertwining of economic, social, and ethical considerations reveals the complexity of the challenge at hand. As we forge ahead, it is imperative that we adopt strategies that promote sustainability, equity, and justice, ensuring that future generations inherit a world that is not only livable but flourishing.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main argument presented in the passage regarding climate change?",
+      "options": {
+        "A": "Climate change primarily affects environmental conditions without significant socio-economic implications.",
+        "B": "The economic and social repercussions of climate change are profound and require urgent attention.",
+        "C": "Developed nations are solely responsible for climate change and its consequences.",
+        "D": "Only agricultural sectors are impacted by climate change, while urban areas remain unaffected."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct as the passage discusses the extensive economic and social impacts of climate change, emphasizing the need for urgent attention to these issues."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "The passage states that climate change has no effect on food security.",
+      "answer": "False",
+      "explanation": "The passage clearly indicates that climate change impacts agricultural sectors, leading to food insecurity."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer 'Yes', 'No', or 'Not Given'.",
+      "text": "Does the author believe that wealthy nations should provide support to developing countries for climate adaptation?",
+      "answer": "Yes",
+      "explanation": "The passage discusses the concept of climate justice and emphasizes the responsibility of developed nations to support developing countries."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following effects of climate change to their consequences.",
+      "text": "1. Rising sea levels\n2. Increased air pollution\n3. Erratic weather patterns\n4. Historical pollution responsibility",
+      "options": {
+        "A": "Food insecurity and migration\nB”: “Respiratory illnesses in lower-income groups\nC”: “Ethical responsibility of developed nations\nD”: “Displacement of coastal communities"
+      },
+      "answer": {
+        "1": "D",
+        "2": "B",
+        "3": "A",
+        "4": "C"
+      },
+      "explanation": "Each effect is linked to its appropriate consequence, demonstrating the multifaceted impact of climate change as discussed in the passage."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "insidious",
+      "meaning": "proceeding in a gradual, subtle way, but with harmful effects."
+    },
+    {
+      "word": "multifaceted",
+      "meaning": "having many aspects or phases."
+    },
+    {
+      "word": "exacerbating",
+      "meaning": "making a problem, situation, or feeling worse."
+    },
+    {
+      "word": "marginalizing",
+      "meaning": "treating a person, group, or concept as insignificant or peripheral."
+    },
+    {
+      "word": "intertwining",
+      "meaning": "twisting or weaving together."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the complex interrelations between climate change and its socio-economic implications. Pay attention to the author's tone and purpose, as well as inferred meanings behind the statements. Make sure to identify keywords that indicate the author's attitude towards different aspects of climate change.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

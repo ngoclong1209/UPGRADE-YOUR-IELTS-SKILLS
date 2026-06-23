@@ -1,0 +1,122 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_113",
+  "title": "The Unfolding Crisis: Climate Change and Global Warming",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Unfolding Crisis: Climate Change and Global Warming</h2><p>Climate change, a term that has gained significant traction in recent decades, signifies not merely a shift in weather patterns but a profound alteration of the Earth’s climate system. This phenomenon is predominantly driven by human activities, particularly the combustion of fossil fuels, deforestation, and industrial processes. The resultant increase in greenhouse gases has led to a series of ecological repercussions, including rising global temperatures, melting polar ice caps, and extreme weather events that threaten both biodiversity and human existence.</p><p>Research indicates that the past century has witnessed an unprecedented rise in average temperatures, with projections suggesting that without immediate intervention, we could witness an increase of up to 4 degrees Celsius by the year 2100. Such a rise poses significant risks, including the exacerbation of food insecurity, displacement of populations, and increased frequency of natural disasters. Moreover, the socio-economic implications are far-reaching, as poorer nations often bear the brunt of climate impacts despite contributing the least to greenhouse gas emissions.</p><p>In response to this urgent crisis, global efforts have intensified, leading to agreements such as the Paris Accord, which seeks to unite nations in a collective endeavor to mitigate climate change effects. However, the effectiveness of these initiatives remains a subject of intense debate, as political will and economic interests frequently hinder progress. The challenge ahead is not solely scientific or technological; it is fundamentally a question of ethical responsibility and global solidarity.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is primarily responsible for climate change according to the passage?",
+      "options": {
+        "A": "Natural weather fluctuations",
+        "B": "Human activities",
+        "C": "Solar radiation changes",
+        "D": "Volcanic eruptions"
+      },
+      "answer": "B",
+      "explanation": "The passage clearly states that climate change is predominantly driven by human activities such as fossil fuel combustion and deforestation."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False or Not Given.",
+      "text": "The Paris Accord has successfully mitigated the effects of climate change.",
+      "answer": "Not Given",
+      "explanation": "The passage mentions the Paris Accord but does not specify whether it has been successful in mitigating climate change effects."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author believe that addressing climate change is primarily a scientific issue?",
+      "answer": "No",
+      "explanation": "The author emphasizes that the challenge is also a question of ethical responsibility and global solidarity, indicating it is more than just a scientific issue."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements to the appropriate paragraph.",
+      "text": "1. The socio-economic implications of climate change. 2. The role of human activity in climate change. 3. Global agreements targeting climate change.",
+      "options": {
+        "1": "Paragraph 1",
+        "2": "Paragraph 2",
+        "3": "Paragraph 3"
+      },
+      "answers": {
+        "1": "Paragraph 2",
+        "2": "Paragraph 1",
+        "3": "Paragraph 3"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "text": "1. Consequences of Inaction 2. Human Contributions to Climate Change 3. Ethical Considerations in Climate Policy",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3"
+      },
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "C"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The most significant greenhouse gases are produced by __________.",
+      "answer": "human activities",
+      "explanation": "The passage states that human activities are the primary drivers of greenhouse gas emissions."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The passage argues that climate change poses risks such as __________ and __________.",
+      "answers": [
+        "food insecurity",
+        "population displacement"
+      ],
+      "explanation": "These terms are mentioned in the context of the predictions regarding climate change effects."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following question with NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "By what year could temperatures rise by up to 4 degrees Celsius if no action is taken?",
+      "answer": "2100",
+      "explanation": "The passage clearly states the projection for temperature rise by the year 2100."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "unprecedented",
+      "meaning": "never done or known before"
+    },
+    {
+      "word": "mitigate",
+      "meaning": "make less severe, serious, or painful"
+    },
+    {
+      "word": "ecological repercussions",
+      "meaning": "the effects on living organisms and their environment"
+    },
+    {
+      "word": "combustion",
+      "meaning": "the process of burning something"
+    },
+    {
+      "word": "biodiversity",
+      "meaning": "the variety of plant and animal life in a particular habitat"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, pay attention to the author's tone and the implications of their arguments. Look for keywords that indicate the main ideas and understand the relationships between different sections of the text. Note that many answers require you to infer meaning rather than find direct quotes.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

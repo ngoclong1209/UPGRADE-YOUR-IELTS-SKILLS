@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Full Test - Test_35</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=DynaPuff:wght@400..700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0; padding: 0; font-family: 'Quicksand', sans-serif;
+            background: #fdf2f8; color: #333; overflow-x: hidden;
+        }
+        .main-layout {
+            display: flex; height: 100vh; overflow: hidden;
+        }
+        .passage-pane {
+            flex: 6; overflow-y: auto; padding: 30px;
+            background: white; margin: 10px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            font-size: 1.15rem; line-height: 1.8;
+            padding-bottom: 100px; /* For audio player */
+        }
+        .answer-pane {
+            flex: 4; overflow-y: auto; padding: 30px;
+            background: linear-gradient(145deg, #ffffff, #fff0f5);
+            margin: 10px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .q-row {
+            display: flex; align-items: center; margin-bottom: 15px;
+            background: white; padding: 10px 15px; border-radius: 12px;
+            border: 2px solid #ffccd5;
+        }
+        .q-num {
+            font-weight: bold; color: #ff85a2; font-size: 1.2rem;
+            width: 40px;
+        }
+        .q-input {
+            flex: 1; border: none; outline: none; font-size: 1.1rem;
+            font-family: 'Quicksand', sans-serif;
+            border-bottom: 2px dashed #ffccd5; background: transparent;
+            padding: 5px;
+        }
+        .q-input:focus { border-bottom: 2px solid #ff85a2; }
+        .submit-btn {
+            width: 100%; padding: 18px; font-size: 1.2rem; color: white;
+            background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            border: none; border-radius: 25px; cursor: pointer; font-weight: 700;
+            margin-top: 20px; box-shadow: 0 10px 20px rgba(255,94,126,0.3);
+            font-family: 'Quicksand', sans-serif;
+        }
+        .audio-fixed-bottom {
+            position: fixed; bottom: 0; left: 0; width: 60%;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px);
+            padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            border-top-right-radius: 20px; z-index: 1000;
+        }
+        audio { width: 100%; outline: none; }
+        /* LOGIN OVERLAY CSS */
+        
+        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
+        .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
+        .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
+        .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+
+    </style>
+</head>
+<body>
+    
+    <div class="login-overlay" id="login-overlay">
+        <div class="login-box">
+            <div class="login-header">🍭 Study Room 🍭</div>
+            <div class="login-subheader">Hệ thống: 315 bài thi Reading Full Test ✨</div>
+            <div id="login-form-fields">
+                <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
+                <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
+            </div>
+            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="main-layout" style="display: none;">
+        <div class="passage-pane">
+            <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_35</h1>
+            <p>IELTS Reading Practice - Test 35</p>
+<p>The Life and Work of Marie Curie</p>
+<p>Marie Curie is probably the most famous woman scientist who has ever lived. Born Maria Sklodowska in Poland in 1867, she is famous for her work on radioactivity, and was twice a winner of the Nobel Prize. With her husband, Pierre Curie, and Henri Becquerel, she was awarded the 1903 Nobel Prize for Physics, and was then sole winner of the 1911 Nobel Prize for Chemistry. She was the first woman to win a Nobel Prize.</p>
+<p>From childhood, Marie was remarkable for her prodigious memory, and at the age of 16 won a gold medal on completion of her secondary education. Because her father lost his savings through bad investment, she then had to take work as a teacher. From her earnings she was able to finance her sister Bronia’s medical studies in Paris, on the understanding that Bronia would, in turn, later help her to get an education.</p>
+<p>In 1891 this promise was fulfilled and Marie went to Paris and began to study at the Sorbonne (the University of Paris). She often worked far into the night and lived on little more than bread and butter and tea. She came first in the examination in the physical sciences in 1893, and in 1894 was placed second in the examination in mathematical sciences. It was not until the spring of that year that she was introduced to Pierre Curie.</p>
+<p>Their marriage in 1895 marked the start of a partnership that was soon to achieve results of world significance. Following Henri Becquerel’s discovery in 1896 of a new phenomenon, which Marie later called ‘radioactivity’, Marie Curie decided to find out if the radioactivity discovered in uranium was to be found in other elements. She discovered that this was true for thorium.</p>
+<p>Turning her attention to minerals, she found her interest drawn to pitchblende, a mineral whose radioactivity, superior to that of pure uranium, could be explained only by the presence in the ore of small quantities of an unknown substance of very high activity. Pierre Curie joined her in the work that she had undertaken to resolve this problem, and that led to the discovery of the new elements, polonium and radium. While Pierre Curie devoted himself chiefly to the physical study of the new radiations, Marie Curie struggled to obtain pure radium in the metallic state. This was achieved with the help of the chemist André-Louis Debierne, one of Pierre Curie’s pupils. Based on the results of this research, Marie Curie received her Doctorate of Science, and in 1903 Marie and Pierre shared with Becquerel the Nobel Prize for Physics for the discovery of radioactivity.</p>
+<p>The births of Marie’s two daughters, Irène and Eve, in 1897 and 1904 failed to interrupt her scientific work. She was appointed lecturer in physics at the École Normale Supérieure for girls in Sèvres, France (1900), and introduced a method of teaching based on experimental demonstrations. In December 1904 she was appointed chief assistant in the laboratory directed by Pierre Curie.</p>
+<p>The sudden death of her husband in 1906 was a bitter blow to Marie Curie, but was also a turning point in her career: henceforth she was to devote all her energy to completing alone the scientific work that they had undertaken. On May 13, 1906, she was appointed to the professorship that had been left vacant on her husband’s death, becoming the first woman to teach at the Sorbonne. In 1911 she was awarded the Nobel Prize for Chemistry for the isolation of a pure form of radium.</p>
+<p>During World War I, Marie Curie, with the help of her daughter Irène, devoted herself to the development of the use of X-radiography, including the mobile units which came to be known as ‘Little Curies’, used for the treatment of wounded soldiers. In 1918 the Radium Institute, whose staff Irène had joined, began to operate in earnest, and became a centre for nuclear physics and chemistry. Marie Curie, now at the highest point of her fame and, from 1922, a member of the Academy of Medicine, researched the chemistry of radioactive substances and their medical applications.</p>
+<p>In 1921, accompanied by her two daughters, Marie Curie made a triumphant journey to the United States to raise funds for research on radium. Women there presented her with a gram of radium for her campaign. Marie also gave lectures in Belgium, Brazil, Spain and Czechoslovakia and, in addition, had the satisfaction of seeing the development of the Curie Foundation in Paris, and the inauguration in 1932 in Warsaw of the Radium Institute, where her sister Bronia became director.</p>
+<p>One of Marie Curie’s outstanding achievements was to have understood the need to accumulate intense radioactive sources, not only to treat illness but also to maintain an abundant supply for research. The existence in Paris at the Radium Institute of a stock of 1.5 grams of radium made a decisive contribution to the success of the experiments undertaken in the years around 1930. This work prepared the way for the discovery of the neutron by Sir James Chadwick and, above all, for the discovery in 1934 by Irène and Frédéric Joliot-Curie of artificial radioactivity. A few months after this discovery, Marie Curie died as a result of leukaemia caused by exposure to radiation. She had often carried test tubes containing radioactive isotopes in her pocket, remarking on the pretty blue-green light they gave off.</p>
+<p>Her contribution to physics had been immense, not only in her own work, the importance of which had been demonstrated by her two Nobel Prizes, but because of her influence on subsequent generations of nuclear physicists and chemists.</p>
+<p>Questions 1-6
+
+Do the following statements agree with the information given in Reading Passage 1? In boxes 1-6 on your answer sheet write</p>
+<p>TRUE                             if the statement agrees with the information
+
+FALSE                           if the statement contradicts the information
+
+NOT GIVEN                if there is no information on this</p>
+<p>Questions 7-13
+
+Complete the notes below. Choose ONE WORD from the passage for each answer.</p>
+<p>Marie Curie’s research on radioactivity</p>
+<p>When uranium was discovered to be radioactive. Marie Curie found that the element called (7)………………….. had the same property. Marie and Pierre Curie‘s research into the radioactivity of the mineral known as (8)……………….……………..led to the discovery of two new elements. In 1911, Marie Curie received recognition for her work on the element (9)………………………… Marie and Irene Curie developed X-radiography which was used as a medical technique for (10)……………………. Marie Curie saw the importance of collecting radioactive material both for research and for cases of (11)…………………… The radioactive material stocked in Paris contributed to the discoveries in the 1930s of the (12)…………….……… and of what was known as artificial radioactivity. During her research. Marie Curio was exposed to radiation and as a result she suffered from (13)…………………</p>
+<p>Cambridge IELTS Test 1 to 17</p>
+<p>Young Children’s Sense of Identity</p>
+<p>A A sense of self develops in young children by degrees. The process can usefully be thought of in terms of the gradual emergence of two somewhat separate features: the self as a subject, and the self as an object. William James introduced the distinction in 1892, and contemporaries of his, such as Charles Cooley, added to the developing debate. Ever since then psychologists have continued building on the theory.</p>
+<p>B According to James, a child’s first step on the road to self-understanding can be seen as the recognition that he or she exists. This is an aspect of the self that he labelled ‘self-as-subject’, and he gave it various elements. These included an awareness of one’s own agency (i.e. one’s power to act), and an awareness of one’s distinctiveness from other people. These features gradually emerge as infants explore their world and interact with caregivers. Cooley (1902) suggested that a sense of the self-as-subject was primarily concerned with being able to exercise power. He proposed that the earliest examples of this are an infant’s attempts to control physical objects, such as toys or his or her own limbs. This is followed by attempts to affect the behaviour of other people. For example, infants learn that when they cry or smile someone responds to them.</p>
+<p>C Another powerful source of information for infants about the effects they can have on the world around them is provided when others mimic them. Many parents spend a lot of time, particularly in the early months, copying their infant’s vocalizations and expressions. In addition, young children enjoy looking in mirrors, where the movements they can see are dependent upon their own movements. This is not to say that infants recognize the reflection as their own image (a later development). However, Lewis and Brooks-Gunn (1979) suggest that infants’ developing understanding that the movements they see in the mirror are contingent on their own, leads to a growing awareness that they are distinct from other people. This is because they, and only they, can change the reflection in the mirror.</p>
+<p>D This understanding that children gain of themselves as active agents continues to develop in their attempts to co-operate with others in play. Dunn (1988) points out that it is in such day-to-day relationships and interactions that the child’s understanding of his- or herself emerges. Empirical investigations of the self-as- subject in young children are, however, rather scarce because of difficulties of communication: even if young infants can reflect on their experience, they certainly cannot express this aspect of the self directly.</p>
+<p>E Once children have acquired a certain level of self-awareness, they begin to place themselves in a whole series of categories, which together play such an important part in defining them uniquely as ‘themselves’. This second step in the development of a full sense of self is what James called the ‘self-as-object’. This has been seen by many to be the aspect of the self which is most influenced by social elements, since it is made up of social roles (such as student, brother, colleague) and characteristics which derive their meaning from comparison or interaction with other people (such as trustworthiness, shyness, sporting ability).</p>
+<p>F Cooley and other researchers suggested a close connection between a person’s own understanding of their identity and other people’s understanding of it. Cooley believed that people build up their sense of identity from the reactions of others to them, and from the view they believe others have of them. He called the self- as-object the ‘looking-glass self’, since people come to see themselves as they are reflected in others. Mead (1934) went even further, and saw the self and the social world as inextricably bound together: ‘The self is essentially a social structure, and it arises in social experience … it is impossible to conceive of a self arising outside of social experience.’</p>
+<p>G Lewis and Brooks-Gunn argued that an important developmental milestone is reached when children become able to recognize themselves visually without the support of seeing contingent movement. This recognition occurs around their second birthday. In one experiment, Lewis and Brooks-Gunn (1979) dabbed some red powder on the noses of children who were playing in front of a mirror, and then observed how often they touched their noses. The psychologists reasoned that if the children knew what they usually looked like, they would be surprised by the unusual red mark and would start touching it. On the other hand, they found that children of 15 to 18 months are generally not able to recognize themselves unless other cues such as movement are present.</p>
+<p>H Finally, perhaps the most graphic expressions of self-awareness in general can be seen in the displays of rage which are most common from 18 months to 3 years of age. In a longitudinal study of groups of three or four children, Bronson (1975) found that the intensity of the frustration and anger in their disagreements increased sharply between the ages of 1 and 2 years. Often, the children’s disagreements involved a struggle over a toy that none of them had played with before or after the tug-of-war: the children seemed to be disputing ownership rather than wanting to play with it. Although it may be less marked in other societies, the link between the sense of ‘self’ and of ‘ownership’ is a notable feature of childhood in Western societies.</p>
+<p>Questions 14-19
+
+Reading Passage 2 has eight paragraphs, A-H. Which paragraph contains the following information?
+
+Write the correct letter A-H, in boxes 14-19 on your answer sheet. NB You may use any letter more than once.</p>
+<p>14. An account of the method used by researchers in a particular study
+
+15. The role of imitation in developing a sense of identity
+
+16. The age at which children can usually identify a static image of themselves
+
+17. A reason for the limitations of scientific research into ‘self-as subject.
+
+18. Reference to a possible link between culture and a particular form of behavior
+
+19. Examples of the wide range of features that contribute to the sense of ‘self-as-object’.</p>
+<p>Questions 20-23
+
+Look at the following findings (Questions 20-23) and the list of researchers below.
+
+Match each finding with the correct researcher or researchers, A-E.</p>
+<p>20. A sense of identity can never be formed without relationships with other people.
+
+21. A child’s awareness of self is related to a sense of mastery over things and people.
+
+22. At a certain age, children’s sense of identity leads to aggressive behavior.
+
+23. Observing their own reflection contributes to children‘s self awareness.</p>
+<p>List of Researchers
+
+A James
+
+B Cooley
+
+C Lewis and Brooks-Gunn
+
+D Mead
+
+E Bronson</p>
+<p>Questions 24-26
+
+Complete the summary below Choose ONE WORD ONLY from the passage for each answer.</p>
+<p>How children acquire a sense of identity</p>
+<p>First, children come to realize that they can have an effect on the world around them, for example by handling objects. or causing the image to move when they face a (24)……………………….. This aspect of self-awareness is difficult to research directly, because of (25)………………………. problems. Secondly. children start to become aware of how they are viewed by others. One important stage in this process is the visual recognition of themselves which usually occurs when they reach the age of two. In Western societies at least, the development of self awareness is often linked to a sense of (26)…………………………… , and can lead to disputes.</p>
+<p>The Development of Museums</p>
+<p>A The conviction that historical relics provide infallible testimony about the past is rooted in the nineteenth and early twentieth centuries, when science was regarded as objective and value free. As one writer observes: ‘Although it is now evident that artefacts are as easily altered as chronicles, public faith in their veracity endures: a tangible relic seems ipso facto real.’ Such conviction was, until recently, reflected in museum displays. Museums used to look – and some still do – much like storage rooms of objects packed together in showcases: good for scholars who wanted to study the subtle differences in design, but not for the ordinary visitor, to whom it all looked alike. Similarly, the information accompanying the objects often made little sense to the lay visitor. The content and format of explanations dated back to a time when the museum was the exclusive domain of the scientific researcher.</p>
+<p>B Recently, however, attitudes towards history and the way it should be presented have altered. The key word in heritage display is now ‘experience’, the more exciting the better and, if possible, involving all the senses. Good examples of this approach in the UK are the Jorvik Centre in York; the National Museum of Photography, Film and Television in Bradford; and the Imperial War Museum in London. In the US the trend emerged much earlier: Williamsburg has been a prototype for many heritage developments in other parts of the world. No one can predict where the process will end. On so-called heritage sites the re-enactment of historical events is increasingly popular, and computers will soon provide virtual reality experiences, which will present visitors with a vivid image of the period of their choice, in which they themselves can act as if part of the historical environment. Such developments have been criticised as an intolerable vulgarisation, but the success of many historical theme parks and similar locations suggests that the majority of the public does not share this opinion.</p>
+<p>C In a related development, the sharp distinction between museum and heritage sites on the one hand, and theme parks on the other, is gradually evaporating. They already borrow ideas and concepts from one another. For example, museums have adopted story lines for exhibitions, sites have accepted ‘theming’ as a relevant tool, and theme parks are moving towards more authenticity and research-based presentations. In zoos, animals are no longer kept in cages, but in great spaces, either in the open air or in enormous greenhouses, such as the jungle and desert environments in Burgers’ Zoo in Holland. This particular trend is regarded as one of the major developments in the presentation of natural history in the twentieth century.</p>
+<p>D Theme parks are undergoing other changes, too, as they try to present more serious social and cultural issues, and move away from fantasy. This development is a response to market forces and, although museums and heritage sites have a special, rather distinct, role to fulfil, they are also operating in a very competitive environment, where visitors make choices on how and where to spend their free time. Heritage and museum experts do not have to invent stories and recreate historical environments to attract their visitors: their assets are already in place. However, exhibits must be both based on artefacts and facts as we know them, and attractively presented. Those who are professionally engaged in the art of interpreting history are thus in a difficult position, as they must steer a narrow course between the demands of ‘evidence’ and ‘attractiveness’, especially given the increasing need in the heritage industry for income-generating activities.</p>
+<p>E It could be claimed that in order to make everything in heritage more ‘real’, historical accuracy must be increasingly altered. For example, Pithecanthropus erectus is depicted in an Indonesian museum with Malay facial features, because this corresponds to public perceptions. Similarly, in the Museum of Natural History in Washington, Neanderthal man is shown making a dominant gesture to his wife. Such presentations tell us more about contemporary perceptions of the world than about our ancestors. There is one compensation, however, for the professionals who make these interpretations: if they did not provide the interpretation, visitors would do it for themselves, based on their own ideas, misconceptions and prejudices. And no matter how exciting the result, it would contain a lot more bias than the presentations provided by experts.</p>
+<p>F Human bias is inevitable, but another source of bias in the representation of history has to do with the transitory nature of the materials themselves. The simple fact is that not everything from history survives the historical process. Castles, palaces and cathedrals have a longer lifespan than the dwellings of ordinary people. The same applies to the furnishings and other contents of the premises. In a town like Leyden in Holland, which in the seventeenth century was occupied by approximately the same number of inhabitants as today, people lived within the walled town, an area more than five times smaller than modern Leyden. In most of the houses several families lived together in circumstances beyond our imagination. Yet in museums, fine period rooms give only an image of the lifestyle of the upper class of that era. No wonder that people who stroll around exhibitions are filled with nostalgia; the evidence in museums indicates that life was so much better in the past. This notion is induced by the bias in its representation in museums and heritage centres.</p>
+<p>Questions 27-30
+
+Reading passage 3 has six paragraphs A-F. Choose the correct heading for paragraph B-E from the list of headings below.</p>
+<p>List of Headings
+
+i Commercial pressures on people in charge
+
+ii Mixed views on current changes to museums
+
+iii Interpreting the facts to meet visitor expectations
+
+iv The international dimension
+
+v Collections of factual evidence
+
+vi Fewer differences between public attractions
+
+vii Current reviews and suggestions</p>
+<p>Example: Paragraph A             v
+
+27. Paragraph B
+
+28. Paragraph C
+
+29. Paragraph D
+
+30. Paragraph E</p>
+<p>Questions 31-36
+
+Choose the correct letter A, B, C or D. Write the correct letter in boxes 31-36 on your answer sheet.</p>
+<p>31. Compared with today’s museums those of the past
+
+A did not present history in a detailed way
+
+B were not primarily intended for the public
+
+C were more clearly organized
+
+D preserved items with greater care</p>
+<p>32. According to the writer, current trends in the heritage industry
+
+A emphasize personal involvement
+
+B have their origins in York and London
+
+C rely on computer images
+
+D reflect minority tastes</p>
+<p>33. The writer says that museums heritage sites and theme parks
+
+A often work in close partnership
+
+B try to preserve separate identities
+
+C have similar exhibits
+
+D are less easy to distinguish than before</p>
+<p>34. The writer says that in preparing exhibits for museums, experts
+
+A should pursue a single objective
+
+B have to do a certain amount of language translation
+
+C should be free from commercial constraints
+
+D have to balance conflicting priorities</p>
+<p>35. In paragraph E, the writer suggests that some museum exhibits
+
+A fail to match visitor expectations
+
+B are based on the false assumptions of professionals
+
+C reveal more about present beliefs than about the past
+
+D allow visitors to make more use of their imagination</p>
+<p>36. The passage ends by noting that our view of history is biased because
+
+A we fail to use our imagination
+
+B only very durable objects remain from the past
+
+C we tend to ignore things that displease us
+
+D museum exhibits focus too much on the local area</p>
+<p>Questions 37-40
+
+Do the following statements agree with the information given in Reading Passage 3′?
+
+In boxes 37-40 on your answer sheet, write</p>
+<p>TRUE                           if the statement agrees with the information
+
+FALSE                         if the statement contradicts the information
+
+NOT GIVEN              if there is no information on this</p>
+<p>37. Consumers prefer theme parks which avoid serious issues.
+
+38. More people visit museums than theme parks.
+
+39. The boundaries of Leyden have changed little since the seventeenth century.
+
+40. Museums can give a false impression of how life used to be.</p>
+<p>_______  _______</p>
+<p>ANSWER KEY</p>
+<p>1. false</p>
+<p>2. not given</p>
+<p>3. true</p>
+<p>4. false</p>
+<p>5. true</p>
+<p>6. not given</p>
+<p>7. thorium</p>
+<p>8. pitchblende</p>
+<p>9. radium</p>
+<p>10. soldiers</p>
+<p>11. illness</p>
+<p>12. neutron</p>
+<p>13. leukemia</p>
+<p>14. G</p>
+<p>15. C</p>
+<p>16. G</p>
+<p>17. D</p>
+<p>18. H</p>
+<p>19. E</p>
+<p>20. D</p>
+<p>21. B</p>
+<p>22. E</p>
+<p>23. C</p>
+<p>24. mirror</p>
+<p>25. communication</p>
+<p>26. ownership</p>
+<p>27. ii</p>
+<p>28. vi</p>
+<p>29. i</p>
+<p>30. iii</p>
+<p>31. B</p>
+<p>32. A</p>
+<p>33. D</p>
+<p>34. D</p>
+<p>35. C</p>
+<p>36. B</p>
+<p>37. false</p>
+<p>38. not given</p>
+<p>39. false</p>
+<p>40. true</p>
+
+        </div>
+        <div class="answer-pane">
+            <h2 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0; text-align: center;">Answers (40 Questions)</h2>
+            <div id="questions-container">
+                
+        <div class="q-row">
+            <div class="q-num">1</div>
+            <input type="text" class="q-input" id="q1" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">2</div>
+            <input type="text" class="q-input" id="q2" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">3</div>
+            <input type="text" class="q-input" id="q3" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">4</div>
+            <input type="text" class="q-input" id="q4" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">5</div>
+            <input type="text" class="q-input" id="q5" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">6</div>
+            <input type="text" class="q-input" id="q6" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">7</div>
+            <input type="text" class="q-input" id="q7" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">8</div>
+            <input type="text" class="q-input" id="q8" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">9</div>
+            <input type="text" class="q-input" id="q9" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">10</div>
+            <input type="text" class="q-input" id="q10" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">11</div>
+            <input type="text" class="q-input" id="q11" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">12</div>
+            <input type="text" class="q-input" id="q12" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">13</div>
+            <input type="text" class="q-input" id="q13" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">14</div>
+            <input type="text" class="q-input" id="q14" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">15</div>
+            <input type="text" class="q-input" id="q15" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">16</div>
+            <input type="text" class="q-input" id="q16" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">17</div>
+            <input type="text" class="q-input" id="q17" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">18</div>
+            <input type="text" class="q-input" id="q18" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">19</div>
+            <input type="text" class="q-input" id="q19" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">20</div>
+            <input type="text" class="q-input" id="q20" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">21</div>
+            <input type="text" class="q-input" id="q21" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">22</div>
+            <input type="text" class="q-input" id="q22" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">23</div>
+            <input type="text" class="q-input" id="q23" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">24</div>
+            <input type="text" class="q-input" id="q24" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">25</div>
+            <input type="text" class="q-input" id="q25" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">26</div>
+            <input type="text" class="q-input" id="q26" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">27</div>
+            <input type="text" class="q-input" id="q27" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">28</div>
+            <input type="text" class="q-input" id="q28" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">29</div>
+            <input type="text" class="q-input" id="q29" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">30</div>
+            <input type="text" class="q-input" id="q30" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">31</div>
+            <input type="text" class="q-input" id="q31" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">32</div>
+            <input type="text" class="q-input" id="q32" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">33</div>
+            <input type="text" class="q-input" id="q33" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">34</div>
+            <input type="text" class="q-input" id="q34" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">35</div>
+            <input type="text" class="q-input" id="q35" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">36</div>
+            <input type="text" class="q-input" id="q36" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">37</div>
+            <input type="text" class="q-input" id="q37" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">38</div>
+            <input type="text" class="q-input" id="q38" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">39</div>
+            <input type="text" class="q-input" id="q39" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">40</div>
+            <input type="text" class="q-input" id="q40" placeholder="Type answer...">
+        </div>
+        
+            </div>
+            <button class="submit-btn" id="btn-submit">SUBMIT ANSWERS 🌸</button>
+            <div id="result-msg" style="text-align: center; margin-top: 15px; font-weight: bold; color: #2b9348; display: none;"></div>
+        </div>
+    </div>
+
+    
+
+    
+<script>
+    // const APP_URL = "https://script.google.com/macros/s/AKfycbx7lOgaMcHm0ofxpG3V9bi52rMbL7wBXIzAHovP5xBrp9XbyuZp7QNKbSg2-UTJoauyOg/exec";
+    const APP_URL = "https://script.google.com/macros/s/AKfycbzgBPDHt8g35pxQllRcuVTWJq5OaQnuUuQAt93yGs_kqRVOly4Wd1A_jGtgxh5MaKOJMw/exec"; // NEWEST ONE FROM USER
+
+    async function grantAccess() {
+        const input = document.getElementById('nickname-input');
+        let nickname = input ? input.value.trim().toUpperCase() : '';
+        if (!nickname) { alert("Vui lòng nhập ID!"); return; }
+        
+        document.getElementById('login-form-fields').style.display = "none";
+        document.getElementById('login-loading-fields').style.display = "block";
+        document.getElementById('loading-status').innerText = "Đang kiểm tra ID...";
+
+        try {
+            let loginRes = await fetch(APP_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'login', student_id: nickname })
+            });
+            let data = await loginRes.json();
+
+            if (data.status === 'success') {
+                document.getElementById('loading-status').innerText = "Thành công!";
+                setTimeout(() => {
+                    document.getElementById('login-overlay').style.display = "none";
+                    document.querySelector('.main-layout').style.display = "flex";
+                    localStorage.setItem('youpass_student_id', nickname);
+                }, 500);
+            } else {
+                alert("Lỗi: " + data.message);
+                document.getElementById('login-loading-fields').style.display = "none";
+                document.getElementById('login-form-fields').style.display = "block";
+            }
+        } catch(err) {
+            alert("Lỗi kết nối máy chủ!");
+            document.getElementById('login-loading-fields').style.display = "none";
+            document.getElementById('login-form-fields').style.display = "block";
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('login-overlay').style.display = "none";
+            document.querySelector('.main-layout').style.display = "flex";
+        }
+    });
+</script>
+
+    
+    <script>
+        document.getElementById('btn-submit').addEventListener('click', async () => {
+            let btn = document.getElementById('btn-submit');
+            let resultMsg = document.getElementById('result-msg');
+            btn.innerText = "Submitting...";
+            btn.disabled = true;
+
+            let answers = [];
+            for (let i = 1; i <= 40; i++) {
+                let val = document.getElementById('q' + i).value.trim();
+                answers.push(val);
+            }
+
+            let payload = {
+                action: 'submit_full_test',
+                student_id: localStorage.getItem('youpass_student_id') || 'UNKNOWN',
+                module: 'Reading Full Test',
+                test_name: 'Test_35',
+                answers: answers
+            };
+
+            try {
+                let res = await fetch(APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                let data = await res.json();
+                if (data.status === 'success') {
+                    resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
+                    resultMsg.style.display = 'block';
+                    btn.innerText = "SUBMITTED!";
+                } else {
+                    alert("Lỗi: " + data.message);
+                    btn.innerText = "SUBMIT ANSWERS 🌸";
+                    btn.disabled = false;
+                }
+            } catch(e) {
+                alert("Lỗi mạng! Không thể gửi.");
+                btn.innerText = "SUBMIT ANSWERS 🌸";
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

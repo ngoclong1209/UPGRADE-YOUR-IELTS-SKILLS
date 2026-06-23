@@ -1,0 +1,100 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_366",
+  "title": "Harnessing the Power of Renewable Energy",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Renewable Energy</h2><p>In recent years, the world has begun to shift its focus towards renewable energy sources such as solar, wind, and hydroelectric power. This transition is largely driven by the need to combat climate change and reduce dependence on fossil fuels. Renewable energy sources are not only abundant but also increasingly cost-effective, making them an attractive option for both governments and businesses.</p><p>Solar energy, for instance, harnesses sunlight through photovoltaic cells, converting it into electricity. With advancements in technology, the efficiency of solar panels has significantly improved, leading to lower costs for installation and maintenance. Similarly, wind energy captures kinetic energy from wind currents to generate power. Wind farms, often located in rural areas, have become a common sight and provide significant amounts of electricity to the grid.</p><p>Hydroelectric power, generated from flowing water, is one of the oldest and most reliable forms of renewable energy. Dams are built on rivers to control water flow, which in turn drives turbines to produce electricity. Despite its advantages, the construction of large dams can lead to ecological disruption and displacement of communities.</p><p>Governments worldwide are implementing policies to promote the use of renewable energy. Incentives such as tax credits and subsidies encourage the adoption of clean energy technologies. Furthermore, international agreements aim to limit greenhouse gas emissions, pushing nations to explore sustainable alternatives.</p><p>While the benefits of renewable energy are clear, challenges remain. The intermittent nature of sources like solar and wind means that energy storage solutions must be developed to ensure a constant supply. Battery technology is advancing, but further innovation is needed to meet the growing demand for energy.</p><p>In conclusion, renewable energy is not just a trend but a crucial component of a sustainable future. By investing in these technologies, we can reduce our carbon footprint and create a cleaner environment for generations to come.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one reason for the shift towards renewable energy?",
+      "options": {
+        "A": "To combat climate change.",
+        "B": "To increase fossil fuel use.",
+        "C": "To reduce technology costs.",
+        "D": "To improve maintenance efficiency."
+      },
+      "answer": "A",
+      "explanation": "The passage states that the shift is driven by the need to combat climate change."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "How do solar panels work?",
+      "options": {
+        "A": "They convert wind energy into electricity.",
+        "B": "They harness sunlight using photovoltaic cells.",
+        "C": "They control water flow in rivers.",
+        "D": "They generate electricity through fossil fuels."
+      },
+      "answer": "B",
+      "explanation": "The passage explains that solar panels convert sunlight into electricity using photovoltaic cells."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False or Not Given.",
+      "text": "Wind farms are typically located in urban areas.",
+      "answer": "False",
+      "explanation": "The passage states that wind farms are often located in rural areas, making this statement false."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False or Not Given.",
+      "text": "Hydroelectric power is a new form of renewable energy.",
+      "answer": "False",
+      "explanation": "The passage mentions that hydroelectric power is one of the oldest forms of renewable energy."
+    },
+    {
+      "id": "q5",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Are renewable energy sources always reliable?",
+      "answer": "No",
+      "explanation": "The passage discusses the intermittent nature of solar and wind energy, indicating they are not always reliable."
+    },
+    {
+      "id": "q6",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "options": {
+        "A": "Government policies on renewable energy",
+        "B": "Challenges of renewable energy sources",
+        "C": "The efficiency of solar energy",
+        "D": "Hydroelectric power and its effects"
+      },
+      "paragraphs": {
+        "1": "Government policies on renewable energy",
+        "2": "The efficiency of solar energy",
+        "3": "Hydroelectric power and its effects",
+        "4": "Challenges of renewable energy sources"
+      },
+      "answer": {
+        "1": "A",
+        "2": "C",
+        "3": "D",
+        "4": "B"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "photovoltaic",
+      "meaning": "relating to the production of electric current from light."
+    },
+    {
+      "word": "intermittent",
+      "meaning": "occurring at irregular intervals; not continuous or steady."
+    },
+    {
+      "word": "subsidies",
+      "meaning": "financial assistance granted by the government to support a particular industry."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the main ideas as well as specific details. Pay attention to the transitions between paragraphs to grasp how the author connects different concepts. For multiple-choice questions, eliminate clearly wrong options first and look for paraphrases in the passage. In True/False/Not Given questions, ensure you can find direct evidence in the text to support your answer.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

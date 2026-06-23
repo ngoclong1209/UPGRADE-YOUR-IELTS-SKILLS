@@ -1,0 +1,102 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_143",
+  "title": "The Warming World: Understanding Climate Change and its Implications",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Complex Interplay of Climate Change</h2><p>Climate change has emerged as one of the most pressing challenges of our time, driven predominantly by anthropogenic activities. The burning of fossil fuels for energy, deforestation, and industrial processes have significantly increased concentrations of greenhouse gases in the atmosphere. These gases trap heat, leading to a gradual increase in Earth’s average temperatures — a phenomenon commonly referred to as global warming.</p><p>As the planet warms, we observe a myriad of effects: rising sea levels due to melting polar ice caps, increased frequency and severity of extreme weather events, and shifts in biodiversity that threaten ecosystems. The implications of these changes extend beyond environmental concerns; they encompass social, economic, and health dimensions that require urgent attention and action.</p><p>The scientific consensus on climate change underscores the necessity for immediate and sustained policy interventions. Governments and organizations worldwide are urged to transition towards renewable energy sources, enhance energy efficiency, and adopt sustainable agricultural practices. However, despite the overwhelming evidence, public perception and political will often lag behind scientific recommendations, creating a complex landscape for effective climate action.</p><p>Moreover, the ethical dimensions of climate change cannot be overlooked. Developing nations, which contribute the least to global emissions, often bear the brunt of climate impacts, raising questions of justice and equity. Addressing climate change thus necessitates not only technological innovations but also a rethinking of our values and priorities as a global community.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary cause of climate change as discussed in the passage?",
+      "options": {
+        "A": "Natural climate cycles",
+        "B": "Anthropogenic activities",
+        "C": "Solar radiation changes",
+        "D": "Volcanic eruptions"
+      },
+      "answer": "B",
+      "explanation": "The passage clearly states that climate change is driven predominantly by anthropogenic activities, such as fossil fuel combustion and deforestation."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "State whether the following statements are True, False, or Not Given.",
+      "text": "The passage suggests that climate change is a purely environmental issue.",
+      "answer": "False",
+      "explanation": "The passage indicates that climate change encompasses social, economic, and health dimensions, suggesting it is not purely an environmental issue."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that all countries are equally responsible for climate change.",
+      "answer": "No",
+      "explanation": "The author discusses how developing nations, which contribute the least to emissions, bear the brunt of climate impacts, indicating a disparity in responsibility."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following effects of climate change with their descriptions.",
+      "options": [
+        "Rising sea levels",
+        "Extreme weather events",
+        "Biodiversity shifts"
+      ],
+      "descriptions": [
+        "Increase in the frequency of storms and droughts.",
+        "Flooding coastal areas due to melting ice caps.",
+        "Threatens various ecosystems and species."
+      ],
+      "answers": [
+        "Rising sea levels - Flooding coastal areas due to melting ice caps.",
+        "Extreme weather events - Increase in the frequency of storms and droughts.",
+        "Biodiversity shifts - Threatens various ecosystems and species."
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph to the appropriate heading.",
+      "headings": [
+        "Technological solutions to climate change",
+        "The ethical implications of climate change",
+        "The consequences of global warming",
+        "The role of human activity in climate change"
+      ],
+      "paragraphs": [
+        "Paragraph 1",
+        "Paragraph 2",
+        "Paragraph 3",
+        "Paragraph 4"
+      ],
+      "answers": [
+        "The role of human activity in climate change - Paragraph 1",
+        "The consequences of global warming - Paragraph 2",
+        "Technological solutions to climate change - Paragraph 3",
+        "The ethical implications of climate change - Paragraph 4"
+      ]
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "anthropogenic",
+      "meaning": "resulting from the influence of human beings on nature."
+    },
+    {
+      "word": "sustained",
+      "meaning": "continuing for an extended period without interruption."
+    },
+    {
+      "word": "consensus",
+      "meaning": "general agreement among a group."
+    },
+    {
+      "word": "equity",
+      "meaning": "the quality of being fair and impartial."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When tackling this passage, pay close attention to the nuances in language and the interconnections between different themes. Look for keywords that signal shifts in the author's argument or perspective. Understanding the broader implications of the statements made will be crucial for answering inference-based questions correctly.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

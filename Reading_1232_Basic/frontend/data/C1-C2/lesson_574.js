@@ -1,0 +1,124 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_574",
+  "title": "The Transformative Impact of Artificial Intelligence on Society",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Transformative Impact of Artificial Intelligence on Society</h2><p>Artificial intelligence (AI) has permeated various sectors, leading to significant advancements and challenges alike. From healthcare to transportation, AI technologies are reshaping how we operate and interact. In the medical field, AI algorithms can analyze vast datasets to identify patterns that human practitioners may overlook. This capability not only enhances diagnostic accuracy but also streamlines treatment protocols, ultimately improving patient outcomes.</p><p>However, the integration of AI into everyday life raises ethical concerns. As machines begin to make decisions traditionally held by humans, questions about accountability and transparency emerge. The potential for bias in AI decision-making processes is particularly troubling, as it can perpetuate existing societal inequalities. For instance, AI systems trained on historical data may inadvertently reinforce discriminatory practices if not carefully monitored and adjusted.</p><p>Moreover, the economic implications of AI are profound. While some predict job displacement due to automation, others argue that AI will create new job opportunities, requiring skills that are currently in short supply. Thus, the workforce must adapt, emphasizing the importance of continuous learning and reskilling.</p><p>Public perception of AI is also evolving. Despite fears of surveillance and loss of privacy, many individuals express optimism about AI's potential to solve complex problems, such as climate change and resource allocation. This dichotomy reflects a broader societal ambivalence toward technological progress, highlighting the necessity for comprehensive discussions about the future of AI and its role within society.</p><p>In conclusion, while the benefits of AI are manifold, they come hand in hand with challenges that necessitate careful consideration. As society navigates this technological revolution, a balanced approach that prioritizes ethical standards and equitable access will be crucial to harnessing AI's full potential.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the primary benefits of AI in the medical field according to the passage?",
+      "options": {
+        "A": "Enhancing patient outcomes through improved diagnostics.",
+        "B": "Eliminating the need for human practitioners entirely.",
+        "C": "Reducing the costs associated with healthcare.",
+        "D": "Increasing patient wait times for treatment."
+      },
+      "answer": "A",
+      "explanation": "The passage states that AI algorithms enhance diagnostic accuracy and streamline treatment protocols, which improves patient outcomes."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "AI technologies are believed to have no impact on job creation.",
+      "answer": "False",
+      "explanation": "The passage discusses the potential for AI to create new job opportunities, contradicting the statement."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The author believes that AI will solve all societal problems.",
+      "answer": "No",
+      "explanation": "The passage indicates optimism about AI's potential but also highlights challenges and ethical concerns."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following concepts with the appropriate descriptions.",
+      "items": [
+        {
+          "concept": "AI in healthcare",
+          "description": "Improving diagnostic accuracy"
+        },
+        {
+          "concept": "Ethical concerns",
+          "description": "Accountability and transparency in decision-making"
+        },
+        {
+          "concept": "Economic implications",
+          "description": "Job displacement versus job creation"
+        },
+        {
+          "concept": "Public perception",
+          "description": "Ambivalence about technological progress"
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph.",
+      "options": [
+        "A: The duality of AI’s impact",
+        "B: The role of AI in diagnostics",
+        "C: Ethical dilemmas of AI",
+        "D: Economic transformations due to AI"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "AI's capacity to analyze large datasets leads to improved __________.",
+      "answer": "diagnostic accuracy",
+      "explanation": "The passage mentions that AI enhances diagnostic accuracy."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Fill in the blanks with NO MORE THAN TWO WORDS.",
+      "text": "AI raises concerns about __________ and __________ in decision-making processes.",
+      "answers": [
+        "accountability",
+        "transparency"
+      ],
+      "explanation": "The passage discusses the importance of these two aspects concerning AI."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer",
+      "instruction": "Answer the following question with NO MORE THAN THREE WORDS.",
+      "text": "What is necessary for the workforce to adapt to AI?",
+      "answer": "continuous learning",
+      "explanation": "The passage emphasizes the importance of continuous learning and reskilling."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "permeated",
+      "meaning": "spread throughout and influenced various sectors."
+    },
+    {
+      "word": "algorithm",
+      "meaning": "a set of rules or calculations used by computers."
+    },
+    {
+      "word": "discriminatory",
+      "meaning": "tending to favor one group over others unfairly."
+    },
+    {
+      "word": "dichotomy",
+      "meaning": "a division or contrast between two things."
+    },
+    {
+      "word": "equitable",
+      "meaning": "fair and impartial."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the nuances of AI's impact on various sectors. Pay attention to the author's tone regarding optimism and concerns. Look for paraphrased information and be prepared to analyze implications rather than direct statements.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

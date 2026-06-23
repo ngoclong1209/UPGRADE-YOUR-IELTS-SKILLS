@@ -1,0 +1,153 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_120",
+  "title": "Robots in Our Lives",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Robots in Our Lives</h2><p>Robots are machines that can do work. Today, we have many robots in our homes, schools, and factories. Some robots are very small, and some are very big. They help people every day. They make our lives easier and more comfortable.</p><p>In our homes, we have small robots. The most common home robot is the robotic vacuum cleaner. This robot is round and flat. It moves on the floor and cleans dust automatically. It works when people are sleeping or at work. Another home robot is a smart speaker. A smart speaker can play music, tell the weather, and answer easy questions. It uses artificial intelligence (AI) to understand our voices and talk to us.</p><p>In factories, big robots do heavy work. They can lift heavy boxes and build cars. These robots work very fast and do not get tired. They can work all day and all night. They do not need to sleep or eat. This helps companies make things quickly and cheaply. Humans do not have to do dangerous jobs because robots can do them.</p><p>In schools, students use small robots to learn. Children can program robots to move, draw, or make sounds. This teaches children how to use computers and solve problems. Some schools also have robot teachers. These robots can speak different languages and help children with science and math questions.</p><p>In hospitals, robots help doctors and nurses. Some robots can carry medicine and food to patients. Other robots can clean hospital rooms to keep them safe. In the future, we will have even more robots. Some robots will drive cars and buses. Robots are very useful machines, and they are changing our world.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the most common robot in our homes?",
+      "options": {
+        "A": "A robot teacher",
+        "B": "A robotic vacuum cleaner",
+        "C": "A robot car",
+        "D": "A factory robot"
+      },
+      "answer": "B",
+      "explanation": "Paragraph 2 states: 'The most common home robot is the robotic vacuum cleaner.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why do companies use robots in factories?",
+      "options": {
+        "A": "Because they are cheap to buy",
+        "B": "Because they work fast and do not get tired",
+        "C": "Because they can speak many languages",
+        "D": "Because they can clean hospital rooms"
+      },
+      "answer": "B",
+      "explanation": "Paragraph 3 states: 'These robots work very fast and do not get tired.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do children learn when they program robots in school?",
+      "options": {
+        "A": "How to build cars",
+        "B": "How to drive buses",
+        "C": "How to use computers",
+        "D": "How to clean rooms"
+      },
+      "answer": "C",
+      "explanation": "Paragraph 4 states: 'This teaches children how to use computers and solve problems.'"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one thing a smart speaker can do?",
+      "options": {
+        "A": "Clean the floor",
+        "B": "Tell the weather",
+        "C": "Lift heavy boxes",
+        "D": "Drive a car"
+      },
+      "answer": "B",
+      "explanation": "Paragraph 2 states: 'A smart speaker can play music, tell the weather, and answer easy questions.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Robotic vacuum cleaners clean dust when people are sleeping or at work.",
+      "answer": "TRUE",
+      "explanation": "Paragraph 2 states: 'It moves on the floor and cleans dust automatically. It works when people are sleeping or at work.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Factory robots need to eat and sleep.",
+      "answer": "FALSE",
+      "explanation": "Paragraph 3 states: 'They do not need to sleep or eat.'"
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Robot teachers can help children with math questions.",
+      "answer": "TRUE",
+      "explanation": "Paragraph 4 states: 'These robots can speak different languages and help children with science and math questions.'"
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Robots in hospitals are very expensive.",
+      "answer": "NOT GIVEN",
+      "explanation": "The text mentions that robots help in hospitals, but it does not say if they are expensive or cheap."
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "A smart speaker uses _________ to understand our voices.",
+      "answer": "artificial intelligence",
+      "explanation": "Paragraph 2 states: 'It uses artificial intelligence (AI) to understand our voices and talk to us.' Acceptable answers: 'artificial intelligence' or 'AI'."
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Big robots in factories can lift _________.",
+      "answer": "heavy boxes",
+      "explanation": "Paragraph 3 states: 'They can lift heavy boxes and build cars.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Children can program robots to move, draw, or make _________.",
+      "answer": "sounds",
+      "explanation": "Paragraph 4 states: 'Children can program robots to move, draw, or make sounds.'"
+    },
+    {
+      "id": "q12",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "In hospitals, some robots can carry _________ and food to patients.",
+      "answer": "medicine",
+      "explanation": "Paragraph 5 states: 'Some robots can carry medicine and food to patients.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "machine",
+      "meaning": "a device that uses power to do work"
+    },
+    {
+      "word": "automatically",
+      "meaning": "working by itself without human help"
+    },
+    {
+      "word": "artificial intelligence",
+      "meaning": "computer systems that can think and learn"
+    },
+    {
+      "word": "program",
+      "meaning": "to give instructions to a computer or robot"
+    },
+    {
+      "word": "useful",
+      "meaning": "helping you to do what you want to do"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (A1-A2)</h2><p><b>1. Tìm từ khóa chính xác:</b> Ở trình độ A1-A2, đề thi sử dụng từ vựng giống hệt trong bài đọc (ít paraphrase). Hãy gạch chân từ khóa quan trọng trong câu hỏi (ví dụ: 'vacuum cleaner', 'factory', 'program') rồi tìm đúng từ đó trong bài đọc để tìm ra đáp án.</p><p><b>2. True/False/Not Given:</b> Nếu thông tin trong câu hỏi trái ngược hoàn toàn với bài đọc (như câu 6 nói robot cần ăn/ngủ nhưng bài đọc nói không cần), chọn FALSE. Nếu thông tin hoàn toàn không xuất hiện (như giá tiền của robot ở câu 8), chọn NOT GIVEN.</p><p><b>3. Điền từ:</b> Chú ý giới hạn từ (NO MORE THAN TWO WORDS). Chỉ lấy từ có sẵn trong bài đọc, không tự ý thay đổi dạng từ (ví dụ: giữ nguyên số nhiều 'heavy boxes', 'sounds').</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

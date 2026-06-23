@@ -1,0 +1,129 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_419",
+  "title": "Exploring the Dual-edged Sword of Tourism: Benefits and Consequences",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Paradox of Tourism</h2><p>Tourism, often heralded as a catalyst for economic growth and cultural exchange, simultaneously harbors a multitude of adverse effects that merit rigorous examination. The influx of visitors can invigorate local economies, providing employment opportunities and stimulating investment in infrastructure. However, this economic boon frequently comes at a significant cost to local ecosystems and cultural integrity. As destinations become increasingly popular, the strain on natural resources escalates, leading to environmental degradation, loss of biodiversity, and the commodification of local cultures.</p><p>Moreover, the phenomenon of overtourism has emerged as a pressing concern, characterized by overcrowding and the subsequent deterioration of the quality of life for residents. Cities like Venice and Barcelona serve as cautionary tales, illustrating how unchecked tourism can lead to social discontent and environmental crises. The challenge lies in balancing the economic advantages of tourism with sustainable practices that protect both the environment and the local populace.</p><p>In light of these dynamics, scholars and policymakers are advocating for a paradigm shift in tourism management. This includes the implementation of sustainable tourism practices that prioritize the preservation of natural and cultural resources. Strategies such as limiting visitor numbers, promoting off-peak travel, and investing in eco-friendly infrastructure are gaining traction. Ultimately, the responsibility lies with both tourists and industry stakeholders to foster a more sustainable and equitable tourism model that respects the delicate balance between economic benefit and social responsibility.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern associated with overtourism as mentioned in the passage?",
+      "options": {
+        "A": "The positive economic impacts of tourism.",
+        "B": "The environmental benefits of increased visitors.",
+        "C": "The negative effects on local residents' quality of life.",
+        "D": "The enhancement of cultural exchange opportunities."
+      },
+      "answer": "C",
+      "explanation": "Option C is correct as the passage emphasizes that overtourism leads to overcrowding and deteriorates the quality of life for residents, unlike the other options which focus on positive aspects."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Tourism has no negative effects on the local ecosystem.",
+      "answer": "False",
+      "explanation": "The passage clearly states that tourism can lead to environmental degradation and loss of biodiversity, contradicting the statement."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer with Yes, No, or Not Given.",
+      "text": "The author believes that tourists should have a role in promoting sustainability.",
+      "answer": "Yes",
+      "explanation": "The passage suggests that both tourists and industry stakeholders share the responsibility to create a sustainable tourism model."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the concerns with their corresponding examples.",
+      "text": "Match the following concerns about tourism with their examples from the passage.",
+      "options": {
+        "A": "Economic Growth",
+        "B": "Environmental Degradation",
+        "C": "Cultural Commodification",
+        "D": "Overcrowding"
+      },
+      "examples": {
+        "1": "Venice's social discontent.",
+        "2": "Loss of biodiversity.",
+        "3": "Employment opportunities for locals.",
+        "4": "The commercialization of local traditions."
+      },
+      "answers": {
+        "A": "3",
+        "B": "2",
+        "C": "4",
+        "D": "1"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph with the correct heading.",
+      "text": "Match the paragraphs with their appropriate headings.",
+      "headings": {
+        "A": "The Economic Impact of Tourism",
+        "B": "Consequences of Overcrowding",
+        "C": "Sustainable Tourism Practices",
+        "D": "The Dual Nature of Tourism"
+      },
+      "paragraphs": {
+        "1": "Paragraph discussing benefits.",
+        "2": "Paragraph addressing challenges.",
+        "3": "Paragraph proposing solutions."
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences using NO MORE THAN TWO WORDS.",
+      "text": "Sustainable tourism practices are essential to ensure the preservation of __________.",
+      "answer": "natural resources",
+      "explanation": "The passage emphasizes the need for sustainable practices to protect natural resources."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using NO MORE THAN TWO WORDS.",
+      "text": "The passage advocates for a shift in tourism management towards __________ practices.",
+      "answer": "sustainable tourism",
+      "explanation": "The author discusses the need for a paradigm shift towards sustainable tourism practices."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer",
+      "instruction": "Answer the following question using NO MORE THAN THREE WORDS.",
+      "text": "What does the author suggest is a major consequence of tourism on local cultures?",
+      "answer": "cultural commodification",
+      "explanation": "The passage indicates that tourism can lead to the commodification of local cultures."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "overtourism",
+      "meaning": "The phenomenon of excessive tourism leading to negative impacts on destinations."
+    },
+    {
+      "word": "commodification",
+      "meaning": "The process of transforming something into a commodity, often diminishing its cultural significance."
+    },
+    {
+      "word": "ecosystem",
+      "meaning": "A biological community of interacting organisms and their physical environment."
+    },
+    {
+      "word": "sustainable",
+      "meaning": "Capable of being maintained over the long term without harming the environment."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, pay close attention to the nuanced arguments presented by the author regarding the dual impacts of tourism. Look for keywords that indicate contrasting ideas, such as 'however' and 'although'. Additionally, make sure to differentiate between the implications of tourism and its stated benefits, as this will aid in answering questions that require deep inference.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

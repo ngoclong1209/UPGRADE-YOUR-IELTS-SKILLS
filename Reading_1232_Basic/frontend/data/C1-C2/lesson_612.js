@@ -1,0 +1,99 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_612",
+  "title": "Navigating the Digital Frontier: The Evolution of Online Learning",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Paradigm Shift in Education</h2><p>In the past two decades, the landscape of education has undergone a profound transformation, largely driven by the advent of online learning platforms. These platforms have democratized access to education, enabling a diverse array of students to engage with academic content from anywhere in the world. However, this shift has not come without challenges. The effectiveness of online learning is often contingent upon the learner's self-discipline and the quality of the provided instructional materials.</p><p>Research indicates that while online education can be as effective as traditional classroom settings, it requires a different set of skills and strategies. For instance, students must be adept at managing their time efficiently and navigating digital resources. Furthermore, the absence of face-to-face interaction can lead to feelings of isolation among learners. Consequently, educators are exploring innovative ways to foster community and engagement within virtual classrooms.</p><p>Moreover, the rapid evolution of technology continues to reshape the methodologies employed in online education. Incorporating elements such as artificial intelligence and virtual reality can enhance the learning experience, making it more interactive and immersive. However, these technologies also raise ethical considerations regarding accessibility and the potential for exacerbating educational inequalities.</p><p>As we look to the future, it is imperative to critically assess the implications of online learning on both individual learners and the educational system as a whole. The balance between technological advancement and pedagogical integrity will determine the trajectory of education in the digital age.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary benefit of online learning mentioned in the passage?",
+      "options": {
+        "A": "It fosters face-to-face interaction among students.",
+        "B": "It democratizes access to education.",
+        "C": "It guarantees higher academic performance.",
+        "D": "It eliminates the need for self-discipline."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct as the passage explicitly states that online learning platforms have democratized access to education, allowing a diverse range of students to engage with academic content from any location."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False or Not Given.",
+      "text": "Online education is universally preferred over traditional classroom settings.",
+      "answer": "False",
+      "explanation": "The passage suggests that online education can be as effective as traditional education but does not imply that it is universally preferred."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The educators are seeking to improve online platforms by incorporating more technology.",
+      "answer": "Yes",
+      "explanation": "The passage mentions that educators are exploring innovative ways to enhance engagement through technology, indicating a proactive approach to improvement."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct parts of the passage.",
+      "text": "Match the challenges of online learning with their descriptions.",
+      "items": {
+        "A": "Requires self-discipline",
+        "B": "Can lead to feelings of isolation",
+        "C": "Involves digital resource navigation"
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph.",
+      "text": "Match each paragraph to the correct heading.",
+      "headings": {
+        "1": "The Role of Technology in Education",
+        "2": "Challenges Faced by Online Learners",
+        "3": "Future Considerations for Online Education"
+      },
+      "answers": {
+        "1": "1",
+        "2": "2",
+        "3": "3"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short-answer",
+      "instruction": "Answer using no more than two words and/or a number.",
+      "text": "What must students manage effectively in online learning environments?",
+      "answer": "time",
+      "explanation": "The passage states that students must manage their time efficiently, highlighting the importance of self-discipline in online learning."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "democratized",
+      "meaning": "made accessible to all levels of society."
+    },
+    {
+      "word": "pedagogical",
+      "meaning": "related to the methods and practice of teaching."
+    },
+    {
+      "word": "immersive",
+      "meaning": "providing a completely engaging or absorbing experience."
+    },
+    {
+      "word": "exacerbating",
+      "meaning": "making a problem or situation worse."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the main ideas and nuances in the text. Pay attention to the author's tone and purpose, especially when assessing the implications of online learning. Be prepared to identify subtle differences in options during multiple-choice questions and to discern implied information in True/False and Yes/No questions. Use skimming for headings and detailed reading for comprehension-based questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

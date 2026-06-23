@@ -1,0 +1,93 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_281",
+  "title": "The Divergence of Higher Education and Vocational Training: A Comparative Analysis",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Understanding the Educational Divide</h2><p>In contemporary society, the discourse surrounding higher education and vocational training has garnered significant attention. While both pathways aim to equip individuals with skills essential for employment, they diverge fundamentally in their approaches and outcomes. Higher education, often associated with universities and academic rigor, emphasizes theoretical knowledge and critical thinking. In contrast, vocational training focuses on practical skills and direct entry into the workforce.</p><p>Proponents of higher education argue that it fosters a comprehensive understanding of various disciplines, thus preparing graduates for a competitive job market that increasingly values analytical skills and theoretical knowledge. Such an educational framework is believed to enhance employability in professions that require advanced cognitive capabilities and specialized knowledge.</p><p>On the other hand, supporters of vocational training contend that it addresses immediate labor market needs by providing tailored skills that facilitate swift employment. This model often appeals to students seeking to enter the workforce without the financial burden associated with long academic programs. Moreover, vocational training is frequently seen as a pragmatic approach to education, aligning closely with the needs of employers who prioritize practical experience over theoretical knowledge.</p><p>However, this dichotomy raises critical questions about the long-term implications of each educational pathway. Critics of higher education highlight the potential disconnect between academic learning and real-world application, arguing that graduates may struggle to find relevant employment despite their qualifications. Conversely, detractors of vocational training often point out the limitations it imposes on intellectual development, suggesting that individuals who pursue this route may find themselves at a disadvantage in an increasingly complex job landscape.</p><p>In light of these contrasting perspectives, it becomes imperative to consider the evolving nature of work and education. As technology continues to reshape industries, the lines between higher education and vocational training may blur, necessitating a more integrated approach to skill development that encompasses both theoretical knowledge and practical application.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do proponents of higher education believe is a key benefit of their approach?",
+      "options": {
+        "A": "It prepares individuals for immediate employment.",
+        "B": "It fosters critical thinking and analytical skills.",
+        "C": "It requires less financial investment than vocational training.",
+        "D": "It provides practical skills applicable in various jobs."
+      },
+      "answer": "B",
+      "explanation": "Proponents of higher education argue that it fosters a comprehensive understanding of various disciplines, thus preparing graduates for a competitive job market that values analytical skills and theoretical knowledge."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Vocational training is often criticized for its lack of intellectual development.",
+      "answer": "True",
+      "explanation": "The passage mentions that detractors of vocational training suggest individuals pursuing this route may find themselves at a disadvantage in an increasingly complex job landscape, indicating a criticism regarding intellectual development."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does vocational training provide a more affordable alternative to higher education?",
+      "answer": "Yes",
+      "explanation": "The passage states that vocational training appeals to students seeking to enter the workforce without the financial burden associated with long academic programs, indicating affordability."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following points to the correct educational approach.",
+      "text": {
+        "A": "Emphasizes practical skills.",
+        "B": "Focuses on theoretical knowledge.",
+        "C": "Addresses immediate labor market needs.",
+        "D": "Prepares for a competitive job market."
+      },
+      "options": {
+        "1": "Higher Education",
+        "2": "Vocational Training"
+      },
+      "answers": {
+        "A": "2",
+        "B": "1",
+        "C": "2",
+        "D": "1"
+      },
+      "explanation": "Vocational training emphasizes practical skills and addresses immediate labor market needs, whereas higher education focuses on theoretical knowledge and prepares students for a competitive job market."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence using NO MORE THAN TWO WORDS.",
+      "text": "Higher education is often associated with ________ and academic rigor.",
+      "answer": "theoretical knowledge",
+      "explanation": "The passage states that higher education is often associated with universities and emphasizes theoretical knowledge and critical thinking."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "proponents",
+      "meaning": "supporters or advocates of a particular idea or theory"
+    },
+    {
+      "word": "dichotomy",
+      "meaning": "a division or contrast between two things that are represented as being opposed or entirely different"
+    },
+    {
+      "word": "tailored",
+      "meaning": "made or adapted for a particular purpose or person"
+    },
+    {
+      "word": "pragmatic",
+      "meaning": "dealing with things sensibly and realistically in a way that is based on practical rather than theoretical considerations"
+    },
+    {
+      "word": "burden",
+      "meaning": "a heavy load or responsibility, often referring to financial costs"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the key arguments presented for both higher education and vocational training. Pay attention to the nuances in language that reflect the writer's attitude towards each pathway. Be prepared to infer meaning from context, especially in questions that require you to distinguish between implied and stated information. Additionally, practice skimming for main ideas and scanning for specific details to efficiently locate answers.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

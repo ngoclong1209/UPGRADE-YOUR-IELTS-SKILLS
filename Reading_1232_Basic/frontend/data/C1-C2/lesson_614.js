@@ -1,0 +1,123 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_614",
+  "title": "The Future of Intelligence: Navigating the Complexities of Artificial Intelligence and Robotics",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Duality of Artificial Intelligence</h2><p>As the field of artificial intelligence (AI) continues to evolve at a breathtaking pace, it becomes increasingly vital to comprehend its multifaceted implications. AI has the potential to revolutionize various sectors, from healthcare to transportation, yet it also presents a myriad of ethical dilemmas and societal challenges. The juxtaposition of AI's benefits against its potential risks raises critical questions about accountability, transparency, and the future of human employment.</p><p>One significant concern revolves around the concept of autonomy in AI systems. Autonomous robots, designed to operate independently, often lack the ability to make ethical decisions that align with human values. This raises the question: who is responsible when an autonomous vehicle causes an accident? The legal frameworks surrounding such technologies remain ambiguous, necessitating urgent discourse among policymakers, technologists, and ethicists.</p><p>Moreover, the integration of AI in decision-making processes has sparked debates regarding bias and fairness. Algorithms, when trained on historical data, can inadvertently perpetuate existing prejudices. For instance, if a hiring algorithm is biased towards a particular demographic, it may reinforce systemic discrimination. Thus, ensuring the impartiality of AI systems is paramount for fostering trust and equity in their deployment.</p><p>In addition to ethical considerations, the impact of AI on the labor market cannot be overstated. While AI can enhance productivity and efficiency, it also poses a threat to traditional employment. Workers in industries susceptible to automation may find themselves displaced, raising concerns about economic inequality and social unrest. The challenge lies in equipping the workforce with the skills necessary to thrive in an AI-driven economy.</p><p>In conclusion, the duality of artificial intelligence necessitates a balanced approach that embraces innovation while safeguarding ethical standards. As we navigate this complex landscape, interdisciplinary collaboration will be crucial in addressing the myriad challenges posed by AI and robotics, ensuring that technological advancements benefit society as a whole.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern regarding autonomous AI systems mentioned in the passage?",
+      "options": {
+        "A": "Their ability to operate without human intervention.",
+        "B": "The ethical implications of their decision-making.",
+        "C": "Their potential to completely replace human jobs.",
+        "D": "The efficiency they bring to various sectors."
+      },
+      "answer": "B",
+      "explanation": "The passage emphasizes the ethical dilemmas associated with autonomous AI systems, particularly in relation to accountability and decision-making."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "The legal frameworks for autonomous AI are well established.",
+      "answer": "False",
+      "explanation": "The passage indicates that legal frameworks surrounding autonomous technologies are ambiguous, not well established."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes AI systems should be trained on biased historical data.",
+      "answer": "No",
+      "explanation": "The author argues that biased algorithms can perpetuate discrimination, suggesting that AI systems should not be trained on biased data."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following concerns with their related implications.",
+      "options": {
+        "1": "AI and employment",
+        "2": "Bias in algorithms",
+        "3": "Autonomous decision-making"
+      },
+      "implications": {
+        "A": "Displacement of workers in traditional sectors.",
+        "B": "Lack of accountability for outcomes.",
+        "C": "Reinforcement of systemic prejudice."
+      },
+      "answers": {
+        "1": "A",
+        "2": "C",
+        "3": "B"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Choose the most suitable heading for each paragraph.",
+      "options": {
+        "A": "The ethical implications of AI",
+        "B": "Challenges in the labor market",
+        "C": "The dual nature of AI",
+        "D": "Ensuring fairness in AI systems",
+        "E": "Navigating legal uncertainties"
+      },
+      "paragraphs": {
+        "1": "C",
+        "2": "E",
+        "3": "D",
+        "4": "B",
+        "5": "A"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The passage suggests that interdisciplinary collaboration is crucial for addressing the challenges posed by ________.",
+      "answer": "AI and robotics",
+      "explanation": "The final paragraph emphasizes the importance of collaborative efforts in dealing with the complexities of AI and robotics."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "AI presents both opportunities and challenges, particularly in relation to ________ and ________.",
+      "answers": [
+        "employment",
+        "ethical standards"
+      ],
+      "explanation": "The passage discusses the implications of AI on both employment and ethical considerations."
+    },
+    {
+      "id": "q8",
+      "type": "short-answer_questions",
+      "instruction": "Answer the following question with NO MORE THAN THREE WORDS.",
+      "text": "What aspect of AI is highlighted as needing urgent discourse?",
+      "answer": "Accountability and transparency",
+      "explanation": "The passage states that accountability and transparency in AI systems are pressing issues that require discussion."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "juxtaposition",
+      "meaning": "the act of placing two or more things side by side to compare or contrast them."
+    },
+    {
+      "word": "autonomy",
+      "meaning": "the ability of a system to operate independently and make decisions without human intervention."
+    },
+    {
+      "word": "prejudice",
+      "meaning": "a preconceived opinion that is not based on reason or actual experience, often leading to unfair treatment."
+    },
+    {
+      "word": "equity",
+      "meaning": "the quality of being fair and impartial, particularly in terms of access to resources and opportunities."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively approach this passage, focus on understanding the nuanced arguments presented. Pay attention to the transitions between ideas, as they often indicate shifts in the author's perspective. When answering questions, consider both explicit information and implied meanings. Additionally, familiarize yourself with academic vocabulary to enhance comprehension.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

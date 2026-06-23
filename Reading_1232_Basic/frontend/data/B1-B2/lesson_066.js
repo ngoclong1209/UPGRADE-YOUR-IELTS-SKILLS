@@ -1,0 +1,85 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_066",
+  "title": "Harnessing the Power of Renewable Energy",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Renewable Energy</h2><p>In recent years, the world has witnessed a significant shift towards renewable energy sources. As concerns about climate change and environmental degradation increase, countries are investing heavily in sustainable energy. Renewable energy sources such as solar, wind, and hydroelectric power are becoming more common and are seen as essential in combating global warming.</p><p>Solar energy harnesses sunlight using photovoltaic cells. These cells convert sunlight into electricity, which can be used to power homes and businesses. Wind energy, on the other hand, uses the kinetic energy from wind to turn turbines that generate electricity. Hydroelectric power relies on water flow to produce energy, utilizing dams or river currents.</p><p>Despite the advantages of renewable energy, there are challenges. The initial costs of setting up renewable energy systems can be high, and energy production can be intermittent. For instance, solar panels generate electricity only during daylight hours, while wind turbines depend on weather conditions. However, advancements in technology are helping to improve the efficiency and reliability of these energy sources.</p><p>Governments around the world are implementing policies to support the transition to renewable energy. Incentives such as tax breaks and subsidies are encouraging businesses and homeowners to invest in renewable technologies. As a result, renewable energy is expected to play a crucial role in the global energy landscape in the coming decades.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major advantage of renewable energy?",
+      "options": {
+        "A": "It can help reduce environmental damage.",
+        "B": "It is always available regardless of the weather.",
+        "C": "It requires no initial investment.",
+        "D": "It can produce energy at any time of day."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct because the passage states that renewable energy sources are essential in combating global warming and reducing environmental degradation."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Solar energy can generate electricity during the night.",
+      "answer": "False",
+      "explanation": "This statement is false as the passage clearly mentions that solar panels generate electricity only during daylight hours."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes that renewable energy will become more important in the future.",
+      "answer": "Yes",
+      "explanation": "The passage indicates that renewable energy is expected to play a crucial role in the global energy landscape in the coming decades, suggesting the author's positive belief."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following renewable energy sources to their descriptions.",
+      "text": "",
+      "options": {
+        "A": "Solar energy",
+        "B": "Wind energy",
+        "C": "Hydroelectric power"
+      },
+      "descriptions": {
+        "1": "Uses sunlight to generate electricity.",
+        "2": "Relies on water flow for energy production.",
+        "3": "Utilizes wind to turn turbines."
+      },
+      "answer": {
+        "A": "1",
+        "B": "3",
+        "C": "2"
+      },
+      "explanation": "The descriptions match the energy sources as follows: Solar energy uses sunlight (1), Wind energy uses wind to turn turbines (3), and Hydroelectric power relies on water flow (2)."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentences with NO MORE THAN TWO WORDS.",
+      "text": "The initial costs of renewable energy systems can be _____.",
+      "answer": "high",
+      "explanation": "The passage mentions that the initial costs of setting up renewable energy systems can be high."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "photovoltaic",
+      "meaning": "relating to the conversion of light into electricity."
+    },
+    {
+      "word": "intermittent",
+      "meaning": "occurring at irregular intervals; not continuous."
+    },
+    {
+      "word": "incentives",
+      "meaning": "something that motivates or encourages someone to do something."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on the main ideas and specific details about each type of renewable energy. Pay attention to the advantages and challenges mentioned, as these will help you answer the questions more effectively. Use skimming for the main ideas and scanning for specific information.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

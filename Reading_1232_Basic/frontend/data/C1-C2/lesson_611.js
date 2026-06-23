@@ -1,0 +1,104 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_611",
+  "title": "Navigating the Divide: Higher Education vs Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Understanding the Distinctions</h2><p>The debate between higher education and vocational training has gained prominence in recent years, particularly as the job market evolves. While traditional universities offer a broad array of subjects aimed at developing critical thinking and theoretical knowledge, vocational training programs focus on equipping students with specific skills tailored to particular professions.</p><p>Proponents of higher education argue that a university degree is crucial for access to higher-paying jobs and upward mobility. They contend that the intellectual rigor and comprehensive education provided by these institutions foster a deeper understanding of complex issues, preparing graduates for a dynamic workforce. Conversely, advocates for vocational training emphasize the practicality and immediacy of job readiness that these programs offer. They suggest that vocational training can lead to lucrative careers with less time and financial investment than a university degree.</p><p>Moreover, in an era marked by rapid technological advancement, the need for skilled tradespeople has become increasingly important. Many industries report a skills gap, indicating that vocational training could provide a viable solution to meet labor demands. Critics of higher education often point out the burden of student debt and the sometimes abstract nature of degree programs, which may not align with job market needs.</p><p>Ultimately, the choice between higher education and vocational training often comes down to individual goals and circumstances. Each option presents unique advantages and challenges, and a growing number of students are exploring hybrid pathways that incorporate both forms of education.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do proponents of vocational training argue?",
+      "options": {
+        "A": "It prepares students for a dynamic workforce.",
+        "B": "It offers broader educational opportunities.",
+        "C": "It requires a longer time commitment than higher education.",
+        "D": "It is less financially burdensome than traditional university degrees."
+      },
+      "answer": "D",
+      "explanation": "Proponents of vocational training highlight that it typically requires less time and financial investment compared to traditional university education."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False or Not Given.",
+      "text": "Higher education is deemed unnecessary in the current job market.",
+      "answer": "Not Given",
+      "explanation": "The passage does not explicitly state that higher education is unnecessary; it suggests both forms of education have their merits."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No or Not Given based on the author's views.",
+      "text": "The author believes vocational training is more practical than higher education.",
+      "answer": "Yes",
+      "explanation": "The author presents vocational training as practical and immediate in providing job readiness, suggesting a preference for its practicality over theoretical education."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statement with the correct passage section.",
+      "text": "The need for skilled tradespeople is emphasized.",
+      "options": [
+        "Higher Education Benefits",
+        "Vocational Training Advantages",
+        "Skills Gap in Industries",
+        "Individual Circumstances"
+      ],
+      "answer": "Skills Gap in Industries",
+      "explanation": "The passage discusses the importance of skilled tradespeople and the skills gap in the context of vocational training."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings with the correct paragraphs.",
+      "text": "",
+      "headings": [
+        "The Debate on Education Paths",
+        "Impacts of Technology",
+        "Financial Considerations",
+        "Diverse Educational Approaches"
+      ],
+      "answers": [
+        "The Debate on Education Paths",
+        "Impacts of Technology",
+        "Financial Considerations",
+        "Diverse Educational Approaches"
+      ],
+      "explanation": "Each heading corresponds to a specific aspect discussed in the passage, reflecting the themes of education paths, technology's impact, financial aspects, and hybrid approaches."
+    },
+    {
+      "id": "q6",
+      "type": "short-answer",
+      "instruction": "Answer in NO MORE THAN THREE WORDS.",
+      "text": "What is a critical disadvantage of higher education mentioned?",
+      "answer": "Student debt",
+      "explanation": "The passage notes student debt as a significant burden associated with higher education."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "lucrative",
+      "meaning": "producing a great deal of profit."
+    },
+    {
+      "word": "proponents",
+      "meaning": "individuals who advocate for a particular cause or idea."
+    },
+    {
+      "word": "advocates",
+      "meaning": "people who publicly support or recommend a particular cause or policy."
+    },
+    {
+      "word": "intellectual rigor",
+      "meaning": "the quality of being thorough and accurate in thought processes."
+    },
+    {
+      "word": "hybrid pathways",
+      "meaning": "educational routes that combine elements of both higher education and vocational training."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When tackling this passage, focus on understanding the nuanced arguments presented for both higher education and vocational training. Pay special attention to the implications of the author's tone and the context in which terms are used. Skim for main ideas and scan for specific details that may inform your answers. Consider the broader societal implications of the points made, as this may aid in comprehending the author's purpose.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

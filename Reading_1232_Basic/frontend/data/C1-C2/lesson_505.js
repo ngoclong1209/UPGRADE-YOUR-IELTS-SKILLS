@@ -1,0 +1,123 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_505",
+  "title": "The Cosmic Odyssey: Unraveling the Mysteries of Space Exploration",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Evolution of Space Exploration</h2><p>Since the dawn of civilization, humanity has gazed at the stars with awe and curiosity. The quest for knowledge about the universe has propelled numerous scientific endeavors, leading to remarkable advancements in technology and our understanding of space. From the early telescopes of the 17th century to the sophisticated space probes of the 21st century, each step in this journey has unveiled new layers of cosmic mystery.</p><p>In the mid-20th century, the Space Race between the United States and the Soviet Union marked a significant turning point. The launch of Sputnik in 1957 not only ignited a fierce competition but also sparked global interest in space sciences. This era witnessed the first human in space, Yuri Gagarin, and the Apollo missions that ultimately landed humans on the Moon. These endeavors were not merely feats of engineering; they symbolized the triumph of human spirit and ingenuity.</p><p>Today, space exploration has transcended nationalistic boundaries, evolving into an international collaboration. Organizations such as NASA, ESA, and private enterprises like SpaceX are now at the forefront, pushing the limits of what is possible. Mars missions, asteroid mining, and the search for extraterrestrial life are just a few areas where human ambition is driving scientific inquiry. However, these pursuits raise ethical questions regarding planetary protection and the sustainability of our own planet.</p><p>As we stand on the brink of a new era in space exploration, the implications of our discoveries extend beyond science. They challenge our philosophical perspectives on existence, the nature of life, and our place in the cosmos. The future of space exploration promises not only to expand our scientific horizons but also to reflect on the deeper questions of humanity itself.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the author imply about the significance of the Space Race?",
+      "options": {
+        "A": "It was solely a competition between two nations.",
+        "B": "It marked an important shift in global scientific collaboration.",
+        "C": "It generated interest in space only among the competing nations.",
+        "D": "It was merely an engineering challenge with no broader implications."
+      },
+      "answer": "B",
+      "explanation": "The author discusses the Space Race as a turning point that sparked global interest and collaboration in space exploration, indicating its broader significance beyond mere competition."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write True, False or Not Given.",
+      "text": "The author believes that current space exploration efforts are solely driven by national interests.",
+      "answer": "False",
+      "explanation": "The passage states that space exploration has evolved into international collaboration, which contradicts the statement that it is solely driven by national interests."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write Yes, No or Not Given.",
+      "text": "The author expresses a cautious attitude towards the implications of space exploration.",
+      "answer": "Yes",
+      "explanation": "The passage raises ethical questions and reflects on the implications of discoveries, indicating a cautious attitude from the author."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct paragraphs.",
+      "options": [
+        "The first human in space.",
+        "Concerns about planetary protection.",
+        "The evolution of space technology.",
+        "The philosophical implications of space discoveries."
+      ],
+      "paragraphs": [
+        "Paragraph 1",
+        "Paragraph 2",
+        "Paragraph 3",
+        "Paragraph 4"
+      ],
+      "answers": {
+        "The first human in space.": "Paragraph 2",
+        "Concerns about planetary protection.": "Paragraph 3",
+        "The evolution of space technology.": "Paragraph 1",
+        "The philosophical implications of space discoveries.": "Paragraph 4"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the correct paragraphs.",
+      "headings": [
+        "The Dawn of Space Exploration",
+        "Technological Advancements",
+        "The Ethical Dilemmas of Exploration",
+        "International Collaboration in Space",
+        "Philosophical Reflections on Existence"
+      ],
+      "paragraphs": [
+        "Paragraph 1",
+        "Paragraph 2",
+        "Paragraph 3",
+        "Paragraph 4"
+      ],
+      "answers": {
+        "The Dawn of Space Exploration": "Paragraph 1",
+        "Technological Advancements": "Paragraph 2",
+        "The Ethical Dilemmas of Exploration": "Paragraph 3",
+        "International Collaboration in Space": "Paragraph 3",
+        "Philosophical Reflections on Existence": "Paragraph 4"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences with NO MORE THAN THREE WORDS.",
+      "text": "The author suggests that space exploration challenges our __________.",
+      "answer": "philosophical perspectives",
+      "explanation": "The passage explicitly states that discoveries in space exploration challenge our philosophical perspectives on existence."
+    },
+    {
+      "id": "q7",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The Space Race, which began in the mid-20th century, was characterized by a competition between the United States and the ________.",
+      "answer": "Soviet Union",
+      "explanation": "This detail is directly mentioned in the passage regarding the historical context of the Space Race."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "transcended",
+      "meaning": "went beyond the usual limits"
+    },
+    {
+      "word": "ethereal",
+      "meaning": "extremely delicate and light, seeming too perfect for this world"
+    },
+    {
+      "word": "sustainability",
+      "meaning": "the ability to be maintained at a certain rate or level"
+    },
+    {
+      "word": "cosmic",
+      "meaning": "related to the universe or cosmos"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, pay close attention to the nuances of the author's arguments and the implications of their statements. Be prepared to identify paraphrases and synonyms that may not directly match the text. Practice skimming for main ideas while also honing your scanning skills for specific details.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

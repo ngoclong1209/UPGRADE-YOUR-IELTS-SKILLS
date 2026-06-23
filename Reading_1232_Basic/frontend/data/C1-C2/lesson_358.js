@@ -1,0 +1,160 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_358",
+  "title": "Navigating the Digital Terrain: The Internet's Impact on Contemporary Society",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Internet's Pervasive Influence</h2><p>The advent of the internet has fundamentally transformed the fabric of modern society. Initially conceived as a means of communication, it has evolved into a multifaceted tool impacting every aspect of life, from education and commerce to social interaction and political discourse. The proliferation of digital technology has fostered unprecedented connectivity, enabling individuals to access and share information at an alarming rate. However, this rapid evolution has also incited a plethora of challenges, including issues of privacy, misinformation, and the digital divide, which must be critically examined.</p><p>One of the most significant contributions of the internet is its role in democratizing knowledge. Online platforms have made educational resources readily available, allowing learners from various backgrounds to pursue knowledge without the constraints of traditional educational institutions. This shift has led to the emergence of self-directed learning, where individuals take the initiative to educate themselves on a myriad of topics. Yet, while access to information has expanded, the quality and veracity of this information remain contentious, necessitating a discerning approach to internet usage.</p><p>Moreover, the internet has revolutionized commerce through the rise of e-commerce platforms, which facilitate transactions and broaden market reach. Businesses, both large and small, leverage online presence to engage with consumers in novel ways, reflecting shifts in consumer behavior towards convenience and immediacy. Nonetheless, this shift has also engendered significant economic disparities, as not all communities have equal access to digital tools, exacerbating existing inequalities.</p><p>Social interactions have undergone a radical metamorphosis due to social media platforms, where relationships are often curated and filtered through the lens of online personas. While these platforms foster global connections, they can also lead to feelings of isolation and mental health issues stemming from the pressures of maintaining an idealized online identity. Furthermore, the implications of digital communication on interpersonal relationships warrant careful scrutiny, as the nuances of face-to-face interaction can easily be lost in translation.</p><p>Politically, the internet serves as a double-edged sword. It empowers citizens by providing a platform for activism and discourse; however, it also facilitates the dissemination of extremist ideologies and misinformation. The ability to manipulate digital narratives poses a threat to democratic processes, challenging the integrity of public opinion and policy-making.</p><p>In conclusion, while the internet has indubitably reshaped modern society in profound ways, it is imperative to navigate this digital terrain with caution. The balance between harnessing its benefits and mitigating its drawbacks will define the future trajectory of societal development in an increasingly interconnected world.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary function of the internet according to the passage?",
+      "options": {
+        "A": "A platform for misinformation",
+        "B": "A tool for democratizing knowledge",
+        "C": "A means to facilitate face-to-face interactions",
+        "D": "An avenue for economic disparity"
+      },
+      "answer": "B",
+      "explanation": "The passage emphasizes the internet's role in democratizing knowledge, making educational resources accessible to a broader audience."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the following statements are true, false, or not given.",
+      "text": "The internet has completely eliminated economic disparities.",
+      "answer": "False",
+      "explanation": "The passage states that while e-commerce has transformed commerce, it has also exacerbated existing inequalities, indicating that economic disparities still exist."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer with Yes, No, or Not Given.",
+      "text": "The author believes that social media positively impacts mental health.",
+      "answer": "No",
+      "explanation": "The passage discusses the negative mental health implications stemming from pressures associated with maintaining online identities."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following concepts with the correct descriptions.",
+      "text": [
+        "Democratization of Knowledge",
+        "E-commerce",
+        "Social Media Effects",
+        "Political Implications"
+      ],
+      "options": {
+        "A": "Facilitates activism and discourse.",
+        "B": "Leads to feelings of isolation.",
+        "C": "Broadens market reach.",
+        "D": "Expands access to educational resources."
+      },
+      "answers": [
+        {
+          "concept": "Democratization of Knowledge",
+          "description": "D"
+        },
+        {
+          "concept": "E-commerce",
+          "description": "C"
+        },
+        {
+          "concept": "Social Media Effects",
+          "description": "B"
+        },
+        {
+          "concept": "Political Implications",
+          "description": "A"
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "text": [
+        "The Dual Nature of Political Discourse",
+        "Challenges of E-Commerce",
+        "The Transformation of Learning",
+        "Social Media and Mental Health"
+      ],
+      "options": {
+        "A": "Discusses the balance of online relationships.",
+        "B": "Explores the impact on consumer behavior.",
+        "C": "Considers the benefits and challenges of online education.",
+        "D": "Examines the complexities of political narratives."
+      },
+      "answers": [
+        {
+          "heading": "The Transformation of Learning",
+          "paragraph": "C"
+        },
+        {
+          "heading": "Challenges of E-Commerce",
+          "paragraph": "B"
+        },
+        {
+          "heading": "Social Media and Mental Health",
+          "paragraph": "A"
+        },
+        {
+          "heading": "The Dual Nature of Political Discourse",
+          "paragraph": "D"
+        }
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences using NO MORE THAN TWO WORDS.",
+      "text": "The internet has fostered the emergence of ________ learning.",
+      "answer": "self-directed",
+      "explanation": "The passage mentions the rise of self-directed learning facilitated by the internet."
+    },
+    {
+      "id": "q7",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary using NO MORE THAN TWO WORDS.",
+      "text": "The internet has transformed modern society by enhancing ________ and creating new forms of ________ that challenge traditional norms.",
+      "answer": [
+        "connectivity",
+        "commerce"
+      ],
+      "explanation": "The passage discusses how internet connectivity has increased and how e-commerce has changed traditional business practices."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following questions using NO MORE THAN THREE WORDS.",
+      "text": "What are the two major challenges mentioned regarding internet usage?",
+      "answer": "privacy, misinformation",
+      "explanation": "The passage identifies privacy and misinformation as significant challenges arising from internet use."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "pervasive",
+      "meaning": "spreading widely throughout an area or a group of people"
+    },
+    {
+      "word": "democratizing",
+      "meaning": "making something accessible to everyone"
+    },
+    {
+      "word": "metamorphosis",
+      "meaning": "a change of the form or nature of a thing or person into a completely different one"
+    },
+    {
+      "word": "exacerbate",
+      "meaning": "to make a problem, bad situation, or negative feeling worse"
+    },
+    {
+      "word": "discern",
+      "meaning": "to perceive or recognize something"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, pay close attention to the nuances in language. Look for paraphrases and synonyms to answer questions correctly. For multiple-choice questions, eliminate the distractors by closely analyzing the details in the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

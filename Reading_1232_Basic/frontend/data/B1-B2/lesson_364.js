@@ -1,0 +1,80 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_364",
+  "title": "The Rise of Artificial Intelligence and Robotics",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Artificial Intelligence and Robotics</h2><p>In recent years, artificial intelligence (AI) and robotics have become increasingly prevalent in various sectors of society. From healthcare to manufacturing, these technologies are reshaping how we work and live. AI refers to the simulation of human intelligence in machines, allowing them to perform tasks that typically require human thought, such as understanding language or recognizing patterns. Robotics, on the other hand, involves the design and creation of robots that can execute tasks autonomously or semi-autonomously.</p><p>The integration of AI in robotics has led to significant advancements. For instance, robots equipped with AI can learn from their environments and improve their performance over time. This capability is particularly useful in fields like surgery, where precision is crucial. Such robots can analyze vast amounts of data, leading to better decision-making and outcomes.</p><p>However, the rise of these technologies also raises important ethical and economic questions. Many fear that AI and robotics could lead to job displacement, as machines take over roles traditionally held by humans. Conversely, proponents argue that these technologies can create new job opportunities in sectors that require human oversight and creativity.</p><p>Furthermore, there is an ongoing debate about the implications of AI in decision-making processes. For example, should robots be allowed to make decisions in critical situations, such as in healthcare or law enforcement? The answer is not straightforward, as it involves weighing the benefits of efficiency against the moral considerations of accountability.</p><p>Despite these challenges, the future of AI and robotics appears promising. Innovations continue to emerge, and as society adapts, the potential for improved quality of life and enhanced productivity is immense. It is crucial for policymakers, educators, and industry leaders to collaborate and address the challenges while harnessing the benefits of these technologies.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one main benefit of AI in robotics mentioned in the passage?",
+      "options": {
+        "A": "Robots can learn and improve over time.",
+        "B": "Robots can completely replace human workers.",
+        "C": "AI makes robots less efficient.",
+        "D": "Robots are always used in manufacturing."
+      },
+      "answer": "A",
+      "explanation": "The passage states that robots equipped with AI can learn from their environments and improve their performance over time, highlighting the benefit of adaptability."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "AI and robotics have no impact on job creation.",
+      "answer": "False",
+      "explanation": "The passage discusses that proponents argue these technologies can create new job opportunities, indicating that they do have an impact on job creation."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Indicate whether the author's opinion is Yes, No, or Not Given.",
+      "text": "The author believes robots should make decisions in critical situations.",
+      "answer": "No",
+      "explanation": "The author presents a debate about the implications of AI in decision-making but does not express a clear belief that robots should make such decisions."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the features to the correct sections of the passage.",
+      "text": "1. Potential job displacement\n2. Improved decision-making\n3. Importance of collaboration",
+      "options": {
+        "1": "Paragraph 3",
+        "2": "Paragraph 2",
+        "3": "Paragraph 4"
+      },
+      "answer": {
+        "1": "Paragraph 3",
+        "2": "Paragraph 2",
+        "3": "Paragraph 4"
+      },
+      "explanation": "The features are directly related to the contents of the respective paragraphs in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "short-answer",
+      "instruction": "Write NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "What is a crucial factor in the effectiveness of robots in surgery?",
+      "answer": "precision",
+      "explanation": "The passage states that precision is crucial in surgery, highlighting the importance of AI-equipped robots."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "autonomously",
+      "meaning": "acting independently or without human control"
+    },
+    {
+      "word": "displacement",
+      "meaning": "the act of moving something from its proper place or position"
+    },
+    {
+      "word": "accountability",
+      "meaning": "the fact or condition of being responsible for one's actions"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on understanding the main ideas and the details presented in each paragraph. Pay attention to keywords that indicate the author's opinion, especially in the ethical discussions. For multiple-choice questions, eliminate options that are clearly incorrect to narrow down your choices. Practice skimming for main ideas and scanning for specific details to improve your efficiency.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

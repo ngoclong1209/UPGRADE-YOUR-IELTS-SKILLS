@@ -1,0 +1,83 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_019",
+  "title": "Exploring the Multifaceted Impacts of Tourism on Global Societies",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dual Nature of Tourism</h2><p>Tourism, a thriving industry worldwide, holds the potential for both economic prosperity and cultural dilution. As nations increasingly rely on tourism as a primary source of revenue, the implications become multifaceted. On one hand, the influx of visitors can significantly boost local economies, creating jobs and fostering infrastructure development. However, this growth often comes at a cost, leading to environmental degradation and the erosion of local cultures.<br><br>In recent years, the concept of sustainable tourism has gained traction, focusing on minimizing the negative impacts while enhancing the positive aspects. This approach advocates for responsible travel that conserves the environment and improves the well-being of local communities. Advocates argue that sustainable tourism can bridge the gap between economic growth and cultural preservation, ensuring that tourism benefits all stakeholders involved.<br><br>Yet, the challenge remains: how can we balance the economic advantages of tourism with the need to protect both natural landscapes and cultural identities? As more destinations embrace tourism, the quest for sustainable practices becomes increasingly crucial. Policymakers and industry leaders must collaborate to develop strategies that prioritize sustainability while still accommodating the increasing number of travelers. This complex interplay of interests highlights the need for a nuanced understanding of tourism's impacts on global societies.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern regarding tourism as mentioned in the passage?",
+      "options": {
+        "A": "It leads to economic growth in all regions.",
+        "B": "It can cause cultural dilution and environmental degradation.",
+        "C": "It enhances local job opportunities without any drawbacks.",
+        "D": "It is universally accepted as a positive force."
+      },
+      "answer": "B",
+      "explanation": "The passage highlights that while tourism boosts economies, it simultaneously poses risks such as cultural dilution and environmental degradation."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "Sustainable tourism is considered a solution to the negative impacts of tourism.",
+      "answer": "True",
+      "explanation": "The passage states that sustainable tourism focuses on minimizing negative impacts while enhancing positive aspects, thus suggesting it as a solution."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The author believes that tourism should be prioritized over cultural preservation.",
+      "answer": "No",
+      "explanation": "The author discusses the need to balance tourism with cultural preservation, indicating that tourism should not be prioritized over it."
+    },
+    {
+      "id": "q4",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "text": "1. The Economic Benefits of Tourism<br>2. The Risks of Cultural Erosion<br>3. Sustainable Tourism as a Solution<br>4. The Need for Balance",
+      "answers": {
+        "1": "Paragraph 1",
+        "2": "Paragraph 2",
+        "3": "Paragraph 3",
+        "4": "Paragraph 4"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "Tourism can lead to the erosion of local ________.",
+      "answer": "cultures",
+      "explanation": "The passage directly mentions that tourism can result in the erosion of local cultures."
+    },
+    {
+      "id": "q6",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The passage emphasizes the importance of ________ in tourism to mitigate negative impacts.",
+      "answer": "sustainability",
+      "explanation": "The passage discusses sustainable tourism as a way to enhance positive aspects while minimizing negative impacts."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "prosperity",
+      "meaning": "the state of being successful, usually by making a lot of money"
+    },
+    {
+      "word": "dilution",
+      "meaning": "the action of making something weaker in force, content, or value"
+    },
+    {
+      "word": "interplay",
+      "meaning": "the way in which two or more things have an effect on each other"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>1. Skim the passage to identify the main ideas before diving into the questions. <br>2. Pay attention to the tone and attitude of the author, as this can provide insight into the answers for Yes/No/Not Given questions. <br>3. Look for synonyms and paraphrases that may appear in the questions compared to the passage; this is crucial for accuracy in answering.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

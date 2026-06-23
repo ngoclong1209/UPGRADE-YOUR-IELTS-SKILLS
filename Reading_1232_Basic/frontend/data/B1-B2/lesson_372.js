@@ -1,0 +1,92 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_372",
+  "title": "The Rise of Online Learning: A New Era in Education",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Evolution of Learning</h2><p>In recent years, online learning has transformed the educational landscape. With advancements in technology, students can now access courses from the comfort of their homes. This shift has not only made education more accessible but has also allowed for a more flexible learning environment. Online platforms offer a wide range of subjects, catering to various interests and career goals.</p><p>One of the primary advantages of online learning is the ability to learn at your own pace. Unlike traditional classrooms, where the teacher sets the pace, online courses often allow students to progress through the material as quickly or slowly as they need. This personalized approach can lead to better understanding and retention of information.</p><p>However, online education also presents challenges. Students must be self-motivated and disciplined to complete their courses. The lack of face-to-face interaction can sometimes lead to feelings of isolation, which may affect a student's motivation and overall experience.</p><p>Despite these challenges, many institutions are embracing online learning as a viable option. Universities and colleges are expanding their online offerings, recognizing that a blended approach to education can meet the needs of a diverse student body. As technology continues to evolve, the future of online learning looks promising, providing opportunities for lifelong learning and professional development.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one main advantage of online learning mentioned in the passage?",
+      "options": {
+        "A": "It allows students to learn at their own pace.",
+        "B": "It guarantees better grades for everyone.",
+        "C": "It provides more face-to-face interaction.",
+        "D": "It requires less technology at home."
+      },
+      "answer": "A",
+      "explanation": "The passage states that online learning allows students to progress through the material at their own pace, which is highlighted as a primary advantage."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Students in online courses never feel isolated.",
+      "answer": "False",
+      "explanation": "The passage mentions that the lack of face-to-face interaction can lead to feelings of isolation, indicating that it is indeed possible for students to feel isolated."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "Online learning is only suitable for young students.",
+      "answer": "No",
+      "explanation": "The passage discusses how online learning caters to a diverse student body and supports lifelong learning, indicating that it is not limited to young students."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statement to the correct paragraph.",
+      "text": "1. Online learning can provide flexible options.\n2. Self-discipline is important in online education.\n3. Many institutions are expanding their online programs.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3"
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      },
+      "explanation": "Each statement corresponds to a specific paragraph that discusses the respective topics."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "Online education is often more __________ than traditional methods.",
+      "answer": "accessible",
+      "explanation": "The passage states that online learning has made education more accessible compared to traditional methods."
+    },
+    {
+      "id": "q6",
+      "type": "short-answer",
+      "instruction": "Answer the question with NO MORE THAN THREE WORDS.",
+      "text": "What is necessary for students to succeed in online courses?",
+      "answer": "self-motivation",
+      "explanation": "The passage emphasizes that self-motivation and discipline are crucial for success in online education."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "transformed",
+      "meaning": "changed completely in form or appearance."
+    },
+    {
+      "word": "flexible",
+      "meaning": "capable of bending easily without breaking; adaptable."
+    },
+    {
+      "word": "self-motivated",
+      "meaning": "driven by one's own desire to achieve."
+    },
+    {
+      "word": "embracing",
+      "meaning": "accepting or supporting willingly."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading about online learning, focus on the benefits and challenges mentioned in the text. Pay attention to how the author describes the learning environment and the skills needed for success in online education. This will help you answer the questions accurately.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

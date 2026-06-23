@@ -1,0 +1,97 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_197",
+  "title": "Navigating the Urban Landscape: Public Transportation vs Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Transport Dilemma: Public Versus Private</h2><p>In the contemporary urban environment, the debate surrounding public transportation and private automobile usage has intensified, particularly in the context of sustainability and urban planning. Advocates of public transport argue that it provides a more eco-friendly alternative as it significantly reduces individual carbon footprints. Buses, trams, and trains can accommodate numerous passengers simultaneously, leading to decreased traffic congestion and lower greenhouse gas emissions.</p><p>Conversely, car proponents argue for the convenience and autonomy that private vehicles offer. They contend that cars facilitate personal freedom and are invaluable for those residing in less accessible areas. However, this convenience comes at a cost; private car usage is a leading contributor to urban air pollution and traffic-related accidents.</p><p>Additionally, urban infrastructure is often strained by the influx of private vehicles, necessitating substantial investments in road maintenance and expansion. Public transportation systems, while sometimes criticized for their inefficiency, can be enhanced through technological innovations such as real-time tracking and mobile payment solutions, making them more appealing to commuters.</p><p>Furthermore, sociocultural factors play a crucial role in transportation preferences. In cities with a rich public transport history, residents may exhibit a stronger inclination towards using buses and trains compared to those in regions where car ownership is a status symbol. This cultural aspect influences urban policy decisions, often leading to a push for more integrated and user-friendly public transport networks.</p><p>Ultimately, the question remains: how can cities balance the competing demands of private vehicle ownership and public transportation systems to foster not only efficiency but also environmental sustainability?</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument made by advocates of public transportation?",
+      "options": {
+        "A": "It enhances personal freedom and convenience.",
+        "B": "It significantly reduces carbon footprints and traffic congestion.",
+        "C": "It is more culturally accepted in urban areas.",
+        "D": "It requires less investment compared to private cars."
+      },
+      "answer": "B",
+      "explanation": "Advocates of public transportation argue that it provides a more eco-friendly alternative as it significantly reduces individual carbon footprints."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Private cars are the main cause of urban air pollution.",
+      "answer": "True",
+      "explanation": "The passage states that private car usage is a leading contributor to urban air pollution, confirming the statement."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes public transportation systems are currently efficient.",
+      "answer": "No",
+      "explanation": "The passage mentions that public transportation systems are often criticized for their inefficiency."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct sections of the passage.",
+      "items": [
+        "Public transport reduces individual carbon footprints.",
+        "Car ownership reflects cultural attitudes in cities.",
+        "Technological innovations can enhance public transport.",
+        "Private vehicles contribute to traffic congestion."
+      ],
+      "answers": {
+        "1": "Paragraph 1",
+        "2": "Paragraph 4",
+        "3": "Paragraph 3",
+        "4": "Paragraph 2"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings with the appropriate paragraphs.",
+      "headings": [
+        "The Cost of Convenience",
+        "Cultural Influences on Transport Choices",
+        "Environmental Benefits of Public Transport",
+        "Innovations in Urban Transport Systems"
+      ],
+      "answers": {
+        "1": "Paragraph 2",
+        "2": "Paragraph 4",
+        "3": "Paragraph 1",
+        "4": "Paragraph 3"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short-answer",
+      "instruction": "Write NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "What is a major advantage of public transport mentioned in the passage?",
+      "answer": "eco-friendly",
+      "explanation": "The passage describes public transportation as an eco-friendly alternative to private cars."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "autonomy",
+      "meaning": "the ability to make one's own choices and decisions"
+    },
+    {
+      "word": "congestion",
+      "meaning": "overcrowding, especially on roads or in traffic"
+    },
+    {
+      "word": "infrastructure",
+      "meaning": "the basic physical systems of a business or nation, including transportation"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle the questions, ensure you read each paragraph carefully, identifying key arguments and supporting details. Pay close attention to transitions and the author's tone, as they can provide insight into underlying implications. Practice skimming for main ideas and scanning for specific information to improve your efficiency during the test.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

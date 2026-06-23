@@ -1,0 +1,98 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_456",
+  "title": "Harnessing the Winds of Change: The Future of Renewable Energy",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Transformative Potential of Renewable Energy</h2><p>In the wake of escalating climate change and dwindling fossil fuel reserves, the shift towards renewable energy sources has become imperative. Wind, solar, and hydroelectric power are not merely alternatives; they represent a paradigm shift in how society generates and consumes energy. This transition is not devoid of challenges, including technological limitations, market dynamics, and regulatory frameworks. However, the potential benefits—ranging from reduced greenhouse gas emissions to enhanced energy security—underscore the urgency of investment in renewable technologies.</p><p>Wind energy, for instance, has seen exponential growth in recent years. With advancements in turbine technology and a decreasing cost of production, wind farms are now more efficient than ever. This has led to a dramatic increase in capacity, particularly in regions with favorable climatic conditions. However, the integration of wind energy into national grids poses significant logistical hurdles, necessitating innovative solutions that can accommodate variability in energy supply.</p><p>Similarly, solar power has burgeoned, propelled by advancements in photovoltaic cell technology. The concept of decentralized energy production, where individual households can generate their electricity, is revolutionizing the traditional utility model. Nevertheless, the intermittent nature of solar energy presents challenges in reliability and storage. Research into battery technology and smart grids is critical for addressing these issues and maximizing the utility of solar power.</p><p>Hydroelectric power, long regarded as a staple of renewable energy, continues to evolve. While large dam projects have faced scrutiny over environmental impacts, small-scale hydro systems offer a more sustainable approach. These systems provide local communities with energy autonomy while minimizing ecological disruption. The potential for renewable energy to drive social equity and economic development cannot be overstated, as it empowers communities and fosters resilience against economic fluctuations.</p><p>Ultimately, the transition to renewable energy is not just a technical challenge; it is a societal one. Engaging communities in the energy transition process is essential for fostering acceptance and ensuring equitable access to new technologies. Policymakers must prioritize education and outreach efforts to demystify renewable technologies and empower individuals to participate actively in the energy landscape.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the passage suggest about the role of renewable energy in modern society?",
+      "options": {
+        "A": "It is an optional choice that can replace fossil fuels.",
+        "B": "It is essential for addressing climate change and energy security.",
+        "C": "It is largely limited to technological advancements.",
+        "D": "It has no significant impact on social equity."
+      },
+      "answer": "B",
+      "explanation": "The passage emphasizes that renewable energy sources are imperative for addressing climate change and enhancing energy security, highlighting their transformative potential."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "The passage states that wind energy is the most efficient renewable energy source currently available.",
+      "answer": "Not Given",
+      "explanation": "While the passage discusses the efficiency of wind farms and advancements in technology, it does not explicitly state that wind energy is the most efficient compared to other renewable sources."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that engaging communities is critical for the success of renewable energy initiatives.",
+      "answer": "Yes",
+      "explanation": "The passage clearly states that engaging communities is essential for fostering acceptance and ensuring equitable access to renewable technologies."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the renewable energy source to its characteristic based on the passage.",
+      "options": {
+        "A": "Wind Energy",
+        "B": "Solar Power",
+        "C": "Hydroelectric Power"
+      },
+      "characteristics": {
+        "1": "Allows for decentralized energy production.",
+        "2": "Has logistical hurdles in grid integration.",
+        "3": "Small-scale systems promote community energy autonomy."
+      },
+      "matches": {
+        "A": "2",
+        "B": "1",
+        "C": "3"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Choose the correct heading for each paragraph.",
+      "paragraphs": {
+        "1": "Introduction to the importance of renewable energy.",
+        "2": "Current advancements in wind energy technology.",
+        "3": "The evolution and challenges of solar energy.",
+        "4": "Sustainable practices in hydroelectric power.",
+        "5": "The societal implications of the energy transition."
+      },
+      "headings": {
+        "A": "The Role of Public Engagement",
+        "B": "Technological Innovations in Renewable Energy",
+        "C": "Environmental Challenges of Energy Production",
+        "D": "The Future of Local Energy Solutions"
+      },
+      "correct_matches": {
+        "1": "B",
+        "2": "A",
+        "3": "D",
+        "4": "C",
+        "5": "A"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "paradigm",
+      "meaning": "A typical example or pattern of something; a model."
+    },
+    {
+      "word": "intermittent",
+      "meaning": "Occurring at irregular intervals; not continuous or steady."
+    },
+    {
+      "word": "autonomy",
+      "meaning": "The right or condition of self-government; independence."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the main arguments presented in each paragraph. Pay attention to how the author connects technological advancements with societal implications. Use the vocabulary contextually to enhance comprehension and be aware of the nuances in language that indicate the author's attitude.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

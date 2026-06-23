@@ -1,0 +1,113 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_323",
+  "title": "The Unfolding Crisis: Understanding Climate Change and Global Warming",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Unfolding Crisis: Understanding Climate Change and Global Warming</h2><p>Climate change has emerged as one of the most pressing challenges of our time, significantly impacting ecological systems, weather patterns, and human societies. The gradual increase in global temperatures, primarily driven by the accumulation of greenhouse gases in the atmosphere, has triggered a cascade of environmental shifts. Scientific research indicates that anthropogenic activities, particularly the burning of fossil fuels and deforestation, are the chief contributors to this phenomenon. Moreover, the consequences of climate change extend beyond mere temperature fluctuations; they encompass severe weather events, rising sea levels, and disruptions to ecosystems that countless species depend upon for survival.</p><p>In recent years, a plethora of studies have underscored the urgency of addressing climate change, emphasizing that failure to act could result in catastrophic outcomes for future generations. The Intergovernmental Panel on Climate Change (IPCC) has repeatedly warned that immediate and sustained action is imperative to mitigate the most severe impacts. Policy interventions, such as transitioning to renewable energy sources and enforcing stricter emissions regulations, have been proposed as viable strategies to curb the adverse effects of climate change.</p><p>Nonetheless, public perception and political will often lag behind scientific consensus. Many individuals remain skeptical about the reality of climate change, influenced by misinformation and political rhetoric. This disconnect highlights the need for effective communication strategies that can bridge the gap between scientific evidence and public understanding. Engaging communities through education and awareness campaigns is crucial for fostering a culture of sustainability and responsibility towards our planet.</p><p>Ultimately, addressing climate change requires a multifaceted approach that includes international cooperation, innovative technological solutions, and grassroots movements. Only through collective action can we hope to avert the dire consequences of a warming world.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the passage suggest is the primary driver of climate change?",
+      "options": {
+        "A": "Natural weather cycles",
+        "B": "Deforestation and fossil fuel consumption",
+        "C": "Solar radiation fluctuations",
+        "D": "Volcanic activity"
+      },
+      "answer": "B",
+      "explanation": "The passage clearly indicates that anthropogenic activities, particularly the burning of fossil fuels and deforestation, are the chief contributors to climate change."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "The IPCC believes that immediate action is necessary to prevent severe impacts from climate change.",
+      "answer": "True",
+      "explanation": "The passage states that the IPCC has repeatedly warned about the necessity of immediate and sustained action to mitigate severe impacts."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The passage implies that public skepticism about climate change is influenced by misinformation.",
+      "answer": "Yes",
+      "explanation": "The passage mentions that many individuals remain skeptical about climate change due to misinformation and political rhetoric."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following actions with their descriptions.",
+      "text": "A. Transition to renewable energy sources<br>B. Enforce stricter emissions regulations<br>C. Engage communities through education<br>D. Foster international cooperation",
+      "options": {
+        "1": "This action aims to reduce reliance on fossil fuels.",
+        "2": "This strategy is essential for building a global response.",
+        "3": "This initiative addresses public awareness.",
+        "4": "This measure seeks to limit harmful emissions."
+      },
+      "answer": {
+        "A": "1",
+        "B": "4",
+        "C": "3",
+        "D": "2"
+      },
+      "explanation": "Each action corresponds to a specific strategy mentioned in the passage aimed at combating climate change."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence with NO MORE THAN TWO WORDS.",
+      "text": "The consequences of climate change include severe weather events and __________.",
+      "answer": "rising sea levels",
+      "explanation": "The passage explicitly lists rising sea levels as one of the consequences of climate change."
+    },
+    {
+      "id": "q6",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using NO MORE THAN THREE WORDS.",
+      "text": "The passage discusses the need for __________ to effectively combat climate change.",
+      "answer": "collective action",
+      "explanation": "The passage concludes that collective action is necessary to address climate change."
+    },
+    {
+      "id": "q7",
+      "type": "matching_headings",
+      "instruction": "Match the following headings to the paragraphs.",
+      "text": "1. The Role of Public Perception<br>2. Urgency of Action<br>3. Impact of Climate Change<br>4. Strategies for Mitigation",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answer": {
+        "1": "C",
+        "2": "B",
+        "3": "A",
+        "4": "D"
+      },
+      "explanation": "Each heading accurately reflects the main idea of the corresponding paragraph."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "anthropogenic",
+      "meaning": "caused or influenced by humans"
+    },
+    {
+      "word": "cascade",
+      "meaning": "a series of events occurring as a result of a particular action"
+    },
+    {
+      "word": "catastrophic",
+      "meaning": "involving a sudden and widespread disaster"
+    },
+    {
+      "word": "sustainability",
+      "meaning": "the ability to be maintained at a certain rate or level"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching the reading passage, focus on understanding the main ideas and supporting details. Pay attention to the author's tone and purpose, as well as the implications of the statements made. Use skimming techniques to identify key points and scanning to find specific information relevant to the questions. Be mindful of the nuanced language and paraphrasing used throughout the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

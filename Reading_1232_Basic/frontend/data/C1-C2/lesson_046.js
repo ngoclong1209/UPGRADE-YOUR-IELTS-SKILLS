@@ -1,0 +1,86 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_046",
+  "title": "Harnessing the Winds of Change: The Future of Renewable Energy",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rising Tide of Renewable Energy</h2><p>As the world grapples with the impending consequences of climate change, the shift towards renewable energy sources has emerged as a pivotal strategy for mitigating environmental degradation. The term 'renewable energy' encompasses energy derived from natural processes that are replenished constantly, such as solar, wind, hydroelectric, and geothermal power. These sources stand in stark contrast to fossil fuels, which are finite and contribute significantly to greenhouse gas emissions. The transition to renewable energy not only addresses ecological concerns but also promises economic resilience and energy security.</p><p>Wind energy, in particular, has gained traction due to its efficiency and scalability. Modern wind turbines, equipped with advanced technology, can convert wind kinetic energy into electrical energy with remarkable efficiency. This transformation is facilitated by the aerodynamic design of turbine blades, which ensures that even moderate winds can be harnessed effectively. Moreover, the cost of wind energy has plummeted in recent years, making it one of the most economically viable sources of electricity.</p><p>However, the proliferation of wind farms is not without its challenges. Environmentalists often voice concerns regarding the impact on local wildlife, particularly avian species that might collide with turbine blades. Furthermore, the aesthetic implications of large wind installations on landscapes have sparked debates among communities. Advocates argue that the long-term benefits outweigh these drawbacks, emphasizing the urgent need to prioritize sustainable practices in energy production.</p><p>Another critical aspect of renewable energy is its potential for job creation. The renewable energy sector has already witnessed significant employment growth, outpacing traditional energy sectors. This trend is likely to continue as more countries invest in green technologies and infrastructure. Furthermore, the integration of renewable energy into existing grids presents opportunities for innovation and modernization, potentially leading to a more resilient energy infrastructure.</p><p>In conclusion, while the journey towards a fully renewable energy future is fraught with complexities, the overarching benefits—environmental sustainability, economic opportunities, and energy independence—underscore its necessity. As global citizens, the onus lies on us to champion renewable energy initiatives and advocate for policies that facilitate this transition.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary advantage of renewable energy mentioned in the passage?",
+      "options": {
+        "A": "It is abundant and environmentally friendly.",
+        "B": "It is more aesthetically pleasing than fossil fuels.",
+        "C": "It requires less technological advancement.",
+        "D": "It eliminates all environmental concerns."
+      },
+      "answer": "A",
+      "explanation": "The passage highlights that renewable energy addresses ecological concerns and is constantly replenished, making it both abundant and environmentally friendly."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Wind energy has become the most economically viable source of electricity.",
+      "answer": "True",
+      "explanation": "The passage states that the cost of wind energy has plummeted, making it one of the most economically viable sources."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that the benefits of wind energy outweigh its drawbacks?",
+      "answer": "Yes",
+      "explanation": "The author presents arguments in favor of wind energy, suggesting that the long-term benefits outweigh the challenges."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following aspects of renewable energy with their benefits.",
+      "options": {
+        "1": "Job creation",
+        "2": "Environmental sustainability",
+        "3": "Energy security"
+      },
+      "matches": {
+        "1": "Potential for significant employment growth.",
+        "2": "Addresses ecological concerns.",
+        "3": "Reduces dependency on finite resources."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Match the following headings with the corresponding sections of the passage.",
+      "headings": {
+        "A": "Challenges of Wind Energy",
+        "B": "Economic Implications",
+        "C": "Technological Advancements",
+        "D": "The Importance of Renewable Energy"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short-answer_questions",
+      "text": "What is emphasized as a critical aspect of renewable energy in the passage?",
+      "answer": "Job creation",
+      "explanation": "The passage mentions that the renewable energy sector has witnessed significant employment growth."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "mitigating",
+      "meaning": "making less severe or intense, particularly in the context of environmental impacts."
+    },
+    {
+      "word": "aesthetic",
+      "meaning": "related to the appreciation of beauty or good taste, often used in discussions about visual aspects."
+    },
+    {
+      "word": "proliferation",
+      "meaning": "rapid increase or spread, especially in reference to technologies or industries."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading this passage, focus on identifying the main arguments and supporting details. Pay attention to the author's tone and the implications of their statements. The questions often require you to infer meaning rather than take information at face value. Additionally, practice skimming for key ideas and scanning for specific information to enhance your efficiency in answering questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

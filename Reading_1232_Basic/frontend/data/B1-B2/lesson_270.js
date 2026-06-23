@@ -1,0 +1,78 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_270",
+  "title": "Healthy Eating Habits for a Better Lifestyle",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Healthy Eating Habits</h2><p>In today's fast-paced world, maintaining a healthy diet is more important than ever. Many people struggle with making the right food choices, often opting for convenience over nutrition. A balanced diet includes a variety of foods from all food groups: fruits, vegetables, grains, proteins, and dairy. Each food group provides essential nutrients that the body needs to function properly.</p><p>One of the key components of a healthy diet is portion control. Eating appropriate serving sizes can help prevent overeating and weight gain. Moreover, incorporating more whole foods, such as whole grains and fresh produce, rather than processed foods, can significantly improve overall health.</p><p>Additionally, staying hydrated is crucial for maintaining energy levels and supporting bodily functions. Drinking adequate amounts of water throughout the day is essential, especially for those who are physically active. It is also beneficial to limit sugary drinks, which can contribute to weight gain and other health issues.</p><p>Regular meals and snacks can help keep blood sugar levels stable, preventing the energy crashes that often come from skipping meals. Planning meals ahead of time can also encourage healthier choices and save time during busy weeks.</p><p>Finally, it is important to listen to your body. Eating mindfully, understanding hunger cues, and recognizing when you are full can help foster a healthier relationship with food.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a crucial aspect of a healthy diet mentioned in the passage?",
+      "options": {
+        "A": "Eating a variety of foods from all food groups.",
+        "B": "Eating only organic foods.",
+        "C": "Avoiding all carbohydrates.",
+        "D": "Consuming high amounts of protein."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct because the passage emphasizes the importance of a balanced diet that includes a variety of foods from all food groups."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Portion control is not necessary for maintaining a healthy diet.",
+      "answer": "False",
+      "explanation": "The passage states that portion control is one of the key components of a healthy diet, indicating that it is indeed necessary."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes that drinking sugary drinks can lead to weight loss.",
+      "answer": "No",
+      "explanation": "The passage mentions that sugary drinks can contribute to weight gain, making the statement false."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following items with the correct information from the passage.",
+      "pairs": {
+        "A": "Incorporating whole foods",
+        "B": "Staying hydrated",
+        "C": "Meal planning",
+        "D": "Listening to your body"
+      },
+      "information": {
+        "1": "Helps prevent energy crashes.",
+        "2": "Can improve overall health.",
+        "3": "Encourages healthier choices.",
+        "4": "Fosters a better relationship with food."
+      },
+      "answers": {
+        "A": "2",
+        "B": "1",
+        "C": "3",
+        "D": "4"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "nutrients",
+      "meaning": "Substances that provide nourishment essential for the maintenance of life and for growth."
+    },
+    {
+      "word": "portion control",
+      "meaning": "Managing the amount of food consumed in one sitting."
+    },
+    {
+      "word": "hydration",
+      "meaning": "The process of causing something to absorb water."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on understanding the main ideas presented in each paragraph. Pay attention to keywords related to health and diet, and practice skimming for specific information. When answering questions, refer back to the passage to find supporting details for your answers.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,98 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_424",
+  "title": "The Dawn of Autonomous Intelligence: Navigating the Future of Robotics",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dawn of Autonomous Intelligence: Navigating the Future of Robotics</h2><p>The advent of artificial intelligence (AI) and robotics has ushered in a transformative era, altering the landscape of industries and the fabric of society. As machines become increasingly autonomous, their ability to perform complex tasks without human intervention raises profound questions regarding ethics, employment, and the essence of intelligence itself. AI systems, particularly those employing deep learning algorithms, have shown remarkable proficiency in tasks ranging from language translation to medical diagnostics. However, the implications of such advancements are multifaceted. Proponents argue that AI can enhance productivity and foster innovation, facilitating unprecedented advancements in various fields. Conversely, critics caution against the potential for job displacement and the ethical dilemmas posed by autonomous decision-making. Furthermore, the development of robotics equipped with AI capabilities has led to machines that can learn from their environments, adapt to new challenges, and even exhibit forms of creativity. This phenomenon, often termed 'machine learning,' stands in stark contrast to traditional programming, wherein a machine executes predefined instructions without deviation. As we venture further into this uncharted territory, the necessity for robust regulatory frameworks becomes apparent, ensuring that technological progress does not outpace ethical considerations. The challenge lies not solely in the technical development of these systems but also in cultivating a societal understanding of their implications. It is imperative to engage in interdisciplinary dialogues that encompass ethicists, technologists, and the public at large, fostering a collaborative approach to navigating the complexities of AI and robotics. As we stand at the precipice of this technological revolution, the question remains: how do we balance the promise of innovation with the potential perils of unregulated advancement?</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C, or D.",
+      "text": "What is the main concern raised by critics regarding the advancements in AI and robotics?",
+      "options": {
+        "A": "They may lead to significant productivity increases.",
+        "B": "They could displace jobs and raise ethical issues.",
+        "C": "They can enhance creativity in machines.",
+        "D": "They will foster interdisciplinary dialogue."
+      },
+      "answer": "B",
+      "explanation": "Critics highlight the potential for job displacement and ethical dilemmas as central concerns regarding AI and robotics advancements."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Proponents of AI believe that its advancements will only have positive effects on society.",
+      "answer": "Not Given",
+      "explanation": "While proponents are optimistic about productivity and innovation, the passage does not state that they believe there will be only positive effects."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author expresses a strong belief that AI should be developed without any regulations.",
+      "answer": "No",
+      "explanation": "The author suggests the necessity for robust regulatory frameworks to ensure ethical considerations are not overlooked."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following concepts with their descriptions.",
+      "options": {
+        "1": "Autonomous decision-making",
+        "2": "Machine learning",
+        "3": "Interdisciplinary dialogues",
+        "4": "Regulatory frameworks"
+      },
+      "descriptions": {
+        "A": "Systems that learn and adapt from their environments.",
+        "B": "Conversations among ethicists, technologists, and the public.",
+        "C": "Decisions made by machines without human input.",
+        "D": "Guidelines to ensure ethical technological progress."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Choose the correct heading for each paragraph.",
+      "paragraphs": {
+        "1": "The transformative era of AI and robotics.",
+        "2": "The ethical implications of autonomous machines.",
+        "3": "The need for interdisciplinary collaboration."
+      },
+      "headings": {
+        "A": "Navigating the Future",
+        "B": "Enhancing Productivity",
+        "C": "Creating Ethical Standards",
+        "D": "The Role of Creativity in Machines"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer using NO MORE THAN TWO WORDS.",
+      "text": "What technology is described as enabling machines to learn from their environments?",
+      "answer": "Machine learning",
+      "explanation": "The passage explicitly refers to 'machine learning' as the technology that allows machines to adapt."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "autonomous",
+      "meaning": "capable of operating independently without human intervention."
+    },
+    {
+      "word": "dilemma",
+      "meaning": "a situation requiring a difficult choice, often involving ethical considerations."
+    },
+    {
+      "word": "proficiency",
+      "meaning": "a high degree of skill or competence in a particular area."
+    },
+    {
+      "word": "interdisciplinary",
+      "meaning": "involving two or more academic, scientific, or artistic disciplines."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle this passage, focus on identifying the author's perspective and arguments. Pay close attention to the nuances in language, especially in contrastive statements. For multiple-choice questions, eliminate options that do not align with the author's intentions. When dealing with true/false/not given questions, ensure you understand the implications of the statements. Lastly, practice skimming for main ideas while also honing your scanning skills for specific details.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

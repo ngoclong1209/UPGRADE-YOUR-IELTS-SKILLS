@@ -1,0 +1,105 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_209",
+  "title": "Exploring the Dual Nature of Tourism: A Boon and a Bane",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Paradox of Tourism</h2><p>Tourism has long been heralded as a catalyst for economic growth, a means to foster intercultural understanding, and a platform for environmental awareness. However, beneath this seemingly benevolent façade lies a complex web of consequences that often contradict the intended benefits. While it is undeniable that tourism generates substantial income for local economies, it also precipitates a range of detrimental effects on the very communities it seeks to uplift.</p><p>One of the most pressing issues is the phenomenon of overtourism, where the influx of visitors exceeds local capacity, leading to environmental degradation, cultural erosion, and an overwhelming strain on infrastructure. This situation is particularly evident in popular destinations that struggle to maintain their authentic charm amidst the pressures of commercialization. Consequently, the essence of local cultures may be diluted, as traditional practices and customs are modified to cater to the expectations of tourists.</p><p>Moreover, the economic benefits of tourism are frequently unevenly distributed, with profits often siphoned off by multinational corporations rather than benefiting local residents. This disparity fosters socioeconomic inequalities and can engender resentment among local populations. In addition, the seasonal nature of tourism can result in volatile job markets, leaving many workers vulnerable to economic instability.</p><p>Furthermore, the environmental consequences of tourism cannot be overlooked. Natural habitats are frequently disrupted by the construction of tourist facilities, and the carbon footprint of travel contributes significantly to climate change. Thus, while tourism may present itself as a sustainable solution, the reality is often far more nuanced.</p><p>In conclusion, the impacts of tourism are multifaceted and require a comprehensive approach to mitigate its adverse effects while maximizing its potential benefits. Sustainable tourism practices must be prioritized to ensure that the industry evolves in a manner that respects local cultures, preserves the environment, and genuinely benefits the communities involved.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern regarding overtourism as mentioned in the passage?",
+      "options": {
+        "A": "It leads to significant economic growth in local communities.",
+        "B": "It causes environmental degradation and cultural erosion.",
+        "C": "It enhances intercultural understanding among visitors.",
+        "D": "It improves local infrastructure and facilities."
+      },
+      "answer": "B",
+      "explanation": "The passage highlights that overtourism causes environmental degradation and cultural erosion, making option B the correct answer."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Tourism benefits are always shared equally among local residents.",
+      "answer": "False",
+      "explanation": "The passage states that profits are often siphoned off by multinational corporations, indicating that benefits are not shared equally."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer 'Yes', 'No', or 'Not Given'.",
+      "text": "The passage suggests that tourism can lead to cultural dilution.",
+      "answer": "Yes",
+      "explanation": "The passage discusses how traditional practices are modified to cater to tourists, thereby indicating cultural dilution."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the corresponding paragraphs.",
+      "text": "1. The economic volatility caused by tourism. 2. The environmental impact of tourism. 3. The cultural changes due to tourism.",
+      "options": {
+        "A": "Paragraph 2",
+        "B": "Paragraph 3",
+        "C": "Paragraph 4",
+        "D": "Paragraph 1"
+      },
+      "answers": {
+        "1": "B",
+        "2": "C",
+        "3": "A"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "text": "1. The need for sustainable practices. 2. Economic disparities in tourism. 3. Cultural erosion through tourism.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answers": {
+        "1": "D",
+        "2": "B",
+        "3": "C"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer using NO MORE THAN TWO WORDS.",
+      "text": "What is a consequence of tourism on the environment mentioned in the passage?",
+      "answer": "carbon footprint",
+      "explanation": "The passage discusses the carbon footprint of travel as a significant environmental consequence."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "overtourism",
+      "meaning": "The phenomenon where the number of tourists exceeds the capacity of a destination."
+    },
+    {
+      "word": "commercialization",
+      "meaning": "The process of managing or running something primarily for financial gain."
+    },
+    {
+      "word": "siphoned",
+      "meaning": "To draw off or transfer (money) secretly or dishonestly."
+    },
+    {
+      "word": "socioeconomic",
+      "meaning": "Relating to or concerned with the interaction of social and economic factors."
+    },
+    {
+      "word": "volatile",
+      "meaning": "Liable to change rapidly and unpredictably, especially for the worse."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, pay attention to the nuances of how tourism affects various aspects of society and the environment. Look for keywords that indicate contrast or comparison, such as 'however', 'while', and 'moreover', as they often signal important shifts in the author's argument.</p><p>For the multiple-choice questions, eliminate options that are clearly incorrect based on the text. For True/False/Not Given questions, focus on the exact phrasing of the statement in relation to the passage.</p><p>Lastly, when matching headings or statements, identify the main idea of each paragraph to find the best fit. Good luck!</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

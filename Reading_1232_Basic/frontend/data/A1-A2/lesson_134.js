@@ -1,0 +1,164 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_134",
+  "title": "Learning from Home: The World of Online Education",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Learning from Home</h2><p>Today, millions of students around the world do not go to a traditional school building. Instead, they study online from their homes. This is called online learning or distance education. To study online, a student needs a computer, a headset, and a good internet connection. They also need a quiet room to focus on their lessons.</p><p>Online learning has many good points. First, students can study at any time of the day. Some students like to study early in the morning, while others prefer to study in the evening. Second, they do not need to travel by bus or car to school. This saves a lot of time and money. Third, students can learn at their own speed. If a lesson is difficult, they can watch the video again. If a lesson is easy, they can go to the next part quickly.</p><p>However, online learning also has some problems. Students do not see their teachers and classmates in person. Sometimes they feel lonely because they cannot talk or play with their friends during school breaks. It is also easy to lose focus. Some students watch videos or play games on their computer instead of doing their homework. They might also look at their mobile phones.</p><p>To be successful, online students must plan their time carefully. They should make a daily timetable and follow it. They should also turn off their mobile phones during study hours. Teachers can help by sending clear instructions and talking to students on video calls every week. Parents can also help by checking their children's work every day.</p><p>In conclusion, online learning is a great choice for many people. It gives students freedom and helps them learn new computer skills. In the future, more schools will offer online classes for students of all ages.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does a student need to study online?",
+      "options": {
+        "A": "A new car",
+        "B": "A computer and internet",
+        "C": "A big library",
+        "D": "A school uniform"
+      },
+      "answer": "B",
+      "explanation": "Paragraph 1 states: 'To study online, a student needs a computer, a headset, and a good internet connection.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why does online learning save money?",
+      "options": {
+        "A": "Students do not buy books.",
+        "B": "Students do not travel to school.",
+        "C": "Computers are very cheap.",
+        "D": "Teachers do not need money."
+      },
+      "answer": "B",
+      "explanation": "Paragraph 2 states: 'Second, they do not need to travel by bus or car to school. This saves a lot of time and money.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why do some online students feel lonely?",
+      "options": {
+        "A": "They have too much homework.",
+        "B": "They do not like computers.",
+        "C": "They cannot see their friends in person.",
+        "D": "They study only at night."
+      },
+      "answer": "C",
+      "explanation": "Paragraph 3 states: 'Sometimes they feel lonely because they cannot talk or play with their friends during school breaks.' This is because they do not see them in person."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What should successful online students do?",
+      "options": {
+        "A": "Play games every day.",
+        "B": "Make a daily timetable.",
+        "C": "Buy a new mobile phone.",
+        "D": "Study with their parents."
+      },
+      "answer": "B",
+      "explanation": "Paragraph 4 states: 'To be successful, online students must plan their time carefully. They should make a daily timetable and follow it.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Students can choose the time they want to study.",
+      "options": {
+        "TRUE": "The statement is true.",
+        "FALSE": "The statement is false.",
+        "NOT GIVEN": "The information is not given."
+      },
+      "answer": "TRUE",
+      "explanation": "Paragraph 2 states: 'First, students can study at any time of the day.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Online learning is always more expensive than traditional school.",
+      "options": {
+        "TRUE": "The statement is true.",
+        "FALSE": "The statement is false.",
+        "NOT GIVEN": "The information is not given."
+      },
+      "answer": "FALSE",
+      "explanation": "Paragraph 2 states that not traveling by bus or car 'saves a lot of time and money', so it is cheaper, not more expensive."
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Some students play games on the computer instead of studying.",
+      "options": {
+        "TRUE": "The statement is true.",
+        "FALSE": "The statement is false.",
+        "NOT GIVEN": "The information is not given."
+      },
+      "answer": "TRUE",
+      "explanation": "Paragraph 3 states: 'Some students watch videos or play games on their computer instead of doing their homework.'"
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Most online teachers live in the United States.",
+      "options": {
+        "TRUE": "The statement is true.",
+        "FALSE": "The statement is false.",
+        "NOT GIVEN": "The information is not given."
+      },
+      "answer": "NOT GIVEN",
+      "explanation": "The text mentions what teachers should do, but it does not say where they live."
+    },
+    {
+      "id": "q9",
+      "type": "short_answer",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "If a lesson is hard, what can students watch again?",
+      "options": {},
+      "answer": "video",
+      "explanation": "Paragraph 2 states: 'If a lesson is difficult, they can watch the video again.'"
+    },
+    {
+      "id": "q10",
+      "type": "short_answer",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "What should students turn off during study hours?",
+      "options": {},
+      "answer": "mobile phones",
+      "explanation": "Paragraph 4 states: 'They should also turn off their mobile phones during study hours.'"
+    },
+    {
+      "id": "q11",
+      "type": "short_answer",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Parents can help by checking their children's what every day?",
+      "options": {},
+      "answer": "work",
+      "explanation": "Paragraph 4 states: 'Parents can also help by checking their children's work every day.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "traditional",
+      "meaning": "following ways of behaving or doing things that have continued for a long time"
+    },
+    {
+      "word": "benefit",
+      "meaning": "a helpful or good effect; an advantage"
+    },
+    {
+      "word": "lonely",
+      "meaning": "sad because you are not with other people"
+    },
+    {
+      "word": "timetable",
+      "meaning": "a list of times when events or activities will happen"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài đạt điểm cao (A1-A2)</h2><p><b>1. Dạng Multiple Choice:</b> Đọc kỹ câu hỏi để xác định từ khóa (ví dụ: 'save money'). Quét nhanh qua bài đọc để tìm đoạn có chứa từ khóa đó. Thông tin ở trình độ A1-A2 thường được viết giống hệt trong bài đọc, không cần suy luận phức tạp.</p><p><b>2. Dạng True/False/Not Given:</b> Chú ý các câu khẳng định ngắn. Nếu câu hỏi có từ ngữ trái ngược hoàn toàn với bài đọc (ví dụ: 'more expensive' so với 'saves money'), chọn FALSE. Nếu thông tin không được nhắc tới trong bài (ví dụ: địa điểm sống của giáo viên), hãy chọn NOT GIVEN.</p><p><b>3. Dạng Short-answer:</b> Luôn chú ý giới hạn từ (NO MORE THAN TWO WORDS). Tìm chính xác từ vựng xuất hiện trong bài đọc để điền vào chỗ trống, không tự ý thay đổi dạng của từ.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

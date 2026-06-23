@@ -1,0 +1,76 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_006",
+  "title": "Harnessing the Power of Renewable Energy",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Future of Renewable Energy</h2><p>Renewable energy sources such as solar, wind, and hydroelectric power have gained increasing attention in recent years due to their potential to reduce greenhouse gas emissions and combat climate change. Unlike fossil fuels, which emit harmful pollutants, renewable energy sources provide cleaner alternatives that are more sustainable in the long term. For instance, solar energy harnesses sunlight, while wind energy captures the power of moving air. Both methods significantly lower carbon footprints and can be deployed in various regions, making them accessible globally.</p><p>Governments around the world are investing heavily in renewable energy technologies. This investment not only boosts local economies by creating jobs in manufacturing, installation, and maintenance but also helps to diversify energy sources. Countries like Germany and Denmark are leading the way in wind energy production, while nations such as China and the United States are at the forefront of solar panel installations.</p><p>However, the transition to renewable energy is not without its challenges. One major hurdle is the intermittent nature of solar and wind energy, which can fluctuate based on weather conditions. To address this issue, advancements in energy storage technologies are crucial. Batteries and other storage solutions can help store excess energy generated during peak production times and release it when demand is high.</p><p>Consumer awareness and acceptance also play a vital role in the adoption of renewable energy. As more individuals recognize the importance of sustainable practices, there is a growing demand for clean energy options. This shift in consumer behavior is encouraging businesses to adopt greener practices and invest in renewable energy solutions.</p><p>In conclusion, while the path to a renewable energy future presents various challenges, the benefits of cleaner air, reduced dependence on fossil fuels, and economic growth make it a worthwhile endeavor. With continued investment and innovation, renewable energy can power the world sustainably.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a primary benefit of renewable energy mentioned in the passage?",
+      "options": {
+        "A": "It helps reduce greenhouse gas emissions.",
+        "B": "It is cheaper than fossil fuels.",
+        "C": "It is available only in specific regions.",
+        "D": "It requires a lot of maintenance."
+      },
+      "answer": "A",
+      "explanation": "The passage states that renewable energy sources help reduce greenhouse gas emissions and combat climate change, making option A correct."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Germany and Denmark are leading in solar energy production.",
+      "answer": "False",
+      "explanation": "The passage mentions that Germany and Denmark are leaders in wind energy production, not solar energy."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Decide if the author's opinion is Yes, No, or Not Given.",
+      "text": "The author believes that renewable energy is essential for economic growth.",
+      "answer": "Yes",
+      "explanation": "The passage discusses how investment in renewable energy boosts local economies, indicating the author's positive stance."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the types of renewable energy with their descriptions.",
+      "options": {
+        "A": "Solar energy",
+        "B": "Wind energy"
+      },
+      "descriptions": {
+        "1": "Uses sunlight to generate power.",
+        "2": "Captures energy from moving air."
+      },
+      "answers": {
+        "A": "1",
+        "B": "2"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "One major challenge of renewable energy is its __________ nature.",
+      "answer": "intermittent",
+      "explanation": "The passage mentions the 'intermittent nature' of solar and wind energy as a challenge."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "sustainable",
+      "meaning": "able to be maintained at a certain rate or level; able to continue over the long term."
+    },
+    {
+      "word": "intermittent",
+      "meaning": "occurring at irregular intervals; not continuous or steady."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on understanding the main ideas and details within the passage. Pay attention to the transitions between paragraphs, as they often indicate the flow of arguments. For multiple choice questions, eliminate options that do not align with the information provided. For True/False/Not Given questions, look for keywords that can help you determine the accuracy of the statement in relation to the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

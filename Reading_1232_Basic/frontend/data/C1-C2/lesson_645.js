@@ -1,0 +1,119 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_645",
+  "title": "The Final Frontier: Understanding the Impacts of Space Exploration",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Exploring the Cosmos</h2><p>Space exploration, a pursuit that has captivated human imagination for centuries, serves not only as a testament to our technological prowess but also as a profound reflection of our philosophical aspirations. As we venture beyond the confines of our planet, we confront an array of challenges that extend far beyond mere engineering feats. The quest for knowledge about celestial bodies has led to significant advancements in numerous fields, from materials science to environmental sustainability. However, the implications of such explorations are vast and complex, encompassing ethical dilemmas and geopolitical considerations that demand careful scrutiny.</p><p>One of the most compelling arguments for space exploration is the potential for scientific breakthroughs. Missions to Mars, for instance, not only aim to ascertain whether life ever existed on the planet but also help us understand the origins of our own species. The data collected from these missions can illuminate questions about the fundamental nature of life itself, as well as the conditions required to support it. Moreover, technologies developed for space missions, such as satellite communications and advanced robotics, have found applications in everyday life, enhancing our quality of living on Earth.</p><p>Nevertheless, the pursuit of knowledge is not without its costs. Financially, the billions allocated to space programs could arguably be redirected towards pressing issues on Earth, such as poverty alleviation and climate change mitigation. Critics often point out that while we gaze at the stars, we neglect the urgent needs of our planet. This leads to an ethical conundrum: should humanity prioritize extraterrestrial exploration over terrestrial welfare? Such a question challenges not only our values but also our vision of what it means to be a responsible global citizen.</p><p>Furthermore, as nations race to establish their presence in space, geopolitical tensions may escalate. The competition for resources, such as those found on asteroids or other celestial bodies, has the potential to ignite conflicts reminiscent of historical imperialism. The establishment of space treaties and international cooperation will be vital in ensuring that exploration remains a peaceful endeavor, rather than a catalyst for discord.</p><p>In conclusion, while the allure of space exploration is undeniable, it is imperative that we approach our ventures into the cosmos with a balanced perspective. By weighing the scientific benefits against the ethical and geopolitical ramifications, we can better navigate the complexities of our quest for knowledge. The universe is vast, and as we take our first steps into the final frontier, let us do so with a commitment to both exploration and stewardship of our home planet.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is primarily discussed in the passage regarding space exploration?",
+      "options": {
+        "A": "Its technological advancements and ethical implications.",
+        "B": "The financial costs outweighing the benefits.",
+        "C": "The historical context of space exploration.",
+        "D": "The competition among nations for resources."
+      },
+      "answer": "A",
+      "explanation": "The passage primarily discusses both the technological advancements that space exploration has brought and the ethical implications of prioritizing it over terrestrial issues."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Space exploration has no significant impact on everyday life.",
+      "answer": "False",
+      "explanation": "The passage states that technologies developed for space missions have found applications in everyday life, indicating that the impact is significant."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that humanity should prioritize space exploration over addressing earthly problems.",
+      "answer": "No",
+      "explanation": "The author presents an ethical conundrum, suggesting that prioritizing space exploration over terrestrial issues is a matter of debate."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following claims to their corresponding paragraphs.",
+      "text": "1. The costs of space exploration could be redirected. 2. Space exploration can lead to scientific breakthroughs. 3. Geopolitical tensions may arise from competition in space.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answer": {
+        "1": "C",
+        "2": "B",
+        "3": "D"
+      },
+      "explanation": "The claims are matched to the paragraphs that discuss the financial costs, scientific breakthroughs, and geopolitical issues associated with space exploration."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the following headings to their corresponding paragraphs.",
+      "text": "1. The ethical debate surrounding exploration. 2. The benefits of space technology. 3. The urgency of terrestrial issues.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answer": {
+        "1": "C",
+        "2": "B",
+        "3": "A"
+      },
+      "explanation": "The headings are matched correctly to the paragraphs discussing ethical issues, benefits of technology, and the urgency of addressing Earth’s problems."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN THREE WORDS.",
+      "text": "The passage suggests that space exploration must be approached with a balanced _______.",
+      "answer": "perspective",
+      "explanation": "The correct word is 'perspective', as stated in the conclusion of the passage."
+    },
+    {
+      "id": "q7",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The author emphasizes the importance of international _______ to prevent conflicts in space.",
+      "answer": "cooperation",
+      "explanation": "The word 'cooperation' is highlighted in the passage as essential for peaceful space exploration."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the questions with NO MORE THAN THREE WORDS.",
+      "text": "What does the author suggest should be the focus of our quest for knowledge?",
+      "answer": "responsible global citizenship",
+      "explanation": "The author concludes that responsible global citizenship should be a focus when exploring the cosmos."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "intrinsic",
+      "meaning": "belonging naturally; essential."
+    },
+    {
+      "word": "imperialism",
+      "meaning": "a policy of extending a country's power and influence through colonization, military force, or other means."
+    },
+    {
+      "word": "conundrum",
+      "meaning": "a confusing and difficult problem or question."
+    },
+    {
+      "word": "stewardship",
+      "meaning": "the job of supervising or taking care of something, such as an organization or property."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To succeed in this passage, focus on understanding the author's main arguments and their implications. Pay attention to the vocabulary used, as it often provides clues to the author's tone and attitude. Take notes on the ethical dilemmas presented, as these may be focal points in the questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

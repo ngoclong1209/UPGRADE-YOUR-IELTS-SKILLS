@@ -1,0 +1,101 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_547",
+  "title": "Navigating the Urban Jungle: Public Transportation vs. Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Public Transportation vs. Private Cars: A Comparative Analysis</h2><p>The debate over the merits of public transportation versus private vehicles has gained significant traction in urban planning discussions. Proponents of public transport argue that it offers a sustainable alternative to private car usage, which contributes to urban congestion and environmental degradation. They assert that robust public transit systems can reduce the carbon footprint of cities, enhance mobility for disadvantaged populations, and alleviate the financial burden associated with car ownership.</p><p>Conversely, advocates for private cars maintain that personal vehicles provide unparalleled convenience and flexibility. They argue that public transportation often suffers from inefficiencies, such as delays and limited schedules, which can deter users. Moreover, they contend that the freedom to travel at one's own pace is an invaluable aspect of modern life.</p><p>This dichotomy raises important questions about urban infrastructure and societal values. While public transportation systems require significant investment and long-term planning, the immediate appeal of private cars remains strong among consumers. The challenge lies in striking a balance between enhancing public transit options while recognizing the enduring demand for personal vehicles.</p><p>Ultimately, the future of urban mobility may hinge on innovative solutions that integrate both modes of transportation, such as ridesharing and electric vehicles, which could redefine the landscape of personal and public transport.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument made by proponents of public transportation?",
+      "options": {
+        "A": "It is more convenient than private cars.",
+        "B": "It can significantly reduce urban environmental impact.",
+        "C": "It is less expensive than owning a private vehicle.",
+        "D": "It offers greater freedom of movement."
+      },
+      "answer": "B",
+      "explanation": "Proponents argue that public transport offers a sustainable alternative and can reduce the carbon footprint of cities."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Private car users do not face any financial burdens.",
+      "answer": "False",
+      "explanation": "The passage mentions that owning a car can be financially burdensome, contradicting the statement."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author believe public transportation is always efficient?",
+      "answer": "No",
+      "explanation": "The passage states that public transportation often suffers from inefficiencies, suggesting the author's cautious view."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements with the correct paragraph.",
+      "items": [
+        {
+          "statement": "The integration of innovative solutions in urban mobility",
+          "paragraph": "Paragraph 4"
+        },
+        {
+          "statement": "The argument about personal freedom associated with private vehicles",
+          "paragraph": "Paragraph 2"
+        },
+        {
+          "statement": "Public transport's potential to alleviate financial burdens",
+          "paragraph": "Paragraph 1"
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "items": [
+        {
+          "heading": "The enduring appeal of personal vehicles",
+          "paragraph": "Paragraph 2"
+        },
+        {
+          "heading": "Finding a balance in urban mobility",
+          "paragraph": "Paragraph 3"
+        },
+        {
+          "heading": "Challenges of public transportation systems",
+          "paragraph": "Paragraph 1"
+        }
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "short_answer_questions",
+      "instruction": "Write your answer in NO MORE THAN THREE WORDS.",
+      "text": "What is a potential future solution for urban transport mentioned in the passage?",
+      "answer": "ridesharing and electric vehicles",
+      "explanation": "The passage discusses innovative solutions like ridesharing and electric vehicles as future urban mobility options."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "congestion",
+      "meaning": "overcrowding; a situation where a place is too full, particularly in traffic"
+    },
+    {
+      "word": "sustainable",
+      "meaning": "capable of being maintained over the long term without causing harm to the environment"
+    },
+    {
+      "word": "dichotomy",
+      "meaning": "a division or contrast between two things that are represented as being opposed or entirely different"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle this passage, focus on understanding the nuanced arguments presented by each side. Pay attention to the tone and implications in the text, as these can provide clues for answering the questions accurately. When dealing with multiple choice questions, eliminate options that do not reflect the subtleties of the passage. For true/false/not given questions, look for explicit statements in the text to support your answers.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

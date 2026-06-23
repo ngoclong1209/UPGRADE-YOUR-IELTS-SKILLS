@@ -1,0 +1,118 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_145",
+  "title": "Exploring Space: Our Universe",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Space Exploration</h2><p>Space exploration is the study of outer space. People want to learn about planets, stars, and other galaxies. The first human in space was Yuri Gagarin in 1961. He went into space on a rocket called Vostok 1. Today, astronauts live and work on the International Space Station (ISS). The ISS is a large space station that orbits Earth.</p><p>Astronauts do many experiments in space. They study how things work without gravity. For example, they grow plants and test new medicines. These tests help people on Earth, too. Space exploration helps us understand our universe better.</p><p>Many countries send rockets and satellites into space. NASA is the space agency of the United States. They send missions to the Moon and Mars. Other countries like China and Russia also have space programs. Each country wants to learn more about space.</p><p>In the future, people may travel to Mars. Scientists are planning missions to send humans there. This is very exciting! Space exploration is important for science and for our future.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Who was the first human in space?",
+      "options": {
+        "A": "Yuri Gagarin",
+        "B": "Neil Armstrong",
+        "C": "Buzz Aldrin",
+        "D": "John Glenn"
+      },
+      "answer": "A",
+      "explanation": "Yuri Gagarin was the first human in space, as mentioned in the passage."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do astronauts do on the ISS?",
+      "options": {
+        "A": "Play games",
+        "B": "Do experiments",
+        "C": "Watch movies",
+        "D": "Sleep all day"
+      },
+      "answer": "B",
+      "explanation": "Astronauts do experiments in space according to the passage."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "NASA is a space agency from Russia.",
+      "answer": "False",
+      "explanation": "NASA is the space agency of the United States, not Russia."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "The ISS orbits the Earth.",
+      "answer": "True",
+      "explanation": "The passage states that the ISS orbits Earth."
+    },
+    {
+      "id": "q5",
+      "type": "short_answer",
+      "instruction": "Answer in no more than two words.",
+      "text": "What is the name of the rocket that Yuri Gagarin used?",
+      "answer": "Vostok 1",
+      "explanation": "The passage mentions that Yuri Gagarin went into space on a rocket called Vostok 1."
+    },
+    {
+      "id": "q6",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which planet may humans travel to in the future?",
+      "options": {
+        "A": "Venus",
+        "B": "Saturn",
+        "C": "Mars",
+        "D": "Jupiter"
+      },
+      "answer": "C",
+      "explanation": "The passage discusses future travel to Mars."
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "text": "Space exploration does not help people on Earth.",
+      "answer": "False",
+      "explanation": "The passage states that space exploration helps people on Earth."
+    },
+    {
+      "id": "q8",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which country has a space agency called NASA?",
+      "options": {
+        "A": "China",
+        "B": "Russia",
+        "C": "USA",
+        "D": "India"
+      },
+      "answer": "C",
+      "explanation": "NASA is the space agency of the United States."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "astronaut",
+      "meaning": "A person who travels into space."
+    },
+    {
+      "word": "rocket",
+      "meaning": "A vehicle that flies into space."
+    },
+    {
+      "word": "experiment",
+      "meaning": "A test to learn something new."
+    },
+    {
+      "word": "orbit",
+      "meaning": "To move around a planet."
+    },
+    {
+      "word": "galaxy",
+      "meaning": "A large group of stars and planets."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully. Look for names, dates, and important facts. For multiple choice, remember that the answer is in the text. For true/false questions, pay attention to the details.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

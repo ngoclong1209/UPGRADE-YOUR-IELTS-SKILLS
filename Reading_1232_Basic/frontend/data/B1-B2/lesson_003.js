@@ -1,0 +1,82 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_003",
+  "title": "The Impact of Climate Change on Our Planet",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Climate Change: An Urgent Challenge</h2><p>Climate change refers to significant changes in global temperatures and weather patterns over time. While climate change is a natural phenomenon, scientific evidence shows that human activities have accelerated its pace. The burning of fossil fuels, deforestation, and industrial processes release large amounts of carbon dioxide into the atmosphere, leading to the greenhouse effect. This effect causes the Earth to warm, resulting in melting ice caps, rising sea levels, and extreme weather events.</p><p>One of the most alarming consequences of climate change is the increase in global temperatures. According to data from the Intergovernmental Panel on Climate Change (IPCC), the average global temperature has risen by about 1.2 degrees Celsius since the late 19th century. This rise may seem small, but it can have devastating impacts on ecosystems, agriculture, and human health.</p><p>In addition to rising temperatures, climate change has resulted in more frequent and severe weather events. Hurricanes, droughts, and floods are becoming more common, disrupting lives and economies. The agricultural sector is particularly vulnerable, as unpredictable weather patterns can lead to crop failures and food shortages.</p><p>To combat climate change, governments and organizations worldwide are implementing strategies to reduce greenhouse gas emissions. Renewable energy sources, such as solar and wind, are being promoted as alternatives to fossil fuels. Additionally, reforestation and conservation efforts aim to restore natural habitats and enhance carbon absorption.</p><p>While progress is being made, the fight against climate change requires collective action from individuals, businesses, and governments. Everyone can contribute to reducing their carbon footprint through simple changes, such as using public transport, recycling, and conserving energy.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main cause of accelerated climate change?",
+      "options": {
+        "A": "Natural climate variations.",
+        "B": "Human activities like burning fossil fuels.",
+        "C": "Increased solar activity.",
+        "D": "Natural disasters."
+      },
+      "answer": "B",
+      "explanation": "The passage states that human activities, especially the burning of fossil fuels, have significantly accelerated climate change."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "According to the IPCC, how much has the average global temperature risen?",
+      "options": {
+        "A": "About 0.5 degrees Celsius.",
+        "B": "About 1.2 degrees Celsius.",
+        "C": "About 2 degrees Celsius.",
+        "D": "About 1 degree Celsius."
+      },
+      "answer": "B",
+      "explanation": "The passage mentions that the average global temperature has risen by about 1.2 degrees Celsius since the late 19th century."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Climate change has no effect on agriculture.",
+      "answer": "False",
+      "explanation": "The passage states that climate change can lead to crop failures and food shortages, indicating it does affect agriculture."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "text": "The author believes that individual action is important in combating climate change.",
+      "answer": "Yes",
+      "explanation": "The passage encourages individuals to make changes to reduce their carbon footprint, indicating the author's belief in individual action."
+    },
+    {
+      "id": "q5",
+      "type": "matching_information",
+      "instruction": "Match the following strategies to their descriptions.",
+      "options": {
+        "A": "Renewable energy sources",
+        "B": "Reforestation",
+        "C": "Energy conservation"
+      },
+      "descriptions": {
+        "1": "Restoring natural habitats.",
+        "2": "Using solar and wind power.",
+        "3": "Reducing energy usage."
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "greenhouse effect",
+      "meaning": "The warming of the Earth's surface due to trapped heat in the atmosphere."
+    },
+    {
+      "word": "ecosystem",
+      "meaning": "A biological community of interacting organisms and their physical environment."
+    },
+    {
+      "word": "carbon footprint",
+      "meaning": "The total amount of greenhouse gases produced to directly and indirectly support human activities."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on identifying the main ideas and supporting details. Pay attention to the structure of the text, as it will help you understand the flow of information. Use skimming techniques to get an overview and scanning techniques to find specific information quickly.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

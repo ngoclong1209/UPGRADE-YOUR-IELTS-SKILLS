@@ -1,0 +1,120 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_042",
+  "title": "Navigating the Digital Frontier: The Evolving Landscape of Online Learning",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Transformation of Education Through Online Learning</h2><p>In recent years, the realm of education has undergone a seismic shift, primarily attributed to the advent of online learning platforms. Initially perceived as a supplementary resource, online education has burgeoned into a legitimate alternative to traditional classroom settings. This evolution raises critical questions about the efficacy, accessibility, and pedagogical approaches inherent in digital learning environments.</p><p>Research indicates that online learning can significantly enhance educational outcomes, particularly for non-traditional students who may struggle with the rigid structures of conventional schooling. However, this mode of education is not without its challenges. Issues such as digital divide, where access to technology is unevenly distributed, pose significant barriers to equitable learning opportunities. Furthermore, the necessity for self-discipline and motivation in a largely autonomous learning environment cannot be overstated.</p><p>Moreover, the effectiveness of online education often hinges on the quality of course design and the interaction between instructors and students. Innovative pedagogies that leverage multimedia and interactive elements tend to yield better engagement and comprehension among learners. The integration of social learning features—such as discussion forums and peer assessments—can also foster a sense of community among participants, mitigating some of the isolation often experienced in online education.</p><p>As educational institutions rapidly adapt to these changes, they must consider the long-term implications of a predominantly digital learning landscape. Questions surrounding accreditation, quality assurance, and the recognition of online qualifications are paramount as we navigate this uncharted territory. Ultimately, the future of education will likely be a hybrid model that embraces both online and face-to-face interactions, catering to diverse learning preferences and circumstances.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary reason for the shift towards online learning according to the passage?",
+      "options": {
+        "A": "It serves as a supplementary resource for traditional education.",
+        "B": "It provides a legitimate alternative to conventional classroom settings.",
+        "C": "It is primarily beneficial for traditional students.",
+        "D": "It eliminates the need for instructor involvement."
+      },
+      "answer": "B",
+      "explanation": "The passage states that online education has grown into a legitimate alternative to traditional classroom settings, highlighting its primary role in this educational shift."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the following statement is True, False, or Not Given.",
+      "text": "Online learning is universally accessible to all students.",
+      "answer": "False",
+      "explanation": "The passage discusses the digital divide and how uneven access to technology creates barriers to equitable learning opportunities, indicating that online learning is not universally accessible."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author believe that online education is superior to traditional education?",
+      "answer": "No",
+      "explanation": "The passage does not claim that online education is superior; it emphasizes that both online and traditional methods have their merits and challenges."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following challenges with the appropriate descriptions.",
+      "pairs": [
+        {
+          "challenge": "Digital Divide",
+          "description": "Uneven access to technology"
+        },
+        {
+          "challenge": "Self-discipline",
+          "description": "Necessity for motivation in autonomous environments"
+        },
+        {
+          "challenge": "Quality of Course Design",
+          "description": "Impact on engagement and comprehension"
+        }
+      ],
+      "answer": {
+        "Digital Divide": "Uneven access to technology",
+        "Self-discipline": "Necessity for motivation in autonomous environments",
+        "Quality of Course Design": "Impact on engagement and comprehension"
+      },
+      "explanation": "Each challenge is explicitly described in the passage, linking them to their respective issues."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph with the correct heading.",
+      "paragraphs": {
+        "Paragraph 1": "Introduction to Online Learning",
+        "Paragraph 2": "Benefits and Barriers",
+        "Paragraph 3": "Pedagogical Innovations",
+        "Paragraph 4": "Future Considerations"
+      },
+      "headings": {
+        "A": "The evolving nature of digital education",
+        "B": "Addressing challenges in access",
+        "C": "The role of technology in teaching",
+        "D": "Looking ahead in education"
+      },
+      "answer": {
+        "Paragraph 1": "A",
+        "Paragraph 2": "B",
+        "Paragraph 3": "C",
+        "Paragraph 4": "D"
+      },
+      "explanation": "The headings accurately reflect the main ideas presented in each paragraph."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The future of education will likely be a ______ model.",
+      "answer": "hybrid",
+      "explanation": "The passage indicates that the future will likely embrace a hybrid model of both online and face-to-face interactions."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "seismic shift",
+      "meaning": "A significant and impactful change."
+    },
+    {
+      "word": "burgeoned",
+      "meaning": "To grow or increase rapidly."
+    },
+    {
+      "word": "autonomous",
+      "meaning": "Acting independently or having the freedom to do so."
+    },
+    {
+      "word": "pedagogies",
+      "meaning": "Methods and practices of teaching."
+    },
+    {
+      "word": "accreditation",
+      "meaning": "Official recognition of educational programs and institutions."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the nuances of the arguments presented and pay attention to the specific challenges and benefits associated with online learning. Look for paraphrases and synonyms that may be used in questions and options. Practice skimming for main ideas and scanning for specific details to find answers efficiently.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

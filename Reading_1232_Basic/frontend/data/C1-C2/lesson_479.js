@@ -1,0 +1,94 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_479",
+  "title": "The Dual Facets of Tourism: Economic Boon or Environmental Bane?",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Complex Impact of Tourism</h2><p>Tourism, a multifaceted phenomenon, has long been heralded as a significant driver of economic growth, particularly in developing nations. The influx of visitors can stimulate local economies, create jobs, and foster cultural exchanges. However, as the industry burgeons, it engenders a plethora of challenges that often go unnoticed. Environmental degradation, cultural commodification, and the displacement of local communities are just a few of the adverse effects that accompany unchecked tourism growth. This paradox poses a crucial question: can the benefits of tourism be sustained without compromising the integrity of the destinations it seeks to promote?</p><p>In recent decades, the concept of sustainable tourism has emerged, advocating for a balance between economic development and environmental preservation. Proponents argue that by prioritizing eco-friendly practices, destinations can mitigate negative impacts while still reaping the financial rewards tourism has to offer. Yet, the implementation of such practices is often met with resistance from stakeholders prioritizing immediate economic gains over long-term sustainability.</p><p>Moreover, the rise of social media has transformed the tourism landscape, influencing travel trends and destination popularity. While this democratization of travel can enhance awareness of lesser-known locales, it also leads to overcrowding in previously serene areas, straining local resources and infrastructure. Thus, the challenge lies in managing the delicate equilibrium between attracting visitors and maintaining the character and environment of tourist destinations.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern raised in the passage regarding tourism?",
+      "options": {
+        "A": "Tourism generates significant economic benefits for local communities.",
+        "B": "The rise of social media has increased travel accessibility.",
+        "C": "Unregulated tourism can lead to serious environmental and social issues.",
+        "D": "Sustainable tourism practices are widely accepted by all stakeholders."
+      },
+      "answer": "C",
+      "explanation": "Option C is correct because the passage discusses the detrimental effects of unchecked tourism, including environmental degradation and cultural commodification, highlighting the concerns associated with unregulated growth."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the following statements are True, False, or Not Given.",
+      "text": "Sustainable tourism is universally embraced by local stakeholders.",
+      "answer": "False",
+      "explanation": "The passage mentions that the implementation of sustainable practices is often met with resistance from stakeholders who prioritize immediate economic benefits."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The passage suggests that social media has a positive impact on all tourist destinations.",
+      "answer": "No",
+      "explanation": "The passage indicates that while social media can enhance awareness of lesser-known locales, it also leads to overcrowding, thus suggesting that its impact is not universally positive."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following effects of tourism with their corresponding descriptions.",
+      "text": "1. Economic Growth\n2. Environmental Degradation\n3. Cultural Commodification\n4. Community Displacement",
+      "options": {
+        "A": "The alteration of local cultures to cater to tourist expectations.",
+        "B": "The increased financial resources for local businesses.",
+        "C": "The deterioration of natural landscapes due to excessive visitor numbers.",
+        "D": "The forced relocation of residents due to tourism development."
+      },
+      "answers": {
+        "1": "B",
+        "2": "C",
+        "3": "A",
+        "4": "D"
+      },
+      "explanation": "Each effect of tourism is matched with its respective description based on the implications discussed in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph with the appropriate heading.",
+      "text": "Headings: 1. The Promise of Economic Benefits\n2. The Dilemma of Environmental Responsibility\n3. The Influence of Social Media on Travel Trends",
+      "answers": {
+        "1": "The Promise of Economic Benefits",
+        "2": "The Dilemma of Environmental Responsibility",
+        "3": "The Influence of Social Media on Travel Trends"
+      },
+      "explanation": "Each paragraph corresponds directly to the themes addressed in the headings, illustrating the different aspects of tourism's impact."
+    },
+    {
+      "id": "q6",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following questions using NO MORE THAN TWO WORDS.",
+      "text": "What is one major adverse effect of tourism mentioned in the passage?",
+      "answer": "Environmental degradation",
+      "explanation": "The passage explicitly refers to environmental degradation as one of the negative consequences of tourism."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "commodification",
+      "meaning": "The process of turning something into a commodity, often leading to a loss of intrinsic value."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "The ability to be maintained at a certain rate or level, especially in the context of environmental practices."
+    },
+    {
+      "word": "paradox",
+      "meaning": "A situation, person, or thing that combines contradictory features or qualities."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the nuanced arguments presented regarding tourism's benefits and drawbacks. Pay attention to the author's tone and purpose. Consider how each paragraph connects to the overall theme of sustainability in tourism. Additionally, practice skimming for main ideas and scanning for specific information to enhance efficiency in answering questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

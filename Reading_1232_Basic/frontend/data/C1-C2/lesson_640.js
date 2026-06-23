@@ -1,0 +1,125 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_640",
+  "title": "The Impact of Dietary Choices on Long-term Health",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dietary Dilemma</h2><p>In recent decades, the correlation between dietary choices and long-term health outcomes has become a focal point of scientific inquiry. Researchers have increasingly underscored the significance of dietary patterns, emphasizing that the cumulative effects of food consumption extend well beyond immediate physical health, influencing mental well-being and overall life satisfaction. This multidimensional relationship suggests that food is not merely a source of energy; rather, it is a pivotal player in the intricate web of human health.</p><p>Studies indicate that diets rich in whole foods, including fruits, vegetables, and whole grains, are associated with a decreased risk of chronic diseases such as cardiovascular ailments and diabetes. Conversely, high consumption of processed foods laden with sugars and unhealthy fats correlates with a myriad of health issues. The implications of these findings extend to public health policies, which increasingly advocate for the promotion of nutrient-dense foods over their calorie-dense counterparts.</p><p>Moreover, the psychological aspects of eating cannot be overlooked. The concept of 'food as medicine' has gained traction, with evidence suggesting that certain foods can enhance mood and cognitive function. This idea posits that dietary choices can be strategically utilized to bolster mental health, a perspective that is gradually being integrated into therapeutic practices.</p><p>However, the conversation surrounding diet is fraught with complexity. Cultural, socioeconomic, and psychological factors intertwine to shape individual dietary habits. It is crucial for health practitioners to consider these variables when offering dietary advice, ensuring that recommendations are not only scientifically sound but also culturally sensitive and accessible.</p><p>In conclusion, the interplay between diet and health is a multifaceted issue that warrants thorough investigation and nuanced understanding. As we continue to unravel the complexities of nutrition science, a holistic approach that encompasses both physical and mental health dimensions will be essential in guiding future dietary guidelines and health interventions.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main argument presented in the passage regarding dietary choices?",
+      "options": {
+        "A": "Dietary choices significantly affect both physical and mental health.",
+        "B": "Processed foods should be completely eliminated from diets.",
+        "C": "Individual preferences solely determine dietary habits.",
+        "D": "Cultural factors have no impact on dietary choices."
+      },
+      "answer": "A",
+      "explanation": "The passage emphasizes the multidimensional relationship between diet and health, highlighting that dietary choices influence both physical and mental well-being."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "The passage suggests that public health policies are beginning to shift focus towards promoting processed foods.",
+      "answer": "False",
+      "explanation": "The passage states that public health policies advocate for nutrient-dense foods, indicating a shift away from processed foods."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "Does the author believe that cultural factors should be considered in dietary recommendations?",
+      "answer": "Yes",
+      "explanation": "The passage clearly states that it is crucial for health practitioners to consider cultural factors when offering dietary advice."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements with the appropriate sections of the passage.",
+      "text": [
+        "The influence of food on mental well-being.",
+        "The rise of 'food as medicine'.",
+        "Public health advocacy for whole foods."
+      ],
+      "options": [
+        "Paragraph 3",
+        "Paragraph 2",
+        "Paragraph 1"
+      ],
+      "answer": {
+        "1": "Paragraph 3",
+        "2": "Paragraph 1",
+        "3": "Paragraph 2"
+      },
+      "explanation": "The information in each statement corresponds to the specific sections of the passage that discuss these topics."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the correct paragraphs.",
+      "text": [
+        "The role of cultural influences in diet",
+        "The benefits of whole foods",
+        "Mental health and dietary choices"
+      ],
+      "options": [
+        "Paragraph 1",
+        "Paragraph 2",
+        "Paragraph 3"
+      ],
+      "answer": {
+        "1": "Paragraph 4",
+        "2": "Paragraph 2",
+        "3": "Paragraph 3"
+      },
+      "explanation": "Each heading aligns with the main idea presented in the respective paragraph."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence with NO MORE THAN THREE WORDS.",
+      "text": "The passage argues that food plays a vital role in the _____ of human health.",
+      "answer": "intricate web",
+      "explanation": "The passage describes food as a pivotal player in the intricate web of human health."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The passage discusses the need for a _____ approach to dietary guidelines.",
+      "answer": "holistic",
+      "explanation": "The conclusion emphasizes the importance of a holistic approach to understanding the relationship between diet and health."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following question with NO MORE THAN THREE WORDS.",
+      "text": "What type of foods are linked to chronic diseases?",
+      "answer": "processed foods",
+      "explanation": "The passage states that high consumption of processed foods is associated with chronic diseases."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "cumulative",
+      "meaning": "increasing or increased in quantity, degree, or force by successive additions."
+    },
+    {
+      "word": "nutrient-dense",
+      "meaning": "foods that are high in vitamins and minerals relative to their calorie content."
+    },
+    {
+      "word": "intertwine",
+      "meaning": "to twist or weave together; to be closely connected."
+    },
+    {
+      "word": "advocate",
+      "meaning": "to publicly support or recommend a particular cause or policy."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the main arguments and the relationships between dietary choices and health outcomes. Pay attention to the nuanced language the author uses, especially how different terms are paraphrased. Practice identifying the author's tone and purpose to enhance comprehension. Take note of cultural and psychological factors mentioned, as they are crucial for answering questions accurately.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

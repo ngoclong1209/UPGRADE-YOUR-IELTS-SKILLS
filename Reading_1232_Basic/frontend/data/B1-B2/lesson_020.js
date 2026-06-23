@@ -1,0 +1,80 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_020",
+  "title": "Healthy Eating: A Path to Wellness",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Importance of a Balanced Diet</h2><p>Maintaining a healthy diet is essential for overall well-being. A balanced diet consists of various foods that provide the necessary nutrients, vitamins, and minerals. It plays a crucial role in reducing the risk of chronic diseases such as obesity, diabetes, and heart disease. Incorporating fruits, vegetables, whole grains, and lean proteins into daily meals can promote better health.</p><p>Eating a diverse range of foods not only ensures that you are getting all the essential nutrients but also helps to keep meals interesting and enjoyable. It is important to limit the intake of processed foods that are high in sugars, unhealthy fats, and sodium. Instead, focus on whole, unprocessed foods that nourish the body.</p><p>Moreover, hydration is a key factor in maintaining a healthy lifestyle. Drinking enough water aids in digestion, absorption of nutrients, and regulation of body temperature. Aim for at least eight glasses of water a day, and consider replacing sugary drinks with water or herbal teas.</p><p>In addition to diet, regular physical activity is vital for maintaining health. Exercise complements a healthy diet by helping to control weight, improve mental health, and strengthen bones and muscles. A combination of aerobic and strength-training exercises is recommended for optimal health.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main benefit of a balanced diet mentioned in the passage?",
+      "options": {
+        "A": "It helps in reducing the risk of chronic diseases.",
+        "B": "It is more enjoyable than eating processed foods.",
+        "C": "It requires a lot of preparation time.",
+        "D": "It is only beneficial for weight loss."
+      },
+      "answer": "A",
+      "explanation": "A is correct because the passage states that a balanced diet reduces the risk of chronic diseases, which is the main focus."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "Processed foods should be a large part of our diet.",
+      "answer": "False",
+      "explanation": "The passage indicates that processed foods should be limited, making this statement false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The author believes that hydration is important for health.",
+      "answer": "Yes",
+      "explanation": "The passage emphasizes the importance of hydration, indicating that the author believes it is crucial."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following benefits with their respective activities.",
+      "text": "A. Helps control weight\nB. Improves mental health\nC. Strengthens bones and muscles",
+      "options": {
+        "1": "Balanced diet",
+        "2": "Regular exercise",
+        "3": "Drinking water"
+      },
+      "answers": {
+        "A": "2",
+        "B": "2",
+        "C": "2"
+      },
+      "explanation": "Regular exercise is linked to all three benefits in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "Drinking enough water aids in __________.",
+      "answer": "digestion",
+      "explanation": "The passage states that hydration aids in digestion, among other things."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "chronic diseases",
+      "meaning": "long-lasting health conditions that can be managed but not cured"
+    },
+    {
+      "word": "hydration",
+      "meaning": "the process of maintaining the right amount of water in the body"
+    },
+    {
+      "word": "aerobic",
+      "meaning": "related to exercises that improve oxygen consumption by the body"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading, pay attention to key phrases that indicate the main ideas and supporting details. Focus on understanding the overall message of each paragraph to answer the questions effectively.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

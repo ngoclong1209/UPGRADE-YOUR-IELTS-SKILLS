@@ -1,0 +1,104 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_354",
+  "title": "The Rise of Artificial Intelligence and Robotics",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Artificial Intelligence and Robotics</h2><p>In recent years, artificial intelligence (AI) and robotics have rapidly transformed various sectors, including healthcare, manufacturing, and transportation. These technologies have the potential to improve efficiency, reduce costs, and enhance the quality of services provided to consumers. AI systems can analyze vast amounts of data at speeds far beyond human capabilities, allowing for better decision-making processes. Meanwhile, robots are increasingly being deployed to perform tasks that are either too dangerous or too monotonous for humans.</p><p>However, the integration of AI and robotics into everyday life raises significant concerns. Many people worry about job displacement as machines take over roles traditionally held by human workers. Additionally, ethical considerations surrounding AI decision-making processes, especially in critical areas like military applications or healthcare, have sparked heated debates. Advocates of AI argue that these technologies can augment human capabilities rather than replace them, suggesting that new job categories will emerge as a result of these advancements.</p><p>Moreover, education systems are beginning to adapt to these changes. Schools are increasingly incorporating coding and robotics into their curriculums, preparing students for a future where technological literacy is essential. This shift not only aims to equip students with the necessary skills but also to inspire creativity and innovation in the field of technology.</p><p>In conclusion, while the rise of AI and robotics offers numerous advantages, it is crucial to address the associated challenges. By fostering a balanced approach that emphasizes ethical standards and workforce adaptation, society can harness the benefits of these technologies while minimizing potential drawbacks.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one benefit of artificial intelligence mentioned in the passage?",
+      "options": {
+        "A": "AI can analyze large data sets quickly.",
+        "B": "AI creates more job opportunities than it eliminates.",
+        "C": "AI makes human workers obsolete.",
+        "D": "AI is only used in healthcare."
+      },
+      "answer": "A",
+      "explanation": "The passage states that AI systems can analyze vast amounts of data at speeds far beyond human capabilities, which highlights its efficiency."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "AI technologies are only beneficial and do not pose any risks.",
+      "answer": "False",
+      "explanation": "The passage discusses significant concerns regarding job displacement and ethical considerations, indicating that there are risks involved."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that AI will completely replace human jobs.",
+      "answer": "No",
+      "explanation": "The passage suggests that AI can augment human capabilities rather than replace them."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following aspects with their corresponding details.",
+      "options": [
+        "Job displacement",
+        "Ethical considerations",
+        "Educational adaptation"
+      ],
+      "details": [
+        "Concerns regarding decision-making in critical areas.",
+        "Fear of robots taking over human jobs.",
+        "Incorporation of coding in school curriculums."
+      ],
+      "answers": {
+        "Job displacement": "Fear of robots taking over human jobs.",
+        "Ethical considerations": "Concerns regarding decision-making in critical areas.",
+        "Educational adaptation": "Incorporation of coding in school curriculums."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "headings": [
+        "The future of education",
+        "The impact of AI on jobs",
+        "Concerns about ethical use of technology",
+        "Benefits of AI and robotics"
+      ],
+      "answers": {
+        "The impact of AI on jobs": "Paragraph 2",
+        "Concerns about ethical use of technology": "Paragraph 2",
+        "Benefits of AI and robotics": "Paragraph 1",
+        "The future of education": "Paragraph 3"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short_answer_questions",
+      "instruction": "Answer the questions using NO MORE THAN TWO WORDS.",
+      "text": "What do schools incorporate into their curriculums to prepare students for the future?",
+      "answer": "coding and robotics",
+      "explanation": "The passage states that schools are increasingly incorporating coding and robotics into their curriculums."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "displacement",
+      "meaning": "the act of moving something from its place or position."
+    },
+    {
+      "word": "augmented",
+      "meaning": "made greater or larger in size, value, or quantity."
+    },
+    {
+      "word": "curriculum",
+      "meaning": "the subjects comprising a course of study in a school or college."
+    },
+    {
+      "word": "deployment",
+      "meaning": "the action of bringing resources into effective action."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on the main ideas presented in each paragraph to answer the questions accurately. Pay attention to details that clarify the author's opinions and predictions regarding AI and robotics.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

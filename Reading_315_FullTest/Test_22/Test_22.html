@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Full Test - Test_22</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=DynaPuff:wght@400..700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0; padding: 0; font-family: 'Quicksand', sans-serif;
+            background: #fdf2f8; color: #333; overflow-x: hidden;
+        }
+        .main-layout {
+            display: flex; height: 100vh; overflow: hidden;
+        }
+        .passage-pane {
+            flex: 6; overflow-y: auto; padding: 30px;
+            background: white; margin: 10px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            font-size: 1.15rem; line-height: 1.8;
+            padding-bottom: 100px; /* For audio player */
+        }
+        .answer-pane {
+            flex: 4; overflow-y: auto; padding: 30px;
+            background: linear-gradient(145deg, #ffffff, #fff0f5);
+            margin: 10px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .q-row {
+            display: flex; align-items: center; margin-bottom: 15px;
+            background: white; padding: 10px 15px; border-radius: 12px;
+            border: 2px solid #ffccd5;
+        }
+        .q-num {
+            font-weight: bold; color: #ff85a2; font-size: 1.2rem;
+            width: 40px;
+        }
+        .q-input {
+            flex: 1; border: none; outline: none; font-size: 1.1rem;
+            font-family: 'Quicksand', sans-serif;
+            border-bottom: 2px dashed #ffccd5; background: transparent;
+            padding: 5px;
+        }
+        .q-input:focus { border-bottom: 2px solid #ff85a2; }
+        .submit-btn {
+            width: 100%; padding: 18px; font-size: 1.2rem; color: white;
+            background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            border: none; border-radius: 25px; cursor: pointer; font-weight: 700;
+            margin-top: 20px; box-shadow: 0 10px 20px rgba(255,94,126,0.3);
+            font-family: 'Quicksand', sans-serif;
+        }
+        .audio-fixed-bottom {
+            position: fixed; bottom: 0; left: 0; width: 60%;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px);
+            padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            border-top-right-radius: 20px; z-index: 1000;
+        }
+        audio { width: 100%; outline: none; }
+        /* LOGIN OVERLAY CSS */
+        
+        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
+        .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
+        .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
+        .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+
+    </style>
+</head>
+<body>
+    
+    <div class="login-overlay" id="login-overlay">
+        <div class="login-box">
+            <div class="login-header">🍭 Study Room 🍭</div>
+            <div class="login-subheader">Hệ thống: 315 bài thi Reading Full Test ✨</div>
+            <div id="login-form-fields">
+                <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
+                <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
+            </div>
+            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="main-layout" style="display: none;">
+        <div class="passage-pane">
+            <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_22</h1>
+            <p>IELTS Reading Practice - Test 22</p>
+<p>Doctoring Sales</p>
+<p>A A few months ago Kim Schaefer, sales representative of a major global pharmaceutical company, walked into a medical center in New York to bring information and free samples of her company’s latest products. That day she was lucky- a doctor was available to see her. ‘The last rep offered me a trip to Florida. What do you have?’ the physician asked. He was only half joking.</p>
+<p>B What was on offer that day was a pair of tickets for a New York musical. But on any given day what Schaefer can offer is typical for today’s drugs rep -a car trunk full of promotional gifts and gadgets, a budget that could buy lunches and dinners for a small county hundreds of free drug samples and the freedom to give a physician $200 to prescribe her new product to the next six patients who fit the drug’s profile. And she also has a few $ 1,000 honoraria to offer in exchange for doctors’ attendance at her company’s next educational lecture.</p>
+<p>C Selling Pharmaceuticals is a daily exercise in ethical judgment. Salespeople like Schaefer walk the line between the common practice of buying a prospect’s time with a free meal, and bribing doctors to prescribe their drugs. They work in an industry highly criticized for its sales and marketing practices, but find themselves in the middle of the age-old chicken-or-egg question – businesses won’t use strategies that don’t work, so are doctors to blame for the escalating extravagance of pharmaceutical marketing? Or is it the industry’s responsibility to decide the boundaries?</p>
+<p>D The explosion in the sheer number of salespeople in the field- and the amount of funding used to promote their causes- forces close examination of the pressures, influences and relationships between drug reps and doctors. Salespeople provide much-needed information and education to physicians. In many cases the glossy brochures, article reprints and prescriptions they deliver are primary sources of drug education for healthcare givers. With the huge investment the industry has placed in face-to-face selling, sales people have essentially become specialists in one drug or group of drugs – a tremendous advantage in getting the attention of busy doctors in need of quick information.</p>
+<p>E But the sales push rarely stops in the office. The flashy brochures and pamphlets left by the sales reps are often followed up with meals at expensive restaurants, meetings in warm and sunny places, and an inundation of promotional gadgets. Rarely do patients watch a doctor write with a pen that isn’t emblazoned with a drug’s name, or see a nurse use a tablet not bearing a pharmaceutical company’s logo. Millions of dollars are spent by pharmaceutical companies on promotional products like coffee mugs, shirts, umbrellas, and golf balls. Money well spent? It’s hard to tell. I’ve been the recipient of golf balls from one company and I use them, but it doesn’t make me prescribe their medicine,’ says one doctor.’ I tend to think I’m not influenced by what they give me.’</p>
+<p>F Free samples of new and expensive drugs might be the single most effective way of getting doctors and patients to become loyal to a product. Salespeople hand out hundreds of dollars’ worth of samples each week-$7.2 billion worth of them in one year. Though few comprehensive studies have been conducted, one by the University of Washington investigated how drug sample availability affected what physicians prescribe. A total of 131 doctors self-reported their prescribing patterns-the conclusion was that the availability of samples led them to dispense and prescribe drugs that differed from their preferred drug choice.</p>
+<p>G The bottom line is that pharmaceutical companies as a whole invest more in marketing than they do in research and development. And patients are the ones who pay-in the form of sky-rocketing prescription prices-for every pen that’s handed out, every free theatre ticket, and every steak dinner eaten. In the end the fact remains that pharmaceutical companies have every right to make a profit and will continue to find new ways to increase sales. But as the medical world continues to grapple with what’s acceptable and what’s not, it is clear that companies must continue to be heavily scrutinized for their sales and marketing strategies.</p>
+<p>Questions 1-7
+Reading Passage I has seven paragraphs, A-G. Choose the correct heading for each paragraph from the list of headings below. Write the correct number, i-x, in boxes 1-7 on your answer sheet.</p>
+<p>List of Headings</p>
+<p>i Not all doctors are persuaded
+ii Choosing the best offers
+iii Who is responsible for the increase in promotions?
+iv Fighting the drug companies
+v An example of what doctors expect from drug companies
+vi Gifts include financial incentives
+vii Research shows that promotion works
+viii The high costs of research
+ix The positive side of drugs promotion
+x Who really pays for doctors’ free gifts?</p>
+<p>1 Paragraph A
+2 Paragraph B
+3 Paragraph C
+4 Paragraph D
+5 Paragraph E
+6 Paragraph F
+7 Paragraph G</p>
+<p>Questions 8-13
+Do the following statements agree with the views of the writer in Reading Passage 1? In boxes 8-13 on your answer sheet, write</p>
+<p>YES                               if the statement agrees with the views of the writer
+NO                                 if the statement contradicts the views of the writer
+NOT GIVEN              if it is impossible to say what the writer thinks about this</p>
+<p>8 Sales representatives like Kim Schaefer work to a very limited budget.
+9 Kim Schaefer’s marketing technique may be open to criticism on moral grounds.
+10 The information provided by drug companies is of little use to doctors.
+11 Evidence of drug promotion is clearly visible in the healthcare environment.
+12 The drug companies may give free drug samples to patients without doctors’ prescriptions.
+13 It is legitimate for drug companies to make money.</p>
+<p>Cambridge IELTS Test 1 to 17</p>
+<p>Literate women make better mothers?</p>
+<p>Children in developing countries are healthier and more likely to survive past the age of five when their mothers can read and write. Experts in public health accepted this idea decades ago, but until now no one has been able to show that a woman’s ability to read in itself improves her children’s chances of survival.</p>
+<p>Most literate women learnt to read in primary school, and the fact that a woman has had an education may simply indicate her family’s wealth or that it values its children more highly. Now a long-term study carried out in Nicaragua has eliminated these factors by showing that teaching reading to poor adult women, who would otherwise have remained illiterate, has a direct effect on their children’s health and survival.</p>
+<p>In 1979, the government of Nicaragua established a number of social programmes, including a National Literacy Crusade. By 1985, about 300,000 illiterate adults from all over the country, many of whom had never attended primary school, had learnt how to read, write and use numbers.</p>
+<p>During this period, researchers from the Liverpool School of Tropical Medicine, the Central American Institute of Health in Nicaragua, the National Autonomous University of Nicaragua and the Costa Rican Institute of Health interviewed nearly 3,000 women, some of whom had learnt to read as children, some during the literacy crusade and some who had never learnt at all. The women were asked how many children they had given birth to and how many of them had died in infancy. The research teams also examined the surviving children to find out how well-nourished they were.</p>
+<p>The investigators’ findings were striking. In the late 1970s, the infant mortality rate for the children of illiterate mothers was around 110 deaths per thousand live births. At this point in their lives, those mothers who later went on to learn to read had a similar level of child mortality (105/1000). For women educated in primary school, however, the infant mortality rate was significantly lower, at 80 per thousand.</p>
+<p>In 1985, after the National Literacy Crusade had ended, the infant mortality figures for those who remained illiterate and for those educated in primary school remained more or less unchanged. For those women who learnt to read through the campaign, the infant mortality rate was 84 per thousand, an impressive 21 points lower than for those women who were still illiterate. The children of the newly-literate mothers were also better nourished than those of women who could not read.</p>
+<p>Why are the children of literate mothers better off? According to Peter Sandiford of the Liverpool School of Tropical Medicine, no one knows for certain. Child health was not on the curriculum during the women’s lessons, so he and his colleagues are looking at other factors. They are working with the same group of 3,000 women, to try to find out whether reading mothers make better use of hospitals and clinics, opt for smaller families, exert more control at home, learn modem childcare techniques more quickly, or whether they merely have more respect for themselves and their children.</p>
+<p>The Nicaraguan study may have important implications for governments and aid agencies that need to know where to direct their resources. Sandiford says that there is increasing evidence that female education, at any age, is ‘an important health intervention in its own right’ .The results of the study lend support to the World Bank’s recommendation that education budgets in developing countries should be increased, not just to help their economies, but also to improve child health. ‘We’ve known for a long time that maternal education is important,’ says John Cleland of the London School of Hygiene and Tropical Medicine. ‘But we thought that even if we started educating girls today, we’d have to wait a generation for the pay-off. The Nicaraguan study suggests we may be able to bypass that.’</p>
+<p>Cleland warns that the Nicaraguan crusade was special in many ways, and similar campaigns elsewhere might not work as well. It is notoriously difficult to teach adults skills that do not have an immediate impact on their everyday lives, and many literacy campaigns in other countries have been much less successful. ‘The crusade was part of a larger effort to bring a better life to the people,’ says Cleland. Replicating these conditions in other countries will be a major challenge for development workers.</p>
+<p>Questions 14-18
+Complete the summary using the list of words, A-J, below. Write the correct letters, A-J, in boxes 14-18 on your answer sheet. NB You may use any letter more than once.</p>
+<p>The Nicaraguan National Literacy Crusade aimed to teach large numbers of illiterate (14) ……………… to read and write. Public health experts have known for many years that there is a connection between child health and (15)……………… However, it has not previously been known whether these two factors were directly linked or not. This question has been investigated by (16)……………….. in Nicaragua. As a result, factors such as (17)…………………. and attitudes to children have been eliminated, and it has been shown that (18)……………. can in itself improve infant health and survival.</p>
+<p>A child literacy                B men and women                   C an international research team</p>
+<p>D medial care                 E mortality                                F maternal literacy</p>
+<p>G adults and children     H paternal literacy                    I a national literacy crusade</p>
+<p>J family health</p>
+<p>Questions 19-24
+Do the following statements agree with the claims of the writer in Reading Passage 2? In boxes 19-24 on your answer sheet, write:</p>
+<p>YES                                     if the statement agrees with the claims of the writer
+NO                                       if the statement contradicts the claims of the writer
+NOT GIVEN                    if it is impossible to say what the writer thinks about this</p>
+<p>19 About a thousand of the women interviewed by the researchers had learnt to read when they were children.
+20 Before the National Literacy Crusade, illiterate women had approximately the same levels of infant mortality as those who had learnt to read in primary school.
+21 Before and after the National Literacy Crusade, the child mortality rate for the illiterate women stayed at about 110 deaths for each thousand live births.
+22 The women who had learnt to read through the National Literacy Crusade showed the greatest change in infant mortality levels.
+23 The women who had learnt to read through the National Literacy Crusade had the lowest rates of child mortality.
+24 After the National Literacy Crusade, the children of the women who remained illiterate were found to be severely malnourished.</p>
+<p>Questions 25 and 26
+Choose TWO letters, A-E. Write the correct letters in boxes 25 and 26 on your answer sheet</p>
+<p>Which TWO important implications drawn from the Nicaraguan study are mentioned by the writer of the passage?
+A It is better to educate mature women than young girls
+B Similar campaigns in other countries would be equally successful
+C The effects of maternal literacy programmes can be seen very quickly
+D Improving child health can quickly affect a country’s economy
+E Money spent on female education will improve child health</p>
+<p>Reading Passage Three</p>
+<p>A Bullying can take a variety of forms, from the verbal -being taunted or called hurtful names- to the physical- being kicked or shoved- as well as indirect forms, such as being excluded from social groups. A survey I conducted with Irene Whitney found that in British primary schools up to a quarter of pupils reported experience of bullying, which in about one in ten cases was persistent. There was less bullying in secondary schools, with about one in twenty-five suffering persistent bullying, but these cases may be particularly recalcitrant.</p>
+<p>B Bullying is clearly unpleasant, and can make the child experiencing it feel unworthy and depressed. In extreme cases it can even lead to suicide, though this is thankfully rare. Victimised pupils are more likely to experience difficulties with interpersonal relationships as adults, while children who persistently bully are more likely to grow up to be physically violent, and convicted of anti-social offences.</p>
+<p>C Until recently, not much was known about the topic, and little help was available to teachers to deal with bullying. Perhaps as a consequence, schools would often deny the problem. ‘There is no bullying at this school’ has been a common refrain, almost certainty untrue. Fortunately more schools are now saying: There is not much bullying here, but when it occurs we have a clear policy for dealing with it.’</p>
+<p>D Three factors are involved in this change. First is an awareness of the severity of the problem. Second, a number of resources to help tackle bullying have become available in Britain. For example, the Scottish Council for Research in Education produced a package of materials, Action Against Bullying, circulated to all schools in England and Wales as well as in Scotland in summer 1992, with a second pack, Supporting Schools Against Bullying, produced the following year. In Ireland, Guidelines on Countering Bullying Behaviour in Post-Primary Schools was published in 1993. Third, there is evidence that these materials work, and that schools can achieve something. This comes from carefully conducted ‘before and after’ evaluations of interventions in schools, monitored by a research team. In Norway, after an intervention campaign was introduced nationally, an evaluation of forty-two schools suggested that, over a two-year period, bullying was halved. The Sheffield investigation, which involved sixteen primary schools and seven secondary schools, found that most schools succeeded in reducing bullying.</p>
+<p>E Evidence suggests that a key step is to develop a policy on bullying, saying clearly what is meant by bullying, and giving explicit guidelines on what will be done if it occurs, what record will be kept, who will be informed, what sanctions will be employed. The policy should be developed through consultation, over a period of time-not just imposed from the head teacher’s office! Pupils, parents and staff should feel they have been involved in the policy, which needs to be disseminated and implemented effectively.</p>
+<p>Other actions can be taken to back up the policy. There are ways of dealing with the topic through the curriculum, using video, drama and literature. These are useful for raising awareness, and can best be tied in to early phases of development while the school is starting to discuss the issue of bullying. They are also useful in renewing the policy for new pupils, or revising it in the tight of experience. But curriculum work alone may only have short-term effects; it should be an addition to policy work, not a substitute.</p>
+<p>There are also ways of working with individual pupils, or in small groups. Assertiveness training for pupils who are liable to be victims is worthwhile, and certain approaches to group bullying such as ‘no blame’, can be useful in changing the behaviour of bullying pupils without confronting them directly, although other sanctions may be needed for those who continue with persistent bullying.</p>
+<p>Work in the playground is important, too. One helpful step is to train lunchtime supervisors to distinguish bullying from playful fighting, and help them break up conflicts. Another possibility is to improve the playground environment, so that pupils are less likely to be led into bullying from boredom or frustration.</p>
+<p>F With these developments, schools can expect that at least the most serious kinds of bullying can largely be prevented. The more effort put in and the wider the whole school involvement, the more substantial the results are likely to be. The reduction in bullying – and the consequent improvement in pupil happiness- is surely a worthwhile objective.</p>
+<p>Questions 27-30
+Reading Passage 3 has six sections. Choose the correct heading for sections A-D from the list of headings below.
+Write the correct number, i-vii, in boxes 27-30 on your answer sheet.</p>
+<p>List of Headings</p>
+<p>i The role of video violence
+ii The failure of government policy
+iii Reasons for the increased rate of bullying
+iv Research into how common bullying is in British schools
+v The reaction from schools to enquiries about bullying
+vi The effect of bullying on the children involved
+vii Developments that have led to a new approach by schools</p>
+<p>27 Section A
+28 Section B
+29 Section C
+30 Section D</p>
+<p>Questions 31-34
+Choose the correct letter A, B, C or D. Write the correct letter in boxes 31-34 on your answer sheet.</p>
+<p>31 A recent survey found that in British secondary schools
+A there was more bullying than had previously been the case
+B there was less bullying than in primary schools
+C cases of persistent bullying were very common
+D indirect forms of bullying were particularly difficult to deal with</p>
+<p>32 Children who are bullied
+A are twice as likely to commit suicide as the average person
+B find it more difficult to relate to adults
+C are less likely to be violent in later life
+D may have difficulty forming relationships in later life</p>
+<p>33 The writer thinks that the declaration ‘There is no bullying at this school’
+A is no longer true in many schools
+B was not in fact made by many schools
+C reflected the school’s lack of concern
+D reflected a lack of knowledge and resources</p>
+<p>34 What were the findings of research carried out in Norway?
+A Bullying declined by 50% after an anti-bullying campaign
+B Twenty-one schools reduced bullying as a result of an anti-bullying campaign
+C Two years is the optimum length for an anti-bullying campaign.
+D Bullying is a less serious problem in Norway than in the UK.</p>
+<p>Questions 35-39
+Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+<p>What steps should schools take to reduce bullying?</p>
+<p>The most important step is for the school authorities to produce a (35) ………………….. which makes the school’s attitude towards bullying quite clear. It should include detailed (36) …………………… as to how the school and its staff will react if bullying occurs.</p>
+<p>In addition, action can be taken through the (37) ……………………… This is particularly useful in the early part of the process, as a way of raising awareness and encouraging discussion. On its own, however, it is insufficient to bring about a permanent solution.</p>
+<p>Effective work can also be done with individual pupils and small groups. For example, potential (38)……………………. of bullying can be trained to be more self-confident. Or again, in dealing with group bullying, a ‘no blame’ approach, which avoids confronting the offender too directly, is often effective. Playground supervision will be more effective if members of staff are trained to recognise the difference between bullying and mere (39)……………………. .</p>
+<p>Question 40
+Choose the correct letter, A, B, C or D. Write the correct letter in box 40 on your answer sheet.</p>
+<p>Which of the following is the most suitable title for Reading Passage 3?
+A Bullying: what parents can do
+B Bullying: are the media to blame?
+C Bullying: the link with academic failure
+D Bullying: from crisis management to prevention</p>
+<p>_______  _______</p>
+<p>ANSWER KEY</p>
+<p>1. v</p>
+<p>2. vi</p>
+<p>3. iii</p>
+<p>4. ix</p>
+<p>5. i</p>
+<p>6. vii</p>
+<p>7. x</p>
+<p>8. no</p>
+<p>9. yes</p>
+<p>10. no</p>
+<p>11. yes</p>
+<p>12. not given</p>
+<p>13. yes</p>
+<p>14. B</p>
+<p>15. F</p>
+<p>16. C</p>
+<p>17. J</p>
+<p>18. F</p>
+<p>19. not given</p>
+<p>20. no</p>
+<p>21. yes</p>
+<p>22. yes</p>
+<p>23. no</p>
+<p>24. not given</p>
+<p>25. C</p>
+<p>26. E</p>
+<p>27. iv</p>
+<p>28. vi</p>
+<p>29. v</p>
+<p>30. vii</p>
+<p>31. B</p>
+<p>32. D</p>
+<p>33. D</p>
+<p>34. A</p>
+<p>35. policy</p>
+<p>36. (explicit) guidelines</p>
+<p>37. (school) curriculum</p>
+<p>38. victims</p>
+<p>39. playful fighting</p>
+<p>40. D</p>
+
+        </div>
+        <div class="answer-pane">
+            <h2 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0; text-align: center;">Answers (40 Questions)</h2>
+            <div id="questions-container">
+                
+        <div class="q-row">
+            <div class="q-num">1</div>
+            <input type="text" class="q-input" id="q1" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">2</div>
+            <input type="text" class="q-input" id="q2" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">3</div>
+            <input type="text" class="q-input" id="q3" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">4</div>
+            <input type="text" class="q-input" id="q4" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">5</div>
+            <input type="text" class="q-input" id="q5" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">6</div>
+            <input type="text" class="q-input" id="q6" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">7</div>
+            <input type="text" class="q-input" id="q7" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">8</div>
+            <input type="text" class="q-input" id="q8" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">9</div>
+            <input type="text" class="q-input" id="q9" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">10</div>
+            <input type="text" class="q-input" id="q10" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">11</div>
+            <input type="text" class="q-input" id="q11" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">12</div>
+            <input type="text" class="q-input" id="q12" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">13</div>
+            <input type="text" class="q-input" id="q13" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">14</div>
+            <input type="text" class="q-input" id="q14" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">15</div>
+            <input type="text" class="q-input" id="q15" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">16</div>
+            <input type="text" class="q-input" id="q16" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">17</div>
+            <input type="text" class="q-input" id="q17" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">18</div>
+            <input type="text" class="q-input" id="q18" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">19</div>
+            <input type="text" class="q-input" id="q19" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">20</div>
+            <input type="text" class="q-input" id="q20" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">21</div>
+            <input type="text" class="q-input" id="q21" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">22</div>
+            <input type="text" class="q-input" id="q22" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">23</div>
+            <input type="text" class="q-input" id="q23" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">24</div>
+            <input type="text" class="q-input" id="q24" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">25</div>
+            <input type="text" class="q-input" id="q25" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">26</div>
+            <input type="text" class="q-input" id="q26" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">27</div>
+            <input type="text" class="q-input" id="q27" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">28</div>
+            <input type="text" class="q-input" id="q28" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">29</div>
+            <input type="text" class="q-input" id="q29" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">30</div>
+            <input type="text" class="q-input" id="q30" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">31</div>
+            <input type="text" class="q-input" id="q31" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">32</div>
+            <input type="text" class="q-input" id="q32" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">33</div>
+            <input type="text" class="q-input" id="q33" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">34</div>
+            <input type="text" class="q-input" id="q34" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">35</div>
+            <input type="text" class="q-input" id="q35" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">36</div>
+            <input type="text" class="q-input" id="q36" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">37</div>
+            <input type="text" class="q-input" id="q37" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">38</div>
+            <input type="text" class="q-input" id="q38" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">39</div>
+            <input type="text" class="q-input" id="q39" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">40</div>
+            <input type="text" class="q-input" id="q40" placeholder="Type answer...">
+        </div>
+        
+            </div>
+            <button class="submit-btn" id="btn-submit">SUBMIT ANSWERS 🌸</button>
+            <div id="result-msg" style="text-align: center; margin-top: 15px; font-weight: bold; color: #2b9348; display: none;"></div>
+        </div>
+    </div>
+
+    
+
+    
+<script>
+    // const APP_URL = "https://script.google.com/macros/s/AKfycbx7lOgaMcHm0ofxpG3V9bi52rMbL7wBXIzAHovP5xBrp9XbyuZp7QNKbSg2-UTJoauyOg/exec";
+    const APP_URL = "https://script.google.com/macros/s/AKfycbzgBPDHt8g35pxQllRcuVTWJq5OaQnuUuQAt93yGs_kqRVOly4Wd1A_jGtgxh5MaKOJMw/exec"; // NEWEST ONE FROM USER
+
+    async function grantAccess() {
+        const input = document.getElementById('nickname-input');
+        let nickname = input ? input.value.trim().toUpperCase() : '';
+        if (!nickname) { alert("Vui lòng nhập ID!"); return; }
+        
+        document.getElementById('login-form-fields').style.display = "none";
+        document.getElementById('login-loading-fields').style.display = "block";
+        document.getElementById('loading-status').innerText = "Đang kiểm tra ID...";
+
+        try {
+            let loginRes = await fetch(APP_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'login', student_id: nickname })
+            });
+            let data = await loginRes.json();
+
+            if (data.status === 'success') {
+                document.getElementById('loading-status').innerText = "Thành công!";
+                setTimeout(() => {
+                    document.getElementById('login-overlay').style.display = "none";
+                    document.querySelector('.main-layout').style.display = "flex";
+                    localStorage.setItem('youpass_student_id', nickname);
+                }, 500);
+            } else {
+                alert("Lỗi: " + data.message);
+                document.getElementById('login-loading-fields').style.display = "none";
+                document.getElementById('login-form-fields').style.display = "block";
+            }
+        } catch(err) {
+            alert("Lỗi kết nối máy chủ!");
+            document.getElementById('login-loading-fields').style.display = "none";
+            document.getElementById('login-form-fields').style.display = "block";
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('login-overlay').style.display = "none";
+            document.querySelector('.main-layout').style.display = "flex";
+        }
+    });
+</script>
+
+    
+    <script>
+        document.getElementById('btn-submit').addEventListener('click', async () => {
+            let btn = document.getElementById('btn-submit');
+            let resultMsg = document.getElementById('result-msg');
+            btn.innerText = "Submitting...";
+            btn.disabled = true;
+
+            let answers = [];
+            for (let i = 1; i <= 40; i++) {
+                let val = document.getElementById('q' + i).value.trim();
+                answers.push(val);
+            }
+
+            let payload = {
+                action: 'submit_full_test',
+                student_id: localStorage.getItem('youpass_student_id') || 'UNKNOWN',
+                module: 'Reading Full Test',
+                test_name: 'Test_22',
+                answers: answers
+            };
+
+            try {
+                let res = await fetch(APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                let data = await res.json();
+                if (data.status === 'success') {
+                    resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
+                    resultMsg.style.display = 'block';
+                    btn.innerText = "SUBMITTED!";
+                } else {
+                    alert("Lỗi: " + data.message);
+                    btn.innerText = "SUBMIT ANSWERS 🌸";
+                    btn.disabled = false;
+                }
+            } catch(e) {
+                alert("Lỗi mạng! Không thể gửi.");
+                btn.innerText = "SUBMIT ANSWERS 🌸";
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_119",
+  "title": "The Double-Edged Sword of Tourism: Balancing Economic Growth and Environmental Sustainability",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Multifaceted Impacts of Tourism</h2><p>Tourism, a significant driver of global economic growth, presents a complex interplay of benefits and challenges. While it generates substantial revenue and employment opportunities, it also poses serious threats to cultural heritage and environmental sustainability. In many regions, the influx of tourists leads to inflated property prices and a strain on local resources, often resulting in the displacement of residents. Furthermore, the environmental footprint of mass tourism can lead to biodiversity loss and degradation of natural landscapes. Sustainable tourism practices are increasingly seen as a necessary approach to mitigate these impacts. However, the implementation of such practices is fraught with challenges, including the need for collaboration among various stakeholders and the balancing of economic interests with ecological preservation.</p><p>The social ramifications of tourism are equally significant. Communities often face cultural commodification, where traditional practices are altered to cater to tourist expectations. This phenomenon raises questions about authenticity and cultural integrity. Moreover, the psychological effects on residents, who may feel overwhelmed by the presence of tourists, can lead to a sense of alienation and resentment. On a positive note, tourism can foster cultural exchange and understanding, creating opportunities for dialogue and appreciation of diversity.</p><p>As the world continues to grapple with the implications of climate change, the tourism industry must adapt to more sustainable paradigms. This includes embracing eco-tourism, which emphasizes responsible travel to natural areas, ensuring that tourism development does not compromise the ecological foundations that support both the industry and the communities involved. The path forward requires innovative solutions that prioritize long-term sustainability over short-term profit, recognizing that the health of our planet is intrinsically linked to the health of the tourism sector.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern regarding the economic benefits of tourism as mentioned in the passage?",
+      "options": {
+        "A": "It leads to the decline of local traditions.",
+        "B": "It causes environmental degradation.",
+        "C": "It can result in local residents being displaced.",
+        "D": "It promotes cultural exchange."
+      },
+      "answer": "C",
+      "explanation": "Option C is correct as the passage discusses how the influx of tourists can lead to inflated property prices and strain local resources, thereby displacing residents."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Tourism is solely beneficial for economic growth.",
+      "answer": "False",
+      "explanation": "The passage states that while tourism generates economic benefits, it also presents challenges, indicating that it is not solely beneficial."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The passage suggests that cultural commodification can lead to a loss of authenticity.",
+      "answer": "Yes",
+      "explanation": "The passage mentions that traditional practices may be altered for tourist expectations, raising concerns about authenticity."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the impacts of tourism to the corresponding descriptions.",
+      "text": "1. Economic Growth  2. Environmental Degradation  3. Cultural Commodification",
+      "options": [
+        "A: Increased revenue for local businesses",
+        "B: Loss of biodiversity",
+        "C: Alteration of traditional practices"
+      ],
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the following paragraphs to their respective headings.",
+      "text": "1. The Economic Aspects of Tourism  2. Environmental Challenges  3. Social and Cultural Effects",
+      "options": [
+        "A: Discusses the financial benefits and challenges.",
+        "B: Examines the impact of tourism on local culture.",
+        "C: Highlights the ecological consequences of tourism."
+      ],
+      "answers": {
+        "1": "A",
+        "2": "C",
+        "3": "B"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence with NO MORE THAN TWO WORDS.",
+      "text": "Sustainable tourism practices are essential to mitigate __________.",
+      "answer": "negative impacts",
+      "explanation": "The passage indicates that sustainable tourism is necessary to reduce the adverse effects of tourism."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using NO MORE THAN THREE WORDS.",
+      "text": "Tourism has both positive and negative effects, including economic growth, cultural exchange, and __________.",
+      "answer": "environmental degradation",
+      "explanation": "The passage discusses how tourism can lead to environmental degradation as a negative effect."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following question using NO MORE THAN TWO WORDS.",
+      "text": "What type of tourism emphasizes responsible travel to natural areas?",
+      "answer": "eco-tourism",
+      "explanation": "The passage explicitly mentions eco-tourism as a sustainable approach."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "commodification",
+      "meaning": "The process of turning a cultural element into a commodity for sale."
+    },
+    {
+      "word": "biodiversity",
+      "meaning": "The variety of life in the world or in a particular habitat."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "The ability to be maintained at a certain rate or level, especially regarding environmental balance."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on understanding the nuanced arguments presented in the passage. Pay attention to the implications of tourism on both local communities and the environment. Note the relationship between economic benefits and potential negative impacts, as well as the importance of sustainable practices.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

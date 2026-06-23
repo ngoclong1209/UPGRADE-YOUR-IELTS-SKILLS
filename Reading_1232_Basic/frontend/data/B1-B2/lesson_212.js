@@ -1,0 +1,97 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_212",
+  "title": "The Rise of Online Learning: A New Era in Education",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Online Learning</h2><p>In recent years, online learning has transformed the educational landscape, offering opportunities for students around the globe. With the advent of technology, education is no longer confined to traditional classrooms. Distance education allows learners to study at their own pace, providing flexibility that is particularly beneficial for individuals with busy schedules. Many institutions have adopted online platforms, enabling them to reach a broader audience. However, this transition also presents challenges, such as ensuring the quality of education and maintaining student engagement.</p><p>One of the main advantages of online learning is accessibility. Students can access materials from anywhere with an internet connection, breaking down geographical barriers. This is especially important for those in remote areas who may not have access to quality educational resources. Furthermore, online courses often allow for self-directed learning, empowering students to take control of their education.</p><p>Despite its benefits, online learning requires a certain level of discipline. Students must be motivated to complete assignments and participate in discussions without the structure of a physical classroom. Some may find it challenging to stay focused, leading to lower completion rates compared to traditional courses. Institutions are exploring various strategies to enhance engagement, such as interactive content and virtual group projects.</p><p>In conclusion, while online learning offers significant advantages in terms of accessibility and flexibility, it is essential to address the challenges it presents to ensure a successful learning experience for all students.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one primary benefit of online learning mentioned in the passage?",
+      "options": {
+        "A": "It requires less discipline than traditional learning.",
+        "B": "It allows students to learn at their own pace.",
+        "C": "It guarantees higher completion rates.",
+        "D": "It limits access to educational resources."
+      },
+      "answer": "B",
+      "explanation": "The passage states that online learning provides flexibility, allowing learners to study at their own pace, which is highlighted as a key benefit."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide whether the statement is True, False, or Not Given.",
+      "text": "All students prefer online learning over traditional classrooms.",
+      "answer": "Not Given",
+      "explanation": "The passage does not provide information on whether all students prefer online learning, only mentioning the advantages and challenges."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that online learning is the future of education.",
+      "answer": "Not Given",
+      "explanation": "The passage discusses the advantages and challenges of online learning but does not state the author's opinion on it being the future."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following features to the correct statements.",
+      "text": "Match the benefits and challenges of online learning.",
+      "options": {
+        "A": "Accessibility",
+        "B": "Need for discipline",
+        "C": "Flexibility",
+        "D": "Student engagement"
+      },
+      "answers": {
+        "A": "Allows materials to be accessed from anywhere.",
+        "B": "Students must be self-motivated.",
+        "C": "Students can learn at their own pace.",
+        "D": "Institutions are trying to improve this."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "Online learning can be particularly beneficial for individuals with __________.",
+      "answer": "busy schedules",
+      "explanation": "The passage mentions that flexibility in online learning is particularly beneficial for those who have busy schedules."
+    },
+    {
+      "id": "q6",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "While online learning allows for flexibility and accessibility, it also requires a degree of __________.",
+      "answer": "discipline",
+      "explanation": "The passage highlights that online learning requires students to have a certain level of discipline to stay focused."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "transform",
+      "meaning": "to change completely the appearance or character of something"
+    },
+    {
+      "word": "accessibility",
+      "meaning": "the quality of being able to be reached or entered"
+    },
+    {
+      "word": "self-directed",
+      "meaning": "having control over your own learning"
+    },
+    {
+      "word": "engagement",
+      "meaning": "the act of participating or being involved in something"
+    },
+    {
+      "word": "geographical barriers",
+      "meaning": "obstacles related to physical location that prevent access"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on identifying the main ideas and the specific details that support them. Take note of any terms that are defined in context. Pay particular attention to the advantages and challenges mentioned, as they will help you answer the questions effectively.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

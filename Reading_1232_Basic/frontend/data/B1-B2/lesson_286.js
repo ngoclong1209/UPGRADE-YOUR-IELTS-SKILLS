@@ -1,0 +1,79 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_286",
+  "title": "Harnessing Nature: The Future of Renewable Energy",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Promise of Renewable Energy</h2><p>Renewable energy sources, including solar, wind, and hydroelectric power, have gained significant attention in recent years due to the increasing concerns over climate change and the depletion of fossil fuels. These sources of energy are not only more sustainable but also have the potential to meet the growing energy demands of the world. Solar energy, for instance, harnesses the power of the sun through photovoltaic cells, converting sunlight into electricity. Wind energy uses turbines to capture wind movement, while hydroelectric power relies on the flow of water to generate energy.</p><p>Transitioning to renewable energy can lead to numerous benefits. Notably, it reduces greenhouse gas emissions, which are a major contributor to global warming. Additionally, using renewable sources can enhance energy security by decreasing dependence on imported fuels. However, the shift towards these energy sources is not without challenges. For example, the initial installation costs for solar panels and wind turbines can be high, and there are concerns about the availability of land for large-scale projects.</p><p>The potential for job creation in the renewable energy sector is also significant. As more companies invest in sustainable technologies, new job opportunities arise in manufacturing, installation, and maintenance. Governments worldwide are recognizing this potential and are implementing policies to encourage the adoption of renewable energy. Incentives such as tax credits and subsidies can make renewable options more accessible to the public.</p><p>In conclusion, the future of energy lies in harnessing renewable resources. While challenges remain, the benefits of reducing emissions, enhancing energy security, and creating jobs make this transition a crucial step towards a sustainable future.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main benefit of renewable energy mentioned in the passage?",
+      "options": {
+        "A": "It significantly reduces greenhouse gas emissions.",
+        "B": "It is the most cost-effective option available today.",
+        "C": "It provides energy security through increased fossil fuel use.",
+        "D": "It requires less land than traditional energy sources."
+      },
+      "answer": "A",
+      "explanation": "The passage highlights that renewable energy reduces greenhouse gas emissions as a major benefit."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write True, False or Not Given.",
+      "text": "The initial costs for renewable energy projects are low.",
+      "answer": "False",
+      "explanation": "The passage states that the initial installation costs for solar panels and wind turbines can be high."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write Yes, No or Not Given.",
+      "text": "Governments are encouraging the adoption of renewable energy.",
+      "answer": "Yes",
+      "explanation": "The passage mentions that governments are implementing policies to encourage the adoption of renewable energy."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the type of renewable energy with its description.",
+      "text": "1. Solar Energy  2. Wind Energy  3. Hydroelectric Power",
+      "options": {
+        "A": "Uses turbines to capture wind.",
+        "B": "Relies on the flow of water.",
+        "C": "Converts sunlight into electricity."
+      },
+      "answers": {
+        "1": "C",
+        "2": "A",
+        "3": "B"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The potential for job creation in the renewable energy sector is significant due to ________.",
+      "answer": "sustainable technologies",
+      "explanation": "The passage discusses job opportunities arising from investments in sustainable technologies."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "photovoltaic",
+      "meaning": "relating to the conversion of light into electricity."
+    },
+    {
+      "word": "emissions",
+      "meaning": "substances discharged into the air, particularly harmful gases."
+    },
+    {
+      "word": "incentives",
+      "meaning": "things that motivate or encourage someone to do something."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on identifying the main ideas and supporting details. Pay attention to the benefits and challenges associated with renewable energy, as these will likely be the basis of many questions. Skim the text for keywords related to costs, jobs, and government policies to efficiently answer the questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,86 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_235",
+  "title": "Exploring the Final Frontier: A Journey Through Space",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Wonders of Space Exploration</h2><p>Space exploration has fascinated humanity for centuries. From the ancient Greeks who first theorized about the cosmos to the modern-day missions that send spacecraft beyond our solar system, the quest to understand the universe is a significant aspect of human knowledge. In the past few decades, remarkable advancements in technology have allowed scientists to study celestial bodies in unprecedented detail.</p><p>The first successful human spaceflight was accomplished by Yuri Gagarin in 1961, marking a pivotal moment in the Space Race. Since then, astronauts have visited the Moon, and numerous unmanned missions have explored Mars, Saturn, and beyond. These missions have provided invaluable data about the composition, atmosphere, and potential for life on other planets.</p><p>Currently, space agencies like NASA and ESA are planning future missions that include returning humans to the Moon and sending expeditions to Mars. These plans aim not only to expand our scientific knowledge but also to prepare for potential human colonization of other planets. Scientists believe that understanding Mars’s geology and climate is crucial for such endeavors.</p><p>In addition to scientific exploration, space missions have also contributed to advancements in technology that benefit everyday life on Earth, such as satellite communications and weather forecasting. The challenges of space travel have driven innovation in various fields, including materials science and engineering.</p><p>Despite the many achievements, space exploration still faces numerous challenges. Funding is often a limiting factor, as well as the physical dangers associated with space travel. Furthermore, ethical considerations regarding space exploration, such as the impact on other celestial bodies, have become increasingly important as we venture further into the cosmos.</p><p>As we continue to explore space, the potential for discovery is limitless. Each mission opens new doors to understanding our universe, our planet, and ourselves.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What was a significant achievement in the Space Race?",
+      "options": {
+        "A": "The first human spaceflight by Yuri Gagarin",
+        "B": "The discovery of Mars by telescope",
+        "C": "The launch of the Hubble Space Telescope",
+        "D": "The development of satellite technology"
+      },
+      "answer": "A",
+      "explanation": "Yuri Gagarin's flight in 1961 was the first successful human spaceflight, a key event in the Space Race."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "Space exploration has led to improvements in technology that we use daily.",
+      "answer": "True",
+      "explanation": "The passage states that space missions have contributed to advancements in technology that benefit everyday life."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "Are there ethical considerations regarding space exploration mentioned?",
+      "answer": "Yes",
+      "explanation": "The passage discusses ethical considerations related to the impact on other celestial bodies."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following space missions with their goals.",
+      "text": "Match the space missions to their objectives:",
+      "options": {
+        "A": "Returning humans to the Moon",
+        "B": "Exploring Mars's climate",
+        "C": "Understanding satellite technology",
+        "D": "Studying celestial bodies"
+      },
+      "answer": {
+        "1": "A",
+        "2": "B",
+        "3": "C",
+        "4": "D"
+      },
+      "explanation": "The passage details plans for returning to the Moon and studying Mars's geology."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The first successful human spaceflight was in _____.",
+      "answer": "1961",
+      "explanation": "The passage states that Gagarin's flight occurred in 1961."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "celestial",
+      "meaning": "related to the sky or outer space"
+    },
+    {
+      "word": "expedition",
+      "meaning": "a journey undertaken for a specific purpose, especially for exploration"
+    },
+    {
+      "word": "geology",
+      "meaning": "the study of the Earth's physical structure and substance"
+    },
+    {
+      "word": "innovation",
+      "meaning": "the introduction of new ideas, methods, or products"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading, focus on the main ideas and specific details. Pay attention to keywords in questions that help you identify relevant sections in the passage. Use skimming for general understanding and scanning for specific answers.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

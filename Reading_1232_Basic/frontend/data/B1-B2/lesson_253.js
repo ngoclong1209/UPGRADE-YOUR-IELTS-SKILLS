@@ -1,0 +1,115 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_253",
+  "title": "Understanding Climate Change: Causes and Solutions",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Impact of Climate Change</h2><p>Climate change refers to significant changes in global temperatures and weather patterns over time. While climate change is a natural phenomenon, scientific evidence shows that human activities are currently driving an unprecedented rate of change. Burning fossil fuels, deforestation, and industrial processes release greenhouse gases such as carbon dioxide and methane into the atmosphere, which trap heat and lead to global warming.</p><p>Global warming has serious effects on our planet. It leads to rising sea levels, which can cause flooding in coastal areas. Additionally, extreme weather events such as hurricanes, droughts, and heatwaves are becoming more frequent and intense. These changes threaten wildlife, disrupt ecosystems, and pose risks to food security and human health.</p><p>To combat climate change, individuals and governments need to take action. Reducing carbon footprints by using renewable energy sources, improving energy efficiency, and promoting sustainable practices can help. Additionally, reforestation and conservation efforts play a crucial role in absorbing carbon dioxide from the atmosphere.</p><p>It is essential for everyone to understand the importance of climate action. By making informed choices and supporting environmental policies, we can work towards a sustainable future for our planet.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main cause of climate change according to the passage?",
+      "options": {
+        "A": "Natural changes in climate patterns.",
+        "B": "Human activities increasing greenhouse gases.",
+        "C": "The use of renewable energy sources.",
+        "D": "The decrease in global temperatures."
+      },
+      "answer": "B",
+      "explanation": "The passage clearly states that human activities like burning fossil fuels and deforestation are driving the current rate of climate change."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Climate change only affects coastal areas.",
+      "answer": "False",
+      "explanation": "The passage mentions that climate change affects wildlife, ecosystems, food security, and human health, indicating it has broader impacts."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that individual actions can help combat climate change?",
+      "answer": "Yes",
+      "explanation": "The passage suggests that individuals can reduce carbon footprints and make informed choices to help fight climate change."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following effects of climate change with their descriptions.",
+      "options": {
+        "A": "Rising sea levels",
+        "B": "Extreme weather events",
+        "C": "Impact on wildlife"
+      },
+      "descriptions": {
+        "1": "Can lead to flooding in coastal areas.",
+        "2": "Threatens various species and ecosystems.",
+        "3": "Includes hurricanes and droughts."
+      },
+      "answers": {
+        "A": "1",
+        "B": "3",
+        "C": "2"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Match the following paragraphs with the correct headings.",
+      "options": {
+        "A": "Effects of Global Warming",
+        "B": "What is Climate Change?",
+        "C": "Taking Action Against Climate Change",
+        "D": "The Role of Renewable Energy"
+      },
+      "paragraphs": {
+        "1": "What is Climate Change?",
+        "2": "Effects of Global Warming",
+        "3": "Taking Action Against Climate Change"
+      },
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "C"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences using NO MORE THAN TWO WORDS.",
+      "text": "The main gases responsible for global warming are __________ and __________.",
+      "answer": "carbon dioxide, methane"
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using NO MORE THAN TWO WORDS.",
+      "text": "The passage emphasizes the need for __________ and __________ to combat climate change.",
+      "answer": "sustainable practices, renewable energy"
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following question using NO MORE THAN THREE WORDS.",
+      "text": "What can individuals do to help reduce their carbon footprint?",
+      "answer": "use renewable energy"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "greenhouse gases",
+      "meaning": "Gases that trap heat in the atmosphere and contribute to global warming."
+    },
+    {
+      "word": "deforestation",
+      "meaning": "The clearing of forests, which leads to loss of habitat and increased carbon dioxide levels."
+    },
+    {
+      "word": "ecosystems",
+      "meaning": "Communities of living organisms interacting with their environment."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully, paying attention to keywords that indicate main ideas and specific details. Use skimming for headings and scanning for specific information in questions. Make sure to understand the context of vocabulary in the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

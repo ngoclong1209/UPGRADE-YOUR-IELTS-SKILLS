@@ -1,0 +1,103 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_147",
+  "title": "Public Transportation vs Private Cars: A Sustainable Choice?",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Great Debate: Public Transportation vs Private Cars</h2><p>In recent years, the discussion surrounding public transportation and private cars has become increasingly important. With urban areas growing at an unprecedented rate, the efficiency, sustainability, and convenience of transport options are under scrutiny. Public transportation systems, such as buses and trains, offer a cost-effective means of travel that can significantly reduce traffic congestion. They are also more environmentally friendly, as they can lower the per capita carbon footprint compared to private vehicles.</p><p>On the other hand, private cars provide undeniable convenience for individuals. They allow for flexibility in travel schedules and routes, making them an attractive option for many. However, the rise in car ownership has led to increased pollution levels and strain on urban infrastructure. Moreover, the costs associated with maintaining a private vehicle can be substantial, including fuel, insurance, and maintenance expenses.</p><p>Many cities are now investing in expanding their public transportation networks to encourage more people to use these systems. This includes upgrading facilities, increasing the frequency of services, and introducing eco-friendly vehicles. The ultimate goal is to create a balanced transportation system that meets the needs of all citizens while minimizing environmental impacts.</p><p>Ultimately, the choice between public transportation and private cars depends on individual needs and circumstances. While public transport may be the better option for some, others may find that private vehicles offer the convenience they require. As cities continue to evolve, it is essential to consider how transport choices affect not only personal lifestyles but also the environment.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one advantage of public transportation mentioned in the passage?",
+      "options": {
+        "A": "It reduces traffic congestion.",
+        "B": "It is always more convenient than private cars.",
+        "C": "It requires less maintenance.",
+        "D": "It is preferred by everyone."
+      },
+      "answer": "A",
+      "explanation": "The passage states that public transportation can significantly reduce traffic congestion, making option A the correct answer."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Private cars are more environmentally friendly than public transportation.",
+      "answer": "False",
+      "explanation": "The passage indicates that public transportation is more environmentally friendly, making the statement false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that public transportation should be prioritized in urban planning.",
+      "answer": "Yes",
+      "explanation": "The passage discusses the investment in public transportation networks, suggesting the author's support for prioritizing it."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following statements with the appropriate paragraph.",
+      "options": {
+        "A": "Public transport reduces carbon footprints.",
+        "B": "Private cars offer flexibility.",
+        "C": "Cities are upgrading transport systems.",
+        "D": "Maintaining a car can be expensive."
+      },
+      "answers": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 2"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Choose the correct heading for each paragraph.",
+      "options": {
+        "A": "The Importance of Sustainable Transport",
+        "B": "Comparing Costs of Transport",
+        "C": "The Role of Convenience",
+        "D": "Future of Urban Transportation"
+      },
+      "answers": {
+        "Paragraph 1": "A",
+        "Paragraph 2": "B",
+        "Paragraph 3": "D",
+        "Paragraph 4": "C"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "Many cities are investing in ______ transportation networks.",
+      "answer": "public",
+      "explanation": "The passage discusses cities investing in public transportation networks."
+    },
+    {
+      "id": "q7",
+      "type": "short_answer_questions",
+      "instruction": "Answer the question with NO MORE THAN TWO WORDS.",
+      "text": "What do people often consider when choosing between public transport and private cars?",
+      "answer": "individual needs",
+      "explanation": "The passage states that the choice depends on individual needs and circumstances."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "congestion",
+      "meaning": "The state of being overcrowded, especially in traffic."
+    },
+    {
+      "word": "sustainable",
+      "meaning": "Able to be maintained at a certain rate or level, especially in relation to the environment."
+    },
+    {
+      "word": "infrastructure",
+      "meaning": "The basic physical systems of a country's or community's transportation, communication, and utilities."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To succeed in this reading, focus on understanding the main ideas and details presented in each paragraph. Pay attention to keywords in the questions that are often paraphrased in the passage. Practice skimming for main ideas and scanning for specific information to answer the questions effectively.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

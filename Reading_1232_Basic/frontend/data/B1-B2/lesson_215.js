@@ -1,0 +1,82 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_215",
+  "title": "The Future of Space Exploration",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Future of Space Exploration</h2><p>Space exploration has always fascinated humanity. Over the past few decades, we have witnessed remarkable advancements in technology that allow us to explore beyond our planet. Missions to Mars, the Moon, and even asteroids have provided invaluable data about our solar system. Recently, private companies have joined the race, pushing the boundaries further. These organizations are developing spacecraft that can take humans to Mars within the next decade.</p><p>One of the most ambitious projects is the Artemis program, which aims to return humans to the Moon by 2024. This initiative is not only about landing on the Moon but also about establishing a sustainable human presence there. Scientists believe that the Moon could serve as a base for future missions to Mars and beyond.</p><p>Moreover, the search for extraterrestrial life remains a top priority. Space telescopes and rovers are being used to gather information about other planets and their atmospheres. The goal is to find conditions that could support life, even if it is microbial.</p><p>International cooperation is essential for the success of these missions. Countries around the world are working together to share knowledge and resources. This collaboration can lead to more efficient and cost-effective exploration.</p><p>In conclusion, the future of space exploration is bright, with numerous exciting projects on the horizon. As technology continues to evolve, we can expect new discoveries that will deepen our understanding of the universe.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main goal of the Artemis program?",
+      "options": {
+        "A": "To establish a permanent human base on Mars.",
+        "B": "To return humans to the Moon and create a sustainable presence.",
+        "C": "To explore asteroids for mining opportunities.",
+        "D": "To develop technology for space tourism."
+      },
+      "answer": "B",
+      "explanation": "The passage clearly states that the Artemis program aims to return humans to the Moon and establish a sustainable presence there."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Private companies are not involved in space exploration.",
+      "answer": "False",
+      "explanation": "The passage mentions that private companies have joined the race in space exploration."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that international cooperation is important for space exploration?",
+      "answer": "Yes",
+      "explanation": "The passage states that international cooperation is essential for the success of space missions."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following projects to their descriptions.",
+      "options": {
+        "A": "Artemis Program",
+        "B": "Mars Missions",
+        "C": "Search for Extraterrestrial Life"
+      },
+      "descriptions": {
+        "1": "Focuses on establishing a human presence on the Moon.",
+        "2": "Aims to discover conditions that could support life.",
+        "3": "Has provided data about our solar system."
+      },
+      "answers": {
+        "A": "1",
+        "B": "3",
+        "C": "2"
+      },
+      "explanation": "The Artemis Program aims to establish a presence on the Moon, Mars Missions have provided data about the solar system, and the search for extraterrestrial life aims to find suitable conditions for life."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The goal of space telescopes is to find conditions that could support ______.",
+      "answer": "extraterrestrial life",
+      "explanation": "The passage indicates that the search for extraterrestrial life is a top priority."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "extraterrestrial",
+      "meaning": "Relating to life or beings originating from outside the Earth."
+    },
+    {
+      "word": "sustainable",
+      "meaning": "Able to be maintained at a certain rate or level; in this context, referring to long-term human presence."
+    },
+    {
+      "word": "collaboration",
+      "meaning": "The action of working with someone to produce or create something."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on understanding the main ideas presented in each paragraph. Look for keywords that may help you in answering the questions. Pay attention to details about specific programs and their goals, as well as the implications of international cooperation in space exploration.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

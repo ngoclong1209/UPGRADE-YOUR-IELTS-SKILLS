@@ -1,0 +1,131 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_417",
+  "title": "The Dilemma of Mobility: Public Transportation vs Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Public Transportation vs Private Cars: A Comparative Analysis</h2><p>In contemporary urban landscapes, the debate between public transportation and private cars has reached a crescendo. Proponents of public transport argue that it alleviates congestion, reduces carbon emissions, and fosters social equity. By providing an accessible alternative, public transit systems can diminish the reliance on personal vehicles, thereby promoting a communal approach to mobility. Conversely, advocates for private cars highlight the autonomy and comfort they afford. The flexibility of personal vehicles enables individuals to tailor their travel schedules to personal needs, which public transport often cannot accommodate due to fixed routes and timetables.</p><p>In examining the environmental implications, studies reveal that public transportation significantly lowers per capita greenhouse gas emissions compared to private vehicles. For instance, a single commuter using a bus can potentially reduce their carbon footprint by a factor of three compared to driving alone. This stark contrast underscores the pressing need for cities to invest in comprehensive public transit systems that enhance both efficiency and sustainability. However, critics of public transportation often cite issues such as overcrowding, unreliable schedules, and safety concerns, which can deter potential users.</p><p>Moreover, urban sprawl exacerbates the dilemma, as individuals in sprawling suburban areas frequently find themselves with limited public transport options. In these scenarios, private cars emerge as the only viable solution for commuting, perpetuating a cycle of dependency on fossil fuels. Thus, the challenge lies not only in improving public transit infrastructure but also in addressing urban planning dynamics that influence mobility choices.</p><p>Ultimately, the choice between public transportation and private cars is not merely a matter of preference; it reflects broader socio-economic factors, environmental considerations, and the evolving landscape of urban planning. As cities continue to grapple with these issues, the future of transportation will hinge on striking a balance that promotes both individual freedom and collective responsibility towards sustainable living.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument in favor of public transportation according to the passage?",
+      "options": {
+        "A": "It provides greater flexibility than private cars.",
+        "B": "It promotes social equity and environmental sustainability.",
+        "C": "It is more comfortable than using a private vehicle.",
+        "D": "It encourages urban sprawl."
+      },
+      "answer": "B",
+      "explanation": "The passage emphasizes the benefits of public transportation in alleviating congestion, reducing carbon emissions, and fostering social equity, making option B the correct answer."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Public transportation is always more reliable than private cars.",
+      "answer": "Not Given",
+      "explanation": "The passage discusses issues of reliability in public transportation but does not claim it is always more reliable than private cars."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer with Yes, No, or Not Given.",
+      "text": "Does the author believe that urban planning affects transportation choices?",
+      "answer": "Yes",
+      "explanation": "The author discusses how urban sprawl influences the reliance on private cars, indicating a belief that urban planning affects transportation choices."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements with the correct paragraph.",
+      "options": {
+        "A": "The environmental impact of transportation choices.",
+        "B": "The advantages of personal vehicles.",
+        "C": "Challenges faced by public transportation systems."
+      },
+      "paragraphs": {
+        "1": "Paragraph 1",
+        "2": "Paragraph 2",
+        "3": "Paragraph 3"
+      },
+      "answers": {
+        "A": "2",
+        "B": "1",
+        "C": "3"
+      },
+      "explanation": "The passage details environmental impacts in Paragraph 2, advantages of personal vehicles in Paragraph 1, and challenges for public transit in Paragraph 3."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the appropriate paragraphs.",
+      "headings": {
+        "1": "The need for urban transit investment",
+        "2": "Personal freedom versus public responsibility",
+        "3": "Consequences of urban sprawl"
+      },
+      "paragraphs": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3"
+      },
+      "answers": {
+        "1": "C",
+        "2": "B",
+        "3": "A"
+      },
+      "explanation": "Heading 1 pertains to urban transit investments discussed in Paragraph 3, Heading 2 reflects the balancing act in Paragraph 2, and Heading 3 relates to the personal freedom emphasized in Paragraph 1."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences with NO MORE THAN TWO WORDS.",
+      "text": "Public transportation is seen as a means to reduce __1__ and promote __2__.",
+      "answers": {
+        "1": "congestion",
+        "2": "equity"
+      },
+      "explanation": "The passage states that public transportation alleviates congestion and fosters social equity."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The debate between public transportation and private cars highlights the importance of __1__ and __2__ in urban transport planning.",
+      "answers": {
+        "1": "sustainability",
+        "2": "urban planning"
+      },
+      "explanation": "The passage highlights sustainability and urban planning as key factors in transportation debates."
+    },
+    {
+      "id": "q8",
+      "type": "short-answer",
+      "instruction": "Answer the question with NO MORE THAN THREE WORDS.",
+      "text": "What is a significant benefit of using a bus compared to driving alone?",
+      "answer": "carbon footprint reduction",
+      "explanation": "The passage mentions that using a bus can significantly reduce carbon footprint compared to driving alone."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "autonomy",
+      "meaning": "the ability to make one's own choices without external control."
+    },
+    {
+      "word": "congestion",
+      "meaning": "the state of being overcrowded or filled with traffic."
+    },
+    {
+      "word": "sprawl",
+      "meaning": "the expansion of urban areas into the surrounding countryside."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "the ability to be maintained at a certain rate or level without depleting resources."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the arguments presented for both sides of the debate. Pay close attention to the nuances in language used to describe the benefits and drawbacks of public transportation and private cars. Look for keywords that indicate a shift in the author's attitude or perspective, and make sure to note the implications of urban planning on transportation choices. Practice skimming for main ideas and scanning for specific details to efficiently answer the questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

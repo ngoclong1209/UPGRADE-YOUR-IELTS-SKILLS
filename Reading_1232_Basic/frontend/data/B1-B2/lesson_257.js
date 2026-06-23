@@ -1,0 +1,103 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_257",
+  "title": "The Debate: Public Transportation vs Private Cars",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Public Transportation vs Private Cars</h2><p>In modern cities, the choice between public transportation and private cars has become a significant topic of discussion. Many people argue that public transportation is a more efficient and environmentally friendly option, while others believe that owning a private car provides greater convenience and freedom.</p><p>Public transportation systems, such as buses and trains, are designed to accommodate large numbers of passengers, which can lead to reduced traffic congestion. Moreover, these systems typically produce fewer carbon emissions per passenger compared to private vehicles. This is particularly important in urban areas where air quality is a growing concern.</p><p>On the other hand, private cars offer advantages that are hard to ignore. They allow individuals to travel at their own pace and make spontaneous decisions about their journeys. For families or those who commute long distances, having a car can be a necessity. However, the costs associated with owning a vehicle, including fuel, insurance, and maintenance, can be quite high.</p><p>Many cities are now investing in improving their public transportation networks to make them more appealing. This includes adding more routes, increasing the frequency of services, and enhancing the overall comfort of travel. Additionally, some governments are implementing policies to discourage car use, such as congestion charges or limited parking in city centers.</p><p>Ultimately, the choice between public transportation and private cars depends on individual circumstances, including location, financial situation, and personal preferences. Some people may choose to use both depending on their needs at any given time.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one advantage of public transportation mentioned in the passage?",
+      "options": {
+        "A": "It produces fewer carbon emissions per passenger.",
+        "B": "It allows for spontaneous travel decisions.",
+        "C": "It is more expensive than private cars.",
+        "D": "It is not affected by traffic congestion."
+      },
+      "answer": "A",
+      "explanation": "The passage states that public transportation systems produce fewer carbon emissions per passenger compared to private vehicles, highlighting its environmental benefits."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Private cars are always more economical than public transportation.",
+      "answer": "False",
+      "explanation": "The passage mentions that the costs associated with owning a vehicle can be quite high, implying that it is not always more economical than using public transportation."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that public transportation should be the only option for city travel.",
+      "answer": "No",
+      "explanation": "The passage discusses both public transportation and private cars, and emphasizes that the choice depends on individual circumstances, indicating that the author does not support one option exclusively."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the advantages with the mode of transportation.",
+      "options": {
+        "1": "Allows for spontaneous travel decisions.",
+        "2": "Designed for large numbers of passengers.",
+        "3": "Higher costs associated with ownership."
+      },
+      "answers": {
+        "A": "Private Cars",
+        "B": "Public Transportation",
+        "C": "Private Cars"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Match the headings to the paragraphs.",
+      "options": {
+        "A": "The Future of Transportation",
+        "B": "Advantages of Public Transport",
+        "C": "A Personal Choice",
+        "D": "The Drawbacks of Private Cars"
+      },
+      "paragraphs": {
+        "1": "C",
+        "2": "B",
+        "3": "D",
+        "4": "A"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "text": "Public transportation systems produce fewer ______ emissions per passenger.",
+      "answer": "carbon",
+      "explanation": "The passage explicitly mentions that public transportation typically produces fewer carbon emissions compared to private vehicles."
+    },
+    {
+      "id": "q7",
+      "type": "short_answer",
+      "text": "What are two costs associated with owning a private car?",
+      "answer": "fuel, insurance",
+      "explanation": "The passage lists fuel and insurance as part of the high costs associated with private car ownership."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "congestion",
+      "meaning": "overcrowding, especially in traffic."
+    },
+    {
+      "word": "necessity",
+      "meaning": "something that is essential or needed."
+    },
+    {
+      "word": "emissions",
+      "meaning": "substances released into the air, often pollutants."
+    },
+    {
+      "word": "accommodate",
+      "meaning": "to provide space or resources for something."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the main ideas of each paragraph. Look for keywords in the questions that can help you locate the relevant information quickly. Pay attention to the distinctions made between public transportation and private cars, as well as the advantages and drawbacks of each. Use skimming techniques for headings and scanning for specific details.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

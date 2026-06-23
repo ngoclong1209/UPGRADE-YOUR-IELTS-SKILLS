@@ -1,0 +1,100 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_219",
+  "title": "The Dual Facets of Tourism: Boon or Bane?",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dual Facets of Tourism: Boon or Bane?</h2><p>In the modern world, tourism has burgeoned into one of the most significant facets of global economies. As international travel becomes increasingly accessible, the implications of tourism extend beyond mere economic benefits, delving into the realms of environmental sustainability and cultural integrity. This duality presents a conundrum: while tourism can stimulate local economies and foster cross-cultural exchanges, it can also precipitate ecological degradation and cultural commodification.</p><p>Proponents of tourism argue that it serves as a vital economic engine, creating jobs and fostering infrastructure development. For instance, in regions heavily reliant on tourism, such as the Caribbean and Southeast Asia, the influx of foreign currency can greatly enhance the standard of living. However, this economic influx often comes at a cost. The rapid development of tourist facilities can lead to habitat destruction, pollution, and a depletion of local resources, raising critical questions about sustainability.</p><p>Moreover, the cultural ramifications of tourism cannot be overstated. As travelers flock to iconic destinations, local cultures may become homogenized, losing their authenticity in a bid to cater to tourist expectations. This phenomenon, often referred to as cultural commodification, raises ethical concerns regarding the preservation of cultural heritage and the integrity of local traditions.</p><p>Despite these challenges, the tourism industry is evolving. Sustainable tourism practices are being implemented in various destinations worldwide, aiming to mitigate negative impacts while maximizing benefits. Initiatives such as eco-tourism and community-based tourism are gaining traction, promoting responsible travel that prioritizes environmental stewardship and cultural respect. These emerging paradigms suggest a potential pathway for tourism to serve not merely as a source of economic gain but as a catalyst for positive social and environmental change.</p><p>In conclusion, the impacts of tourism are multifaceted, presenting both opportunities and challenges. As the industry continues to grow, it is imperative for stakeholders to engage in meaningful dialogue and develop strategies that balance economic interests with ecological and cultural preservation. Only through such nuanced approaches can tourism evolve into a truly sustainable force for good.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern associated with the rapid development of tourist facilities?",
+      "options": {
+        "A": "Improved infrastructure for local communities.",
+        "B": "Increased job opportunities for residents.",
+        "C": "Ecological degradation and resource depletion.",
+        "D": "Enhanced cross-cultural exchanges."
+      },
+      "answer": "C",
+      "explanation": "Option C is correct because the passage discusses how the rapid development of tourist facilities often leads to habitat destruction and resource depletion."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Sustainable tourism practices are universally accepted by all stakeholders.",
+      "answer": "Not Given",
+      "explanation": "The passage mentions the emergence of sustainable tourism practices but does not state whether they are universally accepted."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that tourism can contribute positively to cultural heritage preservation?",
+      "answer": "Yes",
+      "explanation": "The passage suggests that through responsible travel initiatives, tourism can promote cultural respect and potentially aid in preservation."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following terms with their implications as described in the passage.",
+      "options": [
+        "Cultural commodification",
+        "Eco-tourism",
+        "Community-based tourism"
+      ],
+      "answers": [
+        "Loss of authenticity in local cultures",
+        "Promotes environmental stewardship",
+        "Encourages local community involvement"
+      ],
+      "answer": [
+        "Cultural commodification - Loss of authenticity in local cultures",
+        "Eco-tourism - Promotes environmental stewardship",
+        "Community-based tourism - Encourages local community involvement"
+      ],
+      "explanation": "Each term is matched with its corresponding implication based on descriptions in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Choose the appropriate heading for each paragraph.",
+      "options": [
+        "Economic Benefits of Tourism",
+        "Cultural Impacts of Tourism",
+        "Sustainable Tourism Initiatives",
+        "Challenges Faced by Tourism"
+      ],
+      "answers": [
+        "Economic Benefits of Tourism - Paragraph 2",
+        "Cultural Impacts of Tourism - Paragraph 3",
+        "Sustainable Tourism Initiatives - Paragraph 4",
+        "Challenges Faced by Tourism - Paragraph 1"
+      ],
+      "explanation": "The headings correspond to the main ideas presented in each respective paragraph."
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer in NO MORE THAN TWO WORDS.",
+      "text": "What practice aims to prioritize environmental stewardship?",
+      "answer": "Eco-tourism",
+      "explanation": "The passage specifically mentions eco-tourism as an initiative aimed at promoting environmental stewardship."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "homogenized",
+      "meaning": "made uniform or similar, often leading to a loss of diversity."
+    },
+    {
+      "word": "commodification",
+      "meaning": "the process of turning something into a commodity that can be bought and sold."
+    },
+    {
+      "word": "stewardship",
+      "meaning": "the responsible management and care of something, particularly the environment."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, pay close attention to the nuances in the arguments presented. Look for clues that indicate the author’s attitude towards tourism and its impacts. Note the use of specific vocabulary that may suggest positive or negative connotations. Practice skimming for main ideas and scanning for specific details to enhance comprehension and accuracy in answering questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

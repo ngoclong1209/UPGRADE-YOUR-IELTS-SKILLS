@@ -1,0 +1,105 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_195",
+  "title": "The Wonders of Space Exploration",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Exploring the Universe</h2><p>Space exploration has fascinated humanity for centuries. From the early observations of the stars to the launch of spacecraft, our quest to understand the universe has led to remarkable discoveries. The first human-made object to reach space was the Soviet satellite Sputnik in 1957. This event marked the beginning of the space age, igniting a race between nations to explore beyond our planet.</p><p>One of the most significant achievements in space exploration was the Apollo moon landing in 1969. The United States successfully landed astronauts Neil Armstrong and Buzz Aldrin on the lunar surface, where they conducted experiments and collected samples. This mission not only showcased human ingenuity but also provided valuable scientific data about the moon.</p><p>In recent years, space exploration has expanded beyond our solar system. Telescopes like the Hubble Space Telescope have revealed galaxies billions of light-years away, allowing scientists to study the formation of stars and planets. Additionally, robotic missions to Mars, such as the Mars rovers, have provided insights into the planet’s geology and potential for past life.</p><p>Space agencies around the world, including NASA, ESA, and CNSA, continue to collaborate on ambitious projects. Future endeavors include returning humans to the moon, sending crewed missions to Mars, and exploring the outer planets with advanced spacecraft. These missions aim to answer fundamental questions about the origins of life and the potential for human colonization of other worlds.</p><p>As we look to the future, the possibilities of space exploration are endless. With advancements in technology and international cooperation, humanity is on the brink of unlocking the mysteries of the cosmos.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What event marked the beginning of the space age?",
+      "options": {
+        "A": "The launch of Sputnik in 1957",
+        "B": "The Apollo moon landing in 1969",
+        "C": "The first human in space",
+        "D": "The development of the Hubble Telescope"
+      },
+      "answer": "A",
+      "explanation": "The passage states that the launch of Sputnik in 1957 was the first human-made object to reach space, marking the beginning of the space age."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What was a primary goal of the Apollo moon landing?",
+      "options": {
+        "A": "To explore Mars",
+        "B": "To collect samples from the moon",
+        "C": "To observe distant galaxies",
+        "D": "To test new spacecraft technology"
+      },
+      "answer": "B",
+      "explanation": "The passage mentions that the astronauts conducted experiments and collected samples, indicating that this was a primary goal of the mission."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "The Hubble Space Telescope is used to study the surface of the moon.",
+      "answer": "False",
+      "explanation": "The passage indicates that the Hubble Space Telescope studies galaxies and the formation of stars, not the moon."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "International cooperation is important for future space missions.",
+      "answer": "True",
+      "explanation": "The passage emphasizes that space agencies around the world continue to collaborate on ambitious projects, indicating the importance of international cooperation."
+    },
+    {
+      "id": "q5",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that space exploration can help humanity colonize other planets?",
+      "answer": "Yes",
+      "explanation": "The passage discusses future missions aimed at exploring the potential for human colonization of other worlds, suggesting the author's belief in this possibility."
+    },
+    {
+      "id": "q6",
+      "type": "matching_headings",
+      "instruction": "Match the headings below with the paragraphs of the passage.",
+      "options": {
+        "1": "The future of space exploration",
+        "2": "Significant space missions",
+        "3": "The beginning of the space age",
+        "4": "Technological advancements in astronomy"
+      },
+      "paragraphs": {
+        "A": "The first paragraph discusses the history of space exploration, introducing Sputnik.",
+        "B": "The second paragraph focuses on the Apollo moon landing and its achievements.",
+        "C": "The third paragraph highlights the role of telescopes in understanding the universe.",
+        "D": "The last paragraph looks ahead to future missions and possibilities."
+      },
+      "answers": {
+        "A": "3",
+        "B": "2",
+        "C": "4",
+        "D": "1"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "fascinated",
+      "meaning": "extremely interested or attracted to something"
+    },
+    {
+      "word": "achievements",
+      "meaning": "successful results or accomplishments"
+    },
+    {
+      "word": "insights",
+      "meaning": "understanding or awareness gained through experience"
+    },
+    {
+      "word": "ambitious",
+      "meaning": "having a strong desire for success or achievement"
+    },
+    {
+      "word": "cosmos",
+      "meaning": "the universe seen as a well-ordered whole"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle this passage, focus on the main ideas presented in each paragraph. Pay attention to specific details, especially regarding historical events and future plans in space exploration. Use skimming for headings and scanning for specific information to answer the questions correctly.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

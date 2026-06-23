@@ -1,0 +1,90 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_234",
+  "title": "The Rise of Intelligent Machines",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Future of Artificial Intelligence and Robotics</h2><p>Artificial Intelligence (AI) and robotics are rapidly evolving fields that promise to redefine our world. AI refers to the simulation of human intelligence in machines, enabling them to perform tasks that typically require human cognitive functions. Robotics, on the other hand, involves the design and construction of robots that can assist or replace human efforts in various settings. Together, these technologies are transforming industries, from healthcare to manufacturing.</p><p>One significant impact of AI is its ability to analyze vast amounts of data quickly. For instance, in healthcare, AI algorithms can help identify patterns in patient data, leading to more accurate diagnoses and personalized treatment plans. Moreover, robots equipped with AI can assist surgeons in performing complex procedures with enhanced precision.</p><p>Despite the benefits, the rise of AI and robotics also raises ethical concerns. Many people worry about job displacement, as machines may replace human workers in some sectors. Additionally, there are fears regarding privacy and security, especially as AI systems become more integrated into daily life. As a result, it is crucial for society to navigate these challenges carefully.</p><p>In conclusion, while AI and robotics offer immense potential, they also require thoughtful consideration of their implications. Balancing innovation with ethical responsibility will be essential as we move into a future increasingly dominated by intelligent machines.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does AI enable machines to do?",
+      "options": {
+        "A": "Perform tasks requiring human cognitive functions",
+        "B": "Exhibit human emotions and feelings",
+        "C": "Design and construct robots independently",
+        "D": "Replace all human jobs in every industry"
+      },
+      "answer": "A",
+      "explanation": "A is correct because the passage states that AI allows machines to perform tasks that typically require human intelligence."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "AI has been proven to always provide accurate diagnoses.",
+      "answer": "False",
+      "explanation": "The passage mentions that AI algorithms can lead to more accurate diagnoses but does not state they are always accurate."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that job displacement due to robotics is a significant concern.",
+      "answer": "Yes",
+      "explanation": "The passage discusses worries about job displacement, indicating the author's acknowledgment of this concern."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match each application of AI or robotics to its benefit.",
+      "options": {
+        "1": "Healthcare",
+        "2": "Manufacturing",
+        "3": "Security",
+        "4": "Personal assistance"
+      },
+      "benefits": {
+        "A": "Improved precision in surgeries",
+        "B": "Automated assembly lines",
+        "C": "Enhanced surveillance systems",
+        "D": "Daily task management"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "AI can analyze large amounts of data quickly, leading to more accurate _____ in healthcare.",
+      "answer": "diagnoses",
+      "explanation": "The passage states AI can help with accurate diagnoses in healthcare."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "simulate",
+      "meaning": "to imitate a certain process or function"
+    },
+    {
+      "word": "cognitive",
+      "meaning": "related to mental processes of perception, memory, judgment, and reasoning"
+    },
+    {
+      "word": "displacement",
+      "meaning": "the act of moving something from its place or position"
+    },
+    {
+      "word": "integrated",
+      "meaning": "combined or coordinated into a whole"
+    },
+    {
+      "word": "ethical",
+      "meaning": "relating to moral principles or the branch of knowledge dealing with these"
+    },
+    {
+      "word": "precision",
+      "meaning": "the quality of being exact and accurate"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, pay attention to the definitions and implications of AI and robotics. Look for keywords that indicate the main ideas and supporting details. For multiple-choice questions, eliminate options that are clearly incorrect to increase your chances of selecting the right answer. In true/false/not given questions, focus on the exact wording used in the passage to determine the accuracy of the statements. For matching tasks, try to skim through the passage to find specific examples that relate to the benefits listed.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

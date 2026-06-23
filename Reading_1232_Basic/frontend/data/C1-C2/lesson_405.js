@@ -1,0 +1,95 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_405",
+  "title": "The Cosmic Frontier: Unraveling the Mysteries of Space Exploration",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Cosmic Frontier: Unraveling the Mysteries of Space Exploration</h2><p>Space exploration has captivated humanity since ancient times, transforming our understanding of the universe and our place within it. From the first lunar landings to the most advanced robotic missions exploring distant planets, each endeavor has not only expanded our scientific knowledge but also posed profound philosophical questions. The quest for knowledge in the cosmos is not merely about technological advancement; it reflects our intrinsic desire to explore, discover, and understand the unknown.</p><p>Historically, space exploration was dominated by national agendas, particularly during the Cold War, when the United States and the Soviet Union engaged in a fierce race to demonstrate their technological supremacy. This competition resulted in significant milestones, such as the launch of Sputnik, the first artificial satellite, and the Apollo missions that culminated in humans walking on the Moon. However, as the geopolitical landscape evolved, the motivations behind space exploration began to shift. Today, collaborative international efforts, such as the International Space Station (ISS), illustrate a growing recognition that the challenges of space knowledge are best addressed through global partnerships.</p><p>Current missions are increasingly focused on understanding the potential for life beyond Earth. The exploration of Mars, with rovers like Perseverance and Curiosity, aims not only to search for signs of past life but also to prepare for future human colonization. Additionally, the study of exoplanets—those orbiting stars outside our solar system—has unveiled a plethora of potentially habitable worlds, prompting scientists to ponder the implications of discovering extraterrestrial life.</p><p>Yet, space exploration is not without its challenges. The financial costs are astronomical, and ethical considerations regarding planetary protection and the preservation of extraterrestrial environments are paramount. As we forge ahead into the cosmos, we must also grapple with the moral implications of our explorations. The balance between advancing scientific knowledge and safeguarding the integrity of other worlds is a delicate one that requires careful deliberation.</p><p>In conclusion, the pursuit of space exploration is a multifaceted endeavor that intertwines science, philosophy, and ethics. It serves as a testament to human ingenuity and curiosity while simultaneously inviting us to reflect on our responsibilities as stewards of the universe.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is indicated as a primary motivation behind current space exploration efforts?",
+      "options": {
+        "A": "Technological dominance over rival nations.",
+        "B": "The search for extraterrestrial life and understanding of our own existence.",
+        "C": "Commercialization of space travel for profit.",
+        "D": "Establishing permanent human settlements on Mars."
+      },
+      "answer": "B",
+      "explanation": "Option B reflects the passage's emphasis on understanding the potential for life beyond Earth, as well as the philosophical implications of our existence."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "The Apollo missions were primarily aimed at international collaboration in space exploration.",
+      "answer": "False",
+      "explanation": "The passage states that the Apollo missions were part of a national agenda during the Cold War, focusing on technological supremacy rather than collaboration."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The financial costs of space exploration are considered trivial compared to the benefits.",
+      "answer": "No",
+      "explanation": "The passage clearly states that the financial costs of space exploration are 'astronomical', implying that they are significant and not trivial."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following missions with their primary focus.",
+      "items": {
+        "A": "Mars Rovers (Perseverance and Curiosity)",
+        "B": "International Space Station (ISS)",
+        "C": "Exoplanet Studies"
+      },
+      "options": {
+        "1": "Global collaboration",
+        "2": "Search for signs of past life",
+        "3": "Discovery of potentially habitable worlds"
+      },
+      "answers": {
+        "A": "2",
+        "B": "1",
+        "C": "3"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the following headings with the appropriate paragraph.",
+      "headings": {
+        "A": "The ethical dimensions of space exploration",
+        "B": "The historical context of space missions",
+        "C": "The future of human presence in the cosmos"
+      },
+      "paragraphs": {
+        "1": "Paragraph 1",
+        "2": "Paragraph 2",
+        "3": "Paragraph 3"
+      },
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "C"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "astronomical",
+      "meaning": "Extremely large or high, often used to describe costs or quantities in space exploration."
+    },
+    {
+      "word": "exoplanet",
+      "meaning": "A planet that orbits a star outside the solar system."
+    },
+    {
+      "word": "collaboration",
+      "meaning": "The act of working together with others to achieve a common goal, especially in scientific research."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle this passage, focus on understanding the main ideas of each paragraph. Pay close attention to the nuanced language used to describe motivations and implications of space exploration. Look for paraphrased terms and synonyms in the questions and options. Familiarize yourself with academic vocabulary, particularly in the context of space science and ethics.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

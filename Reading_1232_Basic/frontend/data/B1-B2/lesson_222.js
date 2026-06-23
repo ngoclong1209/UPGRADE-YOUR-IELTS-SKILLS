@@ -1,0 +1,85 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_222",
+  "title": "The Rise of Online Learning: A New Era in Education",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Online Learning: A Transformative Approach</h2><p>In recent years, online learning has gained significant traction as a viable alternative to traditional classroom education. With advancements in technology and the increasing accessibility of the internet, students from various backgrounds can now participate in educational programs from the comfort of their homes. Online learning platforms offer flexibility, allowing learners to choose when and where to study, which caters to their individual needs and schedules.</p><p>One of the primary advantages of online education is the variety of courses available. From academic subjects to vocational training, students can find courses that suit their interests and career aspirations. Furthermore, many online programs are designed with interactive elements, such as quizzes and discussion forums, which enhance the learning experience and encourage student participation.</p><p>However, online learning also presents certain challenges. One major concern is the lack of face-to-face interaction with instructors and peers, which can lead to feelings of isolation among students. Additionally, self-discipline and motivation are crucial for success in an online environment, as learners must manage their time effectively to meet deadlines.</p><p>Despite these challenges, the benefits of online learning continue to attract more students. As educational institutions adapt to this trend, it is expected that online learning will become an integral part of the educational landscape, providing opportunities for lifelong learning and personal development.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one advantage of online education mentioned in the passage?",
+      "options": {
+        "A": "It allows students to study at their own pace.",
+        "B": "It guarantees high interaction with instructors.",
+        "C": "It is more affordable than traditional education.",
+        "D": "It offers limited course options."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct because the passage states that online learning allows learners to choose when and where to study."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Online learning eliminates the need for self-discipline.",
+      "answer": "False",
+      "explanation": "The passage mentions that self-discipline is crucial for success in an online environment, indicating that it does not eliminate this need."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Indicate whether the statement reflects the author's opinion: 'Online learning is the best option for everyone.'",
+      "answer": "No",
+      "explanation": "The author discusses both the advantages and challenges of online learning, suggesting it may not be the best option for everyone."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following benefits of online learning with their descriptions.",
+      "options": {
+        "1": "Flexibility",
+        "2": "Variety of courses",
+        "3": "Interactive elements"
+      },
+      "descriptions": {
+        "A": "Allows students to engage more actively.",
+        "B": "Students can choose their study times.",
+        "C": "Offers a wide range of subjects."
+      },
+      "answers": {
+        "1": "B",
+        "2": "C",
+        "3": "A"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "short_answer",
+      "instruction": "Answer the question in NO MORE THAN TWO WORDS.",
+      "text": "What must students manage effectively to succeed in online learning?",
+      "answer": "time"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "traction",
+      "meaning": "increased interest or support for something."
+    },
+    {
+      "word": "viable",
+      "meaning": "capable of working successfully."
+    },
+    {
+      "word": "vocational",
+      "meaning": "related to training for a specific occupation."
+    },
+    {
+      "word": "self-discipline",
+      "meaning": "the ability to control oneself."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on key advantages and challenges of online learning. Pay attention to specific phrases that indicate opinions or facts. Make sure to read the entire passage to understand the context before answering.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

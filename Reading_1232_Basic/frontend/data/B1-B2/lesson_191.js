@@ -1,0 +1,80 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_191",
+  "title": "Exploring Paths: Higher Education vs Vocational Training",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Higher Education and Vocational Training: A Comparative Study</h2><p>In today's rapidly changing job market, individuals often face a critical decision: whether to pursue higher education or vocational training. Both pathways offer unique advantages and challenges that can significantly impact a person's career trajectory.</p><p>Higher education, typically represented by universities and colleges, provides a broader academic experience. Students can explore various fields of study, develop critical thinking skills, and engage in research opportunities. Graduates with a university degree often have access to higher-paying jobs and positions that require specialized knowledge.</p><p>On the other hand, vocational training focuses on equipping students with practical skills for specific trades or professions. Programs can range from a few months to two years and often include hands-on experience. This approach can lead to immediate employment in fields such as plumbing, electrical work, or culinary arts, which are in high demand.</p><p>One significant factor influencing the decision between these two options is the cost. Higher education can be expensive, leading to student debt, while vocational training is generally more affordable. However, this does not always translate to lower earning potential in the long run for those who complete vocational programs.</p><p>Moreover, the societal perception of these two paths varies. Higher education is often viewed as a traditional route to success, while vocational training may be underestimated despite its growing importance in the economy. As industries evolve, the skills gained through vocational training can become increasingly relevant.</p><p>Ultimately, the choice between higher education and vocational training depends on individual goals, financial situations, and career aspirations. Both paths hold value and can lead to successful and fulfilling careers.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one advantage of higher education mentioned in the passage?",
+      "options": {
+        "A": "It provides immediate job opportunities.",
+        "B": "It allows exploration of various fields of study.",
+        "C": "It is more affordable than vocational training.",
+        "D": "It focuses on practical skills."
+      },
+      "answer": "B",
+      "explanation": "The passage states that higher education allows students to explore various fields of study, which is a key advantage."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Vocational training includes hands-on experience.",
+      "answer": "True",
+      "explanation": "The passage mentions that vocational training often includes hands-on experience, confirming the statement as true."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes vocational training is undervalued.",
+      "answer": "Yes",
+      "explanation": "The passage indicates that vocational training may be underestimated despite its growing importance, suggesting the author's belief."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements with the correct aspect of education.",
+      "text": "1. Focuses on practical skills\n2. Expensive and may lead to debt\n3. Offers broader academic experience\n4. Immediate job opportunities",
+      "options": {
+        "A": "Higher Education",
+        "B": "Vocational Training"
+      },
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "A",
+        "4": "B"
+      },
+      "explanation": "The matching exercise tests understanding of the key details related to both educational pathways."
+    },
+    {
+      "id": "q5",
+      "type": "short-answer",
+      "instruction": "Write NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "How long can vocational training programs last?",
+      "answer": "Two years",
+      "explanation": "The passage states that vocational training programs can range from a few months to two years."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "trajectory",
+      "meaning": "the path followed by a projectile or an object moving under the action of given forces."
+    },
+    {
+      "word": "equipping",
+      "meaning": "providing someone with the necessary tools or skills for a particular purpose."
+    },
+    {
+      "word": "perception",
+      "meaning": "the way in which something is regarded, understood, or interpreted."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle this passage, focus on understanding the main ideas presented in each paragraph. Pay attention to specific vocabulary related to education and training, and be prepared to identify both advantages and challenges of each path. When answering questions, refer back to the text to support your choices with evidence.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

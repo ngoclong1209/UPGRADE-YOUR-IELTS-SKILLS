@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PTE &amp; IELTS Listening Master</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&amp;family=DynaPuff:wght@400..700&amp;family=Quicksand:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --bg-primary: #fff0f5;
+            --bg-secondary: #fff;
+            --accent: #ffb6c1;
+            --accent-hover: #ff69b4;
+            --text-primary: #4a4a4a;
+            --text-secondary: #7a7a7a;
+            --border-color: #ffe4e1;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #ffe4e1 0%, #e0ffff 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        /* Magical floating background bubbles */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,182,193,0.4) 0%, rgba(255,255,255,0) 70%);
+            z-index: -1;
+            animation: float-bg 15s ease-in-out infinite alternate;
+        }
+        body::before { top: -100px; left: -100px; }
+        body::after { bottom: -100px; right: -100px; animation-delay: -7s; }
+        
+        @keyframes float-bg {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 50px) scale(1.5); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        .header h1 {
+            font-family: 'DynaPuff', cursive;
+            font-size: 4.5rem;
+            color: var(--accent-hover);
+            margin: 0;
+            text-shadow: 3px 3px 0 #fff, 6px 6px 0 rgba(255, 105, 180, 0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+        .header p {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.5rem;
+            color: #8b7d8b;
+            margin-top: 15px;
+            font-weight: 500;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .level-section {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 50px;
+            margin-bottom: 60px;
+            border: 2px solid rgba(255,255,255,0.8);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        /* Inner decorative blob */
+        .level-section::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 8s infinite linear;
+            pointer-events: none;
+        }
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .level-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.8rem;
+            margin-top: 0;
+            margin-bottom: 40px;
+            display: inline-block;
+            padding-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        .basic-title { color: #4facfe; border-bottom: 4px dashed #4facfe; }
+        .int-title { color: #43e97b; border-bottom: 4px dashed #43e97b; }
+        .adv-title { color: #fa709a; border-bottom: 4px dashed #fa709a; }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 25px;
+            position: relative;
+            z-index: 1;
+        }
+        .lesson-card {
+            background: #fff;
+            border-radius: 25px;
+            padding: 25px 15px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 3px solid transparent;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+            position: relative;
+        }
+        
+        .lesson-card::after {
+            content: '🎵';
+            font-size: 1.5rem;
+            position: absolute;
+            top: -15px;
+            right: -10px;
+            opacity: 0;
+            transform: scale(0) rotate(-20deg);
+            transition: all 0.3s ease;
+        }
+
+        .lesson-card.basic-card:hover {
+            background: #4facfe; color: #fff; border-color: #4facfe;
+            transform: translateY(-12px) scale(1.05) rotate(-2deg);
+            box-shadow: 0 15px 30px rgba(79,172,254,0.3);
+        }
+        .lesson-card.int-card:hover {
+            background: #43e97b; color: #fff; border-color: #43e97b;
+            transform: translateY(-12px) scale(1.05) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(67,233,123,0.3);
+        }
+        .lesson-card.adv-card:hover {
+            background: #fa709a; color: #fff; border-color: #fa709a;
+            transform: translateY(-12px) scale(1.05) rotate(-2deg);
+            box-shadow: 0 15px 30px rgba(250,112,154,0.3);
+        }
+        
+        .lesson-card:hover::after {
+            opacity: 1;
+            transform: scale(1) rotate(10deg);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 3rem; }
+            .level-section { padding: 30px; border-radius: 30px; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 15px; }
+            .lesson-card { padding: 15px 10px; font-size: 1.1rem; border-radius: 20px; }
+        }
+    
+        @keyframes neonPulse {
+            from { box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff0055, 0 0 20px #ff0055; text-shadow: 0 0 5px #fff, 0 0 10px #ff0055, 0 0 15px #ff0055; }
+            to { box-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 7px #ff0055, 0 0 10px #ff0055; text-shadow: 0 0 2px #fff, 0 0 5px #ff0055, 0 0 7px #ff0055; }
+        }
+        .neon-timer {
+            font-size: 1.8rem !important; 
+            font-family: 'DynaPuff', cursive; 
+            color: #ffeb3b !important; 
+            animation: neonPulse 1.2s infinite alternate; 
+            padding: 4px 15px; 
+            border-radius: 12px; 
+            background: rgba(0,0,0,0.85); 
+            border: 2px solid #ff0055; 
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 15px;
+        }
+
+</style>
+</head>
+<body>
+<!-- UNIFIED LOGIN OVERLAY -->
+<div class="login-overlay" id="login-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px);">
+<div class="login-box" style="background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5;">
+<div class="login-header" style="font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2);">🍭 Study Room 🍭</div>
+<div class="login-subheader" style="font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif;">Hệ thống: 102 bài tập Nghe cơ bản ✨</div>
+<div id="login-form-fields">
+<input autofocus="" class="login-input" id="nickname-input" onblur="this.style.borderColor='#ffccd5'; this.style.boxShadow='none';" onfocus="this.style.borderColor='#ff85a2'; this.style.boxShadow='0 0 15px rgba(255,133,162,0.3)';" placeholder="Nhập ID học viên của bạn..." style="width: 100%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif;" type="text"/>
+<button class="check-btn" onclick="grantAccess()" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(255,94,126,0.3)';" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 25px rgba(255,94,126,0.4)';" style="width: 100%; padding: 18px 30px; font-size: 1.2rem; color: white; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%); border: none; border-radius: 25px; cursor: pointer; font-weight: 700; transition: 0.3s; box-shadow: 0 10px 20px rgba(255,94,126,0.3); font-family: 'Quicksand', sans-serif;">
+                    LET'S GO! 🌸
+                </button>
+</div>
+<div id="login-loading-fields" style="display: none; padding: 20px 0;">
+<div class="loading-status" id="loading-status" style="font-family: 'Quicksand', sans-serif; font-size: 1.15rem; font-weight: 600; margin-bottom: 15px; color: #333;">Đang kết nối hệ thống...</div>
+<div class="progress-bar-container" style="width: 100%; height: 20px; background: rgba(0, 0, 0, 0.1); border-radius: 10px; overflow: hidden; margin-bottom: 25px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.15);">
+<div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%; height: 100%; background: linear-gradient(90deg, #ff758c 0%, #ff7eb3 100%); border-radius: 10px; transition: width 0.1s linear;"></div>
+</div>
+<div class="payment-card" style="background: rgba(255, 255, 255, 0.95); border: 2.5px solid #e5e7eb; border-radius: 20px; padding: 20px; text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.05); font-family: 'Quicksand', sans-serif;">
+<div style="font-size: 1.1rem; font-weight: 700; color: #ff5e7e; margin-bottom: 12px; border-bottom: 2px dashed rgba(0,0,0,0.1); padding-bottom: 8px; text-align: center;">🎫 THÔNG TIN THANH TOÁN</div>
+<div style="font-size: 0.95rem; line-height: 1.6; color: #333;">
+<p style="margin: 6px 0;">💵 <b>Nội dung khoá học:</b> <span style="color: #2b9348; font-weight: bold;">1232 bài tập Đọc hiểu, 102 bài tập Nghe, 204 bài thi Listening Full, 315 bài thi Reading Full</span></p>
+<p style="margin: 6px 0;">💰 <b>Giá trị:</b> <span style="color: #e91e63; font-weight: bold;">1,599,000 VND</span></p>
+<p style="margin: 6px 0;">👤 <b>Đã được trả phí bởi:</b> <span style="color: #0077b6; font-weight: bold;">VŨ NGỌC LONG</span> <span id="payment-nickname-badge" style="font-size: 0.8rem; background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 12px; font-weight: 700; margin-left: 5px;"></span></p>
+<p style="margin: 6px 0; font-size: 0.85rem; color: #666; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 8px;">⏱️ <b>Thời hạn sử dụng:</b> 1 năm.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- UNIFIED LOGIN OVERLAY -->
+
+<!-- UNIFIED LOGIN OVERLAY -->
+<!-- UNIFIED LOGIN OVERLAY -->
+<!-- UNIFIED LOGIN OVERLAY -->
+<!-- UNIFIED LOGIN OVERLAY -->
+<!-- UNIFIED LOGIN OVERLAY -->
+<div class="container">
+<div class="header">
+<h1>✨ Listening Master ✨</h1>
+<div class="neon-timer" id="timer-display">⏱ 60:00</div>
+<p>Hành trình chinh phục điểm tối đa</p>
+</div>
+<div class="level-section">
+<h2 class="level-title basic-title">🌟 Basic Level</h2>
+<div class="grid">
+<a class="lesson-card basic-card" href="Basic/Lesson_1/index.html">Bài 1</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_2/index.html">Bài 2</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_3/index.html">Bài 3</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_4/index.html">Bài 4</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_5/index.html">Bài 5</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_6/index.html">Bài 6</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_7/index.html">Bài 7</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_8/index.html">Bài 8</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_9/index.html">Bài 9</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_10/index.html">Bài 10</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_11/index.html">Bài 11</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_12/index.html">Bài 12</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_13/index.html">Bài 13</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_14/index.html">Bài 14</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_15/index.html">Bài 15</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_16/index.html">Bài 16</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_17/index.html">Bài 17</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_18/index.html">Bài 18</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_19/index.html">Bài 19</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_20/index.html">Bài 20</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_21/index.html">Bài 21</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_22/index.html">Bài 22</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_23/index.html">Bài 23</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_24/index.html">Bài 24</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_25/index.html">Bài 25</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_26/index.html">Bài 26</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_27/index.html">Bài 27</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_28/index.html">Bài 28</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_29/index.html">Bài 29</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_30/index.html">Bài 30</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_31/index.html">Bài 31</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_32/index.html">Bài 32</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_33/index.html">Bài 33</a>
+<a class="lesson-card basic-card" href="Basic/Lesson_34/index.html">Bài 34</a>
+</div>
+</div>
+<div class="level-section">
+<h2 class="level-title int-title">🔥 Intermediate Level</h2>
+<div class="grid">
+<a class="lesson-card int-card" href="Intermediate/Lesson_1/index.html">Bài 1</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_2/index.html">Bài 2</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_3/index.html">Bài 3</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_4/index.html">Bài 4</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_5/index.html">Bài 5</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_6/index.html">Bài 6</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_7/index.html">Bài 7</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_8/index.html">Bài 8</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_9/index.html">Bài 9</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_10/index.html">Bài 10</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_11/index.html">Bài 11</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_12/index.html">Bài 12</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_13/index.html">Bài 13</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_14/index.html">Bài 14</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_15/index.html">Bài 15</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_16/index.html">Bài 16</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_17/index.html">Bài 17</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_18/index.html">Bài 18</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_19/index.html">Bài 19</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_20/index.html">Bài 20</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_21/index.html">Bài 21</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_22/index.html">Bài 22</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_23/index.html">Bài 23</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_24/index.html">Bài 24</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_25/index.html">Bài 25</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_26/index.html">Bài 26</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_27/index.html">Bài 27</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_28/index.html">Bài 28</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_29/index.html">Bài 29</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_30/index.html">Bài 30</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_31/index.html">Bài 31</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_32/index.html">Bài 32</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_33/index.html">Bài 33</a>
+<a class="lesson-card int-card" href="Intermediate/Lesson_34/index.html">Bài 34</a>
+</div>
+</div>
+<div class="level-section">
+<h2 class="level-title adv-title">👑 Advanced Level</h2>
+<div class="grid">
+<a class="lesson-card adv-card" href="Advanced/Lesson_1/index.html">Bài 1</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_2/index.html">Bài 2</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_3/index.html">Bài 3</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_4/index.html">Bài 4</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_5/index.html">Bài 5</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_6/index.html">Bài 6</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_7/index.html">Bài 7</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_8/index.html">Bài 8</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_9/index.html">Bài 9</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_10/index.html">Bài 10</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_11/index.html">Bài 11</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_12/index.html">Bài 12</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_13/index.html">Bài 13</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_14/index.html">Bài 14</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_15/index.html">Bài 15</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_16/index.html">Bài 16</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_17/index.html">Bài 17</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_18/index.html">Bài 18</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_19/index.html">Bài 19</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_20/index.html">Bài 20</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_21/index.html">Bài 21</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_22/index.html">Bài 22</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_23/index.html">Bài 23</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_24/index.html">Bài 24</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_25/index.html">Bài 25</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_26/index.html">Bài 26</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_27/index.html">Bài 27</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_28/index.html">Bài 28</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_29/index.html">Bài 29</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_30/index.html">Bài 30</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_31/index.html">Bài 31</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_32/index.html">Bài 32</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_33/index.html">Bài 33</a>
+<a class="lesson-card adv-card" href="Advanced/Lesson_34/index.html">Bài 34</a>
+</div>
+</div>
+</div>
+<audio id="sfx-tick" loop="" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+<audio id="sfx-click" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+<audio id="sfx-success" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3"></audio>
+<script>
+        let timeLeft = 60 * 60;
+        let timerInterval;
+        function startTimer() {
+            const display = document.getElementById('timer-display');
+            if(!display) return;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                display.innerText = `⏱ ${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+                
+                if(timeLeft <= 60 && timeLeft > 0) {
+                    const tickAudio = document.getElementById('sfx-tick');
+                    if(tickAudio && tickAudio.paused) {
+                        tickAudio.play().catch(e=>{});
+                    }
+                }
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    const tickAudio = document.getElementById('sfx-tick');
+                    if(tickAudio) tickAudio.pause();
+                    let btn = document.getElementById('btn-submit');
+                    if(btn) btn.click();
+                }
+            }, 1000);
+        }
+</script>
+<script>
+    const APP_URL = "https://script.google.com/macros/s/AKfycbx7lOgaMcHm0ofxpG3V9bi52rMbL7wBXIzAHovP5xBrp9XbyuZp7QNKbSg2-UTJoauyOg/exec";
+
+    function getDeviceId() {
+        let did = localStorage.getItem('youpass_device_id');
+        if(!did) {
+            let fp = btoa(navigator.userAgent + screen.width + screen.height + navigator.language).substring(0, 15);
+            did = fp + '_' + Math.random().toString(36).substr(2, 5);
+            localStorage.setItem('youpass_device_id', did);
+        }
+        return did;
+    }
+    
+    function playSfx(id) {
+        try { let a = document.getElementById(id); if(a) { a.currentTime = 0; a.play().catch(e=>{}); } } catch(e){}
+    }
+
+    async function grantAccess() {
+        const input = document.getElementById('nickname-input');
+        let nickname = input ? input.value.trim().toUpperCase() : '';
+        if (!nickname) { alert("Vui lòng nhập ID học viên của bạn! 🌸"); return; }
+        
+        playSfx('sfx-click');
+        let formFields = document.getElementById('login-form-fields');
+        if(formFields) formFields.style.display = "none";
+        let loadFields = document.getElementById('login-loading-fields');
+        if(loadFields) loadFields.style.display = "block";
+        let badge = document.getElementById('payment-nickname-badge');
+        if(badge) badge.innerText = nickname;
+        
+        const progressFill = document.getElementById('progress-bar-fill');
+        const statusText = document.getElementById('loading-status');
+        let deviceId = getDeviceId();
+        
+        if(progressFill) progressFill.style.width = '10%';
+        if(statusText) statusText.innerText = "Đang kiểm tra thiết bị & IP...";
+
+        try {
+            let ipData = {};
+            try {
+                let ipRes = await fetch('https://api.ipify.org?format=json');
+                ipData = await ipRes.json();
+            } catch(e) { console.log("IP fetch failed", e); }
+            
+            if(progressFill) progressFill.style.width = '40%';
+            if(statusText) statusText.innerText = "Đang xác thực tài khoản qua máy chủ an toàn...";
+
+            let loginRes = await fetch(APP_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'login', student_id: nickname, device_id: deviceId, ip: ipData.ip || 'unknown' })
+            });
+            
+            let data = await loginRes.json();
+            if(progressFill) progressFill.style.width = '100%';
+
+            if (data.status === 'success') {
+                if(statusText) statusText.innerText = "Xác nhận thành công! Chuẩn bị phòng học...";
+                setTimeout(() => {
+                    let overlay = document.getElementById('login-overlay');
+                    if(overlay) overlay.style.display = "none";
+                    let mainLayout = document.querySelector('.main-layout');
+                    if(mainLayout) mainLayout.style.display = "flex";
+                    localStorage.setItem('youpass_student_id', nickname);
+                    playSfx('sfx-success');
+                    if(typeof startTimer === 'function') startTimer();
+                }, 500);
+            } else {
+                if(statusText) statusText.innerText = "LỖI: " + data.message;
+                if(statusText) statusText.style.color = "red";
+                alert(data.message);
+                setTimeout(() => {
+                    if(loadFields) loadFields.style.display = "none";
+                    if(formFields) formFields.style.display = "block";
+                    if(progressFill) progressFill.style.width = '0%';
+                }, 2000);
+            }
+        } catch(err) {
+            alert("Lỗi kết nối máy chủ! Vui lòng kiểm tra lại đường truyền.");
+            if(loadFields) loadFields.style.display = "none";
+            if(formFields) formFields.style.display = "block";
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        let overlay = document.getElementById('login-overlay');
+        let mainLayout = document.querySelector('.main-layout');
+        if(sid) {
+            if(overlay) overlay.style.display = "none";
+            if(mainLayout) mainLayout.style.display = "flex";
+            if(typeof startTimer === 'function') startTimer();
+        } else {
+            if(overlay) overlay.style.display = "flex";
+            if(mainLayout) mainLayout.style.display = "none";
+        }
+    });
+</script></body>
+</html>

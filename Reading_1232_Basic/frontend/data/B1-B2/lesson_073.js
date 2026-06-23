@@ -1,0 +1,83 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_073",
+  "title": "Understanding Climate Change: A Global Challenge",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Impact of Climate Change</h2><p>Climate change refers to significant changes in global temperatures and weather patterns over time. While climate change is a natural phenomenon, scientific evidence shows that human activities are currently driving an unprecedented rate of change. The burning of fossil fuels, deforestation, and industrial processes have led to increased concentrations of greenhouse gases in the atmosphere, resulting in global warming.</p><p>The consequences of climate change are profound. Rising sea levels threaten coastal communities, while extreme weather events, such as hurricanes and droughts, are becoming more frequent and severe. Agriculture is also affected, as changing weather patterns disrupt traditional farming practices.</p><p>Efforts to combat climate change are crucial. Governments, organizations, and individuals must work together to reduce carbon emissions and enhance sustainability. Renewable energy sources, such as wind and solar power, offer promising alternatives to fossil fuels, while conservation efforts can help preserve vital ecosystems.</p><p>Education plays a key role in addressing climate change. By informing communities about the causes and effects of climate change, we can inspire collective action. It is essential for everyone to understand their role in this global challenge and the ways they can contribute to solutions.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is primarily causing the current rate of climate change?",
+      "options": {
+        "A": "Natural events occurring over centuries.",
+        "B": "Human activities increasing greenhouse gases.",
+        "C": "Changes in the Earth's orbit and tilt.",
+        "D": "Volcanic eruptions releasing carbon dioxide."
+      },
+      "answer": "B",
+      "explanation": "The passage states that 'human activities are currently driving an unprecedented rate of change' due to fossil fuel burning and deforestation."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Climate change will not affect agricultural practices.",
+      "answer": "False",
+      "explanation": "The passage mentions that 'changing weather patterns disrupt traditional farming practices', indicating that agriculture is indeed affected."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes individual actions can help combat climate change.",
+      "answer": "Yes",
+      "explanation": "The author discusses the importance of collective action and individual roles in addressing climate change."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following efforts to their descriptions.",
+      "options": {
+        "A": "Renewable energy sources",
+        "B": "Conservation efforts",
+        "C": "Education about climate change"
+      },
+      "descriptions": {
+        "1": "Help preserve ecosystems.",
+        "2": "Provide alternatives to fossil fuels.",
+        "3": "Inspire collective action."
+      },
+      "answers": [
+        {
+          "A": "2"
+        },
+        {
+          "B": "1"
+        },
+        {
+          "C": "3"
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "short_answer",
+      "instruction": "Write NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "What is a promising alternative to fossil fuels mentioned in the passage?",
+      "answer": "renewable energy",
+      "explanation": "The passage highlights 'renewable energy sources, such as wind and solar power' as alternatives to fossil fuels."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "unprecedented",
+      "meaning": "never done or known before; without previous example."
+    },
+    {
+      "word": "ecosystem",
+      "meaning": "a biological community of interacting organisms and their physical environment."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully, focusing on the main ideas and supporting details. Pay attention to how the author structures the argument and the specific examples provided. Use skimming techniques for headings and scanning for specific details when answering questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

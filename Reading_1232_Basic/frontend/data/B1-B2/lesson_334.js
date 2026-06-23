@@ -1,0 +1,80 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_334",
+  "title": "Exploring the Future: Artificial Intelligence and Robotics",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Artificial Intelligence and Robotics</h2><p>Artificial Intelligence (AI) and robotics are rapidly transforming the way we live and work. From automated factories to personal assistants, these technologies are becoming increasingly integrated into our daily lives. AI refers to the simulation of human intelligence in machines, while robotics involves the design and use of robots. Together, they promise to improve efficiency and productivity across various sectors.</p><p>One significant area where AI is making an impact is in healthcare. AI algorithms can analyze vast amounts of medical data, helping doctors diagnose diseases more accurately. For example, AI systems can identify patterns in imaging tests that might be missed by human eyes. Robotics, on the other hand, is being utilized in surgeries where precision is paramount. Robotic arms can perform delicate procedures with greater accuracy than human hands, reducing recovery times for patients.</p><p>However, the rise of AI and robotics also raises concerns about job displacement. Many fear that as machines become more capable, they will replace human workers in numerous sectors. While it is true that some jobs are at risk, others will emerge, focusing on the management and maintenance of these technologies. Additionally, ethical considerations regarding AI decision-making and privacy are becoming pressing issues that require careful attention.</p><p>Educational institutions are adapting by incorporating AI and robotics into their curricula, preparing students for the future workforce. By learning to work alongside these technologies, students can develop the skills necessary to thrive in an AI-driven world. The future of AI and robotics is not just about technology; it is also about people and how we adapt to these changes.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does AI primarily involve?",
+      "options": {
+        "A": "The use of robots in manufacturing.",
+        "B": "The simulation of human intelligence in machines.",
+        "C": "The design of robotic arms for precision tasks.",
+        "D": "The analysis of medical data only."
+      },
+      "answer": "B",
+      "explanation": "B is correct because the passage clearly states that AI refers to the simulation of human intelligence in machines."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "AI can only be used in healthcare applications.",
+      "answer": "False",
+      "explanation": "The passage explains that AI is used in various sectors, not just healthcare."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that all jobs will be replaced by AI.",
+      "answer": "No",
+      "explanation": "The passage mentions that while some jobs are at risk, new jobs will emerge, suggesting the author does not believe all jobs will be replaced."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the areas with their descriptions.",
+      "text": "1. Healthcare 2. Manufacturing 3. Education",
+      "options": {
+        "A": "Involves the use of robots for precision tasks.",
+        "B": "AI algorithms help diagnose diseases.",
+        "C": "Students learn to adapt to AI technologies."
+      },
+      "answer": {
+        "1": "B",
+        "2": "A",
+        "3": "C"
+      },
+      "explanation": "Each area is matched with its relevant description as provided in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences with NO MORE THAN TWO WORDS.",
+      "text": "AI can help doctors diagnose diseases by analyzing large amounts of ___.",
+      "answer": "medical data",
+      "explanation": "The passage states that AI can analyze medical data to help in diagnoses."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "algorithm",
+      "meaning": "A process or set of rules to be followed in calculations or other problem-solving operations."
+    },
+    {
+      "word": "displacement",
+      "meaning": "The act of replacing one thing with another."
+    },
+    {
+      "word": "precision",
+      "meaning": "The quality, condition, or fact of being exact and accurate."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively answer the questions, focus on the main ideas presented in each paragraph. Look for keywords in the questions that relate to the passage. Pay attention to the author’s opinion and the implications of AI and robotics in various fields. Use skimming to get the gist and scanning for specific details.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

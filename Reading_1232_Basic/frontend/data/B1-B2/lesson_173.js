@@ -1,0 +1,97 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_173",
+  "title": "Understanding Climate Change: Causes and Effects",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Causes of Climate Change</h2><p>Climate change refers to significant changes in global temperatures and weather patterns over time. While climate change is a natural phenomenon, scientific evidence shows that human activities, particularly the burning of fossil fuels, have accelerated the process. This results in increased levels of greenhouse gases in the Earth's atmosphere, which trap heat and lead to global warming.</p><p>One major cause of climate change is deforestation, which occurs when trees are cut down for agriculture or urban development. Trees absorb carbon dioxide, one of the key greenhouse gases. Losing forests means we lose a crucial tool in fighting climate change.</p><h2>The Effects of Climate Change</h2><p>The consequences of climate change are widespread and can be devastating. Rising temperatures lead to melting ice caps and glaciers, contributing to rising sea levels. Coastal cities are at risk of flooding, which could displace millions of people. Furthermore, changing weather patterns can result in more extreme weather events, such as hurricanes, droughts, and heatwaves.</p><p>In addition to environmental impacts, climate change poses serious threats to food security. Altered weather conditions can disrupt agricultural production, leading to lower crop yields and increased prices. Moreover, as habitats change, many species may face extinction, disrupting ecosystems and biodiversity.</p><h2>Combating Climate Change</h2><p>To combat climate change, governments, organizations, and individuals must work together. Transitioning to renewable energy sources, such as solar and wind power, can significantly reduce greenhouse gas emissions. Additionally, promoting sustainable practices, such as recycling and reducing waste, can help mitigate the impact of climate change.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the main causes of climate change mentioned in the passage?",
+      "options": {
+        "A": "Burning fossil fuels",
+        "B": "Increased forestation",
+        "C": "Ocean pollution",
+        "D": "Waste production"
+      },
+      "answer": "A",
+      "explanation": "The passage states that human activities, particularly the burning of fossil fuels, have accelerated climate change."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What effect of climate change is highlighted in the passage?",
+      "options": {
+        "A": "Increased biodiversity",
+        "B": "Rising sea levels",
+        "C": "Cooler temperatures",
+        "D": "More forestation"
+      },
+      "answer": "B",
+      "explanation": "The passage mentions that rising temperatures lead to melting ice caps and glaciers, which contribute to rising sea levels."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Deforestation helps to combat climate change.",
+      "answer": "False",
+      "explanation": "The passage states that deforestation leads to the loss of trees, which are crucial in fighting climate change."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that individual actions can help combat climate change?",
+      "answer": "Yes",
+      "explanation": "The passage emphasizes the need for individuals to promote sustainable practices to mitigate climate change."
+    },
+    {
+      "id": "q5",
+      "type": "matching_information",
+      "instruction": "Match the cause of climate change with its description.",
+      "options": [
+        {
+          "cause": "Burning fossil fuels",
+          "description": "Increases greenhouse gases"
+        },
+        {
+          "cause": "Deforestation",
+          "description": "Reduces carbon absorption"
+        },
+        {
+          "cause": "Agriculture",
+          "description": "Contributes to land usage"
+        }
+      ],
+      "answer": [
+        {
+          "cause": "Burning fossil fuels",
+          "description": "Increases greenhouse gases"
+        },
+        {
+          "cause": "Deforestation",
+          "description": "Reduces carbon absorption"
+        }
+      ],
+      "explanation": "The passage indicates that both burning fossil fuels and deforestation are significant contributors to climate change."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "deforestation",
+      "meaning": "The clearing or thinning of forests by humans."
+    },
+    {
+      "word": "greenhouse gases",
+      "meaning": "Gases that trap heat in the atmosphere, contributing to global warming."
+    },
+    {
+      "word": "sustainable",
+      "meaning": "Capable of being maintained over the long term without harming the environment."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, pay attention to the main ideas presented in each section. Look for keywords that relate to the causes and effects of climate change to help you answer the questions accurately. For multiple-choice questions, eliminate options that are clearly incorrect and focus on the information provided in the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

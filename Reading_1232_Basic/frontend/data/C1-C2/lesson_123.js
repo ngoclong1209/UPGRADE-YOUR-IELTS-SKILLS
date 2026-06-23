@@ -1,0 +1,148 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_123",
+  "title": "The Unseen Consequences of Climate Change",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Climate Change: An Inescapable Reality</h2><p>As the globe continues to warm due to anthropogenic activities, the ramifications extend far beyond rising temperatures. Recent studies suggest that the ecological impacts of climate change are more profound and pervasive than previously understood. The melting of polar ice caps is not merely a visual spectacle; it signals the displacement of numerous species that rely on these habitats. Furthermore, the alteration of weather patterns has led to unprecedented natural disasters, which, in turn, exacerbate socio-economic disparities in affected regions. The correlation between climate change and increased frequency of extreme weather events highlights an urgent need for comprehensive climate policy reform.</p><p>While some policymakers argue that the economic costs of implementing green technologies are prohibitive, others contend that the long-term benefits of sustainable practices far outweigh these initial investments. The transition to renewable energy sources, such as solar and wind, has the potential to revitalize local economies, create jobs, and mitigate the effects of climate change. Nevertheless, the challenge remains: how to balance immediate economic concerns with the pressing need for environmental stewardship.</p><p>In addition to the direct impacts on biodiversity and weather patterns, climate change poses significant risks to public health. The increase in air pollution, coupled with heatwaves, has resulted in a surge of respiratory illnesses. Vulnerable populations, particularly the elderly and low-income communities, face heightened exposure to these health risks. Therefore, addressing climate change is not solely an environmental issue but a public health imperative that demands immediate action.</p><p>Ultimately, the discourse surrounding climate change must evolve from mere acknowledgment of the problem to actionable strategies that prioritize both ecological integrity and human well-being. This paradigm shift is essential for fostering a resilient future in which both nature and society can thrive.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument made by proponents of green technologies in the passage?",
+      "options": {
+        "A": "The initial costs of renewable energy are too high.",
+        "B": "Investing in green technologies can stimulate local economies.",
+        "C": "Climate change impacts are overstated and manageable.",
+        "D": "Transitioning to renewable energy is unnecessary."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct because it reflects the argument that the long-term benefits of green technologies can revitalize economies, as mentioned in the passage."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "The passage suggests that climate change only affects the environment.",
+      "answer": "False",
+      "explanation": "The passage emphasizes that climate change also poses significant risks to public health, indicating that its effects extend beyond environmental concerns."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author express a clear preference for immediate economic growth over environmental sustainability?",
+      "answer": "No",
+      "explanation": "The author advocates for a balance between economic concerns and environmental stewardship, suggesting that immediate economic growth should not overshadow the need for sustainability."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following effects of climate change with their descriptions.",
+      "text": "1. Displacement of species\n2. Increase in respiratory illnesses\n3. Economic revitalization\n4. Extreme weather events",
+      "options": {
+        "A": "A result of altered weather patterns.",
+        "B": "A consequence of air pollution and heatwaves.",
+        "C": "Potential outcome of adopting renewable technologies.",
+        "D": "A consequence of melting habitats."
+      },
+      "answers": {
+        "1": "D",
+        "2": "B",
+        "3": "C",
+        "4": "A"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph with the correct heading.",
+      "text": "Headings: A) Economic Implications of Climate Policy\nB) Health Risks Associated with Climate Change\nC) Ecological Consequences of Global Warming\nD) The Need for a Paradigm Shift",
+      "options": {
+        "1": "C",
+        "2": "B",
+        "3": "A",
+        "4": "D"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "matching_features",
+      "instruction": "Match the feature with the corresponding description.",
+      "text": "1. Anthropogenic activities\n2. Polar ice cap melting\n3. Renewable energy sources\n4. Vulnerable populations",
+      "options": {
+        "A": "Result in increased respiratory illnesses.",
+        "B": "Lead to species displacement.",
+        "C": "Can stimulate local economies.",
+        "D": "Contribute to climate change."
+      },
+      "answers": {
+        "1": "D",
+        "2": "B",
+        "3": "C",
+        "4": "A"
+      }
+    },
+    {
+      "id": "q7",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The passage implies that immediate economic growth is often prioritized over __________.",
+      "answer": "environmental sustainability",
+      "explanation": "The passage discusses the need to balance immediate economic concerns with environmental stewardship, implying that sustainability is often overlooked."
+    },
+    {
+      "id": "q8",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The discourse surrounding climate change must shift to prioritize both __________ and human well-being.",
+      "answer": "ecological integrity",
+      "explanation": "The passage states that the discourse must evolve to prioritize ecological integrity alongside human well-being."
+    },
+    {
+      "id": "q9",
+      "type": "diagram_label_completion",
+      "instruction": "Label the diagram with the correct terms.",
+      "text": "1. Causes of Climate Change\n2. Effects of Climate Change\n3. Solutions to Climate Change",
+      "options": {
+        "A": "Green technologies",
+        "B": "Rising temperatures",
+        "C": "Anthropogenic emissions",
+        "D": "Health risks"
+      },
+      "answers": {
+        "1": "C",
+        "2": "B",
+        "3": "A"
+      }
+    },
+    {
+      "id": "q10",
+      "type": "short-answer_questions",
+      "instruction": "Answer the following question with NO MORE THAN THREE WORDS.",
+      "text": "What is one primary health risk mentioned in the passage due to climate change?",
+      "answer": "respiratory illnesses",
+      "explanation": "The passage specifically mentions a surge in respiratory illnesses as a consequence of climate change."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "anthropogenic",
+      "meaning": "resulting from the influence of human beings."
+    },
+    {
+      "word": "ramifications",
+      "meaning": "consequences or outcomes that may not be immediately obvious."
+    },
+    {
+      "word": "socio-economic disparities",
+      "meaning": "inequalities in wealth, resources, and opportunities among different social groups."
+    },
+    {
+      "word": "sustainable practices",
+      "meaning": "methods of using resources in a way that meets current needs without compromising future generations."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the nuances of the author's arguments. Pay attention to how different sections relate to one another, particularly in terms of cause and effect. Be mindful of paraphrasing in both the questions and the passage, as this will require you to think critically about the content rather than relying on memorization. Finally, practice skimming for main ideas while also being able to scan for specific details when necessary.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

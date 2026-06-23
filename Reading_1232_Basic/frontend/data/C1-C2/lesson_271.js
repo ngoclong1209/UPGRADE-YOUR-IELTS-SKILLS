@@ -1,0 +1,92 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_271",
+  "title": "Navigating the Divergence: Higher Education vs Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Understanding Educational Pathways</h2><p>In an era characterized by rapid technological advancement and economic shifts, the debate between higher education and vocational training has gained substantial traction. Proponents of traditional higher education argue that a university degree is indispensable for securing high-paying jobs and gaining a comprehensive understanding of one’s field. They emphasize the critical thinking and analytical skills that are honed through a liberal arts education, which they believe foster adaptability in a constantly evolving job market.</p><p>Conversely, advocates of vocational training assert that practical skills are paramount in today’s economy. They claim that vocational programs provide direct pathways to employment, equipping students with hands-on experience and specialized knowledge tailored to specific industries. This perspective gains support from statistics indicating that vocational training graduates often experience lower unemployment rates compared to their university-educated counterparts.</p><p>However, the dichotomy between these two educational approaches is often oversimplified. Many experts argue for a more integrated model that combines the strengths of both higher education and vocational training. This hybrid approach not only prepares students for immediate employment but also cultivates the critical thinking skills necessary for lifelong learning and adaptability in a rapidly changing world.</p><p>Furthermore, the societal perceptions of both educational pathways play a crucial role in shaping student choices. While higher education is traditionally viewed as the hallmark of academic achievement, vocational training is often unjustly stigmatized. This stigma can deter potential students from pursuing vocational paths, despite the promising career opportunities they present.</p><p>Ultimately, the decision between higher education and vocational training should be informed by individual career goals, learning preferences, and the economic landscape. As the job market continues to evolve, both pathways will require ongoing evaluation to ensure they meet the demands of a dynamic workforce.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument made by proponents of higher education?",
+      "options": {
+        "A": "It is essential for developing critical thinking skills.",
+        "B": "It guarantees high-paying job placements.",
+        "C": "It offers more hands-on experience than vocational training.",
+        "D": "It is more adaptable to job market changes."
+      },
+      "answer": "A",
+      "explanation": "Proponents of higher education emphasize the development of critical thinking and analytical skills as a significant benefit, which they argue is crucial for adaptability."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False or Not Given.",
+      "text": "Vocational training graduates have higher unemployment rates than those with university degrees.",
+      "answer": "False",
+      "explanation": "The passage states that vocational training graduates often experience lower unemployment rates compared to university graduates."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No or Not Given.",
+      "text": "Is vocational training often associated with lower societal status than higher education?",
+      "answer": "Yes",
+      "explanation": "The passage mentions that vocational training is often unjustly stigmatized, implying a lower societal perception compared to higher education."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the arguments to their respective viewpoints.",
+      "text": "1. Provides hands-on experience. 2. Develops critical thinking skills.",
+      "options": {
+        "A": "Vocational Training",
+        "B": "Higher Education"
+      },
+      "answers": {
+        "1": "A",
+        "2": "B"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the corresponding paragraphs.",
+      "text": "1. The societal impact of educational choices. 2. A comparative analysis of educational outcomes.",
+      "options": {
+        "A": "The importance of practical skills.",
+        "B": "Navigating career paths.",
+        "C": "Understanding economic shifts."
+      },
+      "answers": {
+        "1": "B",
+        "2": "A"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "Vocational training is often seen as a __________ compared to higher education.",
+      "answer": "lower status",
+      "explanation": "The passage describes vocational training as being unjustly stigmatized, indicating a perception of lower status."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "proponents",
+      "meaning": "supporters or advocates of a particular idea or plan."
+    },
+    {
+      "word": "dichotomy",
+      "meaning": "a division or contrast between two things that are represented as being opposed or entirely different."
+    },
+    {
+      "word": "stigmatized",
+      "meaning": "regarded as worthy of disgrace or disapproval."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle this passage, focus on identifying the main arguments presented for both higher education and vocational training. Pay attention to keywords that indicate the author's tone and attitude, as well as any implied meanings behind the statements. Utilize skimming to grasp the overall structure and scanning for specific details to answer questions accurately.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

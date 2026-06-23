@@ -1,0 +1,86 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_232",
+  "title": "The Rise of Online Learning: Transforming Education",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Online Learning</h2><p>In recent years, online learning has gained significant popularity, fundamentally changing the way education is delivered. With the advent of technology, students can now access a wide range of courses from the comfort of their homes. This shift has been particularly beneficial for those who may have difficulties attending traditional classes due to various reasons such as geographical constraints, health issues, or personal commitments.</p><p>One of the key advantages of online learning is flexibility. Students can choose when and where to study, allowing them to manage their time more effectively. This is especially appealing to working professionals who wish to enhance their skills without sacrificing their jobs or family responsibilities. Moreover, the variety of courses available online means that learners can pursue their interests more freely than ever before.</p><p>However, online education is not without its challenges. Many students struggle with self-discipline and motivation when learning independently. Without a structured environment, it can be easy to get distracted. Additionally, the lack of face-to-face interaction with instructors and peers may hinder the development of essential social skills and limit networking opportunities.</p><p>Despite these drawbacks, the future of online learning looks promising. Educational institutions are increasingly adopting blended learning models, which combine traditional teaching methods with online resources. This hybrid approach not only caters to diverse learning styles but also enhances the overall educational experience.</p><p>In conclusion, online learning offers a flexible and accessible alternative to traditional education. While it presents certain challenges, its potential to transform learning makes it an essential component of modern education.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major benefit of online learning mentioned in the passage?",
+      "options": {
+        "A": "It allows students to learn at their own pace.",
+        "B": "It ensures all students can attend classes.",
+        "C": "It provides free education for everyone.",
+        "D": "It eliminates the need for teachers."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct because the passage highlights the flexibility of online learning, allowing students to choose when and where to study."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a challenge faced by online learners?",
+      "options": {
+        "A": "Lack of variety in courses.",
+        "B": "Difficulty in finding study materials.",
+        "C": "Struggles with self-discipline and motivation.",
+        "D": "Limited access to technology."
+      },
+      "answer": "C",
+      "explanation": "Option C is correct as the passage states that many students struggle with self-discipline and motivation when learning independently."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Online education eliminates the need for any form of social interaction.",
+      "answer": "False",
+      "explanation": "The passage mentions that the lack of face-to-face interaction may hinder the development of social skills, indicating that some form of social interaction is still necessary."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that online learning is the best option for everyone?",
+      "answer": "No",
+      "explanation": "The passage discusses both the advantages and challenges of online learning, suggesting that it may not be the best option for everyone."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Match the headings to the paragraphs.",
+      "options": {
+        "1": "The flexibility of studying online",
+        "2": "Challenges of online education",
+        "3": "Future trends in education",
+        "4": "The transformation of learning",
+        "5": "Benefits of online courses"
+      },
+      "answers": {
+        "1": "The flexibility of studying online",
+        "2": "Challenges of online education",
+        "3": "Future trends in education",
+        "4": "The transformation of learning",
+        "5": "Benefits of online courses"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "advent",
+      "meaning": "the arrival of a notable person, thing, or event."
+    },
+    {
+      "word": "flexibility",
+      "meaning": "the quality of bending easily without breaking, in this context, the ability to change or adapt."
+    },
+    {
+      "word": "blended learning",
+      "meaning": "an educational approach that combines online digital media with traditional classroom methods."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this reading test, focus on understanding the main ideas of each paragraph. Pay attention to keywords in the questions and look for paraphrased information in the passage. Skim through the passage quickly to get an overview before reading in detail for specific answers.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

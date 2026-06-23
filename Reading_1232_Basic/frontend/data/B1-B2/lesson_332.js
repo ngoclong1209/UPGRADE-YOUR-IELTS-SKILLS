@@ -1,0 +1,70 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_332",
+  "title": "The Rise of Online Learning: A New Era in Education",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Online Learning</h2><p>In recent years, online learning has transformed the landscape of education. With the advent of technology, students can now access courses from anywhere in the world. This flexibility allows learners to study at their own pace, fitting education into busy schedules. Online platforms offer a variety of subjects, enabling individuals to pursue their interests without geographical limitations.</p><p>Many traditional educational institutions have adopted online learning methods to enhance their offerings. For instance, universities now provide online degrees, allowing students to earn qualifications from home. This shift not only caters to a wider audience but also reduces the costs associated with attending physical classes.</p><p>However, online learning is not without its challenges. Some students struggle with self-discipline and motivation when studying independently. Additionally, the lack of face-to-face interaction can make it difficult for learners to engage fully. Despite these issues, the popularity of online education continues to grow, driven by its convenience and accessibility.</p><p>In conclusion, online learning represents a significant change in how education is delivered. While it presents certain obstacles, its benefits make it an attractive option for many learners around the globe.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one advantage of online learning mentioned in the passage?",
+      "options": {
+        "A": "Students can study at their own pace.",
+        "B": "It is always cheaper than traditional education.",
+        "C": "It offers more teacher interaction.",
+        "D": "Courses are only available in specific locations."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct as the passage highlights that online learning allows students to study at their own pace."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False or Not Given.",
+      "text": "Online learning is suitable for all types of students.",
+      "answer": "Not Given",
+      "explanation": "The passage does not mention whether online learning is suitable for all types of students."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No or Not Given.",
+      "text": "Does the author believe online learning is the future of education?",
+      "answer": "Yes",
+      "explanation": "The conclusion suggests that online learning represents a significant change, implying a positive view of its future."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the correct paragraph.",
+      "text": "Match the following details to the correct paragraphs: 1. Flexibility of online learning. 2. Challenges faced by students.",
+      "options": {
+        "1": "Paragraph 1",
+        "2": "Paragraph 3"
+      },
+      "answer": {
+        "1": "1",
+        "2": "3"
+      },
+      "explanation": "Paragraph 1 discusses flexibility, while Paragraph 3 mentions challenges faced by students."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "transform",
+      "meaning": "to change completely the appearance or character of something."
+    },
+    {
+      "word": "flexibility",
+      "meaning": "the quality of being adaptable or variable."
+    },
+    {
+      "word": "motivation",
+      "meaning": "the reason or reasons one has for acting or behaving in a particular way."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading, pay attention to keywords in the questions that can help you locate information in the passage. Look for synonyms and paraphrases. Make notes of the main ideas in each paragraph as this will aid in answering questions effectively.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

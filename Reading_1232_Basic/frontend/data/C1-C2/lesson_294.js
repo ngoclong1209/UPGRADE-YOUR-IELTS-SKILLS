@@ -1,0 +1,86 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_294",
+  "title": "Navigating the Future: The Interplay of Artificial Intelligence and Robotics",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Convergence of Intelligence</h2><p>The rise of artificial intelligence (AI) and robotics has revolutionized various sectors, propelling advancements that were once relegated to the realm of science fiction. This convergence is not merely a technological evolution; it signifies a profound shift in the paradigms of human-machine interaction. As machines become increasingly capable of performing tasks traditionally reserved for humans, ethical considerations come to the forefront. The implications of AI in enhancing productivity while potentially displacing human workers provoke a complex dialogue about the future of work and societal structures.</p><p>Moreover, the integration of AI with robotics introduces a myriad of challenges and opportunities. For instance, autonomous vehicles, powered by sophisticated AI algorithms, promise to reduce accidents and improve traffic flow, yet they also raise questions about accountability and safety. The paradox of innovation is that while it heralds progress, it simultaneously engenders fears of obsolescence and loss of control.</p><p>Further complicating the discourse is the notion of machine learning, where algorithms adapt and improve over time, often in ways that are not easily interpretable by their human creators. This opacity poses significant challenges for regulation and oversight, as stakeholders grapple with the balance between fostering innovation and ensuring ethical standards are met.</p><p>As we navigate this intricate landscape, it becomes imperative to understand not only the technologies themselves but also the broader philosophical implications they carry. The discourse surrounding AI and robotics must extend beyond technical specifications to encompass ethical frameworks, societal impacts, and the redefinition of human identity in an increasingly automated world.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a primary concern regarding the rise of AI and robotics according to the passage?",
+      "options": {
+        "A": "The potential for increased productivity and efficiency.",
+        "B": "The ethical implications of displacing human workers.",
+        "C": "The technological evolution of machines.",
+        "D": "The advancements in autonomous vehicle safety."
+      },
+      "answer": "B",
+      "explanation": "The passage highlights that while AI and robotics can enhance productivity, the ethical implications of displacing human workers are a significant concern."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False or Not Given.",
+      "text": "AI and robotics will completely eliminate the need for human intervention in all sectors.",
+      "answer": "False",
+      "explanation": "The passage discusses the potential for displacement but does not imply that all human intervention will be eliminated."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that the technological advancements in AI are unequivocally positive.",
+      "answer": "No",
+      "explanation": "The passage outlines both positive advancements and concerns, indicating a more nuanced view than simply positive."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following challenges with their corresponding descriptions.",
+      "text": "1. Ethical concerns<br>2. Accountability issues<br>3. Machine learning transparency<br>4. Societal impact",
+      "options": {
+        "A": "The difficulty in understanding how algorithms make decisions.",
+        "B": "The implications of automation on employment.",
+        "C": "The need to determine who is responsible for machine actions.",
+        "D": "The moral implications of displacing workers."
+      },
+      "answers": {
+        "1": "D",
+        "2": "C",
+        "3": "A",
+        "4": "B"
+      },
+      "explanation": "The descriptions match the challenges discussed in the passage, emphasizing the multifaceted nature of AI's impact."
+    },
+    {
+      "id": "q5",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using NO MORE THAN TWO WORDS.",
+      "text": "The integration of AI with robotics raises questions about ______ and ______.",
+      "answer": "safety, accountability",
+      "explanation": "The passage specifically mentions safety and accountability as key issues arising from autonomous vehicle technology."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "paradigm",
+      "meaning": "a typical example or pattern of something; a model."
+    },
+    {
+      "word": "opacity",
+      "meaning": "the condition of not being transparent or easily understood."
+    },
+    {
+      "word": "autonomy",
+      "meaning": "the capacity to make an informed, uncoerced decision."
+    },
+    {
+      "word": "displacement",
+      "meaning": "the act of moving something from its place or position, often used in the context of workforce changes."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the nuances of the author's arguments regarding the ethical implications of AI. Pay attention to the vocabulary used, as it often carries significant weight in discerning the overall message. When answering questions, look for paraphrased concepts rather than direct matches to the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

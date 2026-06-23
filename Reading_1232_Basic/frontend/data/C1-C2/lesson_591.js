@@ -1,0 +1,123 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_591",
+  "title": "Navigating the Divide: Higher Education vs Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Educational Paradigm: A Comparative Analysis</h2><p>In the contemporary landscape of education, the dichotomy between higher education and vocational training has sparked intense debate among educators, policymakers, and students alike. Higher education, often typified by academic institutions offering undergraduate and postgraduate degrees, is traditionally viewed as a pathway to intellectual development and a precursor to professional careers in fields such as medicine, law, and academia. Conversely, vocational training emphasizes practical skills and direct employment readiness, focusing on trades such as plumbing, electrical work, and culinary arts. This juxtaposition raises critical questions about the efficacy and relevance of each educational approach in preparing individuals for the complexities of modern employment.</p><p>Proponents of higher education argue that it not only fosters critical thinking and analytical skills but also cultivates a well-rounded individual, equipped to navigate the multifaceted challenges of the workforce. They contend that a degree serves as a significant credential that enhances employability, often correlating with higher earning potential over a lifetime. On the other hand, advocates for vocational training assert that the immediate applicability of skills learned through practical experiences renders this path equally valuable, if not more so, in specific industries that prioritize hands-on expertise over theoretical knowledge.</p><p>Moreover, the debate extends beyond mere educational outcomes to encompass socioeconomic considerations. Higher education is frequently associated with considerable financial investment, resulting in substantial student debt, a burden that can deter prospective students from pursuing this route. In contrast, vocational training often requires less financial commitment and offers a quicker transition into the workforce, appealing to those who may prioritize financial independence or have familial obligations. As the job market evolves, with emerging technologies and shifting industry demands, the relevance of both educational pathways warrants ongoing scrutiny and discussion.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument in favor of higher education according to the passage?",
+      "options": {
+        "A": "It provides immediate job placement.",
+        "B": "It enhances critical thinking and analytical skills.",
+        "C": "It is less financially burdensome than vocational training.",
+        "D": "It guarantees higher salaries for all graduates."
+      },
+      "answer": "B",
+      "explanation": "The passage states that proponents of higher education argue it fosters critical thinking and analytical skills, making option B the correct choice."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statements are True, False or Not Given.",
+      "text": "Vocational training requires a higher financial investment than higher education.",
+      "answer": "False",
+      "explanation": "The passage indicates that vocational training often requires less financial commitment compared to higher education."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The passage suggests that vocational training is universally superior to higher education.",
+      "answer": "No",
+      "explanation": "The passage presents arguments for both educational paths without declaring one as universally superior."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the appropriate section of the passage.",
+      "text": "Match the following arguments with their corresponding educational approach.",
+      "options": {
+        "A": "Fosters practical skills for immediate employment.",
+        "B": "Encourages analytical thinking and broad knowledge.",
+        "C": "May lead to significant student debt.",
+        "D": "Offers quicker entry into the job market."
+      },
+      "answers": {
+        "A": "Vocational Training",
+        "B": "Higher Education",
+        "C": "Higher Education",
+        "D": "Vocational Training"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Select the correct heading for each paragraph.",
+      "text": "Match the paragraphs to the headings provided.",
+      "options": {
+        "1": "The Financial Implications of Education",
+        "2": "The Skills Gap in Modern Employment",
+        "3": "Philosophical Perspectives on Education",
+        "4": "The Value Proposition of Vocational Training"
+      },
+      "answers": {
+        "1": "The Financial Implications of Education",
+        "2": "The Skills Gap in Modern Employment",
+        "3": "Philosophical Perspectives on Education",
+        "4": "The Value Proposition of Vocational Training"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences with NO MORE THAN TWO WORDS.",
+      "text": "Higher education is often seen as a pathway to __________.",
+      "answer": "professional careers",
+      "explanation": "The passage states that higher education is viewed as a precursor to professional careers."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "Vocational training appeals to individuals seeking __________ and a quicker transition into the workforce.",
+      "answer": "financial independence",
+      "explanation": "The passage mentions that vocational training appeals to those who may prioritize financial independence."
+    },
+    {
+      "id": "q8",
+      "type": "short-answer",
+      "instruction": "Answer the following question with NO MORE THAN THREE WORDS.",
+      "text": "What is a significant concern associated with pursuing higher education?",
+      "answer": "student debt",
+      "explanation": "The passage highlights student debt as a concern linked to higher education."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "dichotomy",
+      "meaning": "a division into two contrasting parts."
+    },
+    {
+      "word": "proponents",
+      "meaning": "people who advocate for a particular idea or course of action."
+    },
+    {
+      "word": "efficacy",
+      "meaning": "the ability to produce a desired or intended result."
+    },
+    {
+      "word": "burden",
+      "meaning": "a heavy load or responsibility."
+    },
+    {
+      "word": "prioritize",
+      "meaning": "to treat something as more important than other things."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the main arguments presented for both higher education and vocational training. Pay attention to how the author compares the two educational pathways and the implications of choosing one over the other. Look for paraphrased ideas and note any nuanced language that may indicate the author's attitude towards each option.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

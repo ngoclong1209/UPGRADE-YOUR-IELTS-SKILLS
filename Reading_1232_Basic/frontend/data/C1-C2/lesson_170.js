@@ -1,0 +1,119 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_170",
+  "title": "The Nutritional Paradox: Balancing Health and Diet in Modern Society",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Understanding the Complex Interplay of Health and Diet</h2><p>In contemporary society, the relationship between health and diet has become increasingly intricate, often characterized by conflicting information and societal pressures. While it is widely acknowledged that a balanced diet is crucial for maintaining optimal health, the definitions of what constitutes such a diet vary significantly across cultures and individual preferences. Recent studies highlight the paradox of nutritional abundance juxtaposed with rising obesity rates, suggesting that merely having access to food does not equate to proper nourishment. The global marketplace is inundated with processed foods that are often marketed as healthy alternatives yet are laden with sugars, preservatives, and unhealthy fats. This complexity is further compounded by behavioral factors, including socioeconomic status, education, and cultural beliefs, which influence dietary choices and health outcomes.</p><p>Moreover, the rise of dietary fads and misinformation exacerbates the challenge of making informed choices. Individuals may feel overwhelmed by the plethora of diets claiming to promote health, from ketogenic to veganism, each boasting its unique set of benefits. Yet, the efficacy of these diets often hinges on individual biological responses and lifestyle factors. Consequently, public health initiatives increasingly advocate for personalized nutrition approaches that consider genetic predispositions and lifestyle habits, emphasizing that there is no one-size-fits-all solution to diet and health.</p><p>Furthermore, mental health plays a pivotal role in dietary behaviors. Emerging research indicates a bidirectional relationship between diet and mental well-being, where poor dietary choices can lead to mental health issues, and vice versa. This interplay underscores the necessity of a holistic approach to health that integrates psychological, social, and biological dimensions. In conclusion, navigating the complexities of health and diet in the modern world necessitates critical thinking, education, and a willingness to question prevailing narratives.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the passage suggest about the relationship between access to food and proper nourishment?",
+      "options": {
+        "A": "Access to food guarantees proper nourishment.",
+        "B": "Nutritional abundance does not ensure proper nourishment.",
+        "C": "Cultural beliefs hinder access to food.",
+        "D": "Processed foods are the only option for nourishment."
+      },
+      "answer": "B",
+      "explanation": "The passage states that nutritional abundance juxtaposed with rising obesity rates suggests that having access to food does not equate to proper nourishment."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the following statement is True, False, or Not Given.",
+      "text": "The passage indicates that all diets are equally effective for everyone.",
+      "answer": "False",
+      "explanation": "The passage discusses that the efficacy of diets depends on individual biological responses and lifestyle factors, implying that not all diets are equally effective."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author believe that public health initiatives should focus solely on dietary choices?",
+      "answer": "No",
+      "explanation": "The author emphasizes the necessity of a holistic approach to health that integrates various dimensions, not just dietary choices."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements with the correct paragraph in the passage.",
+      "text": "1. The complexity of dietary choices is influenced by multiple factors. 2. Misinformation in diets can lead to confusion. 3. Mental health affects dietary behaviors.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3"
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph with the correct heading.",
+      "text": "1. The impact of culture on diet. 2. The relationship between diet and mental health. 3. The challenges of misinformation.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3"
+      },
+      "answers": {
+        "1": "A",
+        "2": "C",
+        "3": "B"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence with NO MORE THAN TWO WORDS.",
+      "text": "The passage emphasizes the need for a ____ approach to health.",
+      "answer": "holistic",
+      "explanation": "The author indicates that a holistic approach is needed to integrate psychological, social, and biological dimensions."
+    },
+    {
+      "id": "q7",
+      "type": "summary_note_table_flow-chart_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The rise of dietary fads and misinformation necessitates _____ strategies for individuals.",
+      "answer": "personalized nutrition",
+      "explanation": "The passage indicates that personalized nutrition approaches are increasingly advocated."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following question with NO MORE THAN THREE WORDS.",
+      "text": "What two factors influence dietary choices mentioned in the passage?",
+      "answer": "socioeconomic status, education",
+      "explanation": "The passage lists socioeconomic status and education as factors influencing dietary choices."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "nuance",
+      "meaning": "a subtle distinction or variation."
+    },
+    {
+      "word": "juxatposed",
+      "meaning": "placed side by side for comparison."
+    },
+    {
+      "word": "abundance",
+      "meaning": "a very large quantity of something."
+    },
+    {
+      "word": "pedigree",
+      "meaning": "the record of descent of an animal, showing it to be purebred."
+    },
+    {
+      "word": "behavioral",
+      "meaning": "relating to the way in which one acts or conducts oneself."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To navigate this passage effectively, pay close attention to the nuances in the author's arguments and be prepared to identify underlying implications. It's advisable to take notes on the key themes presented in each paragraph, as well as the connections between health and diet as described by the author. Look out for terms that indicate opinion versus factual information, and practice distinguishing between similar concepts that may be presented in different contexts.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

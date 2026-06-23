@@ -1,0 +1,139 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_411",
+  "title": "Navigating the Divide: Higher Education versus Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Understanding the Choices: Higher Education and Vocational Training</h2><p>The landscape of education has undergone significant transformations over the past few decades, particularly in the domains of higher education and vocational training. While both pathways offer unique advantages and opportunities, they cater to different learning preferences and career aspirations. Higher education, traditionally viewed as the gold standard for academic achievement, provides a broad spectrum of knowledge and critical thinking skills. It aims to foster an environment where students engage in extensive theoretical exploration and research, often culminating in a degree that signifies a deep understanding of a particular field.</p><p>Conversely, vocational training is designed with practicality at its core, focusing on equipping students with specific skills for immediate employment in various trades and professions. This approach emphasizes hands-on experience and often includes apprenticeships or internships, ensuring that learners are job-ready upon graduation. The debate surrounding these two educational paths is multifaceted, raising questions about societal values, economic outcomes, and personal fulfillment.</p><p>Proponents of higher education argue that it opens doors to advanced career opportunities and higher earning potential over one's lifetime. They assert that the critical thinking and analytical skills developed during university studies are invaluable in today’s complex job market. However, critics of this perspective point out the rising student debt and the often uncertain job prospects for graduates, questioning the return on investment for many degree programs.</p><p>On the other hand, advocates for vocational training highlight its efficiency and effectiveness in addressing workforce needs. They argue that vocational programs are more aligned with the demands of the economy, producing graduates who possess the precise skills that employers are searching for. Furthermore, vocational training often leads to lower student debt levels, as programs typically require less time and financial investment compared to traditional degrees.</p><p>Ultimately, the choice between higher education and vocational training should be guided by individual goals, strengths, and the specific demands of the job market. As the world of work continues to evolve, so too must our understanding of what constitutes a valuable education. It is crucial to recognize that both paths can lead to successful and fulfilling careers, and the decision should reflect a nuanced consideration of personal aspirations and economic realities.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary focus of vocational training as described in the passage?",
+      "options": {
+        "A": "Providing a broad theoretical foundation.",
+        "B": "Equipping students with specific job skills.",
+        "C": "Encouraging critical thinking and research.",
+        "D": "Promoting higher earning potential."
+      },
+      "answer": "B",
+      "explanation": "B is correct because the passage explicitly states that vocational training emphasizes hands-on experience and practical skills for immediate employment."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Higher education guarantees a successful career with high earnings.",
+      "answer": "False",
+      "explanation": "The passage mentions that critics point out the uncertain job prospects for graduates, indicating that higher education does not guarantee success."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Is vocational training more financially burdensome than higher education?",
+      "answer": "No",
+      "explanation": "The passage states that vocational training typically leads to lower student debt levels compared to traditional degrees."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match each statement with the correct paragraph.",
+      "text": "1. Focus on immediate employment skills<br>2. Critique of rising student debt<br>3. Importance of personal goals in education choice",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answers": {
+        "1": "B",
+        "2": "C",
+        "3": "D"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph.",
+      "text": "1. The advantages of vocational training<br>2. The debate over educational values<br>3. The evolving landscape of education",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answers": {
+        "1": "B",
+        "2": "C",
+        "3": "A"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "matching_features",
+      "instruction": "Match the feature with the corresponding educational path.",
+      "text": "1. Requires less time<br>2. Develops critical thinking<br>3. Offers hands-on experience",
+      "options": {
+        "A": "Higher Education",
+        "B": "Vocational Training"
+      },
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "B"
+      }
+    },
+    {
+      "id": "q7",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "Vocational training is often praised for its ability to align with the ________ of the economy.",
+      "answer": "workforce needs",
+      "explanation": "The passage emphasizes that vocational training addresses workforce needs effectively."
+    },
+    {
+      "id": "q8",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The discussion of higher education versus vocational training highlights the importance of ________ in making educational choices. It also points out that both paths can lead to ________ careers.",
+      "answers": {
+        "1": "individual goals",
+        "2": "successful"
+      },
+      "explanation": "The passage mentions that the choice should reflect personal aspirations and that both educational paths can lead to fulfilling careers."
+    },
+    {
+      "id": "q9",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following questions with NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "What type of education is traditionally viewed as the gold standard?",
+      "answer": "higher education",
+      "explanation": "The passage refers to higher education as the gold standard for academic achievement."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "landscape",
+      "meaning": "The overall context or situation in a particular field."
+    },
+    {
+      "word": "culminating",
+      "meaning": "Reaching a significant point or result."
+    },
+    {
+      "word": "advocates",
+      "meaning": "Supporters or proponents of a particular cause or policy."
+    },
+    {
+      "word": "nuanced",
+      "meaning": "Characterized by subtle differences or distinctions."
+    },
+    {
+      "word": "practicality",
+      "meaning": "The quality of being suitable for actual use."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the main arguments and differences between higher education and vocational training. Pay attention to the writer's tone and underlying implications. Use the context to decipher the meanings of complex vocabulary and be mindful of the distinctions between stated facts and inferred information.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

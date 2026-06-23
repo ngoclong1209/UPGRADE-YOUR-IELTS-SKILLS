@@ -1,0 +1,85 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_402",
+  "title": "The Evolution of Online Learning: Navigating the Digital Classroom",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Evolution of Online Learning: Navigating the Digital Classroom</h2><p>The advent of the Internet has fundamentally transformed the landscape of education, ushering in an era of online learning that defies traditional pedagogical boundaries. This transition has been characterized by an unprecedented accessibility to vast resources, enabling learners from diverse backgrounds to engage with content that was previously out of reach. However, the implications of this shift extend beyond mere accessibility; they challenge the very essence of how knowledge is constructed and disseminated. This article examines the multifaceted nature of online education, its historical development, and the ongoing debates surrounding its efficacy compared to conventional classroom settings.</p><p>Initially, online learning emerged as a supplementary tool, complementing face-to-face instruction. Yet, as technology evolved, so too did the pedagogical frameworks that underpin these digital platforms. The rise of MOOCs (Massive Open Online Courses) exemplifies this transformation, allowing thousands of participants to enroll in a single course, thereby democratizing education on an unprecedented scale. Nonetheless, the sheer volume of information available raises critical questions regarding the quality of learning and the retention of knowledge.</p><p>Critics argue that the impersonal nature of online education can lead to a sense of isolation among students, undermining the collaborative aspects inherent in traditional learning environments. Furthermore, the reliance on digital tools necessitates a level of self-discipline and motivation that not all learners possess. The efficacy of online learning, therefore, hinges on various factors, including the design of the course, the engagement of the instructors, and the personal attributes of the learners themselves.</p><p>Moreover, the rapid evolution of technologies such as artificial intelligence and machine learning is poised to further revolutionize online education. These advancements offer personalized learning experiences tailored to individual needs, potentially enhancing engagement and comprehension. However, they also introduce ethical considerations concerning data privacy and the potential for algorithmic bias, which must be addressed to ensure equitable educational opportunities.</p><p>In conclusion, while online learning represents a significant advancement in educational accessibility, it simultaneously presents challenges that need careful consideration. The ongoing dialogue surrounding its efficacy compared to traditional methods is essential for shaping the future of education in an increasingly digital world.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary focus of the article regarding online learning?",
+      "options": {
+        "A": "The historical evolution and impact of online learning.",
+        "B": "The technical advancements of online learning tools.",
+        "C": "The comparison between online and traditional learning environments.",
+        "D": "The future of education in terms of technological integration."
+      },
+      "answer": "A",
+      "explanation": "The article primarily discusses the historical evolution of online learning and its broader implications, making option A the correct choice."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Online learning has always been considered superior to traditional education.",
+      "answer": "False",
+      "explanation": "The passage indicates ongoing debates regarding the efficacy of online learning compared to traditional education, suggesting that it is not universally considered superior."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The article asserts that online learning eliminates the need for self-discipline.",
+      "answer": "No",
+      "explanation": "The text highlights that online education requires a level of self-discipline, thus the assertion is incorrect."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following aspects of online learning with their descriptions.",
+      "options": [
+        "A. MOOCs",
+        "B. Personalization through AI",
+        "C. Isolation issues",
+        "D. Accessibility"
+      ],
+      "descriptions": [
+        "1. Challenges faced by students in digital environments.",
+        "2. Courses available to large audiences.",
+        "3. Enhancements in learning experiences.",
+        "4. Increased access to educational resources."
+      ],
+      "answers": {
+        "A": "2",
+        "B": "3",
+        "C": "1",
+        "D": "4"
+      },
+      "explanation": "The options are matched with the most appropriate descriptions based on the context provided in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using NO MORE THAN TWO WORDS.",
+      "text": "The article discusses the evolution of online education, highlighting its initial emergence as a __________ and its subsequent development into a more comprehensive learning platform.",
+      "answer": "supplementary tool",
+      "explanation": "The passage states that online learning initially served as a supplementary tool to traditional education."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "pedagogical",
+      "meaning": "relating to the methods and practice of teaching."
+    },
+    {
+      "word": "democratizing",
+      "meaning": "making something accessible to everyone."
+    },
+    {
+      "word": "algorithmic bias",
+      "meaning": "a systematic prejudice in the algorithms that govern data processing."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on understanding the main arguments presented in each paragraph. Pay attention to the nuances in language that indicate the author's attitude towards online learning versus traditional methods. Consider the implications of technological advancements in education and how they affect accessibility and quality of learning.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

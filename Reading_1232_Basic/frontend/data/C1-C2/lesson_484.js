@@ -1,0 +1,101 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_484",
+  "title": "The Evolution of Artificial Intelligence: Beyond Automation",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Evolution of Artificial Intelligence: Beyond Automation</h2><p>In the past two decades, artificial intelligence (AI) has transitioned from a niche area of research to a cornerstone of contemporary technological innovation. Once confined to the realms of theoretical discourse and speculative fiction, AI has now permeated various sectors, from healthcare to finance, revolutionizing traditional practices. This transformation can be attributed to advancements in machine learning algorithms and the exponential growth of computational power, which have enabled machines to analyze vast datasets with unprecedented accuracy.</p><p>However, the implications of AI extend far beyond mere efficiency enhancement. The philosophical ramifications of AI challenge our fundamental understanding of consciousness and agency. As machines become increasingly adept at performing tasks previously thought to require human intelligence, questions arise about the nature of creativity and the moral responsibilities of their creators. The specter of autonomous decision-making looms large, prompting debates on accountability in scenarios where machines make critical decisions.</p><p>Moreover, the integration of AI into societal frameworks necessitates a reevaluation of ethical standards. The potential for bias in algorithmic decision-making can perpetuate existing inequalities if not rigorously checked. As AI systems are trained on historical data, they may inadvertently learn and replicate societal prejudices, raising concerns about fairness and justice in their applications.</p><p>Consequently, interdisciplinary collaboration is essential in navigating the complexities of AI development. Ethicists, engineers, and policymakers must work in unison to establish guidelines that govern the responsible use of AI technologies. By fostering a dialogue that encompasses diverse perspectives, society can harness the benefits of AI while mitigating its risks. In conclusion, the evolution of AI presents not only technological advancements but also profound philosophical and ethical challenges that require careful consideration and proactive measures.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What has contributed to the transformation of AI from a niche area of research to a mainstream technology?",
+      "options": {
+        "A": "The increase in computational power and advancements in algorithms.",
+        "B": "The reduction of costs associated with AI implementation.",
+        "C": "The growing public interest in automation technologies.",
+        "D": "The shift in philosophical debates surrounding consciousness."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct because the passage explicitly states that advancements in machine learning algorithms and the exponential growth of computational power have enabled the transition of AI into various sectors."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given in the passage.",
+      "text": "AI has only positive implications for society.",
+      "answer": "False",
+      "explanation": "The passage discusses both positive advancements in AI and the potential negative implications, such as bias and ethical concerns."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The passage suggests that AI can replicate human creativity.",
+      "answer": "Not Given",
+      "explanation": "While the passage raises questions about creativity, it does not provide a definitive answer regarding whether AI can replicate it."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following aspects of AI with their corresponding implications.",
+      "items": [
+        {
+          "aspect": "Autonomous decision-making",
+          "implication": "Ethical accountability"
+        },
+        {
+          "aspect": "Bias in algorithms",
+          "implication": "Social inequalities"
+        },
+        {
+          "aspect": "Interdisciplinary collaboration",
+          "implication": "Responsible AI development"
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings with the appropriate paragraphs.",
+      "headings": [
+        "A. The role of ethics in AI",
+        "B. The rise of AI technology",
+        "C. The future of AI and society",
+        "D. Implications of AI on human values"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer the question using NO MORE THAN TWO WORDS.",
+      "text": "What is essential for navigating the complexities of AI development?",
+      "answer": "Interdisciplinary collaboration",
+      "explanation": "The passage emphasizes the need for collaboration among various fields to handle the challenges posed by AI."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "permeated",
+      "meaning": "spread throughout an area or a group of people."
+    },
+    {
+      "word": "ramifications",
+      "meaning": "consequences or outcomes that complicate a situation."
+    },
+    {
+      "word": "algorithmic",
+      "meaning": "pertaining to a process or set of rules to be followed in calculations or other problem-solving operations."
+    },
+    {
+      "word": "equities",
+      "meaning": "the quality of being fair and impartial."
+    },
+    {
+      "word": "proactive",
+      "meaning": "creating or controlling a situation rather than just responding to it after it has happened."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When answering questions, pay close attention to the nuances in the text. Look for keywords and phrases that indicate the author's intent or attitude. For multiple-choice questions, eliminate options that do not align with the passage's main arguments. In true/false/not given questions, be cautious about over-interpreting information. For matching tasks, skim through the headings or aspects quickly to find relevant sections in the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,91 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_046",
+  "title": "Harnessing Nature: The Future of Renewable Energy",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Renewable Energy</h2><p>In recent years, renewable energy has gained significant attention as a viable alternative to fossil fuels. The main types of renewable energy include solar, wind, hydroelectric, and geothermal. These energy sources are considered more sustainable and environmentally friendly compared to traditional fossil fuels, which contribute to pollution and climate change.</p><p>Solar energy harnesses sunlight using photovoltaic cells, converting it into electricity. Wind energy, on the other hand, captures the kinetic energy from wind through turbines. Hydroelectric power utilizes flowing water to generate electricity, while geothermal energy taps into the heat from the Earth’s core.</p><p>One of the greatest advantages of renewable energy is its potential to reduce greenhouse gas emissions. This shift not only helps combat global warming but also promotes energy independence, allowing countries to rely less on imported fossil fuels. However, the transition to renewable energy also comes with challenges, such as the need for improved technology and infrastructure.</p><p>Governments worldwide are increasingly investing in renewable energy projects. For instance, many countries have set ambitious targets to reduce their carbon footprints by increasing the share of renewables in their energy mix. This transition is essential for a sustainable future, and public awareness about the benefits of renewable energy is growing.</p><p>To summarize, renewable energy offers a promising path towards a cleaner, more sustainable world. As technology advances and investments increase, the reliance on fossil fuels may diminish, paving the way for a greener planet.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a primary benefit of renewable energy mentioned in the passage?",
+      "options": {
+        "A": "It reduces greenhouse gas emissions.",
+        "B": "It is more expensive than fossil fuels.",
+        "C": "It relies heavily on imported resources.",
+        "D": "It requires no technological advancements."
+      },
+      "answer": "A",
+      "explanation": "The passage highlights that one of the greatest advantages of renewable energy is its potential to reduce greenhouse gas emissions."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Hydroelectric power is the most widely used form of renewable energy.",
+      "answer": "Not Given"
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Decide if the author's opinion is Yes, No, or Not Given.",
+      "text": "The author believes that public awareness is crucial for the growth of renewable energy.",
+      "answer": "Yes"
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the type of renewable energy with its description.",
+      "options": {
+        "A": "Solar energy",
+        "B": "Wind energy",
+        "C": "Hydroelectric power",
+        "D": "Geothermal energy"
+      },
+      "descriptions": {
+        "1": "Uses sunlight to generate electricity.",
+        "2": "Relies on flowing water to produce energy.",
+        "3": "Captures energy from the wind.",
+        "4": "Taps into the Earth's internal heat."
+      },
+      "answers": {
+        "A": "1",
+        "B": "3",
+        "C": "2",
+        "D": "4"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN THREE WORDS.",
+      "text": "Many countries are setting ambitious targets to reduce their ________ by increasing renewable energy use.",
+      "answer": "carbon footprints"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "photovoltaic",
+      "meaning": "related to the conversion of light into electricity"
+    },
+    {
+      "word": "kinetic",
+      "meaning": "related to motion; energy of movement"
+    },
+    {
+      "word": "sustainable",
+      "meaning": "able to be maintained at a certain rate or level without depleting resources"
+    },
+    {
+      "word": "infrastructure",
+      "meaning": "the basic physical and organizational structures needed for the operation of a society"
+    },
+    {
+      "word": "ambitious",
+      "meaning": "having a strong desire for success or achievement; requiring significant effort"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To do well on this passage, focus on identifying key terms related to renewable energy and their benefits. Pay attention to the author's opinions and the main ideas of each paragraph. Use skimming to get a general sense of the text and scanning for specific details when answering questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

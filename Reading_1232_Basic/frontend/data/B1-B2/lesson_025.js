@@ -1,0 +1,56 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_025",
+  "title": "The Future of Space Exploration: Opportunities and Challenges",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Future of Space Exploration</h2><p>Space exploration has always fascinated humanity, sparking dreams of reaching distant planets and uncovering the mysteries of the universe. With advancements in technology, the possibilities of exploring outer space have significantly expanded in recent years. Organizations like NASA and private companies such as SpaceX are leading the charge in this new era of space travel.</p><p>One of the most exciting developments is the planned mission to Mars. NASA's Artemis program aims to return humans to the Moon and eventually send astronauts to Mars by the 2030s. This mission will not only test our capabilities in long-duration space travel but also provide vital information about living on another planet.</p><p>However, space exploration is not without its challenges. The harsh conditions of space, including radiation and microgravity, pose significant risks to human health. Scientists are researching ways to mitigate these risks, such as developing better shielding for spacecraft and studying the effects of long-term space travel on the human body.</p><p>Moreover, international cooperation is essential for the future of space exploration. The International Space Station (ISS) serves as a model for collaboration among nations. By pooling resources and knowledge, countries can achieve more than they could individually.</p><p>In conclusion, the future of space exploration holds great promise, but it also requires careful planning and cooperation. As we stand on the brink of a new age of discovery, the potential for scientific advancement and understanding of our universe is limitless.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main goal of NASA's Artemis program?",
+      "options": {
+        "A": "To send astronauts to Mars by the 2030s.",
+        "B": "To develop technologies for deep space travel.",
+        "C": "To establish a permanent base on the Moon.",
+        "D": "To collaborate with private companies in space.",
+        "answer": "A",
+        "explanation": "Option A is correct as the passage specifically states that the Artemis program aims to return humans to the Moon and eventually send astronauts to Mars by the 2030s."
+      },
+      "q2": {
+        "id": "q2",
+        "type": "true_false_not_given",
+        "text": "Space exploration poses no health risks to astronauts.",
+        "answer": "False",
+        "explanation": "The passage indicates that space exploration presents significant risks to human health due to harsh conditions."
+      },
+      "q3": {
+        "id": "q3",
+        "type": "yes_no_not_given",
+        "text": "Does the author believe international cooperation is important for space exploration?",
+        "answer": "Yes",
+        "explanation": "The author mentions that international cooperation is essential for future space exploration."
+      },
+      "q4": {
+        "id": "q4",
+        "type": "matching_information",
+        "text": "Match the following concepts with their descriptions.",
+        "options": {
+          "A": "NASA's Artemis program",
+          "B": "International Space Station",
+          "C": "Challenges of space travel",
+          "D": "Private companies like SpaceX"
+        },
+        "descriptions": {
+          "1": "A model for collaboration among nations.",
+          "2": "Aiming to send astronauts to Mars.",
+          "3": "Include risks from radiation.",
+          "4": "Leading the charge in commercial space travel."
+        }
+      }
+    },
+    "vocabulary\": [\n                {\"word\": \"fascinated\", \"meaning\": \"intensely interested\"},\n                {\"word\": \"mitigate\", \"meaning\": \"to make less severe\"},\n                {\"word\": \"collaboration\", \"meaning\": \"working together towards a common goal\"}\n            ],\n    \"tactics\": \"<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on understanding the main ideas presented in each paragraph. Pay attention to keywords that indicate specific information, such as 'NASA', 'Mars', and 'international cooperation'. For multiple choice questions, eliminate incorrect answers by looking for details in the text. For True/False/Not Given questions, identify statements that are clearly supported or contradicted by the passage.</p>\""
+  ]
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

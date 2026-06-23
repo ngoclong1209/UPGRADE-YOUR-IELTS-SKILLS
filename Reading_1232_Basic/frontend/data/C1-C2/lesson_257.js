@@ -1,0 +1,109 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_257",
+  "title": "Navigating Choices: Public Transportation vs Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Public Transportation and Private Cars: A Critical Analysis</h2><p>The debate surrounding public transportation versus private cars is multifaceted, encompassing environmental, economic, and social dimensions. Proponents of public transit argue that it significantly reduces carbon emissions, thereby mitigating climate change. Studies indicate that cities with extensive public transport networks experience lower levels of air pollution and greenhouse gas emissions compared to their car-dependent counterparts. Furthermore, the economic implications of utilizing public transport are profound; it is often more cost-effective for individuals, especially those from lower-income backgrounds, as it eliminates the financial burdens associated with car ownership, such as maintenance, insurance, and fuel costs.</p><p>On the other hand, advocates for private cars contend that personal vehicles offer unmatched convenience and flexibility. They argue that the ability to travel at one’s own pace without the constraints of public transport schedules is a significant advantage. Moreover, in many suburban areas, public transportation options are limited, rendering private vehicles a necessity for commuting. However, this reliance on cars contributes to urban sprawl, a phenomenon that exacerbates traffic congestion and contributes to the degradation of public space.</p><p>The sociological implications of both transportation modes cannot be overlooked. Public transportation fosters a sense of community, as it encourages interaction among diverse groups of people. Conversely, private car usage often leads to social isolation, as individuals tend to travel alone and may avoid public spaces altogether. This isolation can have detrimental effects on community cohesion and social capital.</p><p>Ultimately, the choice between public transportation and private cars is not merely a personal preference but reflects broader societal values and priorities. As cities evolve and face environmental challenges, the need for an integrated approach that combines the benefits of both systems becomes increasingly apparent. Policymakers must consider innovative strategies to enhance public transportation infrastructure while also addressing the needs of car users to create sustainable urban environments.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument made by proponents of public transportation?",
+      "options": {
+        "A": "It is more convenient than private cars.",
+        "B": "It significantly reduces carbon emissions.",
+        "C": "It is preferred in suburban areas.",
+        "D": "It fosters social isolation."
+      },
+      "answer": "B",
+      "explanation": "The passage states that proponents argue public transportation reduces carbon emissions, thus supporting climate change mitigation."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Private car usage contributes to urban sprawl.",
+      "answer": "True",
+      "explanation": "The passage mentions that reliance on cars leads to urban sprawl, indicating that this statement is true."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes public transportation is the best option for all urban dwellers.",
+      "answer": "No",
+      "explanation": "The passage discusses both public transportation and private cars without asserting that one is definitively better for all."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following arguments with their respective transportation mode.",
+      "text": "1. Reduces air pollution<br>2. Offers unmatched convenience<br>3. Fosters community interaction<br>4. Financial burdens of ownership",
+      "options": {
+        "A": "Public Transportation",
+        "B": "Private Cars"
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "A",
+        "4": "B"
+      },
+      "explanation": "Each argument aligns with the respective mode as described in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the appropriate paragraphs.",
+      "text": "A. Economic Considerations<br>B. Environmental Impact<br>C. Societal Effects<br>D. The Future of Transportation",
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "C",
+        "4": "D"
+      },
+      "explanation": "The headings reflect the main ideas discussed in each paragraph."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences with NO MORE THAN TWO WORDS.",
+      "text": "Public transportation is often more cost-effective due to the elimination of expenses related to __________.",
+      "answer": "car ownership",
+      "explanation": "The passage states that public transport eliminates financial burdens associated with car ownership."
+    },
+    {
+      "id": "q7",
+      "type": "summary_note_table_flow-chart_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The discussion highlights that a balanced approach incorporating both public transportation and __________ is vital for sustainable urban development.",
+      "answer": "private cars",
+      "explanation": "The passage emphasizes the need for an integrated approach that includes both systems."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following question with NO MORE THAN THREE WORDS.",
+      "text": "What phenomenon does private car usage contribute to?",
+      "answer": "urban sprawl",
+      "explanation": "The passage indicates that reliance on cars leads to urban sprawl."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "mitigating",
+      "meaning": "making something less severe, serious, or painful"
+    },
+    {
+      "word": "urban sprawl",
+      "meaning": "the uncontrolled expansion of urban areas"
+    },
+    {
+      "word": "cohesion",
+      "meaning": "the action or fact of forming a united whole"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the main arguments presented by both sides. Pay attention to transitions that indicate comparisons and contrasts. For multiple-choice questions, eliminate options that are clearly incorrect based on the passage. For True/False/Not Given questions, be cautious about information that may seem implied but is not explicitly stated. Take notes on the economic and societal implications highlighted in the text, as they are critical for answering matching and completion questions effectively.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

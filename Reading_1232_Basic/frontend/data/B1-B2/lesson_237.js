@@ -1,0 +1,98 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_237",
+  "title": "The Benefits of Public Transportation Over Private Cars",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Public Transportation vs Private Cars</h2><p>In many cities around the world, the debate between using public transportation and owning private cars continues to be a hot topic. Public transportation, which includes buses, trains, and trams, offers numerous advantages over private vehicles. Firstly, it is often more economical. Using public transport can reduce commuting costs significantly, as individuals save on fuel, parking fees, and maintenance expenses. Additionally, many cities offer discounts for students and seniors, making it an even more attractive option.</p><p>Secondly, public transportation is generally more environmentally friendly. Vehicles contribute significantly to air pollution and greenhouse gas emissions. By opting for public transit, individuals can help lower their carbon footprint, as buses and trains can transport many people at once, leading to fewer vehicles on the road. This reduction in traffic congestion not only benefits the environment but also improves overall air quality in urban areas.</p><p>However, private cars do have their own set of advantages. For instance, they provide convenience and flexibility. Individuals can travel at their own pace without being constrained by schedules or routes. This can be particularly beneficial for families or those who live in areas poorly served by public transport.</p><p>Moreover, during emergencies or late-night travel, having a private car can be a lifesaver. Yet, despite these benefits, the drawbacks of owning a car often outweigh the positives. Maintenance costs, insurance, and the hassle of finding parking can be significant burdens.</p><p>In conclusion, while private cars offer certain conveniences, the economic and environmental benefits of public transportation make it a more sustainable choice for the future. Cities should invest in improving their public transit systems to encourage more people to use them.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major advantage of public transportation mentioned in the passage?",
+      "options": {
+        "A": "It is more economical than owning a car.",
+        "B": "It allows for more personal freedom.",
+        "C": "It is faster than private cars.",
+        "D": "It requires less maintenance."
+      },
+      "answer": "A",
+      "explanation": "The passage states that using public transport can reduce commuting costs significantly, making it more economical."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Public transportation does not contribute to air pollution.",
+      "answer": "False",
+      "explanation": "The passage indicates that public transportation is environmentally friendly as it helps reduce air pollution."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer with 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes public transportation is the best option for everyone.",
+      "answer": "No",
+      "explanation": "The author acknowledges that private cars have benefits, suggesting that public transportation may not be the best option for everyone."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following benefits to either public transportation or private cars.",
+      "text": "1. More economical\n2. Provides flexibility\n3. Reduces carbon footprint\n4. Convenient for emergencies",
+      "options": {
+        "1": "Public transportation",
+        "2": "Private cars",
+        "3": "Public transportation",
+        "4": "Private cars"
+      },
+      "answer": {
+        "1": "Public transportation",
+        "2": "Private cars",
+        "3": "Public transportation",
+        "4": "Private cars"
+      },
+      "explanation": "The benefits are outlined in the passage as being associated with each mode of transport."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "Using public transport helps lower one’s __________.",
+      "answer": "carbon footprint",
+      "explanation": "The passage states that public transportation can help lower an individual's carbon footprint."
+    },
+    {
+      "id": "q6",
+      "type": "short_answer_questions",
+      "instruction": "Answer with NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "What do many cities offer to make public transport more attractive for certain groups?",
+      "answer": "Discounts",
+      "explanation": "The passage mentions that cities offer discounts for students and seniors."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "economical",
+      "meaning": "cost-effective, saving money"
+    },
+    {
+      "word": "convenience",
+      "meaning": "ease of use or accessibility"
+    },
+    {
+      "word": "carbon footprint",
+      "meaning": "the total greenhouse gas emissions caused by an individual or organization"
+    },
+    {
+      "word": "congestion",
+      "meaning": "overcrowding, especially on roads"
+    },
+    {
+      "word": "sustainable",
+      "meaning": "able to be maintained at a certain rate or level without depleting resources"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To succeed in this passage, focus on understanding the main ideas and specific details. Pay attention to the benefits mentioned for both public transportation and private cars. Note the contrasting views and be prepared to identify author opinions and factual statements.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

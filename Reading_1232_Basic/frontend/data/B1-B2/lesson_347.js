@@ -1,0 +1,84 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_347",
+  "title": "Public Transportation vs Private Cars: A Sustainable Choice",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Public Transportation vs Private Cars</h2><p>In recent years, the debate over public transportation versus private cars has become increasingly relevant. As urban areas expand, the need for efficient travel options is more critical than ever. Public transportation, such as buses and trains, offers an affordable and environmentally friendly alternative to driving a private vehicle. Many cities are investing in enhancing their public transport systems to reduce traffic congestion and pollution. For instance, cities like London and Tokyo have developed extensive metro networks that provide quick access to various parts of the city.</p><p>However, private cars remain popular for several reasons. They offer flexibility and convenience, allowing individuals to travel at their own pace and schedule. Many people argue that owning a car is essential for families, especially in areas where public transport is limited. Additionally, during peak hours, public transport can become overcrowded and uncomfortable, leading some to prefer their own vehicles.</p><p>Despite the advantages of private cars, the environmental impact cannot be ignored. Cars contribute significantly to air pollution and greenhouse gas emissions. In contrast, public transportation systems can carry many passengers at once, reducing the number of vehicles on the road. Moreover, the use of electric buses and trains is becoming more common, further decreasing the carbon footprint of public transport.</p><p>In conclusion, while both public transportation and private cars have their merits, the sustainability of public transport makes it a more favorable choice in the long run. Cities around the world are recognizing this and are working towards improving public transit options, making them more appealing to the general population.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one main reason cities are improving public transportation?",
+      "options": {
+        "A": "To reduce traffic congestion and pollution.",
+        "B": "To provide more flexibility for families.",
+        "C": "To increase the number of private cars.",
+        "D": "To encourage people to travel longer distances."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct because the passage states that cities are investing in public transport to reduce traffic congestion and pollution."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "Private cars are less flexible than public transportation.",
+      "answer": "False",
+      "explanation": "The passage mentions that private cars offer flexibility and convenience, making this statement false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The author believes public transportation is the best option for the environment.",
+      "answer": "Yes",
+      "explanation": "The author argues that public transportation is more sustainable and has a lower environmental impact, thus indicating agreement."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following benefits with their corresponding transport type.",
+      "options": {
+        "A": "Flexibility and convenience",
+        "B": "Environmental sustainability",
+        "C": "Overcrowding during peak hours",
+        "D": "Extensive metro networks"
+      },
+      "answers": {
+        "A": "Private Cars",
+        "B": "Public Transportation",
+        "C": "Public Transportation",
+        "D": "Public Transportation"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "Many cities are developing __________ to make public transportation more appealing.",
+      "answer": "public transit",
+      "explanation": "The passage indicates cities are working towards improving public transit options."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "sustainable",
+      "meaning": "capable of being maintained with minimal impact on the environment."
+    },
+    {
+      "word": "congestion",
+      "meaning": "the state of being overcrowded, especially with vehicles or people."
+    },
+    {
+      "word": "flexibility",
+      "meaning": "the quality of being adaptable or variable."
+    },
+    {
+      "word": "pollution",
+      "meaning": "the introduction of harmful substances or products into the environment."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on the main arguments presented about public transportation and private cars. Pay attention to the benefits and drawbacks of each option. Use skimming techniques to quickly identify key points and scanning methods to locate specific details. Remember to note the author's opinions, especially regarding environmental impacts.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

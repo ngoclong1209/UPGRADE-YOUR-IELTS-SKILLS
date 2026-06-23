@@ -1,0 +1,103 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_627",
+  "title": "Navigating the Urban Jungle: Public Transportation vs Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Transportation Dilemma</h2><p>In modern urban environments, the choice between public transportation and private vehicles has become a contentious issue, often reflecting broader societal values and priorities. Proponents of public transport argue that it serves as a fundamental pillar of sustainable urban development, reducing traffic congestion and minimizing environmental impact. Conversely, advocates for private car usage frequently highlight the convenience, personal autonomy, and perceived efficiency that come with driving one’s own vehicle. This dichotomy not only underscores personal preferences but also raises critical questions regarding urban planning, social equity, and environmental sustainability.</p><p>Public transportation systems, such as buses, subways, and trams, offer an economical alternative to individual car ownership. They are designed to accommodate large volumes of passengers, thereby decreasing the number of vehicles on the road. However, the effectiveness of these systems often hinges upon the infrastructure’s quality and the extent of coverage. In cities where public transport is well-integrated, residents may find that it is not only cost-effective but also time-efficient. Studies have shown that cities with robust public transport options can reduce overall travel times for commuters, as many urban dwellers can avoid the pitfalls of peak-hour traffic.</p><p>On the other hand, the allure of private vehicles cannot be underestimated. Cars provide unmatched flexibility and comfort, enabling users to travel to remote areas that public transport may not reach. Furthermore, the perception of safety and privacy while driving adds to the appeal of car ownership. However, this preference for personal vehicles has significant repercussions, including increased carbon emissions and urban sprawl, which can undermine the very benefits that public transportation aims to achieve.</p><p>Ultimately, the debate is multifaceted, requiring a nuanced understanding of individual needs, community resources, and environmental imperatives. As urban populations continue to swell, the need for effective transportation solutions becomes increasingly urgent, prompting policymakers to explore hybrid models that combine the strengths of both public and private transportation.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument in favor of public transportation mentioned in the passage?",
+      "options": {
+        "A": "It offers greater convenience than private cars.",
+        "B": "It significantly lowers environmental impact.",
+        "C": "It ensures personal autonomy for commuters.",
+        "D": "It eliminates the need for urban planning."
+      },
+      "answer": "B",
+      "explanation": "The passage highlights that public transportation serves as a fundamental pillar of sustainable urban development, reducing traffic congestion and minimizing environmental impact."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Private vehicles are considered safer than public transport.",
+      "answer": "True",
+      "explanation": "The passage mentions the perception of safety and privacy while driving as a contributing factor to the appeal of private vehicles."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The passage suggests that public transport is always the most time-efficient option.",
+      "answer": "No",
+      "explanation": "While the passage states that public transportation can be time-efficient in well-integrated cities, it does not claim that it is always the most efficient option."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statement to the correct paragraph.",
+      "text": [
+        "Public transportation reduces the number of cars on the road.",
+        "Private vehicles enable travel to areas without public transport.",
+        "Urban sprawl can be exacerbated by car usage."
+      ],
+      "answers": {
+        "1": "Paragraph 2",
+        "2": "Paragraph 3",
+        "3": "Paragraph 3"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "text": [
+        "The Benefits of Public Transport",
+        "Challenges of Car Ownership",
+        "The Future of Urban Transport",
+        "The Role of Infrastructure"
+      ],
+      "answers": {
+        "1": "Paragraph 2",
+        "2": "Paragraph 3",
+        "3": "Paragraph 4",
+        "4": "Paragraph 1"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Write a number or no more than two words.",
+      "text": "What is a significant factor that impacts the effectiveness of public transportation systems?",
+      "answer": "infrastructure quality",
+      "explanation": "The passage emphasizes that the effectiveness of public transport hinges upon the quality of infrastructure."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "dichotomy",
+      "meaning": "a division or contrast between two things that are represented as being opposed or entirely different."
+    },
+    {
+      "word": "urban sprawl",
+      "meaning": "the uncontrolled expansion of urban areas."
+    },
+    {
+      "word": "infrastructure",
+      "meaning": "the basic physical and organizational structures and facilities needed for the operation of a society or enterprise."
+    },
+    {
+      "word": "economical",
+      "meaning": "giving good value or return in relation to the money, time, or effort spent."
+    },
+    {
+      "word": "robust",
+      "meaning": "strong and healthy; able to withstand or overcome adverse conditions."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the nuanced arguments presented about both public transportation and private cars. Pay attention to the implications of the author's tone and the underlying messages regarding urban planning and environmental impact. Take notes on key terms and their definitions as they can assist in answering vocabulary-related questions effectively.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,117 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_375",
+  "title": "Navigating the Cosmos: The Future of Space Exploration",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Exploration Beyond Earth</h2><p>As humanity stands on the brink of unprecedented advancements in space exploration, the implications of venturing beyond our terrestrial confines have become a focal point of scientific inquiry. The recent strides in technology have not only expanded our capabilities to explore celestial bodies but also raised profound questions about the ethical considerations of such endeavors. From the ambitious missions to Mars to the search for extraterrestrial life, every step taken in the cosmos is intertwined with our understanding of existence itself.</p><p>One of the pivotal areas of research involves the utilization of autonomous systems in space missions. These systems promise to enhance the efficiency of exploratory missions by minimizing human error and maximizing data collection. For instance, the deployment of rovers on Martian soil has yielded significant geological insights, revealing the planet's potential to harbor life in its ancient past. However, the reliance on technology also necessitates a critical examination of the potential consequences of artificial intelligence in decision-making processes in environments where human oversight is limited.</p><p>Furthermore, the environmental ramifications of space exploration cannot be overlooked. The increasing frequency of launches, coupled with the proliferation of space debris, prompts a re-evaluation of our approach to sustainable practices in the cosmos. As the race to establish a human presence on Mars intensifies, the need for policies that address the preservation of celestial environments is paramount. Without such frameworks, we risk repeating the mistakes made on Earth, leading to irreversible damage in the fragile ecosystems of other planets.</p><p>In conclusion, the future of space exploration is fraught with challenges and opportunities alike. It beckons humanity not only to expand its frontiers but to do so with a conscientious approach that considers the broader implications of our actions in the universe.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the passage primarily emphasize regarding space exploration?",
+      "options": {
+        "A": "The technological advancements that facilitate exploration.",
+        "B": "The ethical and environmental consequences of space missions.",
+        "C": "The historical context of previous space missions.",
+        "D": "The financial investments required for future explorations."
+      },
+      "answer": "B",
+      "explanation": "The passage discusses the ethical considerations and environmental ramifications of space exploration, highlighting the need for sustainable practices."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "The passage suggests that technology in space exploration eliminates all human errors.",
+      "answer": "False",
+      "explanation": "Although the passage mentions that autonomous systems minimize human error, it does not claim that they eliminate all errors."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author advocate for immediate human colonization of Mars?",
+      "answer": "No",
+      "explanation": "The passage emphasizes the need for a conscientious approach rather than advocating for immediate colonization."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements with the appropriate sections of the passage.",
+      "text": "1. Environmental concerns regarding space launches\n2. Benefits of autonomous systems\n3. Ethical implications of AI in space exploration",
+      "options": {
+        "A": "Section discussing Mars rovers",
+        "B": "Section addressing sustainable practices",
+        "C": "Section on technological advancements"
+      },
+      "answer": {
+        "1": "B",
+        "2": "C",
+        "3": "C"
+      },
+      "explanation": "Each section corresponds to the concerns and benefits mentioned in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the corresponding paragraphs.",
+      "options": {
+        "A": "Ethical Considerations in Space Exploration",
+        "B": "The Role of Technology in Exploration",
+        "C": "Challenges of Sustainable Practices",
+        "D": "The Future of Space Missions"
+      },
+      "answer": {
+        "1": "D",
+        "2": "B",
+        "3": "C"
+      },
+      "explanation": "The headings reflect the main ideas of each paragraph, focusing on future implications, technology, and sustainability."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The increasing frequency of launches raises concerns about _______.",
+      "answer": "space debris",
+      "explanation": "The passage explicitly mentions the proliferation of space debris as a concern."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The author highlights the need for _______ in order to avoid repeating past mistakes made on Earth.",
+      "answer": "sustainable practices",
+      "explanation": "The passage emphasizes the importance of sustainable practices in space exploration."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer",
+      "instruction": "Answer the question with NO MORE THAN THREE WORDS.",
+      "text": "What does the passage suggest is a significant challenge in space exploration?",
+      "answer": "ethical implications",
+      "explanation": "The passage discusses ethical considerations as a significant challenge."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "terrestrial",
+      "meaning": "relating to the earth; land-based."
+    },
+    {
+      "word": "autonomous",
+      "meaning": "capable of operating independently without human intervention."
+    },
+    {
+      "word": "ramifications",
+      "meaning": "consequences or effects, especially of a complex nature."
+    },
+    {
+      "word": "ecosystems",
+      "meaning": "a biological community of interacting organisms and their environment."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on understanding the main ideas and the implications of the author's arguments. Pay attention to the nuances in language, especially regarding the ethical and environmental discussions. Take note of how technology is portrayed, and consider the broader context of each statement to avoid common traps in the questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

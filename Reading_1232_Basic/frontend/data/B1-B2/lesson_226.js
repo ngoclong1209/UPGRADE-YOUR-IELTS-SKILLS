@@ -1,0 +1,95 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_226",
+  "title": "Harnessing Nature: The Future of Renewable Energy",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Renewable Energy</h2><p>In recent years, renewable energy has gained significant attention as a viable alternative to fossil fuels. This shift is largely driven by the need to combat climate change and reduce greenhouse gas emissions. Solar, wind, and hydropower are among the most popular forms of renewable energy, each with unique advantages and challenges. For instance, solar energy harnesses the power of the sun through photovoltaic cells, while wind energy uses turbines to convert wind into electricity. Hydropower, on the other hand, relies on water flow to generate energy. Despite their benefits, these energy sources also face hurdles, such as high initial costs and the need for advanced technology.</p><p>Many countries are investing heavily in renewable energy infrastructure. Governments are setting ambitious targets to increase the share of renewables in their energy mix. For example, the European Union aims to produce 32% of its energy from renewable sources by 2030. Additionally, technological advancements have made renewable energy more accessible and affordable. Innovations such as energy storage systems and smart grids are helping to optimize energy use and efficiency.</p><p>It is important to note that transitioning to renewable energy also presents social and economic challenges. Job displacement in traditional energy sectors is a significant concern. However, the renewable energy sector is also creating new job opportunities, particularly in installation and maintenance roles. Overall, the shift towards renewable energy is not only crucial for environmental sustainability but also offers potential for economic growth and job creation.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a major reason for the shift towards renewable energy?",
+      "options": {
+        "A": "To increase fossil fuel production.",
+        "B": "To combat climate change.",
+        "C": "To reduce energy costs immediately.",
+        "D": "To eliminate the need for technology."
+      },
+      "answer": "B",
+      "explanation": "The passage states that the shift is largely driven by the need to combat climate change and reduce greenhouse gas emissions."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False or Not Given.",
+      "text": "Hydropower is the most expensive form of renewable energy.",
+      "answer": "Not Given",
+      "explanation": "The passage does not provide specific cost comparisons between different forms of renewable energy."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No or Not Given.",
+      "text": "Does the author believe that renewable energy can lead to job creation?",
+      "answer": "Yes",
+      "explanation": "The passage indicates that the renewable energy sector is creating new job opportunities."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the information with the correct section of the passage.",
+      "text": "Match the renewable energy sources to their descriptions.",
+      "options": {
+        "A": "Uses water flow to generate energy.",
+        "B": "Harnesses sunlight using photovoltaic cells.",
+        "C": "Converts wind into electricity."
+      },
+      "answers": {
+        "A": "Hydropower",
+        "B": "Solar energy",
+        "C": "Wind energy"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph.",
+      "text": "Match the paragraphs to their headings.",
+      "options": {
+        "1": "The benefits of renewable energy.",
+        "2": "Challenges faced in transitioning.",
+        "3": "Government initiatives for renewable energy."
+      },
+      "answers": {
+        "1": "The benefits of renewable energy.",
+        "2": "Challenges faced in transitioning.",
+        "3": "Government initiatives for renewable energy."
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The European Union aims to produce 32% of its energy from __________ by 2030.",
+      "answer": "renewable sources",
+      "explanation": "The passage mentions the EU's target for renewable energy."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "photovoltaic",
+      "meaning": "Related to the technology that converts sunlight into electricity."
+    },
+    {
+      "word": "infrastructure",
+      "meaning": "The basic physical systems of a business or nation, such as transportation and communication systems."
+    },
+    {
+      "word": "displacement",
+      "meaning": "The act of removing something from its place, often referring to job loss."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading about renewable energy, focus on the main ideas and supporting details. Pay attention to how different energy sources are described and look for specific statistics or goals mentioned in the text. It may help to underline key phrases as you read.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

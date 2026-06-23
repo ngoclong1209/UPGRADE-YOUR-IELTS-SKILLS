@@ -1,0 +1,93 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_110",
+  "title": "The Importance of a Balanced Diet",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Understanding Nutrition</h2><p>A balanced diet is essential for maintaining good health and well-being. It provides the body with the necessary nutrients to function effectively. Nutrients include carbohydrates, proteins, fats, vitamins, and minerals. Each plays a critical role in how our body operates. For example, carbohydrates are the body's main source of energy, while proteins are vital for growth and repair.</p><p>Many people struggle to maintain a balanced diet due to busy lifestyles and the convenience of fast food. However, making small changes can lead to significant health benefits. Incorporating more fruits and vegetables into meals, choosing whole grains over refined ones, and being mindful of portion sizes can all contribute to a healthier diet.</p><p>Moreover, staying hydrated is equally important. Drinking enough water helps maintain the balance of bodily fluids, which is crucial for processes such as digestion and temperature regulation. Experts recommend drinking at least eight glasses of water a day.</p><p>In addition to physical health, a balanced diet can also have a positive impact on mental health. Studies have shown that certain nutrients can influence mood and cognitive function. For instance, omega-3 fatty acids found in fish have been linked to improved brain health.</p><p>In conclusion, maintaining a balanced diet is not just about physical health; it is also about enhancing mental well-being. By making informed food choices, individuals can improve their overall quality of life.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main purpose of the passage?",
+      "options": {
+        "A": "To explain the importance of a balanced diet.",
+        "B": "To list various types of diets available.",
+        "C": "To describe the history of nutrition.",
+        "D": "To promote a specific diet plan."
+      },
+      "answer": "A",
+      "explanation": "The passage primarily discusses the significance of maintaining a balanced diet for both physical and mental health."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Fast food is the healthiest option for a busy lifestyle.",
+      "answer": "False",
+      "explanation": "The passage states that many people struggle to maintain a balanced diet due to the convenience of fast food, implying it is not the healthiest choice."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes that hydration is important for health.",
+      "answer": "Yes",
+      "explanation": "The passage clearly states that staying hydrated is crucial for bodily functions, indicating the author's belief in its importance."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following nutrients with their functions.",
+      "options": [
+        {
+          "nutrient": "Carbohydrates",
+          "function": "Main source of energy."
+        },
+        {
+          "nutrient": "Proteins",
+          "function": "Vital for growth and repair."
+        },
+        {
+          "nutrient": "Vitamins",
+          "function": "Support various bodily functions."
+        },
+        {
+          "nutrient": "Omega-3 fatty acids",
+          "function": "Linked to improved brain health."
+        }
+      ],
+      "answer": {
+        "Carbohydrates": "Main source of energy.",
+        "Proteins": "Vital for growth and repair.",
+        "Vitamins": "Support various bodily functions.",
+        "Omega-3 fatty acids": "Linked to improved brain health."
+      },
+      "explanation": "Each nutrient mentioned in the passage has a specific function that contributes to health."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence with NO MORE THAN TWO WORDS.",
+      "text": "Experts recommend drinking at least _____ glasses of water a day.",
+      "answer": "eight",
+      "explanation": "The passage specifies that experts recommend drinking at least eight glasses of water daily."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "nutrients",
+      "meaning": "Substances that provide nourishment essential for growth and the maintenance of life."
+    },
+    {
+      "word": "hydration",
+      "meaning": "The process of causing something to absorb water."
+    },
+    {
+      "word": "omega-3 fatty acids",
+      "meaning": "Essential fats that the body cannot produce by itself, important for heart and brain health."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, pay attention to the main ideas presented in each paragraph. Take note of specific details that support these ideas, especially about nutrition and its impact on health. For multiple choice questions, eliminate options that are clearly incorrect to narrow down your choices. For true/false questions, look for keywords that indicate the author's opinion.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

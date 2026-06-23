@@ -1,0 +1,86 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_319",
+  "title": "The Dual Nature of Tourism: Benefits and Drawbacks",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Impact of Tourism on Local Communities</h2><p>Tourism has become a crucial part of many economies around the world. It generates significant income, creates jobs, and promotes cultural exchange. However, the rapid growth of tourism can also lead to negative consequences for local communities and environments.</p><p>One of the primary benefits of tourism is the economic boost it provides. When visitors arrive in a destination, they spend money on accommodations, food, and activities, which supports local businesses. This influx of cash can help improve infrastructure, such as roads and public services, ultimately benefiting residents.</p><p>Moreover, tourism encourages cultural exchange. Tourists often seek to experience the local culture, traditions, and cuisine, leading to a sharing of ideas and practices. This can foster greater understanding and appreciation between different cultures.</p><p>However, tourism can have detrimental effects as well. One major concern is environmental degradation. Popular tourist destinations can suffer from overcrowding, leading to pollution and resource depletion. Additionally, the construction of hotels and attractions often disrupts local ecosystems.</p><p>Another issue is the potential for cultural erosion. As local communities adapt to meet the demands of tourists, there is a risk that traditional practices and values may be overshadowed by commercial interests. This can lead to a loss of cultural identity and authenticity.</p><p>To mitigate these impacts, sustainable tourism practices are essential. This involves promoting responsible travel, minimizing environmental impact, and ensuring that local communities benefit from tourism. By prioritizing sustainability, we can enjoy the advantages of tourism while protecting the environments and cultures that make these destinations special.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major benefit of tourism mentioned in the passage?",
+      "options": {
+        "A": "It improves local infrastructure.",
+        "B": "It decreases the cost of living.",
+        "C": "It increases pollution levels.",
+        "D": "It encourages local traditions."
+      },
+      "answer": "A",
+      "explanation": "The passage states that tourism generates income that can help improve infrastructure, which supports the idea that it has a positive impact on local infrastructure."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Tourism has no negative effects on local economies.",
+      "answer": "False",
+      "explanation": "The passage discusses both the benefits and drawbacks of tourism, indicating that it can have negative effects."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that sustainable tourism is important.",
+      "answer": "Yes",
+      "explanation": "The passage emphasizes the need for sustainable tourism practices to mitigate negative impacts."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following concepts with their impacts.",
+      "options": {
+        "A": "Economic boost",
+        "B": "Cultural exchange",
+        "C": "Environmental degradation",
+        "D": "Cultural erosion"
+      },
+      "impacts": {
+        "1": "Supports local businesses.",
+        "2": "Leads to pollution.",
+        "3": "Fosters understanding.",
+        "4": "Risks loss of authenticity."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence using NO MORE THAN TWO WORDS.",
+      "text": "Tourism can lead to a loss of local __________.",
+      "answer": "cultural identity",
+      "explanation": "The passage mentions that tourism can result in cultural erosion, leading to a loss of cultural identity."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "influx",
+      "meaning": "a large arrival of people or things"
+    },
+    {
+      "word": "degradation",
+      "meaning": "the process of damaging or destroying something"
+    },
+    {
+      "word": "sustainable",
+      "meaning": "able to be maintained without harming the environment"
+    },
+    {
+      "word": "erosion",
+      "meaning": "the gradual destruction of something"
+    },
+    {
+      "word": "authenticity",
+      "meaning": "the quality of being genuine or real"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching the passage, focus on identifying key benefits and drawbacks of tourism. Pay attention to how the author presents both sides of the argument, and look for specific phrases that indicate opinions or facts. For multiple-choice questions, eliminate options that do not directly relate to the passage's content.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

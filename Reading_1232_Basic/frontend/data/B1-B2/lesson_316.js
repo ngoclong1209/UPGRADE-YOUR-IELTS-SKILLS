@@ -1,0 +1,100 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_316",
+  "title": "Harnessing the Power of Nature: A Look at Renewable Energy",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Renewable Energy</h2><p>In recent years, renewable energy has become an increasingly important topic worldwide. Many countries are now investing in alternative energy sources such as solar, wind, and hydroelectric power. The shift from fossil fuels to renewable energy is essential for addressing climate change and reducing pollution. Solar panels, for example, harness sunlight to generate electricity, while wind turbines convert wind energy into power. Hydroelectric plants use flowing water to produce energy, making them a significant source of electricity in many regions.</p><p>The advantages of renewable energy are numerous. Firstly, these energy sources are sustainable, meaning they can be replenished naturally and will not run out. Secondly, they emit little to no greenhouse gases, which are responsible for global warming. Governments are encouraging the adoption of renewable energy through subsidies and tax incentives, as they see the long-term benefits for both the environment and the economy.</p><p>However, the transition to renewable energy is not without its challenges. One major issue is the initial cost of setting up renewable energy systems, which can be high. Additionally, energy storage remains a concern, as renewable sources like solar and wind are not always available when demand is high. Technologies such as battery storage are being developed to address these issues, making renewable energy more viable for widespread use.</p><p>In conclusion, while renewable energy presents some challenges, its benefits far outweigh the drawbacks. As technology advances and costs decrease, it is likely that renewable energy will play a more significant role in global energy production in the coming years.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major benefit of renewable energy?",
+      "options": {
+        "A": "It is a sustainable energy source.",
+        "B": "It is always available.",
+        "C": "It has a low initial cost.",
+        "D": "It requires no technology."
+      },
+      "answer": "A",
+      "explanation": "The passage states that renewable energy sources are sustainable and can be replenished naturally, making option A correct."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write True, False, or Not Given.",
+      "text": "The initial setup cost for renewable energy systems is low.",
+      "answer": "False",
+      "explanation": "The passage mentions that the initial cost of setting up renewable energy systems can be high, indicating that the statement is false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write Yes, No, or Not Given.",
+      "text": "Governments do not support renewable energy initiatives.",
+      "answer": "No",
+      "explanation": "The passage states that governments are encouraging the adoption of renewable energy through subsidies and tax incentives, so the answer is No."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the technologies to their descriptions.",
+      "text": "1. Solar panels 2. Wind turbines 3. Hydroelectric plants",
+      "options": {
+        "A": "Use flowing water to produce energy.",
+        "B": "Convert sunlight into electricity.",
+        "C": "Harness wind energy to generate power."
+      },
+      "answer": {
+        "1": "B",
+        "2": "C",
+        "3": "A"
+      },
+      "explanation": "The passage describes solar panels as converting sunlight to electricity, wind turbines as harnessing wind energy, and hydroelectric plants as using flowing water."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "text": "Headings: A. Challenges of Renewable Energy B. Advantages of Renewable Energy C. Overview of Renewable Energy",
+      "answer": {
+        "1": "C",
+        "2": "B",
+        "3": "A"
+      },
+      "explanation": "The first paragraph gives an overview, the second discusses advantages, and the third outlines challenges."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences with NO MORE THAN TWO WORDS.",
+      "text": "Renewable energy sources can be replenished naturally, and they emit little to no __________.",
+      "answer": "greenhouse gases",
+      "explanation": "The passage states that renewable sources emit little to no greenhouse gases."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN THREE WORDS.",
+      "text": "The transition to renewable energy faces challenges such as high __________ and energy storage concerns.",
+      "answer": "initial cost",
+      "explanation": "The passage mentions that the initial cost of setting up renewable energy systems can be high."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "sustainable",
+      "meaning": "able to be maintained at a certain rate or level"
+    },
+    {
+      "word": "subsidies",
+      "meaning": "financial assistance given by the government to support a particular industry or activity"
+    },
+    {
+      "word": "emission",
+      "meaning": "the act of releasing something, especially gas or radiation"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on understanding the main ideas of each paragraph. Pay attention to keywords that may help you identify the correct answers. When dealing with true/false/not given questions, look for specific phrases that indicate the truth of the statement. For matching tasks, skim through the paragraphs to find relevant information quickly.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

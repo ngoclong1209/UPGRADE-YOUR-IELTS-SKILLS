@@ -1,0 +1,86 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_293",
+  "title": "Understanding Climate Change: A Global Challenge",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Impact of Climate Change</h2><p>Climate change refers to significant changes in global temperatures and weather patterns over time. While climate change is a natural phenomenon, scientific evidence shows that human activities have been a major contributor to the accelerated pace of climate change observed since the late 20th century. The burning of fossil fuels, deforestation, and industrial processes release greenhouse gases into the atmosphere, leading to a rise in global temperatures.</p><p>The consequences of climate change are profound and far-reaching. Rising sea levels due to melting ice caps threaten coastal communities, while extreme weather events, such as hurricanes and droughts, are becoming more frequent and intense. These changes not only endanger wildlife but also pose a significant risk to human health and food security.</p><p>To combat climate change, international cooperation is essential. Agreements like the Paris Accord aim to limit global warming to well below 2 degrees Celsius above pre-industrial levels. Countries are encouraged to reduce carbon emissions and invest in renewable energy sources. However, the transition requires commitment and innovation from governments, businesses, and individuals alike.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What primarily causes the rapid pace of climate change since the late 20th century?",
+      "options": {
+        "A": "Natural climate phenomena",
+        "B": "Human activities like burning fossil fuels",
+        "C": "Increased solar radiation",
+        "D": "Volcanic eruptions"
+      },
+      "answer": "B",
+      "explanation": "B is correct because the passage states that human activities such as burning fossil fuels significantly contribute to accelerated climate change."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Melting ice caps have no impact on sea levels.",
+      "answer": "False",
+      "explanation": "The passage indicates that rising sea levels due to melting ice caps threaten coastal communities, making this statement false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes that individual efforts are important in combating climate change.",
+      "answer": "Yes",
+      "explanation": "The passage highlights the necessity for commitment from individuals, indicating the author's belief in the importance of individual efforts."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following consequences of climate change to their descriptions.",
+      "options": {
+        "A": "Rising sea levels",
+        "B": "Extreme weather events",
+        "C": "Loss of biodiversity",
+        "D": "Food insecurity"
+      },
+      "descriptions": {
+        "1": "Threatens coastal communities.",
+        "2": "Becomes more frequent and intense.",
+        "3": "Endangers wildlife and ecosystems.",
+        "4": "Risks human health and nutrition."
+      },
+      "answers": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "4"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentences with NO MORE THAN TWO WORDS.",
+      "text": "International agreements like the ______ aim to limit global warming.",
+      "answer": "Paris Accord",
+      "explanation": "The passage mentions the Paris Accord specifically as an agreement to limit global warming."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "greenhouse gases",
+      "meaning": "Gases that trap heat in the atmosphere, contributing to global warming."
+    },
+    {
+      "word": "deforestation",
+      "meaning": "The action of clearing a wide area of trees, which contributes to climate change."
+    },
+    {
+      "word": "renewable energy",
+      "meaning": "Energy from sources that are naturally replenished, such as solar or wind power."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading about climate change, focus on understanding the causes and effects described. Pay attention to the author's opinions and the vocabulary related to environmental issues. Skim the text for main ideas and scan for specific details that answer the questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

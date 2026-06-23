@@ -1,0 +1,81 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_299",
+  "title": "Exploring the Impact of Tourism on Local Communities",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Effects of Tourism on Local Communities</h2><p>Tourism is often hailed as a boon for local economies, bringing in revenue and creating jobs. However, its impacts are not always positive. In many cases, tourism can lead to environmental degradation, cultural dilution, and social challenges. The influx of tourists can strain local resources, such as water and housing, especially in popular destinations.</p><p>One significant effect of tourism is the economic boost it provides. Local businesses, from hotels to restaurants, thrive on the patronage of visitors. This influx of cash can lead to job creation in various sectors, helping to reduce unemployment rates. However, the dependency on tourism can be risky. If a natural disaster or global event, like a pandemic, occurs, the local economy can suffer drastically.</p><p>Moreover, tourism can alter the cultural landscape of a community. As tourists flock to experience local traditions, there can be a tendency to commercialize these practices. Local artisans and cultural performers may feel pressured to modify their crafts to meet tourist expectations, which can lead to a loss of authenticity.</p><p>Environmental impacts are also a concern. Increased foot traffic can lead to the degradation of natural sites, and the construction of hotels and infrastructure can disrupt local ecosystems. Sustainable tourism practices are essential to mitigate these effects, focusing on conservation and responsible travel.</p><p>In conclusion, while tourism can provide significant benefits to local communities, it is crucial to approach it with caution. Balancing economic growth with cultural preservation and environmental sustainability is vital for the long-term health of both the communities and the tourism industry.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the main benefits of tourism according to the passage?",
+      "options": {
+        "A": "It creates job opportunities.",
+        "B": "It reduces environmental challenges.",
+        "C": "It promotes cultural authenticity.",
+        "D": "It prevents local businesses from closing."
+      },
+      "answer": "A",
+      "explanation": "The passage states that tourism brings in revenue and creates jobs, highlighting the economic boost it provides."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Tourism always has a positive effect on local communities.",
+      "answer": "False",
+      "explanation": "The passage mentions that the impacts of tourism are not always positive, indicating that there are negative consequences as well."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author suggest that tourism can lead to cultural dilution?",
+      "answer": "Yes",
+      "explanation": "The passage discusses how tourism can lead to the commercialization of local traditions, suggesting a dilution of culture."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the effects of tourism with their descriptions.",
+      "options": {
+        "A": "Economic boost",
+        "B": "Cultural dilution",
+        "C": "Environmental degradation"
+      },
+      "descriptions": {
+        "1": "Strain on local resources.",
+        "2": "Job creation in various sectors.",
+        "3": "Loss of authenticity in local practices."
+      },
+      "answers": {
+        "A": "2",
+        "B": "3",
+        "C": "1"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "short_answer",
+      "instruction": "Provide a brief answer using NO MORE THAN THREE WORDS.",
+      "text": "What should tourism focus on to mitigate environmental impacts?",
+      "answer": "Sustainable tourism practices",
+      "explanation": "The passage emphasizes the need for sustainable tourism practices to address environmental concerns."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "degradation",
+      "meaning": "the process of something being damaged or deteriorated."
+    },
+    {
+      "word": "authenticity",
+      "meaning": "the quality of being genuine or true to its origins."
+    },
+    {
+      "word": "commercialize",
+      "meaning": "to manage or exploit a resource or activity for profit."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle the questions in this passage, focus on skimming for main ideas and scanning for specific details. Pay attention to the author's tone and the use of key terms related to tourism impacts. For multiple-choice questions, consider both the direct statements and the paraphrased ideas in the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,114 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_439",
+  "title": "The Double-Edged Sword of Tourism: Balancing Benefits and Drawbacks",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Impacts of Tourism on Global Societies</h2><p>Tourism has emerged as one of the world's largest industries, contributing significantly to global economies and providing millions of jobs. However, its rapid expansion has also raised concerns about sustainability, cultural erosion, and environmental degradation. The economic benefits of tourism are often juxtaposed with the social and environmental costs, creating a complex interplay that policymakers must navigate.</p><p>One of the most pronounced advantages of tourism is the financial influx it brings to local economies. For many developing nations, tourism serves as a vital source of revenue, allowing for improved infrastructure and public services. Yet, this economic reliance can lead to a precarious situation where communities become overly dependent on fluctuating tourist numbers.</p><p>Moreover, the cultural impacts of tourism are multifaceted. While it can promote cultural exchange and understanding, it can also lead to the commercialization of local traditions, diluting their authenticity. In many instances, local communities find their cultural practices transformed into mere spectacles for tourist consumption, which raises ethical concerns about cultural appropriation.</p><p>Environmental sustainability is another critical issue linked to tourism. Increased foot traffic in natural areas can result in habitat destruction and pollution, challenging the integrity of these ecosystems. Conservation efforts often struggle to keep pace with the demands placed on these fragile environments by tourist activities. Thus, tourism must be managed responsibly to mitigate its negative impacts while promoting its benefits.</p><p>In conclusion, the tourism industry embodies a dichotomy of advantages and disadvantages. The challenge lies in striking a balance that maximizes economic benefits while safeguarding cultural identities and environmental health. As global travel continues to evolve, the discourse surrounding tourism and its ramifications is more pertinent than ever.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern regarding the economic reliance on tourism in developing nations?",
+      "options": {
+        "A": "It can lead to improved public services.",
+        "B": "It creates a dependency on fluctuating tourist numbers.",
+        "C": "It promotes cultural exchange.",
+        "D": "It contributes to environmental degradation."
+      },
+      "answer": "B",
+      "explanation": "The passage indicates that developing nations can become overly dependent on tourism, making them vulnerable to changes in tourist numbers."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Tourism always leads to positive cultural exchanges.",
+      "answer": "False",
+      "explanation": "The passage discusses how tourism can lead to the commercialization and dilution of local traditions, indicating that it does not always result in positive exchanges."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes that tourism is entirely beneficial.",
+      "answer": "No",
+      "explanation": "The author acknowledges both the benefits and drawbacks of tourism, indicating a balanced view rather than an entirely positive one."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following impacts of tourism with their descriptions.",
+      "items": [
+        "Economic benefits",
+        "Cultural erosion",
+        "Environmental degradation"
+      ],
+      "descriptions": [
+        "Can lead to financial dependency on visitors.",
+        "Results in the commercialization of traditions.",
+        "May harm natural habitats due to increased visitor numbers."
+      ],
+      "answers": {
+        "Economic benefits": "Can lead to financial dependency on visitors.",
+        "Cultural erosion": "Results in the commercialization of traditions.",
+        "Environmental degradation": "May harm natural habitats due to increased visitor numbers."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph with the correct heading.",
+      "paragraphs": [
+        "The economic role of tourism",
+        "Cultural consequences of tourism",
+        "Environmental challenges posed by tourism",
+        "The need for balanced tourism management"
+      ],
+      "headings": [
+        "Exploring the dual impacts of tourism",
+        "Financial influx and its implications",
+        "Cultural authenticity at stake",
+        "Protecting ecosystems from tourism threats"
+      ],
+      "answers": {
+        "The economic role of tourism": "Financial influx and its implications",
+        "Cultural consequences of tourism": "Cultural authenticity at stake",
+        "Environmental challenges posed by tourism": "Protecting ecosystems from tourism threats",
+        "The need for balanced tourism management": "Exploring the dual impacts of tourism"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer the following question in **NO MORE THAN THREE WORDS**.",
+      "text": "What is one major impact of increased tourist foot traffic?",
+      "answer": "Habitat destruction",
+      "explanation": "The passage mentions that increased foot traffic can result in habitat destruction, which directly answers the question."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "dichotomy",
+      "meaning": "A division into two contradictory or mutually exclusive parts."
+    },
+    {
+      "word": "commercialization",
+      "meaning": "The process of managing or running something principally for financial gain."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "The ability to be maintained at a certain rate or level without depleting resources."
+    },
+    {
+      "word": "ethical concerns",
+      "meaning": "Issues regarding what is morally right or wrong."
+    },
+    {
+      "word": "ramifications",
+      "meaning": "Consequences or outcomes that result from an action or decision."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, pay close attention to the nuances in the language, especially in relation to the impacts of tourism. Look for keywords that signal contrast, such as 'however' and 'yet', to understand the author's perspective. Be prepared to infer meanings and recognize the implied attitudes of the writer towards tourism.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

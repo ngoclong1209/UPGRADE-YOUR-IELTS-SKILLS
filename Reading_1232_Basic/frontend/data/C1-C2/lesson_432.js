@@ -1,0 +1,86 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_432",
+  "title": "The Evolution and Impact of Online Learning in Modern Education",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Revolution of Learning: Online Education</h2><p>In recent decades, the rapid advancement of technology has fundamentally transformed the landscape of education, particularly through the proliferation of online learning platforms. These platforms have not only democratized access to knowledge but have also challenged traditional pedagogical frameworks. As educational institutions adapt to this digital shift, the implications for student engagement, curriculum design, and assessment methods are profound. The rise of distance education can be attributed to various factors, including the increasing demand for flexible learning schedules, the global reach of the internet, and the integration of advanced multimedia resources that cater to diverse learning styles.</p><p>However, the transition to online education is not without its challenges. Issues such as digital divide, where access to technology is not equitable, and the potential for diminished interpersonal interactions raise important questions regarding the effectiveness of virtual learning environments. Furthermore, the shift prompts educators to rethink assessment strategies, ensuring they align with the unique characteristics of online learning. The necessity for fostering self-discipline and motivation among students is paramount, as the absence of a structured classroom environment can lead to disengagement and underperformance.</p><p>Despite these challenges, the evolution of online learning presents unparalleled opportunities for innovation in education. Educators are increasingly leveraging data analytics to tailor learning experiences to individual needs, enhancing personalization in learning pathways. As we look to the future, it is evident that online education will continue to play a pivotal role in shaping the educational landscape, necessitating ongoing research and adaptation to maximize its potential.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the main benefits of online learning mentioned in the passage?",
+      "options": {
+        "A": "Increased access to knowledge for a wider audience.",
+        "B": "Reduction in the need for qualified educators.",
+        "C": "Elimination of traditional learning environments.",
+        "D": "Decreased reliance on technology in education."
+      },
+      "answer": "A",
+      "explanation": "The passage highlights how online learning platforms have democratized access to knowledge, making education more available to a broader audience."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Online education has completely replaced traditional educational methods.",
+      "answer": "False",
+      "explanation": "The passage discusses how online education challenges traditional frameworks but does not state that it has completely replaced them."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that online education is more effective than traditional education.",
+      "answer": "Not Given",
+      "explanation": "The passage does not provide a definitive comparison of effectiveness between online and traditional education."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following challenges of online education with their descriptions.",
+      "text": "1. Digital Divide\n2. Interpersonal Interaction\n3. Assessment Strategies\n4. Self-discipline",
+      "options": {
+        "A": "The need to motivate students in a less structured environment.",
+        "B": "The issue of unequal access to technology.",
+        "C": "Revising evaluation methods to suit online formats.",
+        "D": "The potential lack of face-to-face communication."
+      },
+      "answers": {
+        "1": "B",
+        "2": "D",
+        "3": "C",
+        "4": "A"
+      },
+      "explanation": "The answers correspond to the challenges outlined in the passage, matching them with their relevant descriptions."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences using NO MORE THAN TWO WORDS.",
+      "text": "The rising popularity of online learning is linked to the demand for _____________.",
+      "answer": "flexible learning",
+      "explanation": "The passage states that one of the factors contributing to the rise of online education is the increasing demand for flexible learning schedules."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "democratized",
+      "meaning": "made accessible to everyone, particularly in terms of education."
+    },
+    {
+      "word": "pedagogical",
+      "meaning": "relating to the methods and practice of teaching."
+    },
+    {
+      "word": "interpersonal",
+      "meaning": "relating to relationships or communication between people."
+    },
+    {
+      "word": "personalization",
+      "meaning": "tailoring learning experiences to meet individual needs."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When tackling this passage, focus on the nuances of the language used to describe the advantages and challenges of online learning. Pay close attention to the author's tone and implied meanings, as they will be crucial for answering the questions correctly.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

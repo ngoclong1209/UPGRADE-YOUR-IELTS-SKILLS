@@ -1,0 +1,77 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_131",
+  "title": "Choosing the Right Path: Higher Education vs Vocational Training",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Higher Education vs Vocational Training</h2><p>In today's competitive job market, individuals often find themselves at a crossroads when deciding between higher education and vocational training. Higher education typically refers to university degrees and academic programs that provide theoretical knowledge and critical thinking skills. In contrast, vocational training is focused on practical skills and is often more hands-on, preparing students for specific careers directly after completing their training.</p><p>Those who choose higher education often do so with the belief that a degree will open more doors in terms of job opportunities and higher salaries. They may pursue fields such as medicine, law, or engineering, which require extensive education and training. On the other hand, vocational training appeals to those who prefer a quicker path to employment. Programs can often be completed in a shorter time frame, allowing individuals to enter the workforce sooner.</p><p>Furthermore, vocational training can lead to fulfilling careers in fields such as plumbing, electrical work, and culinary arts. These professions are in high demand and can offer lucrative salaries without the need for a four-year degree. In today's economy, many employers value hands-on experience and specific skills over traditional degrees.</p><p>Despite the benefits of vocational training, higher education is still associated with greater long-term earning potential and career advancement opportunities. Graduates with a university degree may find themselves eligible for management positions, which often come with higher salaries and benefits. However, the rising cost of tuition and student debt has led many to reconsider the necessity of a traditional degree.</p><p>In conclusion, both higher education and vocational training have their advantages and disadvantages. The choice ultimately depends on an individual's career goals, financial situation, and learning preferences. As the job market continues to evolve, it is essential for students to weigh their options carefully and choose the path that aligns with their aspirations.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a primary benefit of vocational training?",
+      "options": {
+        "A": "It allows quicker entry into the workforce.",
+        "B": "It guarantees higher salaries than degrees.",
+        "C": "It requires a longer commitment than university.",
+        "D": "It focuses solely on theoretical knowledge."
+      },
+      "answer": "A",
+      "explanation": "Vocational training allows individuals to enter the workforce sooner compared to higher education."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which professions are mentioned as examples of vocational training careers?",
+      "options": {
+        "A": "Medicine and engineering.",
+        "B": "Plumbing and electrical work.",
+        "C": "Law and architecture.",
+        "D": "Teaching and research."
+      },
+      "answer": "B",
+      "explanation": "The passage mentions plumbing, electrical work, and culinary arts as careers that benefit from vocational training."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Higher education is always more expensive than vocational training.",
+      "answer": "Not Given",
+      "explanation": "The passage does not provide specific comparisons of costs between higher education and vocational training."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "text": "The author believes vocational training can lead to successful careers.",
+      "answer": "Yes",
+      "explanation": "The passage states that vocational training can lead to fulfilling careers in high-demand fields."
+    },
+    {
+      "id": "q5",
+      "type": "matching_information",
+      "instruction": "Match the following statements with the correct paragraphs.",
+      "pairs": {
+        "A": "Higher education provides critical thinking skills.",
+        "B": "Vocational training can lead to specific trades.",
+        "C": "The job market increasingly values skills over degrees."
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "crossroads",
+      "meaning": "A point where a choice must be made."
+    },
+    {
+      "word": "lucrative",
+      "meaning": "Producing a great deal of profit."
+    },
+    {
+      "word": "aspirations",
+      "meaning": "A hope or ambition of achieving something."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, pay attention to the main ideas presented in each paragraph. Identify key terms and concepts that differentiate higher education from vocational training. Use skimming to get a general sense of the content and scanning to locate specific details needed for answering the questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

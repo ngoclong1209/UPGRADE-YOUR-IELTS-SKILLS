@@ -1,0 +1,95 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_370",
+  "title": "The Impact of Nutritional Choices on Public Health",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Complex Interplay of Diet and Health</h2><p>The intricate relationship between dietary habits and health outcomes has been a focal point of research in the fields of nutrition and public health. Numerous studies have established that a well-balanced diet, rich in fruits, vegetables, and whole grains, can significantly mitigate the risk of chronic diseases such as obesity, diabetes, and cardiovascular ailments. Conversely, diets high in processed foods, sugars, and unhealthy fats are associated with adverse health effects. This dichotomy raises critical questions regarding the socio-economic factors influencing dietary choices and their subsequent impact on health disparities within populations.</p><p>Recent investigations have illuminated the role of educational attainment and income levels in shaping food purchasing decisions. Individuals with higher education are often more aware of the nutritional value of food, leading to healthier dietary practices. In contrast, those from lower socio-economic backgrounds may face barriers such as limited access to fresh produce and nutritional education, thereby perpetuating a cycle of poor health outcomes.</p><p>Moreover, public policy plays an instrumental role in addressing these disparities. Initiatives aimed at enhancing food accessibility, such as urban community gardens and subsidized healthy food programs, have shown promise in improving dietary habits among vulnerable populations. However, the effectiveness of such interventions hinges on comprehensive strategies that also consider cultural preferences and local food environments.</p><p>Ultimately, fostering a holistic understanding of the interplay between diet and health necessitates collaborative efforts among researchers, policymakers, and community stakeholders. By prioritizing nutritional education and equitable food access, societies can pave the way for improved health outcomes and a reduction in the prevalence of diet-related diseases.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main argument presented in the passage regarding diet and public health?",
+      "options": {
+        "A": "Higher education leads to healthier dietary choices.",
+        "B": "Socio-economic factors have no impact on dietary habits.",
+        "C": "Public policy is irrelevant to dietary health outcomes.",
+        "D": "Processed foods are essential for a balanced diet."
+      },
+      "answer": "A",
+      "explanation": "Option A correctly reflects the passage's emphasis on the correlation between education and healthy dietary practices, while the other options misrepresent the arguments made."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given in the passage.",
+      "text": "Public policy initiatives have been proven ineffective in enhancing dietary habits.",
+      "answer": "False",
+      "explanation": "The passage states that public policy initiatives have shown promise in improving dietary habits, indicating that the statement is false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given based on the passage.",
+      "text": "Does the author suggest that cultural preferences should be considered in dietary interventions?",
+      "answer": "Yes",
+      "explanation": "The passage mentions that the effectiveness of dietary interventions hinges on considering cultural preferences, supporting a 'Yes' response."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements with the appropriate sections of the passage.",
+      "options": {
+        "1": "Increased health risks are linked to poor dietary choices.",
+        "2": "Educational initiatives can lead to better food decisions.",
+        "3": "Accessibility to healthy food is crucial for health improvement."
+      },
+      "answers": {
+        "1": "Paragraph 1",
+        "2": "Paragraph 2",
+        "3": "Paragraph 3"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the appropriate paragraphs.",
+      "options": {
+        "A": "The Role of Education in Dietary Choices",
+        "B": "Impacts of Public Policy on Nutrition",
+        "C": "Health Consequences of Poor Diet",
+        "D": "Socio-economic Barriers to Healthy Eating"
+      },
+      "answers": {
+        "1": "C",
+        "2": "A",
+        "3": "B",
+        "4": "D"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short-answer",
+      "instruction": "Answer the following question using no more than three words.",
+      "text": "What types of foods are associated with lower health risks?",
+      "answer": "Fruits and vegetables",
+      "explanation": "The passage states that a diet rich in fruits and vegetables significantly mitigates health risks."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "mitigate",
+      "meaning": "to make less severe or serious."
+    },
+    {
+      "word": "disparities",
+      "meaning": "differences or inequalities, especially in terms of health outcomes."
+    },
+    {
+      "word": "interventions",
+      "meaning": "actions taken to improve a situation, especially in health or education."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle this passage, focus on identifying the main arguments and supporting details. Pay attention to the socio-economic factors and public policy discussions, as they are central to understanding the overall message. Skim the headings and structure for clues on where specific information might be located, and practice paraphrasing to grasp the nuanced language used in the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

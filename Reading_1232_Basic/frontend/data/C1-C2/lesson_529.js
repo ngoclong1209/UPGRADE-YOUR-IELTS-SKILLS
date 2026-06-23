@@ -1,0 +1,89 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_529",
+  "title": "Exploring the Complexities of Tourism: Benefits and Consequences",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dual Nature of Tourism</h2><p>Tourism, a multifaceted phenomenon, serves as both an economic boon and a source of environmental degradation. While it contributes significantly to the GDP of many nations, fostering job creation and cultural exchange, it simultaneously exerts pressure on local ecosystems and communities. The paradox of tourism lies in its ability to stimulate growth while threatening the sustainability of the very resources upon which it relies.</p><p>In recent years, a growing awareness has emerged regarding the ecological footprint of tourism. Destinations once regarded as idyllic havens are now grappling with issues such as overcrowding, waste management, and habitat destruction. The advent of mass tourism has exacerbated these challenges, prompting calls for a more sustainable approach to travel. Hence, the concept of 'responsible tourism' has gained traction, advocating for practices that minimize environmental impacts and enhance local cultures.</p><p>Moreover, the cultural implications of tourism cannot be overlooked. While visitors can enrich a destination's cultural landscape, they can also lead to the commodification of local traditions. This phenomenon raises critical questions about authenticity and cultural integrity. As local communities navigate the complexities of tourism, striking a balance between economic benefits and cultural preservation remains a formidable challenge.</p><p>Ultimately, the future of tourism hinges on the collective efforts of stakeholders, including governments, businesses, and travelers, to forge a path that harmonizes economic aspirations with ecological and cultural stewardship.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main argument presented in the passage regarding tourism?",
+      "options": {
+        "A": "Tourism is solely beneficial for economic growth.",
+        "B": "Tourism poses significant threats to environmental sustainability.",
+        "C": "Tourism does not impact local cultures.",
+        "D": "Tourism is always harmful to local communities."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct because the passage emphasizes the environmental degradation caused by tourism, highlighting the pressures on local ecosystems and the need for sustainable practices."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Mass tourism has no negative effects on local economies.",
+      "answer": "False",
+      "explanation": "The passage implies that mass tourism leads to environmental issues that can ultimately harm local economies."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that responsible tourism can mitigate some negative impacts.",
+      "answer": "Yes",
+      "explanation": "The passage advocates for responsible tourism as a means to minimize environmental impacts, suggesting the author's positive view on its potential."
+    },
+    {
+      "id": "q4",
+      "type": "matching_headings",
+      "instruction": "Match the headings with the appropriate paragraphs.",
+      "options": {
+        "A": "The Economic Benefits of Tourism",
+        "B": "Cultural Challenges and Opportunities",
+        "C": "Environmental Concerns in Tourism",
+        "D": "The Future of Tourism Strategies"
+      },
+      "answer": {
+        "1": "C",
+        "2": "B",
+        "3": "A",
+        "4": "D"
+      },
+      "explanation": "Paragraph 1 addresses economic aspects, paragraph 2 discusses environmental concerns, paragraph 3 focuses on cultural challenges, and paragraph 4 looks towards future strategies."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence with NO MORE THAN TWO WORDS.",
+      "text": "The passage highlights the need for _____ in tourism practices.",
+      "answer": "sustainable approach",
+      "explanation": "The passage emphasizes the importance of adopting sustainable practices to address the negative impacts of tourism."
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer the question with NO MORE THAN THREE WORDS.",
+      "text": "What does the author suggest is crucial for the future of tourism?",
+      "answer": "collective efforts",
+      "explanation": "The text indicates that collective efforts of various stakeholders are necessary for the future of tourism."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "commodification",
+      "meaning": "the process of turning something into a commodity or product for sale."
+    },
+    {
+      "word": "ecological footprint",
+      "meaning": "the impact of a person or community on the environment, expressed as the amount of land required to sustain their use of natural resources."
+    },
+    {
+      "word": "stewardship",
+      "meaning": "the responsible management and care of something, often referring to natural resources and cultural heritage."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the nuanced arguments presented by the author. Pay attention to the implications of each paragraph and how they relate to the overall theme of tourism's impacts. Familiarize yourself with academic vocabulary used throughout the text, as it will aid in comprehending complex ideas. Additionally, practice skimming for main ideas and scanning for specific details to enhance your efficiency in answering questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

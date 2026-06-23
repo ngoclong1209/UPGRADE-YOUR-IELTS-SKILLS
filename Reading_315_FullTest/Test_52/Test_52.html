@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Full Test - Test_52</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=DynaPuff:wght@400..700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0; padding: 0; font-family: 'Quicksand', sans-serif;
+            background: #fdf2f8; color: #333; overflow-x: hidden;
+        }
+        .main-layout {
+            display: flex; height: 100vh; overflow: hidden;
+        }
+        .passage-pane {
+            flex: 6; overflow-y: auto; padding: 30px;
+            background: white; margin: 10px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            font-size: 1.15rem; line-height: 1.8;
+            padding-bottom: 100px; /* For audio player */
+        }
+        .answer-pane {
+            flex: 4; overflow-y: auto; padding: 30px;
+            background: linear-gradient(145deg, #ffffff, #fff0f5);
+            margin: 10px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .q-row {
+            display: flex; align-items: center; margin-bottom: 15px;
+            background: white; padding: 10px 15px; border-radius: 12px;
+            border: 2px solid #ffccd5;
+        }
+        .q-num {
+            font-weight: bold; color: #ff85a2; font-size: 1.2rem;
+            width: 40px;
+        }
+        .q-input {
+            flex: 1; border: none; outline: none; font-size: 1.1rem;
+            font-family: 'Quicksand', sans-serif;
+            border-bottom: 2px dashed #ffccd5; background: transparent;
+            padding: 5px;
+        }
+        .q-input:focus { border-bottom: 2px solid #ff85a2; }
+        .submit-btn {
+            width: 100%; padding: 18px; font-size: 1.2rem; color: white;
+            background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            border: none; border-radius: 25px; cursor: pointer; font-weight: 700;
+            margin-top: 20px; box-shadow: 0 10px 20px rgba(255,94,126,0.3);
+            font-family: 'Quicksand', sans-serif;
+        }
+        .audio-fixed-bottom {
+            position: fixed; bottom: 0; left: 0; width: 60%;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px);
+            padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            border-top-right-radius: 20px; z-index: 1000;
+        }
+        audio { width: 100%; outline: none; }
+        /* LOGIN OVERLAY CSS */
+        
+        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
+        .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
+        .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
+        .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+
+    </style>
+</head>
+<body>
+    
+    <div class="login-overlay" id="login-overlay">
+        <div class="login-box">
+            <div class="login-header">🍭 Study Room 🍭</div>
+            <div class="login-subheader">Hệ thống: 315 bài thi Reading Full Test ✨</div>
+            <div id="login-form-fields">
+                <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
+                <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
+            </div>
+            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="main-layout" style="display: none;">
+        <div class="passage-pane">
+            <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_52</h1>
+            <p>IELTS Reading Practice - Test 52</p>
+<p>Cleaning up The Thames</p>
+<p>The River Thames, which was biologically “dead” as recently as the 1960s, is now the cleanest metropolitan river in the world, according to the Thames Water Company. The company says that thanks to major investment in better sewage treatment in London and the Thames Valley, the river that flows through the United Kingdom capital and the Thames Estuary into the North Sea is cleaner now than it has been for 130 years. The Fisheries Department, who are responsible for monitoring fish levels in the River Thames, has reported that the river has again become the home to 115 species of fish including sea bass, flounder, salmon, smelt, and shad. Recently, a porpoise was spotted cavorting in the river near central London.</p>
+<p>But things were not always so rosy. In the 1950s, sewer outflows and industrial effluent had killed the river. It was starved of oxygen and could no longer support aquatic life. Until the early 1970s, if you fell into the Thames you would have had to be rushed to hospital to get your stomach pumped. A clean-up operation began in the 1960s. Several Parliamentary Committees and Royal Commissions were set up, and, over time, legislation has been introduced that put the onus on polluters – effluent- producing premises and businesses – to dispose of waste responsibly. In 1964 the Greater London Council (GLC) began work on greatly enlarged sewage works, which were completed in 1974.</p>
+<p>The Thames clean up is not over though. It is still going on, and it involves many disparate arms of government and a wide range of non-government stakeholder groups, all representing a necessary aspect of the task. In London’s case, the urban and non-urban London boroughs that flank the river’s course each has its own reasons for keeping “their” river nice. And if their own reasons do not hold out a sufficiently attractive carrot, the government also wields a compelling stick. The 2000 Local Government Act requires each local borough to “prepare a community strategy for promoting or improving the economic, social and environmental well-being of their area.” And if your area includes a stretch of river, that means a sustainable river development strategy.</p>
+<p>Further legislation aimed at improving and sustaining the river’s viability has been proposed. There is now legislation that protects the River Thames, either specifically or as part of a general environmental clause, in the Local Government Act, the London Acts, and the law that created the post of the mayor of London. And these are only the tip of an iceberg that includes industrial, public health and environmental protection regulations. The result is a wide range of bodies officially charged, in one way or another, with maintaining the Thames as a public amenity. For example, Transport for London – the agency responsible for transport in the capital – plays a role in regulating river use and river users. They now are responsible for controlling the effluents and rubbish coming from craft using the Thames. This is done by officers on official vessels regularly inspectiing craft and doing spot checks. Another example is how Thames Water (TW) has now been charged to reduce the amount of litter that finds its way into the tidal river and its tributaries.</p>
+<p>TW’s environment and quality manager, Dr. Peter Spillett, said: “This project will build on our investment which has dramatically improved the water quality of the river. London should not be spoiled by litter which belongs in the bin not the river.” Thousands of tons of rubbish end up in the river each year, from badly stored waste, people throwing litter off boats, and rubbish in the street being blown or washed into the river. Once litter hits the water it becomes too heavy to be blown away again and therefore the rivers act as a sink in the system. While the Port of London already collects up to 3,000 tons of solid waste from the tideway every year, Thames Water now plans to introduce a new device to capture more rubbish floating down the river. It consists of a huge cage that sits in the flow of water and gathers the passing rubbish. Moored just offshore in front of the Royal Naval College at Greenwich, south-east London, the device is expected to capture up to 20 tons of floating litter each year. If washed out to sea, this rubbish can kill marine mammals, fish and birds. This machine, known as the Rubbish Muncher, is hoped to be the first of many, as the TW is now looking for sponsors to pay for more cages elsewhere along the Thames. Monitoring of the cleanliness of the River Thames in the past was the responsibility of a welter of agencies – British Waterways, Port of London Authority, the Environment Agency, the Health and Safety Commission, Thames Water – as well as academic departments and national and local environment groups. If something was not right, someone was bound to call foul and hold somebody to account, whether it was the local authority, an individual polluter or any of the many public and private sector bodies that bore a share of the responsibility for maintaining the River Thames as a public amenity. Although they will all still have their part to play, there is now a central department in the Environment Agency, which has the remit of monitoring the Thames. This centralisation of accountability will, it is hoped, lead to more efficient control and enforcement.</p>
+<p>Questions 1 – 6
+
+Some of the actions taken to clean up the River Thames are listed below. The writer gives these actions as examples of things that have been done by various agencies connected with the River Thames. Match each action with the agency responsible for doing it.</p>
+<p>Actions to clean up the river Thames</p>
+<p>A Operating the Rubbish Muncher
+
+B Creating Community Strategies
+
+C Monitoring the Cleanliness of the River Thames
+
+D Monitoring Fish Levels
+
+E Collecting Solid Waste from the Tideway
+
+F Creating Enlarged Sewage Works
+
+G Controlling the River Thames’ Traffic</p>
+<p>Example: The fisheries department                  Answer D</p>
+<p>1 The Environment Agency
+
+2 Transport for London
+
+3 The Greater London Council
+
+4 Thames Water
+
+5 Port of London
+
+6 Local Boroughs</p>
+<p>Questions 7-14
+
+Do the following statements agree with passage on Cleaning up the Thames? In Boxes 7 – 14 write:</p>
+<p>YES                          if the statement agrees with the writer
+
+NO                            if the statement doesn’t agree with the writer
+
+NOT GIVEN         if it is impossible to say what the writer thinks about this</p>
+<p>7 The Thames is now cleaner than it was in 1900.
+
+8 Swimming in the Thames now poses no health hazards.
+
+9 It is now mainly the responsibility of those who pollute the Thames to clean their waste up.
+
+10 All local London boroughs are now partly responsible for keeping the Thames clean.
+
+11 Transport for London now employs a type of River Police to enforce control of their regulations.
+
+12 Rubbish Munchers are now situated at various locations on the Thames.
+
+13 Previously no one department had overall responsibility or control for monitoring the cleanliness of the Thames.
+
+14 British Waterways will no longer have any part in keeping the Thames clean.</p>
+<p>Cambridge IELTS Tests 1 to 17</p>
+<p>Reading Passage Two</p>
+<p>If it weren’t for nicotine, people wouldn’t smoke tobacco. Why? Because of the more than 4000 chemicals in tobacco smoke, nicotine is the primary one that acts on the brain, altering people’s moods, appetites and alertness in ways they find pleasant and beneficial. Unfortunately, as it is widely known, nicotine has a dark side: it is highly addictive. Once smokers become hooked on it, they must get their fix of it regularly, sometimes several dozen times a day. Cigarette smoke contains 43 known carcinogens, which means that long-term smoking can amount to a death sentence. In the US alone, 420,000 Americans die every year from tobacco-related illnesses.</p>
+<p>Breaking nicotine addiction is not easy. Each year, nearly 35 million people make a concerted effort to quit smoking. Sadly, less than 7 percent succeed in abstaining for more than a year; most start smoking again within days. So what is nicotine and how does it insinuate itself into the smoker’s brain and very being?</p>
+<p>The nicotine found in tobacco is a potent drug and smokers, and even some scientists, say it offers certain benefits. One is enhance performance. One study found that non-smokers given doses of nicotine typed about 5 percent faster than they did without it. To greater or lesser degrees, users also say nicotine helps them to maintain concentration, reduce anxiety, relieve pain, and even dampen their appetites (thus helping in weight control). Unfortunately, nicotine can also produce deleterious effects beyond addiction. At high doses, as are achieved from tobacco products, it can cause high blood pressure, distress in the respiratory and gastrointestinal systems and an increase in susceptibility to seizures and hypothermia.</p>
+<p>First isolated as a compound in 1828, in its pure form nicotine is a clear liquid that turns brown when burned and smells like tobacco when exposed to air. It is found in several species of plants, including tobacco and, perhaps surprisingly, in tomatoes, potatoes, and eggplant (though in extremely low quantities that are pharmacologically insignificant for humans).</p>
+<p>As simple as it looks, the cigarette is highly engineered nicotine delivery device. For instance, when tobacco researchers found that much of the nicotine in a cigarette wasn’t released when burned but rather remained chemically bound within the tobacco leaf, they began adding substances such as ammonia to cigarette tobacco to release more nicotine. Ammonia helps keep nicotine in its basic form, which is more readily vaporised by the intense heat of the burning cigarette than the acidic form. Most cigarettes for sale in the US today contain 10 milligrams or more of nicotine. By inhaling smoke from a lighted cigarette, the average smoker takes 1 or 2 milligrams of vaporised nicotine per cigarette. Today we know that only a miniscule amount of nicotine is needed to fuel addiction. Research shows that manufacturers would have to cut nicotine levels in a typical cigarette by 95% to forestall its power to addict. When a smoker puffs on a lighted cigarette, smoke, including vaporised nicotine, is drawn into the mouth. The skin and lining of the mouth immediately absorb some nicotine, but the remainder flows straight down into the lungs, where it easily diffuses into the blood vessels lining the lung walls. The blood vessels carry the nicotine to the heart, which then pumps it directly to the brain. While most of the effects a smoker seeks occur in the brain, the heart takes a hit as well. Studies have shown that a smoker’s first cigarette of the day can increase his or her heart rate by 10 to 20 beats a minute. Scientists have found that a smoked substance reaches the brain more quickly than one swallowed, snorted (such as cocaine powder) or even injected. Indeed, a nicotine molecule inhaled in smoke will reach the brain within 10 seconds. The nicotine travels through blood vessels, which branch out into capillaries within the brain. Capillaries normally carry nutrients but they readily accommodate nicotine molecules as well. Once inside the brain, nicotine, like most addictive drugs, triggers the release of chemicals associated with euphoria and pleasure.</p>
+<p>Just as it moves rapidly from the lungs into the bloodstream, nicotine also easily diffuses through capillary walls. It then migrates to the spaces surrounding neurones – ganglion cells that transmit nerve impulses throughout the nervous system. These impulses are the basis for our thoughts, feelings, and moods. To transmit nerve impulses to its neighbour, a neurone releases chemical messengers known as neurotransmitters. Like nicotine molecules, the neurotransmitters drift into the so-called synaptic space between neurones, ready to latch onto the receiving neurone and thus deliver a chemical “message” that triggers an electrical impulse.</p>
+<p>The neurotransmitters bind onto receptors on the surface of the recipient neurone. This opens channels in the cell surface through which enter ions, or charged atoms, of sodium. This generates a current across the membrane of the receiving cell, which completes delivery of the “message”. An accomplished mimic, nicotine competes with the neurotransmitters to bind to the receptors. It wins and, like the vanquished chemical, opens ion channels that let sodium ions into the cell. But there’s a lot more nicotine around than the original transmitter, so a much larger current spreads across the membrane. This bigger current causes increased electrical impulses to travel along certain neurones. With repeated smoking, the neurones adapt to this increased electrical activity, and the smoker becomes dependent on the nicotine.</p>
+<p>Questions 15-21
+
+Do the following statements agree with the views of the writer of Reading Passage 2? In Boxes 15 – 21 write:</p>
+<p>YES                         if the statement agrees with the writer
+
+NO                           if the statement doesn’t agree with the writer
+
+NOT GIVEN        if it is impossible to say what the writer thinks about this</p>
+<p>15 Although nicotine is probably the well-known chemical in cigarettes, it is not necessarily the one that changes the psyche of the smoker when cigarettes are smoked.
+
+16 In spite of the difficulties, according to the text more than thirty-five million people a year give up smoking.
+
+17 It has been shown that nicotine in cigarettes can improve people’s abilities to perform some actions more quickly.
+
+18 Added ammonia in cigarettes allows smokers to inhale more nicotine.
+
+19 Snorted substances reach the brain faster than injected substances.
+
+20 Nicotine dilates the blood vessels that carry it around the body.
+
+21 Nicotine molecules allow greater electrical charges to pass between neurones.</p>
+<p>Questions 22-26
+
+Using NO MORE THAN THREE WORDS OR A NUMBER from Reading Passage 2, answer the following questions.
+
+Write your answers in boxes 22 – 26 on your answer sheet.</p>
+<p>22 What is the natural colour of nicotine?
+
+23 By how much would cigarette companies have to cut the nicotine content in cigarettes to prevent them from being addictive?
+
+24 Name ONE of 2 things that first take nicotine into a smoker’s body?
+
+25 According to the passage, by how many beats a minute can a cigarette raise a smoker’s heart rate?
+
+26 What type of cell in the human body encloses neurones?</p>
+<p>Question 27
+
+From the list below choose the most suitable title for Reading Passage 2.
+
+A How to Quit Smoking
+
+B The Dangers of Smoking
+
+C Cell Biology
+
+D Why Smoking is Addictive
+
+E Nicotine is a Poison</p>
+<p>Deer Farming in Australia</p>
+<p>A Deer are not indigenous to Australia. They were introduced into the country during the nineteenth century under the acclimatization programs governing the introduction of exotic species of animals and birds into Australia. Six species of deer were released at various locations. The animals dispersed and established wild populations at various locations across Australia, mostly depending upon their points of release into the wild. These animals formed the basis for the deer industry in Australia today.</p>
+<p>Commercial deer farming in Australia commenced in Victoria in 1971 with the authorized capture of rusa deer from the Royal National Park, NSW. Until 1985, only four species of deer, two from temperate climates (red, fallow) and two tropical species (rusa, chital) were confined for commercial farming. Late in 1985, pressure from industry to increase herd numbers saw the development of import protocols. This resulted in the introduction of large numbers of red deer hybrids from New Zealand and North American elk directly from Canada. The national farmed deer herd is now distributed throughout all states although most are in New South Wales and Victoria.</p>
+<p>B The number of animals processed annually has continued to increase, despite the downward trend in venison prices since 1997. Of concern is the apparent increase in the number of female animals processed and the number of whole herds committed for processing. With more than 40,000 animals processed in 1998/99 and 60,000 in 1999/2000, there is justified concern that future years may see a dramatic drop in production. At least 85% of all venison produced in Australia is exported, principally to Europe. At least 90% of all velvet antler produced is exported in an unprocessed state to Asia.</p>
+<p>Schemes to promote Australian deer products continue to have a positive effect on sales that in turn have a positive effect on prices paid to growers. The industry appears to be showing limited signs that it is emerging from a state of depression caused by both internal and external factors that include: (i) the Asian currency downturn; (ii) the industry’s lack of competitive advantage in influential markets (particularly in respect to New Zealand competition), and; (iii) within industry processing and marketing competition for limited product volumes of venison.</p>
+<p>C From the formation of the Australian Deer Breeders Federation in 1979, the industry representative body has evolved through the Deer Farmers Federation of Australia to the Deer Industry Association of Australia Ltd (DIAA), which was registered in 1995. The industry has established two product development and marketing companies, the Australian Deer Horn and Co-Products Pty Ltd (ADH) and the Deer Industry Projects and Development Pty Ltd, which trades as the Deer Industry Company (DIC). ADH collects and markets Australian deer horn and co-products on behalf of Australian deer farmers. It promotes the harvest of velvet antler according to the strict quality assurance program promoted by the industry. The company also plans and co-ordinates regular velvet accreditation courses for Australian deer farmers.</p>
+<p>D Estimates suggest that until the early 1990s the rate of the annual increase in the number of farmed deer was up to 25%, but after 1993 this rate of increase fell to probably less than 10%. The main reasons for the decline in the deer herd growth rate at such a critical time for the market were: (i) severe drought conditions up to 1998 affecting eastern Australia during 1993-96 and (ii) the consequent slaughter of large numbers of breeding females, at very low prices. These factors combined to decrease confidence within the industry. Lack of confidence saw a drop in new investment within the industry and a lack of willingness of established farmers to expand their herds. With the development of strong overseas markets for venison and velvet and the prospect of better seasons ahead in 1996, the trends described were seen to have been significantly reversed. However, the relatively small size of the Australian herd was seen to impose undesirable restraints on the rate at which herd numbers could be expanded to meet the demands for products.</p>
+<p>Supply difficulties were exacerbated when the supply of products, particularly venison, was maintained by the slaughter of young breeding females. The net result was depletion of the industry’s female breeding herds.</p>
+<p>E Industry programs are funded by statutory levies on sales of animals for venison, velvet antler sales and the sale of live animals into export markets. The industry has a 1996 – 2000 five year plan including animal nutrition, pasture quality, carcass quality, antler harvesting, promotional material and technical bulletins. All projects have generated a significant volume of information, which compliments similar work undertaken in New Zealand and other deer farming countries.</p>
+<p>Major projects funded by levy funds include the Venison Market Project from 1992 to 1996. This initiative resulted in a dramatic increase in international demand for Australian venison and an increase in the domestic consumption of venison. In an effort to maintain existing venison markets in the short term and to increase them in the long term, in 1997 the industry’s top priority became the increase in size and production capacity of the national herd.</p>
+<p>Questions 28-32
+
+The reading passage on Deer Farming in Australia has 5 paragraphs (A – E).
+
+From the list of headings below choose the most suitable headings for paragraphs A – E.
+
+Write the appropriate number (i – viii) in boxes 28 – 32 on your answer sheet. NB There are more headings than paragraphs, so you will not use them all.</p>
+<p>List of headings
+
+i Industry Structures
+
+ii Disease Affects Production
+
+iii Trends in Production
+
+iv Government Assistance
+
+v How Deer Came to Australia
+
+vi Research and Development
+
+vii Asian Competition
+
+viii Industry Development</p>
+<p>28 Paragraph A
+
+29 Paragraph B
+
+30 Paragraph C
+
+31 Paragraph D
+
+32 Paragraph E</p>
+<p>Questions 33-37
+
+Read the passage about Deer Farming in Australia again and look at the statements below.
+
+In boxes 33 – 37 on your answer sheet write:</p>
+<p>TRUE                     if the statement is true
+
+FALSE                   if the statement is false
+
+NOT GIVEN        if the information is not given in Reading Passage 3</p>
+<p>33 Until 1985 only 2 species of the originally released Australian deer were not used for farming.
+
+34 Since 1985 many imported deer have been interbred with the established herds.
+
+35 The drop in deer numbers since 1997 led to an increase in the price of venison.
+
+36 Only a small amount of Australian venison production is consumed domestically.
+
+37 Current economic conditions in Asian countries have had positive effect on the Australian deer industry.</p>
+<p>Questions 38 – 40
+
+Complete each of the following statements (Questions 38 – 40) with words taken from Reading Passage 3. Write NO MORE THAN THREE WORDS for each answer.</p>
+<p>Write your answers in boxes 38 – 40 on your answer sheet.
+
+38 A stringent……………………….allows the Australian deer industry to maintain their excellence of product.
+
+39 Herd stock expansion was made difficult by the killing of…………………………to continue product supply.
+
+40 Foreign and home markets for Australian venison increased due to the……………………</p>
+<p>_______  _______</p>
+<p>ANSWER KEY</p>
+<p>1. C</p>
+<p>2. G</p>
+<p>3. F</p>
+<p>4. A</p>
+<p>5. E</p>
+<p>6. B</p>
+<p>7. yes</p>
+<p>8. not given</p>
+<p>9. not given</p>
+<p>10. yes</p>
+<p>11. yes</p>
+<p>12. no</p>
+<p>13. yes</p>
+<p>14. no</p>
+<p>15. no</p>
+<p>16. no</p>
+<p>17. yes</p>
+<p>18. yes</p>
+<p>19. not given</p>
+<p>20. not given</p>
+<p>21. yes</p>
+<p>22. clear</p>
+<p>23. 95%</p>
+<p>24. mouth lining</p>
+<p>25. 10-20</p>
+<p>26. ganglion</p>
+<p>27. D</p>
+<p>28. v</p>
+<p>29. viii</p>
+<p>30. i</p>
+<p>31. iii</p>
+<p>32. vi</p>
+<p>33. true</p>
+<p>34. not given</p>
+<p>35. false</p>
+<p>36. true</p>
+<p>37. not given</p>
+<p>38. quality assurance programme</p>
+<p>39. breeding females</p>
+<p>40. venison market project</p>
+
+        </div>
+        <div class="answer-pane">
+            <h2 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0; text-align: center;">Answers (40 Questions)</h2>
+            <div id="questions-container">
+                
+        <div class="q-row">
+            <div class="q-num">1</div>
+            <input type="text" class="q-input" id="q1" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">2</div>
+            <input type="text" class="q-input" id="q2" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">3</div>
+            <input type="text" class="q-input" id="q3" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">4</div>
+            <input type="text" class="q-input" id="q4" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">5</div>
+            <input type="text" class="q-input" id="q5" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">6</div>
+            <input type="text" class="q-input" id="q6" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">7</div>
+            <input type="text" class="q-input" id="q7" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">8</div>
+            <input type="text" class="q-input" id="q8" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">9</div>
+            <input type="text" class="q-input" id="q9" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">10</div>
+            <input type="text" class="q-input" id="q10" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">11</div>
+            <input type="text" class="q-input" id="q11" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">12</div>
+            <input type="text" class="q-input" id="q12" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">13</div>
+            <input type="text" class="q-input" id="q13" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">14</div>
+            <input type="text" class="q-input" id="q14" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">15</div>
+            <input type="text" class="q-input" id="q15" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">16</div>
+            <input type="text" class="q-input" id="q16" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">17</div>
+            <input type="text" class="q-input" id="q17" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">18</div>
+            <input type="text" class="q-input" id="q18" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">19</div>
+            <input type="text" class="q-input" id="q19" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">20</div>
+            <input type="text" class="q-input" id="q20" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">21</div>
+            <input type="text" class="q-input" id="q21" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">22</div>
+            <input type="text" class="q-input" id="q22" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">23</div>
+            <input type="text" class="q-input" id="q23" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">24</div>
+            <input type="text" class="q-input" id="q24" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">25</div>
+            <input type="text" class="q-input" id="q25" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">26</div>
+            <input type="text" class="q-input" id="q26" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">27</div>
+            <input type="text" class="q-input" id="q27" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">28</div>
+            <input type="text" class="q-input" id="q28" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">29</div>
+            <input type="text" class="q-input" id="q29" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">30</div>
+            <input type="text" class="q-input" id="q30" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">31</div>
+            <input type="text" class="q-input" id="q31" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">32</div>
+            <input type="text" class="q-input" id="q32" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">33</div>
+            <input type="text" class="q-input" id="q33" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">34</div>
+            <input type="text" class="q-input" id="q34" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">35</div>
+            <input type="text" class="q-input" id="q35" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">36</div>
+            <input type="text" class="q-input" id="q36" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">37</div>
+            <input type="text" class="q-input" id="q37" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">38</div>
+            <input type="text" class="q-input" id="q38" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">39</div>
+            <input type="text" class="q-input" id="q39" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">40</div>
+            <input type="text" class="q-input" id="q40" placeholder="Type answer...">
+        </div>
+        
+            </div>
+            <button class="submit-btn" id="btn-submit">SUBMIT ANSWERS 🌸</button>
+            <div id="result-msg" style="text-align: center; margin-top: 15px; font-weight: bold; color: #2b9348; display: none;"></div>
+        </div>
+    </div>
+
+    
+
+    
+<script>
+    // const APP_URL = "https://script.google.com/macros/s/AKfycbx7lOgaMcHm0ofxpG3V9bi52rMbL7wBXIzAHovP5xBrp9XbyuZp7QNKbSg2-UTJoauyOg/exec";
+    const APP_URL = "https://script.google.com/macros/s/AKfycbzgBPDHt8g35pxQllRcuVTWJq5OaQnuUuQAt93yGs_kqRVOly4Wd1A_jGtgxh5MaKOJMw/exec"; // NEWEST ONE FROM USER
+
+    async function grantAccess() {
+        const input = document.getElementById('nickname-input');
+        let nickname = input ? input.value.trim().toUpperCase() : '';
+        if (!nickname) { alert("Vui lòng nhập ID!"); return; }
+        
+        document.getElementById('login-form-fields').style.display = "none";
+        document.getElementById('login-loading-fields').style.display = "block";
+        document.getElementById('loading-status').innerText = "Đang kiểm tra ID...";
+
+        try {
+            let loginRes = await fetch(APP_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'login', student_id: nickname })
+            });
+            let data = await loginRes.json();
+
+            if (data.status === 'success') {
+                document.getElementById('loading-status').innerText = "Thành công!";
+                setTimeout(() => {
+                    document.getElementById('login-overlay').style.display = "none";
+                    document.querySelector('.main-layout').style.display = "flex";
+                    localStorage.setItem('youpass_student_id', nickname);
+                }, 500);
+            } else {
+                alert("Lỗi: " + data.message);
+                document.getElementById('login-loading-fields').style.display = "none";
+                document.getElementById('login-form-fields').style.display = "block";
+            }
+        } catch(err) {
+            alert("Lỗi kết nối máy chủ!");
+            document.getElementById('login-loading-fields').style.display = "none";
+            document.getElementById('login-form-fields').style.display = "block";
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('login-overlay').style.display = "none";
+            document.querySelector('.main-layout').style.display = "flex";
+        }
+    });
+</script>
+
+    
+    <script>
+        document.getElementById('btn-submit').addEventListener('click', async () => {
+            let btn = document.getElementById('btn-submit');
+            let resultMsg = document.getElementById('result-msg');
+            btn.innerText = "Submitting...";
+            btn.disabled = true;
+
+            let answers = [];
+            for (let i = 1; i <= 40; i++) {
+                let val = document.getElementById('q' + i).value.trim();
+                answers.push(val);
+            }
+
+            let payload = {
+                action: 'submit_full_test',
+                student_id: localStorage.getItem('youpass_student_id') || 'UNKNOWN',
+                module: 'Reading Full Test',
+                test_name: 'Test_52',
+                answers: answers
+            };
+
+            try {
+                let res = await fetch(APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                let data = await res.json();
+                if (data.status === 'success') {
+                    resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
+                    resultMsg.style.display = 'block';
+                    btn.innerText = "SUBMITTED!";
+                } else {
+                    alert("Lỗi: " + data.message);
+                    btn.innerText = "SUBMIT ANSWERS 🌸";
+                    btn.disabled = false;
+                }
+            } catch(e) {
+                alert("Lỗi mạng! Không thể gửi.");
+                btn.innerText = "SUBMIT ANSWERS 🌸";
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

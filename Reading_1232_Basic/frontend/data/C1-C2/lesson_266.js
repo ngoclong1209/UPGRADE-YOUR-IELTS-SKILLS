@@ -1,0 +1,117 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_266",
+  "title": "Harnessing the Power of the Sun: A Pathway to Sustainable Energy",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Solar Energy: The Future of Renewable Resources</h2><p>As the world grapples with the pressing issue of climate change, the transition to renewable energy sources has become paramount. Among various alternatives, solar energy emerges as a frontrunner due to its abundance and accessibility. Solar power harnesses the sun's energy through photovoltaic cells, converting sunlight directly into electricity. This technology has evolved significantly, resulting in increased efficiency and reduced costs, making it a viable option for both residential and commercial applications.</p><p>However, the widespread adoption of solar energy does not come without challenges. One significant hurdle is the intermittent nature of solar radiation, which varies based on location and time of day. This variability necessitates the development of advanced energy storage systems and smart grid technologies to ensure a consistent energy supply. Additionally, the manufacturing process of solar panels poses environmental concerns, particularly regarding resource extraction and waste management.</p><p>Despite these challenges, numerous countries are investing in solar infrastructure. Government incentives and subsidies play a crucial role in promoting solar energy adoption, as they lower the financial barriers for consumers and businesses alike. Furthermore, international collaborations are fostering research initiatives aimed at enhancing solar technology efficiency and sustainability.</p><p>In conclusion, while solar energy presents certain obstacles, its potential to significantly reduce carbon emissions and provide a sustainable energy solution cannot be overlooked. The concerted efforts of governments, industries, and researchers will be pivotal in overcoming these challenges, paving the way for a greener future.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary advantage of solar energy mentioned in the passage?",
+      "options": {
+        "A": "It is abundant and accessible.",
+        "B": "It is the most efficient energy source available.",
+        "C": "It requires no government support to thrive.",
+        "D": "It produces energy consistently regardless of weather."
+      },
+      "answer": "A",
+      "explanation": "The passage highlights the abundance and accessibility of solar energy as its primary advantage, indicating it is a leading option in the transition to renewable resources."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Solar energy can provide a consistent energy supply without the need for storage solutions.",
+      "answer": "False",
+      "explanation": "The passage states that the intermittent nature of solar radiation requires advanced energy storage systems to ensure a consistent energy supply, indicating that storage solutions are indeed necessary."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that the challenges facing solar energy are insurmountable.",
+      "answer": "No",
+      "explanation": "The passage concludes that while challenges exist, the potential for solar energy to reduce carbon emissions is significant, suggesting the author does not view these challenges as insurmountable."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following challenges of solar energy with their descriptions.",
+      "options": {
+        "A": "Intermittent nature of solar radiation",
+        "B": "Environmental concerns in manufacturing",
+        "C": "Need for government incentives"
+      },
+      "descriptions": {
+        "1": "Requires advanced energy storage solutions.",
+        "2": "Impact on resource extraction and waste management.",
+        "3": "Reduces financial barriers for consumers."
+      },
+      "matches": {
+        "A": "1",
+        "B": "2",
+        "C": "3"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Choose the correct heading for each paragraph.",
+      "headings": {
+        "A": "The Role of Government in Solar Adoption",
+        "B": "Environmental Implications of Solar Technology",
+        "C": "The Advantages of Solar Power",
+        "D": "Overcoming Challenges in Renewable Energy"
+      },
+      "paragraphs": {
+        "1": "C",
+        "2": "B",
+        "3": "A",
+        "4": "D"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences with no more than two words.",
+      "text": "Solar energy is harnessed through ________ which convert sunlight into electricity.",
+      "answer": "photovoltaic cells",
+      "explanation": "The passage states that solar power harnesses the sun's energy through photovoltaic cells, which directly convert sunlight into electricity."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with no more than two words.",
+      "text": "The development of ________ is essential for maintaining a consistent energy supply from solar energy.",
+      "answer": "energy storage systems",
+      "explanation": "The passage emphasizes that advanced energy storage systems are necessary to manage the intermittent nature of solar radiation."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer",
+      "instruction": "What is the primary benefit of international collaborations mentioned in the passage?",
+      "answer": "enhancing solar technology efficiency",
+      "explanation": "The passage indicates that international collaborations are aimed at enhancing solar technology efficiency and sustainability."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "intermittent",
+      "meaning": "occurring at irregular intervals; not continuous or steady."
+    },
+    {
+      "word": "viable",
+      "meaning": "capable of working successfully; feasible."
+    },
+    {
+      "word": "subsidies",
+      "meaning": "financial assistance granted by the government to support an economic sector."
+    },
+    {
+      "word": "paradigm",
+      "meaning": "a typical example or pattern of something; a model."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on understanding the main arguments presented in each paragraph. Pay attention to the author's tone and any implied meanings. Note the complex vocabulary and how it relates to the central themes of renewable energy and sustainability.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,74 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_194",
+  "title": "The Rise of Intelligent Machines: Understanding AI and Robotics",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Future of Robotics and Artificial Intelligence</h2><p>In recent years, the field of artificial intelligence (AI) and robotics has seen remarkable advancements. These technologies are not only transforming industries but also shaping the way we live our daily lives. AI refers to the simulation of human intelligence in machines that are programmed to think and learn. Robotics, on the other hand, involves the design and creation of robots that can perform tasks autonomously or semi-autonomously.</p><p>One significant application of AI and robotics is in manufacturing. Robots equipped with AI can analyze data and improve production processes, leading to increased efficiency and reduced costs. For instance, in automotive production, robots are now capable of assembling cars with precision and speed that surpasses human workers. This shift not only enhances productivity but also raises questions about the future of jobs in manual labor.</p><p>Moreover, AI is making strides in healthcare. Intelligent systems can assist doctors in diagnosing diseases by analyzing medical images and patient data. This capability allows for earlier detection of conditions, which can be crucial for successful treatment. Additionally, robots are being used in surgeries, where they can perform delicate procedures with high accuracy.</p><p>Despite the benefits, the rise of AI and robotics brings challenges. Concerns about job displacement are prevalent, as many fear that automation will lead to unemployment. Furthermore, ethical considerations arise regarding the decision-making capabilities of AI systems, especially in critical areas like healthcare and law enforcement.</p><p>In conclusion, while AI and robotics hold the potential to revolutionize various sectors, it is essential to navigate the accompanying challenges carefully. Society must find a balance between embracing innovation and addressing the implications of these technologies on the workforce and ethical standards.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major benefit of using AI in manufacturing?",
+      "options": {
+        "A": "It allows for increased efficiency and lower costs.",
+        "B": "It eliminates the need for human workers entirely.",
+        "C": "It requires more time for production.",
+        "D": "It decreases the quality of products."
+      },
+      "answer": "A",
+      "explanation": "The passage states that robots equipped with AI can improve production processes, leading to increased efficiency and reduced costs."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "AI can help doctors in diagnosing diseases more accurately.",
+      "answer": "True",
+      "explanation": "The passage mentions that intelligent systems assist doctors in diagnosing diseases by analyzing medical images and patient data."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that automation will not affect employment.",
+      "answer": "No",
+      "explanation": "The author raises concerns about job displacement and fears of unemployment due to automation."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following applications with their descriptions.",
+      "text": "1. Manufacturing 2. Healthcare 3. Ethical considerations",
+      "matches": {
+        "1": "D. Involves robots improving production processes.",
+        "2": "A. Includes AI assisting with disease diagnosis.",
+        "3": "C. Raises questions about decision-making in critical areas."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence with NO MORE THAN TWO WORDS.",
+      "text": "Robots in manufacturing can enhance __________.",
+      "answer": "productivity",
+      "explanation": "The passage indicates that robots can assemble cars with precision and speed, enhancing productivity."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "autonomously",
+      "meaning": "acting independently without human control."
+    },
+    {
+      "word": "diagnosing",
+      "meaning": "identifying a disease or condition from its signs and symptoms."
+    },
+    {
+      "word": "displacement",
+      "meaning": "the act of forcing something out of its usual place, often referring to jobs taken by machines."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, pay attention to the main ideas and supporting details. Look for keywords in the questions that relate back to the passage. For multiple-choice questions, eliminate options that are clearly incorrect to improve your chances of selecting the right answer. In true/false/not given questions, focus on the specifics of the statements and how they relate to the information provided. For matching questions, quickly skim through the paragraphs to find relevant information.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

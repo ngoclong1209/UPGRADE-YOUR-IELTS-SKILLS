@@ -1,0 +1,100 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_337",
+  "title": "Navigating Urban Mobility: The Clash of Public Transport and Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dichotomy of Urban Transport: Public Systems vs. Private Vehicles</h2><p>The transportation landscape in urban environments has witnessed a significant evolution in recent decades, particularly with the growing debate surrounding the efficacy and sustainability of public transportation systems compared to the convenience and autonomy offered by private vehicles. Proponents of public transport argue that it not only reduces traffic congestion but also minimizes environmental impact through decreased carbon emissions. Various studies indicate that cities with robust public transport networks experience lower levels of pollution and improved air quality, thus enhancing the overall quality of urban life.</p><p>Conversely, advocates for private cars assert that individual vehicles provide unmatched flexibility and comfort. The ability to travel directly to one’s destination without the constraints of schedules and routes is a significant advantage that public systems often fail to offer. Furthermore, in regions where public transport is underdeveloped, reliance on personal vehicles becomes a necessity rather than a choice.</p><p>Despite these contrasting viewpoints, the discussion is further complicated by socio-economic factors. Lower-income populations frequently rely on public transit due to financial constraints, while wealthier individuals may opt for private cars as a status symbol, thereby perpetuating social divides. Public transportation systems must therefore adapt to serve diverse demographics effectively, ensuring accessibility and efficiency. This raises questions about the allocation of urban resources and the role of government in facilitating equitable transportation options.</p><p>In conclusion, while both public transport and private cars have their merits, the future of urban mobility may lie in finding a balanced approach that leverages the strengths of both systems. As cities continue to grow, innovative solutions such as integrated transport networks and smart technology will be crucial in addressing the evolving needs of urban dwellers.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument of proponents of public transportation?",
+      "options": {
+        "A": "It enhances convenience and comfort for users.",
+        "B": "It decreases traffic congestion and environmental impact.",
+        "C": "It is more financially viable for most individuals.",
+        "D": "It provides a status symbol for urban residents."
+      },
+      "answer": "B",
+      "explanation": "Proponents of public transport highlight its role in reducing traffic congestion and minimizing environmental impact, which is explicitly stated in the passage."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write True, False, or Not Given.",
+      "text": "Private cars are considered essential in regions with inadequate public transportation.",
+      "answer": "True",
+      "explanation": "The passage mentions that in areas where public transport is underdeveloped, reliance on personal vehicles becomes a necessity."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that public transportation systems should cater to affluent populations primarily.",
+      "answer": "No",
+      "explanation": "The passage discusses the necessity for public transportation systems to adapt to serve diverse demographics, indicating a need for equity rather than catering primarily to wealthy individuals."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the appropriate paragraph.",
+      "text": "Match the following statements to the paragraphs in the passage.",
+      "options": {
+        "1": "Discusses socio-economic factors in transportation.",
+        "2": "Highlights environmental benefits of public transport.",
+        "3": "Explores the advantages of private vehicles."
+      },
+      "paragraphs": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 3",
+        "C": "Paragraph 2"
+      },
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "C"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with no more than two words.",
+      "text": "The future of urban mobility may depend on finding a balanced approach that incorporates both public transport and __________.",
+      "answer": "private cars",
+      "explanation": "The passage suggests that the future may involve leveraging the strengths of both public transport systems and private vehicles."
+    },
+    {
+      "id": "q6",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary using no more than two words.",
+      "text": "Public transportation is essential for reducing __________ and enhancing urban quality of life.",
+      "answer": "pollution levels",
+      "explanation": "The passage states that robust public transport networks lead to lower pollution levels."
+    },
+    {
+      "id": "q7",
+      "type": "short_answer",
+      "instruction": "Answer the question with no more than two words.",
+      "text": "What factor complicates the debate between public transport and private cars?",
+      "answer": "socio-economic factors",
+      "explanation": "The passage refers to socio-economic factors as complicating the discussion about transport options."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "autonomy",
+      "meaning": "the ability to make one's own choices."
+    },
+    {
+      "word": "merit",
+      "meaning": "the quality of being particularly good or worthy."
+    },
+    {
+      "word": "equitable",
+      "meaning": "fair and impartial."
+    }
+  ],
+  "tactics": "<h2>Tips for Success</h2><p>Focus on understanding the main ideas and arguments presented in the passage. Pay attention to the nuances in language to discern the writer's attitude and purpose. When answering questions, consider both the explicit content and implied meanings within the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

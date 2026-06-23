@@ -1,0 +1,80 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_651",
+  "title": "Balancing Knowledge and Skills: The Dichotomy of Higher Education and Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Higher Education vs. Vocational Training Debate</h2><p>In contemporary society, the dichotomy between higher education and vocational training has gained prominence, raising critical questions about the best pathways for students in an increasingly complex job market. Traditionally, higher education has been regarded as the hallmark of academic achievement, providing individuals with theoretical knowledge that is deemed essential for professional success. However, this view has been challenged by the rising recognition of vocational training, which emphasizes practical skills and competencies that align more closely with the demands of specific industries.</p><p>Proponents of higher education argue that a university degree not only enhances one's employability but also fosters critical thinking, creativity, and research capabilities. They contend that such attributes are vital in a rapidly evolving job landscape that values innovation and adaptability. In contrast, advocates for vocational training posit that hands-on experience equips learners with the direct skills necessary to excel in their chosen fields. They highlight the immediate applicability of vocational programs, which often lead to quicker employment opportunities and less student debt.</p><p>This ongoing debate underscores a significant shift in educational paradigms, prompting policymakers and educators to rethink the value and structure of educational systems. Some suggest that an integrated approach, which combines the theoretical underpinnings of higher education with the practical aspects of vocational training, could provide a more comprehensive educational experience. This hybrid model not only prepares students for a variety of career paths but also caters to diverse learning styles and preferences.</p><p>Ultimately, the decision between higher education and vocational training is deeply personal and influenced by individual aspirations, socioeconomic factors, and market trends. As the labor market continues to evolve, so too must the educational frameworks that guide the next generation of workers.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument in favor of vocational training according to the passage?",
+      "options": {
+        "A": "It promotes critical thinking and creativity.",
+        "B": "It leads to immediate employment opportunities.",
+        "C": "It offers a broader range of academic subjects.",
+        "D": "It is generally more prestigious than higher education."
+      },
+      "answer": "B",
+      "explanation": "The passage states that advocates for vocational training highlight the immediate applicability of vocational programs, which often lead to quicker employment opportunities."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "Higher education is perceived as a more practical choice than vocational training.",
+      "answer": "False",
+      "explanation": "The passage does not present higher education as a practical choice compared to vocational training; rather, it suggests that vocational training emphasizes practical skills."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The passage suggests that a hybrid educational model may be beneficial.",
+      "answer": "Yes",
+      "explanation": "The passage mentions that some suggest an integrated approach combining higher education and vocational training could provide a more comprehensive educational experience."
+    },
+    {
+      "id": "q4",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "text": "Match the following headings to the paragraphs in the passage.",
+      "headings": [
+        "A. The Value of Higher Education",
+        "B. The Appeal of Vocational Training",
+        "C. An Integrated Approach",
+        "D. The Personal Nature of Educational Choices"
+      ],
+      "paragraphs": [
+        "Paragraph 1",
+        "Paragraph 2",
+        "Paragraph 3",
+        "Paragraph 4"
+      ],
+      "answers": {
+        "Paragraph 1": "D",
+        "Paragraph 2": "B",
+        "Paragraph 3": "C",
+        "Paragraph 4": "A"
+      },
+      "explanation": "Each paragraph reflects the respective heading's focus, with the first addressing personal choices, the second focusing on vocational training, the third suggesting an integrated approach, and the fourth discussing the value of higher education."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "dichotomy",
+      "meaning": "a division or contrast between two things that are represented as being opposed or entirely different."
+    },
+    {
+      "word": "proponents",
+      "meaning": "individuals who advocate or support a particular idea or course of action."
+    },
+    {
+      "word": "applicability",
+      "meaning": "the relevance or suitability of something to a particular situation or context."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle the reading passage effectively, focus on understanding the main arguments presented in each paragraph. Pay attention to the nuances in language, especially words that indicate contrast or comparison. Take note of the writer's attitude towards both higher education and vocational training, as this will help clarify the answers to the questions. Additionally, practice skimming for main ideas and scanning for specific details to enhance your reading efficiency.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

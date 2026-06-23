@@ -1,0 +1,101 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_303",
+  "title": "The Unseen Consequences of Climate Change",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Unseen Consequences of Climate Change</h2><p>The phenomenon of climate change has transcended mere environmental concern, evolving into a multifaceted crisis that intertwines with social, economic, and political realms. While the scientific community has long established a correlation between rising atmospheric temperatures and increasing greenhouse gas emissions, the implications of these changes extend far beyond mere temperature fluctuations. As glaciers recede and sea levels rise, coastal communities face existential threats that challenge their very livelihoods.</p><p>Furthermore, the socio-economic fabric of nations is being tested as agricultural yields fluctuate, leading to food insecurity and migration. Research indicates that regions historically reliant on stable weather patterns are experiencing unprecedented variability, thus necessitating adaptive strategies that some communities may not be equipped to implement. The psychological toll of these changes, including anxiety and despair, cannot be understated, as individuals grapple with the uncertainty of their future.</p><p>In addressing climate change, policymakers must navigate a labyrinth of competing interests, balancing economic growth with sustainable practices. The transition to renewable energy sources, while essential, requires substantial investment and a rethinking of infrastructure that has been in place for decades. Moreover, the discourse surrounding climate action often overlooks marginalized voices, emphasizing the need for inclusive dialogue that considers the perspectives of those most affected by environmental degradation.</p><p>In summary, climate change represents not only an environmental crisis but a profound challenge to humanity's socio-economic structures, requiring immediate and collaborative action across all sectors of society.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the passage primarily suggest about the implications of climate change?",
+      "options": {
+        "A": "They are limited to environmental concerns only.",
+        "B": "They primarily affect economic policies.",
+        "C": "They impact various aspects of society, including social and psychological dimensions.",
+        "D": "They can be easily mitigated with existing technologies."
+      },
+      "answer": "C",
+      "explanation": "The passage emphasizes that climate change affects not just the environment, but also socio-economic structures and psychological well-being, making C the correct choice."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "The passage suggests that all communities are equally prepared to adapt to climate change.",
+      "answer": "False",
+      "explanation": "The passage notes that some communities may not be equipped to implement adaptive strategies, indicating that preparedness is not equal."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes that psychological impacts of climate change are significant.",
+      "answer": "Yes",
+      "explanation": "The passage explicitly mentions the psychological toll of climate change, affirming the author's belief in its significance."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct paragraphs.",
+      "text": "1. The need for inclusive dialogue. 2. The rising sea levels threaten livelihoods. 3. Psychological impacts of climate change.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3"
+      },
+      "answers": {
+        "1": "C",
+        "2": "A",
+        "3": "B"
+      },
+      "explanation": "The statements correspond to the paragraphs discussing these specific issues."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph to the correct heading.",
+      "text": "Headings: A. Economic Growth vs. Sustainability B. Psychological Effects of Climate Change C. The Crisis of Coastal Communities",
+      "options": {
+        "1": "Paragraph 1",
+        "2": "Paragraph 2",
+        "3": "Paragraph 3"
+      },
+      "answers": {
+        "1": "C",
+        "2": "B",
+        "3": "A"
+      },
+      "explanation": "Each heading accurately reflects the main idea of the corresponding paragraph."
+    },
+    {
+      "id": "q6",
+      "type": "short-answer",
+      "instruction": "Answer using NO MORE THAN THREE WORDS.",
+      "text": "What must policymakers balance according to the passage?",
+      "answer": "Economic growth and sustainability",
+      "explanation": "The passage states that policymakers must navigate competing interests between these two priorities."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "intertwine",
+      "meaning": "to twist or weave together; to combine different elements."
+    },
+    {
+      "word": "existential",
+      "meaning": "relating to existence, especially concerning human existence."
+    },
+    {
+      "word": "socio-economic",
+      "meaning": "relating to or concerned with the interaction of social and economic factors."
+    },
+    {
+      "word": "inclusive",
+      "meaning": "including all the services or items normally expected or required."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the complex relationships between the various elements of climate change discussed. Pay attention to the nuances in language that indicate the author's attitude towards the implications of climate change on society. Use the context of each paragraph to derive meaning and connections between ideas.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

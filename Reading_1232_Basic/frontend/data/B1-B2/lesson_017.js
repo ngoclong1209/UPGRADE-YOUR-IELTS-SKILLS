@@ -1,0 +1,111 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_017",
+  "title": "Public Transportation vs Private Cars: The Choice We Face",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Public Transportation vs Private Cars</h2><p>In today's fast-paced world, the debate between using public transportation and private cars is becoming increasingly significant. Public transportation systems, such as buses and trains, are often praised for their efficiency and environmental benefits. They reduce the number of vehicles on the road, which can lead to less traffic congestion and lower carbon emissions. For instance, a single bus can replace dozens of cars, significantly cutting down on the amount of greenhouse gases released into the atmosphere.</p><p>On the other hand, private cars offer convenience and flexibility. Many individuals prefer the comfort of their own vehicle, allowing them to travel at their own pace and avoid the potential discomfort of crowded public transport. Additionally, in areas where public transportation is limited, having a private car can be essential for commuting, shopping, or leisure activities. However, this convenience comes at a cost, both financially and environmentally.</p><p>Experts argue that while private cars provide personal freedom, they contribute to numerous societal issues, including air pollution and urban sprawl. Cities around the world are starting to address these challenges by investing in public transport infrastructure, promoting car-sharing programs, and encouraging cycling.</p><p>Ultimately, the choice between public transportation and private cars depends on various factors, including personal preferences, environmental concerns, and urban planning. As cities evolve, finding a balance between these two modes of transport is crucial for sustainable development.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one benefit of public transportation mentioned in the passage?",
+      "options": {
+        "A": "It offers more comfort than private cars.",
+        "B": "It reduces traffic congestion.",
+        "C": "It is always more expensive.",
+        "D": "It provides more personal freedom."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct because the passage states that public transportation systems reduce the number of vehicles on the road, leading to less traffic congestion."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given' for each statement.",
+      "text": "Private cars are always more environmentally friendly than public transportation.",
+      "answer": "False",
+      "explanation": "The passage indicates that private cars contribute to air pollution, implying they are not always more environmentally friendly."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Choose 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes public transportation should be prioritized.",
+      "answer": "Yes",
+      "explanation": "The author discusses the benefits of public transportation and mentions the need for a balance, suggesting a preference for it."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following issues with whether they relate to public transportation or private cars.",
+      "text": "1. Air pollution<br>2. Convenience<br>3. Traffic congestion<br>4. Environmental investment",
+      "options": {
+        "A": "Public Transportation",
+        "B": "Private Cars"
+      },
+      "answers": {
+        "1": "B",
+        "2": "B",
+        "3": "A",
+        "4": "A"
+      },
+      "explanation": "Air pollution and environmental investment relate to private cars and public transport respectively, while convenience is associated with private cars and traffic congestion with public transport."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the correct paragraphs.",
+      "text": "1. The environmental impact of transportation<br>2. The advantages of private vehicles<br>3. The need for improved public transport<br>4. Balancing transport options",
+      "headings": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C",
+        "4": "D"
+      },
+      "explanation": "Each heading corresponds to the main idea of the respective paragraph in the passage."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence using NO MORE THAN TWO WORDS.",
+      "text": "Public transport systems are essential for reducing __________.",
+      "answer": "traffic congestion",
+      "explanation": "The passage mentions that public transportation helps reduce the number of vehicles, leading to less traffic congestion."
+    },
+    {
+      "id": "q7",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following question using NO MORE THAN THREE WORDS.",
+      "text": "What is a solution cities are investing in to address transportation issues?",
+      "answer": "public transport infrastructure",
+      "explanation": "The passage states that cities are investing in public transport infrastructure as a solution."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "congestion",
+      "meaning": "a situation in which a place is crowded with vehicles."
+    },
+    {
+      "word": "sprawl",
+      "meaning": "the uncontrolled expansion of urban areas."
+    },
+    {
+      "word": "infrastructure",
+      "meaning": "the basic physical systems of a business or nation."
+    },
+    {
+      "word": "greenhouse gases",
+      "meaning": "gases that trap heat in the atmosphere."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on the main ideas presented in each paragraph. Look for keywords in the questions that relate to specific details in the text. Use skimming for headings and scanning for details to save time.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,82 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_235",
+  "title": "Beyond the Horizon: The Future of Space Exploration",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The New Frontier of Space Exploration</h2><p>In recent years, the landscape of space exploration has undergone a transformative shift, characterized by an unprecedented surge in both governmental and private endeavors. The advent of advanced technologies, coupled with a renewed interest in extraterrestrial colonization, has propelled humanity towards a future where interplanetary travel may soon become a tangible reality.</p><p>Historically, space exploration was dominated by a few key players, notably NASA and the Soviet space program. However, the entrance of private companies such as SpaceX and Blue Origin has diversified the field significantly. These enterprises are not merely supplementary; they are pioneering projects that aim to reduce the cost of space travel and increase access to space.</p><p>One of the most ambitious goals currently on the horizon is the establishment of a sustainable human presence on Mars. This endeavor is not without its challenges, including the psychological and physiological effects of long-duration spaceflight on astronauts. Moreover, the logistical implications of transporting materials and life-support systems to the Martian surface remain complex and multifaceted.</p><p>In addition to Mars, the potential for mining asteroids for resources presents another exciting frontier. The possibility of harvesting minerals from these celestial bodies could alleviate pressure on Earth's dwindling resources and redefine our understanding of economic viability in space.</p><p>As we progress, ethical considerations surrounding the militarization of space and the implications of colonization must be addressed. The philosophical discourse on humanity's role in the universe will undoubtedly evolve alongside our technological advancements. Thus, as we stand on the precipice of a new era in space exploration, it is imperative to consider not only the scientific and economic ramifications but also the moral dimensions of our celestial aspirations.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary focus of recent developments in space exploration according to the passage?",
+      "options": {
+        "A": "The increase in governmental funding for space programs.",
+        "B": "The involvement of private companies in space travel.",
+        "C": "The historical significance of NASA's missions.",
+        "D": "The challenges faced by astronauts on Mars."
+      },
+      "answer": "B",
+      "explanation": "The passage emphasizes the transformative shift in space exploration driven by the involvement of private companies, which is a key focus of the text."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the following statements are True, False, or Not Given.",
+      "text": "Private companies are attempting to make space travel more affordable.",
+      "answer": "True",
+      "explanation": "The passage states that private companies like SpaceX and Blue Origin aim to reduce the cost of space travel, confirming the statement as true."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The passage suggests that mining asteroids might help solve resource shortages on Earth.",
+      "answer": "Yes",
+      "explanation": "The passage discusses the potential for mining asteroids to alleviate pressure on Earth's resources, indicating a 'Yes' response."
+    },
+    {
+      "id": "q4",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "options": {
+        "1": "The Role of Private Sector in Space",
+        "2": "Challenges of Long-Duration Spaceflight",
+        "3": "Ethical Considerations of Space Exploration",
+        "4": "The Potential of Resource Mining in Space"
+      },
+      "paragraphs": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answers": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "4"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "transformative",
+      "meaning": "causing a significant change or alteration."
+    },
+    {
+      "word": "extraterrestrial",
+      "meaning": "originating or existing outside the Earth."
+    },
+    {
+      "word": "logistical",
+      "meaning": "relating to the detailed organization and implementation of a complex operation."
+    },
+    {
+      "word": "ethics",
+      "meaning": "moral principles that govern a person's behavior or the conducting of an activity."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When tackling this passage, focus on identifying the main ideas within each paragraph. Pay attention to the nuances in language, especially in context to the implications and attitudes conveyed by the author. Utilize skimming techniques for headings and scanning for specific details to answer questions effectively.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

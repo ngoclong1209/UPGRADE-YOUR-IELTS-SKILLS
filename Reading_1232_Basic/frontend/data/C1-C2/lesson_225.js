@@ -1,0 +1,88 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_225",
+  "title": "The Final Frontier: Unraveling the Mysteries of Space Exploration",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Final Frontier: Unraveling the Mysteries of Space Exploration</h2><p>Space exploration has long been a subject of fascination and intrigue, posing questions not only about the universe but also about humanity's place within it. The quest to explore beyond our terrestrial confines dates back centuries, yet it has accelerated dramatically in recent decades. With advancements in technology and an increasing understanding of space phenomena, missions to Mars, the moon, and even beyond have become more feasible and are now a focal point for international cooperation and competition. This passage delves into the motivations behind space exploration, the scientific advancements it fosters, and the ethical considerations that accompany humanity's ventures into the cosmos.</p><p>One of the primary motivations for space exploration is the pursuit of knowledge. Scientists seek to understand the origins of our universe, the formation of celestial bodies, and the potential for life beyond Earth. Each mission yields valuable data that informs our understanding of fundamental questions — such as the nature of dark matter and energy, and the conditions necessary for life. Furthermore, the technological innovations developed for space missions often have terrestrial applications, leading to advancements in fields such as telecommunications, materials science, and environmental monitoring.</p><p>However, the exploration of space is not without its ethical dilemmas. The implications of colonizing other planets, the potential for contamination of extraterrestrial environments, and the prioritization of funding for space programs over pressing issues on Earth raise significant concerns. Critics argue that while the allure of exploring distant worlds is captivating, it must not overshadow our responsibilities to our home planet. Therefore, a balanced approach that emphasizes sustainability and ethical considerations is essential as we venture into the cosmos.</p><p>In conclusion, space exploration represents not only a scientific endeavor but also a philosophical journey that challenges our understanding of existence. As we continue to push the boundaries of what is possible, it is imperative that we do so with a sense of responsibility and foresight, ensuring that our explorations contribute positively to both our species and our planet.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the primary motivations for space exploration according to the passage?",
+      "options": {
+        "A": "The pursuit of knowledge about the universe.",
+        "B": "The competition between nations for space dominance.",
+        "C": "The quest for resources on other planets.",
+        "D": "The desire to create new technologies for Earth."
+      },
+      "answer": "A",
+      "explanation": "The passage emphasizes that the primary motivation for space exploration is the pursuit of knowledge, particularly regarding the origins of the universe and the conditions for life."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Space exploration has always been uncontroversial and widely supported.",
+      "answer": "False",
+      "explanation": "The passage discusses ethical dilemmas and criticisms regarding space exploration, indicating that it is not universally supported or without controversy."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The passage suggests that technology developed for space missions can benefit life on Earth.",
+      "answer": "Yes",
+      "explanation": "It states that innovations from space missions often have terrestrial applications, leading to advancements in various fields."
+    },
+    {
+      "id": "q4",
+      "type": "matching_headings",
+      "instruction": "Match the following headings with the correct paragraphs.",
+      "options": {
+        "1": "The ethical implications of space exploration.",
+        "2": "Technological advancements from space missions.",
+        "3": "Humanity's place in the universe.",
+        "4": "The historical context of space exploration."
+      },
+      "answers": {
+        "1": "The ethical implications of space exploration.",
+        "2": "Technological advancements from space missions.",
+        "3": "Humanity's place in the universe.",
+        "4": "The historical context of space exploration."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "According to the passage, one concern regarding space exploration is the potential for __________.",
+      "answer": "contamination",
+      "explanation": "The passage mentions the potential for contamination of extraterrestrial environments as an ethical concern."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "intrigue",
+      "meaning": "a state of curiosity or interest about something."
+    },
+    {
+      "word": "dilemmas",
+      "meaning": "situations in which a difficult choice has to be made between two or more alternatives."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "the ability to be maintained at a certain rate or level without depleting resources."
+    },
+    {
+      "word": "celestial",
+      "meaning": "relating to the sky or outer space."
+    },
+    {
+      "word": "philosophical",
+      "meaning": "relating to the study of the fundamental nature of knowledge, reality, and existence."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To approach this passage effectively, focus on identifying the main ideas in each paragraph, and pay attention to the author's tone and purpose. Paraphrasing is crucial — ensure you understand the nuances of the language used. When answering questions, carefully consider the implications of each statement and how they relate to the passage's content.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

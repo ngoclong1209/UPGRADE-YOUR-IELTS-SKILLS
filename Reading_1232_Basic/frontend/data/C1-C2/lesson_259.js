@@ -1,0 +1,113 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_259",
+  "title": "The Dual Nature of Tourism: Boon or Bane?",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dual Nature of Tourism: Boon or Bane?</h2><p>Tourism has emerged as a double-edged sword, offering both significant economic benefits and serious social and environmental challenges. In many regions, the influx of tourists can lead to increased revenue and job creation, fostering local businesses and enhancing infrastructure. However, this growth often comes at a substantial cost. The strain on local resources, environmental degradation, and the erosion of cultural heritage are just a few of the dark sides of tourism. Moreover, the phenomenon of overtourism has become increasingly prevalent, where popular destinations suffer from overcrowding, leading to a diminished experience for visitors and residents alike. Consequently, urban planners and policymakers must navigate the intricate balance between promoting tourism and preserving the integrity of local communities and ecosystems.</p><p>As global travel continues to rise, it is imperative to consider sustainable tourism practices that minimize negative impacts. Ecotourism and community-based tourism offer alternatives that prioritize environmental stewardship and community involvement. These models encourage tourists to engage meaningfully with local cultures while ensuring that economic benefits are distributed equitably. Ultimately, the future of tourism hinges on the recognition of its potential to be a force for good, provided that stakeholders adopt a holistic approach to its development.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern associated with the growth of tourism according to the passage?",
+      "options": {
+        "A": "It leads to economic disparities.",
+        "B": "It causes environmental and social issues.",
+        "C": "It improves local infrastructure significantly.",
+        "D": "It promotes cultural exchange primarily."
+      },
+      "answer": "B",
+      "explanation": "The passage highlights that while tourism brings economic benefits, it also results in serious social and environmental challenges, making B the correct choice."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Overtourism has positive effects on local communities.",
+      "answer": "False",
+      "explanation": "The passage indicates that overtourism leads to overcrowding, diminishing the experience for residents and visitors, which implies negative effects."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes that tourism can be beneficial if managed properly.",
+      "answer": "Yes",
+      "explanation": "The passage mentions that with a holistic approach, tourism has the potential to be a force for good, indicating the author's belief in its manageable benefits."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following terms with their descriptions.",
+      "text": "Ecotourism, Overtourism, Sustainable tourism",
+      "options": {
+        "A": "Excessive number of visitors causing harm.",
+        "B": "Tourism practices that consider environmental impact.",
+        "C": "Tourism focusing on conservation and local communities."
+      },
+      "answer": {
+        "Ecotourism": "C",
+        "Overtourism": "A",
+        "Sustainable tourism": "B"
+      },
+      "explanation": "These matches accurately reflect the definitions provided in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph with the appropriate heading.",
+      "text": "1. Economic Benefits of Tourism, 2. Challenges of Overtourism, 3. Sustainable Alternatives",
+      "options": {
+        "A": "The influx of tourists can lead to significant economic advantages.",
+        "B": "Overcrowding diminishes the experience for both visitors and locals.",
+        "C": "Ecotourism focuses on environmental responsibility and community involvement."
+      },
+      "answer": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      },
+      "explanation": "The headings succinctly capture the main ideas of each paragraph."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The future of tourism relies on _____ practices.",
+      "answer": "sustainable tourism",
+      "explanation": "The passage indicates that sustainable tourism practices are essential for the future of tourism."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using NO MORE THAN TWO WORDS.",
+      "text": "Tourism can be a force for good if stakeholders adopt a _____ approach.",
+      "answer": "holistic",
+      "explanation": "The passage emphasizes the importance of a holistic approach for tourism's positive impact."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following question in NO MORE THAN THREE WORDS.",
+      "text": "What type of tourism emphasizes community involvement?",
+      "answer": "community-based tourism",
+      "explanation": "The passage cites community-based tourism as an alternative that involves local communities."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "overtourism",
+      "meaning": "The phenomenon of excessive tourist numbers leading to negative consequences."
+    },
+    {
+      "word": "ecotourism",
+      "meaning": "A form of tourism that prioritizes environmental conservation and local community engagement."
+    },
+    {
+      "word": "sustainable tourism",
+      "meaning": "Tourism practices aimed at minimizing environmental impact while promoting economic benefits."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To succeed in this passage, focus on understanding the nuanced arguments regarding tourism's benefits and drawbacks. Pay attention to how the author presents their views and the implications of various types of tourism. Use skimming to identify main ideas and scanning to locate specific details that answer the questions. Be aware of synonyms and paraphrasing, as they are key to selecting the correct answers.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,142 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_657",
+  "title": "The Great Debate: Public Transportation vs Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Great Debate: Public Transportation vs Private Cars</h2><p>The ongoing discourse surrounding public transportation versus private automobile use encapsulates a myriad of socio-economic, environmental, and psychological dimensions. On one hand, proponents of public transit underscore its capacity to alleviate urban congestion, reduce carbon footprints, and foster social inclusivity. Conversely, advocates of private vehicle ownership often highlight the autonomy, convenience, and perceived status associated with car travel. As cities grapple with the myriad challenges posed by growing populations and climate change, the choice between these two modes of transport appears increasingly consequential.</p><p>Public transportation systems, characterized by buses, trains, and subways, serve as lifelines for millions, particularly in densely populated urban areas. These systems are lauded for their efficiency in moving large numbers of people with minimal environmental impact per capita. However, public transit is often critiqued for its inadequate coverage in suburban regions and a reputation for unreliability. Additionally, the experience of using public transport can be marred by overcrowding, delays, and a lack of comfort, leading to a perception of it as a last resort for commuters.</p><p>In stark contrast, private cars offer a level of comfort and flexibility that public transit struggles to match. The freedom to travel on one’s schedule, coupled with the convenience of door-to-door service, renders private vehicles exceptionally appealing. Nevertheless, the environmental ramifications of widespread car usage are profound; increased emissions, traffic congestion, and the urban sprawl associated with car-centric development patterns contribute significantly to global warming and urban decay.</p><p>Moreover, the psychological implications of car ownership cannot be overlooked. Many individuals equate car ownership with personal success and freedom, creating a cultural narrative that glorifies the private vehicle. This cultural bias can further entrench the reliance on cars, despite the potential benefits of public transportation. As cities continue to evolve, the challenge remains to create an integrated transportation strategy that balances the needs of efficiency, accessibility, and environmental stewardship.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main argument presented by proponents of public transportation?",
+      "options": {
+        "A": "It provides greater convenience than private cars.",
+        "B": "It significantly reduces urban congestion and environmental impact.",
+        "C": "It is more popular among the affluent citizens.",
+        "D": "It allows for greater personal freedom in travel."
+      },
+      "answer": "B",
+      "explanation": "Proponents of public transportation argue that it alleviates urban congestion and reduces carbon footprints, which aligns with option B."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Public transportation is perceived as a convenient option for all commuters.",
+      "answer": "False",
+      "explanation": "The passage states that public transport is often marred by overcrowding and delays, leading to a perception of it as a last resort, indicating it is not seen as convenient for all."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The passage suggests that private car ownership is linked to cultural notions of success.",
+      "answer": "Yes",
+      "explanation": "The passage discusses how many individuals equate car ownership with personal success, indicating a connection between car ownership and cultural narratives."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements below with the corresponding sections of the passage.",
+      "text": "Match the following statements with the appropriate paragraph.",
+      "pairs": [
+        {
+          "statement": "Public transport is less appealing due to comfort issues.",
+          "paragraph": "2"
+        },
+        {
+          "statement": "Private cars contribute to environmental problems.",
+          "paragraph": "3"
+        },
+        {
+          "statement": "Public transit can enhance social inclusivity.",
+          "paragraph": "1"
+        }
+      ],
+      "answer": [
+        {
+          "statement": "Public transport is less appealing due to comfort issues.",
+          "paragraph": "2"
+        },
+        {
+          "statement": "Private cars contribute to environmental problems.",
+          "paragraph": "3"
+        },
+        {
+          "statement": "Public transit can enhance social inclusivity.",
+          "paragraph": "1"
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the paragraph headings to the paragraphs from the passage.",
+      "headings": [
+        "A. The Psychological Impact of Ownership",
+        "B. The Efficiency of Public Transit",
+        "C. The Environmental Costs of Cars",
+        "D. The Dual Nature of Transportation Choices"
+      ],
+      "answers": [
+        {
+          "paragraph": "1",
+          "heading": "D"
+        },
+        {
+          "paragraph": "2",
+          "heading": "B"
+        },
+        {
+          "paragraph": "3",
+          "heading": "C"
+        },
+        {
+          "paragraph": "4",
+          "heading": "A"
+        }
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The passage indicates that urban areas face challenges from ________ and climate change.",
+      "answer": "growing populations",
+      "explanation": "The term 'growing populations' directly refers to the challenges mentioned in the context of the passage."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the following summary with NO MORE THAN TWO WORDS.",
+      "text": "The integration of both public transportation and private cars is essential for ________ and environmental stewardship.",
+      "answer": "transportation strategy",
+      "explanation": "The passage emphasizes the need for an integrated transportation strategy, making the answer 'transportation strategy'."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "autonomy",
+      "meaning": "the ability to make one's own decisions without external control."
+    },
+    {
+      "word": "congestion",
+      "meaning": "the state of being overcrowded, particularly in terms of traffic."
+    },
+    {
+      "word": "ramifications",
+      "meaning": "the consequences or effects of an action or decision."
+    },
+    {
+      "word": "entrench",
+      "meaning": "to establish something firmly and securely."
+    },
+    {
+      "word": "socio-economic",
+      "meaning": "relating to or concerned with the interaction of social and economic factors."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To succeed in this passage, focus on understanding the deeper implications of the arguments presented. Pay attention to the nuances in the author's tone and the connections between different modes of transport. Take note of how the arguments for and against each mode are structured, as this will help you answer questions that require inference. Additionally, practice recognizing paraphrases, as many questions will not use the exact words from the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,103 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_241",
+  "title": "The Balancing Act: Higher Education and Vocational Training in Contemporary Society",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Balancing Act: Higher Education and Vocational Training in Contemporary Society</h2><p>In recent years, the debate surrounding the merits of higher education versus vocational training has intensified. Proponents of traditional university degrees argue that they provide a comprehensive educational experience that cultivates critical thinking, problem-solving skills, and theoretical knowledge applicable across various fields. Conversely, advocates for vocational training emphasize its practical approach, which equips students with specific skills tailored to the demands of the workforce. This divergence raises questions about the nature of education itself and its role in societal progress.</p><p>Higher education institutions often tout their ability to produce well-rounded individuals capable of adapting to the ever-changing job market. Graduates from these institutions typically possess a breadth of knowledge and are often seen as more versatile in their career choices. However, this versatility can come at a cost, as many graduates find themselves burdened with substantial student debt and may struggle to secure employment in their chosen fields.</p><p>On the other hand, vocational training programs are designed to address immediate labor market needs, offering targeted skill sets that can lead directly to employment. These programs often require less time to complete and can be more cost-effective, providing a viable alternative for those who may not thrive in a traditional academic setting. Nonetheless, critics argue that vocational training may limit career advancement opportunities and perpetuate a cycle of lower wages, as these positions may not lead to further educational pursuits.</p><p>Ultimately, the choice between higher education and vocational training hinges on individual aspirations, learning preferences, and career goals. As the workforce evolves, it is essential for both educational pathways to adapt and coexist, fostering a culture that values diverse forms of knowledge and skill acquisition.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major criticism of vocational training mentioned in the passage?",
+      "options": {
+        "A": "It is more costly than higher education.",
+        "B": "It may limit career advancement opportunities.",
+        "C": "It produces graduates with less practical knowledge.",
+        "D": "It takes longer to complete than higher education."
+      },
+      "answer": "B",
+      "explanation": "The passage states that critics argue vocational training may limit career advancement opportunities and perpetuate a cycle of lower wages."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "Higher education guarantees a job for graduates.",
+      "answer": "False",
+      "explanation": "The passage indicates that many graduates face difficulties securing employment despite their degrees, thus suggesting that higher education does not guarantee a job."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer 'Yes', 'No' or 'Not Given'.",
+      "text": "The author believes vocational training is inferior to higher education.",
+      "answer": "No",
+      "explanation": "The author presents both higher education and vocational training as valuable, indicating that one is not necessarily superior to the other."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the appropriate sections of the passage.",
+      "text": [
+        "1. Provides targeted skills for immediate employment.",
+        "2. Emphasizes broad knowledge and critical thinking.",
+        "3. Can lead to substantial student debt."
+      ],
+      "options": {
+        "A": "Higher Education",
+        "B": "Vocational Training"
+      },
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "A"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the correct paragraphs.",
+      "text": [
+        "A. The Role of Higher Education",
+        "B. The Advantages of Vocational Training",
+        "C. The Need for Diverse Educational Paths",
+        "D. The Financial Burden of Education"
+      ],
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "D",
+        "4": "C"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short-answer",
+      "instruction": "Answer with no more than two words.",
+      "text": "What is often a burden for graduates from higher education institutions?",
+      "answer": "student debt",
+      "explanation": "The passage states that many graduates are burdened with substantial student debt."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "proponents",
+      "meaning": "supporters or advocates of a particular idea or theory."
+    },
+    {
+      "word": "advocates",
+      "meaning": "persons who publicly support or recommend a particular cause or policy."
+    },
+    {
+      "word": "cultivates",
+      "meaning": "to promote or improve the growth of something."
+    },
+    {
+      "word": "perpetuate",
+      "meaning": "to make something continue indefinitely."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle this passage, focus on understanding the nuances between higher education and vocational training. Pay attention to the author's tone and the implications of their arguments. When answering questions, look for keywords and phrases in the passage that correlate with the questions, and be mindful of any subtle distinctions in meaning.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

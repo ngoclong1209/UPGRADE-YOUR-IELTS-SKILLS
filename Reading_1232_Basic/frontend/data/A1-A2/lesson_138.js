@@ -1,0 +1,140 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_138",
+  "title": "The Internet: A Big Part of Our Lives",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>The Internet in Modern Life</h2><p>The internet is a big part of our lives today. Many people use the internet every day. We use it to find information, talk to friends, and shop. The internet helps us learn new things. For example, students can find help with their homework online. They can watch videos or read articles. This makes learning easier.</p><p>People also use the internet to connect with friends and family. Social media sites like Facebook and Instagram are popular. We can share photos and messages with others. This helps us stay close to people who are far away.</p><p>Shopping is another way we use the internet. We can buy clothes, food, and more from home. This is very convenient. Many websites offer good deals and fast delivery. However, people should be careful when shopping online. They need to protect their personal information.</p><p>In conclusion, the internet plays an important role in modern society. It helps us learn, connect, and shop. We must use it wisely.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one way students use the internet?",
+      "options": {
+        "A": "To find help with homework",
+        "B": "To play games",
+        "C": "To watch TV",
+        "D": "To write letters"
+      },
+      "answer": "A",
+      "explanation": "Students use the internet to find help with their homework, as mentioned in the passage."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "People use the internet to connect with friends.",
+      "answer": "True",
+      "explanation": "The passage states that people use social media to connect with friends and family."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "The internet is only used for shopping.",
+      "answer": "False",
+      "explanation": "The passage explains that the internet is used for learning, connecting, and shopping."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What should people be careful about when shopping online?",
+      "options": {
+        "A": "The price of items",
+        "B": "Delivery time",
+        "C": "Personal information",
+        "D": "Product quality"
+      },
+      "answer": "C",
+      "explanation": "The passage mentions that people need to protect their personal information when shopping online."
+    },
+    {
+      "id": "q5",
+      "type": "yes_no_not_given",
+      "text": "The internet helps us learn new things.",
+      "answer": "Yes",
+      "explanation": "The passage states that the internet helps us learn by providing videos and articles."
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Write no more than two words.",
+      "text": "What do people share on social media?",
+      "answer": "photos",
+      "explanation": "The passage mentions that people share photos and messages on social media."
+    },
+    {
+      "id": "q7",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a popular social media site?",
+      "options": {
+        "A": "YouTube",
+        "B": "Facebook",
+        "C": "Amazon",
+        "D": "Google"
+      },
+      "answer": "B",
+      "explanation": "The passage specifically mentions Facebook as a popular social media site."
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "text": "The internet is not important in modern society.",
+      "answer": "False",
+      "explanation": "The passage concludes that the internet plays an important role in modern society."
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Fill in the blanks with no more than two words.",
+      "text": "The internet helps us learn, connect, and ___.",
+      "answer": "shop",
+      "explanation": "The passage states that the internet helps us learn, connect, and shop."
+    },
+    {
+      "id": "q10",
+      "type": "matching_information",
+      "instruction": "Match the following.",
+      "text": "Match the internet use to its description.",
+      "options": {
+        "1": "Learning",
+        "2": "Connecting",
+        "3": "Shopping"
+      },
+      "descriptions": {
+        "A": "Buying items from home.",
+        "B": "Finding help with homework.",
+        "C": "Staying close to friends."
+      },
+      "matches": {
+        "1": "B",
+        "2": "C",
+        "3": "A"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "internet",
+      "meaning": "A global system of interconnected computers."
+    },
+    {
+      "word": "social media",
+      "meaning": "Websites to share content and connect with others."
+    },
+    {
+      "word": "shop",
+      "meaning": "To buy things."
+    },
+    {
+      "word": "information",
+      "meaning": "Facts or details about something."
+    },
+    {
+      "word": "connect",
+      "meaning": "To join or link together."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, look for key words to help you find answers. Pay attention to names and specific details. For multiple choice questions, eliminate the options that do not match the information in the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

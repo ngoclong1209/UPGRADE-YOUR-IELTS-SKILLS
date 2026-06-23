@@ -1,0 +1,101 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_538",
+  "title": "Navigating the Digital Landscape: Understanding the Internet's Impact on Contemporary Life",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Internet: A Double-Edged Sword</h2><p>In the 21st century, the Internet has become a quintessential component of modern society, fundamentally altering the way individuals communicate, access information, and perceive the world around them. This ubiquitous presence has not only enhanced connectivity but has also introduced a myriad of challenges, including issues related to privacy, misinformation, and digital divide. As an omnipresent tool, it bears the potential to either empower or disenfranchise users, depending on their ability to navigate its complexities.</p><p>Initially, the Internet served as a mere repository of information; however, its evolution into a dynamic platform for social interaction has redefined interpersonal relationships. Social media networks, for instance, allow for instantaneous communication across vast distances, fostering a sense of community among disparate groups. Nevertheless, this phenomenon has garnered criticism for contributing to superficial relationships and the erosion of face-to-face interactions.</p><p>Moreover, the Internet acts as a catalyst for socio-political movements, enabling marginalized voices to gain visibility and mobilize support on a global scale. The Arab Spring is a prime example, where social media played a pivotal role in organizing protests and disseminating information. However, the very same platforms have been co-opted for malicious purposes, such as spreading propaganda and inciting violence.</p><p>Furthermore, the Internet's role in the dissemination of information raises critical questions about credibility and reliability. The proliferation of 'fake news' has led to a climate of skepticism, making it increasingly challenging for users to discern fact from fiction. This dilemma underscores the importance of digital literacy as an essential skill in the contemporary information landscape.</p><p>In conclusion, while the Internet has revolutionized access to information and communication, it is imperative to approach its usage with a discerning eye. Navigating this digital landscape requires not only an understanding of its benefits but also a recognition of its potential pitfalls. As society continues to adapt to this ever-evolving tool, fostering critical thinking and digital literacy will be crucial in harnessing the Internet's power for positive change.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one significant challenge posed by the Internet according to the passage?",
+      "options": {
+        "A": "It exclusively connects people with similar viewpoints.",
+        "B": "It enables immediate communication without any drawbacks.",
+        "C": "It facilitates the spread of misinformation.",
+        "D": "It has completely eliminated face-to-face interactions."
+      },
+      "answer": "C",
+      "explanation": "Option C is correct as the passage explicitly mentions 'the proliferation of fake news' as a critical challenge brought about by the Internet."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "The Internet has improved the quality of face-to-face interactions.",
+      "answer": "False",
+      "explanation": "The passage states that the Internet has contributed to the erosion of face-to-face interactions, indicating a decline in their quality."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes that digital literacy is vital for using the Internet effectively.",
+      "answer": "Yes",
+      "explanation": "The passage emphasizes the necessity of digital literacy in discerning credible information, suggesting the author's support for its importance."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct sections of the passage.",
+      "text": [
+        "The Arab Spring is mentioned as a case study.",
+        "The Internet's initial purpose was primarily informational.",
+        "Social media has changed how people relate to one another."
+      ],
+      "answers": [
+        "Paragraph 3",
+        "Paragraph 1",
+        "Paragraph 2"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings with the appropriate paragraphs.",
+      "text": [
+        "The Internet and social movements",
+        "Challenges of digital information",
+        "The evolution of the Internet's role"
+      ],
+      "answers": [
+        "Paragraph 3",
+        "Paragraph 4",
+        "Paragraph 1"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer with no more than two words.",
+      "text": "What skill is essential for navigating the Internet according to the passage?",
+      "answer": "Digital literacy",
+      "explanation": "The passage highlights digital literacy as crucial for understanding the complexities of the Internet."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "quintessential",
+      "meaning": "representing the most perfect or typical example of a quality or class."
+    },
+    {
+      "word": "disenfranchise",
+      "meaning": "to deprive someone of the right to vote or other rights."
+    },
+    {
+      "word": "catalyst",
+      "meaning": "a substance that increases the rate of a chemical reaction or an agent that provokes or speeds significant change."
+    },
+    {
+      "word": "proliferation",
+      "meaning": "rapid increase in the number or amount of something."
+    },
+    {
+      "word": "credibility",
+      "meaning": "the quality of being trusted and believed in."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle this passage, focus on understanding the main ideas of each paragraph and the author's tone. Pay attention to the nuances in language used to describe the Internet's role, and practice identifying the implied meanings behind the text. Highlight key phrases that indicate the author's opinions, and familiarize yourself with the academic vocabulary presented.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

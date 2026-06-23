@@ -1,0 +1,120 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_300",
+  "title": "The Impact of Modern Diets on Health",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Modern Diets: A Double-Edged Sword</h2><p>In recent decades, the dietary habits of populations around the globe have undergone a seismic shift. The advent of fast food, processed snacks, and convenience meals has revolutionized the culinary landscape, presenting both opportunities and pitfalls for health. While these modern diets offer unprecedented convenience and variety, they also pose significant risks, often leading to chronic health issues such as obesity, diabetes, and cardiovascular diseases.</p><p>Research indicates that the prevalence of ultra-processed foods in our daily intake correlates strongly with adverse health outcomes. These foods are typically high in sugars, unhealthy fats, and sodium, yet low in essential nutrients. Consequently, individuals relying heavily on such diets may find themselves more susceptible to metabolic syndromes and other health complications.</p><p>Furthermore, societal trends towards sedentary lifestyles exacerbate the detrimental effects of poor dietary choices. As people increasingly engage in less physical activity, the combination of high-calorie diets and minimal exertion creates a perfect storm for health deterioration.</p><p>Nevertheless, the shift towards healthier alternatives cannot be overlooked. The rise of organic produce, plant-based diets, and mindful eating practices signifies a growing awareness of nutrition's role in overall well-being. Many individuals are now turning to whole foods, emphasizing the importance of balance and moderation in their diets. This movement towards health-conscious eating underscores the potential for positive change amid the challenges posed by modern food options.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern regarding modern diets according to the passage?",
+      "options": {
+        "A": "They provide essential nutrients for overall health.",
+        "B": "They are linked to an increase in chronic health issues.",
+        "C": "They promote a more active lifestyle.",
+        "D": "They are universally affordable and accessible."
+      },
+      "answer": "B",
+      "explanation": "The passage highlights that modern diets, particularly those high in ultra-processed foods, correlate strongly with chronic health issues such as obesity and diabetes."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Ultra-processed foods are always harmful to health.",
+      "answer": "Not Given",
+      "explanation": "The passage discusses the risks associated with ultra-processed foods but does not categorically state that they are always harmful."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes that modern diets are entirely negative.",
+      "answer": "No",
+      "explanation": "The author acknowledges the negative aspects of modern diets but also highlights the positive shift towards healthier alternatives."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements with the correct paragraph.",
+      "text": {
+        "1": "The rise of health-conscious eating.",
+        "2": "Effects of sedentary lifestyles.",
+        "3": "Consequences of ultra-processed foods."
+      },
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answers": {
+        "1": "D",
+        "2": "C",
+        "3": "B"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph.",
+      "text": {
+        "1": "The nutritional deficiencies of modern diets.",
+        "2": "The societal impact on health.",
+        "3": "Emerging trends in dietary choices."
+      },
+      "options": {
+        "A": "Paragraph 1: The changing food landscape.",
+        "B": "Paragraph 2: The dark side of convenience.",
+        "C": "Paragraph 3: The potential for positive change."
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences with NO MORE THAN TWO WORDS.",
+      "text": "Many individuals are turning towards __________ diets that emphasize balance.",
+      "answer": "plant-based",
+      "explanation": "The passage mentions a shift towards plant-based diets as part of a health-conscious movement."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The combination of high-calorie diets and __________ lifestyles is detrimental to health.",
+      "answer": "sedentary",
+      "explanation": "The passage indicates that sedentary lifestyles aggravate the issues caused by poor dietary habits."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer",
+      "instruction": "Answer the following question with NO MORE THAN THREE WORDS.",
+      "text": "What health issues are linked to modern diets?",
+      "answer": "obesity and diabetes",
+      "explanation": "The passage specifically mentions obesity and diabetes as chronic health issues associated with poor dietary choices."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "ultra-processed",
+      "meaning": "Foods that are industrially manufactured and contain ingredients not typically found in a home kitchen."
+    },
+    {
+      "word": "sedentary",
+      "meaning": "Characterized by little physical activity; often associated with a lifestyle that involves prolonged sitting."
+    },
+    {
+      "word": "metabolic syndromes",
+      "meaning": "A cluster of conditions that increase the risk of heart disease, stroke, and diabetes."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the underlying implications of the author's arguments. Pay attention to the nuanced language used to describe dietary trends and health impacts. Skim for main ideas and scan for specific information that supports your answers.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

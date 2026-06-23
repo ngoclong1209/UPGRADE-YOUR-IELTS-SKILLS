@@ -1,0 +1,95 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_241",
+  "title": "Navigating the Choices: Higher Education vs Vocational Training",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Higher Education vs Vocational Training</h2><p>In today's rapidly changing job market, individuals face a crucial decision regarding their educational paths. Higher education, often represented by universities and colleges, traditionally offers a broad spectrum of knowledge and skills. Graduates from these institutions tend to receive degrees that open doors to various professional careers. On the other hand, vocational training focuses on specific skills relevant to particular trades or occupations, such as plumbing, electrical work, or culinary arts.</p><p>One of the primary advantages of higher education is the potential for higher income. Statistics show that university graduates typically earn more over their lifetimes compared to those with only a vocational training background. Additionally, higher education can provide a more comprehensive understanding of various subjects, fostering critical thinking and problem-solving abilities. Students are encouraged to explore different fields, which can lead to a more versatile skill set.</p><p>Conversely, vocational training is often considered a more practical approach. Programs are usually shorter in duration, allowing individuals to enter the workforce more quickly. This type of education is designed to equip students with hands-on experience and job-ready skills, making them attractive candidates for employers in specific industries. Moreover, vocational training often includes apprenticeships or internships, providing invaluable real-world experience.</p><p>Another significant factor is the cost of education. Higher education can be expensive, leading many students to incur substantial debt. In contrast, vocational training programs are often more affordable, making them accessible to a broader range of individuals. This financial aspect is increasingly relevant, as the burden of student loans can affect graduates for years.</p><p>Ultimately, the choice between higher education and vocational training depends on individual goals, financial situations, and career aspirations. While higher education may offer a wider range of opportunities, vocational training provides a direct path to employment in essential fields. As the job market continues to evolve, understanding these options is vital for prospective students.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one main advantage of higher education mentioned in the passage?",
+      "options": {
+        "A": "Higher income potential over a lifetime.",
+        "B": "Faster entry into the workforce.",
+        "C": "More hands-on experience.",
+        "D": "Lower educational costs."
+      },
+      "answer": "A",
+      "explanation": "The passage states that university graduates typically earn more over their lifetimes compared to those with vocational training."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "How does vocational training differ from higher education?",
+      "options": {
+        "A": "It takes longer to complete.",
+        "B": "It focuses on specific skills.",
+        "C": "It provides a broader range of knowledge.",
+        "D": "It is more expensive."
+      },
+      "answer": "B",
+      "explanation": "Vocational training focuses on specific skills relevant to particular trades or occupations as mentioned in the passage."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Vocational training programs are generally more expensive than higher education.",
+      "answer": "False",
+      "explanation": "The passage states that vocational training programs are often more affordable, making them accessible to a broader range of individuals."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "text": "Does the author suggest that vocational training provides a direct path to employment?",
+      "answer": "Yes",
+      "explanation": "The passage indicates that vocational training is designed to equip students with hands-on experience and job-ready skills."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Match the following headings with the paragraphs.",
+      "headings": [
+        "A. Cost Considerations",
+        "B. The Broad Scope of Higher Education",
+        "C. Benefits of Vocational Training",
+        "D. Career Paths After Education"
+      ],
+      "paragraphs": [
+        "1. Discusses the financial aspects of education.",
+        "2. Explains the advantages of higher education.",
+        "3. Highlights practical benefits of vocational training.",
+        "4. Talks about the importance of choosing the right educational path."
+      ],
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C",
+        "4": "D"
+      },
+      "explanation": "Each paragraph corresponds with the headings, focusing on the specific aspects mentioned."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "vocational",
+      "meaning": "relating to the skills needed for a specific job or profession."
+    },
+    {
+      "word": "apprenticeship",
+      "meaning": "a system of training a new generation of practitioners of a trade or profession."
+    },
+    {
+      "word": "hands-on",
+      "meaning": "involving active participation or practical experience."
+    },
+    {
+      "word": "burden",
+      "meaning": "a heavy load or responsibility."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the main ideas presented in each paragraph. Pay attention to specific details, such as the advantages of both higher education and vocational training. Use skimming techniques for the headings and scanning for specific information when answering questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

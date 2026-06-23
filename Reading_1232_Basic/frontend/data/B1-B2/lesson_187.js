@@ -1,0 +1,80 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_187",
+  "title": "Public Transportation vs Private Cars: Which is Better?",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Debate Between Public Transportation and Private Cars</h2><p>In today's fast-paced world, the choice between public transportation and private cars has become a significant topic of discussion. Many cities face increasing traffic congestion and environmental issues, leading to a growing interest in public transport options. Public transportation systems, such as buses and trains, offer a sustainable alternative to private cars, which often contribute to pollution and road congestion.</p><p>One of the primary advantages of public transportation is its cost-effectiveness. Using buses or trains can be significantly cheaper than maintaining a private vehicle, which requires fuel, insurance, and regular maintenance. Moreover, public transport reduces the number of cars on the road, which can lead to less traffic and shorter travel times for everyone.</p><p>On the other hand, private cars provide convenience and flexibility. They allow individuals to travel at their own pace and schedule. For many, especially in rural areas where public transport is limited, cars are necessary for daily commuting. However, the environmental impact of private vehicles cannot be overlooked. Cars emit greenhouse gases and contribute to climate change, which is a growing concern for many communities.</p><p>Furthermore, public transportation systems are often subject to funding and management issues, leading to inconsistent service and reliability. In contrast, private cars, while more expensive, offer a dependable mode of transport. The decision between using public transport and driving a private car ultimately depends on personal circumstances, including location, financial considerations, and lifestyle preferences.</p><p>In conclusion, both public transportation and private cars have their pros and cons. As cities evolve and seek to become more sustainable, the discussion around these two modes of transport will continue to be relevant. The future may see a shift towards more integrated transport systems that combine the benefits of both options, providing a more efficient and environmentally friendly approach to commuting.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one significant advantage of public transportation?",
+      "options": {
+        "A": "It provides flexibility for users.",
+        "B": "It is more cost-effective than private vehicles.",
+        "C": "It reduces environmental pollution completely.",
+        "D": "It guarantees faster travel times for everyone."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct because the passage states that public transportation is significantly cheaper than maintaining a private vehicle."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False or Not Given.",
+      "text": "Private cars are the only option for commuting in rural areas.",
+      "answer": "Not Given",
+      "explanation": "The passage mentions that cars are necessary in rural areas but does not state they are the only option."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer with Yes, No or Not Given.",
+      "text": "The author believes that public transportation is the best choice for everyone.",
+      "answer": "No",
+      "explanation": "The passage indicates that the decision depends on personal circumstances, suggesting that it is not the best choice for everyone."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following advantages and disadvantages to either public transport or private cars.",
+      "options": {
+        "1": "Cost-effective",
+        "2": "Flexibility",
+        "3": "Contributes to pollution",
+        "4": "Inconsistent service"
+      },
+      "answers": {
+        "1": "Public transport",
+        "2": "Private cars",
+        "3": "Private cars",
+        "4": "Public transport"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "short-answer_questions",
+      "instruction": "Answer using NO MORE THAN TWO WORDS.",
+      "text": "What is a major concern regarding private cars mentioned in the passage?",
+      "answer": "Greenhouse gases",
+      "explanation": "The passage mentions that cars emit greenhouse gases, which is a concern."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "congestion",
+      "meaning": "the state of being overcrowded, especially with traffic."
+    },
+    {
+      "word": "sustainable",
+      "meaning": "capable of being maintained over the long term without harming the environment."
+    },
+    {
+      "word": "flexibility",
+      "meaning": "the quality of being adaptable or variable."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the main ideas presented in each paragraph. Pay attention to the advantages and disadvantages listed for both public transportation and private cars. Look for specific details that support the author's arguments and be prepared to identify paraphrased information in the questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,117 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_255",
+  "title": "The Journey Beyond: Understanding Space Exploration",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Fascinating World of Space Exploration</h2><p>Space exploration has captivated the minds of scientists and the general public alike for decades. It involves the use of astronomy and space technologies to explore outer space. The primary goal is to understand more about our universe, including the origins of celestial bodies, such as planets and stars, and the potential for life beyond Earth. Since the launch of Sputnik by the Soviet Union in 1957, various missions have been sent into orbit, landing on the Moon and Mars, and even sending spacecraft beyond our solar system.</p><p>One significant milestone in space exploration was the Apollo 11 mission, which successfully landed humans on the Moon in 1969. This achievement not only showcased human ingenuity but also paved the way for future explorations. The International Space Station (ISS), a joint project involving multiple countries, serves as a platform for scientists to conduct experiments in microgravity, studying the effects of long-term space travel on the human body.</p><p>Today, space agencies like NASA and ESA, along with private companies like SpaceX, are working on ambitious projects, including plans to send humans to Mars and even establish colonies on other planets. These efforts require advanced technology and international collaboration, as the challenges of space travel are immense. From the dangers of radiation to the need for sustainable life support systems, every aspect must be meticulously planned and executed to ensure success.</p><p>As we look to the future, the potential for space exploration seems limitless. New technologies are being developed to make space travel safer and more efficient. Public interest in space exploration continues to grow, driven by the desire to discover new worlds and the possibility of finding extraterrestrial life. In conclusion, while challenges remain, the journey into the cosmos is just beginning, and it promises to be an exciting adventure for generations to come.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What was the main achievement of the Apollo 11 mission?",
+      "options": {
+        "A": "It successfully landed humans on the Moon.",
+        "B": "It sent a spacecraft beyond our solar system.",
+        "C": "It established the International Space Station.",
+        "D": "It discovered new planets in the solar system."
+      },
+      "answer": "A",
+      "explanation": "The passage states that the Apollo 11 mission successfully landed humans on the Moon in 1969, which is the main achievement highlighted."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "The ISS is used solely by NASA for space research.",
+      "answer": "False",
+      "explanation": "The passage mentions that the ISS is a joint project involving multiple countries, indicating that it is not used solely by NASA."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that space exploration is crucial for humanity's future.",
+      "answer": "Yes",
+      "explanation": "The passage discusses the limitless potential of space exploration and the excitement it brings, suggesting a belief in its importance for the future."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following space missions with their achievements.",
+      "options": {
+        "Apollo 11": "a. Established a permanent space station",
+        "International Space Station": "b. Landed humans on the Moon",
+        "Mars Missions": "c. Planned to send humans to Mars"
+      },
+      "answer": {
+        "Apollo 11": "b",
+        "International Space Station": "a",
+        "Mars Missions": "c"
+      },
+      "explanation": "The passage clearly links each mission with its respective achievement."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Choose the correct heading for each paragraph.",
+      "options": {
+        "1": "The Future of Space Exploration",
+        "2": "Challenges of Space Travel",
+        "3": "The History of Space Missions",
+        "4": "The Role of Private Companies",
+        "5": "Scientific Benefits of the ISS"
+      },
+      "answer": {
+        "1": "The Future of Space Exploration",
+        "2": "Challenges of Space Travel",
+        "3": "The History of Space Missions",
+        "4": "The Role of Private Companies",
+        "5": "Scientific Benefits of the ISS"
+      },
+      "explanation": "Each paragraph corresponds to the headings provided, summarizing its main idea."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence with NO MORE THAN TWO WORDS.",
+      "text": "The primary goal of space exploration is to understand more about __________.",
+      "answer": "our universe",
+      "explanation": "The passage states that the main aim of space exploration is to gain knowledge about our universe."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN THREE WORDS.",
+      "text": "The journey into space requires advanced technology and __________.",
+      "answer": "international collaboration",
+      "explanation": "The passage highlights the necessity of collaboration among countries for successful space exploration."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer",
+      "instruction": "Answer the following question with NO MORE THAN THREE WORDS.",
+      "text": "What year did Apollo 11 land on the Moon?",
+      "answer": "1969",
+      "explanation": "The passage clearly indicates that Apollo 11 landed on the Moon in 1969."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "celestial",
+      "meaning": "related to the sky or outer space."
+    },
+    {
+      "word": "microgravity",
+      "meaning": "a condition in which people or objects appear to be weightless."
+    },
+    {
+      "word": "extraterrestrial",
+      "meaning": "originating, existing, or occurring outside the Earth."
+    },
+    {
+      "word": "sustainable",
+      "meaning": "able to be maintained at a certain rate or level."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on identifying the main ideas in each paragraph. Pay attention to keywords that indicate the significance of space missions and their impact on future explorations. Make sure to read each question carefully, as some may require you to infer information rather than just find it directly in the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,95 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_091",
+  "title": "Navigating the Pathways: Higher Education versus Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dichotomy of Higher Education and Vocational Training</h2><p>As the landscape of the job market continues to evolve, the debate between the merits of higher education and vocational training has intensified. On one hand, higher education institutions have long been perceived as the bastions of knowledge, fostering critical thinking and scholarly inquiry. Graduates from universities often enter the workforce with a comprehensive understanding of their chosen fields, coupled with the ability to adapt to various professional challenges.</p><p>Vocational training, conversely, emphasizes practical skills and direct applicability to specific trades. Programs designed to prepare students for immediate employment tend to focus on hands-on experiences, thus offering a swift transition into the workforce. Proponents argue that vocational training is not only more cost-effective but also tailored to meet the immediate needs of industries, which often face skill shortages.</p><p>However, the perceived value of a university degree can create a bias against vocational paths, leading to societal stigmas that undervalue skilled trades. This dichotomy raises critical questions regarding employment equity and the broader implications for economic stability. As technological advancements continue to shape job requirements, the integration of vocational training into higher educational frameworks may become essential in creating a more versatile workforce.</p><p>Ultimately, the decision between pursuing higher education or vocational training hinges on individual career aspirations and the evolving demands of the labor market. Understanding the unique advantages and limitations of each pathway is crucial for students deciding their futures.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a primary advantage of vocational training according to the passage?",
+      "options": {
+        "A": "It fosters critical thinking skills.",
+        "B": "It provides immediate employment opportunities.",
+        "C": "It encourages scholarly inquiry.",
+        "D": "It is more prestigious than higher education."
+      },
+      "answer": "B",
+      "explanation": "The passage states that vocational training offers a swift transition into the workforce, which highlights its primary advantage of providing immediate employment opportunities."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Higher education institutions focus primarily on practical skills.",
+      "answer": "False",
+      "explanation": "The passage indicates that higher education institutions are seen as fostering critical thinking and scholarly inquiry, rather than focusing on practical skills."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Respond with Yes, No or Not Given.",
+      "text": "The passage suggests that vocational training is undervalued in society.",
+      "answer": "Yes",
+      "explanation": "The passage mentions societal stigmas that undervalue skilled trades, indicating that vocational training is indeed perceived as undervalued."
+    },
+    {
+      "id": "q4",
+      "type": "matching_headings",
+      "instruction": "Match the following headings with the appropriate paragraphs.",
+      "options": {
+        "A": "Advantages of vocational training",
+        "B": "The societal perception of education paths",
+        "C": "Challenges in the job market",
+        "D": "The role of higher education in skill development"
+      },
+      "paragraphs": {
+        "1": "D",
+        "2": "A",
+        "3": "B",
+        "4": "C"
+      },
+      "answer": {
+        "1": "D",
+        "2": "A",
+        "3": "B",
+        "4": "C"
+      },
+      "explanation": "Each paragraph corresponds with the headings based on its content regarding education pathways."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence using NO MORE THAN TWO WORDS.",
+      "text": "Vocational training is often seen as a _____ pathway to employment.",
+      "answer": "cost-effective",
+      "explanation": "The passage states that vocational training is viewed as more cost-effective, which fits the sentence requirement."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "dichotomy",
+      "meaning": "a division or contrast between two things that are represented as being opposed or entirely different."
+    },
+    {
+      "word": "bastion",
+      "meaning": "a stronghold or fortification; a place or system in which something continues to survive."
+    },
+    {
+      "word": "proponents",
+      "meaning": "individuals who advocate for or support a particular idea or course of action."
+    },
+    {
+      "word": "stigmas",
+      "meaning": "negative associations or attitudes attached to certain characteristics or individuals."
+    },
+    {
+      "word": "versatile",
+      "meaning": "able to adapt or be adapted to many different functions or activities."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the nuances between higher education and vocational training. Pay close attention to the implied meanings and attitudes expressed towards each pathway. Note the structure of the arguments presented and how they relate to current labor market demands. Make sure to practice skimming for main ideas and scanning for specific details.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

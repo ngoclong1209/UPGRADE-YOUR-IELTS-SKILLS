@@ -1,0 +1,106 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_050",
+  "title": "The Intersection of Nutrition and Mental Health",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Nourishment for the Mind: The Role of Diet in Mental Health</h2><p>The intricate relationship between dietary habits and mental health has garnered significant attention in recent years. Emerging research suggests that the foods we consume not only impact our physical well-being but also profoundly affect our psychological state. Nutritional psychiatry is an evolving field that examines how various dietary patterns, including the Mediterranean and DASH diets, can mitigate the risks of depression and anxiety disorders.</p><p>Studies indicate that diets rich in fruits, vegetables, whole grains, and omega-3 fatty acids contribute to enhanced mood and cognitive function. Conversely, excessive intake of processed foods high in sugars and unhealthy fats has been linked to a higher prevalence of mood disorders. The biochemical mechanisms underlying these associations involve the gut-brain axis, where gut microbiota interact with brain function and influence mental states.</p><p>Furthermore, the concept of food as medicine is gaining traction, with practitioners advocating for dietary interventions as adjunct therapies in treating mental health issues. However, while the evidence is compelling, it is crucial to approach these findings with a critical lens, as individual responses to dietary changes can vary considerably based on genetic, environmental, and lifestyle factors.</p><p>In conclusion, although the link between diet and mental health is increasingly recognized, further research is necessary to unravel the complexities of this relationship and to establish dietary guidelines that can effectively promote psychological well-being.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which of the following best summarizes the passage's main argument?",
+      "options": {
+        "A": "Dietary choices significantly influence both physical and mental health.",
+        "B": "Processed foods are the primary cause of mental health disorders.",
+        "C": "Only certain diets can improve cognitive functions.",
+        "D": "Nutritional psychiatry is a fully established field with definitive guidelines."
+      },
+      "answer": "A",
+      "explanation": "Option A accurately captures the passage's focus on the significant impact of dietary choices on both physical and mental health, as discussed throughout the text."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "The Mediterranean diet is the only dietary pattern linked to improved mental health.",
+      "answer": "False",
+      "explanation": "The passage mentions multiple dietary patterns, including the Mediterranean and DASH diets, suggesting that there are others linked to improved mental health."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that dietary interventions can be effective in treating mental health issues.",
+      "answer": "Yes",
+      "explanation": "The passage states that practitioners advocate for dietary interventions as adjunct therapies in treating mental health issues, indicating the author's belief in their effectiveness."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following dietary patterns with their effects.",
+      "text": [
+        "Mediterranean diet",
+        "DASH diet",
+        "Processed foods"
+      ],
+      "options": [
+        "Improves cognitive function",
+        "Linked to mood disorders",
+        "Enhances mood"
+      ],
+      "answers": {
+        "Mediterranean diet": "Enhances mood",
+        "DASH diet": "Improves cognitive function",
+        "Processed foods": "Linked to mood disorders"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph with its appropriate heading.",
+      "text": [
+        "Paragraph 1",
+        "Paragraph 2",
+        "Paragraph 3",
+        "Paragraph 4"
+      ],
+      "options": [
+        "The Role of Gut Microbiota",
+        "Introduction to Nutritional Psychiatry",
+        "Critical Perspectives on Dietary Interventions",
+        "The Connection Between Diet and Mood"
+      ],
+      "answers": {
+        "Paragraph 1": "Introduction to Nutritional Psychiatry",
+        "Paragraph 2": "The Connection Between Diet and Mood",
+        "Paragraph 3": "Critical Perspectives on Dietary Interventions",
+        "Paragraph 4": "The Role of Gut Microbiota"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short-answer",
+      "instruction": "Answer using NO MORE THAN THREE WORDS.",
+      "text": "What is the primary focus of nutritional psychiatry?",
+      "answer": "Diet and mental health",
+      "explanation": "The passage explicitly states that nutritional psychiatry examines the relationship between dietary habits and mental health."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "nutritional psychiatry",
+      "meaning": "A field of study examining the relationship between diet and mental health."
+    },
+    {
+      "word": "gut-brain axis",
+      "meaning": "The biochemical communication between the gastrointestinal tract and the brain."
+    },
+    {
+      "word": "adjunct therapies",
+      "meaning": "Secondary treatments used alongside primary treatments."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the main argument and the connections between dietary patterns and mental health. Pay close attention to the nuances in the author's tone and the implications of the findings presented. When answering questions, consider both explicit statements and implied meanings.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

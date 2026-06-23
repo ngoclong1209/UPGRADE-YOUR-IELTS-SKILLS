@@ -1,0 +1,84 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_263",
+  "title": "Understanding Climate Change: A Global Concern",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Impact of Climate Change</h2><p>Climate change refers to significant changes in global temperatures and weather patterns over time. While climate change is a natural phenomenon, scientific evidence shows that human activities are currently driving an unprecedented rate of change. The burning of fossil fuels, deforestation, and industrial processes release greenhouse gases (GHGs) into the atmosphere, contributing to the greenhouse effect. This effect traps heat from the sun, leading to global warming, which in turn causes melting ice caps, rising sea levels, and extreme weather events.</p><p>One major consequence of climate change is the impact on biodiversity. Many species are struggling to adapt to changing climates, resulting in habitat loss and increased extinction rates. Additionally, climate change poses significant risks to food security. Changes in temperature and precipitation patterns can disrupt agricultural production, leading to crop failures and food shortages in vulnerable regions.</p><p>Efforts to combat climate change include transitioning to renewable energy sources, improving energy efficiency, and promoting sustainable land use practices. Governments and organizations worldwide are working together to create policies aimed at reducing GHG emissions. Public awareness and individual actions, such as reducing waste and conserving energy, also play critical roles in addressing this global challenge.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary cause of the current rate of climate change?",
+      "options": {
+        "A": "Natural climate variations over centuries",
+        "B": "Human activities releasing greenhouse gases",
+        "C": "Increased solar radiation",
+        "D": "Volcanic eruptions"
+      },
+      "answer": "B",
+      "explanation": "The passage states that human activities are currently driving an unprecedented rate of climate change, primarily through the release of greenhouse gases."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Many species are thriving despite changes in their habitats due to climate change.",
+      "answer": "False",
+      "explanation": "The passage mentions that many species are struggling to adapt, leading to habitat loss and increased extinction rates, indicating that they are not thriving."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the passage suggest that individuals can help combat climate change?",
+      "answer": "Yes",
+      "explanation": "The passage states that public awareness and individual actions, such as reducing waste and conserving energy, play critical roles in addressing climate change."
+    },
+    {
+      "id": "q4",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "options": {
+        "A": "Consequences of Climate Change",
+        "B": "Human Contributions to Climate Change",
+        "C": "Global Responses to Climate Change",
+        "D": "The Science Behind Climate Change"
+      },
+      "paragraphs": [
+        "The Impact of Climate Change",
+        "One major consequence of climate change is the impact on biodiversity.",
+        "Efforts to combat climate change include transitioning to renewable energy sources."
+      ],
+      "answers": {
+        "B": "The Impact of Climate Change",
+        "A": "One major consequence of climate change is the impact on biodiversity.",
+        "C": "Efforts to combat climate change include transitioning to renewable energy sources."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The greenhouse effect is caused by the release of __________ into the atmosphere.",
+      "answer": "greenhouse gases",
+      "explanation": "The passage specifically states that the burning of fossil fuels and other activities release greenhouse gases, which contribute to the greenhouse effect."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "greenhouse effect",
+      "meaning": "The warming of the Earth's surface due to the trapping of heat by greenhouse gases."
+    },
+    {
+      "word": "biodiversity",
+      "meaning": "The variety of life in the world or in a particular habitat or ecosystem."
+    },
+    {
+      "word": "food security",
+      "meaning": "The state of having reliable access to a sufficient quantity of affordable, nutritious food."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To approach this passage effectively, focus on identifying the main ideas and supporting details in each paragraph. Pay attention to the keywords in the questions and refer back to the relevant sections of the text. Practice skimming for the main ideas and scanning for specific information to enhance your reading speed and accuracy.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

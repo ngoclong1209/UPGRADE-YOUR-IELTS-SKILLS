@@ -1,0 +1,94 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_055",
+  "title": "Exploring the Final Frontier: The Journey of Space Exploration",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Fascinating World of Space Exploration</h2><p>Space exploration has captivated human imagination for centuries. Since the launch of the first artificial satellite, Sputnik, by the Soviet Union in 1957, humanity has taken significant steps toward understanding the universe. The primary goal of space exploration is to gather knowledge about celestial bodies, the origins of the universe, and our place within it.</p><p>NASA, the United States' space agency, has been at the forefront of this endeavor. From the historic Apollo missions that landed humans on the Moon to the Mars Rover missions, NASA has pushed the boundaries of what we know. Recent missions, such as the James Webb Space Telescope, aim to uncover the mysteries of distant galaxies and the possibility of life beyond Earth.</p><p>International cooperation has also played a vital role in space exploration. The International Space Station (ISS), a collaborative project involving multiple countries, serves as a microgravity laboratory where scientists conduct experiments that benefit humanity. This joint effort exemplifies how nations can work together for a common purpose.</p><p>Despite the advancements, space exploration faces numerous challenges. The vast distances of space pose logistical hurdles, and the harsh conditions require innovations in technology and engineering. Funding remains a significant issue, as governments must balance space budgets with pressing needs on Earth.</p><p>In conclusion, space exploration is not just about discovering new worlds; it's also about fostering international collaboration, advancing technology, and inspiring future generations to look beyond our planet.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What was the purpose of the first artificial satellite, Sputnik?",
+      "options": {
+        "A": "To gather information about Earth",
+        "B": "To explore distant galaxies",
+        "C": "To understand human life",
+        "D": "To test space travel technology"
+      },
+      "answer": "A",
+      "explanation": "Sputnik was designed to gather data about the Earth's atmosphere and its surroundings."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the James Webb Space Telescope aim to investigate?",
+      "options": {
+        "A": "The surface of Mars",
+        "B": "The origins of the universe",
+        "C": "The Moon's geology",
+        "D": "Human life on Earth"
+      },
+      "answer": "B",
+      "explanation": "The James Webb Space Telescope is focused on uncovering the mysteries of distant galaxies and the origins of the universe."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "The International Space Station is solely funded by the United States.",
+      "answer": "False",
+      "explanation": "The passage indicates that the ISS involves multiple countries working together, implying shared funding."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe space exploration is essential for humanity?",
+      "answer": "Yes",
+      "explanation": "The passage suggests that space exploration fosters collaboration and advances technology, indicating its importance."
+    },
+    {
+      "id": "q5",
+      "type": "matching_information",
+      "instruction": "Match the following topics with their corresponding details.",
+      "topics": {
+        "A": "Apollo Missions",
+        "B": "Mars Rover Missions",
+        "C": "International Space Station",
+        "D": "James Webb Space Telescope"
+      },
+      "details": {
+        "1": "Exploration of the Moon",
+        "2": "Research in microgravity",
+        "3": "Study of distant galaxies",
+        "4": "Exploration of Mars"
+      },
+      "matches": {
+        "A": "1",
+        "B": "4",
+        "C": "2",
+        "D": "3"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "captivated",
+      "meaning": "attracted and held the attention of"
+    },
+    {
+      "word": "collaboration",
+      "meaning": "working together towards a common goal"
+    },
+    {
+      "word": "logistical",
+      "meaning": "related to the organization of complex operations"
+    },
+    {
+      "word": "microgravity",
+      "meaning": "a condition in which objects appear to be weightless"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When answering the questions, pay close attention to keywords in the passage that relate to the questions. Skimming for main ideas and scanning for specific details will help you find the answers effectively.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

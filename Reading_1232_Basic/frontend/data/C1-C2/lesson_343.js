@@ -1,0 +1,95 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_343",
+  "title": "The Unseen Threat: Understanding Climate Change and Global Warming",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Unseen Threat: Understanding Climate Change and Global Warming</h2><p>Climate change, a phenomenon that has garnered increasing attention over the past few decades, refers to significant alterations in global temperatures and weather patterns over time. While climate change is not a new concept, its accelerated pace and the ensuing consequences have raised alarms among scientists and policymakers alike. The primary driver of this rapid change is anthropogenic global warming, which stems from the accumulation of greenhouse gases (GHGs) in the atmosphere due to human activities, such as burning fossil fuels, deforestation, and industrial processes.</p><p>The repercussions of climate change are manifold, affecting ecosystems, weather extremes, and sea levels, thereby posing a substantial threat to human existence. For instance, rising temperatures have led to more frequent and severe weather events, such as hurricanes, droughts, and floods. Additionally, the melting of polar ice caps contributes to rising sea levels, threatening coastal communities and biodiversity alike.</p><p>Addressing climate change necessitates a multifaceted approach, incorporating scientific research, technological innovation, and robust policy-making. It is imperative for nations to collaborate on international agreements, such as the Paris Accord, which aims to limit global temperature rise to well below 2 degrees Celsius above pre-industrial levels. Furthermore, transitioning to renewable energy sources, enhancing energy efficiency, and promoting sustainable practices are essential strategies in mitigating climate change.</p><p>Despite the urgency of the situation, public perception and response to climate change are often hindered by misinformation and a lack of understanding. Educational initiatives aimed at raising awareness about the science of climate change and its implications are crucial in fostering a more informed populace that can advocate for effective solutions. Ultimately, the fight against climate change is not just an environmental issue; it is a moral imperative that affects the fabric of our societies and future generations.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary cause of the accelerated pace of climate change as discussed in the passage?",
+      "options": {
+        "A": "Natural climate variations over centuries",
+        "B": "Anthropogenic activities leading to greenhouse gas emissions",
+        "C": "Increased solar radiation impacting Earth's climate",
+        "D": "The natural cycling of the Earth's climate systems"
+      },
+      "answer": "B",
+      "explanation": "The passage clearly states that the primary driver of rapid climate change is anthropogenic global warming, which results from human activities that increase greenhouse gases."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False or Not Given.",
+      "text": "The melting of polar ice caps has no impact on biodiversity.",
+      "answer": "False",
+      "explanation": "The passage indicates that rising sea levels, due to melting polar ice caps, threaten biodiversity, implying a direct impact."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that climate change is solely an environmental issue.",
+      "answer": "No",
+      "explanation": "The passage states that the fight against climate change is a moral imperative affecting societies, indicating that it transcends being just an environmental issue."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following aspects of climate change with their corresponding effects.",
+      "options": {
+        "1": "Increased temperatures",
+        "2": "Rising sea levels",
+        "3": "Severe weather events",
+        "4": "Public perception"
+      },
+      "answers": {
+        "A": "Threat to coastal communities",
+        "B": "More frequent hurricanes",
+        "C": "Misinformation hindering response",
+        "D": "Ecosystem disruptions"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph with the correct heading.",
+      "options": {
+        "A": "The multifaceted nature of climate change",
+        "B": "Impacts of climate change",
+        "C": "The role of education",
+        "D": "Global agreements and policies"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short-answer_questions",
+      "instruction": "Answer the following questions in NO MORE THAN TWO WORDS.",
+      "text": "What international agreement aims to limit global temperature rise?",
+      "answer": "Paris Accord",
+      "explanation": "The passage mentions the Paris Accord as a key international agreement focused on limiting global temperature increases."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "anthropogenic",
+      "meaning": "resulting from the influence of human beings on nature"
+    },
+    {
+      "word": "ecosystem",
+      "meaning": "a biological community of interacting organisms and their physical environment"
+    },
+    {
+      "word": "mitigating",
+      "meaning": "making less severe, serious, or painful"
+    },
+    {
+      "word": "sustainable",
+      "meaning": "able to be maintained at a certain rate or level without depleting resources"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on identifying key themes and understanding the implications of climate change. Pay attention to the author's tone and purpose, as well as the connections between different sections of the text. Make sure to consider both explicit statements and implied meanings to answer the questions accurately.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

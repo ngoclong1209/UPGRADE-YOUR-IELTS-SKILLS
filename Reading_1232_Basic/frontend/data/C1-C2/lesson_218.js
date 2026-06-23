@@ -1,0 +1,98 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_218",
+  "title": "Navigating the Digital Frontier: The Internet's Pervasive Influence on Society",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Transformative Power of the Internet</h2><p>In the contemporary landscape, the internet stands as a cornerstone of modern society, reshaping communication, commerce, and access to information. Its omnipresence has led to profound changes in how individuals engage with the world around them. The internet facilitates instantaneous communication, enabling users to connect across vast distances, thus fostering a sense of global community. Furthermore, it serves as a vast repository of knowledge, democratizing access to information and empowering individuals to educate themselves outside traditional frameworks.</p><p>However, the implications of the internet extend beyond mere connectivity and knowledge acquisition. It has spawned new economic models, transforming industries and creating opportunities for entrepreneurship that were previously unimagined. Yet, alongside these benefits, the internet poses significant challenges, including issues of privacy, misinformation, and digital divide. The interplay between technological advancement and societal norms raises critical questions about the future trajectory of human interaction in a digital age.</p><p>Moreover, the internet's role in shaping public opinion and political discourse cannot be understated. Social media platforms, once heralded as tools for democratic engagement, have also become arenas for polarization and manipulation. Thus, while the internet has the potential to enhance civic participation, it simultaneously presents risks that necessitate careful scrutiny and regulation.</p><p>In conclusion, the internet is a double-edged sword, offering unprecedented opportunities while also posing significant threats to societal cohesion and individual well-being. As society navigates this digital frontier, it is imperative to engage critically with the nuances of online interactions and their broader implications.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the author suggest about the internet's impact on society?",
+      "options": {
+        "A": "It primarily enhances communication while disregarding economic factors.",
+        "B": "It has created a global community but also poses risks to privacy.",
+        "C": "It solely democratizes knowledge without any adverse effects.",
+        "D": "It simplifies traditional frameworks of education and commerce."
+      },
+      "answer": "B",
+      "explanation": "The passage indicates that while the internet fosters a global community and democratizes access to information, it also brings significant challenges such as privacy concerns and misinformation."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "The internet has completely resolved issues of misinformation and privacy.",
+      "answer": "False",
+      "explanation": "The passage discusses the challenges posed by the internet, including issues of privacy and misinformation, suggesting that these issues are not resolved."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer with Yes, No, or Not Given.",
+      "text": "Does the author believe that the internet enhances civic participation?",
+      "answer": "Yes",
+      "explanation": "The passage mentions the potential of social media platforms to enhance civic participation, though it also notes the associated risks."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct sections of the passage.",
+      "text": "Match the following effects of the internet with their implications.",
+      "options": {
+        "1": "Facilitates instantaneous communication",
+        "2": "Democratizes access to information",
+        "3": "Transforms industries",
+        "4": "Presents risks of polarization"
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C",
+        "4": "D"
+      },
+      "explanation": "These implications are discussed in different sections of the passage, demonstrating the diverse impacts of the internet."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The internet serves as a vast repository of _____ that empowers individuals.",
+      "answer": "knowledge",
+      "explanation": "The passage explicitly states that the internet allows individuals to educate themselves by providing access to vast amounts of knowledge."
+    },
+    {
+      "id": "q6",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "In conclusion, the internet is a _____ sword, offering opportunities and threats.",
+      "answer": "double-edged",
+      "explanation": "The phrase 'double-edged sword' is used in the passage to describe the internet's complex role in society."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "omnipresence",
+      "meaning": "the state of being everywhere at once; widespread presence."
+    },
+    {
+      "word": "democratizing",
+      "meaning": "making something accessible to everyone; ensuring equality in access."
+    },
+    {
+      "word": "polarization",
+      "meaning": "the division of people into two sharply contrasting groups."
+    },
+    {
+      "word": "entrepreneurship",
+      "meaning": "the process of starting and running one's own business."
+    },
+    {
+      "word": "scrutiny",
+      "meaning": "critical observation or examination."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the nuances of the author's arguments. Pay attention to the implications of the internet discussed throughout the text, and be cautious with the distractors in multiple-choice questions. For true/false/not given questions, ensure you discern between implied meanings and explicit statements.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

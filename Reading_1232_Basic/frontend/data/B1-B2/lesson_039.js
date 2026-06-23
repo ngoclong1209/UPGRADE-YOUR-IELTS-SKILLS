@@ -1,0 +1,80 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_039",
+  "title": "The Dual Nature of Tourism: Benefits and Challenges",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dual Nature of Tourism: Benefits and Challenges</h2><p>Tourism is often celebrated as a key driver of economic growth. It generates jobs, boosts local businesses, and promotes cultural exchange. However, the impact of tourism is not solely positive. As cities and natural parks become more popular, they face challenges such as overcrowding, environmental degradation, and the displacement of local communities.</p><p>For instance, in places like Venice and Barcelona, the influx of tourists has led to rising rents and a decline in the quality of life for residents. Local governments are now trying to implement measures to manage tourist flow and preserve the uniqueness of their communities.</p><p>Moreover, while tourism can support conservation efforts by providing funding for parks and wildlife reserves, it can also harm the very environments it seeks to protect. Increased foot traffic can lead to soil erosion and habitat destruction, highlighting the need for sustainable tourism practices.</p><p>In conclusion, while tourism offers numerous benefits, it also poses significant challenges that must be addressed to ensure that it remains a force for good in the world.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the negative effects of tourism mentioned in the passage?",
+      "options": {
+        "A": "It creates job opportunities.",
+        "B": "It causes environmental damage.",
+        "C": "It encourages cultural exchange.",
+        "D": "It increases local revenues."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct because the passage specifically mentions that increased tourism can lead to environmental degradation."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Tourism has only positive effects on local communities.",
+      "answer": "False",
+      "explanation": "The passage states that tourism can negatively impact local communities by causing rising rents and displacing residents."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that tourism is entirely harmful?",
+      "answer": "No",
+      "explanation": "The author acknowledges the benefits of tourism while also highlighting its challenges, suggesting a balanced view."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following issues with their descriptions.",
+      "options": {
+        "A": "Overcrowding",
+        "B": "Environmental degradation",
+        "C": "Rising rents",
+        "D": "Displacement of locals"
+      },
+      "descriptions": {
+        "1": "A situation where too many visitors overwhelm a location.",
+        "2": "Damage caused to ecosystems due to foot traffic.",
+        "3": "Increased housing costs driven by tourist demand.",
+        "4": "Local residents being forced to move."
+      },
+      "answers": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "4"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence with NO MORE THAN TWO WORDS.",
+      "text": "Tourism can provide funding for __________ and wildlife reserves.",
+      "answer": "parks",
+      "explanation": "The passage indicates that tourism supports conservation efforts by funding parks."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "degradation",
+      "meaning": "the process of something being damaged or deteriorating."
+    },
+    {
+      "word": "displacement",
+      "meaning": "the act of forcing someone to leave their home or place."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, pay attention to both the positive and negative impacts of tourism. Look for keywords that indicate contrast, such as 'however' and 'but', which can help you understand the author's perspective more clearly.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

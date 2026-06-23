@@ -1,0 +1,88 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_002",
+  "title": "Navigating the Digital Classroom: The Evolution of Online Learning",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Digital Classroom: A Paradigm Shift in Education</h2><p>In recent years, online learning has emerged as a formidable alternative to traditional classroom settings, reshaping the educational landscape. The advent of cutting-edge technology has facilitated unprecedented access to knowledge, enabling learners from diverse backgrounds to engage with content that was previously beyond their reach. However, this transformation has not been without its challenges. Educators and institutions must navigate issues of engagement, accessibility, and the efficacy of learning outcomes.</p><p>Asynchronous learning models offer flexibility, allowing students to learn at their own pace, yet they often lack the immediacy of face-to-face interaction that many learners thrive on. The interplay between synchronous and asynchronous modalities presents a complex dynamic that educators must master to foster an effective learning environment. Additionally, the reliance on technology raises concerns about equity and access, as not all students possess the necessary resources to participate fully in online education.</p><p>Furthermore, the psychological impact of remote learning cannot be underestimated. The absence of physical presence can lead to feelings of isolation and disengagement among students. Therefore, educators are tasked with finding innovative strategies to maintain motivation and connection within the virtual classroom. This includes leveraging collaborative tools and fostering a sense of community among learners.</p><p>In conclusion, while online learning offers remarkable opportunities for democratizing education, it simultaneously presents significant obstacles that must be addressed. As we continue to explore this evolving paradigm, the focus must remain on creating inclusive, engaging, and effective educational experiences that cater to the needs of all learners.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major challenge of online learning mentioned in the passage?",
+      "options": {
+        "A": "It democratizes education.",
+        "B": "It often lacks face-to-face interaction.",
+        "C": "It is universally accessible.",
+        "D": "It eliminates the need for technology."
+      },
+      "answer": "B",
+      "explanation": "The passage states that while asynchronous learning offers flexibility, it often lacks the immediacy of face-to-face interaction, highlighting the challenge associated with online learning."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "All students have equal access to online learning resources.",
+      "answer": "False",
+      "explanation": "The passage mentions concerns about equity and access, indicating that not all students possess the necessary resources, thus making the statement false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The passage suggests that online learning can lead to feelings of isolation.",
+      "answer": "Yes",
+      "explanation": "The passage explicitly states that the absence of physical presence can lead to feelings of isolation and disengagement among students, confirming the suggestion."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the appropriate sections of the text.",
+      "text": "1. The increase in accessibility to education. 2. The importance of community in online learning. 3. The need for innovative teaching strategies.",
+      "options": {
+        "A": "The Digital Classroom: A Paradigm Shift in Education",
+        "B": "The interplay between synchronous and asynchronous modalities presents a complex dynamic that educators must master.",
+        "C": "Educators are tasked with finding innovative strategies to maintain motivation."
+      },
+      "answer": {
+        "1": "A",
+        "2": "C",
+        "3": "B"
+      },
+      "explanation": "The statements can be matched with sections of the text discussing the benefits of accessibility, the role of community, and the need for innovative strategies."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with no more than three words.",
+      "text": "The absence of physical presence in online learning can lead to feelings of ______.",
+      "answer": "isolation and disengagement",
+      "explanation": "The passage specifically mentions that the absence of physical presence can lead to feelings of isolation and disengagement."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "facilitated",
+      "meaning": "made easier or helped to bring about"
+    },
+    {
+      "word": "modality",
+      "meaning": "a particular mode in which something exists or is experienced"
+    },
+    {
+      "word": "democratizing",
+      "meaning": "making something accessible to all members of society"
+    },
+    {
+      "word": "interplay",
+      "meaning": "the way in which two or more things have an effect on each other"
+    },
+    {
+      "word": "engagement",
+      "meaning": "the act of being involved or participating actively"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the nuances of the arguments presented. Pay attention to how the author frames the challenges and opportunities of online learning. Look for synonyms and paraphrases that may indicate the underlying meaning, especially in the question options. Practice skimming for main ideas and scanning for specific details to effectively locate the answers.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

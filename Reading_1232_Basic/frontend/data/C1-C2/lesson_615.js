@@ -1,0 +1,98 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_615",
+  "title": "The Frontiers of Cosmic Discovery",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Expanding Horizons: The Quest for Knowledge Beyond Earth</h2><p>Space exploration has long been a profound pursuit, not only pushing the boundaries of human knowledge but also challenging our philosophical conceptions of existence. From the early telescopic observations of celestial bodies to the sophisticated robotic missions exploring distant planets, each advancement has significantly altered our understanding of the universe. Notably, missions such as the Hubble Space Telescope have unveiled previously unseen realms, igniting a fervor for further investigation. However, alongside these scientific triumphs arise pressing questions about the ethical implications of such explorations. Are we prepared to confront the potential consequences of our actions in the cosmos? As we venture further, the dialogue surrounding the responsibility of spacefaring nations grows increasingly complex, necessitating a careful consideration of the ramifications of our quest for knowledge.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument presented by the author regarding space exploration?",
+      "options": {
+        "A": "It is a purely scientific endeavor with no ethical implications.",
+        "B": "It fosters an understanding of the universe while raising ethical concerns.",
+        "C": "It is primarily focused on technological advancements.",
+        "D": "It should be halted due to potential dangers."
+      },
+      "answer": "B",
+      "explanation": "The author emphasizes that space exploration not only enhances our understanding of the universe but also brings forth significant ethical considerations, making option B the correct answer."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate if the statement is True, False, or Not Given.",
+      "text": "The Hubble Space Telescope has contributed to a significant increase in public interest in space exploration.",
+      "answer": "True",
+      "explanation": "The passage states that the Hubble Space Telescope has unveiled unseen realms, thus igniting a fervor for further investigation, which implies an increase in public interest."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Indicate if the statement reflects the author's viewpoint: Yes, No, or Not Given.",
+      "text": "The author believes that space exploration should be restricted due to ethical concerns.",
+      "answer": "No",
+      "explanation": "The passage does not suggest that space exploration should be restricted; rather, it calls for a careful consideration of the ethical implications."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following concepts with their corresponding descriptions.",
+      "pairs": [
+        {
+          "concept": "Hubble Space Telescope",
+          "description": "A tool that has transformed our view of the universe."
+        },
+        {
+          "concept": "Ethical implications",
+          "description": "Concerns about the consequences of space exploration."
+        },
+        {
+          "concept": "Scientific advancements",
+          "description": "Progress in technology that enhances our understanding."
+        }
+      ],
+      "answer": [
+        {
+          "Hubble Space Telescope": "A tool that has transformed our view of the universe."
+        },
+        {
+          "Ethical implications": "Concerns about the consequences of space exploration."
+        },
+        {
+          "Scientific advancements": "Progress in technology that enhances our understanding."
+        }
+      ],
+      "explanation": "The pairs correctly identify the role and significance of each concept as described in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "short_answer",
+      "instruction": "Answer the question in NO MORE THAN TWO WORDS.",
+      "text": "What has the exploration of space prompted in terms of international dialogue?",
+      "answer": "responsibility",
+      "explanation": "The passage mentions the growing complexity of discussions surrounding the responsibility of spacefaring nations."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "pursuit",
+      "meaning": "the act of striving to gain or accomplish something."
+    },
+    {
+      "word": "celestial",
+      "meaning": "relating to the sky or outer space."
+    },
+    {
+      "word": "ramifications",
+      "meaning": "consequences that complicate a situation."
+    },
+    {
+      "word": "ethical",
+      "meaning": "relating to moral principles or the branch of knowledge dealing with these."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively approach this passage, focus on the nuanced arguments presented by the author. Pay attention to the implications of statements regarding ethical considerations and scientific progress. When answering questions, consider the author’s tone and intent, as well as the paraphrasing of key terms within the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

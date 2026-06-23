@@ -1,0 +1,125 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_099",
+  "title": "The Dual Nature of Tourism: Economic Boon or Environmental Bane?",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Complex Interplay of Tourism and Environmental Sustainability</h2><p>Tourism has long been heralded as a significant driver of economic development, particularly in regions where alternative sources of income are scarce. The influx of visitors often translates into job creation, infrastructure improvements, and increased local revenues. However, the burgeoning tourism industry also poses substantial threats to the environmental integrity of host destinations. Environmental degradation, including biodiversity loss, pollution, and resource depletion, is frequently correlated with the expansion of tourism activities.</p><p>While proponents argue that tourism can promote conservation efforts through financial contributions to protected areas and increased awareness of environmental issues, critics contend that the sheer volume of tourists can overwhelm local ecosystems. For instance, the rise of mass tourism has led to the overexploitation of natural resources, as seen in popular destinations such as the Galapagos Islands and Venice. These areas face an existential threat, as the delicate balance of their ecosystems is disrupted by the very industry that purports to celebrate and preserve them.</p><p>Moreover, the social ramifications of tourism cannot be overlooked. The influx of tourists often alters local cultures and traditions, leading to a phenomenon known as 'cultural commodification.' This process can erode the authenticity of local customs, as communities adapt their practices to cater to the expectations of visitors. The result is a paradox where cultural heritage, while showcased, may ultimately be diluted.</p><p>Thus, the question arises: how can the tourism sector evolve to mitigate its negative impacts while enhancing its positive contributions? Sustainable tourism practices, which advocate for responsible travel that conserves the environment and improves the well-being of local communities, are increasingly being recognized as a viable solution. By prioritizing sustainability, the tourism industry can harness its potential as a force for good, rather than a catalyst for destruction.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern regarding mass tourism as highlighted in the passage?",
+      "options": {
+        "A": "It leads to significant job loss in local communities.",
+        "B": "It often results in the overexploitation of natural resources.",
+        "C": "It improves the authenticity of local cultures.",
+        "D": "It primarily benefits only wealthy tourists."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct because the passage specifically mentions that mass tourism leads to overexploitation of natural resources, highlighting environmental degradation."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Tourism has no positive impacts on local economies.",
+      "answer": "False",
+      "explanation": "The passage states that tourism is a significant driver of economic development, which implies that it does have positive impacts on local economies."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The passage implies that sustainable tourism can help preserve local cultures.",
+      "answer": "Yes",
+      "explanation": "The passage suggests that by prioritizing sustainability, tourism can enhance its contributions and possibly preserve local cultures instead of diluting them."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following impacts of tourism with their corresponding descriptions.",
+      "items": [
+        {
+          "impact": "Economic Development",
+          "description": "Increased local revenues and job creation."
+        },
+        {
+          "impact": "Environmental Degradation",
+          "description": "Loss of biodiversity and pollution."
+        },
+        {
+          "impact": "Cultural Commodification",
+          "description": "Erosion of authenticity in local customs."
+        }
+      ],
+      "answer": [
+        {
+          "impact": "Economic Development",
+          "matched_description": "Increased local revenues and job creation."
+        },
+        {
+          "impact": "Environmental Degradation",
+          "matched_description": "Loss of biodiversity and pollution."
+        },
+        {
+          "impact": "Cultural Commodification",
+          "matched_description": "Erosion of authenticity in local customs."
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the following headings to the corresponding paragraphs.",
+      "headings": [
+        "The Economic Benefits of Tourism",
+        "The Environmental Costs of Mass Tourism",
+        "Sustainable Solutions for Future Tourism",
+        "Cultural Impacts of Tourism"
+      ],
+      "answer": [
+        {
+          "paragraph": 1,
+          "heading": "The Economic Benefits of Tourism"
+        },
+        {
+          "paragraph": 2,
+          "heading": "The Environmental Costs of Mass Tourism"
+        },
+        {
+          "paragraph": 3,
+          "heading": "Cultural Impacts of Tourism"
+        },
+        {
+          "paragraph": 4,
+          "heading": "Sustainable Solutions for Future Tourism"
+        }
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer the following question in NO MORE THAN TWO WORDS.",
+      "text": "What phenomenon describes the alteration of local cultures due to tourism?",
+      "answer": "Cultural commodification",
+      "explanation": "The passage specifically refers to the alteration of local cultures as 'cultural commodification'."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "commodification",
+      "meaning": "the process of turning something into a commodity, often leading to loss of authenticity."
+    },
+    {
+      "word": "exploitation",
+      "meaning": "the act of using something unfairly for one's own advantage."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "the ability to be maintained at a certain rate or level, particularly in environmental contexts."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To succeed in this passage, focus on understanding the nuanced relationships between tourism and its impacts. Look for keywords and phrases that indicate contrast or cause and effect. Pay attention to the author's tone and the implications of their arguments regarding sustainability.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

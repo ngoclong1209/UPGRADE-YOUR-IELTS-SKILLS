@@ -1,0 +1,122 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_183",
+  "title": "Understanding Climate Change",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>What is Climate Change?</h2><p>Climate change means big changes in the weather. It can be hot in some places and cold in others. Climate change is happening because of global warming. Global warming is when the Earth gets warmer because of human activities. People use cars and factories. These produce gases that make the Earth warm.</p><p>Many animals and plants are affected by climate change. Some animals need cold places. When it gets warmer, they have to move. Some cannot move and they die. This is bad for us too. We need animals and plants.</p><p>Climate change can also cause big storms. Storms can hurt people and homes. It can rain a lot or not at all. This is called drought. Drought can make it hard to grow food. We need food to live.</p><p>We can help stop climate change. We can use less energy. We can walk or ride bikes instead of using cars. We can recycle. These small actions can help our planet.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does climate change mean?",
+      "options": {
+        "A": "Big changes in the weather",
+        "B": "More cars on the road",
+        "C": "Less energy use",
+        "D": "More factories"
+      },
+      "answer": "A",
+      "explanation": "The passage explains that climate change means big changes in the weather."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is global warming?",
+      "options": {
+        "A": "The Earth gets warmer",
+        "B": "More rain falls",
+        "C": "Animals move places",
+        "D": "Storms happen"
+      },
+      "answer": "A",
+      "explanation": "The passage states that global warming is when the Earth gets warmer."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Climate change can hurt people.",
+      "answer": "True"
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "All animals can move to warmer places.",
+      "answer": "False"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "text": "Drought means not enough rain.",
+      "answer": "True"
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "text": "What can we use less of to help the planet?",
+      "answer": "Energy"
+    },
+    {
+      "id": "q7",
+      "type": "short_answer",
+      "text": "What can we ride instead of using cars?",
+      "answer": "Bikes"
+    },
+    {
+      "id": "q8",
+      "type": "sentence_completion",
+      "text": "Some animals need cold places. When it gets warmer, they have to _____.",
+      "answer": "move"
+    },
+    {
+      "id": "q9",
+      "type": "matching_information",
+      "text": "Match the causes of climate change with their effects.",
+      "pairs": {
+        "Cars": "Make the Earth warm",
+        "Factories": "Produce gases",
+        "Drought": "Hard to grow food",
+        "Storms": "Hurt people and homes"
+      }
+    },
+    {
+      "id": "q10",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What can help stop climate change?",
+      "options": {
+        "A": "Using more energy",
+        "B": "Recycling",
+        "C": "Driving cars",
+        "D": "Building more factories"
+      },
+      "answer": "B",
+      "explanation": "The passage mentions that recycling can help our planet."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "climate",
+      "meaning": "the usual weather in a place"
+    },
+    {
+      "word": "change",
+      "meaning": "to make something different"
+    },
+    {
+      "word": "global",
+      "meaning": "worldwide, everywhere"
+    },
+    {
+      "word": "warming",
+      "meaning": "becoming warmer"
+    },
+    {
+      "word": "drought",
+      "meaning": "when it does not rain for a long time"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully. Look for key words in the questions. Try to find the answers directly in the text. Pay attention to true or false statements and think about the meaning of words.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

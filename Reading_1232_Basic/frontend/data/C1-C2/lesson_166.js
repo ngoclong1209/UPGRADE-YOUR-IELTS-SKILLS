@@ -1,0 +1,117 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_166",
+  "title": "Harnessing Nature's Power: The Future of Renewable Energy",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Evolution of Renewable Energy</h2><p>In recent decades, renewable energy has emerged as a pivotal component in the global effort to combat climate change and reduce dependency on fossil fuels. Defined as energy sourced from natural processes that are continually replenished, such as solar, wind, hydro, and geothermal, these alternatives present a sustainable solution to the world's escalating energy needs. The transition towards renewable energy is not merely a technical challenge but also an economic and social one, necessitating strategic investments and governmental policies that encourage innovation and infrastructure development.</p><p>Historically, the reliance on fossil fuels has been deeply ingrained in industrial societies, leading to significant greenhouse gas emissions and environmental degradation. However, advancements in technology have facilitated the extraction and utilization of renewable resources in ways that were previously inconceivable. For instance, the cost of solar photovoltaic cells has plummeted by over 80% in the past decade, making solar energy more accessible and economically viable than ever before.</p><p>Moreover, the implementation of smart grid technology enables more efficient energy distribution and consumption, minimizing waste. Governments worldwide are recognizing the urgency of this transition, with many setting ambitious targets for reducing carbon emissions and increasing the share of renewables in their energy mix. Yet, challenges remain, including the intermittency of renewable sources and the need for substantial investment in energy storage solutions.</p><p>The societal implications of this shift are profound. As renewable energy technologies proliferate, they promise not only to mitigate the impacts of climate change but also to foster economic growth through job creation in new energy sectors. Nevertheless, the transition must be managed equitably to avoid exacerbating social inequalities, particularly in regions heavily reliant on fossil fuel industries. Hence, the future of renewable energy hinges not only on technological innovation but also on the commitment to a just and inclusive energy transition.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the author suggest is crucial for the transition to renewable energy?",
+      "options": {
+        "A": "Technological advancements alone",
+        "B": "Strategic investments and supportive policies",
+        "C": "Public awareness and education",
+        "D": "Increased fossil fuel consumption"
+      },
+      "answer": "B",
+      "explanation": "The passage emphasizes the necessity of strategic investments and governmental policies to facilitate the transition towards renewable energy."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "The author believes that renewable energy sources can completely replace fossil fuels in the near future.",
+      "answer": "Not Given",
+      "explanation": "The passage discusses the importance of renewable energy but does not explicitly state that these sources will completely replace fossil fuels."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author express a positive attitude towards the current state of renewable energy technology?",
+      "answer": "Yes",
+      "explanation": "The author highlights significant advancements and decreasing costs in renewable energy technologies, indicating a positive outlook."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the statements with the appropriate paragraphs.",
+      "options": {
+        "A": "Renewable energy has cost advantages.",
+        "B": "The transition poses social challenges.",
+        "C": "Governments are setting targets for emissions.",
+        "D": "Fossil fuel reliance has historical roots."
+      },
+      "paragraphs": {
+        "1": "A",
+        "2": "D",
+        "3": "C",
+        "4": "B"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Choose the correct heading for each paragraph.",
+      "options": {
+        "1": "The Historical Context of Energy Use",
+        "2": "Economic Impacts of Renewable Technologies",
+        "3": "Challenges in the Renewable Transition",
+        "4": "The Future of Energy and Society"
+      },
+      "paragraphs": {
+        "1": "1",
+        "2": "2",
+        "3": "3",
+        "4": "4"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "matching_features",
+      "text": "Match the renewable energy source to its description.",
+      "options": {
+        "A": "Solar Energy",
+        "B": "Wind Energy",
+        "C": "Geothermal Energy",
+        "D": "Hydropower"
+      },
+      "descriptions": {
+        "1": "Utilizes heat from the Earth's core.",
+        "2": "Generated from the movement of air.",
+        "3": "Harnessed from sunlight.",
+        "4": "Produced from the flow of water."
+      },
+      "matches": {
+        "A": "3",
+        "B": "2",
+        "C": "1",
+        "D": "4"
+      }
+    },
+    {
+      "id": "q7",
+      "type": "short_answer",
+      "instruction": "Write no more than three words.",
+      "text": "What has decreased by over 80% in the last decade?",
+      "answer": "solar photovoltaic cells"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "intermittency",
+      "meaning": "the quality of being not continuous or steady, often a challenge for renewable energy sources."
+    },
+    {
+      "word": "replenished",
+      "meaning": "refilled or restored, especially in the context of natural resources."
+    },
+    {
+      "word": "mitigate",
+      "meaning": "to make less severe, serious, or painful, often used in the context of reducing environmental impacts."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the author's main arguments and the implications of renewable energy transitions. Pay attention to the nuances in language, particularly regarding the author's attitude and the challenges presented. Make sure to analyze relationships between different sections to answer the questions accurately.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

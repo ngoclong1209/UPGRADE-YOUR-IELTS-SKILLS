@@ -1,0 +1,134 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_088",
+  "title": "The Internet: Catalyst for Change in Modern Society",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Role of the Internet in Modern Society</h2><p>The advent of the Internet has significantly transformed various aspects of modern life, acting as a catalyst for profound societal changes. Initially conceived as a tool for sharing information among academics, the Internet has burgeoned into a multifaceted platform influencing business, education, and interpersonal relationships. The sheer scale of its impact is evident in how it has reshaped communication, fostering a global exchange of ideas while simultaneously creating challenges related to privacy and misinformation.</p><p>In the realm of business, the Internet has revolutionized traditional models through e-commerce, enabling consumers to shop from the comfort of their homes. This convenience, however, raises questions about the sustainability of brick-and-mortar establishments and the implications for local economies. Furthermore, the rapid pace of digital transformation necessitates that businesses adapt to an ever-evolving technological landscape, which can strain resources and capabilities.</p><p>Education, too, has undergone a seismic shift, with online learning platforms democratizing access to knowledge. This accessibility empowers individuals across various demographics, yet it also prompts a reevaluation of the effectiveness of traditional educational systems. The disparity in digital literacy exacerbates existing inequalities, posing significant challenges for educators and policymakers alike.</p><p>Interpersonal relationships have also been redefined in the digital age. Social media platforms facilitate connections across vast distances, but they can also engender feelings of isolation and anxiety among users. The curated nature of online personas often leads to unrealistic comparisons, affecting mental health and overall well-being. Thus, while the Internet serves as a conduit for social interaction, it simultaneously necessitates a critical examination of its effects on human psychology.</p><p>In conclusion, the Internet plays a dual role in modern society, serving both as an enabler of progress and a source of significant challenges. As we navigate this complex landscape, it is imperative to foster digital literacy and implement policies that mitigate the adverse effects of this ubiquitous technology, ensuring that its benefits are equitably distributed.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the passage suggest about the impact of the Internet on traditional businesses?",
+      "options": {
+        "A": "It has completely eliminated the need for physical stores.",
+        "B": "It has caused a shift in consumer shopping behavior that affects local economies.",
+        "C": "It has uniformly benefited all businesses without any negative consequences.",
+        "D": "It has no significant effect on the retail sector."
+      },
+      "answer": "B",
+      "explanation": "The passage states that while the Internet has revolutionized business models through e-commerce, it raises questions about the sustainability of traditional stores and impacts local economies."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "The Internet has made education accessible to everyone without any drawbacks.",
+      "answer": "False",
+      "explanation": "The passage mentions that while online learning democratizes access, it raises challenges related to disparities in digital literacy."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The author believes that the Internet has a positive effect on mental health.",
+      "answer": "No",
+      "explanation": "The passage discusses how the curated nature of online personas can lead to unrealistic comparisons and negatively affect mental health."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the correct paragraph.",
+      "text": "1. The challenges posed by misinformation. 2. The evolution of communication in the digital age. 3. The influence of e-commerce on traditional retail.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answers": {
+        "1": "A",
+        "2": "A",
+        "3": "B"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph.",
+      "text": "1. The dual nature of the Internet's impact. 2. The effect of online platforms on personal connections. 3. The role of technology in reshaping education.",
+      "options": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "matching_sentence_endings",
+      "instruction": "Complete the sentences.",
+      "text": "1. The Internet's role in business has led to... 2. Online education has been criticized for... 3. Social media can enhance connections but...",
+      "options": {
+        "A": "creating significant challenges for local economies.",
+        "B": "creating a false sense of reality for users.",
+        "C": "democratizing access to information.",
+        "D": "sometimes leading to feelings of isolation."
+      }
+    },
+    {
+      "id": "q7",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences with NO MORE THAN TWO WORDS.",
+      "text": "The passage highlights the importance of fostering _______ to navigate the complex landscape of the Internet.",
+      "answer": "digital literacy",
+      "explanation": "The text emphasizes the need for digital literacy to address the challenges posed by the Internet."
+    },
+    {
+      "id": "q8",
+      "type": "summary_note_table_flow-chart_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The Internet serves as both a catalyst for change and a source of challenges, necessitating policies that mitigate its _______ effects.",
+      "answer": "adverse",
+      "explanation": "The passage mentions the need for policies to ensure that the Internet's benefits are equitably distributed while mitigating negative effects."
+    },
+    {
+      "id": "q9",
+      "type": "diagram_label_completion",
+      "instruction": "Label the diagram with NO MORE THAN TWO WORDS.",
+      "text": "Label the effects of the Internet on society: 1. _______ 2. _______ 3. _______",
+      "options": {
+        "1": "Business transformation",
+        "2": "Educational accessibility",
+        "3": "Social isolation"
+      }
+    },
+    {
+      "id": "q10",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following question with NO MORE THAN THREE WORDS.",
+      "text": "What is one significant challenge mentioned regarding online education?",
+      "answer": "digital literacy disparity",
+      "explanation": "The passage discusses how disparities in digital literacy can create challenges for educators and policymakers."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "catalyst",
+      "meaning": "a person or thing that precipitates an event or change."
+    },
+    {
+      "word": "democratizing",
+      "meaning": "making something accessible to everyone."
+    },
+    {
+      "word": "curated",
+      "meaning": "selectively organized or presented."
+    },
+    {
+      "word": "ubiquitous",
+      "meaning": "present, appearing, or found everywhere."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle this passage, focus on understanding the nuanced arguments presented by the author. Pay attention to the implications of statements regarding the Internet's dual role in society. Carefully analyze the paraphrasing in the questions to recognize subtle differences in meaning. It is essential to identify the main ideas and supporting details within each paragraph to answer the questions accurately.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

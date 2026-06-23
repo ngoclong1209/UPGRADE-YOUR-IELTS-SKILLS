@@ -1,0 +1,99 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_250",
+  "title": "The Interconnectedness of Diet, Health, and Well-Being",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Role of Nutrition in Holistic Health</h2><p>In recent years, the link between diet and overall health has gained substantial attention in the field of public health. Researchers have increasingly recognized that a person's dietary habits can significantly influence not only physical health but also mental and emotional well-being. For example, studies have indicated that diets rich in fruits, vegetables, whole grains, and lean proteins tend to correlate with lower incidences of chronic diseases such as obesity, diabetes, and cardiovascular disorders. Furthermore, the impact of nutrition extends beyond mere physical health; emerging evidence suggests that dietary choices can also affect mental health outcomes, influencing mood, cognitive function, and even the risk of developing mental health disorders.</p><p>Moreover, the psychological aspects of eating habits cannot be overlooked. The concept of mindful eating has gained traction as a means to foster a deeper connection between individuals and their food choices. This practice encourages individuals to pay close attention to their eating experiences, promoting awareness of the flavors, textures, and nutritional value of food. By cultivating mindfulness, individuals may not only improve their relationship with food but also enhance their overall health outcomes.</p><p>Additionally, the socio-economic dimensions of dietary choices play a crucial role in shaping health outcomes. Accessibility to nutritious food is often limited in low-income neighborhoods, leading to disparities in health among different populations. As a result, public health initiatives increasingly focus on promoting equitable access to healthy foods, emphasizing the importance of community gardens, farmers' markets, and educational programs that empower individuals to make informed dietary choices.</p><p>In conclusion, the intricate relationship between diet, health, and well-being underscores the need for a multifaceted approach to nutrition. By integrating aspects of physical health, mental well-being, and socio-economic factors, a comprehensive understanding of dietary impacts can be achieved, paving the way for improved health outcomes across diverse populations.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which of the following best summarizes the primary argument of the passage?",
+      "options": {
+        "A": "Dietary habits solely influence physical health without affecting mental well-being.",
+        "B": "Nutritional choices are intricately linked to both physical and mental health outcomes.",
+        "C": "Mindful eating is the only solution to improving health in low-income communities.",
+        "D": "Access to healthy foods is irrelevant to overall health in urban populations."
+      },
+      "answer": "B",
+      "explanation": "Option B accurately reflects the passage's emphasis on the connection between dietary habits and both physical and mental health, while the other options misrepresent or oversimplify the argument."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Mindful eating has no impact on health outcomes according to the passage.",
+      "answer": "False",
+      "explanation": "The passage states that mindful eating can improve the relationship individuals have with food and enhance overall health outcomes, indicating a positive impact."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that socio-economic factors affect dietary choices?",
+      "answer": "Yes",
+      "explanation": "The passage clearly discusses the socio-economic dimensions of dietary choices and their influence on health outcomes, affirming the author's belief."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following concepts with their descriptions.",
+      "options": {
+        "A": "Mindful Eating",
+        "B": "Chronic Diseases",
+        "C": "Socio-Economic Disparities",
+        "D": "Public Health Initiatives"
+      },
+      "answers": {
+        "A": "Promotes awareness of eating experiences.",
+        "B": "Obesity and diabetes are examples.",
+        "C": "Limited access to nutritious food.",
+        "D": "Focus on equitable access to healthy foods."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Match each paragraph to its main idea.",
+      "options": {
+        "1": "The impact of socio-economic factors on health.",
+        "2": "The relationship between diet and mental health.",
+        "3": "An overview of nutritional influences on chronic diseases.",
+        "4": "The importance of mindfulness in eating."
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The passage suggests that diets high in fruits and vegetables can lead to lower incidences of ________."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The passage emphasizes the need for a ________ approach to nutrition that encompasses physical and mental health."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer",
+      "instruction": "Answer the following question with NO MORE THAN THREE WORDS.",
+      "text": "What practice can enhance one's relationship with food according to the passage?"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "chronic diseases",
+      "meaning": "Long-lasting conditions that often require ongoing medical attention."
+    },
+    {
+      "word": "mindful eating",
+      "meaning": "An approach to food that emphasizes awareness and presence during the eating experience."
+    },
+    {
+      "word": "socio-economic disparities",
+      "meaning": "Differences in health outcomes related to economic and social conditions."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on identifying the main arguments and supporting details. Pay attention to how different concepts are interconnected, especially concerning diet and health. Understanding the nuances in language will be crucial for selecting the correct answers.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

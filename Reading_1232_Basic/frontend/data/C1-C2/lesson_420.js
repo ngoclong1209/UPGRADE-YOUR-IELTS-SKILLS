@@ -1,0 +1,105 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_420",
+  "title": "The Impact of Diet on Mental Health",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Interconnection Between Diet and Mental Well-being</h2><p>In recent years, the intricate relationship between dietary habits and mental health has garnered significant scholarly attention. Numerous studies suggest that what we consume can profoundly influence our emotional states and cognitive functions. For instance, a diet rich in omega-3 fatty acids, commonly found in fish, has been linked to a reduced risk of depression and anxiety. Contrastingly, diets high in processed sugars and unhealthy fats may exacerbate mood disorders and cognitive decline.</p><p>Furthermore, the gut-brain axis, a complex communication network linking the gastrointestinal tract and the brain, plays a pivotal role in this dynamic. Emerging research indicates that a diverse microbiome, nurtured through a varied diet, can enhance mental resilience and emotional stability. Probiotics, prebiotics, and fermented foods are increasingly recognized for their potential to foster a healthy gut microbiome, which may, in turn, support mental health.</p><p>Moreover, cultural perceptions of food also influence dietary choices and mental health outcomes. In certain cultures, communal eating and traditional diets rich in whole foods are associated with lower instances of mental health issues. This highlights the importance of not only what we eat but also how we engage with food socially.</p><p>Consequently, public health initiatives should prioritize nutrition education, emphasizing the psychological benefits of a balanced diet. By fostering a greater understanding of the link between dietary choices and mental health, individuals may be empowered to make healthier lifestyle decisions that enhance their overall well-being.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary focus of the passage?",
+      "options": {
+        "A": "The relationship between diet and mental health.",
+        "B": "The benefits of omega-3 fatty acids.",
+        "C": "The impact of cultural practices on eating habits.",
+        "D": "The role of processed foods in diet."
+      },
+      "answer": "A",
+      "explanation": "The passage primarily discusses how dietary habits influence mental health, making A the correct answer."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "A diet high in processed sugars has no effect on mental health.",
+      "answer": "False",
+      "explanation": "The passage states that diets high in processed sugars may exacerbate mood disorders, indicating that the statement is false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The passage suggests that communal eating can improve mental health.",
+      "answer": "Yes",
+      "explanation": "It implies that communal eating, as part of cultural practices, is associated with lower instances of mental health issues."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements with the correct paragraph.",
+      "pairs": [
+        {
+          "statement": "The role of the gut-brain axis in diet.",
+          "paragraph": "Paragraph 2"
+        },
+        {
+          "statement": "The significance of nutrition education.",
+          "paragraph": "Paragraph 4"
+        },
+        {
+          "statement": "Cultural influences on food choices.",
+          "paragraph": "Paragraph 3"
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph.",
+      "pairs": [
+        {
+          "paragraph": "Paragraph 1",
+          "heading": "The Link Between Diet and Mood Disorders"
+        },
+        {
+          "paragraph": "Paragraph 2",
+          "heading": "The Gut-Brain Connection"
+        },
+        {
+          "paragraph": "Paragraph 3",
+          "heading": "Cultural Aspects of Eating"
+        },
+        {
+          "paragraph": "Paragraph 4",
+          "heading": "Advocating for Nutritional Awareness"
+        }
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "short_answer_questions",
+      "instruction": "Answer using NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "What type of fatty acids are linked to reduced anxiety?",
+      "answer": "omega-3",
+      "explanation": "The passage explicitly links omega-3 fatty acids to a reduced risk of anxiety."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "microbiome",
+      "meaning": "The collection of microorganisms living in a particular environment, especially the gut."
+    },
+    {
+      "word": "probiotics",
+      "meaning": "Live bacteria that are beneficial for health, particularly the digestive system."
+    },
+    {
+      "word": "cognitive decline",
+      "meaning": "Deterioration in mental function, including memory and reasoning."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle the reading, focus on the main ideas presented in each paragraph. Pay attention to the connections between diet and mental health as discussed in the text. Note the specific examples provided, such as omega-3 fatty acids and the gut-brain axis, and how they relate to mental well-being. When answering questions, look for paraphrased ideas and subtle nuances in the language.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

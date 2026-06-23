@@ -1,0 +1,100 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_027",
+  "title": "Navigating the Urban Landscape: A Comparison of Public Transportation and Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Public Transportation vs Private Cars: A Critical Examination</h2><p>In contemporary society, the debate between public transportation and the reliance on private vehicles has become increasingly contentious. Advocates of public transport argue that it offers a sustainable alternative to the environmental degradation caused by the proliferation of cars, which contribute significantly to urban air pollution and traffic congestion. Public systems, such as buses and subways, are designed to accommodate large populations, thereby reducing the individual carbon footprint per capita. Furthermore, proponents highlight the economic advantages of public transportation, which often results in lower overall costs for commuters compared to the expenses associated with owning and maintaining a private vehicle.</p><p>On the opposing side, supporters of private cars contend that personal vehicles provide unmatched convenience, flexibility, and comfort. The ability to travel at one's own schedule, without the constraints of public transport timetables, is often cited as a key advantage. Additionally, the perceived safety and privacy of private cars can be compelling factors for individuals, particularly in areas where public transportation might be viewed as unreliable or unsafe.</p><p>Despite these contrasting views, there exists a nuanced middle ground. Some urban planners advocate for integrated transport systems that combine the strengths of both public and private modes. By promoting car-sharing programs and investments in cycling infrastructure, cities can facilitate a more sustainable urban mobility model. This hybrid approach not only addresses the immediate needs of commuters but also aligns with broader environmental goals. Ultimately, the choice between public transportation and private cars may hinge on a complex interplay of personal preferences, socio-economic factors, and urban infrastructure developments.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one significant argument made by advocates of public transportation?",
+      "options": {
+        "A": "It provides a more flexible travel schedule than private cars.",
+        "B": "It leads to reduced environmental impact per capita.",
+        "C": "It guarantees safety and privacy for commuters.",
+        "D": "It is more expensive than maintaining a private vehicle."
+      },
+      "answer": "B",
+      "explanation": "Advocates of public transportation emphasize its role in reducing environmental degradation by accommodating larger populations, which decreases the individual carbon footprint."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Private cars are considered a safer option than public transportation in all urban areas.",
+      "answer": "Not Given",
+      "explanation": "The passage mentions that private cars are viewed as safer but does not provide information about this being true for all urban areas."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Indicate whether the author's opinion is Yes, No, or Not Given.",
+      "text": "The author believes that public transportation is the only viable solution for urban mobility.",
+      "answer": "No",
+      "explanation": "The author suggests a hybrid model combining both public and private transport as a more comprehensive solution."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following benefits to their corresponding modes of transportation.",
+      "text": "1. Flexibility in travel schedule<br>2. Lower overall commuting costs<br>3. Reduced environmental impact",
+      "options": {
+        "A": "Public Transportation",
+        "B": "Private Cars"
+      },
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "A"
+      },
+      "explanation": "Flexibility is associated with private cars, while lower costs and reduced environmental impact are linked to public transportation."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the following headings with the appropriate paragraphs.",
+      "headings": [
+        "A. The Convenience of Private Cars",
+        "B. The Environmental Benefits of Public Transport",
+        "C. A Balanced Approach to Urban Mobility",
+        "D. The Economic Aspects of Commuting"
+      ],
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "C"
+      },
+      "explanation": "The headings should match the content of each paragraph: environmental benefits relate to public transport, convenience to private cars, and the balanced approach is discussed in the last paragraph."
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer in NO MORE THAN THREE WORDS.",
+      "text": "What do urban planners advocate for to combine benefits of both transport modes?",
+      "answer": "integrated transport systems",
+      "explanation": "The passage mentions the need for integrated transport systems that blend public and private transportation strengths."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "proliferation",
+      "meaning": "the rapid increase or spread of something, especially in a context such as urban car ownership."
+    },
+    {
+      "word": "congested",
+      "meaning": "overcrowded or blocked, often referring to traffic conditions in urban settings."
+    },
+    {
+      "word": "advocates",
+      "meaning": "individuals who publicly support or recommend a particular cause or policy."
+    },
+    {
+      "word": "socio-economic",
+      "meaning": "relating to or concerned with the interaction of social and economic factors."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When tackling this passage, focus on understanding the author's perspective and the nuances in the arguments presented. Pay attention to the specific terms used, as they often carry significant weight in determining the correct answers. For multiple-choice questions, eliminate options that do not align closely with the passage's content. In True/False/Not Given questions, be cautious of over-interpretation; only answer based on what is explicitly stated or implied in the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

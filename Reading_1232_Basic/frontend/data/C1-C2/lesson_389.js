@@ -1,0 +1,114 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_389",
+  "title": "The Double-Edged Sword of Tourism: Balancing Economic Growth and Environmental Sustainability",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Double-Edged Sword of Tourism: Balancing Economic Growth and Environmental Sustainability</h2><p>Tourism has emerged as one of the most significant global industries, contributing trillions of dollars to the world economy and employing millions of people. However, this rapid growth comes at a cost, as popular destinations grapple with the adverse effects of mass tourism, including environmental degradation, cultural dilution, and social inequity. The challenge lies in finding a sustainable approach that maximizes economic benefits while minimizing negative impacts.</p><p>Firstly, the economic benefits of tourism are undeniable. Countries rely on this influx of visitors to stimulate local economies, create jobs, and promote infrastructure development. For instance, in regions heavily reliant on tourism, such as the Caribbean, GDP growth is often directly linked to visitor numbers. However, this dependency creates a precarious balance; as the demand for more tourist experiences increases, so does the pressure on local resources.</p><p>Moreover, the environmental impact of tourism is profound. Increased foot traffic leads to soil erosion, habitat destruction, and pollution, which can irrevocably alter ecosystems. The phenomenon known as 'overtourism' exemplifies this issue, where destinations become overwhelmed by tourists, leading to a decline in quality of life for residents and visitors alike. Notably, the UNESCO World Heritage sites are often at the forefront of this crisis, with some sites implementing strict visitor quotas to preserve their integrity.</p><p>Additionally, the cultural implications of tourism cannot be overlooked. While it can foster cultural exchange and understanding, it often results in the commodification of local traditions, where cultural practices are tailored to meet tourist expectations rather than authentic expressions of heritage. This shift can erode the very identity that attracts visitors in the first place, leading to a homogenized experience across various destinations.</p><p>In response to these challenges, many regions are advocating for sustainable tourism practices. This includes promoting eco-friendly alternatives, supporting local economies, and establishing regulations that protect cultural and natural resources. Initiatives such as community-based tourism allow local populations to engage with visitors on their terms, fostering a sense of ownership and pride in their heritage while ensuring economic benefits are retained within the community.</p><p>Ultimately, the future of tourism hinges on striking a delicate balance between economic growth and sustainability. As travelers become more conscious of their impact, there is potential for a shift towards responsible tourism. This not only benefits the environment and local cultures but also enhances the travel experience, creating a win-win scenario for all stakeholders involved.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main concern regarding the economic impact of tourism mentioned in the passage?",
+      "options": {
+        "A": "It leads to the depletion of local resources.",
+        "B": "It creates unstable job markets.",
+        "C": "It encourages cultural exchange.",
+        "D": "It boosts infrastructure development."
+      },
+      "answer": "A",
+      "explanation": "The passage indicates that while tourism stimulates local economies, it also increases pressure on local resources, leading to potential depletion."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Overtourism has no impact on local quality of life.",
+      "answer": "False",
+      "explanation": "The passage explicitly states that overtourism can lead to a decline in quality of life for both residents and visitors."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Is the commodification of local traditions seen as a positive outcome of tourism?",
+      "answer": "No",
+      "explanation": "The passage suggests that the commodification of local traditions erodes authentic cultural expressions, implying it is a negative outcome."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the correct paragraph.",
+      "text": "The role of UNESCO sites in tourism; Economic dependency on tourism; The rise of sustainable practices.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 3",
+        "C": "Paragraph 4",
+        "D": "Paragraph 2"
+      },
+      "answers": {
+        "A": "B",
+        "B": "D",
+        "C": "C"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph.",
+      "text": "1) Economic advantages of tourism; 2) Environmental challenges; 3) Cultural impacts; 4) Sustainable tourism initiatives.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answers": {
+        "A": "A",
+        "B": "B",
+        "C": "C",
+        "D": "D"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "Tourism can lead to the ________ of local traditions.",
+      "answer": "commodification",
+      "explanation": "The passage discusses how tourism often leads to the commodification of local traditions."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "Community-based tourism allows local populations to engage with visitors while ensuring economic benefits remain within the ________.",
+      "answer": "community",
+      "explanation": "The passage mentions that community-based tourism helps retain economic benefits within the community."
+    },
+    {
+      "id": "q8",
+      "type": "short-answer",
+      "instruction": "Answer the question with NO MORE THAN THREE WORDS.",
+      "text": "What is the phenomenon leading to environmental degradation due to excessive visitors?",
+      "answer": "overtourism",
+      "explanation": "The passage defines overtourism as a key issue related to environmental degradation."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "overtourism",
+      "meaning": "The phenomenon where a destination becomes overwhelmed by tourists, negatively impacting the environment and local life."
+    },
+    {
+      "word": "commodification",
+      "meaning": "The process of turning something into a commodity, often resulting in the loss of its original value or purpose."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "The ability to maintain balance in economic, social, and environmental practices over time."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the nuanced implications of tourism on various aspects of society. Pay attention to the author's tone regarding economic versus environmental issues, and be prepared to identify paraphrased concepts in the questions. Skim for main ideas in each paragraph to aid in matching headings and sections.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

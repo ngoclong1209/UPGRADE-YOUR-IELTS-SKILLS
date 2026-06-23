@@ -1,0 +1,74 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_091",
+  "title": "Higher Education vs. Vocational Training: Choosing the Right Path",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Value of Education Choices</h2><p>In today's rapidly changing job market, individuals are often faced with the decision of pursuing higher education or opting for vocational training. Higher education, typically associated with universities, offers a broad range of academic subjects and emphasizes critical thinking, research, and theoretical knowledge. Graduates from these institutions often secure positions in fields that require advanced degrees, such as medicine, law, and engineering.</p><p>On the other hand, vocational training focuses on equipping students with practical skills and direct experience relevant to specific trades. Programs in fields such as plumbing, electrical work, and culinary arts can be completed in a shorter time frame and usually involve hands-on training. Many employers value these qualifications as they demonstrate a candidate's readiness to perform specific tasks immediately.</p><p>While both paths have their advantages, the choice largely depends on individual career goals, learning styles, and financial considerations. Higher education can lead to higher earning potential over a lifetime, but it often comes with significant student debt. Conversely, vocational training can be less expensive and allows students to enter the workforce more quickly.</p><p>In conclusion, whether one chooses higher education or vocational training, both paths have unique benefits that cater to different needs and aspirations. It is essential for students to carefully assess their interests, financial situations, and career goals before making a decision.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary focus of vocational training?",
+      "options": {
+        "A": "Gaining practical skills for specific trades.",
+        "B": "Conducting theoretical research.",
+        "C": "Obtaining advanced academic degrees.",
+        "D": "Enhancing critical thinking abilities."
+      },
+      "answer": "A",
+      "explanation": "Vocational training is primarily focused on equipping students with practical skills for specific trades, as mentioned in the passage."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which of the following careers typically requires higher education?",
+      "options": {
+        "A": "Plumber",
+        "B": "Electrician",
+        "C": "Lawyer",
+        "D": "Chef"
+      },
+      "answer": "C",
+      "explanation": "The passage indicates that careers like lawyer typically require higher education, whereas the others are more related to vocational training."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Higher education often leads to higher earning potential.",
+      "answer": "True",
+      "explanation": "The passage states that higher education can lead to higher earning potential over a lifetime."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "Vocational training is more expensive than higher education.",
+      "answer": "False",
+      "explanation": "The passage mentions that vocational training can be less expensive compared to higher education."
+    },
+    {
+      "id": "q5",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe vocational training is less valuable than higher education?",
+      "answer": "No",
+      "explanation": "The passage discusses the unique benefits of both paths, indicating that the author does not suggest that vocational training is less valuable."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "equipping",
+      "meaning": "providing someone with the necessary skills or equipment."
+    },
+    {
+      "word": "aspirations",
+      "meaning": "a strong desire to achieve something, typically requiring determination and hard work."
+    },
+    {
+      "word": "theoretical",
+      "meaning": "based on or calculated through theory rather than experience or practice."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on identifying the main ideas presented in each paragraph. Take note of key terms that highlight the differences between higher education and vocational training. For multiple-choice questions, eliminate options that clearly do not match the information in the text. For True/False/Not Given and Yes/No/Not Given questions, pay attention to the author's opinion and insights provided in the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

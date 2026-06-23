@@ -1,0 +1,118 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_177",
+  "title": "Navigating the Urban Landscape: Public Transportation vs. Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Evolving Dynamics of Urban Mobility</h2><p>The debate between public transportation and private vehicles has long been a focal point in discussions surrounding urban development and environmental sustainability. As cities expand and populations surge, the implications of transportation choices become increasingly significant. Public transportation systems, encompassing buses, trains, and subways, offer a collective solution to mobility challenges, potentially reducing traffic congestion and lowering carbon emissions. Conversely, private cars symbolize personal freedom and convenience, yet they contribute substantially to urban pollution and infrastructure strain.</p><p>Recent research highlights that cities with robust public transport networks experience enhanced economic growth, as accessibility attracts businesses and fosters job creation. Studies indicate that individuals utilizing public transport save money on fuel and maintenance, while simultaneously reducing their carbon footprint. However, the quality and reliability of public transportation remain contentious, often hampered by insufficient funding and outdated infrastructure, which can dissuade potential users.</p><p>On the other hand, the allure of private car ownership continues to captivate many urban dwellers, driven by the perceived comfort and autonomy it provides. However, the environmental costs are increasingly scrutinized, with emissions from fossil fuel-powered vehicles contributing significantly to climate change. In response, some cities have initiated policies promoting electric vehicles and incentivizing public transport use, aiming for a balanced approach to urban mobility.</p><p>Ultimately, the choice between public transportation and private cars is not merely a matter of convenience; it reflects broader societal values regarding sustainability, economic equity, and urban planning. As cities grapple with these complex dynamics, the integration of diverse transportation modes will be crucial in shaping the future of urban living.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary advantage of public transportation mentioned in the passage?",
+      "options": {
+        "A": "It enhances personal freedom.",
+        "B": "It reduces traffic congestion and carbon emissions.",
+        "C": "It is always more convenient than private cars.",
+        "D": "It requires less funding than private transportation."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct as the passage explicitly states that public transportation can reduce traffic congestion and lower carbon emissions, which are central to the argument presented."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Private cars are regarded as environmentally friendly alternatives according to the passage.",
+      "answer": "False",
+      "explanation": "The passage states that private cars contribute significantly to urban pollution and are scrutinized for their environmental costs, indicating they are not considered environmentally friendly."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author express a clear preference for public transportation over private cars?",
+      "answer": "No",
+      "explanation": "The author discusses both public transportation and private cars, weighing their advantages and disadvantages without expressing a clear preference."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following features with the corresponding sections in the passage.",
+      "text": {
+        "A": "Economic growth associated with public transport",
+        "B": "Environmental impact of private cars",
+        "C": "Challenges facing public transportation"
+      },
+      "options": {
+        "1": "The quality and reliability of public transportation systems.",
+        "2": "The substantial contributions to climate change from fossil fuel vehicles.",
+        "3": "Increased accessibility leading to job creation."
+      },
+      "answers": {
+        "A": "3",
+        "B": "2",
+        "C": "1"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "text": {
+        "A": "The benefits of public transportation",
+        "B": "The allure of private car ownership",
+        "C": "Integrating diverse transportation modes"
+      },
+      "paragraphs": {
+        "1": "The Evolving Dynamics of Urban Mobility",
+        "2": "Recent research highlights that cities with robust public transport networks experience enhanced economic growth...",
+        "3": "On the other hand, the allure of private car ownership continues to captivate many urban dwellers...",
+        "4": "Ultimately, the choice between public transportation and private cars is not merely a matter of convenience..."
+      },
+      "answers": {
+        "1": "C",
+        "2": "A",
+        "3": "B",
+        "4": "C"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences using NO MORE THAN TWO WORDS.",
+      "text": "Public transportation can lead to significant savings in terms of _____ and maintenance.",
+      "answer": "fuel"
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using NO MORE THAN TWO WORDS.",
+      "text": "The passage discusses the balance between _____ and private transportation options in urban settings.",
+      "answer": "public transport"
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following question using NO MORE THAN THREE WORDS.",
+      "text": "What type of vehicle is promoted to reduce environmental impact?",
+      "answer": "electric vehicles"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "convenience",
+      "meaning": "the state of being able to proceed with something with little effort or difficulty"
+    },
+    {
+      "word": "sustainability",
+      "meaning": "the ability to be maintained at a certain rate or level, especially in environmental contexts"
+    },
+    {
+      "word": "autonomy",
+      "meaning": "the right or condition of self-government, often in reference to personal freedom in choice"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on the nuanced arguments presented regarding public transportation and private cars. Pay close attention to the author's tone and the implications of their statements. Note any phrases that indicate contrast or comparison, as these will often signal key points in the arguments. Practice skimming for main ideas and scanning for specific details to answer the questions effectively.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

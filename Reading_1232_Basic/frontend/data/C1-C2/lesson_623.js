@@ -1,0 +1,96 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_623",
+  "title": "The Unseen Consequences of a Warming Planet",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Unseen Consequences of a Warming Planet</h2><p>The phenomenon of climate change has increasingly become a focal point of scientific inquiry and public discourse. While the immediate effects, such as rising temperatures and erratic weather patterns, are widely recognized, the more insidious consequences remain largely unexamined. Researchers argue that the ramifications of global warming extend far beyond the environmental sphere; they infiltrate societal structures, economic frameworks, and even psychological well-being.</p><p>For instance, economic models that fail to incorporate ecological variables are fundamentally flawed. The continuous degradation of natural resources, exacerbated by climate change, will inevitably lead to diminished economic productivity. A recent study from the University of Cambridge highlights that nations heavily reliant on agriculture are likely to experience significant declines in GDP as crop yields decrease, driven by climate volatility.</p><p>Moreover, the psychological toll of climate-related events cannot be overstated. The concept of 'eco-anxiety' has emerged, a term denoting the chronic fear of environmental doom. This psychological phenomenon is particularly pronounced among younger generations, who grapple with the existential implications of their future in a world grappling with unprecedented climatic upheaval. Mental health professionals are increasingly called upon to address these concerns, underscoring the need for a holistic approach to climate change that encompasses not just physical but also emotional health.</p><p>In addition to these societal implications, the ethical considerations surrounding climate change are profound. The debate extends to issues of equity and justice, particularly regarding the disproportionate impact on marginalized communities. Those who contribute least to carbon emissions often bear the brunt of its consequences, raising pertinent questions about responsibility and accountability in the face of a global crisis.</p><p>It is evident that the narrative of climate change must evolve. Rather than viewing it solely as an environmental issue, it should be framed as a multifaceted challenge that intersects with numerous aspects of human life. Addressing this crisis requires an interdisciplinary approach that brings together scientists, economists, psychologists, and policymakers to forge comprehensive solutions. Only by recognizing the interconnectedness of these issues can we hope to mitigate the far-reaching impacts of global warming.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the passage suggest about economic models in relation to climate change?",
+      "options": {
+        "A": "They are often inadequate if they ignore ecological factors.",
+        "B": "They have successfully adapted to include climate variables.",
+        "C": "They prioritize short-term gains over long-term sustainability.",
+        "D": "They are universally accepted as the best approach to tackle climate issues."
+      },
+      "answer": "A",
+      "explanation": "The passage indicates that economic models that overlook ecological variables are fundamentally flawed, as noted in the context of agricultural dependency on climate stability."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "The term 'eco-anxiety' was coined by mental health professionals.",
+      "answer": "Not Given",
+      "explanation": "The passage does not specify who coined the term 'eco-anxiety', only that it has emerged as a concept."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The passage claims that climate change solely affects the environment.",
+      "answer": "No",
+      "explanation": "The passage clearly states that climate change has broader implications beyond environmental effects, impacting societal structures and mental health."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following effects of climate change with their descriptions.",
+      "text": "Match the following effects with their corresponding descriptions from the passage.",
+      "pairs": [
+        {
+          "effect": "Economic Decline",
+          "description": "A significant decrease in GDP due to crop yield failures."
+        },
+        {
+          "effect": "Eco-Anxiety",
+          "description": "A chronic fear regarding future environmental conditions."
+        },
+        {
+          "effect": "Social Inequity",
+          "description": "Disproportionate impacts on marginalized communities."
+        }
+      ],
+      "answer": {
+        "Economic Decline": "A significant decrease in GDP due to crop yield failures.",
+        "Eco-Anxiety": "A chronic fear regarding future environmental conditions.",
+        "Social Inequity": "Disproportionate impacts on marginalized communities."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using NO MORE THAN TWO WORDS.",
+      "text": "The passage emphasizes the need for a __________ approach to climate change.",
+      "answer": "interdisciplinary",
+      "explanation": "The passage advocates for an interdisciplinary approach, stressing that various fields must collaborate to address climate change effectively."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "ramifications",
+      "meaning": "Consequences or outcomes, often complex or unwelcome."
+    },
+    {
+      "word": "infiltrate",
+      "meaning": "To penetrate or spread through something."
+    },
+    {
+      "word": "eco-anxiety",
+      "meaning": "Chronic fear regarding environmental collapse."
+    },
+    {
+      "word": "disproportionate",
+      "meaning": "Out of proportion; unequal in impact."
+    },
+    {
+      "word": "holistic",
+      "meaning": "Considering the whole rather than just parts."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on identifying the main arguments and how the author connects various aspects of climate change. Pay close attention to the nuances in language, particularly in the questions that require understanding implied meanings or attitudes. Practice skimming for essential ideas and scanning for specific details to answer questions efficiently.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

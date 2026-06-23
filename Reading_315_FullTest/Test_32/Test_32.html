@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Full Test - Test_32</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=DynaPuff:wght@400..700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0; padding: 0; font-family: 'Quicksand', sans-serif;
+            background: #fdf2f8; color: #333; overflow-x: hidden;
+        }
+        .main-layout {
+            display: flex; height: 100vh; overflow: hidden;
+        }
+        .passage-pane {
+            flex: 6; overflow-y: auto; padding: 30px;
+            background: white; margin: 10px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            font-size: 1.15rem; line-height: 1.8;
+            padding-bottom: 100px; /* For audio player */
+        }
+        .answer-pane {
+            flex: 4; overflow-y: auto; padding: 30px;
+            background: linear-gradient(145deg, #ffffff, #fff0f5);
+            margin: 10px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .q-row {
+            display: flex; align-items: center; margin-bottom: 15px;
+            background: white; padding: 10px 15px; border-radius: 12px;
+            border: 2px solid #ffccd5;
+        }
+        .q-num {
+            font-weight: bold; color: #ff85a2; font-size: 1.2rem;
+            width: 40px;
+        }
+        .q-input {
+            flex: 1; border: none; outline: none; font-size: 1.1rem;
+            font-family: 'Quicksand', sans-serif;
+            border-bottom: 2px dashed #ffccd5; background: transparent;
+            padding: 5px;
+        }
+        .q-input:focus { border-bottom: 2px solid #ff85a2; }
+        .submit-btn {
+            width: 100%; padding: 18px; font-size: 1.2rem; color: white;
+            background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            border: none; border-radius: 25px; cursor: pointer; font-weight: 700;
+            margin-top: 20px; box-shadow: 0 10px 20px rgba(255,94,126,0.3);
+            font-family: 'Quicksand', sans-serif;
+        }
+        .audio-fixed-bottom {
+            position: fixed; bottom: 0; left: 0; width: 60%;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px);
+            padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            border-top-right-radius: 20px; z-index: 1000;
+        }
+        audio { width: 100%; outline: none; }
+        /* LOGIN OVERLAY CSS */
+        
+        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
+        .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
+        .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
+        .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+
+    </style>
+</head>
+<body>
+    
+    <div class="login-overlay" id="login-overlay">
+        <div class="login-box">
+            <div class="login-header">🍭 Study Room 🍭</div>
+            <div class="login-subheader">Hệ thống: 315 bài thi Reading Full Test ✨</div>
+            <div id="login-form-fields">
+                <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
+                <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
+            </div>
+            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="main-layout" style="display: none;">
+        <div class="passage-pane">
+            <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_32</h1>
+            <p>IELTS Reading Practice - Test 32</p>
+<p>Right and left-handedness in humans</p>
+<p>Why do humans, virtually alone among all animal species, display a distinct left or right-handedness? Not even our closest relatives among the apes possess such decided lateral asymmetry, as psychologists call it. Yet about 90 per cent of every human population that has ever lived appears to have been right-handed. Professor Bryan Turner at Deakin University has studied the research literature on left-handedness and found that handedness goes with sidedness. So nine out of ten people are right-handed and eight are right-footed. He noted that this distinctive asymmetry in the human population is itself systematic. “Humans think in categories: black and white, up and down, left and right. It’s a system of signs that enables us to categorise phenomena that are essentially ambiguous.’</p>
+<p>Research has shown that there is a genetic or inherited element to handedness. But while left-handedness tends to run in families, neither left nor right handers will automatically produce off-spring with the same handedness; in fact about 6 per cent of children with two right-handed parents will be left-handed. However, among two left-handed parents, perhaps 40 per cent of the children will also be left-handed. With one right and one left-handed parent, 15 to 20 per cent of the offspring will be left- handed. Even among identical twins who have exactly the same genes, one in six pairs will differ in their handedness.</p>
+<p>What then makes people left-handed if it is not simply genetic? Other factors must be at work and researchers have turned to the brain for clues. In the 1860s the French surgeon and anthropologist, Dr Paul Broca, made the remarkable finding that patients who had lost their powers of speech as a result of a stroke (a blood clot in the brain) had paralysis of the right half of their body. He noted that since the left hemisphere of the brain controls the right half of the body, and vice versa, the brain damage must have been in the brain’s left hemisphere. Psychologists now believe that among right-handed people, probably 95 per cent have their language centre in the left hemisphere, while 5 per cent have right-side language. Left-handers, however, do not show the reverse pattern but instead a majority also have their language in the left hemisphere. Some 30 per cent have right hemisphere language.</p>
+<p>Dr Brinkman, a brain researcher at the Australian National University in Canberra, has suggested that evolution of speech went with right-handed preference. According to Brinkman, as the brain evolved, one side became specialised for fine control of movement (necessary for producing speech) and along with this evolution came right- hand preference. According to Brinkman, most left-handers have left hemisphere dominance but also some capacity in the right hemisphere. She has observed that if a left-handed person is brain-damaged in the left hemisphere, the recovery of speech is quite often better and this is explained by the fact that left-handers have a more bilateral speech function.</p>
+<p>In her studies of macaque monkeys, Brinkman has noticed that primates (monkeys) seem to learn a hand preference from their mother in the first year of life but this could be one hand or the other. In humans, however, the specialisation in (unction of the two hemispheres results in anatomical differences: areas that are involved with the production of speech are usually larger on the left side than on the right. Since monkeys have not acquired the art of speech, one would not expect to see such a variation but Brinkman claims to have discovered a trend in monkeys towards the asymmetry that is evident in the human brain.</p>
+<p>Two American researchers, Geschwind and Galaburda, studied the brains of human embryos and discovered that the left-right asymmetry exists before birth. But as the brain develops, a number of things can affect it. Every brain is initially female in its organisation and it only becomes a male brain when the male foetus begins to secrete hormones. Geschwind and Galaburda knew that different parts of the brain mature at different rates; the right hemisphere develops first, then the left. Moreover, a girl’s brain develops somewhat faster than that of a boy. So, if something happens to the brain’s development during pregnancy, it is more likely to be affected in a male and the hemisphere more likely to be involved is the left. The brain may become less lateralised and this in turn could result in left-handedness and the development of certain superior skills that have their origins in the left hemisphere such as logic, rationality and abstraction. It should be no surprise then that among mathematicians and architects, left-handers tend to be more common and there are more left-handed males than females.</p>
+<p>The results of this research may be some consolation to left-handers who have for centuries lived in a world designed to suit right-handed people. However, what is alarming, according to Mr. Charles Moore, a writer and journalist, is the way the word “right” reinforces its own virtue. Subliminally he says, language tells people to think that anything on the right can be trusted while anything on the left is dangerous or even sinister. We speak of left-handed compliments and according to Moore, “it is no coincidence that left-handed children, forced to use their right hand, often develop a stammer as they are robbed of their freedom of speech”. However, as more research is undertaken on the causes of left-handedness, attitudes towards left-handed people are gradually changing for the better. Indeed when the champion tennis player Ivan Lendl was asked what the single thing was that he would choose in order to improve his game, he said he would like to become a left-hander.</p>
+<p>Questions 1-7</p>
+<p>Use the information in the text to match the people (listed A-E) with the opinions (listed 1-7) below. Write the appropriate letter (A-E) in boxes 1-7 on your answer sheet. Some people match more than one opinion.</p>
+<p>A Dr Broca
+
+B Dr Brinkman
+
+C Geschwind and Galaburda
+
+D Charles Moore
+
+E Professor Turner</p>
+<p>1 Human beings started to show a preference for right-handedness when they first developed language.
+
+2 Society is prejudiced against left-handed people.
+
+3 Boys are more likely to be left-handed.
+
+4 After a stroke, left-handed people recover their speech more quickly than right-handed people.
+
+5 People who suffer strokes on the left side of the brain usually lose their power of speech.
+
+6 The two sides of the brain develop different functions before birth.
+
+7 Asymmetry is a common feature of the human body.</p>
+<p>Questions 8-10
+
+Using the information in the passage, complete the table below. Write your answers in boxes 8-10 on your answer sheet.</p>
+<p>Questions 11 and 12
+
+Choose the appropriate letters A-D and write them in boxes 11 and 12 on your answer sheet.</p>
+<p>11 A study of monkeys has shown that
+
+A monkeys are not usually right-handed
+
+B monkeys display a capacity for speech
+
+C monkey brains are smaller than human brains
+
+D monkey brains are asymmetric</p>
+<p>12 According to the writer, left-handed people
+
+A will often develop a stammer
+
+B have undergone hardship for years
+
+C are untrustworthy
+
+D are good tennis players</p>
+<p>Cambridge IELTS Test 1 to 17</p>
+<p>MIGRATORY BEEKEEPING</p>
+<p>Of the 2,000 commercial beekeepers in the United States about half migrate This pays off in two ways moving north in the summer and south in the winter lets bees work a longer blooming season, making more honey — and money — for their keepers. Second, beekeepers can carry their hives to farmers who need bees to pollinate their crops. Every spring a migratory beekeeper in California may move up to 160 million bees to flowering fields in Minnesota and every winter his family may haul the hives back to California, where farmers will rent the bees to pollinate almond and cherry trees.</p>
+<p>Migratory beekeeping is nothing new. The ancient Egyptians moved clay hives, probably on rafts, down the Nile to follow the bloom and nectar flow as it moved toward Cairo. In the 1880s North American beekeepers experimented with the same idea, moving bees on barges along the Mississippi and on waterways in Florida, but their lighter, wooden hives kept falling into the water. Other keepers tried the railroad and horse- drawn wagons, but that didn’t prove practical. Not until the 1920s when cars and trucks became affordable and roads improved, did migratory beekeeping begin to catch on.</p>
+<p>For the Californian beekeeper, the pollination season begins in February. At this time, the beehives are in particular demand by farmers who have almond groves; they need two hives an acre. For the three-week long bloom, beekeepers can hire out their hives for $32 each. It’s a bonanza for the bees too. Most people consider almond honey too bitter to eat so the bees get to keep it for themselves.</p>
+<p>By early March it is time to move the bees. It can take up to seven nights to pack the 4,000 or so hives that a beekeeper may own. These are not moved in the middle of the day because too many of the bees would end up homeless. But at night, the hives are stacked onto wooden pallets, back-to-back in sets of four, and lifted onto a truck. It is not necessary to wear gloves or a beekeeper’s veil because the hives are not being opened and the bees should remain relatively quiet. Just in case some are still lively, bees can be pacified with a few puffs of smoke blown into each hive’s narrow entrance.</p>
+<p>In their new location, the beekeeper will pay the farmer to allow his bees to feed in such places as orange groves. The honey produced here is fragrant and sweet and can be sold by the beekeepers. To encourage the bees to produce as much honey as possible during this period, the beekeepers open the hives and stack extra boxes called supers on top. These temporary hive extensions contain frames of empty comb for the bees to fill with honey. In the brood chamber below, the bees will stash honey to eat later. To prevent the queen from crawling up to the top and laying eggs, a screen can be inserted between the brood chamber and the supers. Three weeks later the honey can be gathered.</p>
+<p>Foul smelling chemicals are often used to irritate the bees and drive them down into the hive’s bottom boxes, leaving the honey- filled supers more or less bee free. These can then be pulled off the hive. They are heavy with honey and may weigh up to 90 pounds each. The supers are taken to a warehouse. In the extracting room, the frames are tilted out and lowered into an “uncapper” where rotating blades shave away the wax that covers each cell. The uncapped frames are put in a carousel that sits on the bottom of a large stainless steel drum. The carousel is filled to capacity with 72 frames. A switch is flipped and the frames begin to whirl at 300 revolutions per minute; centrifugal force throws the honey out of the combs. Finally the honey is poured into barrels for shipment.</p>
+<p>After this, approximately a quarter of the hives weakened by disease, mites, or an ageing or dead queen, will have to be replaced. To create new colonies, a healthy double hive, teeming with bees, can be separated into two boxes. One half will hold the queen and a young, already mated queen can be put in the other half, to make two hives from one. By the time the flowers bloom, the new queens will be laying eggs, filling each hive with young worker bees. The beekeeper’s family will then migrate with them to their summer location.</p>
+<p>Questions 13-19</p>
+<p>The steps below outline the movements of the migratory beekeepers as described in the passage. Compete the steps. Choose your answers from the options given below.</p>
+<p>Beekeeper Movements</p>
+<p>1. In March, beekeepers (13)………………..for migration at night when the hives are (14)……………and the bees are generally tranquil. A little (15)……………can ensure that this is the case.</p>
+<p>2. They transport their hives to orange groves where farmers (16)……………beekeepers for placing them on their land. Here the bees make honey.</p>
+<p>3. After three weeks, the supers can be taken to a warehouse where (17)……………are used to remove the wax and extract the honey from the (18)……………….</p>
+<p>4. After the honey collection, the old hives are rejected. Good double hives are (19)…………….and re-queened and the beekeeper transports to their summer base.</p>
+<p>List of words</p>
+<p>Smoke                Barrels                  Set-off                   Pollinate                  Combs               Full</p>
+<p>Chemicals          Protection             Light                      Machines                Screen                Empty</p>
+<p>Pay                    Charge                   Split                       Supers                     Prepare              Queens</p>
+<p>Questions 24-27
+
+Do the following statements agree with the information given in Reading Passage 2? In boxes 24-27 write.</p>
+<p>YES                              if the statement agrees with the information given
+
+NO                                if the statement contradicts the information given
+
+NOT GIVEN             if there is no information about this</p>
+<p>24 The Egyptians keep bees on the banks of the Nile.
+
+25 First attempts at migratory beekeeping in America were unsuccessful.
+
+26 Bees keep honey for themselves in the bottom of the hive.
+
+27 The honey is spun to make it liquid.</p>
+<p>TOURISM</p>
+<p>A Tourism, holidaymaking and travel are these days more significant social phenomena than most commentators have considered. On the face of it there could not be a more trivial subject for a book and indeed since social scientists have had considerable difficulty explaining weightier topics such as work or politics it might be thought that they would have great difficulties in accounting for more trivial phenomena such as holidaymaking. However there are interesting parallels with the study of deviance. This involves the investigation of bizarre and idiosyncratic social practices which happen to be defined as deviant in some societies but not necessarily in others. The assumption is that the investigation of deviance can reveal interesting and significant aspects of normal societies It could be said that a similar analysis can be applied to tourism.</p>
+<p>B Tourism is a leisure activity which presupposes its opposite namely regulated and organised work. It is one manifestation of how work and leisure are organised as separate and regulated spheres of social practice in modern societies Indeed acting as a tourist is one of the defining characteristics of being modern’ and the popular concept of tourism is that it is organised within particular places and occurs for regularised periods of time. Tourist relationships arise from a movement of people to and their stay in various destinations. This necessarily involves some movement that is the journey and a period of stay in a new place or places. The journey and the stay are by definition outside the normal places of residence and work and are of a short term and temporary nature and there is a clear intention to return “home within a relatively short period of time.</p>
+<p>C A substantial proportion of the population of modern societies engages in such tourist practices new socialised forms of provision have developed in order to cope with the mass character of the gazes of tourists as opposed to the individual character of travel. Places are chosen to be visited and be gazed upon because there is an anticipation especially through daydreaming and fantasy of intense pleasures, either on a different scale or involving different senses from those customarily encountered. Such anticipation is constructed and sustained through a variety of non-tourist practices such as films TV literature, magazines records and videos which construct and reinforce this daydreaming.</p>
+<p>D Tourists tend to visit features of landscape and townscape which separate them off from everyday experience. Such aspects are viewed because they are taken to be in some sense out of the ordinary. The viewing of these tourist sights often involves different forms of social patterning with a much greater sensitivity to visual elements of landscape or townscape than is normally found in everyday life. People linger over these sights in a way that they would not normally do in their home environment and the vision is objectified or captured through photographs postcards films and so on which enable the memory to be endlessly reproduced and recaptured.</p>
+<p>E One of the earliest dissertations on the subject of tourism is Boorstins analysis of the pseudo event (1964) where he argues that contemporary Americans cannot experience reality’ directly but thrive on “pseudo events”. Isolated from the host environment and the local people the mass tourist travels in guided groups and finds pleasure in inauthentic contrived attractions gullibly enjoying the pseudo events and disregarding the real world outside. Over time the images generated of different tourist sights come to constitute a closed self-perpetuating system of illusions which provide the tourist with the basis for selecting and evaluating potential places to visit. Such visits are made says Boorstin, within the “environmental bubble of the familiar American style hotel which insulates the tourist from the strangeness of the host environment.</p>
+<p>F To service the burgeoning tourist industry, an array of professionals has developed who attempt to reproduce ever-new objects for the tourist to look at. These objects or places are located in a complex and changing hierarchy. This depends upon the interplay between, on the one hand, competition between interests involved in the provision of such objects and, on the other hand changing class, gender, and generational distinctions of taste within the potential population of visitors. It has been said that to be a tourist is one of the characteristics of the “modern experience. Not to go away is like not possessing a car or a nice house. Travel is a marker of status in modern societies and is also thought to be necessary for good health. The role of the professional, therefore, is to cater for the needs and tastes of the tourists in accordance with their class and overall expectations.</p>
+<p>Questions 28-32
+
+Raiding Passage 3 has 6 paragraphs (A-F) Choose the most suitable heading for each paragraph from the list of headings below Write the appropriate numbers (i-ix) in boxes 28 32 on your answer sheet Paragraph D has been done for you as an example.
+
+NB There are more headings than paragraphs so you will not use all of them You may use any heading more than once.</p>
+<p>List of Headings
+
+I The politics of tourism
+
+ii The cost of tourism
+
+iii Justifying the study of tourism
+
+iv Tourism contrasted with travel
+
+v The essence of modern tourism
+
+vi Tourism versus leisure
+
+vii The artificiality of modern tourism
+
+viii The role of modern tour guides
+
+ix Creating an alternative to the everyday experience</p>
+<p>28 Paragraph A
+
+29 Paragraph B
+
+30 Paragraph C
+
+31 Paragraph E
+
+31 Paragraph F</p>
+<p>Questions 33-37</p>
+<p>Do the following statements agree with the views of the writer in Reading Passage 3? In boxes 33-37 write</p>
+<p>YES                              if the statement agrees with the writer
+
+NO                                if the statement contradicts the writer
+
+NOT GIVEN             if it is impossible to say what the writer thinks about this</p>
+<p>33 Tourism is a trivial subject.
+
+34 An analysis of deviance can act as a model for the analysis of tourism.
+
+35 Tourists usually choose to travel overseas.
+
+36 Tourists focus more on places they visit than those at home.
+
+37 Tour operators try to cheat tourists.</p>
+<p>Questions 38-40
+
+Chose one phrase (A-H) from the list of phrases to complete each key point below. Write the appropriate letters (A-H) in boxes 38-41 on your answer sheet.</p>
+<p>The information in the completed sentences should be an accurate summary of points made by the writer.
+
+NB There are more phrases A-H than sentences so you will not use them all. You may use any phrase more than once.</p>
+<p>38. Our concept of tourism arises from……………..
+
+39. The media can be used to enhance…………….
+
+40. People view tourist landscapes in a different way from……………..</p>
+<p>List of Phrases
+
+A local people and their environment
+
+B the expectations of tourists
+
+C the phenomena of holidaymaking
+
+D the distinction we make between work and leisure
+
+E the individual character of travel</p>
+<p>_______  _______</p>
+<p>ANSWER KEY</p>
+<p>1. B</p>
+<p>2. D</p>
+<p>3. C</p>
+<p>4. B</p>
+<p>5. A</p>
+<p>6. C</p>
+<p>7. E</p>
+<p>8. 15-20%</p>
+<p>9. 40%</p>
+<p>10. 6%</p>
+<p>11. D</p>
+<p>12. B</p>
+<p>13. prepare</p>
+<p>14. full</p>
+<p>15. smoke</p>
+<p>16. charge</p>
+<p>17. machines</p>
+<p>18. combs</p>
+<p>19. split</p>
+<p>20. cells/ combs</p>
+<p>21. frames</p>
+<p>22. screen</p>
+<p>23. brood chamber</p>
+<p>24. not given</p>
+<p>25. yes</p>
+<p>26. not given</p>
+<p>27. no</p>
+<p>28. iii</p>
+<p>29. v</p>
+<p>30. iv</p>
+<p>31. vii</p>
+<p>32. viii</p>
+<p>33. no</p>
+<p>34. yes</p>
+<p>35. not given</p>
+<p>36. yes</p>
+<p>37. not given</p>
+<p>38. D</p>
+<p>39. B</p>
+<p>40. F</p>
+
+        </div>
+        <div class="answer-pane">
+            <h2 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0; text-align: center;">Answers (40 Questions)</h2>
+            <div id="questions-container">
+                
+        <div class="q-row">
+            <div class="q-num">1</div>
+            <input type="text" class="q-input" id="q1" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">2</div>
+            <input type="text" class="q-input" id="q2" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">3</div>
+            <input type="text" class="q-input" id="q3" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">4</div>
+            <input type="text" class="q-input" id="q4" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">5</div>
+            <input type="text" class="q-input" id="q5" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">6</div>
+            <input type="text" class="q-input" id="q6" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">7</div>
+            <input type="text" class="q-input" id="q7" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">8</div>
+            <input type="text" class="q-input" id="q8" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">9</div>
+            <input type="text" class="q-input" id="q9" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">10</div>
+            <input type="text" class="q-input" id="q10" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">11</div>
+            <input type="text" class="q-input" id="q11" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">12</div>
+            <input type="text" class="q-input" id="q12" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">13</div>
+            <input type="text" class="q-input" id="q13" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">14</div>
+            <input type="text" class="q-input" id="q14" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">15</div>
+            <input type="text" class="q-input" id="q15" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">16</div>
+            <input type="text" class="q-input" id="q16" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">17</div>
+            <input type="text" class="q-input" id="q17" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">18</div>
+            <input type="text" class="q-input" id="q18" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">19</div>
+            <input type="text" class="q-input" id="q19" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">20</div>
+            <input type="text" class="q-input" id="q20" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">21</div>
+            <input type="text" class="q-input" id="q21" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">22</div>
+            <input type="text" class="q-input" id="q22" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">23</div>
+            <input type="text" class="q-input" id="q23" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">24</div>
+            <input type="text" class="q-input" id="q24" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">25</div>
+            <input type="text" class="q-input" id="q25" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">26</div>
+            <input type="text" class="q-input" id="q26" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">27</div>
+            <input type="text" class="q-input" id="q27" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">28</div>
+            <input type="text" class="q-input" id="q28" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">29</div>
+            <input type="text" class="q-input" id="q29" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">30</div>
+            <input type="text" class="q-input" id="q30" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">31</div>
+            <input type="text" class="q-input" id="q31" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">32</div>
+            <input type="text" class="q-input" id="q32" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">33</div>
+            <input type="text" class="q-input" id="q33" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">34</div>
+            <input type="text" class="q-input" id="q34" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">35</div>
+            <input type="text" class="q-input" id="q35" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">36</div>
+            <input type="text" class="q-input" id="q36" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">37</div>
+            <input type="text" class="q-input" id="q37" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">38</div>
+            <input type="text" class="q-input" id="q38" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">39</div>
+            <input type="text" class="q-input" id="q39" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">40</div>
+            <input type="text" class="q-input" id="q40" placeholder="Type answer...">
+        </div>
+        
+            </div>
+            <button class="submit-btn" id="btn-submit">SUBMIT ANSWERS 🌸</button>
+            <div id="result-msg" style="text-align: center; margin-top: 15px; font-weight: bold; color: #2b9348; display: none;"></div>
+        </div>
+    </div>
+
+    
+
+    
+<script>
+    // const APP_URL = "https://script.google.com/macros/s/AKfycbx7lOgaMcHm0ofxpG3V9bi52rMbL7wBXIzAHovP5xBrp9XbyuZp7QNKbSg2-UTJoauyOg/exec";
+    const APP_URL = "https://script.google.com/macros/s/AKfycbzgBPDHt8g35pxQllRcuVTWJq5OaQnuUuQAt93yGs_kqRVOly4Wd1A_jGtgxh5MaKOJMw/exec"; // NEWEST ONE FROM USER
+
+    async function grantAccess() {
+        const input = document.getElementById('nickname-input');
+        let nickname = input ? input.value.trim().toUpperCase() : '';
+        if (!nickname) { alert("Vui lòng nhập ID!"); return; }
+        
+        document.getElementById('login-form-fields').style.display = "none";
+        document.getElementById('login-loading-fields').style.display = "block";
+        document.getElementById('loading-status').innerText = "Đang kiểm tra ID...";
+
+        try {
+            let loginRes = await fetch(APP_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'login', student_id: nickname })
+            });
+            let data = await loginRes.json();
+
+            if (data.status === 'success') {
+                document.getElementById('loading-status').innerText = "Thành công!";
+                setTimeout(() => {
+                    document.getElementById('login-overlay').style.display = "none";
+                    document.querySelector('.main-layout').style.display = "flex";
+                    localStorage.setItem('youpass_student_id', nickname);
+                }, 500);
+            } else {
+                alert("Lỗi: " + data.message);
+                document.getElementById('login-loading-fields').style.display = "none";
+                document.getElementById('login-form-fields').style.display = "block";
+            }
+        } catch(err) {
+            alert("Lỗi kết nối máy chủ!");
+            document.getElementById('login-loading-fields').style.display = "none";
+            document.getElementById('login-form-fields').style.display = "block";
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('login-overlay').style.display = "none";
+            document.querySelector('.main-layout').style.display = "flex";
+        }
+    });
+</script>
+
+    
+    <script>
+        document.getElementById('btn-submit').addEventListener('click', async () => {
+            let btn = document.getElementById('btn-submit');
+            let resultMsg = document.getElementById('result-msg');
+            btn.innerText = "Submitting...";
+            btn.disabled = true;
+
+            let answers = [];
+            for (let i = 1; i <= 40; i++) {
+                let val = document.getElementById('q' + i).value.trim();
+                answers.push(val);
+            }
+
+            let payload = {
+                action: 'submit_full_test',
+                student_id: localStorage.getItem('youpass_student_id') || 'UNKNOWN',
+                module: 'Reading Full Test',
+                test_name: 'Test_32',
+                answers: answers
+            };
+
+            try {
+                let res = await fetch(APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                let data = await res.json();
+                if (data.status === 'success') {
+                    resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
+                    resultMsg.style.display = 'block';
+                    btn.innerText = "SUBMITTED!";
+                } else {
+                    alert("Lỗi: " + data.message);
+                    btn.innerText = "SUBMIT ANSWERS 🌸";
+                    btn.disabled = false;
+                }
+            } catch(e) {
+                alert("Lỗi mạng! Không thể gửi.");
+                btn.innerText = "SUBMIT ANSWERS 🌸";
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

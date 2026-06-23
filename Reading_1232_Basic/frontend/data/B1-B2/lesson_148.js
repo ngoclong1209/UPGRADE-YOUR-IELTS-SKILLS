@@ -1,0 +1,88 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_148",
+  "title": "The Internet: A Transformative Force in Society",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Role of the Internet in Modern Society</h2><p>In the past few decades, the Internet has revolutionized the way we communicate, learn, and conduct business. With the click of a button, information is at our fingertips, enabling us to connect with others around the globe. This unprecedented access to information has fostered a culture of learning, where individuals can educate themselves on topics that interest them without the constraints of traditional education systems.</p><p>Moreover, the Internet has transformed the landscape of business. Companies can reach customers worldwide, allowing for a more diverse marketplace. E-commerce has become the norm, with consumers preferring the convenience of shopping online over visiting physical stores. However, this shift has also posed challenges, such as the need for robust cybersecurity measures to protect sensitive data.</p><p>Socially, the Internet has both positive and negative impacts. On one hand, it allows for the formation of virtual communities where people share common interests. On the other hand, it can lead to issues such as cyberbullying and misinformation. Therefore, while the Internet serves as a powerful tool for connection and knowledge, it is essential to approach it critically.</p><p>In conclusion, the Internet plays a vital role in shaping modern society. Its influence extends across various aspects of daily life, from education to commerce and social interaction, underscoring the need for responsible usage.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What has the Internet changed about how we learn?",
+      "options": {
+        "A": "It allows self-education without traditional schooling.",
+        "B": "It has made learning completely free for everyone.",
+        "C": "It has replaced all traditional educational methods.",
+        "D": "It makes learning less accessible than before."
+      },
+      "answer": "A",
+      "explanation": "A is correct because the passage states that the Internet enables individuals to educate themselves on topics of interest without traditional constraints."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a challenge posed by the rise of e-commerce?",
+      "options": {
+        "A": "It increases the number of physical stores.",
+        "B": "It eliminates the need for any form of marketing.",
+        "C": "It requires improved cybersecurity for data protection.",
+        "D": "It makes online shopping less popular than before."
+      },
+      "answer": "C",
+      "explanation": "C is correct because the passage highlights the need for robust cybersecurity measures to protect sensitive data as a challenge of e-commerce."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "The Internet has only positive effects on social interactions.",
+      "answer": "False",
+      "explanation": "The passage mentions both positive impacts, like forming virtual communities, and negative impacts, such as cyberbullying."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe the Internet should be used responsibly?",
+      "answer": "Yes",
+      "explanation": "The conclusion emphasizes the need for responsible usage of the Internet."
+    },
+    {
+      "id": "q5",
+      "type": "matching_information",
+      "instruction": "Match the following impacts with their descriptions.",
+      "pairs": {
+        "A": "Increased access to information",
+        "B": "Rise of e-commerce",
+        "C": "Formation of virtual communities",
+        "D": "Cyberbullying"
+      },
+      "descriptions": {
+        "1": "Allows people to connect over shared interests.",
+        "2": "Enables shopping from anywhere in the world.",
+        "3": "Provides knowledge without traditional limitations.",
+        "4": "Leads to harassment online."
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "revolutionized",
+      "meaning": "completely changed in a significant way"
+    },
+    {
+      "word": "e-commerce",
+      "meaning": "the buying and selling of goods over the Internet"
+    },
+    {
+      "word": "cyberbullying",
+      "meaning": "the use of electronic communication to bully a person"
+    },
+    {
+      "word": "robust",
+      "meaning": "strong and effective; able to withstand or overcome adverse conditions"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel at this passage, focus on identifying key themes and the author's opinions. Pay attention to how information is presented and the implications of various statements. Understanding the main ideas will help you answer both detailed and inferential questions effectively.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

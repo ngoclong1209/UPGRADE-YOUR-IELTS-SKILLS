@@ -1,0 +1,100 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_630",
+  "title": "The Complex Interplay of Nutrition and Mental Health",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Interconnection Between Diet and Mental Well-being</h2><p>In recent years, there has been a burgeoning interest in the relationship between diet and mental health. Numerous studies suggest that the food we consume may significantly influence our emotional and psychological states. Researchers have begun to explore how various nutrients affect brain function, leading to new insights in the field of nutritional psychiatry.</p><p>One of the pivotal nutrients identified is omega-3 fatty acids, commonly found in fish and flaxseeds. These compounds are believed to play a crucial role in brain function and may lessen symptoms of depression and anxiety. A meta-analysis conducted by Smith et al. (2021) demonstrated that individuals who incorporated omega-3-rich foods into their diets reported enhanced mood and cognitive functions.</p><p>Moreover, the gut microbiome has emerged as a vital player in mental health. Studies indicate that a diet high in processed foods and sugars can negatively impact the gut flora, potentially leading to increased inflammation and a higher risk of mental health disorders. As such, a balanced diet rich in fruits, vegetables, and whole grains is advocated to promote a healthy gut and, by extension, better mental health outcomes.</p><p>However, the relationship between diet and mental health is multi-faceted. Socioeconomic factors, cultural influences, and personal preferences also play significant roles in dietary choices and mental well-being. For instance, individuals from varying backgrounds may have different access to nutritious foods, which can affect their mental health.</p><p>In conclusion, while the evidence supporting the link between nutrition and mental health is compelling, further research is necessary to unravel the complexities of this relationship. As we continue to explore this intricate interplay, it is imperative to adopt a holistic approach that encompasses dietary, psychological, and social considerations.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "According to the passage, what is a significant finding about omega-3 fatty acids?",
+      "options": {
+        "A": "They are exclusively beneficial for physical health.",
+        "B": "They have been linked to improvements in mental health.",
+        "C": "Their effects on mental health are inconclusive.",
+        "D": "They should be avoided in a healthy diet."
+      },
+      "answer": "B",
+      "explanation": "The passage states that omega-3 fatty acids are believed to play a crucial role in brain function and may lessen symptoms of depression and anxiety, indicating their positive impact on mental health."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "A diet high in processed foods is beneficial for mental health.",
+      "answer": "False",
+      "explanation": "The passage indicates that a diet high in processed foods can negatively impact the gut flora, leading to increased inflammation and a higher risk of mental health disorders."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The author believes that cultural influences play a role in dietary choices.",
+      "answer": "Yes",
+      "explanation": "The passage mentions that cultural influences are significant in dietary choices and mental well-being, thus supporting a 'Yes' answer."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following nutrients with their effects.",
+      "items": {
+        "A": "Omega-3 fatty acids",
+        "B": "Processed foods",
+        "C": "Fruits and vegetables"
+      },
+      "options": {
+        "1": "Can lead to increased inflammation",
+        "2": "May enhance mood and cognitive functions",
+        "3": "Promotes a healthy gut"
+      },
+      "answers": {
+        "A": "2",
+        "B": "1",
+        "C": "3"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "headings": {
+        "A": "The Importance of Nutritional Psychiatry",
+        "B": "Cultural and Socioeconomic Influences",
+        "C": "The Role of Gut Health",
+        "D": "Omega-3 Fatty Acids and Mental Health"
+      },
+      "answers": {
+        "1": "D",
+        "2": "C",
+        "3": "B",
+        "4": "A"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences with NO MORE THAN THREE WORDS.",
+      "text": "The article emphasizes the importance of a diet rich in __________ for mental health.",
+      "answer": "fruits and vegetables",
+      "explanation": "The passage mentions that a balanced diet rich in fruits, vegetables, and whole grains is advocated to promote better mental health outcomes."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "nutritional psychiatry",
+      "meaning": "A field of study that explores the relationship between diet and mental health."
+    },
+    {
+      "word": "gut microbiome",
+      "meaning": "The community of microorganisms living in the digestive tracts of humans."
+    },
+    {
+      "word": "meta-analysis",
+      "meaning": "A statistical analysis that combines the results of multiple scientific studies."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When tackling this passage, focus on understanding the nuances of how diet influences mental health. Pay attention to the vocabulary related to nutrition and mental well-being, as they are key to answering the questions correctly. Consider the implications of the research findings and how they relate to broader societal factors.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

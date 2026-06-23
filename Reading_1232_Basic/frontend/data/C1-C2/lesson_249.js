@@ -1,0 +1,77 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_249",
+  "title": "Exploring the Dual Nature of Tourism: Benefits and Burdens",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Complex Tapestry of Tourism</h2><p>Tourism, a multifaceted phenomenon, is often celebrated as a driver of economic growth and cultural exchange. However, its impacts are not solely positive. As global travel becomes increasingly accessible, the environmental, social, and cultural repercussions of tourism demand urgent scrutiny. This passage delves into both the beneficial aspects of tourism and the challenges it presents, examining case studies from popular destinations worldwide.</p><p>Economically, tourism contributes significantly to GDP in many nations. For instance, the Caribbean islands rely heavily on tourist influx, which fuels local businesses and generates employment opportunities. Yet, this financial boon often comes at a cost. The increase in foot traffic can lead to the degradation of natural landscapes and strain on local resources, such as water supply and waste management systems.</p><p>Socially, tourism fosters intercultural dialogue and understanding. Travelers often engage with local traditions and customs, enhancing cultural appreciation. Despite this, the commodification of culture can dilute authentic experiences, transforming unique practices into mere spectacles for consumption. This phenomenon raises questions about the sustainability of cultural integrity in the face of commercial pressures.</p><p>Moreover, the environmental impact of mass tourism cannot be overlooked. Popular destinations frequently grapple with issues such as pollution, habitat destruction, and increased carbon footprints due to travel. Initiatives aimed at promoting sustainable tourism practices are on the rise, encouraging travelers to consider their ecological footprint and support local conservation efforts.</p><p>In conclusion, while tourism offers undeniable advantages, it also presents significant challenges that necessitate a balanced approach. Policymakers and stakeholders must collaborate to create frameworks that prioritize sustainability and cultural preservation, ensuring that tourism can be a force for good without compromising the very essence of the destinations we cherish.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary focus of the passage?",
+      "options": {
+        "A": "The economic benefits of tourism outweigh its negative impacts.",
+        "B": "Tourism has complex effects that include both benefits and challenges.",
+        "C": "Cultural exchanges during travel enhance global understanding.",
+        "D": "Mass tourism is the main cause of environmental degradation."
+      },
+      "answer": "B",
+      "explanation": "The passage discusses both the positive and negative aspects of tourism, highlighting the complexity of its impacts."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate if the statement is True, False or Not Given.",
+      "text": "Tourism does not significantly contribute to the GDP of some countries.",
+      "answer": "False",
+      "explanation": "The passage states that tourism contributes significantly to the GDP in many nations, particularly in the Caribbean."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No or Not Given.",
+      "text": "The author believes that cultural commodification is beneficial for local traditions.",
+      "answer": "No",
+      "explanation": "The passage suggests that commodification can dilute authentic experiences, indicating a negative view."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct paragraph.",
+      "text": "Match each statement to the paragraph it corresponds with.",
+      "options": {
+        "1": "Economic contributions of tourism.",
+        "2": "Social effects of intercultural dialogue.",
+        "3": "Environmental concerns related to tourism."
+      },
+      "paragraphs": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3"
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      },
+      "explanation": "Each paragraph focuses on a distinct aspect of tourism: economic, social, and environmental."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "commodification",
+      "meaning": "the transformation of goods, services, and ideas into commodities for sale."
+    },
+    {
+      "word": "intercultural",
+      "meaning": "relating to or representing different cultures."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "the ability to be maintained at a certain rate or level, especially in environmental contexts."
+    }
+  ],
+  "tactics": "<h2>Strategies for Effective Reading</h2><p>Focus on understanding the main ideas and arguments presented in each paragraph. Pay attention to the author's tone and the implications of their statements. Make sure to differentiate between factual information and the author's opinions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

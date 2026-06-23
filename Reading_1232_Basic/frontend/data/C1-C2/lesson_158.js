@@ -1,0 +1,135 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_158",
+  "title": "The Digital Nexus: Understanding the Internet's Impact on Contemporary Society",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Internet's Transformative Role in Society</h2><p>The advent of the Internet has brought about a profound transformation in nearly every aspect of modern life. It has redefined communication, reshaped economic structures, and revolutionized access to information. Yet, this digital evolution has not been without its challenges. As society becomes increasingly intertwined with the online realm, questions arise regarding privacy, security, and the quality of interpersonal relationships.</p><p>In the realm of communication, the Internet has facilitated instantaneous interactions across the globe. Social media platforms have emerged as pivotal spaces for discourse, allowing individuals to share ideas and opinions with unprecedented ease. However, this rapid exchange of information often leads to misinformation and a superficial understanding of complex issues. The challenge lies in discerning credible sources from dubious ones, a skill that is increasingly crucial in the digital age.</p><p>Economically, the Internet has given rise to new industries and transformed traditional ones. E-commerce has flourished, enabling consumers to access goods and services from the comfort of their homes. Yet, this shift towards online transactions raises concerns about the sustainability of local businesses and the potential for monopolistic practices by tech giants. The balance between convenience and ethical consumption remains a contentious debate.</p><p>Moreover, the Internet serves as a vast repository of knowledge, democratizing access to information. Educational resources are more readily available than ever before, yet the quality and reliability of such resources can be variable. This disparity highlights the necessity for critical thinking skills among users to navigate the complexities of online knowledge.</p><p>Ultimately, while the Internet has the potential to enhance connectivity and foster innovation, it also demands a vigilant approach to its implications on society. As we continue to navigate this digital landscape, fostering digital literacy and ethical engagement becomes imperative.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the main challenges associated with the rise of the Internet according to the passage?",
+      "options": {
+        "A": "The increase in local business profits.",
+        "B": "The difficulty in identifying credible information sources.",
+        "C": "The ease of accessing educational resources.",
+        "D": "The reduction in global communication."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct because the passage discusses the challenge of discerning credible sources amidst the rapid exchange of information on the Internet."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "The Internet has led to an increase in the sustainability of local businesses.",
+      "answer": "False",
+      "explanation": "The passage indicates concerns about the sustainability of local businesses due to the rise of e-commerce, suggesting that the Internet has not positively impacted them."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer with Yes, No, or Not Given.",
+      "text": "The author believes that the Internet universally enhances interpersonal relationships.",
+      "answer": "No",
+      "explanation": "The passage suggests that while the Internet facilitates communication, it also leads to superficial understandings, implying that it does not universally enhance relationships."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following concepts with their corresponding descriptions.",
+      "items": [
+        {
+          "concept": "E-commerce",
+          "description": "A method that allows consumers to purchase goods online."
+        },
+        {
+          "concept": "Digital literacy",
+          "description": "The ability to critically evaluate online information."
+        },
+        {
+          "concept": "Social media",
+          "description": "Platforms that enable rapid information exchange."
+        },
+        {
+          "concept": "Misinformation",
+          "description": "Inaccurate information spread through digital platforms."
+        }
+      ],
+      "answer": [
+        {
+          "E-commerce": "A method that allows consumers to purchase goods online."
+        },
+        {
+          "Digital literacy": "The ability to critically evaluate online information."
+        },
+        {
+          "Social media": "Platforms that enable rapid information exchange."
+        },
+        {
+          "Misinformation": "Inaccurate information spread through digital platforms."
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph.",
+      "paragraphs": [
+        "The Internet's transformative role in society.",
+        "The challenges of misinformation in online communication.",
+        "Economic implications of online business.",
+        "The democratization of knowledge through the Internet."
+      ],
+      "headings": [
+        "A. The double-edged sword of technology",
+        "B. The rise of e-commerce",
+        "C. Navigating online knowledge",
+        "D. The impact of social media on personal relationships"
+      ],
+      "answer": [
+        {
+          "The Internet's transformative role in society.": "A"
+        },
+        {
+          "The challenges of misinformation in online communication.": "D"
+        },
+        {
+          "Economic implications of online business.": "B"
+        },
+        {
+          "The democratization of knowledge through the Internet.": "C"
+        }
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer the following question with no more than three words.",
+      "text": "What skill is deemed increasingly crucial in the digital age?",
+      "answer": "Critical thinking",
+      "explanation": "The passage emphasizes the need for critical thinking skills to discern credible information in the digital age."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "democratizing",
+      "meaning": "making something accessible to everyone."
+    },
+    {
+      "word": "intertwined",
+      "meaning": "mixed or connected closely."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "the ability to maintain or support an activity or process over the long term."
+    },
+    {
+      "word": "superficial",
+      "meaning": "existing or occurring at or on the surface; not deep."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When tackling this passage, focus on understanding the nuances in the arguments presented. Pay close attention to the author's tone and the implications of their statements. For multiple-choice questions, consider all options carefully, as subtle differences can indicate the correct answer. Practice skimming for main ideas while also being prepared to scan for specific details when answering questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

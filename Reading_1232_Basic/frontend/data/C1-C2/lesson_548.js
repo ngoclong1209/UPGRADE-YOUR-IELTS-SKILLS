@@ -1,0 +1,117 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_548",
+  "title": "Navigating the Digital Frontier: The Internet's Pervasive Influence on Society",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Internet's Role in Shaping Modern Society</h2><p>In the contemporary landscape, the Internet has emerged as a pivotal force, reshaping the very fabric of society. Its influence permeates various domains, from communication and commerce to education and entertainment. The advent of digital connectivity has not only fostered an unprecedented exchange of information but has also catalyzed significant shifts in social dynamics and cultural norms.</p><p>One of the most profound impacts of the Internet is its role in democratizing access to information. Traditionally, knowledge was the privilege of a select few, often confined to academic institutions or specialized publications. However, the proliferation of online platforms has dismantled these barriers, enabling individuals from diverse backgrounds to access a wealth of information instantaneously. This democratization has spurred a culture of self-directed learning, where individuals can pursue knowledge at their own pace and interest.</p><p>Moreover, the Internet has transformed the way we interact with one another. Social media platforms have redefined interpersonal relationships, allowing for the formation of virtual communities that transcend geographical boundaries. Yet, this shift is not without its challenges. The nature of online interactions often leads to superficial connections, raising concerns about the quality of relationships in an increasingly digital world.</p><p>From an economic perspective, the Internet has revolutionized traditional business models. E-commerce has gained remarkable traction, with consumers increasingly opting for online shopping experiences over brick-and-mortar establishments. This shift has prompted businesses to adapt their strategies, often leading to the emergence of new market leaders who leverage digital platforms effectively.</p><p>Despite its myriad advantages, the Internet also poses significant ethical dilemmas. Issues surrounding privacy, data security, and the spread of misinformation have sparked intense debates among policymakers, technologists, and the public. As society grapples with these challenges, it becomes imperative to cultivate digital literacy and critical thinking skills to navigate the complexities of the online world.</p><p>In conclusion, while the Internet serves as a powerful tool for empowerment and innovation, it is essential to approach its use with discernment. As we continue to integrate this technology into our lives, understanding its implications will be crucial in shaping a balanced and inclusive digital future.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary advantage of the Internet mentioned in the passage?",
+      "options": {
+        "A": "It allows for instant communication across the globe.",
+        "B": "It democratizes access to information.",
+        "C": "It enhances entertainment options.",
+        "D": "It promotes traditional business practices."
+      },
+      "answer": "B",
+      "explanation": "The passage states that the Internet has democratized access to information, allowing individuals from diverse backgrounds to access knowledge that was previously limited."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "The Internet has improved the quality of interpersonal relationships.",
+      "answer": "False",
+      "explanation": "The passage mentions that online interactions often lead to superficial connections, implying a negative impact on the quality of relationships."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that the Internet is solely a positive force in society.",
+      "answer": "No",
+      "explanation": "The passage discusses both the advantages and the ethical dilemmas posed by the Internet, indicating a nuanced view."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the appropriate sections of the passage.",
+      "pairs": {
+        "A": "The emergence of e-commerce",
+        "B": "Concerns regarding misinformation",
+        "C": "Transformation of social interactions"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph with the correct heading.",
+      "pairs": {
+        "1": "The digital divide",
+        "2": "Changing business landscapes",
+        "3": "Navigating ethical challenges"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "matching_features",
+      "instruction": "Match the features with the correct concepts discussed in the passage.",
+      "pairs": {
+        "A": "Democratization of knowledge",
+        "B": "Superficial connections",
+        "C": "Data security concerns"
+      }
+    },
+    {
+      "id": "q7",
+      "type": "matching_sentence_endings",
+      "instruction": "Complete the sentences by matching them with the correct ending.",
+      "pairs": {
+        "1": "The Internet has allowed individuals to access information",
+        "2": "E-commerce has prompted businesses to",
+        "3": "Ethical dilemmas surrounding the Internet require"
+      }
+    },
+    {
+      "id": "q8",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below with NO MORE THAN TWO WORDS.",
+      "text": "The passage emphasizes the need for digital _____ to combat misinformation."
+    },
+    {
+      "id": "q9",
+      "type": "summary_completion",
+      "instruction": "Complete the summary below with NO MORE THAN TWO WORDS.",
+      "text": "The Internet plays a crucial role in _____ access to information and has significantly altered the way we interact."
+    },
+    {
+      "id": "q10",
+      "type": "diagram_label_completion",
+      "instruction": "Complete the labels in the diagram with the correct terms.",
+      "text": "Label the benefits and challenges of the Internet."
+    },
+    {
+      "id": "q11",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following questions using NO MORE THAN THREE WORDS AND/OR A NUMBER.",
+      "text": "What has the Internet revolutionized according to the passage?"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "democratizing",
+      "meaning": "Making information accessible to everyone."
+    },
+    {
+      "word": "superficial",
+      "meaning": "Lacking depth or meaningful connections."
+    },
+    {
+      "word": "ethical dilemmas",
+      "meaning": "Moral challenges posed by the Internet."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the implications of the Internet's influence on society. Pay attention to the author's tone and how they present both the advantages and challenges. Look for keywords that may indicate the writer's attitude toward the discussed topics.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

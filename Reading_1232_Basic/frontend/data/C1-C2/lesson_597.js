@@ -1,0 +1,101 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_597",
+  "title": "Navigating Choices: Public Transportation vs Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Transportation Dilemma</h2><p>In contemporary urban environments, the choice between public transportation and private vehicles has become increasingly contentious. Advocates of public transportation argue that it offers a sustainable solution to the growing problem of urban congestion and environmental degradation. By utilizing buses, subways, and trams, cities can significantly reduce the carbon footprint associated with individual car use. Furthermore, public transportation systems are often more economically viable, providing affordable travel options for low-income populations.</p><p>On the other hand, proponents of private cars emphasize the convenience and flexibility they provide. The ability to travel at one’s own pace and schedule is often seen as a significant advantage, particularly for those living in suburban areas where public transport options may be limited. Additionally, private vehicle ownership is frequently associated with status and personal freedom, making it a culturally entrenched choice in many societies.</p><p>However, as urban populations continue to swell, the implications of these choices become more pronounced. Traffic congestion not only leads to increased travel times but also exacerbates air pollution, posing significant public health risks. Studies have shown that cities with robust public transportation systems experience lower levels of traffic-related health issues, suggesting a need for a paradigm shift in how we approach urban mobility.</p><p>Ultimately, the debate between public transportation and private cars is not merely a matter of personal preference but is deeply intertwined with broader social, economic, and environmental considerations. Policymakers are increasingly tasked with finding a balance between these two modes of transportation, promoting an integrated approach that encourages the use of public transit while accommodating the realities of private vehicle ownership.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a key argument in favor of public transportation according to the passage?",
+      "options": {
+        "A": "It provides a status symbol for users.",
+        "B": "It significantly reduces urban congestion and pollution.",
+        "C": "It allows for greater personal freedom.",
+        "D": "It is more expensive than private cars."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct as the passage highlights the ability of public transportation to reduce carbon footprints and alleviate urban congestion."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Private cars are culturally perceived as a disadvantage in many societies.",
+      "answer": "False",
+      "explanation": "The passage states that private vehicles are often associated with status and personal freedom, indicating a positive cultural perception."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The passage suggests that public transportation is always more convenient than private cars.",
+      "answer": "No",
+      "explanation": "The passage acknowledges the convenience of private cars, particularly in suburban areas, which indicates that it is not always more convenient than public transportation."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct paragraph.",
+      "text": "1. Environmental benefits of public transport. 2. Personal freedom associated with cars. 3. Health implications of traffic congestion.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3"
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      },
+      "explanation": "The correct matches are based on the content of each paragraph, where environmental benefits are discussed in paragraph 1, personal freedom in paragraph 2, and health implications in paragraph 3."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph to the correct heading.",
+      "text": "1. The economic implications of transport choices. 2. The cultural significance of car ownership. 3. The future of urban mobility.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3"
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      },
+      "explanation": "Headings matched with paragraphs based on their main ideas about economics, culture, and future mobility."
+    },
+    {
+      "id": "q6",
+      "type": "short_answer_questions",
+      "instruction": "Answer using no more than two words.",
+      "text": "What is one major benefit of robust public transportation systems mentioned in the passage?",
+      "answer": "Health issues",
+      "explanation": "The passage indicates that cities with strong public transport see lower traffic-related health problems."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "entrenched",
+      "meaning": "firmly established and difficult or unlikely to change."
+    },
+    {
+      "word": "paradigm",
+      "meaning": "a typical example or pattern of something; a model."
+    },
+    {
+      "word": "congestion",
+      "meaning": "overcrowding; a situation in which a place is too blocked or crowded."
+    },
+    {
+      "word": "sustainable",
+      "meaning": "able to be maintained at a certain rate or level."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle this passage, focus on understanding the main arguments presented about each mode of transportation. Pay attention to the nuanced language used to describe the implications of each choice, as well as any potential biases the author may have. Highlight key phrases that denote the author's attitude towards public transportation and private cars.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

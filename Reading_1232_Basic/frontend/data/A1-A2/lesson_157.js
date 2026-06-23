@@ -1,0 +1,88 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_157",
+  "title": "Public Transport or Private Cars: What Do You Prefer?",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Public Transport vs Private Cars</h2><p>In many cities, people can choose between public transport and private cars. Public transport includes buses, trains, and trams. It is usually cheaper than using a private car. Many people take buses to work or school. Buses are often full in the morning. Trains can be very fast and are good for long distances.</p><p>Private cars are more comfortable. You can listen to music or talk with friends. However, driving can be expensive. You must pay for gas and parking. In some cities, traffic can be very bad. This makes driving take a long time.</p><p>Public transport is better for the environment. It can reduce pollution. When more people use buses and trains, there are fewer cars on the road. This helps keep the air clean.</p><p>In conclusion, both public transport and private cars have advantages. It depends on what you need. If you want to save money, public transport is a good choice. If you want comfort, a private car is better.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is usually cheaper?",
+      "options": {
+        "A": "Public transport",
+        "B": "Private cars",
+        "C": "Bicycles",
+        "D": "Walking"
+      },
+      "answer": "A",
+      "explanation": "Public transport is mentioned as usually cheaper than using a private car."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Buses are always empty in the morning.",
+      "answer": "False",
+      "explanation": "The passage states that buses are often full in the morning."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Private cars are better for the environment.",
+      "answer": "False",
+      "explanation": "The passage mentions that public transport is better for the environment."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do you pay for when you drive a car?",
+      "options": {
+        "A": "Gas and parking",
+        "B": "Bus tickets",
+        "C": "Train passes",
+        "D": "Bicycle repairs"
+      },
+      "answer": "A",
+      "explanation": "The passage states you must pay for gas and parking when driving a car."
+    },
+    {
+      "id": "q5",
+      "type": "yes_no_not_given",
+      "text": "Trains are good for long distances.",
+      "answer": "Yes",
+      "explanation": "The passage says that trains can be very fast and are good for long distances."
+    },
+    {
+      "id": "q6",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What helps keep the air clean?",
+      "options": {
+        "A": "More cars",
+        "B": "Less pollution",
+        "C": "More public transport",
+        "D": "More private cars"
+      },
+      "answer": "C",
+      "explanation": "The passage explains that more people using public transport helps keep the air clean."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "pollution",
+      "meaning": "dirty air or water, usually caused by cars and factories"
+    },
+    {
+      "word": "traffic",
+      "meaning": "cars and other vehicles moving on a road"
+    },
+    {
+      "word": "environment",
+      "meaning": "the natural world, including plants, animals, and air"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully. Look for key words in the questions to help you find the answers in the text. Pay attention to details about public transport and private cars.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

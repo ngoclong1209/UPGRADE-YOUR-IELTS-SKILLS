@@ -1,0 +1,75 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_163",
+  "title": "Understanding Climate Change",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>What is Climate Change?</h2><p>Climate change is when the weather changes a lot over time. This can mean hotter or colder weather. It can also mean more rain or less rain. Climate change is a big problem for our world. It affects animals, plants, and people.</p><h2>What Causes Climate Change?</h2><p>Many things cause climate change. One big cause is pollution. Cars, factories, and farms make pollution. This pollution goes into the air and makes the Earth warmer. Another cause is cutting down trees. Trees help clean the air, and when we cut them down, there is more pollution.</p><h2>How Does Climate Change Affect Us?</h2><p>Climate change can cause many problems. It can make sea levels rise. This can cause floods in cities. It can also make storms stronger. Many people can lose their homes. Plants may not grow well. This can lead to food shortages.</p><h2>What Can We Do?</h2><p>We can help stop climate change! We can use less plastic, recycle, and plant trees. We can ride bikes, walk, or use public transport to reduce pollution. Every small action can help our planet!</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is climate change?",
+      "options": {
+        "A": "When the weather changes a lot.",
+        "B": "When it rains every day.",
+        "C": "When the sun shines.",
+        "D": "When it is cold always."
+      },
+      "answer": "A",
+      "explanation": "A is correct because the passage states that climate change is when the weather changes a lot over time."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What causes pollution?",
+      "options": {
+        "A": "Cars and factories.",
+        "B": "Only trees.",
+        "C": "Only animals.",
+        "D": "The sun."
+      },
+      "answer": "A",
+      "explanation": "A is correct because the passage mentions that cars and factories make pollution."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Climate change can make storms stronger.",
+      "answer": "True",
+      "explanation": "True, the passage states that climate change can make storms stronger."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "Cutting down trees helps clean the air.",
+      "answer": "False",
+      "explanation": "False, cutting down trees does not help clean the air; it makes pollution worse."
+    },
+    {
+      "id": "q5",
+      "type": "short_answer",
+      "instruction": "Answer in NO MORE THAN TWO WORDS.",
+      "text": "What can we do to help the planet?",
+      "answer": "Plant trees",
+      "explanation": "The passage states we can help by planting trees."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "pollution",
+      "meaning": "Dirty air from cars and factories."
+    },
+    {
+      "word": "floods",
+      "meaning": "Water that covers land."
+    },
+    {
+      "word": "shortages",
+      "meaning": "Not enough of something."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage quickly first to understand the main idea. Look for keywords in the questions and find them in the passage. Pay attention to details for True/False questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

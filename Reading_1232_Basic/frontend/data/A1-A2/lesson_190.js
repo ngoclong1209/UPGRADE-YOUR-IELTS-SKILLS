@@ -1,0 +1,119 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_190",
+  "title": "Healthy Eating for Everyone",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Healthy Eating</h2><p>Eating healthy is important for everyone. It helps us feel good and live longer. Fruits and vegetables are very good for our health. They have many vitamins and minerals. We should eat five servings of fruits and vegetables every day. This can include apples, bananas, carrots, and spinach.</p><p>Drinking water is also important. We should drink at least eight glasses of water each day. Water keeps us hydrated and helps our bodies work well.</p><p>It is good to eat less sugar and fat. Too much sugar can cause problems like weight gain. Instead of soda, we can drink juice or water. For snacks, we can eat nuts or yogurt. These are healthy choices.</p><p>Regular exercise is important too. It helps our body stay strong. We can walk, run, or ride a bike. Even playing outside is good exercise. We should try to exercise for at least thirty minutes every day.</p><p>In conclusion, eating healthy and exercising can make us feel better and be healthier. Let's make good choices!</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is very good for our health?",
+      "options": {
+        "A": "Fruits and vegetables",
+        "B": "Candy and soda",
+        "C": "Fast food",
+        "D": "Chips"
+      },
+      "answer": "A",
+      "explanation": "Fruits and vegetables are mentioned as very good for health in the passage."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "How many glasses of water should we drink each day?",
+      "options": {
+        "A": "Four",
+        "B": "Six",
+        "C": "Eight",
+        "D": "Ten"
+      },
+      "answer": "C",
+      "explanation": "The passage states we should drink at least eight glasses of water each day."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Eating too much sugar can cause weight gain.",
+      "answer": "True",
+      "explanation": "The passage states that too much sugar can cause problems like weight gain."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "We should eat more fast food.",
+      "answer": "False",
+      "explanation": "The passage suggests eating less sugar and fat, which includes fast food."
+    },
+    {
+      "id": "q5",
+      "type": "yes_no_not_given",
+      "text": "Drinking juice is a healthy choice.",
+      "answer": "Yes",
+      "explanation": "The passage mentions juice as a good alternative to soda."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "text": "We should try to exercise for at least _______ minutes every day.",
+      "answer": "thirty",
+      "explanation": "The passage states we should try to exercise for at least thirty minutes every day."
+    },
+    {
+      "id": "q7",
+      "type": "matching_information",
+      "text": "Match the food with its benefit.",
+      "options": {
+        "A": "Apples",
+        "B": "Nuts",
+        "C": "Water",
+        "D": "Yogurt"
+      },
+      "answers": {
+        "A": "Good for health",
+        "B": "Healthy snack",
+        "C": "Keeps us hydrated",
+        "D": "Good for stomach"
+      }
+    },
+    {
+      "id": "q8",
+      "type": "short_answer",
+      "text": "What can we do for exercise?",
+      "answer": "Walk, run, or ride a bike",
+      "explanation": "The passage provides multiple options for exercise."
+    },
+    {
+      "id": "q9",
+      "type": "matching_sentence_endings",
+      "text": "Eating healthy helps us...",
+      "options": {
+        "A": "feel good",
+        "B": "be sick",
+        "C": "eat more",
+        "D": "sleep less"
+      },
+      "answers": {
+        "A": "feel good"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "hydrated",
+      "meaning": "having enough water in the body"
+    },
+    {
+      "word": "snack",
+      "meaning": "a small amount of food eaten between meals"
+    },
+    {
+      "word": "exercise",
+      "meaning": "physical activity to make the body strong"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully. Look for key information about healthy eating and exercise. Use the questions to help you find important details. Remember to look for facts in the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

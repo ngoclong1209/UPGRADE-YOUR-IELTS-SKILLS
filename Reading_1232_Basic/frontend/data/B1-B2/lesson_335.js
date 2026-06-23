@@ -1,0 +1,90 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_335",
+  "title": "The Future of Space Exploration: A New Era",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Future of Space Exploration: A New Era</h2><p>Space exploration has fascinated humanity for centuries, offering a glimpse into the unknown. With advancements in technology, we are now closer than ever to uncovering the secrets of our universe. In recent years, private companies such as SpaceX and Blue Origin have entered the field, bringing innovation and competition. This shift is not only transforming space travel but also making it more accessible to the general public.</p><p>One of the most significant milestones in space exploration is the development of reusable rockets. Traditionally, rockets were single-use, making space travel incredibly expensive. However, with the advent of reusable technology, companies can significantly reduce costs. This advancement is crucial as it paves the way for more frequent and affordable missions to space.</p><p>Moreover, the exploration of Mars has become a focal point for many space agencies. NASA's Perseverance rover, launched in 2020, aims to search for signs of past life and collect samples for future return missions. The idea of colonizing Mars is no longer a distant dream; numerous studies are being conducted on how humans could live sustainably on the red planet.</p><p>In addition to Mars, the Moon is also receiving attention. NASA's Artemis program aims to return humans to the Moon by 2024, making it the first crewed mission since 1972. This initiative is not only about exploration; it also aims to establish a sustainable human presence on the Moon, which could serve as a launching pad for deeper space missions.</p><p>As we look towards the future, international collaboration will play a vital role. Projects like the International Space Station have demonstrated the importance of working together to achieve common goals in space. By pooling resources and knowledge, countries can tackle the challenges of space exploration more effectively.</p><p>In conclusion, the future of space exploration is bright. With advancements in technology, ambitious missions to Mars and the Moon, and a collaborative approach, humanity is poised to make significant strides in understanding our universe. As we embark on this new era, the possibilities are endless.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major benefit of reusable rockets?",
+      "options": {
+        "A": "They increase the cost of space travel.",
+        "B": "They allow for more frequent missions.",
+        "C": "They only work for private companies.",
+        "D": "They are used solely for Moon missions."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct because the passage states that reusable rockets significantly reduce costs, allowing for more frequent and affordable missions to space."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the purpose of NASA's Perseverance rover?",
+      "options": {
+        "A": "To build a base on the Moon.",
+        "B": "To return samples from Mars.",
+        "C": "To search for signs of past life.",
+        "D": "To send humans to Mars."
+      },
+      "answer": "C",
+      "explanation": "Option C is correct as the passage mentions that the Perseverance rover aims to search for signs of past life on Mars."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "The Artemis program will be the first crewed mission to the Moon.",
+      "answer": "True",
+      "explanation": "The passage states that NASA's Artemis program aims to return humans to the Moon, marking the first crewed mission since 1972."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "text": "The author believes that international collaboration is unnecessary for space exploration.",
+      "answer": "No",
+      "explanation": "The author emphasizes the importance of international collaboration in achieving common goals in space, indicating that it is necessary."
+    },
+    {
+      "id": "q5",
+      "type": "matching_information",
+      "instruction": "Match the following information to the correct paragraph.",
+      "items": [
+        {
+          "text": "The role of private companies in space exploration",
+          "paragraph": 1
+        },
+        {
+          "text": "Mars colonization studies",
+          "paragraph": 3
+        },
+        {
+          "text": "The aim of the Artemis program",
+          "paragraph": 4
+        },
+        {
+          "text": "Reusable rocket technology",
+          "paragraph": 2
+        }
+      ]
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "fascinated",
+      "meaning": "extremely interested and attracted to something"
+    },
+    {
+      "word": "colonizing",
+      "meaning": "establishing a permanent settlement in a new territory"
+    },
+    {
+      "word": "sustainable",
+      "meaning": "capable of being maintained or continued over the long term"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, pay attention to the main ideas in each paragraph. Take notes on key terms related to space exploration. For multiple-choice questions, eliminate clearly wrong answers to improve your chances of guessing. For true/false/not given questions, focus on the specific details mentioned in the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

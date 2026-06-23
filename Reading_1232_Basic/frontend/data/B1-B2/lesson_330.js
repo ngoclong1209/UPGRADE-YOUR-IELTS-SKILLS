@@ -1,0 +1,75 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_330",
+  "title": "The Importance of Balanced Nutrition",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Role of Diet in Health</h2><p>A balanced diet is crucial for maintaining good health. It includes a variety of foods from different food groups to provide essential nutrients. These nutrients help in growth, development, and overall body function. A diet rich in fruits, vegetables, whole grains, and lean proteins can prevent chronic diseases such as heart disease, diabetes, and obesity.</p><p>Many people underestimate the importance of proper nutrition. They often opt for fast food and processed meals, which are high in sugars and unhealthy fats. These choices can lead to health problems over time. It is essential to be aware of what we consume and make healthier choices.</p><p>Furthermore, hydration plays a vital role in our diet. Drinking enough water is necessary for digestion, absorption of nutrients, and elimination of waste. Experts recommend drinking at least eight glasses of water a day, but individual needs may vary based on activity level and climate.</p><p>Incorporating physical activity into our daily routine complements a balanced diet. Exercise not only helps in weight management but also boosts mental health. Regular physical activity can reduce symptoms of anxiety and depression, contributing to overall well-being.</p><p>In conclusion, a well-rounded diet combined with physical activity is key to leading a healthy lifestyle. Making informed food choices and staying hydrated can significantly impact our health and quality of life.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main purpose of a balanced diet?",
+      "options": {
+        "A": "To prevent chronic diseases",
+        "B": "To consume fast food regularly",
+        "C": "To promote unhealthy eating habits",
+        "D": "To minimize water intake"
+      },
+      "answer": "A",
+      "explanation": "A balanced diet is essential for providing nutrients that help prevent chronic diseases."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Many people prefer cooking at home instead of eating fast food.",
+      "answer": "Not Given",
+      "explanation": "The passage does not provide information on people's cooking preferences."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Decide if the statement reflects the author's opinion.",
+      "text": "The author believes hydration is essential for health.",
+      "answer": "Yes",
+      "explanation": "The passage emphasizes the importance of hydration for digestion and nutrient absorption."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following health benefits with their corresponding activities.",
+      "text": "1. Prevents chronic diseases\n2. Boosts mental health\n3. Aids in digestion\n\nOptions:\nA. Balanced diet\nB. Regular physical activity\nC. Drinking water",
+      "answer": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      },
+      "explanation": "Each health benefit matches the correct activity as described in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "Experts recommend drinking at least _____ glasses of water a day.",
+      "answer": "eight",
+      "explanation": "The passage states that experts recommend at least eight glasses of water daily."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "nutrients",
+      "meaning": "substances that provide nourishment essential for growth and the maintenance of life"
+    },
+    {
+      "word": "hydration",
+      "meaning": "the process of causing something to absorb water"
+    },
+    {
+      "word": "chronic",
+      "meaning": "long-lasting and recurrent"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively answer the questions, focus on the main ideas presented in each paragraph. Pay attention to keywords that may indicate the central message or specific details. For multiple-choice questions, eliminate options that are clearly incorrect. For true/false/not given questions, look for explicit mentions in the text to determine the truthfulness of the statement.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,93 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_605",
+  "title": "The Final Frontier: Understanding the Complexities of Space Exploration",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Evolution of Space Exploration</h2><p>Since the dawn of humanity, the stars have beckoned us, not merely as distant points of light, but as realms of potential discovery. Space exploration, an endeavor once relegated to the realms of science fiction, has burgeoned into a formidable field of scientific inquiry and technological advancement. From the early days of the Space Race, marked by the launch of Sputnik in 1957, to the ambitious missions proposed for Mars and beyond, the journey has been fraught with both triumph and tribulation. As we stand on the precipice of interstellar exploration, it is imperative to grasp the underlying principles that drive this quest for knowledge.</p><p>At its core, space exploration is not solely about the physical act of sending humans or robotic probes into the cosmos; it embodies a profound quest for understanding our place in the universe. The implications of discovering extraterrestrial life, for instance, would not only alter our scientific paradigms but also challenge our philosophical and ethical frameworks. The search for habitable exoplanets, driven by advances in telescope technology and data analysis, underscores humanity’s innate desire to find kinship beyond our terrestrial confines.</p><p>Moreover, the socio-political ramifications of space exploration cannot be overlooked. Initiatives spearheaded by both governmental agencies and private enterprises have engendered a new space economy, characterized by burgeoning investments in satellite technology, space tourism, and asteroid mining. However, this commercialization raises pertinent questions regarding governance, sustainability, and the ethical considerations of exploiting celestial resources.</p><p>As we delve deeper into the cosmos, we must also confront the existential risks associated with such endeavors. The potential for space debris, the environmental impact of rocket launches, and the psychological effects of prolonged space travel on human subjects present challenges that require innovative solutions. Hence, interdisciplinary collaboration among scientists, ethicists, and policymakers is crucial.</p><p>In conclusion, as we navigate the complexities of space exploration, it is essential to recognize that this journey is as much about introspection and ethical consideration as it is about technological prowess. The stars may be within our reach, but the questions they pose about humanity’s future are as vast as the universe itself.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the author suggest is a primary motivation behind space exploration?",
+      "options": {
+        "A": "To establish colonies on other planets.",
+        "B": "To understand humanity's place in the universe.",
+        "C": "To compete with other nations technologically.",
+        "D": "To commercialize space resources effectively."
+      },
+      "answer": "B",
+      "explanation": "The passage emphasizes that space exploration is fundamentally about understanding our place in the universe, rather than solely focusing on technological competition or commercialization."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "The commercialization of space exploration has no ethical concerns.",
+      "answer": "False",
+      "explanation": "The passage discusses the ethical considerations involved in the commercialization of space exploration, indicating that such concerns do exist."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Is the search for extraterrestrial life considered a minor aspect of space exploration?",
+      "answer": "No",
+      "explanation": "The passage highlights the search for extraterrestrial life as a significant aspect of space exploration, suggesting it has major implications for scientific and philosophical paradigms."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct sections of the passage.",
+      "text": "1. The impact of space debris on future missions. 2. Advances in telescope technology. 3. The role of private enterprises in space exploration.",
+      "matches": {
+        "1": "Paragraph 4",
+        "2": "Paragraph 2",
+        "3": "Paragraph 3"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph.",
+      "text": "1. The challenge of sustainability in space. 2. Historical milestones in space exploration. 3. The philosophical implications of extraterrestrial life.",
+      "matches": {
+        "1": "Paragraph 4",
+        "2": "Paragraph 1",
+        "3": "Paragraph 2"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following questions using no more than two words.",
+      "text": "What event marked the beginning of the Space Race?",
+      "answer": "Sputnik launch",
+      "explanation": "The passage states that the launch of Sputnik in 1957 marked the early days of the Space Race."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "buoyant",
+      "meaning": "capable of floating; cheerful and optimistic, especially in difficult situations."
+    },
+    {
+      "word": "interstellar",
+      "meaning": "relating to or situated between stars."
+    },
+    {
+      "word": "extraterrestrial",
+      "meaning": "of or from outside the Earth or its atmosphere."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "the ability to be maintained at a certain rate or level; avoidance of the depletion of natural resources."
+    },
+    {
+      "word": "paradigm",
+      "meaning": "a typical example or pattern of something; a model."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the main arguments presented in each paragraph. Pay close attention to the implications of statements about space exploration, and consider the author's tone and perspective. For multiple-choice questions, eliminate options that do not align with the passage's context. For True/False/Not Given items, look for specific wording that may suggest a definitive stance. Lastly, practice skimming for headings and matching activities to grasp the overall structure quickly.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

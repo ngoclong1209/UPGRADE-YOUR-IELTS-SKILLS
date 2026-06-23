@@ -1,0 +1,84 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_072",
+  "title": "The Rise of Online Learning: Transforming Education",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Online Learning</h2><p>In recent years, online learning has gained significant popularity among students and professionals alike. The advent of technology has made it easier for people to access educational resources from anywhere in the world. This shift towards distance education has been accelerated by the need for flexible learning options, especially during the COVID-19 pandemic.</p><p>One major advantage of online learning is its accessibility. Students no longer need to commute to a physical classroom, which saves time and money. Additionally, online courses often provide a wider range of subjects and expertise, allowing learners to choose programs that suit their individual needs.</p><p>However, online education also presents challenges. Many students struggle with self-discipline and time management when learning remotely. The lack of direct interaction with instructors and peers can lead to feelings of isolation. To combat this, many online programs incorporate forums, video calls, and group projects to foster a sense of community.</p><p>Moreover, the effectiveness of online learning can vary greatly depending on the individual's learning style. Some students thrive in a traditional classroom setting, while others may excel in a virtual environment. As education continues to evolve, it is essential for institutions to adapt their teaching methods to meet the diverse needs of their students.</p><p>In conclusion, online learning offers numerous benefits and challenges. As technology advances, it will play an increasingly important role in shaping the future of education.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major advantage of online learning mentioned in the passage?",
+      "options": {
+        "A": "It allows for a wider range of subjects.",
+        "B": "It requires students to attend physical classes.",
+        "C": "It eliminates the need for technology.",
+        "D": "It is more expensive than traditional education."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct because the passage states that online courses provide a wider range of subjects and expertise, which is a significant advantage."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Students who learn online do not need to manage their time effectively.",
+      "answer": "False",
+      "explanation": "The passage explains that many students struggle with self-discipline and time management when learning remotely, indicating that time management is indeed necessary."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that online learning is suitable for all students.",
+      "answer": "No",
+      "explanation": "The passage mentions that the effectiveness of online learning can vary greatly depending on the individual's learning style, suggesting that it is not suitable for everyone."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following challenges of online learning with their descriptions.",
+      "options": {
+        "1": "Self-discipline issues",
+        "2": "Isolation",
+        "3": "Lack of interaction"
+      },
+      "descriptions": {
+        "A": "Students may feel lonely and disconnected.",
+        "B": "Many learners struggle to stay focused and manage their time.",
+        "C": "There is limited direct communication with instructors."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence with NO MORE THAN TWO WORDS.",
+      "text": "Online learning has become more popular due to the need for _______.",
+      "answer": "flexible learning",
+      "explanation": "The passage states that the shift towards distance education has been accelerated by the need for flexible learning options."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "advent",
+      "meaning": "the arrival of a notable person or event"
+    },
+    {
+      "word": "accelerated",
+      "meaning": "to increase in speed or rate"
+    },
+    {
+      "word": "self-discipline",
+      "meaning": "the ability to control oneself and make positive choices"
+    },
+    {
+      "word": "isolation",
+      "meaning": "the state of being separated from others"
+    },
+    {
+      "word": "diverse",
+      "meaning": "showing a great deal of variety; very different"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading this passage, focus on the main ideas presented in each paragraph. Take note of any advantages and challenges mentioned, as they will help you answer the questions accurately. Pay attention to the specific details that support the author's points, as these may be crucial in questions that require more than just surface-level understanding.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

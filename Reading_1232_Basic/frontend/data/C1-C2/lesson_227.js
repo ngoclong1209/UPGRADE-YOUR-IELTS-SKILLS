@@ -1,0 +1,101 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_227",
+  "title": "Navigating the Urban Divide: Public Transportation vs. Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Public Transportation vs. Private Cars: An Urban Dilemma</h2><p>In the contemporary discourse on urban mobility, the dichotomy between public transportation and private cars emerges as a salient point of contention. Advocates for public transportation argue that it not only alleviates traffic congestion but also significantly reduces carbon emissions, thus contributing to environmental sustainability. On the other hand, proponents of private car usage emphasize convenience, personal freedom, and comfort, claiming that reliance on public systems often results in delays and overcrowding.</p><p>Research has indicated that cities with robust public transport systems tend to experience lower levels of air pollution and reduced traffic-related fatalities. For instance, a study conducted in European metropolitan areas revealed that cities with well-developed bus and rail networks saw a 25% decrease in vehicular emissions over a decade. This correlation suggests that enhancing public transport infrastructure could be pivotal in combating climate change.</p><p>However, the transition from a car-centric to a public transport-oriented city is fraught with challenges. Public policy measures often face resistance from citizens who harbor a deep-seated preference for private vehicles. This cultural attachment to car ownership is influenced by a myriad of factors, including urban sprawl, the perceived inconvenience of public transport, and societal norms valuing individualism.</p><p>Moreover, public transport systems are often underfunded, leading to inadequate services that fail to meet the needs of the population. In many regions, especially in developing countries, the investment in public transportation infrastructure is overshadowed by the appeal of expanding road networks for private vehicles. This misallocation of resources exacerbates the very issues that public transport aims to resolve.</p><p>In conclusion, while both public transportation and private cars serve essential roles in urban mobility, a balanced approach that enhances public transport accessibility and efficiency, coupled with policies that discourage excessive car use, may provide a sustainable pathway for future urban development.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the author suggest is a critical factor in reducing urban pollution?",
+      "options": {
+        "A": "Increased reliance on private vehicles",
+        "B": "Investment in public transportation systems",
+        "C": "Cultural attitudes towards car ownership",
+        "D": "Expansion of road networks"
+      },
+      "answer": "B",
+      "explanation": "The passage states that cities with robust public transport systems experience lower levels of air pollution, indicating that investments in these systems are critical for reducing urban pollution."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Private car usage has no impact on urban traffic congestion.",
+      "answer": "False",
+      "explanation": "The passage indicates that reliance on private cars contributes to traffic congestion, implying that their usage does have an impact."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes that public transportation should be prioritized over private vehicle use.",
+      "answer": "Yes",
+      "explanation": "The conclusion suggests that a balanced approach enhancing public transport is necessary, indicating a preference for prioritizing public transport."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match each statement with the correct paragraph.",
+      "options": {
+        "A": "Public transport systems are often underfunded.",
+        "B": "Private car usage is linked to personal freedom.",
+        "C": "Research shows a decrease in emissions in cities with public transport.",
+        "D": "Resistance to public transport is culturally influenced."
+      },
+      "answers": {
+        "A": "Paragraph 3",
+        "B": "Paragraph 2",
+        "C": "Paragraph 2",
+        "D": "Paragraph 3"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the appropriate paragraphs.",
+      "headings": {
+        "1": "The appeal of private cars",
+        "2": "Environmental benefits of public transport",
+        "3": "Challenges in transitioning to public transport",
+        "4": "A sustainable future for urban transport"
+      },
+      "answers": {
+        "1": "Paragraph 2",
+        "2": "Paragraph 3",
+        "3": "Paragraph 4",
+        "4": "Paragraph 5"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short-answer",
+      "instruction": "Answer in NO MORE THAN TWO WORDS.",
+      "text": "What do proponents of private car usage value most?",
+      "answer": "Personal freedom",
+      "explanation": "The passage indicates that comfort and personal freedom are key values for car users."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "dichotomy",
+      "meaning": "a division or contrast between two things that are represented as being opposed or entirely different."
+    },
+    {
+      "word": "salient",
+      "meaning": "most noticeable or important."
+    },
+    {
+      "word": "alleviates",
+      "meaning": "makes (suffering, deficiency, or a problem) less severe."
+    },
+    {
+      "word": "urban sprawl",
+      "meaning": "the uncontrolled expansion of urban areas."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on identifying the nuances between the arguments for public transportation and private cars. Pay attention to the author's tone and the implications of their statements. Take note of any statistical data presented, as these often support key arguments. For multiple-choice questions, eliminate options that are too extreme or do not align closely with the author's perspective. In true/false/not given questions, look for subtle cues that indicate whether the information is directly stated, implied, or absent. Matching tasks will require you to understand the main ideas of each paragraph, so skimming for topic sentences can be helpful.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

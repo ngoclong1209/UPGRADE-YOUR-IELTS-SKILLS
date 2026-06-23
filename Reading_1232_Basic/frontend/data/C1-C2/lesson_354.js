@@ -1,0 +1,98 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_354",
+  "title": "The Intricacies of Artificial Intelligence: Bridging the Gap Between Human Intuition and Machine Learning",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Artificial Intelligence: A Double-Edged Sword</h2><p>Artificial Intelligence (AI) has emerged as one of the most pivotal technological advancements of the 21st century, revolutionizing various sectors from healthcare to finance. While AI promises unparalleled efficiency and innovation, it also raises significant ethical and existential concerns that cannot be overlooked. As machines become more adept at performing tasks traditionally reserved for humans, the question arises: what implications does this have for our understanding of intelligence itself? This inquiry is further complicated by the rapid evolution of machine learning algorithms, which often operate as black boxes, making it challenging to discern how decisions are made and the potential biases embedded in these systems.</p><p>One of the core debates surrounding AI revolves around its capability to replicate human intuition. Proponents argue that AI can enhance decision-making processes by analyzing vast datasets more accurately than any human could. Conversely, critics highlight that while machines can process information at lightning speed, they lack the emotional intelligence and ethical judgment inherent to human cognition. This dichotomy presents a philosophical quandary: can machines ever truly 'understand' the complexities of human experience, or are they merely simulating responses based on data inputs?</p><p>Moreover, the integration of AI into everyday life raises pivotal questions concerning job displacement and economic inequality. As automation proliferates, there is a growing fear that many professions may become obsolete, leading to a significant societal shift. This concern is exacerbated by the fact that the benefits of AI are not evenly distributed; instead, they tend to favor those with access to technology and education, thereby widening the gap between socioeconomic classes.</p><p>As we venture further into the era of AI, it is imperative to foster a dialogue that encompasses not only the technological advancements but also the ethical ramifications. Policymakers, technologists, and ethicists must collaborate to establish frameworks that ensure AI serves humanity's best interests, safeguarding against potential abuses of power and fostering an inclusive approach to technological development.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern highlighted regarding the rapid evolution of AI technology?",
+      "options": {
+        "A": "The potential for job creation in new sectors.",
+        "B": "The ethical implications of machine decision-making.",
+        "C": "The enhancement of human emotional intelligence.",
+        "D": "The reduction of economic inequality."
+      },
+      "answer": "B",
+      "explanation": "The passage emphasizes the ethical and existential concerns related to AI, particularly how machines make decisions and the biases that may be present, making 'B' the correct answer."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "AI can fully replicate human intuition and emotional intelligence.",
+      "answer": "False",
+      "explanation": "The passage states that while machines can analyze data, they lack emotional intelligence and ethical judgment, indicating that they cannot fully replicate human intuition."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that AI will equally benefit all socioeconomic classes?",
+      "answer": "No",
+      "explanation": "The passage suggests that the benefits of AI are not evenly distributed and tend to favor those with access to technology and education."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following concepts with their corresponding implications.",
+      "information": {
+        "A": "Job Displacement",
+        "B": "Ethical Concerns",
+        "C": "Technological Advancement",
+        "D": "Economic Inequality"
+      },
+      "options": {
+        "1": "Increased efficiency in decision-making.",
+        "2": "Risk of many professions becoming obsolete.",
+        "3": "Widening gap between socioeconomic classes.",
+        "4": "Need for regulatory frameworks."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Choose the appropriate heading for each paragraph.",
+      "paragraphs": {
+        "1": "Introduction to AI's impact.",
+        "2": "The debate on AI and human intuition.",
+        "3": "Societal implications of automation.",
+        "4": "The call for ethical frameworks."
+      },
+      "headings": {
+        "A": "AI's Role in Economic Shifts",
+        "B": "Exploring Human-Machine Interaction",
+        "C": "The Ethical Dimensions of AI",
+        "D": "Automation and Employment"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "What are the two primary areas of concern regarding AI mentioned in the passage? (NO MORE THAN THREE WORDS)",
+      "answer": "Ethical implications, job displacement",
+      "explanation": "The passage discusses ethical concerns and job displacement as significant issues related to AI."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "pervasive",
+      "meaning": "spreading widely throughout an area or a group of people."
+    },
+    {
+      "word": "quandary",
+      "meaning": "a state of perplexity or uncertainty over what to do in a difficult situation."
+    },
+    {
+      "word": "dichotomy",
+      "meaning": "a division or contrast between two things that are represented as being opposed or entirely different."
+    },
+    {
+      "word": "proliferate",
+      "meaning": "to increase rapidly in numbers; to multiply."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this reading, focus on understanding the author's arguments and the nuances in their language. Pay attention to synonyms and paraphrases throughout the passage, as they can help you decipher the correct answers. When answering questions, consider the broader implications of the statements made, and do not rush. Take your time to analyze each option carefully.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

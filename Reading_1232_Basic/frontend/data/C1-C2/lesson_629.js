@@ -1,0 +1,76 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_629",
+  "title": "The Dual Edges of Tourism: Economic Growth and Environmental Degradation",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dual Edges of Tourism: Economic Growth and Environmental Degradation</h2><p>Tourism has emerged as one of the most significant sectors driving global economic development, accounting for a substantial percentage of GDP in many countries. It creates jobs, stimulates local economies, and fosters cultural exchange. However, the rapid expansion of this industry has also led to considerable environmental challenges. The influx of tourists often results in increased pollution, habitat destruction, and strain on local resources. The dichotomy of tourism’s benefits and drawbacks has sparked intense debate among policymakers and environmentalists alike. Proponents argue that sustainable tourism practices can mitigate negative impacts while preserving the economic advantages. Conversely, critics may contend that the very nature of mass tourism inherently contradicts sustainability efforts, leading to a paradox where economic incentives overshadow ecological considerations. Hence, striking a balance between promoting tourism and safeguarding the environment remains a formidable task for modern societies.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern associated with the rapid expansion of tourism according to the passage?",
+      "options": {
+        "A": "It significantly boosts local economies.",
+        "B": "It creates numerous job opportunities.",
+        "C": "It leads to environmental degradation.",
+        "D": "It enhances cultural exchange."
+      },
+      "answer": "C",
+      "explanation": "The passage emphasizes that while tourism contributes positively to economies, it also results in environmental challenges, highlighting the concern of degradation."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Proponents of tourism believe that economic benefits outweigh environmental concerns.",
+      "answer": "Not Given",
+      "explanation": "The passage does not explicitly state that proponents prioritize economic benefits over environmental issues, only that they advocate for sustainable practices."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that sustainable tourism can completely eliminate environmental impacts.",
+      "answer": "No",
+      "explanation": "The passage suggests that sustainable tourism can mitigate negative impacts but does not claim it can completely eliminate them."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following concepts with their corresponding descriptions.",
+      "options": {
+        "A": "Economic Growth",
+        "B": "Environmental Degradation",
+        "C": "Sustainable Practices",
+        "D": "Policy Debate"
+      },
+      "descriptions": {
+        "1": "Efforts to minimize tourism's ecological footprint.",
+        "2": "The strain on local resources due to tourist influx.",
+        "3": "The financial benefits derived from tourism.",
+        "4": "The discussion on balancing tourism and environmental concerns."
+      },
+      "answers": {
+        "A": "3",
+        "B": "2",
+        "C": "1",
+        "D": "4"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "dichotomy",
+      "meaning": "A division or contrast between two things that are represented as being opposed or entirely different."
+    },
+    {
+      "word": "paradox",
+      "meaning": "A statement that seems contradictory or opposed to common sense and yet could be true."
+    },
+    {
+      "word": "mitigate",
+      "meaning": "To make less severe, serious, or painful."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on the contrasting ideas presented regarding tourism’s economic benefits and environmental costs. Pay attention to the author's tone towards sustainability, as this will help you answer questions about attitudes and implications. Additionally, note any nuanced language that could indicate the author's stance on the effectiveness of sustainable tourism practices.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

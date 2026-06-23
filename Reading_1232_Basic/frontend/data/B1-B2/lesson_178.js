@@ -1,0 +1,73 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_178",
+  "title": "The Internet: A Double-Edged Sword in Modern Society",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Internet and Its Impact</h2><p>The internet has transformed modern society in numerous ways, acting as a powerful tool for communication, education, and entertainment. However, it also presents challenges such as misinformation and privacy concerns. In this digital age, individuals can connect globally, access vast information, and participate in online communities that were previously unimaginable.</p><p>One of the primary benefits of the internet is its role in education. Students can access online courses and resources from anywhere in the world, making learning more accessible. This democratization of knowledge allows for a more informed and educated population. Furthermore, online platforms enable collaboration among students and educators across different countries, fostering a global learning experience.</p><p>Despite its advantages, the internet also has downsides. The spread of misinformation can lead to confusion and misinformed decisions. Social media platforms, while fostering connection, can also perpetuate false narratives. Moreover, the issue of privacy is increasingly concerning, as personal data can be exploited for commercial gain or malicious purposes.</p><p>In conclusion, the internet is a double-edged sword. While it offers numerous benefits that enhance our daily lives, it also poses significant risks that society must address. Balancing the positive and negative aspects of the internet will be essential for its continued role in our lives.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major benefit of the internet mentioned in the passage?",
+      "options": {
+        "A": "It allows for global communication and access to information.",
+        "B": "It eliminates the need for traditional education.",
+        "C": "It ensures complete privacy for users.",
+        "D": "It prevents the spread of misinformation."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct because the passage highlights the internet's role in facilitating global communication and access to information."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "The internet has completely removed the need for face-to-face communication.",
+      "answer": "False",
+      "explanation": "The passage does not state that the internet has eliminated face-to-face communication; rather, it suggests that it enhances communication."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "Does the author believe that the benefits of the internet outweigh its risks?",
+      "answer": "Not Given",
+      "explanation": "The passage does not explicitly state the author's belief about the benefits outweighing the risks."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following features with the correct sections of the passage.",
+      "options": {
+        "A": "Global learning experience",
+        "B": "Misinformation spread",
+        "C": "Privacy concerns",
+        "D": "Educational accessibility"
+      },
+      "answers": {
+        "1": "D",
+        "2": "B",
+        "3": "C",
+        "4": "A"
+      },
+      "explanation": "The answers correspond to the sections discussing education, misinformation, privacy, and global learning."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "democratization",
+      "meaning": "The process of making something accessible to everyone."
+    },
+    {
+      "word": "perpetuate",
+      "meaning": "To cause something to continue indefinitely."
+    },
+    {
+      "word": "exploited",
+      "meaning": "To make use of a situation or resource in a way that is unfair or unethical."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the overall ideas presented and how they interconnect. Pay attention to the author's tone and any specific examples provided to support key points. For multiple choice questions, eliminate distractors by cross-referencing with the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

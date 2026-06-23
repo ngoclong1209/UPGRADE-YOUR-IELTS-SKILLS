@@ -1,0 +1,119 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_607",
+  "title": "The Ongoing Debate: Public Transportation versus Private Automobiles",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Public Transportation vs Private Cars</h2><p>The debate surrounding public transportation and private cars is both intricate and multifaceted, involving not only the convenience and autonomy afforded by personal vehicles but also the broader implications for urban planning, environmental sustainability, and social equity. Advocates for public transport argue that it provides a more efficient use of resources, reduces traffic congestion, and minimizes carbon emissions. By contrast, proponents of private cars emphasize the personal freedom and comfort that comes with owning a vehicle, often citing the limitations and inefficiencies of public transportation systems, which can be plagued by delays and inadequate coverage.</p><p>Moreover, the economic implications of both modes of transport cannot be overlooked. Public transportation systems are often subsidized by governments, raising questions about the allocation of public funds and the potential for financial mismanagement. On the other hand, the cost of maintaining a private vehicle, including insurance, fuel, and maintenance, can be substantial, leading some to argue that public transport is a more economically viable option for low-income individuals.</p><p>The environmental impact of these transportation choices also plays a critical role in the discussion. While private cars contribute significantly to air pollution and greenhouse gas emissions, well-designed public transportation systems can greatly reduce per capita emissions. However, the effectiveness of public transport is contingent upon its accessibility and reliability, which can vary widely across different cities and regions.</p><p>In conclusion, the choice between public transportation and private cars is not merely a matter of personal preference but rather a reflection of deeper societal values and priorities. As urban areas continue to expand and the effects of climate change intensify, the importance of this debate is likely to grow, necessitating a reevaluation of transportation policies and investments.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument for public transportation mentioned in the passage?",
+      "options": {
+        "A": "It enhances personal freedom and comfort.",
+        "B": "It is a more effective use of resources and reduces emissions.",
+        "C": "It is heavily subsidized by the government.",
+        "D": "It is more cost-effective for maintaining a vehicle."
+      },
+      "answer": "B",
+      "explanation": "The passage explicitly states that public transport is argued to provide a more efficient use of resources and minimizes carbon emissions."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "Private cars are economically viable for low-income individuals.",
+      "answer": "False",
+      "explanation": "The passage suggests that the costs associated with maintaining a private vehicle can be substantial, indicating that it may not be economically viable for low-income individuals."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The author believes public transportation is the superior option.",
+      "answer": "Not Given",
+      "explanation": "The author presents arguments for both sides without explicitly stating a preference, making it unclear whether they believe one is superior to the other."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the appropriate paragraphs.",
+      "text": "1. Environmental implications of transportation choices. 2. Economic considerations of vehicle ownership.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answer": {
+        "1": "C",
+        "2": "B"
+      },
+      "explanation": "Environmental implications are discussed in Paragraph 3, while economic considerations are addressed in Paragraph 2."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph.",
+      "text": "Headings: A. The Role of Policy in Transportation Choices B. Personal Freedom in Vehicle Ownership C. Environmental Impact of Transportation D. Economic Viability of Public Transport",
+      "options": {
+        "1": "A",
+        "2": "B",
+        "3": "C",
+        "4": "D"
+      },
+      "answer": {
+        "1": "A",
+        "2": "B",
+        "3": "C",
+        "4": "D"
+      },
+      "explanation": "Each paragraph corresponds to the headings based on the primary focus of the content discussed."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The debate on transportation reflects deeper societal ______.",
+      "answer": "values and priorities",
+      "explanation": "The passage indicates that the choice reflects societal values and priorities, as highlighted in the conclusion."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "Public transportation enhances ______ and reduces emissions.",
+      "answer": "resource efficiency",
+      "explanation": "The passage mentions that public transportation provides a more efficient use of resources and reduces emissions."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the question with NO MORE THAN THREE WORDS.",
+      "text": "What can significantly reduce per capita emissions?",
+      "answer": "well-designed public transport",
+      "explanation": "The passage states that well-designed public transportation systems can greatly reduce per capita emissions."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "autonomy",
+      "meaning": "the ability to make one's own choices and decisions without external control"
+    },
+    {
+      "word": "congestion",
+      "meaning": "overcrowding, especially in traffic, leading to slower movement"
+    },
+    {
+      "word": "subsidized",
+      "meaning": "partially funded by the government to reduce costs for public services"
+    },
+    {
+      "word": "sustainability",
+      "meaning": "the capacity to endure or be maintained over the long term, especially regarding environmental balance"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To succeed in this passage, focus on identifying the main arguments presented for each mode of transportation. Pay close attention to the implications of each argument, and consider the broader societal context in which these discussions occur. Additionally, practice skimming for key phrases and scanning for specific details to enhance your comprehension and speed during the test.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

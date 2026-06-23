@@ -1,0 +1,83 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_108",
+  "title": "The Digital Nexus: Unraveling the Internet's Impact on Contemporary Existence",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Internet: A Dual-Edged Sword in Modern Society</h2><p>In the contemporary landscape, the Internet serves as both a facilitator of unprecedented access to information and a conduit for misinformation. As society grapples with this duality, it becomes crucial to explore the implications of digital interconnectedness on various aspects of human life. The Internet has revolutionized communication, enabling instantaneous exchanges across the globe, yet it has also fostered a breeding ground for divisive narratives. Social media platforms, while providing a voice to the marginalized, often amplify echo chambers that distort reality. Furthermore, the omnipresence of the Internet raises ethical concerns regarding privacy and surveillance, as personal data is commodified in a digital marketplace. As we navigate this complex terrain, understanding the nuanced role of the Internet is paramount for fostering a society that harnesses its benefits while mitigating its risks.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern regarding the Internet's role in communication?",
+      "options": {
+        "A": "It facilitates real-time global communication.",
+        "B": "It encourages a diversity of viewpoints.",
+        "C": "It may lead to the spread of misinformation.",
+        "D": "It is a tool for social empowerment."
+      },
+      "answer": "C",
+      "explanation": "Option C is correct as the passage highlights that while the Internet enhances communication, it also facilitates the spread of misinformation."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "The Internet has only positive effects on society.",
+      "answer": "False",
+      "explanation": "The passage discusses both positive and negative effects of the Internet, indicating that it does not have only positive effects."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that social media is entirely beneficial.",
+      "answer": "No",
+      "explanation": "The author acknowledges the benefits of social media but also points out its role in creating echo chambers."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following aspects with their descriptions.",
+      "items": [
+        {
+          "aspect": "Misinformation",
+          "description": "A significant challenge in online communication."
+        },
+        {
+          "aspect": "Digital marketplace",
+          "description": "A space where personal data is traded."
+        },
+        {
+          "aspect": "Social empowerment",
+          "description": "A potential benefit of Internet usage."
+        }
+      ],
+      "answer": [
+        {
+          "Misinformation": "A significant challenge in online communication."
+        },
+        {
+          "Digital marketplace": "A space where personal data is traded."
+        },
+        {
+          "Social empowerment": "A potential benefit of Internet usage."
+        }
+      ]
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "facilitator",
+      "meaning": "a person or thing that makes an action or process easier."
+    },
+    {
+      "word": "commodified",
+      "meaning": "transformed into a commodity or product for commercial use."
+    },
+    {
+      "word": "echo chambers",
+      "meaning": "situations in which beliefs are amplified by communication and repetition within a closed system."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the nuances of the author's arguments. Pay attention to how the author contrasts the benefits and drawbacks of the Internet. Note the specific terminology used, as it may help clarify the author's viewpoints. Additionally, practice identifying implied meanings and the author's tone to enhance comprehension.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

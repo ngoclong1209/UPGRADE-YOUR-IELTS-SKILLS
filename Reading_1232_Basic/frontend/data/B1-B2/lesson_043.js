@@ -1,0 +1,77 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_043",
+  "title": "The Impact of Climate Change on Our Planet",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Understanding Climate Change</h2><p>Climate change refers to significant alterations in global temperatures and weather patterns over time. While climate change is a natural phenomenon, scientific evidence shows that human activities have been the primary drivers of recent changes. Particularly, the burning of fossil fuels, deforestation, and industrial processes have led to an increase in greenhouse gases in the atmosphere, which trap heat and result in global warming.</p><p>The effects of climate change are far-reaching. Rising sea levels caused by melting ice caps threaten coastal communities around the world. Additionally, extreme weather events, such as hurricanes, droughts, and floods, have become more frequent and severe. These changes not only disrupt ecosystems but also pose significant risks to food security and human health.</p><p>To combat climate change, various strategies are being implemented globally. Renewable energy sources, such as solar and wind power, are being developed to reduce reliance on fossil fuels. Moreover, reforestation and conservation efforts are crucial in absorbing carbon dioxide from the atmosphere. Governments and organizations are increasingly recognizing the need for sustainable practices to mitigate the effects of climate change and protect the environment for future generations.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary cause of recent climate change according to the passage?",
+      "options": {
+        "A": "Natural phenomena",
+        "B": "Human activities",
+        "C": "Solar energy",
+        "D": "Ecosystem changes"
+      },
+      "answer": "B",
+      "explanation": "The passage states that human activities, such as burning fossil fuels, are the primary drivers of recent climate changes."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Climate change only affects coastal communities.",
+      "answer": "False",
+      "explanation": "The passage mentions that climate change affects ecosystems and poses risks to food security and human health, indicating its broader impact."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes that renewable energy can help combat climate change.",
+      "answer": "Yes",
+      "explanation": "The passage discusses the development of renewable energy sources as a strategy to reduce reliance on fossil fuels, implying the author's support."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the effects of climate change with their descriptions.",
+      "text": "Match the following effects with their descriptions.",
+      "options": {
+        "A": "Rising sea levels",
+        "B": "Extreme weather events",
+        "C": "Food security risks"
+      },
+      "descriptions": {
+        "1": "Threaten coastal communities",
+        "2": "Become more frequent and severe",
+        "3": "Impact availability of food"
+      },
+      "answers": {
+        "A": "1",
+        "B": "2",
+        "C": "3"
+      },
+      "explanation": "The answers match the descriptions provided in the passage regarding the effects of climate change."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "greenhouse gases",
+      "meaning": "Gases that trap heat in the atmosphere, contributing to global warming."
+    },
+    {
+      "word": "reforestation",
+      "meaning": "The process of replanting trees in a deforested area to restore the ecosystem."
+    },
+    {
+      "word": "sustainable",
+      "meaning": "Methods that do not deplete resources or harm the environment."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on key terms related to climate change and their implications. Pay attention to the specific effects mentioned and the solutions proposed, as these will help you answer the questions accurately. Use skimming techniques for understanding main ideas and scanning for specific details.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

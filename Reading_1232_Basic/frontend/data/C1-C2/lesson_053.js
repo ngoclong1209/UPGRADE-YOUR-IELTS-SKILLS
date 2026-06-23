@@ -1,0 +1,79 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_053",
+  "title": "The Melting Point: Understanding the Impacts of Climate Change",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Accelerating Crisis of Climate Change</h2><p>The phenomenon of climate change, characterized by the gradual but relentless increase in global temperatures, poses a formidable challenge to ecosystems and human societies alike. Scientific consensus indicates that anthropogenic activities, particularly the burning of fossil fuels, are the primary catalysts behind this alarming trend. As greenhouse gas emissions continue to rise, the consequences manifest in an array of forms, from extreme weather events to the destabilization of agricultural systems. This passage examines the intricate relationships between human actions and climatic alterations, emphasizing the urgent need for concerted global efforts to mitigate these impacts.</p><p>One of the most striking consequences of climate change is the rise in sea levels, a direct result of polar ice melt and the thermal expansion of seawater. Coastal regions, home to millions, face the dual threats of flooding and erosion, leading to detrimental socio-economic ramifications. Moreover, the displacement of communities due to rising waters raises profound ethical and humanitarian concerns. While some nations possess the resources to adapt, others lack the infrastructure necessary for resilience against these changes, further exacerbating global inequalities.</p><p>In addition, the disruptions in weather patterns have far-reaching implications for food security. Crop yields are increasingly volatile, influenced by erratic rainfall and shifting climatic zones. As agricultural productivity declines, the specter of famine looms, particularly in vulnerable regions already grappling with poverty. This highlights the intersection of environmental issues with socio-economic factors, necessitating a multidisciplinary approach to address the challenges posed by climate change effectively.</p><p>Furthermore, the psychological impact of climate change cannot be overlooked. The phenomenon has not only triggered physical alterations to the Earth but has also induced a pervasive sense of anxiety and hopelessness among populations. Mental health experts argue that the uncertainty surrounding climate futures contributes to a collective trauma that can hinder proactive engagement in climate action. Recognizing this psychological dimension is crucial in fostering resilience and mobilizing communities toward sustainable practices.</p><p>In conclusion, the urgency of addressing climate change transcends environmental discourse; it is a multifaceted issue that intertwines ecological, economic, and psychological threads. Only through a unified global response, encompassing policy innovation and community engagement, can humanity hope to navigate the perilous waters of climate change and secure a sustainable future for generations to come.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary cause of climate change as discussed in the passage?",
+      "options": {
+        "A": "Natural climate cycles",
+        "B": "Human activities involving fossil fuels",
+        "C": "Solar radiation fluctuations",
+        "D": "Deforestation practices"
+      },
+      "answer": "B",
+      "explanation": "The passage explicitly states that 'anthropogenic activities, particularly the burning of fossil fuels, are the primary catalysts behind this alarming trend,' which confirms option B as correct."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Coastal regions are well-equipped to handle the rising sea levels caused by climate change.",
+      "answer": "False",
+      "explanation": "The passage indicates that 'some nations possess the resources to adapt,' implying that many do not, making the statement false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer 'Yes', 'No', or 'Not Given'.",
+      "text": "The passage suggests that mental health issues related to climate change are recognized by experts.",
+      "answer": "Yes",
+      "explanation": "The passage mentions that 'mental health experts argue that the uncertainty surrounding climate futures contributes to a collective trauma,' confirming that such issues are recognized."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following consequences of climate change with their descriptions.",
+      "options": {
+        "A": "Rising sea levels",
+        "B": "Disruption of food security",
+        "C": "Psychological impact",
+        "D": "Economic ramifications"
+      },
+      "descriptions": {
+        "1": "Leads to community displacement.",
+        "2": "Causes crop yield volatility.",
+        "3": "Induces a sense of anxiety among populations.",
+        "4": "Results in flooding and erosion."
+      },
+      "answer": {
+        "A": "4",
+        "B": "2",
+        "C": "3",
+        "D": "1"
+      },
+      "explanation": "Each consequence has a corresponding description that aligns with the details provided in the passage."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "anthropogenic",
+      "meaning": "resulting from the influence of human beings on nature"
+    },
+    {
+      "word": "volatility",
+      "meaning": "the quality of being subject to rapid and unpredictable change"
+    },
+    {
+      "word": "resilience",
+      "meaning": "the capacity to recover quickly from difficulties; toughness"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel at this passage, focus on understanding the main arguments and nuances presented. Pay close attention to the relationships between the causes and effects of climate change, as well as the implications discussed in each section. Practice skimming for key ideas and scanning for specific details to improve your efficiency in answering questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

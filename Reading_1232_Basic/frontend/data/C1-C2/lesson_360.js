@@ -1,0 +1,114 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_360",
+  "title": "The Impact of Nutrition on Mental Health",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Role of Nutritional Psychiatry</h2><p>In recent years, there has been a growing recognition of the profound connection between diet and mental health. Nutritional psychiatry, an emerging field, posits that the foods we consume can significantly influence our cognitive function and emotional well-being. Research indicates that diets rich in whole foods, including fruits, vegetables, whole grains, and lean proteins, correlate with lower incidences of depression and anxiety. Conversely, diets high in processed foods and sugars have been linked to an increased risk of mental health disorders.</p><p>One pivotal study conducted by Dr. Felice Jacka and her team examined the dietary patterns of over 1,000 participants. The findings revealed that those adhering to a Mediterranean diet – characterized by high intake of plant-based foods and healthy fats – exhibited markedly improved mood and cognitive performance. Furthermore, the participants who improved their diet over the study period reported significant enhancements in their mental health, suggesting a bidirectional relationship between nutrition and psychological wellness.</p><p>Despite these promising findings, the implications of nutritional psychiatry extend beyond individual dietary changes. Public health initiatives aimed at promoting healthier eating habits are essential in addressing the rising tide of mental health issues globally. Such initiatives could include educational programs about the benefits of nutrition for mental health and improved access to fresh produce in underserved communities.</p><p>In conclusion, the intricate interplay between diet and mental health underscores the necessity for a multidisciplinary approach to mental health treatment, one that incorporates dietary considerations as a fundamental component. As the body of evidence continues to grow, it is imperative that clinicians and policy-makers recognize the critical role nutrition plays in fostering mental well-being.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary focus of nutritional psychiatry according to the passage?",
+      "options": {
+        "A": "The relationship between diet and physical health.",
+        "B": "The link between nutrition and mental well-being.",
+        "C": "The impact of exercise on mental health.",
+        "D": "The effects of medication on dietary habits."
+      },
+      "answer": "B",
+      "explanation": "The passage explicitly states that nutritional psychiatry focuses on how the foods we consume can influence our cognitive function and emotional well-being, making option B the correct answer."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "A Mediterranean diet has no impact on mood according to Dr. Jacka's study.",
+      "answer": "False",
+      "explanation": "The passage mentions that individuals adhering to a Mediterranean diet exhibited improved mood and cognitive performance, thus the statement is False."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Choose Yes, No, or Not Given.",
+      "text": "The passage suggests that improving one’s diet can lead to better mental health.",
+      "answer": "Yes",
+      "explanation": "The passage states that participants who improved their diet reported significant enhancements in their mental health, indicating that the statement is true."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the studies to their findings.",
+      "text": "Match the research study with its corresponding conclusion.",
+      "options": {
+        "A": "Dr. Jacka's study",
+        "B": "Public health initiatives",
+        "C": "Impact of processed foods"
+      },
+      "results": {
+        "1": "Linked to increased risk of mental health disorders.",
+        "2": "Improved mood and cognitive performance.",
+        "3": "Essential for addressing mental health issues."
+      },
+      "answer": {
+        "A": "2",
+        "B": "3",
+        "C": "1"
+      },
+      "explanation": "Dr. Jacka's study showed a positive correlation between the Mediterranean diet and mental health, while the other options correspond to the findings on processed foods and the need for public health initiatives."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "text": "Match the following headings to the appropriate paragraphs.",
+      "headings": {
+        "A": "The necessity of public health initiatives",
+        "B": "Nutritional Psychiatry: An Overview",
+        "C": "Research Findings on Diet and Mental Health",
+        "D": "The Interrelationship between Diet and Mental Health"
+      },
+      "paragraphs": {
+        "1": "Paragraph discussing the growing recognition of diet's impact on mental health.",
+        "2": "Paragraph detailing Dr. Jacka's research and its implications.",
+        "3": "Paragraph emphasizing the importance of initiatives to promote healthy eating.",
+        "4": "Paragraph summarizing the overall conclusions drawn from the research."
+      },
+      "answer": {
+        "1": "B",
+        "2": "C",
+        "3": "A",
+        "4": "D"
+      },
+      "explanation": "Each heading is matched to the main idea of the respective paragraph, providing a clear insight into the structure of the passage."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "Nutritional psychiatry highlights the link between diet and __________.",
+      "answer": "mental health",
+      "explanation": "The passage discusses how the field focuses on the connection between diet and mental health, making 'mental health' the correct completion."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "cognitive",
+      "meaning": "relating to the mental processes of perception, memory, judgment, and reasoning."
+    },
+    {
+      "word": "correlate",
+      "meaning": "to show a relationship or connection between two or more things."
+    },
+    {
+      "word": "bidirectional",
+      "meaning": "having two reciprocal or complementary directions."
+    },
+    {
+      "word": "multidisciplinary",
+      "meaning": "involving multiple academic disciplines or fields of study."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the relationships between diet and mental health. Take note of the studies mentioned and how they support the author's arguments. Look for paraphrased information in the questions to strengthen your comprehension and ensure you can differentiate between implied and explicitly stated information.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

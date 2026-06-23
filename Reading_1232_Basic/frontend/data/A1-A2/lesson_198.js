@@ -1,0 +1,79 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_198",
+  "title": "The Internet: A Tool for Everyone",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>The Internet in Our Lives</h2><p>The internet is very important in modern society. It helps people connect with friends and family. Many people use the internet to find information. For example, students can learn new things online. They can watch videos and read articles.</p><p>Shopping is easy with the internet. People can buy clothes, food, and books from home. They do not need to go to the store. This saves time and effort.</p><p>Social media is also popular. People share pictures and news with others. It is a fun way to stay in touch. However, it is important to be safe online. People should not share personal information with strangers.</p><p>In conclusion, the internet is a useful tool. It makes our lives easier and more enjoyable.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What can students do online?",
+      "options": {
+        "A": "Learn new things",
+        "B": "Buy clothes",
+        "C": "Play video games",
+        "D": "Watch movies"
+      },
+      "answer": "A",
+      "explanation": "Students can learn new things online as mentioned in the passage."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one benefit of shopping online?",
+      "options": {
+        "A": "It is cheaper",
+        "B": "It is easier",
+        "C": "It is faster",
+        "D": "It is more fun"
+      },
+      "answer": "B",
+      "explanation": "The passage states that shopping online is easy and saves time."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "People should share personal information with strangers.",
+      "answer": "False"
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "The internet is not useful.",
+      "answer": "False"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "text": "Social media is a way to connect with others.",
+      "answer": "True"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "connect",
+      "meaning": "to join or link together"
+    },
+    {
+      "word": "information",
+      "meaning": "facts or details about something"
+    },
+    {
+      "word": "shopping",
+      "meaning": "the act of buying things"
+    },
+    {
+      "word": "social media",
+      "meaning": "websites and apps that allow people to share content"
+    },
+    {
+      "word": "personal",
+      "meaning": "related to a specific person"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully. Look for key information in each paragraph. Pay attention to details about what people can do on the internet and the benefits of using it. Use the vocabulary to help understand the main ideas.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

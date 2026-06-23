@@ -1,0 +1,87 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_649",
+  "title": "The Dual Facets of Tourism: Opportunities and Consequences",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Complex Dynamics of Tourism</h2><p>Tourism is a multifaceted phenomenon that encompasses a range of activities, experiences, and impacts on both local and global scales. While it serves as a significant economic driver in many regions, its implications extend far beyond mere financial gain. On one hand, tourism has the potential to foster cultural exchange, enhance community development, and promote environmental awareness. On the other hand, it can lead to detrimental effects such as environmental degradation, cultural erosion, and the displacement of local populations.</p><p>In recent years, the discourse surrounding sustainable tourism has gained traction, emphasizing the necessity of balancing economic benefits with social and environmental responsibilities. This approach advocates for a holistic understanding of tourism that recognizes the intricate interdependencies between visitors and host communities. For instance, when tourists flock to a destination, they not only contribute to the local economy but also influence social structures and environmental conditions. The challenge lies in managing these interactions to ensure that tourism development does not come at the expense of local integrity and environmental health.</p><p>Moreover, the rise of digital platforms has transformed the tourism landscape, enabling greater accessibility and fostering a new wave of tourism models, including ecotourism and agritourism. These models aim to enhance visitor engagement while promoting sustainable practices that benefit local communities. However, the effectiveness of these initiatives often hinges on the genuine commitment of stakeholders, including governments, businesses, and tourists themselves, to uphold ethical tourism practices.</p><p>As we navigate the complexities of tourism's impacts, it becomes imperative to critically assess not only the economic metrics but also the broader implications for society and the environment. This involves a concerted effort to implement policies that safeguard cultural heritage, protect natural resources, and ensure that the benefits of tourism are equitably distributed among all stakeholders involved.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern of sustainable tourism as discussed in the passage?",
+      "options": {
+        "A": "Maximizing economic profits for local businesses",
+        "B": "Balancing economic growth with social and environmental responsibilities",
+        "C": "Encouraging cultural exchange between tourists and locals",
+        "D": "Increasing accessibility to tourism destinations through digital platforms"
+      },
+      "answer": "B",
+      "explanation": "The passage highlights the need for a holistic understanding of tourism that balances economic benefits with social and environmental responsibilities, confirming that B is the correct answer."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "Tourism is solely beneficial to local economies without any negative impacts.",
+      "answer": "False",
+      "explanation": "The passage clearly states that while tourism can boost local economies, it also leads to negative impacts such as environmental degradation and cultural erosion."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer 'Yes', 'No' or 'Not Given'.",
+      "text": "The passage suggests that digital platforms have no impact on tourism models.",
+      "answer": "No",
+      "explanation": "The passage indicates that digital platforms have transformed the tourism landscape, thus suggesting they do have an impact."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following impacts with their descriptions.",
+      "text": "",
+      "options": {
+        "A": "Cultural erosion",
+        "B": "Economic benefits",
+        "C": "Environmental degradation",
+        "D": "Community development"
+      },
+      "descriptions": {
+        "1": "Occurs when traditional practices are lost due to outside influences.",
+        "2": "Results in increased income for local businesses.",
+        "3": "Leads to destruction of natural habitats.",
+        "4": "Promotes local engagement and infrastructure improvements."
+      },
+      "answers": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "4"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "multifaceted",
+      "meaning": "having many aspects or features"
+    },
+    {
+      "word": "detrimental",
+      "meaning": "causing harm or damage"
+    },
+    {
+      "word": "interdependencies",
+      "meaning": "mutual reliance between groups or entities"
+    },
+    {
+      "word": "ecotourism",
+      "meaning": "responsible travel to natural areas that conserves the environment"
+    },
+    {
+      "word": "equitable",
+      "meaning": "fair and impartial"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the nuances between the positive and negative impacts of tourism. Pay close attention to the author's tone and purpose, particularly in how they frame the discussion around sustainable tourism. Skim for main ideas and scan for specific details that may help answer the questions. Remember that some questions may require inference beyond the text's explicit words.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

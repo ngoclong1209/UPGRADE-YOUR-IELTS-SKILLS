@@ -1,0 +1,74 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_190",
+  "title": "Balancing Nutrition: The Key to a Healthy Lifestyle",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Importance of a Balanced Diet</h2><p>A balanced diet is essential for maintaining good health and well-being. It provides the body with the necessary nutrients to function correctly. A balanced diet includes a variety of foods from all food groups: fruits, vegetables, proteins, dairy, and grains. Each of these groups offers different nutrients that are vital for the body.</p><p>Fruits and vegetables are rich in vitamins and minerals. They are low in calories and high in fiber, making them crucial for weight management. Proteins, found in meat, fish, beans, and nuts, are the building blocks of the body. They help repair tissues and are essential for growth. Dairy products provide calcium, which is important for strong bones. Grains, especially whole grains, offer energy and essential carbohydrates.</p><p>Moreover, it is important to limit the intake of saturated fats, sugars, and salt. Consuming too much of these can lead to health problems such as obesity, heart disease, and diabetes. Instead, choosing healthy fats like those from avocados and nuts can support heart health.</p><p>In conclusion, a balanced diet is not only about eating the right foods but also about moderation. By incorporating a variety of foods and being mindful of portion sizes, individuals can lead healthier lives.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a key component of fruits and vegetables?",
+      "options": {
+        "A": "High in calories",
+        "B": "Rich in vitamins and minerals",
+        "C": "Contains protein",
+        "D": "High in sugars"
+      },
+      "answer": "B",
+      "explanation": "The passage states that fruits and vegetables are rich in vitamins and minerals, making option B the correct choice."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why should one limit saturated fats according to the passage?",
+      "options": {
+        "A": "They provide essential nutrients.",
+        "B": "They can lead to health problems.",
+        "C": "They are necessary for growth.",
+        "D": "They are found in fruits."
+      },
+      "answer": "B",
+      "explanation": "The passage mentions that consuming too much saturated fats can lead to health problems, making option B correct."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "A balanced diet includes only fruits and vegetables.",
+      "answer": "False",
+      "explanation": "The passage explains that a balanced diet includes a variety of foods from all food groups, not just fruits and vegetables."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "Dairy products are important for strong bones.",
+      "answer": "True",
+      "explanation": "The passage states that dairy products provide calcium, which is important for strong bones."
+    },
+    {
+      "id": "q5",
+      "type": "yes_no_not_given",
+      "text": "The author believes that moderation is important in a diet.",
+      "answer": "Yes",
+      "explanation": "The passage concludes that a balanced diet is about moderation, indicating the author's belief."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "moderation",
+      "meaning": "the quality of being moderate; avoidance of extremes."
+    },
+    {
+      "word": "nutrients",
+      "meaning": "substances that provide nourishment essential for growth and the maintenance of life."
+    },
+    {
+      "word": "saturated fats",
+      "meaning": "fats that are typically solid at room temperature and can contribute to health issues when consumed excessively."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When answering questions, look for keywords in the questions and try to find their synonyms in the passage. Pay attention to the structure of the passage as it often helps in locating the answers quickly.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

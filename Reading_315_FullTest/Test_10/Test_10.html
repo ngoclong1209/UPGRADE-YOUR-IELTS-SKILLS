@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Full Test - Test_10</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=DynaPuff:wght@400..700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0; padding: 0; font-family: 'Quicksand', sans-serif;
+            background: #fdf2f8; color: #333; overflow-x: hidden;
+        }
+        .main-layout {
+            display: flex; height: 100vh; overflow: hidden;
+        }
+        .passage-pane {
+            flex: 6; overflow-y: auto; padding: 30px;
+            background: white; margin: 10px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            font-size: 1.15rem; line-height: 1.8;
+            padding-bottom: 100px; /* For audio player */
+        }
+        .answer-pane {
+            flex: 4; overflow-y: auto; padding: 30px;
+            background: linear-gradient(145deg, #ffffff, #fff0f5);
+            margin: 10px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .q-row {
+            display: flex; align-items: center; margin-bottom: 15px;
+            background: white; padding: 10px 15px; border-radius: 12px;
+            border: 2px solid #ffccd5;
+        }
+        .q-num {
+            font-weight: bold; color: #ff85a2; font-size: 1.2rem;
+            width: 40px;
+        }
+        .q-input {
+            flex: 1; border: none; outline: none; font-size: 1.1rem;
+            font-family: 'Quicksand', sans-serif;
+            border-bottom: 2px dashed #ffccd5; background: transparent;
+            padding: 5px;
+        }
+        .q-input:focus { border-bottom: 2px solid #ff85a2; }
+        .submit-btn {
+            width: 100%; padding: 18px; font-size: 1.2rem; color: white;
+            background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            border: none; border-radius: 25px; cursor: pointer; font-weight: 700;
+            margin-top: 20px; box-shadow: 0 10px 20px rgba(255,94,126,0.3);
+            font-family: 'Quicksand', sans-serif;
+        }
+        .audio-fixed-bottom {
+            position: fixed; bottom: 0; left: 0; width: 60%;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px);
+            padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            border-top-right-radius: 20px; z-index: 1000;
+        }
+        audio { width: 100%; outline: none; }
+        /* LOGIN OVERLAY CSS */
+        
+        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
+        .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
+        .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
+        .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+
+    </style>
+</head>
+<body>
+    
+    <div class="login-overlay" id="login-overlay">
+        <div class="login-box">
+            <div class="login-header">🍭 Study Room 🍭</div>
+            <div class="login-subheader">Hệ thống: 315 bài thi Reading Full Test ✨</div>
+            <div id="login-form-fields">
+                <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
+                <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
+            </div>
+            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="main-layout" style="display: none;">
+        <div class="passage-pane">
+            <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_10</h1>
+            <p>IELTS Reading Practice - Test 10</p>
+<p>Making Time for Science</p>
+<p>Chronobiology might sound a little futuristic – like something from a science fiction novel, perhaps – but it’s actually a field of study that concerns one of the oldest processes life on this planet has ever known: short-term rhythms of time and their effect on flora and fauna.</p>
+<p>This can take many forms. Marine life, for example, is influenced by tidal patterns. Animals tend to be active or inactive depending on the position of the sun or moon. Numerous creatures, humans included, are largely diurnal – that is, they like to come out during the hours of sunlight. Nocturnal animals, such as bats and possums, prefer to forage by night. A third group are known as crepuscular: they thrive in the low- light of dawn and dusk and remain inactive at other hours.</p>
+<p>When it comes to humans, chronobiologists are interested in what is known as the circadian rhythm. This is the complete cycle our bodies are naturally geared to undergo within the passage of a twenty-four hour day. Aside from sleeping at night and waking during the day, each cycle involves many other factors such as changes in blood pressure and body temperature. Not everyone has an identical circadian rhythm. ‘Night people’, for example, often describe how they find it very hard to operate during the morning, but become alert and focused by evening. This is a benign variation within circadian rhythms known as a chronotype.</p>
+<p>Scientists have limited abilities to create durable modifications of chronobiological demands. Recent therapeutic developments for humans such as artificial light machines and melatonin administration can reset our circadian rhythms, for example, but our bodies can tell the difference and health suffers when we breach these natural rhythms for extended periods of time. Plants appear no more malleable in this respect; studies demonstrate that vegetables grown in season and ripened on the tree are far higher in essential nutrients than those grown in greenhouses and ripened by laser.</p>
+<p>Knowledge of chronobiological patterns can have many pragmatic implications for our day-to-day lives. While contemporary living can sometimes appear to subjugate biology – after all, who needs circadian rhythms when we have caffeine pills, energy drinks, shift work and cities that never sleep? – keeping in synch with our body clock is important.</p>
+<p>The average urban resident, for example, rouses at the eye-blearing time of 6.04 a.m., which researchers believe to be far too early. One study found that even rising at 7.00 a.m. has deleterious effects on health unless exercise is performed for 30 minutes afterward. The optimum moment has been whittled down to 7.22 a.m.; muscle aches, headaches and moodiness were reported to be lowest by participants in the study who awoke then.</p>
+<p>Once you’re up and ready to go, what then? If you’re trying to shed some extra pounds, dieticians are adamant: never skip breakfast. This disorients your circadian rhythm and puts your body in starvation mode. The recommended course of action is to follow an intense workout with a carbohydrate-rich breakfast; the other way round and weight loss results are not as pronounced.</p>
+<p>Morning is also great for breaking out the vitamins. Supplement absorption by the body is not temporal-dependent, but naturopath Pam Stone notes that the extra boost at breakfast helps us get energised for the day ahead. For improved absorption, Stone suggests pairing supplements with a food in which they are soluble and steering clear of caffeinated beverages. Finally, Stone warns to take care with storage; high potency is best for absorption, and warmth and humidity are known to deplete the potency of a supplement.</p>
+<p>After-dinner espressos are becoming more of a tradition – we have the Italians to thank for that – but to prepare for a good night’s sleep we are better off putting the brakes on caffeine consumption as early as 3 p.m. With a seven hour half-life, a cup of coffee containing 90 mg of caffeine taken at this hour could still leave 45 mg of caffeine in your nervous system at ten o’clock that evening. It is essential that, by the time you are ready to sleep, your body is rid of all traces.</p>
+<p>Evenings are important for winding down before sleep; however, dietician Geraldine Georgeou warns that an after-five carbohydrate-fast is more cultural myth than chronobiological demand. This will deprive your body of vital energy needs. Overloading your gut could lead to indigestion, though. Our digestive tracts do not shut down for the night entirely, but their work slows to a crawl as our bodies prepare for sleep. Consuming a modest snack should be entirely sufficient.</p>
+<p>Questions 1-7
+
+Do the following statements agree with the information given in Reading Passage 1? In boxes 1-7 on your answer sheet, write</p>
+<p>TRUE                    if the statement agrees with the information
+
+FALSE                  if the statement contradicts the information
+
+NOT GIVEN       if there is no information on this</p>
+<p>1 Chronobiology is the study of how living things have evolved over time.
+
+2 The rise and fall of sea levels affects how sea creatures behave.
+
+3 Most animals are active during the daytime.
+
+4 Circadian rhythms identify how we do different things on different days.
+
+5 A ‘night person’ can still have a healthy circadian rhythm.
+
+6 New therapies can permanently change circadian rhythms without causing harm.
+
+7 Naturally-produced vegetables have more nutritional value.</p>
+<p>Questions 8-13
+
+Choose the correct letter, A, B, C or D.
+
+Write the correct letter in boxes 8-13 on your answer sheet.</p>
+<p>8 What did researchers identify as the ideal time to wake up in the morning?
+
+A 6.04
+
+B 7.00
+
+C 7.22
+
+D 7.30</p>
+<p>9 In order to lose weight, we should
+
+A avoid eating breakfast
+
+B eat a low carbohydrate breakfast
+
+C exercise before breakfast
+
+D exercise after breakfast</p>
+<p>10 Which is NOT mentioned as a way to improve supplement absorption?
+
+A avoiding drinks containing caffeine while taking supplements
+
+B taking supplements at breakfast
+
+C taking supplements with foods that can dissolve them
+
+D storing supplements in a cool, dry environment</p>
+<p>11 The best time to stop drinking coffee is
+
+A mid-afternoon
+
+B 10 p.m.
+
+C only when feeling anxious
+
+D after dinner</p>
+<p>12 In the evening, we should
+
+A stay away from carbohydrates
+
+B stop exercising
+
+C eat as much as possible
+
+D eat a light meal</p>
+<p>13 Which of the following phrases best describes the main aim of Reading Passage 1?
+
+A to suggest healthier ways of eating, sleeping and exercising
+
+B to describe how modern life has made chronobiology largely irrelevant
+
+C to introduce chronobiology and describe some practical applications
+
+D to plan a daily schedule that can alter our natural chronobiological rhythms</p>
+<p>Cambridge IELTS Test 1 to 17</p>
+<p>The Triune Brain</p>
+<p>The first of our three brains to evolve is what scientists call the reptilian cortex. This brain sustains the elementary activities of animal survival such as respiration, adequate rest and a beating heart. We are not required to consciously “think” about these activities. The reptilian cortex also houses the “startle centre”, a mechanism that facilitates swift reactions to unexpected occurrences in our surroundings. That panicked lurch you experience when a door slams shut somewhere in the house, or the heightened awareness you feel when a twig cracks in a nearby bush while out on an evening stroll are both examples of the reptilian cortex at work. When it comes to our interaction with others, the reptilian brain offers up only the most basic impulses: aggression, mating, and territorial defence. There is no great difference, in this sense, between a crocodile defending its spot along the river and a turf war between two urban gangs.</p>
+<p>Although the lizard may stake a claim to its habitat, it exerts total indifference toward the well-being of its young. Listen to the anguished squeal of a dolphin separated from its pod or witness the sight of elephants mourning their dead, however, and it is clear that a new development is at play. Scientists have identified this as the limbic cortex. Unique to mammals, the limbic cortex impels creatures to nurture their offspring by delivering feelings of tenderness and warmth to the parent when children are nearby. These same sensations also cause mammals to develop various types of social relations and kinship networks. When we are with others of “our kind” – be it at soccer practice, church, school or a nightclub – we experience positive sensations of togetherness, solidarity and comfort. If we spend too long away from these networks, then loneliness sets in and encourages us to seek companionship.</p>
+<p>Only human capabilities extend far beyond the scope of these two cortexes. Humans eat, sleep and play, but we also speak, plot, rationalise and debate finer points of morality. Our unique abilities are the result of an expansive third brain – the neocortex – which engages with logic, reason and ideas. The power of the neocortex comes from its ability to think beyond the present, concrete moment. While other mammals are mainly restricted to impulsive actions (although some, such as apes, can learn and remember simple lessons), humans can think about the “big picture”. We can string together simple lessons (for example, an apple drops downwards from a tree; hurting others causes unhappiness) to develop complex theories of physical or social phenomena (such as the laws of gravity and a concern for human rights).</p>
+<p>The neocortex is also responsible for the process by which we decide on and commit to particular courses of action. Strung together over time, these choices can accumulate into feats of progress unknown to other animals. Anticipating a better grade on the following morning’s exam, a student can ignore the limbic urge to socialise and go to sleep early instead. Over three years, this ongoing sacrifice translates into a first class degree and a scholarship to graduate school; over a lifetime, it can mean ground¬breaking contributions to human knowledge and development. The ability to sacrifice our drive for immediate satisfaction in order to benefit later is a product of the neocortex.</p>
+<p>Understanding the triune brain can help us appreciate the different natures of brain damage and psychological disorders. The most devastating form of brain damage, for example, is a condition in which someone is understood to be brain dead. In this state a person appears merely unconscious – sleeping, perhaps – but this is illusory. Here, the reptilian brain is functioning on autopilot despite the permanent loss of other cortexes.</p>
+<p>Disturbances to the limbic cortex are registered in a different manner. Pups with limbic damage can move around and feed themselves well enough but do not register the presence of their littermates. Scientists have observed how, after a limbic lobotomy ,“one impaired monkey stepped on his outraged peers as if treading on a log or a rock”. In our own species, limbic damage is closely related to sociopathic behaviour. Sociopaths in possession of fully-functioning neocortexes are often shrewd and emotionally intelligent people but lack any ability to relate to, empathise with or express concern for others.</p>
+<p>One of the neurological wonders of history occurred when a railway worker named Phineas Gage survived an incident during which a metal rod skewered his skull, taking a considerable amount of his neocortex with it. Though Gage continued to live and work as before, his fellow employees observed a shift in the equilibrium of his personality. Gage’s animal propensities were now sharply pronounced while his intellectual abilities suffered; garrulous or obscene jokes replaced his once quick wit. New findings suggest, however, that Gage managed to soften these abrupt changes over time and rediscover an appropriate social manner. This would indicate that reparative therapy has the potential to help patients with advanced brain trauma to gain an improved quality of life.</p>
+<p>Questions 14-22
+
+Classify the following as typical of
+
+A the reptilian cortex
+
+B the limbic cortex
+
+C the neocortex</p>
+<p>Write the correct letter, A, B or C, in boxes 14-22 on your answer sheet.</p>
+<p>14 giving up short-term happiness for future gains
+
+15 maintaining the bodily functions necessary for life
+
+16 experiencing the pain of losing another
+
+17 forming communities and social groups
+
+18 making a decision and carrying it out
+
+19 guarding areas of land
+
+20 developing explanations for things
+
+21 looking after one’s young
+
+22 responding quickly to sudden movement and noise</p>
+<p>Questions 23-26
+
+Complete the sentences below. Write NO MORE THAN TWO WORDS from the passage for each answer. Write your answers in boxes 23-26 on your answer sheet.</p>
+<p>23 A person with only a functioning reptilian cortex is known as…………………
+
+24 …………………………in humans is associated with limbic disruption.
+
+25 An industrial accident caused Phineas Gage to lose part of his……………………….
+
+26 After his accident, co-workers noticed an imbalance between Gage’s…………………………….and higher-order thinking.</p>
+<p>HELIUM’S FUTURE UP IN THE AIR</p>
+<p>A In recent years we have all been exposed to dire media reports concerning the impending demise of global coal and oil reserves, but the depletion of another key non-renewable resource continues without receiving much press at all. Helium – an inert, odourless, monatomic element known to lay people as the substance that makes balloons float and voices squeak when inhaled – could be gone from this planet within a generation.</p>
+<p>B Helium itself is not rare; there is actually a plentiful supply of it in the cosmos. In fact, 24 per cent of our galaxy’s elemental mass consists of helium, which makes it the second most abundant element in our universe. Because of its lightness, however, most helium vanished from our own planet many years ago. Consequently, only a miniscule proportion – 0.00052%, to be exact – remains in earth’s atmosphere. Helium is the by¬product of millennia of radioactive decay from the elements thorium and uranium. The helium is mostly trapped in subterranean natural gas bunkers and commercially extracted through a method known as fractional distillation.</p>
+<p>C The loss of helium on Earth would affect society greatly. Defying the perception of it as a novelty substance for parties and gimmicks, the element actually has many vital applications in society. Probably the most well known commercial usage is in airships and blimps (non-flammable helium replaced hydrogen as the lifting gas du jour after the Hindenburg catastrophe in 1932, during which an airship burst into flames and crashed to the ground killing some passengers and crew). But helium is also instrumental in deep-sea diving, where it is blended with nitrogen to mitigate the dangers of inhaling ordinary air under high pressure; as a cleaning agent for rocket engines; and, in its most prevalent use, as a coolant for superconducting magnets in hospital MRI (magnetic resonance imaging) scanners.</p>
+<p>D The possibility of losing helium forever poses the threat of a real crisis because its unique qualities are extraordinarily difficult, if not impossible to duplicate (certainly, no biosynthetic ersatz product is close to approaching the point of feasibility for helium, even as similar developments continue apace for oil and coal). Helium is even cheerfully derided as a “loner” element since it does not adhere to other molecules like its cousin, hydrogen. According to Dr. Lee Sobotka, helium is the “most noble of gases, meaning it’s very stable and non-reactive for the most part … it has a closed electronic configuration, a very tightly bound atom. It is this coveting of its own electrons that prevents combination with other elements’. Another important attribute is helium’s unique boiling point, which is lower than that for any other element. The worsening global shortage could render millions of dollars of high-value, life-saving equipment totally useless. The dwindling supplies have already resulted in the postponement of research and development projects in physics laboratories and manufacturing plants around the world. There is an enormous supply and demand imbalance partly brought about by the expansion of high-tech manufacturing in Asia.</p>
+<p>E The source of the problem is the Helium Privatisation Act (HPA), an American law passed in 1996 that requires the U.S. National Helium Reserve to liquidate its helium assets by 2015 regardless of the market price. Although intended to settle the original cost of the reserve by a U.S. Congress ignorant of its ramifications, the result of this fire sale is that global helium prices are so artificially deflated that few can be bothered recycling the substance or using it judiciously. Deflated values also mean that natural gas extractors see no reason to capture helium. Much is lost in the process of extraction. As Sobotka notes: “[t]he government had the good vision to store helium, and the question now is: Will the corporations have the vision to capture it when extracting natural gas, and consumers the wisdom to recycle? This takes long-term vision because present market forces are not sufficient to compel prudent practice”. For Nobel-prize laureate Robert Richardson, the U.S. government must be prevailed upon to repeal its privatisation policy as the country supplies over 80 per cent of global helium, mostly from the National Helium Reserve. For Richardson, a twenty- to fifty-fold increase in prices would provide incentives to recycle.</p>
+<p>F A number of steps need to be taken in order to avert a costly predicament in the coming decades. Firstly, all existing supplies of helium ought to be conserved and released only by permit, with medical uses receiving precedence over other commercial or recreational demands. Secondly, conservation should be obligatory and enforced by a regulatory agency. At the moment some users, such as hospitals, tend to recycle diligently while others, such as NASA, squander massive amounts of helium. Lastly, research into alternatives to helium must begin in earnest.</p>
+<p>Questions 27-31
+
+Reading Passage 3 has six paragraphs, A-F.</p>
+<p>Which paragraph contains the following information?</p>
+<p>27 a use for helium which makes an activity safer
+
+28 the possibility of creating an alternative to helium
+
+29 a term which describes the process of how helium is taken out of the ground
+
+30 a reason why users of helium do not make efforts to conserve it
+
+31 a contrast between helium’s chemical properties and how non-scientists think about it</p>
+<p>Questions 32-35
+
+Do the following statements agree with the claims of the writer in Reading Passage 3? In boxes 32-35 on your answer sheet, write</p>
+<p>YES                              if the statement agrees with the claims of the writer
+
+NO                                if the statement contradicts the claims of the writer
+
+NOT GIVEN              if it is impossible to say what the writer thinks about this</p>
+<p>32 Helium chooses to be on its own.
+
+33 Helium is a very cold substance.
+
+34 High-tech industries in Asia use more helium than laboratories and manufacturers in other parts of the world.
+
+35 The US Congress understood the possible consequences of the HPA.</p>
+<p>Questions 36-40
+
+Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+<p>Sobotka argues that big business and users of helium need to help look after helium stocks because (36)………………… will not be encouraged through buying and selling alone. Richardson believes that the (37)………………………….needs to be withdrawn, as the U.S. provides most of the world’s helium. He argues that higher costs would mean people have (38)…………………………. to use the resource many times over.</p>
+<p>People should need a (39)……………………………… to access helium that we still have. Furthermore, a (40)………………………….. should ensure that helium is used carefully.</p>
+<p>_______  _______</p>
+<p>ANSWER KEY</p>
+<p>1. false</p>
+<p>2. true</p>
+<p>3. not given</p>
+<p>4. false</p>
+<p>5. true</p>
+<p>6. false</p>
+<p>7. true</p>
+<p>8. C</p>
+<p>9. C</p>
+<p>10. B</p>
+<p>11. A</p>
+<p>12. D</p>
+<p>13. C</p>
+<p>14. C</p>
+<p>15. A</p>
+<p>16. B</p>
+<p>17. B</p>
+<p>18. C</p>
+<p>19. A</p>
+<p>20. C</p>
+<p>21. B</p>
+<p>22. A</p>
+<p>23. brain dead</p>
+<p>24. sociopath behaviour</p>
+<p>25. neocortex</p>
+<p>26. animal propensities</p>
+<p>27. C</p>
+<p>28. D</p>
+<p>29. B</p>
+<p>30. E</p>
+<p>31. A</p>
+<p>32. yes</p>
+<p>33. not given</p>
+<p>34. not given</p>
+<p>35. no</p>
+<p>36. prudent practice</p>
+<p>37. privatization policy</p>
+<p>38. incentives</p>
+<p>39. permit</p>
+<p>40. regulatory agency</p>
+
+        </div>
+        <div class="answer-pane">
+            <h2 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0; text-align: center;">Answers (40 Questions)</h2>
+            <div id="questions-container">
+                
+        <div class="q-row">
+            <div class="q-num">1</div>
+            <input type="text" class="q-input" id="q1" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">2</div>
+            <input type="text" class="q-input" id="q2" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">3</div>
+            <input type="text" class="q-input" id="q3" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">4</div>
+            <input type="text" class="q-input" id="q4" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">5</div>
+            <input type="text" class="q-input" id="q5" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">6</div>
+            <input type="text" class="q-input" id="q6" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">7</div>
+            <input type="text" class="q-input" id="q7" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">8</div>
+            <input type="text" class="q-input" id="q8" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">9</div>
+            <input type="text" class="q-input" id="q9" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">10</div>
+            <input type="text" class="q-input" id="q10" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">11</div>
+            <input type="text" class="q-input" id="q11" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">12</div>
+            <input type="text" class="q-input" id="q12" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">13</div>
+            <input type="text" class="q-input" id="q13" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">14</div>
+            <input type="text" class="q-input" id="q14" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">15</div>
+            <input type="text" class="q-input" id="q15" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">16</div>
+            <input type="text" class="q-input" id="q16" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">17</div>
+            <input type="text" class="q-input" id="q17" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">18</div>
+            <input type="text" class="q-input" id="q18" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">19</div>
+            <input type="text" class="q-input" id="q19" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">20</div>
+            <input type="text" class="q-input" id="q20" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">21</div>
+            <input type="text" class="q-input" id="q21" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">22</div>
+            <input type="text" class="q-input" id="q22" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">23</div>
+            <input type="text" class="q-input" id="q23" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">24</div>
+            <input type="text" class="q-input" id="q24" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">25</div>
+            <input type="text" class="q-input" id="q25" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">26</div>
+            <input type="text" class="q-input" id="q26" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">27</div>
+            <input type="text" class="q-input" id="q27" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">28</div>
+            <input type="text" class="q-input" id="q28" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">29</div>
+            <input type="text" class="q-input" id="q29" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">30</div>
+            <input type="text" class="q-input" id="q30" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">31</div>
+            <input type="text" class="q-input" id="q31" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">32</div>
+            <input type="text" class="q-input" id="q32" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">33</div>
+            <input type="text" class="q-input" id="q33" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">34</div>
+            <input type="text" class="q-input" id="q34" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">35</div>
+            <input type="text" class="q-input" id="q35" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">36</div>
+            <input type="text" class="q-input" id="q36" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">37</div>
+            <input type="text" class="q-input" id="q37" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">38</div>
+            <input type="text" class="q-input" id="q38" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">39</div>
+            <input type="text" class="q-input" id="q39" placeholder="Type answer...">
+        </div>
+        
+        <div class="q-row">
+            <div class="q-num">40</div>
+            <input type="text" class="q-input" id="q40" placeholder="Type answer...">
+        </div>
+        
+            </div>
+            <button class="submit-btn" id="btn-submit">SUBMIT ANSWERS 🌸</button>
+            <div id="result-msg" style="text-align: center; margin-top: 15px; font-weight: bold; color: #2b9348; display: none;"></div>
+        </div>
+    </div>
+
+    
+
+    
+<script>
+    // const APP_URL = "https://script.google.com/macros/s/AKfycbx7lOgaMcHm0ofxpG3V9bi52rMbL7wBXIzAHovP5xBrp9XbyuZp7QNKbSg2-UTJoauyOg/exec";
+    const APP_URL = "https://script.google.com/macros/s/AKfycbzgBPDHt8g35pxQllRcuVTWJq5OaQnuUuQAt93yGs_kqRVOly4Wd1A_jGtgxh5MaKOJMw/exec"; // NEWEST ONE FROM USER
+
+    async function grantAccess() {
+        const input = document.getElementById('nickname-input');
+        let nickname = input ? input.value.trim().toUpperCase() : '';
+        if (!nickname) { alert("Vui lòng nhập ID!"); return; }
+        
+        document.getElementById('login-form-fields').style.display = "none";
+        document.getElementById('login-loading-fields').style.display = "block";
+        document.getElementById('loading-status').innerText = "Đang kiểm tra ID...";
+
+        try {
+            let loginRes = await fetch(APP_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'login', student_id: nickname })
+            });
+            let data = await loginRes.json();
+
+            if (data.status === 'success') {
+                document.getElementById('loading-status').innerText = "Thành công!";
+                setTimeout(() => {
+                    document.getElementById('login-overlay').style.display = "none";
+                    document.querySelector('.main-layout').style.display = "flex";
+                    localStorage.setItem('youpass_student_id', nickname);
+                }, 500);
+            } else {
+                alert("Lỗi: " + data.message);
+                document.getElementById('login-loading-fields').style.display = "none";
+                document.getElementById('login-form-fields').style.display = "block";
+            }
+        } catch(err) {
+            alert("Lỗi kết nối máy chủ!");
+            document.getElementById('login-loading-fields').style.display = "none";
+            document.getElementById('login-form-fields').style.display = "block";
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('login-overlay').style.display = "none";
+            document.querySelector('.main-layout').style.display = "flex";
+        }
+    });
+</script>
+
+    
+    <script>
+        document.getElementById('btn-submit').addEventListener('click', async () => {
+            let btn = document.getElementById('btn-submit');
+            let resultMsg = document.getElementById('result-msg');
+            btn.innerText = "Submitting...";
+            btn.disabled = true;
+
+            let answers = [];
+            for (let i = 1; i <= 40; i++) {
+                let val = document.getElementById('q' + i).value.trim();
+                answers.push(val);
+            }
+
+            let payload = {
+                action: 'submit_full_test',
+                student_id: localStorage.getItem('youpass_student_id') || 'UNKNOWN',
+                module: 'Reading Full Test',
+                test_name: 'Test_10',
+                answers: answers
+            };
+
+            try {
+                let res = await fetch(APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                let data = await res.json();
+                if (data.status === 'success') {
+                    resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
+                    resultMsg.style.display = 'block';
+                    btn.innerText = "SUBMITTED!";
+                } else {
+                    alert("Lỗi: " + data.message);
+                    btn.innerText = "SUBMIT ANSWERS 🌸";
+                    btn.disabled = false;
+                }
+            } catch(e) {
+                alert("Lỗi mạng! Không thể gửi.");
+                btn.innerText = "SUBMIT ANSWERS 🌸";
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_635",
+  "title": "The Cosmic Frontier: Unveiling the Mysteries of Space Exploration",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Cosmic Frontier: Unveiling the Mysteries of Space Exploration</h2><p>The pursuit of space exploration has captivated humanity for centuries, igniting a fervor for discovery that transcends mere curiosity. From the early observations of celestial bodies to the sophisticated technologies that now facilitate interplanetary travel, our journey into the cosmos has been marked by remarkable advancements. As we stand on the precipice of a new era in space exploration, the implications of our findings extend far beyond the confines of our planet.</p><p>In recent years, private enterprises have begun to play a pivotal role in advancing space endeavors. Companies like SpaceX and Blue Origin have revolutionized access to space by significantly reducing costs and increasing the frequency of launches. Their innovative approaches challenge traditional paradigms, suggesting a future where space tourism may become a reality for the masses.</p><p>However, the ethical ramifications of space exploration warrant careful consideration. The question arises: to what extent should we exploit extraterrestrial resources? Proponents argue that harnessing these resources could alleviate terrestrial problems, while critics caution against the potential for environmental degradation beyond Earth.</p><p>Moreover, the search for extraterrestrial life remains one of the most tantalizing aspects of space exploration. Missions such as the Mars Rover and the Voyager probes have provided invaluable data, yet the absence of definitive evidence of life challenges our understanding of biology and the uniqueness of Earth. This endeavor not only fuels scientific inquiry but also stirs philosophical debates about our place in the universe.</p><p>As we contemplate the future, the significance of international collaboration in space exploration becomes increasingly apparent. The International Space Station (ISS) exemplifies how nations can unite for a common goal—advancing scientific knowledge while fostering peaceful relations. In an era marked by geopolitical tensions, such partnerships could serve as a beacon of hope for global cooperation.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C, or D.",
+      "text": "What is the primary focus of the passage regarding space exploration?",
+      "options": {
+        "A": "The history of celestial observations.",
+        "B": "The role of private companies in space travel.",
+        "C": "The ethical considerations surrounding extraterrestrial resource exploitation.",
+        "D": "The advancements in technology used for interplanetary travel."
+      },
+      "answer": "B",
+      "explanation": "The passage emphasizes the transformative impact of private enterprises like SpaceX and Blue Origin on space exploration, showcasing how they have altered traditional paradigms and enhanced accessibility to space."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Private companies have made space exploration more expensive.",
+      "answer": "False",
+      "explanation": "The passage states that private companies have significantly reduced costs, which directly contradicts the statement."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given based on the passage.",
+      "text": "The passage suggests that space tourism is a viable future prospect.",
+      "answer": "Yes",
+      "explanation": "The text discusses how the innovative approaches of companies like SpaceX and Blue Origin may lead to space tourism becoming a reality for the masses."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following aspects of space exploration with the corresponding statements.",
+      "options": [
+        "The search for extraterrestrial life",
+        "The role of international collaboration",
+        "Ethical considerations of resource exploitation"
+      ],
+      "statements": [
+        "Raises questions about the uniqueness of Earth.",
+        "Could serve as a model for peaceful global relations.",
+        "Involves debates on environmental impact."
+      ],
+      "answers": {
+        "The search for extraterrestrial life": "Raises questions about the uniqueness of Earth.",
+        "The role of international collaboration": "Could serve as a model for peaceful global relations.",
+        "Ethical considerations of resource exploitation": "Involves debates on environmental impact."
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "pivotal",
+      "meaning": "of crucial importance in relation to the development or success of something."
+    },
+    {
+      "word": "extraterrestrial",
+      "meaning": "of or from outside the earth or its atmosphere."
+    },
+    {
+      "word": "tantalizing",
+      "meaning": "having or exhibiting something that provokes interest or desire but remains out of reach."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When tackling this passage, focus on understanding the author's main arguments and the implications of space exploration discussed. Pay attention to the nuances in language that indicate the author's attitude towards private companies and ethical dilemmas. Consider the connections between different ideas, especially regarding international collaboration and its significance in advancing scientific knowledge.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

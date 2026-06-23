@@ -1,0 +1,94 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_477",
+  "title": "Navigating the Urban Dilemma: Public Transportation versus Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Public Transportation versus Private Cars: A Comparative Analysis</h2><p>The debate surrounding the efficacy of public transportation as opposed to the use of private cars has gained momentum in contemporary urban discourse. Advocates for public transit argue that it offers a sustainable alternative to the environmental degradation caused by individual car use. In contrast, supporters of private vehicles highlight their convenience and flexibility, often positing that the autonomy they provide outweighs the collective benefits of shared transport systems.</p><p>Research indicates that cities with robust public transport networks experience reduced traffic congestion and lower carbon emissions. For instance, a comparative study of metropolitan areas reveals that cities investing in public transit infrastructure report an average 30% decrease in urban traffic. This correlation suggests that enhancing public transport could be a viable strategy for alleviating urban mobility issues.</p><p>However, the perception of public transportation often suffers from stigma, as many associate it with inconvenience, overcrowding, and inefficiency. Such negative connotations can deter individuals from opting for public transit, leading to a paradox where the very systems designed to mitigate traffic woes are underutilized.</p><p>Moreover, while private cars provide undeniable convenience, they contribute significantly to urban sprawl and increased greenhouse gas emissions. The reliance on personal vehicles fosters a cycle of infrastructural expansion, leading cities to allocate vast resources to road maintenance and traffic management rather than investing in sustainable transport options.</p><p>In conclusion, the choice between public transportation and private vehicles encapsulates broader societal values regarding sustainability, convenience, and urban planning. As cities grapple with the challenges of rapid urbanization, fostering a shift towards public transportation may be pivotal for achieving long-term ecological and social objectives.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument made by advocates of public transportation?",
+      "options": {
+        "A": "It is more convenient than private cars.",
+        "B": "It reduces environmental degradation.",
+        "C": "It supports urban sprawl.",
+        "D": "It is less efficient than private vehicles."
+      },
+      "answer": "B",
+      "explanation": "Advocates for public transit argue that it offers a sustainable alternative to the environmental degradation caused by individual car use."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Cities that invest in public transport infrastructure see an increase in traffic congestion.",
+      "answer": "False",
+      "explanation": "The passage states that cities investing in public transit infrastructure report an average 30% decrease in urban traffic."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that public transportation is often viewed positively.",
+      "answer": "No",
+      "explanation": "The passage mentions that public transportation suffers from stigma and negative connotations, which suggests it is not viewed positively."
+    },
+    {
+      "id": "q4",
+      "type": "matching_headings",
+      "text": "Match the following sections of the passage with their appropriate headings.",
+      "items": [
+        "The Environmental Impact of Private Cars",
+        "The Role of Perception in Public Transportation Usage",
+        "The Benefits of Investing in Public Transit",
+        "The Debate: Convenience versus Sustainability"
+      ],
+      "answers": [
+        "B",
+        "A",
+        "C",
+        "D"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence using NO MORE THAN TWO WORDS.",
+      "text": "The reliance on personal vehicles contributes to urban ________.",
+      "answer": "sprawl",
+      "explanation": "The passage discusses how private cars foster urban sprawl, impacting city planning."
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Write NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "What percentage decrease in urban traffic is reported by cities investing in public transit?",
+      "answer": "30%",
+      "explanation": "The passage explicitly states that cities with robust public transport networks report an average 30% decrease in urban traffic."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "metropolitan",
+      "meaning": "relating to a large city or urban area."
+    },
+    {
+      "word": "autonomy",
+      "meaning": "the right or condition of self-government."
+    },
+    {
+      "word": "stigma",
+      "meaning": "a mark of disgrace associated with a particular circumstance, quality, or person."
+    },
+    {
+      "word": "infrastructure",
+      "meaning": "the basic physical and organizational structures and facilities needed for the operation of a society."
+    },
+    {
+      "word": "greenhouse gas emissions",
+      "meaning": "gases that trap heat in the atmosphere, contributing to climate change."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When tackling this passage, focus on understanding the author's perspective and the nuances in the arguments presented. Pay attention to the specific vocabulary used, as it may contain clues to the answers. For multiple choice questions, eliminate options that seem too extreme or do not directly reflect the author's tone. In true/false/not given questions, be cautious of assumptions; make sure to base your answer strictly on information provided in the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

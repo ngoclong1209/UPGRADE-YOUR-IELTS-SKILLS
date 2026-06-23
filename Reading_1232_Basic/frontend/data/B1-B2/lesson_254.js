@@ -1,0 +1,88 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_254",
+  "title": "The Rise of Artificial Intelligence in Everyday Life",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Artificial Intelligence in Everyday Life</h2><p>Artificial Intelligence (AI) has rapidly become a significant part of our daily lives, influencing various sectors such as healthcare, education, and transportation. AI technologies, such as machine learning and natural language processing, enable computers to learn from data and make decisions. In healthcare, AI systems assist doctors in diagnosing diseases more accurately by analyzing medical images. Similarly, in education, AI-driven platforms offer personalized learning experiences, helping students learn at their own pace.</p><p>Moreover, AI is revolutionizing transportation. Self-driving cars, powered by AI algorithms, are being tested on roads, promising safer and more efficient travel. However, the integration of AI into society raises ethical concerns, such as job displacement and privacy issues. Many people fear that as machines take over more tasks, human jobs will be at risk. This concern has sparked debates about the future of work and the need for retraining programs to prepare the workforce for an AI-driven world.</p><p>Despite the challenges, the potential benefits of AI are enormous. It can enhance productivity, reduce human error, and create new job opportunities in tech fields. As AI continues to evolve, it is essential to balance innovation with ethical considerations, ensuring that society reaps the benefits without compromising values.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What role does AI play in healthcare according to the passage?",
+      "options": {
+        "A": "Assists doctors in making diagnoses.",
+        "B": "Replaces doctors entirely.",
+        "C": "Is used only for research purposes.",
+        "D": "Has no significant impact."
+      },
+      "answer": "A",
+      "explanation": "The passage states that AI systems assist doctors in diagnosing diseases more accurately by analyzing medical images, making option A correct."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "AI technologies are only beneficial in healthcare.",
+      "answer": "False",
+      "explanation": "The passage discusses benefits of AI in various sectors, not just healthcare."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that AI will create new job opportunities.",
+      "answer": "Yes",
+      "explanation": "The passage mentions that AI can create new job opportunities in tech fields, indicating the author's belief."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the information to the correct section of the passage.",
+      "text": "1. Ethical concerns regarding AI\n2. AI in transportation\n3. AI in education",
+      "options": {
+        "1": "First discussed in paragraph 3",
+        "2": "First discussed in paragraph 2",
+        "3": "First discussed in paragraph 1"
+      },
+      "answer": {
+        "1": "First discussed in paragraph 3",
+        "2": "First discussed in paragraph 2",
+        "3": "First discussed in paragraph 1"
+      },
+      "explanation": "Each point matches the respective discussion in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "AI helps students learn at their own pace through ______.",
+      "answer": "personalized learning",
+      "explanation": "The passage states that AI-driven platforms offer personalized learning experiences."
+    },
+    {
+      "id": "q6",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following questions in NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "What technology powers self-driving cars?",
+      "answer": "AI algorithms",
+      "explanation": "The passage clearly states that self-driving cars are powered by AI algorithms."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "machine learning",
+      "meaning": "A type of AI that enables computers to learn from data."
+    },
+    {
+      "word": "natural language processing",
+      "meaning": "A field of AI that helps computers understand human language."
+    },
+    {
+      "word": "personalized",
+      "meaning": "Tailored to meet individual needs."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on skimming through the headings and the first sentences of each paragraph to grasp the main ideas. Pay attention to keywords related to AI applications and ethical concerns. For multiple-choice questions, look for paraphrased information in the options. For True/False/Not Given questions, determine whether the information is explicitly mentioned or implied in the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

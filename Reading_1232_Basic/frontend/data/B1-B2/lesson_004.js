@@ -1,0 +1,86 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_004",
+  "title": "The Rise of Intelligent Machines: Understanding AI and Robotics",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Intelligent Machines</h2><p>Artificial Intelligence (AI) and robotics have dramatically changed the way we interact with technology. Over the past few decades, advancements in these fields have not only improved efficiency in various sectors but also raised important questions about the future of work and human interaction. AI refers to the simulation of human intelligence in machines, allowing them to perform tasks that typically require human cognition. Robotics, on the other hand, involves the design and construction of robots, which can be programmed to carry out a range of activities.</p><p>One significant area where AI and robotics have made an impact is in healthcare. For instance, robotic surgery has become increasingly common, providing surgeons with enhanced precision. Furthermore, AI algorithms are being used to analyze medical data, leading to quicker and more accurate diagnoses. However, the use of these technologies also brings concerns regarding privacy and the potential for job displacement.</p><p>In education, robots are being introduced as teaching assistants, helping students learn in engaging ways. While some educators embrace this change, others worry that it may reduce the need for human teachers. It is essential to balance the benefits of technology with the irreplaceable value of human interaction.</p><p>As AI and robotics continue to evolve, society must consider ethical implications and ensure these technologies are used responsibly. The future holds great promise, but it is crucial to navigate the challenges that come along with it.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a significant benefit of AI in healthcare?",
+      "options": {
+        "A": "It allows for more precise surgical procedures.",
+        "B": "It replaces the need for human surgeons.",
+        "C": "It eliminates all medical errors.",
+        "D": "It increases the number of surgeries performed."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct because the passage states that robotic surgery provides surgeons with enhanced precision."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "AI and robotics are only beneficial in the healthcare sector.",
+      "answer": "False",
+      "explanation": "The passage mentions that AI and robotics also have applications in education, indicating they are not limited to healthcare."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes robots can completely replace human teachers.",
+      "answer": "No",
+      "explanation": "The author expresses concern that the introduction of robots in education may reduce the need for human teachers, but does not state they can completely replace them."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following applications of AI and robotics with their areas.",
+      "options": {
+        "1": "Robotic surgery",
+        "2": "AI algorithms",
+        "3": "Educational robots"
+      },
+      "answers": {
+        "A": "Healthcare",
+        "B": "Data analysis",
+        "C": "Teaching assistance"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "text": "AI enables machines to perform tasks that typically require __________.",
+      "answer": "human cognition",
+      "explanation": "The passage defines AI as the simulation of human intelligence in machines."
+    },
+    {
+      "id": "q6",
+      "type": "summary_completion",
+      "text": "AI and robotics have improved efficiency in various sectors, but they also raise concerns regarding __________.",
+      "answer": "privacy and job displacement",
+      "explanation": "The passage mentions concerns about privacy and job displacement associated with AI and robotics."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "simulation",
+      "meaning": "the act of imitating a situation or process"
+    },
+    {
+      "word": "precision",
+      "meaning": "the quality of being exact and accurate"
+    },
+    {
+      "word": "algorithm",
+      "meaning": "a set of rules or procedures for solving a problem"
+    },
+    {
+      "word": "displacement",
+      "meaning": "the act of moving something from its place or position"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on understanding the main ideas and specific details in each paragraph. Pay attention to how the author presents information and expresses opinions. Use skimming and scanning techniques to locate answers quickly.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

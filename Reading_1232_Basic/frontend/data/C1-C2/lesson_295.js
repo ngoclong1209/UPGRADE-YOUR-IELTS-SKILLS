@@ -1,0 +1,80 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_295",
+  "title": "Beyond Earth: The Future of Space Exploration",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Exploration Beyond Our Planet</h2><p>As humanity stands on the brink of a new era of space exploration, the potential for discovery and innovation is unparalleled. The advent of advanced technologies, coupled with a renewed interest in outer space, has led to an era where the exploration of Mars, asteroids, and even the moons of Jupiter and Saturn is not merely a dream but an achievable goal. This passage delves into the key motivations behind these ambitious ventures, ranging from the pursuit of scientific knowledge to the imperative of ensuring the survival of humanity in the face of potential planetary threats.</p><p>One prominent factor driving space exploration is the quest for new resources. As Earth’s natural resources dwindle, the prospect of mining asteroids for precious metals and minerals has gained traction. Scientists and engineers are developing methods to extract these resources efficiently, which could revolutionize industries back on Earth. Moreover, the potential for discovering extraterrestrial life adds a tantalizing layer to our exploration efforts, with missions aimed at uncovering signs of life on Mars and the icy moons of Europa and Enceladus.</p><p>However, the challenges of space exploration are manifold. The vast distances involved pose significant logistical hurdles, not to mention the physical and psychological demands placed on astronauts. Space agencies must grapple with issues of radiation exposure, microgravity effects on the human body, and the need for sustainable life support systems. These concerns necessitate not only robust engineering solutions but also a profound understanding of human resilience and adaptability.</p><p>Furthermore, public support and funding are critical for the success of space missions. The interplay between governmental agencies, private enterprises, and international collaborations shapes the landscape of contemporary space exploration. It is essential to foster a culture of enthusiasm and investment in these endeavors, as the benefits of space exploration extend beyond scientific achievements, inspiring generations to dream beyond the confines of our planet.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the primary motivations for space exploration as mentioned in the passage?",
+      "options": {
+        "A": "The quest for new resources on Earth.",
+        "B": "The search for extraterrestrial life.",
+        "C": "The desire to increase Earth's population.",
+        "D": "The need for military advancements in space."
+      },
+      "answer": "B",
+      "explanation": "The passage discusses the potential for discovering extraterrestrial life as a significant motivation for space exploration, indicating that this pursuit is a key driver alongside resource acquisition."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write True, False, or Not Given.",
+      "text": "The passage states that space exploration is free from challenges.",
+      "answer": "False",
+      "explanation": "The passage explicitly mentions that the challenges of space exploration are manifold, making it clear that it is not free from difficulties."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author believe that public support is unimportant for space missions?",
+      "answer": "No",
+      "explanation": "The passage emphasizes the critical nature of public support and funding for the success of space missions, indicating that it is indeed important."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following challenges to their descriptions.",
+      "text": "Challenge 1: Logistical hurdles; Challenge 2: Psychological demands; Challenge 3: Radiation exposure.",
+      "options": {
+        "A": "The effects of being in microgravity for extended periods.",
+        "B": "The difficulties of traveling vast distances in space.",
+        "C": "The risks posed to astronauts from cosmic rays."
+      },
+      "answers": {
+        "Challenge 1": "B",
+        "Challenge 2": "A",
+        "Challenge 3": "C"
+      },
+      "explanation": "Each challenge is paired with its corresponding description, reflecting the complexities faced in space exploration."
+    },
+    {
+      "id": "q5",
+      "type": "short-answer",
+      "instruction": "Answer using NO MORE THAN TWO WORDS.",
+      "text": "What is essential for the success of space missions according to the passage?",
+      "answer": "Public support",
+      "explanation": "The passage highlights the importance of public support and funding as critical elements for successful space missions."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "exponential",
+      "meaning": "Increasing rapidly at an accelerating rate, often used in contexts relating to technology or scientific advancements."
+    },
+    {
+      "word": "logistical",
+      "meaning": "Relating to the planning and execution of complex operations, especially in the context of space missions."
+    },
+    {
+      "word": "resilience",
+      "meaning": "The capacity to recover quickly from difficulties; toughness, particularly relevant to astronauts in enduring space challenges."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To approach this passage effectively, focus on identifying key themes and motivations discussed in the text. Pay close attention to the nuances in phrasing, especially in the questions that require inference. Skim the passage for main ideas before delving into specific details for the questions. For multiple-choice questions, eliminate clearly incorrect options to improve your chances of selecting the right answer.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

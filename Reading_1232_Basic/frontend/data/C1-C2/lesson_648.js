@@ -1,0 +1,120 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_648",
+  "title": "The Internet: Catalyst of Change in Contemporary Society",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Internet: Catalyst of Change in Contemporary Society</h2><p>The Internet has transformed the fabric of modern society, becoming an indispensable tool that shapes how individuals communicate, learn, and engage with the world. Initially conceived as a platform for academic and military communication, the Internet's rapid evolution has seen it permeate every aspect of daily life. Today, it serves not only as a medium for information dissemination but also as a space for social interaction, economic transactions, and cultural exchange.</p><p>One of the most profound impacts of the Internet is its role in democratizing information. Previously, access to knowledge was often restricted to those who could afford it or who were situated within academic institutions. However, the advent of the Internet has enabled a broader audience to access vast repositories of information at little to no cost. This shift has implications for education, where online courses, webinars, and digital libraries have made learning more accessible and flexible.</p><p>Moreover, social interactions have evolved dramatically due to the Internet. Platforms such as social media have created new forms of community and identity, allowing individuals to connect across geographical boundaries. However, this phenomenon raises questions about the quality of these interactions; while online communities can foster support and engagement, they can also lead to isolation and superficial connections.</p><p>Economically, the Internet has opened up new avenues for commerce, leading to the rise of e-commerce and digital marketplaces. Businesses can now reach global audiences without the limitations of physical storefronts, yet this shift poses challenges such as increased competition and the need for digital literacy among consumers and entrepreneurs alike.</p><p>Despite these benefits, the Internet is not without its detractors. Concerns regarding privacy, cybersecurity, and the digital divide highlight the complexities of its role in society. The disparity in access to technology continues to perpetuate inequalities, necessitating a critical examination of how the Internet is utilized and who it serves.</p><p>In conclusion, while the Internet has undeniably transformed modern society in multifaceted ways, it also brings to light a series of challenges that require ongoing dialogue and scrutiny. As we navigate this digital age, it is imperative to foster an inclusive environment that maximizes the benefits of this powerful tool while mitigating its drawbacks.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one significant change brought about by the Internet according to the passage?",
+      "options": {
+        "A": "It has limited access to information for the wealthy.",
+        "B": "It has democratized access to information.",
+        "C": "It has reduced the significance of social interactions.",
+        "D": "It has centralized commerce in physical locations."
+      },
+      "answer": "B",
+      "explanation": "The passage states that the Internet has enabled a broader audience to access vast repositories of information, thus democratizing information access."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "The Internet has led to fewer opportunities for social interaction.",
+      "answer": "False",
+      "explanation": "The passage mentions that social media has created new forms of community and identity, indicating increased opportunities for social interaction."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author believe all impacts of the Internet are positive?",
+      "answer": "No",
+      "explanation": "The passage discusses both the benefits and challenges of the Internet, indicating that the author does not believe all impacts are positive."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following aspects of the Internet with their corresponding effects.",
+      "text": "1. Democratization of information\n2. Changes in social interactions\n3. Economic transformations\n4. Privacy concerns",
+      "options": {
+        "A": "Increased accessibility of knowledge.",
+        "B": "Emergence of e-commerce.",
+        "C": "Creation of online communities.",
+        "D": "Issues related to cybersecurity."
+      },
+      "answers": {
+        "1": "A",
+        "2": "C",
+        "3": "B",
+        "4": "D"
+      },
+      "explanation": "Each aspect is matched with its corresponding effect as discussed in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph.",
+      "text": "1. Introduction\n2. The Internet as an educational tool\n3. Transformation of social interactions\n4. Economic implications of the Internet\n5. Challenges posed by the Internet\n6. Conclusion",
+      "options": {
+        "A": "The dual nature of the Internet's impact.",
+        "B": "A new landscape for commerce.",
+        "C": "Shifts in communication dynamics.",
+        "D": "Accessing knowledge in the digital age.",
+        "E": "Understanding the Internet's role in society."
+      },
+      "answers": {
+        "1": "E",
+        "2": "D",
+        "3": "C",
+        "4": "B",
+        "5": "A",
+        "6": "A"
+      },
+      "explanation": "Each paragraph corresponds with the headings reflecting its main idea."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The Internet allows for greater ________ by providing access to a wide range of information.",
+      "answer": "accessibility",
+      "explanation": "The term 'accessibility' fits the context of the passage regarding information democratization."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN THREE WORDS.",
+      "text": "The Internet has created new forms of ________ while also raising issues of privacy and cybersecurity.",
+      "answer": "social interaction",
+      "explanation": "The phrase 'social interaction' directly reflects the content of the passage regarding changes in social dynamics."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the question with NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "What is one challenge associated with the Internet mentioned in the passage?",
+      "answer": "digital divide",
+      "explanation": "The passage refers to the 'digital divide' as a significant challenge posed by the Internet."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "democratizing",
+      "meaning": "Making something accessible to all, reducing restrictions."
+    },
+    {
+      "word": "permeate",
+      "meaning": "To spread throughout; to penetrate."
+    },
+    {
+      "word": "deterrent",
+      "meaning": "A factor that discourages or prevents certain actions."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the nuanced impacts of the Internet. Pay attention to the author's tone and the subtle implications behind their arguments. When answering questions, look for keywords and synonyms in the passage that align with the options provided.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

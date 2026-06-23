@@ -1,0 +1,97 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_053",
+  "title": "Understanding Climate Change and Its Impact",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Science of Climate Change</h2><p>Climate change refers to significant changes in global temperatures and weather patterns over time. While climate change is a natural phenomenon, scientific evidence indicates that human activities are currently driving an unprecedented rate of change. The burning of fossil fuels, deforestation, and industrial processes contribute to the accumulation of greenhouse gases in the atmosphere, leading to global warming.</p><p>One of the most alarming consequences of climate change is the increase in extreme weather events. This includes more frequent and severe hurricanes, floods, and droughts, which can devastate communities and ecosystems. Additionally, rising sea levels due to melting ice caps threaten coastal cities worldwide.</p><p>Efforts to mitigate climate change include transitioning to renewable energy sources, improving energy efficiency, and promoting sustainable practices. Governments, organizations, and individuals must work together to reduce carbon emissions and adapt to the changes that are already occurring.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary cause of the current rapid climate change?",
+      "options": {
+        "A": "Natural climatic variations",
+        "B": "Human activities such as burning fossil fuels",
+        "C": "Solar activity changes",
+        "D": "Volcanic eruptions"
+      },
+      "answer": "B",
+      "explanation": "The passage states that human activities, particularly the burning of fossil fuels, are driving the current unprecedented rate of climate change."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which of the following is a consequence of climate change mentioned in the passage?",
+      "options": {
+        "A": "Increased agricultural productivity",
+        "B": "More frequent extreme weather events",
+        "C": "Decreased sea levels",
+        "D": "Stabilization of global temperatures"
+      },
+      "answer": "B",
+      "explanation": "The passage mentions that one of the alarming consequences of climate change is the increase in extreme weather events."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Climate change is solely caused by natural phenomena.",
+      "answer": "False",
+      "explanation": "The passage indicates that human activities are a significant cause of the current climate change, contradicting the statement."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "Renewable energy sources can help mitigate climate change.",
+      "answer": "True",
+      "explanation": "The passage discusses efforts to mitigate climate change, including transitioning to renewable energy sources."
+    },
+    {
+      "id": "q5",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that individual actions can contribute to combating climate change?",
+      "answer": "Yes",
+      "explanation": "The passage suggests that individuals must work together with governments and organizations to address climate change."
+    },
+    {
+      "id": "q6",
+      "type": "matching_information",
+      "instruction": "Match the following consequences of climate change with their descriptions.",
+      "pairs": {
+        "A": "Rising sea levels",
+        "B": "Extreme weather events",
+        "C": "Carbon emissions reduction",
+        "D": "Transitioning to renewable energy"
+      },
+      "descriptions": {
+        "1": "Can lead to flooding in coastal areas.",
+        "2": "Includes hurricanes and droughts.",
+        "3": "An important strategy for climate change mitigation.",
+        "4": "A necessary action to achieve sustainability."
+      },
+      "answers": {
+        "A": "1",
+        "B": "2",
+        "C": "4",
+        "D": "3"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "mitigate",
+      "meaning": "to make something less severe, serious, or painful"
+    },
+    {
+      "word": "unprecedented",
+      "meaning": "never done or known before"
+    },
+    {
+      "word": "ecosystem",
+      "meaning": "a biological community of interacting organisms and their physical environment"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on understanding the main ideas and details of the passage. Pay attention to the consequences of climate change and the actions discussed to mitigate its effects. Use context clues to help determine the meanings of vocabulary. Practice skimming for general information and scanning for specific details when answering questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

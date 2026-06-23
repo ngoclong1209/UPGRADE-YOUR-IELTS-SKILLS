@@ -1,0 +1,112 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_275",
+  "title": "Beyond the Horizon: The Future of Space Exploration",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Exploring the Infinite: A New Era of Space Exploration</h2><p>The realm of space exploration has evolved dramatically over the past few decades. Once dominated by government agencies, the landscape is now teeming with private companies, each vying for a stake in this lucrative frontier. As technological advancements accelerate, the possibility of human colonization of other planets transitions from mere science fiction to a plausible reality. The implications of such advancements are profound, raising ethical questions about our responsibilities to other worlds and the potential consequences of interplanetary life.</p><p>Moreover, the role of artificial intelligence (AI) in space missions has become increasingly pivotal. AI systems are now capable of processing vast amounts of data and making decisions in real-time, allowing for more efficient exploration missions. This not only enhances the safety of astronauts but also optimizes the use of resources, which is critical for long-duration space travel.</p><p>Yet, while the excitement around this new era is palpable, it is essential to remain cognizant of the potential repercussions. The privatization of space exploration may lead to a competitive environment where profit supersedes the quest for knowledge. This could result in a fragmented approach to exploration, where only the most commercially viable ventures receive funding, thereby neglecting critical scientific research.</p><p>Additionally, the question of sustainability looms large. As humanity sets its sights on Mars and beyond, the need to develop sustainable practices becomes urgent. The extraction of resources from other celestial bodies must be approached with caution, ensuring that we do not replicate the exploitative behaviors observed on Earth.</p><p>In conclusion, the future of space exploration holds tremendous promise, yet it is accompanied by a myriad of challenges. As we stand at the precipice of interstellar colonization, it is imperative that we engage in thoughtful discourse about the ethical, environmental, and social implications of our actions in the cosmos.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern regarding the privatization of space exploration?",
+      "options": {
+        "A": "It may lead to a focus on profit over scientific knowledge.",
+        "B": "It could diminish government involvement in scientific research.",
+        "C": "It will ensure sustainable practices are adopted.",
+        "D": "It will create a unified approach to planetary exploration."
+      },
+      "answer": "A",
+      "explanation": "The passage highlights concerns that privatization may prioritize profit over the pursuit of knowledge, potentially leading to a fragmented approach."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "AI is currently used in space missions to enhance astronaut safety.",
+      "answer": "True",
+      "explanation": "The passage states that AI systems improve safety for astronauts by processing data and making real-time decisions."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that the exploration of Mars should prioritize immediate commercial gains.",
+      "answer": "No",
+      "explanation": "The passage implies that commercial interests could undermine scientific research, suggesting the author does not support prioritizing immediate gains."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following concepts with their implications.",
+      "items": [
+        {
+          "concept": "Privatization of space exploration",
+          "implication": "Potential focus on profit"
+        },
+        {
+          "concept": "Artificial intelligence",
+          "implication": "Enhanced data processing"
+        },
+        {
+          "concept": "Sustainability concerns",
+          "implication": "Ethical resource extraction"
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "headings": [
+        "A New Landscape of Space Exploration",
+        "The Role of Artificial Intelligence",
+        "Ethical Implications of Space Colonization",
+        "Challenges Ahead for Humanity"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence: AI systems are now capable of _____.",
+      "answer": "processing vast amounts of data",
+      "explanation": "The passage specifically mentions AI's ability to process large data sets."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary: The future of space exploration is promising, but it raises questions about _____ and the potential for _____ in our actions.",
+      "answer": "ethical considerations, sustainability",
+      "explanation": "The passage discusses the need for ethical discourse and sustainable practices as humanity explores new frontiers."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer",
+      "instruction": "What is the primary ethical concern mentioned in the passage regarding resource extraction from celestial bodies?",
+      "answer": "Replicating exploitative behaviors",
+      "explanation": "The passage warns against repeating Earth's exploitative patterns in space resource extraction."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "pivotal",
+      "meaning": "of crucial importance in relation to the development or success of something."
+    },
+    {
+      "word": "fragmented",
+      "meaning": "broken into separate parts, often leading to inefficiency or lack of coherence."
+    },
+    {
+      "word": "exploitative",
+      "meaning": "taking advantage of a situation or person in an unfair or unethical manner."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "the ability to be maintained at a certain rate or level, particularly in environmental contexts."
+    },
+    {
+      "word": "implications",
+      "meaning": "the possible effects or results of an action or decision."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on the author's attitude towards space exploration and the nuances in language. Pay attention to the implications of each argument presented, and consider the ethical dimensions discussed in the passage. Skim through the headings to identify the main ideas of each paragraph quickly. Look for synonyms and paraphrased information in the questions to connect them with the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

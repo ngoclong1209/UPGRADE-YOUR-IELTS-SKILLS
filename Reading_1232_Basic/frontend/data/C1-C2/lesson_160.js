@@ -1,0 +1,72 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_160",
+  "title": "The Interplay of Nutrition and Mental Health",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Interplay of Nutrition and Mental Health</h2><p>The relationship between diet and mental health has garnered increasing attention in recent years, with numerous studies suggesting that what we consume can significantly influence our emotional well-being. Research indicates that diets high in refined sugars and unhealthy fats can exacerbate mood disorders, while those rich in omega-3 fatty acids, antioxidants, and vitamins can promote cognitive function and emotional resilience. A pivotal study conducted by researchers at the University of Melbourne highlighted that participants who adhered to a Mediterranean diet, characterized by high consumption of fruits, vegetables, whole grains, and healthy fats, reported a 25% reduction in depression symptoms within a year. This correlation raises profound questions about the role of nutrition in mental health management.</p><p>Moreover, the gut-brain axis has emerged as a critical area of investigation, suggesting that gut health plays a vital role in mental well-being. The microbiome—the diverse community of bacteria residing in our intestines—produces neurotransmitters and other metabolites that can directly impact our mood and cognitive functions. A well-balanced diet that nurtures this microbiome is essential for maintaining not only physical health but also psychological stability.</p><p>However, the nuances of this relationship are complex. Critics argue that while diet is undoubtedly a contributing factor, it should not be viewed as a standalone solution for mental health issues. Mental health disorders are multifaceted, often requiring a combination of therapeutic interventions, social support, and lifestyle changes. Thus, while promoting dietary improvements can be beneficial, it is essential for healthcare practitioners to adopt a holistic approach when addressing mental health concerns.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument presented by the author regarding diet and mental health?",
+      "options": {
+        "A": "A balanced diet can significantly improve mental health outcomes.",
+        "B": "Dietary changes alone can cure mental health disorders.",
+        "C": "Physical health is more important than mental health.",
+        "D": "Mental health issues are solely caused by dietary habits."
+      },
+      "answer": "A",
+      "explanation": "The passage emphasizes the significant impact of a balanced diet on mental health, particularly in relation to emotional well-being, while acknowledging that diet alone cannot resolve mental health issues."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the following statements are True, False, or Not Given.",
+      "text": "The Mediterranean diet has been linked to improved cognitive function.",
+      "answer": "True",
+      "explanation": "The passage mentions that participants following a Mediterranean diet reported a reduction in depression symptoms, which implies an improvement in cognitive function."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that dietary changes are sufficient to manage mental health disorders.",
+      "answer": "No",
+      "explanation": "The passage states that diet should not be viewed as a standalone solution, indicating that the author does not believe dietary changes are sufficient alone."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following studies to their findings.",
+      "text": "1. Study at University of Melbourne<br>2. Research on gut-brain axis<br>3. Critics' perspective",
+      "options": {
+        "A": "Suggests a complex relationship between diet and mental health.",
+        "B": "Found a significant reduction in depression symptoms among participants.",
+        "C": "Highlights the importance of a holistic approach to mental health."
+      },
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "C"
+      },
+      "explanation": "Each study corresponds to a specific finding as described in the passage, illustrating the relationship between diet and mental health."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "exacerbate",
+      "meaning": "to make a problem, situation, or feeling worse."
+    },
+    {
+      "word": "neurotransmitters",
+      "meaning": "chemicals that transmit signals across a synapse from one neuron to another."
+    },
+    {
+      "word": "microbiome",
+      "meaning": "the collection of microorganisms living in a particular environment, including the body."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When studying this passage, focus on identifying the main arguments presented by the author and the evidence used to support those claims. Pay attention to the specific studies mentioned and their results, as well as the author's overall tone and perspective on the relationship between diet and mental health. Consider how the passage addresses both the benefits of dietary improvements and the limitations of relying solely on diet for mental health management.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

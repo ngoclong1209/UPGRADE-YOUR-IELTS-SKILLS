@@ -1,0 +1,119 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_101",
+  "title": "Navigating the Divide: Higher Education versus Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Understanding the Educational Landscape</h2><p>In contemporary society, the dichotomy between higher education and vocational training has become increasingly pronounced. As economies evolve and job markets shift, the relevance of traditional university degrees is frequently questioned, particularly in light of the rising prominence of vocational pathways. This passage examines the implications of both educational approaches, evaluating their respective merits and shortcomings. Advocates of higher education often argue that a university degree provides not only academic knowledge but also critical thinking skills and a broader worldview. However, critics contend that such degrees may not adequately prepare graduates for the practical demands of the workforce, leading to disillusionment among newly minted professionals.</p><p>Conversely, vocational training is heralded for its pragmatic approach, aligning closely with industry requirements. Students engaged in vocational programs often emerge with hands-on experience and specialized skills, making them attractive candidates for employers in trades and technical fields. Nevertheless, the perception of vocational training as a second-rate option still lingers, raising questions about societal attitudes towards various forms of education.</p><p>Ultimately, the choice between higher education and vocational training depends largely on individual career aspirations and the specific demands of the labor market. As the terrain of education continues to shift, both pathways offer unique advantages that can lead to fulfilling careers.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do proponents of higher education assert about university degrees?",
+      "options": {
+        "A": "They equip students with critical thinking skills and a global perspective.",
+        "B": "They are less relevant in today's job market compared to vocational training.",
+        "C": "They guarantee immediate employment opportunities upon graduation.",
+        "D": "They focus primarily on practical skills rather than theoretical knowledge."
+      },
+      "answer": "A",
+      "explanation": "A is correct because the passage states that advocates of higher education argue that a university degree provides critical thinking skills and a broader worldview."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Vocational training is often considered a lesser option compared to higher education.",
+      "answer": "True",
+      "explanation": "The passage mentions that the perception of vocational training as a second-rate option still lingers, indicating that this statement is true."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author believe that vocational training leads to fulfilling careers?",
+      "answer": "Not Given",
+      "explanation": "The passage discusses the benefits of vocational training but does not explicitly state the author's belief about its outcomes."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements with the correct section of the passage.",
+      "items": [
+        "Higher education fosters critical thinking.",
+        "Vocational training aligns with industry needs.",
+        "Perceptions of vocational training are changing."
+      ],
+      "answer": [
+        "Higher education fosters critical thinking. - Section 1",
+        "Vocational training aligns with industry needs. - Section 2",
+        "Perceptions of vocational training are changing. - Section 2"
+      ],
+      "explanation": "Each statement corresponds to a section in the passage where these ideas are discussed."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph with the appropriate heading.",
+      "headings": [
+        "The Importance of Critical Thinking",
+        "The Rise of Vocational Training",
+        "Societal Perceptions of Education"
+      ],
+      "answer": [
+        "The Importance of Critical Thinking - Paragraph 1",
+        "The Rise of Vocational Training - Paragraph 2",
+        "Societal Perceptions of Education - Paragraph 3"
+      ],
+      "explanation": "Each heading encapsulates the main idea of the respective paragraph."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence using NO MORE THAN TWO WORDS.",
+      "text": "Those who choose vocational training often possess __________.",
+      "answer": "specialized skills",
+      "explanation": "The passage mentions that students in vocational programs emerge with specialized skills, making them attractive to employers."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using NO MORE THAN THREE WORDS.",
+      "text": "The choice between higher education and vocational training is influenced by __________.",
+      "answer": "individual career aspirations",
+      "explanation": "The passage states that the choice largely depends on individual career aspirations."
+    },
+    {
+      "id": "q8",
+      "type": "short-answer_questions",
+      "instruction": "Answer the following question using NO MORE THAN TWO WORDS.",
+      "text": "What is a common criticism of university degrees?",
+      "answer": "practical demands",
+      "explanation": "The passage notes that critics contend higher education may not prepare graduates for the practical demands of the workforce."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "dichotomy",
+      "meaning": "a division into two contrasting parts"
+    },
+    {
+      "word": "disillusionment",
+      "meaning": "a feeling of disappointment resulting from the discovery that something is not as good as one believed it to be"
+    },
+    {
+      "word": "heralded",
+      "meaning": "celebrated or praised as being particularly good or important"
+    },
+    {
+      "word": "pragmatic",
+      "meaning": "dealing with things sensibly and realistically"
+    },
+    {
+      "word": "societal",
+      "meaning": "relating to society or social relations"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on discerning the nuances between the two educational paths. Pay attention to the author's tone when discussing the merits and drawbacks of each. Look for paraphrased information and be prepared to infer meanings that are not explicitly stated.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

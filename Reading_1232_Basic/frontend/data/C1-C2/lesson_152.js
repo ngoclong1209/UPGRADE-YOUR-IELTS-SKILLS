@@ -1,0 +1,88 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_152",
+  "title": "Navigating the Digital Frontier: The Evolution and Impact of Online Learning",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Embracing the Virtual Classroom</h2><p>In recent years, the landscape of education has undergone a seismic shift with the advent of online learning. This transformation, accelerated by technological advancements and global crises, has not only redefined traditional pedagogical methods but also challenged established norms of social interaction within educational environments. As educators and learners navigate this digital frontier, several key factors emerge that shape the efficacy and accessibility of distance education.</p><p>Firstly, the flexibility afforded by online learning platforms allows students to tailor their educational experiences to suit personal schedules, thereby promoting a sense of autonomy. However, this autonomy can be a double-edged sword; while some students thrive in a self-directed learning environment, others may struggle with the absence of structured oversight. Consequently, the responsibility falls on educational institutions to implement support systems that can help students cultivate the necessary self-discipline.</p><p>Moreover, the disparity in access to technology remains a pressing concern. The digital divide, which refers to the gap between individuals who have easy access to digital technology and those who do not, poses significant barriers to equitable education. Institutions must therefore prioritize inclusivity by ensuring that resources are available to all students, regardless of their socio-economic backgrounds.</p><p>Furthermore, the psychological implications of online learning warrant attention. Students may experience feelings of isolation, which can adversely affect their motivation and engagement. Initiatives aimed at fostering community and collaboration, such as virtual study groups and forums, are essential in mitigating these effects.</p><p>In conclusion, while online learning presents myriad opportunities for innovation in education, it is imperative that stakeholders remain vigilant regarding the challenges it poses. By addressing issues of autonomy, access, and community, the potential of distance education can be fully realized.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a primary concern regarding the flexibility of online learning mentioned in the passage?",
+      "options": {
+        "A": "Students may lack the discipline to manage their time effectively.",
+        "B": "Online learning platforms are not widely accessible.",
+        "C": "Students feel overwhelmed by the variety of courses available.",
+        "D": "Technology can enhance traditional learning methods."
+      },
+      "answer": "A",
+      "explanation": "The passage states that while autonomy can benefit some students, others may struggle due to a lack of structured oversight, indicating the need for self-discipline."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False or Not Given.",
+      "text": "Online learning guarantees equal access to educational resources for all students.",
+      "answer": "False",
+      "explanation": "The passage discusses the digital divide and emphasizes the disparity in access to technology, indicating that online learning does not guarantee equal access."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No or Not Given.",
+      "text": "The author believes that online learning can lead to feelings of isolation among students.",
+      "answer": "Yes",
+      "explanation": "The passage explicitly mentions that students may experience feelings of isolation, which can adversely affect their motivation."
+    },
+    {
+      "id": "q4",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the appropriate paragraphs.",
+      "text": "1. The Importance of Community in Online Learning<br>2. The Role of Technology in Education<br>3. Challenges of Self-Directed Learning<br>4. Addressing the Digital Divide<br>5. The Future of Distance Education",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4",
+        "E": "Paragraph 5"
+      },
+      "answer": {
+        "1": "D",
+        "2": "A",
+        "3": "B",
+        "4": "C",
+        "5": "E"
+      },
+      "explanation": "Each heading reflects the main ideas presented in the respective paragraphs."
+    },
+    {
+      "id": "q5",
+      "type": "short-answer",
+      "instruction": "Provide your answer using no more than two words.",
+      "text": "What is mentioned as a potential negative effect of online learning on students?",
+      "answer": "Feelings of isolation",
+      "explanation": "The passage specifically mentions that students may experience feelings of isolation due to the nature of online learning."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "seismic",
+      "meaning": "of great importance or significance, often referring to a major change."
+    },
+    {
+      "word": "autonomy",
+      "meaning": "the right or condition of self-government; independence in one's educational choices."
+    },
+    {
+      "word": "disparity",
+      "meaning": "a great difference, often referring to inequality in access to resources."
+    },
+    {
+      "word": "mitigating",
+      "meaning": "making something less severe, serious, or painful."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on understanding the main ideas of each paragraph and how they relate to the overall argument of the text. Pay attention to the nuances in language that indicate the author’s attitude towards online learning and its challenges.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

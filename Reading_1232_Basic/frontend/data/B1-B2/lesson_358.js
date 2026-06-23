@@ -1,0 +1,75 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_358",
+  "title": "The Internet: A Double-Edged Sword in Modern Society",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Internet: A Double-Edged Sword in Modern Society</h2><p>In today's world, the Internet plays a crucial role in shaping our daily lives. It acts as a powerful tool for communication, education, and information sharing. However, while the benefits of the Internet are immense, it also poses significant challenges. One of the primary advantages of the Internet is its ability to connect people across the globe instantly. Social media platforms allow users to communicate in real-time, fostering relationships regardless of geographical barriers.</p><p>Furthermore, the Internet has revolutionized education. With online courses and resources, anyone can access quality learning materials from the comfort of their home. This democratization of knowledge is particularly beneficial for those who may not have access to traditional educational institutions. On the other hand, the rapid spread of information can lead to misinformation and confusion. Many users struggle to differentiate between credible sources and unreliable ones.</p><p>Additionally, the Internet has transformed the way we consume media. Streaming services enable users to watch movies and series on demand, significantly changing entertainment consumption patterns. However, this has also led to issues such as screen addiction and decreased physical activity among users.</p><p>In conclusion, the Internet is an indispensable part of modern society, providing numerous advantages while also presenting significant challenges. It is up to individuals and communities to navigate this complex landscape responsibly.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major advantage of the Internet mentioned in the passage?",
+      "options": {
+        "A": "It allows for instant global communication.",
+        "B": "It guarantees accurate information.",
+        "C": "It eliminates the need for schools.",
+        "D": "It reduces the use of technology."
+      },
+      "answer": "A",
+      "explanation": "The passage states that the Internet connects people across the globe instantly, highlighting this as a primary advantage."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "The Internet has made education accessible to everyone.",
+      "answer": "True",
+      "explanation": "The passage indicates that online courses allow access to quality learning materials, which supports the statement."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that misinformation is a problem caused by the Internet?",
+      "answer": "Yes",
+      "explanation": "The passage mentions that the rapid spread of information can lead to misinformation, indicating the author's belief."
+    },
+    {
+      "id": "q4",
+      "type": "matching_headings",
+      "text": "Match the following sections to their correct headings.",
+      "options": [
+        "Impact of the Internet on Communication",
+        "Challenges of Online Information",
+        "Changing Patterns in Media Consumption"
+      ],
+      "answers": {
+        "Impact of the Internet on Communication": "Section 1",
+        "Challenges of Online Information": "Section 2",
+        "Changing Patterns in Media Consumption": "Section 3"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "text": "The Internet has allowed for a democratization of __________.",
+      "answer": "knowledge",
+      "explanation": "The passage mentions that the Internet enables access to quality learning materials, leading to the democratization of knowledge."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "democratization",
+      "meaning": "the process of making something accessible to everyone."
+    },
+    {
+      "word": "misinformation",
+      "meaning": "false or inaccurate information spread regardless of intent."
+    },
+    {
+      "word": "screen addiction",
+      "meaning": "a behavioral addiction characterized by excessive use of screens."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To approach this passage effectively, focus on understanding the main ideas presented in each paragraph. Pay attention to the author's opinions and the evidence provided for each argument. For multiple-choice questions, eliminate options that are clearly incorrect before making your final choice. For True/False/Not Given questions, look for specific phrases in the text that directly support the statements. In matching tasks, skim through the headings first to get a sense of their content before reading the sections closely.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

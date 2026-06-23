@@ -1,0 +1,107 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_051",
+  "title": "The Evolving Landscape of Higher Education and Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Higher Education vs Vocational Training</h2><p>The debate between the merits of higher education and vocational training has gained increasing prominence in contemporary society. As economic landscapes shift and job markets evolve, there is a growing recognition that both pathways offer unique advantages and serve distinct purposes. Higher education, traditionally associated with universities and academic rigor, provides students with a broad base of knowledge and critical thinking skills. Conversely, vocational training focuses on equipping students with specific technical skills tailored to the demands of particular industries.</p><p>Proponents of higher education argue that it fosters a comprehensive understanding of theoretical concepts, which is essential for innovation and leadership in various fields. Graduates from universities often emerge with a capacity for analytical thinking, which can be applied across a multitude of careers. However, critics contend that this approach may not adequately prepare students for the immediate demands of the workforce, leading to a skills gap that can hinder employability.</p><p>On the other hand, vocational training is lauded for its pragmatic approach, emphasizing hands-on experience and industry-specific knowledge. Programs designed to prepare students for trades such as plumbing, electrical work, or culinary arts can lead to lucrative job opportunities shortly after graduation. Nevertheless, some argue that vocational training may limit individuals' career flexibility and opportunities for advancement, as it often channels them into specific roles without the broader educational foundation that higher education provides.</p><p>As we navigate an increasingly complex and technology-driven job market, the question arises: how can we effectively integrate these two educational pathways? Efforts to create hybrid models that combine theoretical knowledge with practical application are underway, allowing students to benefit from the strengths of both systems. Such integrative approaches not only enhance employability but also equip individuals to adapt to ongoing changes in labor demands.</p><p>Ultimately, the decision between higher education and vocational training should be informed by individual goals, industry requirements, and the evolving nature of work itself. As society progresses, embracing a more inclusive view of education that values both pathways may lead to a more skilled and versatile workforce.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument in favor of higher education as mentioned in the passage?",
+      "options": {
+        "A": "It provides immediate job opportunities.",
+        "B": "It fosters analytical thinking and innovation.",
+        "C": "It focuses solely on practical skills.",
+        "D": "It limits career flexibility."
+      },
+      "answer": "B",
+      "explanation": "The passage highlights that higher education fosters a comprehensive understanding of theoretical concepts, essential for innovation and leadership."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Vocational training offers a broader educational foundation than higher education.",
+      "answer": "False",
+      "explanation": "The passage suggests that vocational training may limit individuals' career flexibility and does not provide the broader educational foundation that higher education offers."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No or Not Given.",
+      "text": "The passage suggests that hybrid education models are currently ineffective.",
+      "answer": "No",
+      "explanation": "The passage indicates that efforts to create hybrid models that combine theoretical knowledge with practical application are underway, suggesting effectiveness."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements with the correct section of the passage.",
+      "text": "1. Focuses on immediate job readiness. 2. May restrict career advancement opportunities.",
+      "options": {
+        "A": "Higher Education",
+        "B": "Vocational Training"
+      },
+      "answers": {
+        "1": "B",
+        "2": "B"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the correct paragraph.",
+      "text": "1. The Need for Integration. 2. The Benefits of Practical Skills.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 3"
+      },
+      "answers": {
+        "1": "A",
+        "2": "B"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "Vocational training is praised for its emphasis on _____ and industry-specific knowledge.",
+      "answer": "hands-on experience",
+      "explanation": "The passage states that vocational training focuses on hands-on experience and technical skills."
+    },
+    {
+      "id": "q7",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The integration of higher education and vocational training can enhance _____ and prepare students for changing job markets.",
+      "answer": "employability",
+      "explanation": "The passage discusses how integrative approaches enhance employability."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer",
+      "instruction": "Answer in NO MORE THAN THREE WORDS.",
+      "text": "What should inform the decision between higher education and vocational training?",
+      "answer": "individual goals",
+      "explanation": "The passage states that the decision should be informed by individual goals, industry requirements, and the nature of work."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "nuance",
+      "meaning": "a subtle difference in meaning or opinion."
+    },
+    {
+      "word": "pragmatic",
+      "meaning": "dealing with things sensibly and realistically in a way that is based on practical rather than theoretical considerations."
+    },
+    {
+      "word": "employability",
+      "meaning": "the quality of being suitable for paid work."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on understanding the main arguments presented for both higher education and vocational training. Pay attention to the nuances in language, particularly in how the benefits and limitations of each are articulated. For multiple-choice questions, eliminate clearly incorrect options first to increase your chances of selecting the correct answer. For true/false questions, look for specific wording in the passage that directly supports or contradicts the statement. Lastly, when completing sentences or summaries, ensure you understand the context in which the information is presented to accurately fill in the gaps.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

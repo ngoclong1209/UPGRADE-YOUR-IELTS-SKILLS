@@ -1,0 +1,97 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_021",
+  "title": "Navigating the Crossroads: Higher Education versus Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Diverging Paths of Career Preparation</h2><p>In contemporary society, the debate between higher education and vocational training has garnered considerable attention. Advocates of higher education argue that university degrees provide not only knowledge but also critical thinking skills essential for a rapidly evolving job market. They emphasize the importance of academic rigor, suggesting that such environments foster innovation and creativity. Conversely, proponents of vocational training highlight its practicality, asserting that direct hands-on experience equips individuals with the skills required for specific trades and professions. They contend that vocational pathways often result in less student debt and a quicker transition into the workforce. As the labor market continues to change, it becomes imperative to examine the merits and drawbacks of both educational routes.</p><p>Research indicates a growing trend towards vocational training, particularly in fields such as technology, healthcare, and skilled trades. These areas often face a shortage of qualified personnel, making vocational graduates highly employable. Furthermore, the increasing costs associated with higher education have led many prospective students to reconsider their options. However, critics of vocational training argue that it may limit individuals’ career advancement opportunities and restrict their potential for lifelong learning.</p><p>Ultimately, the choice between higher education and vocational training should be informed by individual career aspirations, economic considerations, and personal learning styles. While higher education may offer broader intellectual horizons, vocational training provides a direct pathway to employment. Thus, understanding one’s personal goals and the demands of the job market is crucial in making an informed decision.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument presented by advocates of higher education?",
+      "options": {
+        "A": "It provides critical thinking skills necessary for the job market.",
+        "B": "It results in higher levels of student debt.",
+        "C": "It restricts access to vocational training.",
+        "D": "It emphasizes direct hands-on experience."
+      },
+      "answer": "A",
+      "explanation": "Advocates of higher education believe that university degrees provide knowledge and critical thinking skills, which are essential in a rapidly changing job market."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Vocational training is considered to offer less student debt than higher education.",
+      "answer": "True",
+      "explanation": "The passage clearly states that vocational pathways often result in less student debt compared to traditional higher education."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "Critics of vocational training believe it may limit career advancement opportunities.",
+      "answer": "Yes",
+      "explanation": "The passage mentions that critics argue vocational training may limit individuals’ career advancement and lifelong learning potential."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match each statement with the correct paragraph.",
+      "text": {
+        "A": "Vocational training leads to a quick transition into the workforce.",
+        "B": "Higher education fosters innovation and creativity.",
+        "C": "Costs of higher education are increasing."
+      },
+      "answers": {
+        "A": "Paragraph 2",
+        "B": "Paragraph 1",
+        "C": "Paragraph 2"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "text": {
+        "1": "The Financial Implications of Education Choices",
+        "2": "The Skills Gap in the Labor Market",
+        "3": "Navigating Individual Career Paths"
+      },
+      "answers": {
+        "1": "Paragraph 2",
+        "2": "Paragraph 2",
+        "3": "Paragraph 3"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short-answer",
+      "instruction": "Answer in NO MORE THAN TWO WORDS.",
+      "text": "What is often cited as a benefit of vocational training?",
+      "answer": "Employment opportunities",
+      "explanation": "The passage states that vocational graduates are highly employable, particularly in fields facing personnel shortages."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "advocates",
+      "meaning": "Individuals who support or argue for a particular cause or policy."
+    },
+    {
+      "word": "merits",
+      "meaning": "The positive aspects or advantages of something."
+    },
+    {
+      "word": "practicality",
+      "meaning": "The quality or state of being practical; usefulness."
+    },
+    {
+      "word": "shortage",
+      "meaning": "A situation in which there is not enough of something."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the main arguments presented for both higher education and vocational training. Pay attention to the nuances in language, especially when evaluating the opinions of advocates and critics. Skim the passage for key terms related to employment and educational outcomes. For the multiple-choice questions, ensure you consider the implications of each option carefully, as distractors are designed to be closely related yet incorrect.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

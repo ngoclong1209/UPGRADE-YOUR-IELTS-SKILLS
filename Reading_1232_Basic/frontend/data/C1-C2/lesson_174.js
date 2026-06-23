@@ -1,0 +1,81 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_174",
+  "title": "Navigating the Future: The Interplay of Artificial Intelligence and Robotics",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Convergence of Intelligence: A New Era of Robotics</h2><p>In the rapidly evolving landscape of technology, artificial intelligence (AI) and robotics have emerged as pivotal forces shaping the future. The amalgamation of these two domains heralds not only unprecedented advancements in automation but also profound implications for various sectors, including manufacturing, healthcare, and even social interaction. As machines become increasingly capable of performing tasks that traditionally required human intelligence, ethical considerations surrounding their deployment become paramount.</p><p>Robotics, fundamentally concerned with the design, construction, and operation of robots, has seen significant enhancements through the integration of AI. This synergy allows robots to not merely execute pre-programmed tasks but to learn and adapt in real-time, thus improving efficiency and productivity. For instance, in manufacturing environments, AI-powered robots can analyze workflow patterns, optimize processes, and even predict equipment failures before they occur, reducing downtime and costs.</p><p>However, the implications of AI in robotics extend beyond operational efficiency. In healthcare, robots equipped with AI capabilities are being utilized for complex surgeries, rehabilitation, and elderly care. These advancements raise critical questions about the role of human oversight and the ethical ramifications of relying on machines for life-altering decisions. While proponents argue that AI-enhanced robots can augment human capabilities and reduce errors, skeptics caution against the potential loss of jobs and the erosion of human touch in caregiving.</p><p>Moreover, the societal impact of AI and robotics cannot be overlooked. As these technologies proliferate, they challenge traditional notions of employment, privacy, and security. The fear of surveillance and data misuse looms large, prompting calls for comprehensive regulatory frameworks to govern AI and robotics. Policymakers are tasked with navigating these complexities, ensuring that technological progress does not outpace ethical considerations.</p><p>In conclusion, the convergence of artificial intelligence and robotics presents both remarkable opportunities and formidable challenges. The ongoing dialogue surrounding their integration must encompass a broad range of perspectives, fostering a future where technology serves humanity while upholding ethical standards. As we stand on the brink of this new era, the question remains: how can we harness these innovations responsibly?</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the passage suggest about the role of AI in robotics?",
+      "options": {
+        "A": "It diminishes the need for human intervention in all tasks.",
+        "B": "It enhances robots' ability to learn and adapt.",
+        "C": "It primarily focuses on cost reduction in manufacturing.",
+        "D": "It leads to a complete replacement of human workers."
+      },
+      "answer": "B",
+      "explanation": "The passage highlights that the integration of AI allows robots to learn and adapt in real-time, enhancing their capabilities beyond just executing tasks."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "AI-powered robots are being used exclusively for manufacturing purposes.",
+      "answer": "False",
+      "explanation": "The passage mentions that AI-powered robots are also being utilized in healthcare, indicating that their applications are not limited to manufacturing."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The author believes that AI will completely eliminate the need for human oversight in healthcare.",
+      "answer": "No",
+      "explanation": "The passage raises concerns about the need for human oversight, indicating that the author does not believe AI can fully replace it."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements with the correct paragraph.",
+      "options": {
+        "1": "AI robots can predict equipment failures.",
+        "2": "Concerns about job loss are prevalent.",
+        "3": "Regulatory frameworks are needed to manage technology."
+      },
+      "answers": {
+        "1": "Paragraph 2",
+        "2": "Paragraph 3",
+        "3": "Paragraph 4"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "short-answer_questions",
+      "instruction": "Answer the following question using NO MORE THAN THREE WORDS.",
+      "text": "What must policymakers ensure regarding technological progress?",
+      "answer": "Ethical considerations"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "amalgamation",
+      "meaning": "the action of combining or uniting."
+    },
+    {
+      "word": "pivotal",
+      "meaning": "of crucial importance in relation to the development or success of something else."
+    },
+    {
+      "word": "augments",
+      "meaning": "makes something greater by adding to it."
+    },
+    {
+      "word": "erosion",
+      "meaning": "the gradual destruction or diminution of something."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the main ideas and the implications of AI and robotics integration. Pay close attention to the author's tone and the nuances in the language used, as they can provide insights into the underlying arguments. For multiple-choice questions, eliminate answers that misinterpret the passage. For True/False/Not Given questions, consider what is directly stated versus what is implied. Practicing skimming and scanning will help you locate specific information quickly.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,74 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_129",
+  "title": "The Impact of Tourism on Local Communities",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Impact of Tourism on Local Communities</h2><p>Tourism has become one of the largest industries in the world, bringing both opportunities and challenges to local communities. In many regions, tourism can create jobs, stimulate economic growth, and promote cultural exchange. However, the rapid influx of visitors can also lead to significant changes in local lifestyles and environments.</p><p>Many small towns have transformed from quiet villages into bustling tourist destinations. While this can provide economic benefits, it can also disrupt the daily lives of residents. For instance, housing prices may rise as more properties are converted into vacation rentals, making it difficult for locals to afford their homes.</p><p>Moreover, the environmental impact of tourism cannot be overlooked. Natural resources may become strained due to the high demand for water, food, and energy from tourists. Additionally, popular tourist sites may suffer from erosion and pollution, affecting the local ecosystem.</p><p>On the positive side, tourism can foster a sense of pride among locals as they share their culture and traditions with visitors. Many communities have started to embrace sustainable tourism practices, aiming to balance economic benefits with the preservation of their heritage and environment.</p><p>In conclusion, while tourism has the potential to enhance the economic situation of local communities, it is essential to manage its impacts carefully. By promoting responsible tourism, communities can reap the benefits while minimizing negative effects.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major benefit of tourism mentioned in the passage?",
+      "options": {
+        "A": "It increases local housing prices.",
+        "B": "It promotes cultural exchange.",
+        "C": "It leads to environmental degradation.",
+        "D": "It decreases job opportunities."
+      },
+      "answer": "B",
+      "explanation": "The passage states that tourism can promote cultural exchange, making option B the correct answer."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What challenge is associated with the rise of tourism in small towns?",
+      "options": {
+        "A": "Increased job opportunities for residents.",
+        "B": "Disruption of local lifestyles.",
+        "C": "Reduction in cultural pride.",
+        "D": "Decreased demand for local products."
+      },
+      "answer": "B",
+      "explanation": "The passage mentions that the rise of tourism can disrupt the daily lives of residents, making option B correct."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Tourism has a negative impact on the local ecosystem.",
+      "answer": "True",
+      "explanation": "The passage discusses how tourism can lead to erosion and pollution, indicating a negative impact on the ecosystem."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "All local communities benefit equally from tourism.",
+      "answer": "Not Given",
+      "explanation": "The passage does not provide information about whether all communities benefit equally from tourism."
+    },
+    {
+      "id": "q5",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that tourism can be managed sustainably?",
+      "answer": "Yes",
+      "explanation": "The passage suggests that communities can embrace sustainable tourism practices, indicating the author's belief in its management."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "influx",
+      "meaning": "a large arrival or incoming of people or things."
+    },
+    {
+      "word": "erosion",
+      "meaning": "the process by which the surface of the earth gets worn away by water, wind, or other natural agents."
+    },
+    {
+      "word": "sustainable",
+      "meaning": "capable of being maintained at a certain rate or level, particularly in environmental contexts."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, pay attention to the main ideas and the specific details that illustrate the impacts of tourism. Look for keywords in the questions that can help you find the relevant sections in the text. Make sure to understand the implications of tourism on both economic and environmental aspects.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

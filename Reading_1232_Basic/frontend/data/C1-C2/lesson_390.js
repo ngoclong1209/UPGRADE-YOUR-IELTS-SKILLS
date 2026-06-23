@@ -1,0 +1,109 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_390",
+  "title": "The Impact of Nutritional Science on Modern Diets",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Nutritional Science: A Paradigm Shift in Dietary Practices</h2><p>In recent years, the field of nutritional science has undergone a significant transformation, challenging traditional dietary norms and advocating for a more personalized approach to health. This shift is largely attributed to advances in research that emphasize the interconnectivity between individual genetics and dietary needs. As the one-size-fits-all model of nutrition falls out of favor, emerging evidence suggests that dietary recommendations must be tailored to accommodate unique physiological profiles, allowing for a more effective management of health conditions.</p><p>For instance, recent studies have demonstrated that individuals with specific genetic markers may metabolize macronutrients differently, resulting in varying responses to dietary fats and carbohydrates. Thus, a diet that is beneficial for one individual may not yield the same results for another. This realization has led to the burgeoning field of nutrigenomics, which investigates how food interacts with genes to influence health outcomes. As a result, a growing number of health professionals advocate for personalized nutrition plans that take into account genetic predispositions, lifestyle choices, and environmental factors.</p><p>Moreover, the role of microbiota in digestion and overall health has gained significant attention. Research indicates that gut health is intricately linked to mental and physical well-being, prompting a re-evaluation of dietary components that promote a balanced microbiome. Prebiotics and probiotics are now recognized as essential elements in dietary strategies aimed at enhancing gut health, thereby fostering a holistic approach to diet that transcends mere calorie counting.</p><p>In conclusion, the convergence of genetics, gut health, and individualized dietary practices represents a paradigm shift in the way we perceive nutrition. As the field of nutritional science continues to evolve, it is imperative for both consumers and health practitioners to embrace these advancements, fostering a more informed and health-conscious society.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary reason for the shift towards personalized nutrition?",
+      "options": {
+        "A": "Advances in research linking genetics to dietary needs.",
+        "B": "The increasing popularity of dietary trends.",
+        "C": "A growing concern over obesity rates globally.",
+        "D": "The simplification of dietary guidelines for the public."
+      },
+      "answer": "A",
+      "explanation": "The correct answer is A because the passage emphasizes the significant transformation in nutritional science attributed to research showing the relationship between individual genetics and dietary needs."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given' for each statement.",
+      "text": "Nutritional science has only recently started to consider genetics in dietary recommendations.",
+      "answer": "True",
+      "explanation": "The passage states that nutritional science has undergone a significant transformation in recent years, indicating that genetics is now being considered."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes that a one-size-fits-all diet is still effective.",
+      "answer": "No",
+      "explanation": "The passage clearly states that the one-size-fits-all model of nutrition is falling out of favor, suggesting that the author does not believe it is effective."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following concepts with their descriptions.",
+      "text": {
+        "A": "Nutrigenomics",
+        "B": "Microbiota",
+        "C": "Personalized Nutrition"
+      },
+      "options": {
+        "1": "Investigates the interaction between food and genes.",
+        "2": "Refers to tailored dietary practices.",
+        "3": "Essential for maintaining gut health."
+      },
+      "answer": {
+        "A": "1",
+        "B": "3",
+        "C": "2"
+      },
+      "explanation": "Nutrigenomics is described as investigating food and gene interactions, microbiota is linked to gut health, and personalized nutrition refers to tailored dietary practices."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the appropriate paragraphs.",
+      "text": {
+        "1": "The importance of gut health in diet.",
+        "2": "A new approach to dietary recommendations.",
+        "3": "The relevance of genetic differences in nutrition."
+      },
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3"
+      },
+      "answer": {
+        "1": "C",
+        "2": "B",
+        "3": "A"
+      },
+      "explanation": "Each heading corresponds to the main idea of the paragraph, highlighting the importance of gut health, the new dietary approach, and genetic differences in nutrition."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence using no more than three words.",
+      "text": "Recent studies reveal that individuals with specific genetic markers may metabolize macronutrients differently, which leads to varying responses to dietary ______.",
+      "answer": "fats and carbohydrates",
+      "explanation": "The passage discusses how genetic markers influence the metabolism of macronutrients, specifically fats and carbohydrates."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "nutrigenomics",
+      "meaning": "The study of how food interacts with genes to influence health outcomes."
+    },
+    {
+      "word": "microbiota",
+      "meaning": "The community of microorganisms living in the gut that plays a crucial role in health."
+    },
+    {
+      "word": "prebiotics",
+      "meaning": "Substances that induce the growth or activity of beneficial microorganisms in the gut."
+    },
+    {
+      "word": "personalized nutrition",
+      "meaning": "Dietary recommendations tailored to an individual's genetic makeup and health needs."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on understanding the key concepts of personalized nutrition and the role of genetics in dietary practices. Pay attention to the nuanced language and implications within each paragraph, as they are integral to answering the questions accurately. When approaching multiple-choice questions, eliminate distractors by identifying the core message of each statement and its relevance to the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

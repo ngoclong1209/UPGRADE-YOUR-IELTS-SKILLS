@@ -1,0 +1,102 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_493",
+  "title": "The Unfolding Crisis: Navigating the Complexities of Climate Change and Global Warming",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Climate Change: An Inextricable Reality</h2><p>The phenomenon of climate change has transcended simplistic definitions, evolving into a multifaceted crisis that encompasses environmental, social, and economic dimensions. As global temperatures continue to rise at an alarming rate, driven predominantly by anthropogenic factors, the urgency for a comprehensive understanding of its implications has never been greater. The Intergovernmental Panel on Climate Change (IPCC) reports unequivocally illustrate that the increase in greenhouse gas emissions correlates strongly with industrial activities, leading to severe weather patterns, rising sea levels, and devastating biodiversity loss.</p><p>Moreover, the socio-economic ramifications of climate change are profound, disproportionately affecting marginalized communities across the globe. These populations often lack the resources to adapt to the shifting climate, thereby exacerbating existing inequalities. Consequently, climate change is not merely an environmental issue; it is a stark reminder of the interconnectedness of global systems and the pressing need for collaborative international action.</p><p>In addressing these challenges, innovative solutions and policies are paramount. Transitioning to renewable energy sources, enhancing energy efficiency, and implementing sustainable agricultural practices are critical steps that can mitigate the adverse effects of climate change. Furthermore, fostering a culture of climate literacy among the populace is essential for empowering individuals to advocate for progressive policies and practices.</p><p>Ultimately, the path forward requires a holistic approach that integrates scientific research, policy-making, and community engagement. As stewards of the planet, it is incumbent upon us to navigate this complex landscape with vigilance and resolve, ensuring a sustainable future for generations to come.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary cause of the rise in global temperatures according to the passage?",
+      "options": {
+        "A": "Natural phenomena occurring over millennia.",
+        "B": "Anthropogenic factors linked to industrial activities.",
+        "C": "Variations in solar radiation.",
+        "D": "Fluctuations in ocean currents."
+      },
+      "answer": "B",
+      "explanation": "The passage explicitly states that the rise in global temperatures is driven predominantly by anthropogenic factors, particularly greenhouse gas emissions resulting from industrial activities."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "State whether the following statement is True, False or Not Given.",
+      "text": "Marginalized communities are less affected by climate change compared to wealthier populations.",
+      "answer": "False",
+      "explanation": "The passage indicates that marginalized communities are disproportionately affected by climate change, contradicting the statement."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No or Not Given.",
+      "text": "The author believes that individual advocacy is unimportant in combating climate change.",
+      "answer": "No",
+      "explanation": "The author emphasizes the importance of fostering climate literacy to empower individuals, which suggests that individual advocacy is indeed important."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following concepts with their corresponding descriptions.",
+      "text": "1. Renewable Energy Sources\n2. Sustainable Agricultural Practices\n3. Climate Literacy\n4. International Collaboration",
+      "options": {
+        "A": "Essential for empowering individuals to advocate for progressive policies.",
+        "B": "Critical steps to mitigate adverse effects of climate change.",
+        "C": "Helps transition away from fossil fuels.",
+        "D": "Necessary to address climate change effectively."
+      },
+      "answers": {
+        "1": "C",
+        "2": "B",
+        "3": "A",
+        "4": "D"
+      },
+      "explanation": "The matching is based on the descriptions provided in the passage regarding each concept's role in addressing climate change."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence with NO MORE THAN TWO WORDS.",
+      "text": "The rise in greenhouse gas emissions is strongly correlated with __________.",
+      "answer": "industrial activities",
+      "explanation": "The passage directly states this correlation, underscoring the significant role of industrial activities in greenhouse gas emissions."
+    },
+    {
+      "id": "q6",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The passage highlights the need for a __________ approach to tackle climate change effectively.",
+      "answer": "holistic",
+      "explanation": "The author mentions that a holistic approach is necessary for integrating various aspects of climate action."
+    },
+    {
+      "id": "q7",
+      "type": "short_answer",
+      "instruction": "Answer the question with NO MORE THAN THREE WORDS.",
+      "text": "What does the author suggest is necessary for empowering individuals regarding climate action?",
+      "answer": "climate literacy",
+      "explanation": "The passage emphasizes that climate literacy is essential for individuals to engage in advocacy."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "anthropogenic",
+      "meaning": "resulting from the influence of human beings."
+    },
+    {
+      "word": "exacerbating",
+      "meaning": "making a problem or situation worse."
+    },
+    {
+      "word": "mitigate",
+      "meaning": "to make less severe, serious, or painful."
+    },
+    {
+      "word": "interconnectedness",
+      "meaning": "the state of being connected with each other."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When tackling this passage, focus on identifying the main arguments presented by the author. Pay attention to the nuanced language used to express attitudes towards climate change and the implications of specific phrases. Additionally, practice skimming for key terms and scanning for detailed information to answer the questions effectively.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

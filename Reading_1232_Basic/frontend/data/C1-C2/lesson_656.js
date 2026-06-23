@@ -1,0 +1,81 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_656",
+  "title": "Harnessing the Sun: The Future of Solar Energy",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Solar Energy: A Sustainable Future</h2><p>In recent years, solar energy has emerged as a pivotal player in the global energy landscape. With the alarming rate at which fossil fuels are being depleted, solar energy offers a renewable alternative that not only promises sustainability but also provides a solution to the escalating climate crisis. The technological advancements in photovoltaic cells have remarkably increased their efficiency, making solar panels more accessible and cost-effective for both residential and commercial applications.</p><p>Furthermore, the decentralized nature of solar energy production enables communities to generate their own electricity, thereby reducing reliance on centralized power grids. This shift not only empowers consumers but also enhances energy security, particularly in remote areas where access to traditional energy sources is limited. However, the transition to solar energy is not without its challenges. The intermittent nature of sunlight necessitates the development of efficient energy storage solutions to ensure a consistent energy supply, particularly during peak usage times.</p><p>Moreover, the environmental impact of solar panel production and disposal raises significant concerns. While solar energy is heralded for its low operational emissions, the manufacturing processes of solar panels can contribute to pollution if not managed responsibly. Therefore, a holistic approach that encompasses the entire lifecycle of solar technology is crucial for maximizing its benefits while mitigating potential environmental harm.</p><p>In conclusion, while solar energy presents a viable pathway towards a sustainable future, it requires collaborative efforts from governments, industries, and communities to address the inherent challenges and harness its full potential.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary purpose of the passage?",
+      "options": {
+        "A": "To discuss the challenges and benefits of solar energy.",
+        "B": "To promote fossil fuels as a sustainable energy source.",
+        "C": "To outline the history of solar technology development.",
+        "D": "To explain the financial aspects of solar energy investments."
+      },
+      "answer": "A",
+      "explanation": "The passage primarily discusses both the benefits and challenges associated with solar energy, thereby making option A the correct choice."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Solar energy can eliminate the need for centralized power grids.",
+      "answer": "True",
+      "explanation": "The passage states that the decentralized nature of solar energy production allows communities to generate their own electricity, reducing reliance on centralized power grids."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that solar energy is without any environmental impact.",
+      "answer": "No",
+      "explanation": "The passage mentions that while solar energy has low operational emissions, the production and disposal of solar panels can contribute to pollution, indicating the author's cautious stance."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following aspects of solar energy with their corresponding effects.",
+      "options": {
+        "1": "Decentralized production",
+        "2": "Intermittent supply",
+        "3": "Panel manufacturing",
+        "4": "Technological advancements"
+      },
+      "answers": {
+        "1": "Empowers local communities",
+        "2": "Requires effective storage solutions",
+        "3": "Can lead to environmental pollution",
+        "4": "Increases efficiency and accessibility"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "summary_completion",
+      "text": "Complete the following summary using no more than two words: Solar energy is considered a __________ alternative to fossil fuels.",
+      "answer": "renewable",
+      "explanation": "The term 'renewable' is used in the context of solar energy being a viable option amidst the depletion of fossil fuels."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "photovoltaic",
+      "meaning": "relating to the technology that converts sunlight directly into electricity."
+    },
+    {
+      "word": "decentralized",
+      "meaning": "distribution of power away from a central authority; allowing local control."
+    },
+    {
+      "word": "intermittent",
+      "meaning": "occurring at irregular intervals; not continuous or steady."
+    },
+    {
+      "word": "holistic",
+      "meaning": "considering the whole system rather than just its parts."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the main arguments presented by the author regarding solar energy. Pay attention to the nuances in language that indicate the author's attitude towards the challenges and benefits. For multiple-choice questions, eliminate distractors by looking for subtle differences in wording and implication.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,100 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_422",
+  "title": "The Evolution of Online Learning: Challenges and Opportunities",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Evolution of Online Learning: Challenges and Opportunities</h2><p>In recent years, the landscape of education has undergone a profound transformation, primarily propelled by advancements in technology and the increasing accessibility of the internet. Online learning, once considered a supplementary option, has now emerged as a mainstream educational approach. While the benefits of flexibility and accessibility are frequently highlighted, numerous challenges persist that merit critical examination.</p><p>The rapid shift towards distance education has enabled a diverse array of learners to engage with content that might otherwise be inaccessible. For instance, individuals residing in remote areas or those balancing work and family commitments can now partake in academic pursuits through virtual platforms. However, the inherent lack of face-to-face interaction presents significant hurdles, such as diminished motivation and difficulties in establishing a sense of community among learners.</p><p>Additionally, the effectiveness of online learning is often contingent upon the quality of instructional design. A poorly structured course can lead to disengagement and a superficial understanding of the material. Educators are tasked with not only delivering content but also fostering an engaging learning environment that replicates the dynamics of traditional classrooms.</p><p>Moreover, the advent of online learning has given rise to concerns regarding the assessment of student performance. The potential for academic dishonesty is heightened in a virtual setting, prompting educational institutions to rethink their evaluation methods. Innovative assessment strategies, such as project-based evaluations and peer reviews, are gaining traction as viable alternatives to conventional testing.</p><p>In conclusion, while online learning offers unprecedented opportunities for educational advancement, it also presents challenges that require thoughtful solutions. As the field continues to evolve, stakeholders must remain vigilant in addressing these issues to ensure that the benefits of distance education are fully realized.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C, or D.",
+      "text": "What is primarily highlighted as a significant advantage of online learning?",
+      "options": {
+        "A": "The ability to engage with content remotely.",
+        "B": "The guarantee of a traditional learning experience.",
+        "C": "The reduction in educational costs.",
+        "D": "The increased interaction with instructors."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct as the passage emphasizes the accessibility of online learning for diverse learners, particularly those in remote areas."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Online learning eliminates all forms of academic dishonesty.",
+      "answer": "False",
+      "explanation": "The passage states that the potential for academic dishonesty is heightened in a virtual setting, indicating that it does not eliminate such issues."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes that all online courses are ineffective.",
+      "answer": "No",
+      "explanation": "The author acknowledges that the effectiveness of online learning can vary based on the quality of instructional design, suggesting not all courses are ineffective."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the correct paragraph.",
+      "text": "1. The importance of innovative assessment methods.\n2. The benefits of online learning for remote learners.\n3. Challenges faced by online learners.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answers": {
+        "1": "C",
+        "2": "B",
+        "3": "B"
+      },
+      "explanation": "Paragraph 3 discusses assessment methods, Paragraph 2 highlights benefits for remote learners, and Paragraph 2 also mentions challenges."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence using no more than two words.",
+      "text": "The lack of ________ interaction is a challenge in online learning.",
+      "answer": "face-to-face",
+      "explanation": "The passage specifically mentions the lack of face-to-face interaction as a significant hurdle in online learning."
+    },
+    {
+      "id": "q6",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary using no more than two words.",
+      "text": "Online learning has transformed education by providing __________ access to learning materials, but it has also raised concerns regarding __________ integrity.",
+      "answers": {
+        "1": "increased",
+        "2": "academic"
+      },
+      "explanation": "The passage notes that online learning has increased access but also highlights concerns regarding academic integrity."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "profound",
+      "meaning": "Having a deep, intense, or far-reaching effect."
+    },
+    {
+      "word": "contingent",
+      "meaning": "Dependent on; relying upon."
+    },
+    {
+      "word": "engagement",
+      "meaning": "The act of being involved or participating actively."
+    },
+    {
+      "word": "replicate",
+      "meaning": "To reproduce or duplicate something."
+    },
+    {
+      "word": "stakeholders",
+      "meaning": "Individuals or groups with an interest in a particular issue or organization."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the main arguments presented by the author. Pay close attention to the nuances in language, particularly in the context of challenges and opportunities. Take note of the structure of the passage, which often indicates the relationship between ideas. Practice skimming for key points and scanning for specific details to enhance your comprehension and answer accuracy.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

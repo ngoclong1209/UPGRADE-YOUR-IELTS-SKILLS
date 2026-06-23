@@ -1,0 +1,93 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_442",
+  "title": "The Evolution of Online Learning: Bridging Distances and Cultivating Knowledge",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Paradigm Shift in Education</h2><p>In the contemporary landscape of education, online learning has emerged as a pivotal force, reshaping traditional pedagogical frameworks. The advent of digital technology has catalyzed a transformation that transcends geographical boundaries, enabling learners from diverse backgrounds to access high-quality educational resources. This evolution is not merely a product of convenience but a profound shift towards inclusivity and accessibility.</p><p>Moreover, the rise of distance education has prompted educators to rethink their instructional methodologies. The integration of asynchronous and synchronous learning modalities allows for a more personalized learning experience, catering to the unique needs of each student. As a result, the role of the educator is evolving from a mere transmitter of knowledge to a facilitator of learning, guiding students through a self-directed educational journey.</p><p>However, this shift is accompanied by challenges that cannot be overlooked. The digital divide remains a significant barrier, as not all students have equal access to technology and reliable internet connections. Additionally, the lack of face-to-face interaction can lead to feelings of isolation among learners, raising concerns about the effectiveness of online education. Addressing these issues is crucial for optimizing the online learning experience and ensuring that it serves as a truly equitable platform for all.</p><p>Ultimately, the future of online learning hinges on the commitment of educational institutions to innovate and adapt. By harnessing the potential of technology while remaining cognizant of its limitations, the educational sector can create a more inclusive and effective learning environment that empowers learners to thrive in an increasingly digital world.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary reason for the evolution of online learning according to the passage?",
+      "options": {
+        "A": "To enhance geographical accessibility to education.",
+        "B": "To replace traditional educational institutions entirely.",
+        "C": "To minimize the use of technology in learning.",
+        "D": "To create a uniform learning experience for all students."
+      },
+      "answer": "A",
+      "explanation": "The passage emphasizes the role of online learning in transcending geographical boundaries and enhancing accessibility, making option A the correct choice."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Online learning has completely replaced traditional classroom settings.",
+      "answer": "False",
+      "explanation": "The passage discusses the evolution of online learning as a shift rather than a complete replacement of traditional methods, indicating that the statement is false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The passage suggests that all students have equal access to technology.",
+      "answer": "No",
+      "explanation": "The passage mentions the digital divide as a significant barrier, indicating that not all students have equal access."
+    },
+    {
+      "id": "q4",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "text": "1. The Role of Educators in Online Learning\n2. Challenges of Distance Education\n3. The Impact of Technology on Learning\n4. Future Directions for Online Education",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answers": {
+        "A": "2",
+        "B": "1",
+        "C": "3",
+        "D": "4"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The role of the educator is evolving into that of a __________.",
+      "answer": "facilitator of learning",
+      "explanation": "The passage states that educators are transitioning from knowledge transmitters to facilitators, indicating this role."
+    },
+    {
+      "id": "q6",
+      "type": "short-answer",
+      "instruction": "Answer with NO MORE THAN THREE WORDS.",
+      "text": "What is a significant barrier to online education mentioned in the passage?",
+      "answer": "digital divide",
+      "explanation": "The passage explicitly discusses the digital divide as a major challenge in online learning."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "pedagogical",
+      "meaning": "relating to the method and practice of teaching."
+    },
+    {
+      "word": "asynchronous",
+      "meaning": "not occurring at the same time; allowing students to learn at their own pace."
+    },
+    {
+      "word": "self-directed",
+      "meaning": "having control over one's own learning process."
+    },
+    {
+      "word": "equitable",
+      "meaning": "fair and impartial, especially in terms of access to resources."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on understanding the main ideas presented in each paragraph. Pay attention to the language used to describe the roles of educators and the challenges faced in online learning. Make sure to distinguish between facts presented and implied meanings. For multiple choice questions, eliminate options that do not align closely with the text. For true/false/not given questions, look for explicit statements in the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

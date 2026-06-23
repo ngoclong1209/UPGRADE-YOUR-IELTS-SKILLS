@@ -1,0 +1,107 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_412",
+  "title": "The Evolution of Online Learning: A Paradigm Shift in Education",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Evolution of Online Learning: A Paradigm Shift in Education</h2><p>In recent years, online learning has emerged as a formidable force in the educational landscape, revolutionizing traditional paradigms of instruction. Initially regarded as a supplementary modality, it has now transformed into a primary avenue for knowledge acquisition across diverse demographics. This shift is driven by technological advancements, increasing access to the internet, and a growing recognition of the efficacy of digital pedagogies.</p><p>One of the most significant advantages of online education is its unparalleled flexibility. Learners can engage with content at their own pace, accommodating individual schedules and learning styles. Furthermore, online platforms often provide a myriad of resources, ranging from interactive modules to comprehensive databases, enhancing the learning experience.</p><p>Nevertheless, despite its benefits, online learning is not without challenges. Issues of digital literacy, disparities in access to technology, and the potential for decreased motivation among learners present formidable obstacles. Moreover, the lack of face-to-face interaction can lead to feelings of isolation, undermining the social aspects of learning.</p><p>In conclusion, while online learning represents a significant advancement in educational methodology, it is crucial to address its inherent challenges to maximize its potential. As we move forward, a balanced integration of online and traditional learning modalities may well be the key to fostering an inclusive and effective educational environment.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary reason for the shift towards online learning?",
+      "options": {
+        "A": "Technological advancements and access to the internet.",
+        "B": "A decrease in the quality of traditional education.",
+        "C": "Government mandates for online education.",
+        "D": "The preference of students for classroom environments."
+      },
+      "answer": "A",
+      "explanation": "A is correct because the passage highlights technological advancements and increased internet access as key drivers of the shift towards online learning."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Online learning has been primarily used as a main form of education since its inception.",
+      "answer": "False",
+      "explanation": "The passage states that online learning was initially regarded as a supplementary modality, indicating that it was not the primary form of education at the start."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that online learning can replace traditional education entirely.",
+      "answer": "No",
+      "explanation": "The passage suggests a balanced integration of online and traditional learning modalities, indicating the author's belief that online learning should complement rather than replace traditional education."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the challenges of online learning with their descriptions.",
+      "text": "Challenges: A) Digital literacy; B) Access to technology; C) Motivation; D) Social interaction",
+      "options": {
+        "1": "Can lead to feelings of isolation.",
+        "2": "May hinder the effectiveness of online education.",
+        "3": "A significant barrier for some learners.",
+        "4": "Critical for successful learning engagement."
+      },
+      "answers": {
+        "A": "2",
+        "B": "3",
+        "C": "4",
+        "D": "1"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the following headings with the corresponding paragraphs.",
+      "text": "Headings: A) The Future of Online Learning; B) Advantages of Online Education; C) Challenges Faced by Learners; D) Historical Context of Online Learning",
+      "options": {
+        "1": "Discusses the evolution and changing perceptions of online education.",
+        "2": "Explores the flexibility and resources available in online learning.",
+        "3": "Outlines the various obstacles learners encounter in online environments.",
+        "4": "Speculates on the potential integration of online and traditional methods."
+      },
+      "answers": {
+        "A": "4",
+        "B": "2",
+        "C": "3",
+        "D": "1"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence using NO MORE THAN THREE WORDS.",
+      "text": "The lack of __________ can undermine the social aspects of learning.",
+      "answer": "face-to-face interaction",
+      "explanation": "The passage explicitly mentions that the lack of face-to-face interaction can lead to feelings of isolation."
+    },
+    {
+      "id": "q7",
+      "type": "short-answer_questions",
+      "instruction": "Answer the following question using NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "What is highlighted as a significant advantage of online education?",
+      "answer": "flexibility",
+      "explanation": "The passage emphasizes flexibility as a primary benefit of online learning."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "pedagogies",
+      "meaning": "methods and practices of teaching."
+    },
+    {
+      "word": "demographics",
+      "meaning": "statistical data relating to the population and particular groups within it."
+    },
+    {
+      "word": "myriad",
+      "meaning": "countless or extremely great in number."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, pay close attention to the structure and organization of information. Focus on understanding the main arguments presented by the author and how they relate to the challenges and benefits of online learning. Look for specific phrases that indicate the author's attitude and be aware of subtle nuances in language that may affect the meaning of the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

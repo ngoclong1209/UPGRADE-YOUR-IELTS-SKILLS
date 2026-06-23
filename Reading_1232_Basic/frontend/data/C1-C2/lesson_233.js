@@ -1,0 +1,80 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_233",
+  "title": "The Delicate Balance: Understanding Climate Change and Global Warming",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Climate Change and Its Multifaceted Impacts</h2><p>Climate change represents one of the most pressing challenges of the 21st century, characterized by significant alterations in global weather patterns attributable primarily to human activities. The burning of fossil fuels, deforestation, and industrial emissions have led to a discernible increase in atmospheric greenhouse gases, contributing to global warming. This phenomenon manifests through extreme weather events, rising sea levels, and disrupted ecosystems. </p><p>Research indicates that the implications of climate change extend beyond environmental degradation; they encompass socioeconomic dimensions that affect global health, food security, and economic stability. The disparity in vulnerability to climate impacts between developed and developing nations underscores the urgent need for equitable solutions. </p><p>Furthermore, the psychological effects of climate change cannot be overlooked. The phenomenon of eco-anxiety, characterized by chronic fear of environmental doom, has emerged as a significant concern, particularly among younger generations. Addressing these mental health implications is crucial as societies navigate the complexities of climate adaptation and mitigation.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary cause of the increase in atmospheric greenhouse gases according to the passage?",
+      "options": {
+        "A": "Natural climate events",
+        "B": "Human activities such as fossil fuel combustion",
+        "C": "Changes in ocean currents",
+        "D": "Solar radiation fluctuations"
+      },
+      "answer": "B",
+      "explanation": "The passage clearly states that human activities, particularly the burning of fossil fuels, are the primary cause of the increase in atmospheric greenhouse gases."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Climate change only affects environmental factors and does not impact socioeconomic aspects.",
+      "answer": "False",
+      "explanation": "The passage explicitly mentions that climate change impacts socioeconomic dimensions, thus making the statement false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that developed countries are more vulnerable to climate change than developing countries.",
+      "answer": "No",
+      "explanation": "The passage states that there is a disparity in vulnerability, indicating that developing nations are often more vulnerable to climate impacts."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following impacts of climate change with their descriptions.",
+      "text": "1. Eco-anxiety\n2. Rising sea levels\n3. Extreme weather events",
+      "options": {
+        "A": "An emotional response to environmental changes affecting mental health.",
+        "B": "A physical phenomenon leading to coastal erosion and habitat loss.",
+        "C": "Weather patterns resulting in hurricanes and droughts."
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      },
+      "explanation": "The explanations provided in the passage correspond to the impacts listed."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The phenomenon of eco-anxiety has emerged as a significant concern among _____ generations.",
+      "answer": "younger",
+      "explanation": "The passage states that eco-anxiety is particularly concerning for younger generations."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "ecosystem",
+      "meaning": "A biological community of interacting organisms and their physical environment."
+    },
+    {
+      "word": "socioeconomic",
+      "meaning": "Relating to or concerned with the interaction of social and economic factors."
+    },
+    {
+      "word": "mitigation",
+      "meaning": "The action of reducing the severity, seriousness, or painfulness of something."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel at this reading, focus on understanding the main ideas and the author's perspective. Pay attention to complex sentence structures and the use of academic vocabulary. When answering questions, look for paraphrases and implied meanings rather than direct statements. Skim the passage for keywords related to questions, and ensure to understand the nuances of the writer's opinion on climate change.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

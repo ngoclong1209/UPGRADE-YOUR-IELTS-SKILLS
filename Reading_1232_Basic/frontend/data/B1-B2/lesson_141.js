@@ -1,0 +1,74 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_141",
+  "title": "Higher Education vs. Vocational Training: Making the Right Choice",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Higher Education vs. Vocational Training</h2><p>The choice between higher education and vocational training is a significant decision many young people face today. Higher education, often provided by universities and colleges, typically involves a broader curriculum that includes theoretical knowledge and critical thinking skills. Graduates often find themselves in professional roles that require a degree and tend to have higher earning potential over the course of their careers.</p><p>On the other hand, vocational training focuses on practical skills and specific trades. Programs can range from a few months to a couple of years and are designed to prepare students for immediate employment in fields like plumbing, electrical work, or culinary arts. This pathway often results in lower student debt and quicker entry into the workforce.</p><p>Supporters of higher education argue that it fosters a well-rounded individual equipped for various challenges, while advocates for vocational training emphasize the importance of job readiness and skill acquisition. Both paths have their merits, and the choice often depends on individual career goals and financial considerations.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a key advantage of higher education according to the passage?",
+      "options": {
+        "A": "It offers practical skills for immediate jobs.",
+        "B": "It generally leads to higher earning potential.",
+        "C": "It requires less time than vocational training.",
+        "D": "It is more affordable than vocational training."
+      },
+      "answer": "B",
+      "explanation": "The passage states that graduates of higher education tend to have higher earning potential over their careers, making option B correct."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Vocational training is often more expensive than higher education.",
+      "answer": "False",
+      "explanation": "The passage mentions that vocational training often results in lower student debt, indicating it is generally less expensive than higher education."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the passage suggest that vocational training prepares individuals for specific jobs?",
+      "answer": "Yes",
+      "explanation": "The passage states that vocational training focuses on practical skills designed to prepare students for immediate employment, clearly supporting this statement."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following aspects with their descriptions.",
+      "options": {
+        "A": "Higher Education",
+        "B": "Vocational Training"
+      },
+      "descriptions": {
+        "1": "Focuses on practical skills.",
+        "2": "Typically leads to professional roles.",
+        "3": "Can be completed in a shorter time frame.",
+        "4": "Involves a broader curriculum."
+      },
+      "answers": {
+        "A": [
+          "2",
+          "4"
+        ],
+        "B": [
+          "1",
+          "3"
+        ]
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "curriculum",
+      "meaning": "The subjects comprising a course of study in a school or college."
+    },
+    {
+      "word": "advocates",
+      "meaning": "Individuals who publicly support or recommend a particular cause or policy."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the main arguments for both higher education and vocational training. Pay attention to key terms and phrases that indicate advantages and disadvantages. Take notes on each type of education's characteristics as you read to help with matching and multiple-choice questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

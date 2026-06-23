@@ -1,0 +1,121 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_517",
+  "title": "Navigating the Urban Landscape: Public Transportation vs. Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Public Transportation vs. Private Cars: An Urban Dilemma</h2><p>In modern urban environments, the debate surrounding public transportation and private vehicles has intensified, particularly in the context of sustainability and urban planning. Proponents of public transportation argue that it offers a more eco-friendly alternative, reducing traffic congestion and greenhouse gas emissions. Cities like Tokyo and Paris exemplify successful public transit systems that not only alleviate road traffic but also promote economic development through increased accessibility.</p><p>Conversely, advocates for private car usage assert the convenience and flexibility they provide, particularly in areas where public transport infrastructure is lacking. The argument here pivots on personal freedom and the ability to travel without the constraints of timetables or routes dictated by public systems. However, this perspective often overlooks the broader implications of car dependency, such as urban sprawl and increased air pollution.</p><p>Moreover, the rise of ride-sharing services has introduced a hybrid model that complicates the binary choice between public and private transport. These services offer the flexibility of private vehicles while attempting to mitigate some of the environmental impacts typically associated with car ownership.</p><p>Ultimately, the choice between public transport and private cars involves nuanced considerations of economic, environmental, and social factors. As cities continue to grow, finding a balance that maximizes the benefits of both systems while minimizing their drawbacks is crucial for sustainable urban living.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a primary benefit of public transportation highlighted in the passage?",
+      "options": {
+        "A": "It provides personal freedom to users.",
+        "B": "It promotes economic development through accessibility.",
+        "C": "It encourages urban sprawl.",
+        "D": "It reduces the need for road infrastructure."
+      },
+      "answer": "B",
+      "explanation": "The passage states that public transportation promotes economic development through increased accessibility, which is a primary benefit that distinguishes it from private vehicles."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "Private cars are universally accepted as the best option for urban transport.",
+      "answer": "False",
+      "explanation": "The passage discusses the benefits of both public transport and private cars, indicating that private cars are not universally accepted as the best option."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The author believes public transportation is the only solution to urban traffic problems.",
+      "answer": "No",
+      "explanation": "The passage does not state that public transportation is the only solution; it suggests a need for balance between the two systems."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the appropriate sections of the passage.",
+      "text": "Match the following: 1. Convenience of travel 2. Environmental impact of cars 3. Success of public transit in cities",
+      "options": {
+        "A": "Proponents of private cars",
+        "B": "Environmental implications of car dependency",
+        "C": "Examples of successful public transit"
+      },
+      "answer": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      },
+      "explanation": "The matching aligns with the arguments presented in the passage regarding private cars' convenience, the negative environmental impact, and the examples of successful public transit."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph to its correct heading.",
+      "text": "Headings: 1. The rise of ride-sharing services 2. The economic implications of public transport 3. A comparison of transportation modes",
+      "options": {
+        "A": "Paragraph discussing ride-sharing",
+        "B": "Paragraph emphasizing public transport's economic benefits",
+        "C": "Paragraph comparing both systems"
+      },
+      "answer": {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+      },
+      "explanation": "Each heading corresponds accurately to the content and focus of the respective paragraph in the passage."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below using no more than two words.",
+      "text": "Public transportation reduces traffic congestion and __________.",
+      "answer": "greenhouse gas emissions",
+      "explanation": "The passage explicitly mentions that public transportation reduces greenhouse gas emissions, highlighting its environmental benefits."
+    },
+    {
+      "id": "q7",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary below using no more than two words.",
+      "text": "The choice between public and private transport is influenced by __________, __________, and __________ factors.",
+      "answer": "economic, environmental, social",
+      "explanation": "These three factors are mentioned in the passage as crucial in making the choice between transportation modes."
+    },
+    {
+      "id": "q8",
+      "type": "short-answer_questions",
+      "instruction": "Answer the following questions using no more than three words.",
+      "text": "What is an example of a city with a successful public transport system?",
+      "answer": "Tokyo or Paris",
+      "explanation": "The passage cites both Tokyo and Paris as examples of cities with successful public transport systems."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "eco-friendly",
+      "meaning": "Not harmful to the environment."
+    },
+    {
+      "word": "urban sprawl",
+      "meaning": "The uncontrolled expansion of urban areas."
+    },
+    {
+      "word": "ride-sharing",
+      "meaning": "A service that allows users to share rides with others."
+    },
+    {
+      "word": "accessibility",
+      "meaning": "The quality of being able to be reached or entered."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "The ability to be maintained at a certain rate or level, especially in environmental contexts."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To succeed in this reading passage, focus on understanding the nuances between the arguments for public transportation and private cars. Pay attention to specific terms used in the text, as they may appear in questions in paraphrased forms. Practice skimming for main ideas and scanning for specific details that support the arguments made.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

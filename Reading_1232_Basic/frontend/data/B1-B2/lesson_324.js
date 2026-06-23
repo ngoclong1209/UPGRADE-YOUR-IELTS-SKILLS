@@ -1,0 +1,88 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_324",
+  "title": "The Rise of Robots: How AI is Transforming Our Lives",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Robots: How AI is Transforming Our Lives</h2><p>In recent years, artificial intelligence (AI) and robotics have made significant advancements, transforming various aspects of our daily lives. From automated assistants to robotic surgeries, AI is increasingly becoming an integral part of our society. This passage explores the ways in which AI and robotics are reshaping industries and affecting our personal experiences.</p><p>One of the most notable impacts of AI is in the field of healthcare. Robotic surgeries, which allow for precision and minimal invasiveness, are becoming more common. Surgeons can now use robotic systems to perform complex operations with greater accuracy than ever before. This not only reduces recovery time for patients but also minimizes the risk of complications.</p><p>Furthermore, AI can analyze vast amounts of health data to assist doctors in diagnosing diseases earlier and more accurately. For instance, AI algorithms can process medical images and identify potential issues that a human eye might miss. This advancement highlights the potential of AI to enhance medical care, leading to better patient outcomes.</p><p>In the workplace, AI is streamlining operations by automating routine tasks. Businesses are increasingly utilizing AI to handle data entry, customer service, and inventory management. This allows employees to focus on more strategic tasks, improving overall productivity. However, the rise of automation has led to concerns about job displacement. Many workers fear that robots will replace their roles, leading to unemployment in certain sectors.</p><p>Despite these concerns, AI and robotics also create new job opportunities. As technology evolves, there is a growing need for skilled workers who can design, maintain, and improve AI systems. Educational programs are adapting to prepare students for careers in technology, emphasizing the importance of STEM (science, technology, engineering, and mathematics) education.</p><p>In conclusion, while AI and robotics present challenges, they also offer remarkable benefits. As these technologies continue to develop, society must find a balance between embracing innovation and addressing the potential implications for the workforce.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one benefit of robotic surgeries mentioned in the passage?",
+      "options": {
+        "A": "They reduce recovery time for patients.",
+        "B": "They are performed without the need for anesthesia.",
+        "C": "They are cheaper than traditional surgeries.",
+        "D": "They are available in more hospitals now."
+      },
+      "answer": "A",
+      "explanation": "The passage states that robotic surgeries reduce recovery time for patients, making option A the correct choice."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "AI can identify health issues that doctors may overlook.",
+      "answer": "True",
+      "explanation": "The passage mentions that AI can process medical images and identify potential issues that a human eye might miss."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No or Not Given.",
+      "text": "The author believes automation will lead to more job opportunities.",
+      "answer": "No",
+      "explanation": "The author discusses concerns about job displacement due to automation, indicating a negative perspective on job opportunities."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the technology with its application.",
+      "text": "1. Robotic surgeries <br> 2. AI in customer service <br> 3. AI in diagnostics <br> 4. STEM education <br> 5. Automation in workplaces",
+      "options": {
+        "A": "Enhances patient care.",
+        "B": "Handles routine tasks.",
+        "C": "Prepares students for future careers.",
+        "D": "Increases surgical precision.",
+        "E": "Analyzes health data."
+      },
+      "answer": {
+        "1": "D",
+        "2": "B",
+        "3": "E",
+        "4": "C",
+        "5": "B"
+      },
+      "explanation": "Each technology is matched with its appropriate application as discussed in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN THREE WORDS.",
+      "text": "AI allows for greater _______ in surgical procedures.",
+      "answer": "surgical precision",
+      "explanation": "The passage states that robotic surgeries allow for greater accuracy, which is paraphrased as 'surgical precision'."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "transforming",
+      "meaning": "changing completely in form or appearance."
+    },
+    {
+      "word": "automated",
+      "meaning": "operated by machines or computers instead of people."
+    },
+    {
+      "word": "diagnosing",
+      "meaning": "identifying a disease or condition by examination."
+    },
+    {
+      "word": "displacement",
+      "meaning": "the act of replacing or being replaced."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To succeed in this reading test, focus on the main ideas presented in each paragraph. Pay attention to keywords in the questions that can help you locate the relevant sections in the passage. For multiple-choice questions, eliminate incorrect options to improve your chances of selecting the right answer. Lastly, ensure you understand the context of vocabulary words to answer related questions accurately.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

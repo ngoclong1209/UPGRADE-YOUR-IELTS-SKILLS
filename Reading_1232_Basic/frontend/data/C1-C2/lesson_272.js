@@ -1,0 +1,88 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_272",
+  "title": "Navigating the Digital Classroom: The Future of Online Learning",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Evolution of Online Learning</h2><p>Online learning, a term that was once synonymous with distance education, has evolved into a multifaceted educational paradigm that caters to the diverse needs of learners globally. With the advent of technology, educational institutions have increasingly embraced digital platforms, facilitating a shift from traditional classroom settings to virtual environments. This transition has not only democratized access to education but has also introduced a plethora of pedagogical techniques that enhance learning outcomes.</p><p>One significant advantage of online learning is its flexibility, allowing students to tailor their educational experiences according to their schedules. This adaptability is particularly beneficial for working professionals and those with familial responsibilities. However, this newfound freedom also necessitates a high degree of self-discipline and motivation, as the absence of a structured environment can lead to procrastination and disengagement.</p><p>Furthermore, the effectiveness of online learning hinges on the quality of the digital content and the interactivity of the platform. Engaging multimedia resources, such as videos, interactive quizzes, and discussion forums, can significantly enrich the learning experience. Conversely, a poorly designed course can result in information overload and learner frustration, undermining the educational process.</p><p>Despite the myriad benefits, online learning is not without its challenges. The digital divide remains a critical issue, as not all students have equal access to technology and high-speed internet. This inequity can exacerbate existing disparities in educational attainment. Additionally, online learners often report feelings of isolation, as the lack of face-to-face interactions can diminish the sense of community that is integral to the learning process.</p><p>In conclusion, while online learning presents unique opportunities for innovation in education, it is imperative that educators and institutions address its inherent challenges to create inclusive and effective learning environments.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the main advantages of online learning mentioned in the passage?",
+      "options": {
+        "A": "It eliminates the need for self-discipline.",
+        "B": "It offers flexibility in scheduling.",
+        "C": "It guarantees better educational outcomes.",
+        "D": "It requires less technology to access."
+      },
+      "answer": "B",
+      "explanation": "The passage clearly states that 'One significant advantage of online learning is its flexibility, allowing students to tailor their educational experiences according to their schedules.'"
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Online learning has completely replaced traditional classroom settings.",
+      "answer": "False",
+      "explanation": "The passage indicates that online learning has facilitated a shift to virtual environments but does not claim that it has completely replaced traditional classrooms."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that online learning is suitable for everyone.",
+      "answer": "No",
+      "explanation": "The passage discusses the challenges of online learning, such as the digital divide and feelings of isolation, implying that it may not be suitable for all students."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following challenges with their descriptions.",
+      "text": [
+        {
+          "challenge": "Digital divide",
+          "description": "Disparity in access to technology among students."
+        },
+        {
+          "challenge": "Isolation",
+          "description": "Feeling disconnected from peers in a virtual environment."
+        }
+      ],
+      "answer": [
+        {
+          "challenge": "Digital divide",
+          "description": "Disparity in access to technology among students."
+        },
+        {
+          "challenge": "Isolation",
+          "description": "Feeling disconnected from peers in a virtual environment."
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using NO MORE THAN TWO WORDS.",
+      "text": "Online learning can enhance educational experiences through engaging __________ and interactive quizzes.",
+      "answer": "multimedia resources",
+      "explanation": "The passage refers to 'engaging multimedia resources, such as videos, interactive quizzes' as enriching the learning experience."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "democratized",
+      "meaning": "made accessible to all, enabling equal opportunities."
+    },
+    {
+      "word": "pedagogical",
+      "meaning": "related to the methods and practice of teaching."
+    },
+    {
+      "word": "inequity",
+      "meaning": "lack of fairness or justice."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on identifying the main ideas and understanding the nuances of the author's arguments. Pay close attention to the examples given, as they often illustrate key points. For multiple-choice questions, eliminate clearly incorrect options to improve your chances of selecting the right answer. Be mindful of the distinctions in true/false/not given statements, and look for specific wording in the passage that supports your answers.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

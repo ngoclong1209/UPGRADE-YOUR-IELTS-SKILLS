@@ -1,0 +1,83 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_218",
+  "title": "The Internet: A Lifeline in Modern Society",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Internet: A Lifeline in Modern Society</h2><p>The internet has transformed the way we communicate, learn, and interact with the world around us. In today's society, it serves as a vital tool for education, enabling students to access a vast array of resources at their fingertips. Online learning platforms have become increasingly popular, allowing individuals to pursue courses from the comfort of their homes. Furthermore, the internet has revolutionized the way businesses operate. Companies can reach a global audience through e-commerce, significantly increasing their potential customer base.</p><p>However, the internet also brings challenges. Issues such as cyberbullying, privacy concerns, and misinformation have emerged as significant problems. Cyberbullying, in particular, can have devastating effects on individuals, especially young people who are more vulnerable to online harassment. Privacy is another critical concern, as personal information can be easily shared and misused.</p><p>Despite these challenges, the benefits of the internet are undeniable. It connects people across great distances, fostering communication and collaboration. Social media platforms enable individuals to stay in touch with friends and family, share experiences, and express their opinions. In the realm of activism, the internet has provided a powerful platform for raising awareness about social issues and mobilizing support.</p><p>In conclusion, while the internet presents certain risks, its role in modern society is crucial. It enhances education, supports business growth, and facilitates global communication. As we navigate this digital age, it is vital to promote responsible internet use and to educate individuals about its potential hazards.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the main benefits of the internet mentioned in the passage?",
+      "options": {
+        "A": "It can lead to cyberbullying.",
+        "B": "It allows for global communication.",
+        "C": "It increases privacy concerns.",
+        "D": "It promotes misinformation."
+      },
+      "answer": "B",
+      "explanation": "The passage highlights that the internet connects people across great distances, facilitating communication."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "The internet has no negative impacts on society.",
+      "answer": "False",
+      "explanation": "The passage discusses challenges such as cyberbullying and privacy concerns, indicating negative impacts."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The author believes that the internet is essential for education.",
+      "answer": "Yes",
+      "explanation": "The author states that the internet serves as a vital tool for education, indicating their belief in its essential role."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following benefits with their descriptions.",
+      "options": {
+        "A": "Access to global markets",
+        "B": "Enhanced communication",
+        "C": "Convenient learning opportunities"
+      },
+      "descriptions": {
+        "1": "Allows students to study from home.",
+        "2": "Connects people worldwide.",
+        "3": "Enables businesses to reach more customers."
+      },
+      "answers": {
+        "A": "3",
+        "B": "2",
+        "C": "1"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The internet helps people stay in touch with friends and family through ______.",
+      "answer": "social media",
+      "explanation": "The passage mentions social media platforms as a means to stay in touch."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "e-commerce",
+      "meaning": "The buying and selling of goods or services using the internet."
+    },
+    {
+      "word": "cyberbullying",
+      "meaning": "Bullying that takes place over digital devices like computers and smartphones."
+    },
+    {
+      "word": "activism",
+      "meaning": "The policy or action of using vigorous campaigning to bring about political or social change."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the main ideas presented in each paragraph. Pay attention to the examples given for each point, as they often illustrate the benefits and challenges associated with the internet. Make sure to differentiate between facts and opinions, especially in questions regarding the author's viewpoint.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,89 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_108",
+  "title": "The Internet: A Double-Edged Sword in Modern Society",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Impact of the Internet</h2><p>The internet has transformed modern society in countless ways. It provides access to information, connects people across the globe, and has revolutionized how we communicate. However, this connectivity comes with challenges. While it facilitates learning and collaboration, it can also lead to misinformation and social isolation.</p><p>One of the most significant benefits of the internet is the ease with which we can access information. Students can research topics in a matter of seconds, and professionals can stay updated on industry trends. Furthermore, social media platforms allow individuals to maintain relationships regardless of distance. However, the ease of access also means that false information can spread just as quickly as the truth.</p><p>Moreover, the internet has changed the way businesses operate. E-commerce has allowed companies to reach a global market, providing consumers with more choices than ever before. Yet, this has also resulted in challenges for local businesses that struggle to compete with larger online retailers.</p><p>In terms of education, online learning has become increasingly popular, especially in recent years. This flexibility allows learners to study at their own pace. Nonetheless, it can lead to a lack of personal interaction, which is crucial for developing social skills.</p><p>In conclusion, the internet plays a vital role in modern society, offering both opportunities and obstacles. Society must navigate these complexities to maximize the benefits while minimizing the drawbacks.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major benefit of the internet mentioned in the passage?",
+      "options": {
+        "A": "It helps students access information quickly.",
+        "B": "It eliminates the need for physical stores.",
+        "C": "It prevents misinformation from spreading.",
+        "D": "It ensures personal interaction in education."
+      },
+      "answer": "A",
+      "explanation": "The passage states that students can research topics in a matter of seconds, indicating that the internet helps them access information quickly."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "According to the passage, what challenge does e-commerce present?",
+      "options": {
+        "A": "It makes communication more difficult.",
+        "B": "It creates competition for local businesses.",
+        "C": "It reduces the number of online shoppers.",
+        "D": "It limits global market access."
+      },
+      "answer": "B",
+      "explanation": "The passage mentions that local businesses struggle to compete with larger online retailers, highlighting the challenge posed by e-commerce."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What concern is raised about online learning?",
+      "options": {
+        "A": "It is more expensive than traditional education.",
+        "B": "It can lead to social isolation.",
+        "C": "It requires extensive technological skills.",
+        "D": "It is less flexible than in-person classes."
+      },
+      "answer": "B",
+      "explanation": "The passage states that online learning can lead to a lack of personal interaction, which is crucial for developing social skills, indicating a concern about social isolation."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the passage suggest about the role of society regarding the internet?",
+      "options": {
+        "A": "Society should ignore the internet's drawbacks.",
+        "B": "Society must embrace all changes brought by the internet.",
+        "C": "Society should maximize benefits while minimizing drawbacks.",
+        "D": "Society should regulate internet access strictly."
+      },
+      "answer": "C",
+      "explanation": "The conclusion of the passage states that society must navigate the complexities of the internet to maximize benefits while minimizing drawbacks."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "revolutionized",
+      "meaning": "changed something radically or fundamentally"
+    },
+    {
+      "word": "misinformation",
+      "meaning": "false or inaccurate information, especially that which is deliberately intended to deceive"
+    },
+    {
+      "word": "e-commerce",
+      "meaning": "commercial transactions conducted electronically on the internet"
+    },
+    {
+      "word": "flexibility",
+      "meaning": "the quality of being adaptable or variable"
+    },
+    {
+      "word": "navigate",
+      "meaning": "to plan and direct the course of something"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on the main ideas presented in each paragraph. Pay attention to the examples provided to understand the benefits and challenges of the internet. Use the context of the sentences to help you deduce the meanings of unfamiliar words. For multiple-choice questions, eliminate obviously incorrect answers first to improve your chances of selecting the right one.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

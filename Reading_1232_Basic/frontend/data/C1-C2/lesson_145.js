@@ -1,0 +1,98 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_145",
+  "title": "The Cosmic Frontier: Unraveling the Mysteries of Space Exploration",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Cosmic Frontier: Unraveling the Mysteries of Space Exploration</h2><p>Space exploration represents humanity's quest to transcend earthly boundaries, delving into the vastness of the cosmos. The evolution of space missions has been characterized by significant milestones, from the launch of Sputnik in 1957 to the recent Mars rover discoveries that unveil the potential for extraterrestrial life. These endeavors not only push the frontiers of technology but also stimulate philosophical inquiries about our place in the universe.</p><p>Historically, the space race was spurred by geopolitical tensions, yet it has morphed into a cooperative venture among nations, exemplified by the International Space Station (ISS). Collaborative efforts have allowed scientists to conduct experiments in microgravity, leading to breakthroughs in various fields, including medicine and materials science. However, the potential commercialization of space raises ethical questions regarding ownership, resource exploitation, and the preservation of celestial bodies.</p><p>Moreover, the quest for sustainable exploration necessitates advancements in propulsion technologies. Current research is exploring the viability of nuclear thermal propulsion and solar sails, which could enable deeper space missions. The implications of such innovations are profound, as they may unlock new realms for human habitation and resource acquisition.</p><p>As we gaze into the cosmos, we are reminded of the philosophical dimensions of our explorations. The search for extraterrestrial intelligence (SETI) not only seeks to answer whether we are alone in the universe but also invites reflection on the nature of existence itself. Are we prepared to confront the implications of discovering life beyond Earth? Such existential questions are becoming increasingly pertinent as we advance in our exploration endeavors.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary purpose of space exploration according to the passage?",
+      "options": {
+        "A": "To establish human settlements on other planets.",
+        "B": "To satisfy a philosophical need to understand our existence.",
+        "C": "To develop new technologies for commercial use.",
+        "D": "To compete with other nations in technological advancements."
+      },
+      "answer": "B",
+      "explanation": "The passage emphasizes that space exploration is fundamentally tied to humanity's quest for understanding our place in the universe, which aligns with option B."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "The ISS is a product of competition between nations.",
+      "answer": "False",
+      "explanation": "The passage states that the ISS is a result of cooperative ventures among nations, contradicting the statement."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Choose Yes, No, or Not Given based on the passage.",
+      "text": "The passage suggests that space commercialization may lead to ethical dilemmas.",
+      "answer": "Yes",
+      "explanation": "The passage discusses ethical questions regarding ownership and resource exploitation in the context of space commercialization."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following advancements with their descriptions.",
+      "options": {
+        "A": "Nuclear thermal propulsion",
+        "B": "Solar sails",
+        "C": "Microgravity experiments",
+        "D": "SETI"
+      },
+      "descriptions": {
+        "1": "Explores the potential of life beyond Earth.",
+        "2": "Conducted aboard the International Space Station.",
+        "3": "Aims to enable deeper space missions.",
+        "4": "Utilizes sunlight for propulsion."
+      },
+      "answers": {
+        "A": "3",
+        "B": "4",
+        "C": "2",
+        "D": "1"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The evolution of space missions has been marked by significant __________.",
+      "answer": "milestones",
+      "explanation": "The passage states that space missions have been characterized by significant milestones."
+    },
+    {
+      "id": "q6",
+      "type": "summary_note_table_flow-chart_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The quest for sustainable exploration requires advancements in __________ technologies.",
+      "answer": "propulsion",
+      "explanation": "The passage mentions the need for advancements in propulsion technologies for sustainable exploration."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "extraterrestrial",
+      "meaning": "relating to beings or things from outside Earth."
+    },
+    {
+      "word": "microgravity",
+      "meaning": "a condition in which objects appear to be weightless."
+    },
+    {
+      "word": "philosophical",
+      "meaning": "relating to the study of fundamental questions about existence."
+    },
+    {
+      "word": "commercialization",
+      "meaning": "the process of managing or running something for profit."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully, focusing on the main ideas and arguments presented. Pay attention to the nuances in language, especially in questions that require inference.</p><p>For multiple-choice questions, eliminate options that do not align with the passage's content. For true/false questions, look for specific phrases that indicate the author's intent.</p><p>In matching tasks, scan the passage for specific details related to each item, and ensure you understand the context fully. Finally, for completion tasks, focus on the keywords that will guide you to the correct answer.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

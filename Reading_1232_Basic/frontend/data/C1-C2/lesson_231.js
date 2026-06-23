@@ -1,0 +1,104 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_231",
+  "title": "Navigating the Divide: Higher Education vs Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Evolving Landscape of Educational Choices</h2><p>In contemporary society, the choice between higher education and vocational training has become a focal point of debate among educators, policymakers, and students alike. Traditionally, higher education has been viewed as the gold standard for acquiring knowledge and skills, often leading to professional occupations that require advanced degrees. However, the rising costs of university tuition and the growing demand for skilled labor have prompted a reevaluation of vocational training as a viable alternative. This shift reflects broader economic trends and the changing nature of work in the 21st century.</p><p>Higher education institutions typically offer a broad spectrum of academic programs that cultivate critical thinking, analytical skills, and theoretical knowledge. Graduates from these programs often find themselves in competitive job markets where advanced qualifications are paramount. Nevertheless, the increasing burden of student debt has raised questions about the return on investment for graduates. In contrast, vocational training programs focus on equipping students with specific skills that meet industry demands, often leading to immediate employment opportunities. These programs emphasize hands-on experience and practical applications, which can be particularly appealing in fields such as technology, healthcare, and skilled trades.</p><p>Despite the apparent benefits of vocational training, there remains a societal stigma associated with it, often perceived as a less prestigious option compared to traditional university education. This perception can discourage students from pursuing paths that may better align with their career aspirations and the realities of the job market. Additionally, as industries evolve, the need for lifelong learning and adaptability becomes paramount, further complicating the narrative that higher education is the sole pathway to success.</p><p>Ultimately, the decision between higher education and vocational training should be informed by individual career goals, economic realities, and the evolving landscape of the workforce. As societies continue to navigate these complexities, it is crucial to foster a culture that values diverse educational pathways and recognizes the contributions of both higher education and vocational training in preparing individuals for the future.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary focus of vocational training as discussed in the passage?",
+      "options": {
+        "A": "To provide advanced theoretical knowledge for competitive job markets.",
+        "B": "To equip students with specific skills for immediate employment.",
+        "C": "To encourage critical thinking and analytical skills.",
+        "D": "To prepare students for lifelong learning in various fields."
+      },
+      "answer": "B",
+      "explanation": "The passage emphasizes that vocational training programs are designed to equip students with specific skills that meet industry demands, leading to immediate employment opportunities."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is true, false, or not given in the passage.",
+      "text": "Higher education guarantees a higher salary than vocational training.",
+      "answer": "Not Given",
+      "explanation": "The passage discusses the potential benefits and drawbacks of both educational paths but does not explicitly state that higher education guarantees a higher salary."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer yes, no, or not given.",
+      "text": "The passage suggests that vocational training is viewed positively by society.",
+      "answer": "No",
+      "explanation": "The passage mentions a societal stigma associated with vocational training, indicating it is often perceived as a less prestigious option."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements with the correct paragraph.",
+      "text": [
+        "Paragraph 1: Discusses the debate surrounding educational choices.",
+        "Paragraph 2: Outlines the benefits of higher education.",
+        "Paragraph 3: Addresses societal perceptions of vocational training.",
+        "Paragraph 4: Concludes with the importance of individual choice."
+      ],
+      "answers": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "4"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the correct heading for each paragraph.",
+      "text": [
+        "The financial implications of higher education.",
+        "The practical advantages of vocational training.",
+        "The evolving nature of job markets.",
+        "The societal perceptions of educational pathways."
+      ],
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C",
+        "4": "D"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short-answer_questions",
+      "instruction": "Answer using no more than two words.",
+      "text": "What has prompted a reevaluation of vocational training?",
+      "answer": "Rising costs"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "reevaluation",
+      "meaning": "the act of reconsidering or reassessing something."
+    },
+    {
+      "word": "stigma",
+      "meaning": "a mark of disgrace associated with a particular circumstance, quality, or person."
+    },
+    {
+      "word": "prestigious",
+      "meaning": "having high status or reputation."
+    },
+    {
+      "word": "adaptability",
+      "meaning": "the ability to adjust to new conditions."
+    },
+    {
+      "word": "cultivate",
+      "meaning": "to develop or improve by education or training."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on the main arguments presented in each paragraph. Pay attention to the language used to describe vocational training and higher education, as this can offer insights into the author's attitude. Note key phrases that indicate contrasts or comparisons, and practice identifying the purpose of each paragraph to help answer the questions more effectively.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

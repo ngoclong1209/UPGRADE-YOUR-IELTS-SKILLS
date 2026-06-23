@@ -1,0 +1,81 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_225",
+  "title": "Journey Beyond Earth: The Future of Space Exploration",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Exploring the Final Frontier</h2><p>Space exploration has been a subject of human curiosity and ambition for centuries. From the early observations of the night sky to the recent advancements in technology, our understanding of the universe has significantly evolved. The launch of satellite missions, such as the Hubble Space Telescope, has provided us with breathtaking images and invaluable data about distant galaxies. Moreover, missions to Mars, including the successful landing of rovers, have sparked interest in the possibility of life beyond Earth. Today, private companies are entering the space race, promising to make space travel accessible to ordinary people. As we look to the future, the potential for human settlement on other planets, like Mars, raises questions about our ability to adapt and thrive in extraterrestrial environments.</p><p>International collaborations, such as the International Space Station (ISS), have also highlighted the importance of teamwork in space exploration. Scientists from various countries work together to conduct experiments that can only be performed in the unique conditions of space. These efforts not only advance scientific knowledge but also foster peaceful relations among nations. The quest for knowledge about our universe is a collective human endeavor, and it is important to consider the ethical implications of our explorations. As we venture further into space, we must ensure that our activities do not harm other celestial bodies or disrupt potential ecosystems.</p><p>In conclusion, space exploration is a remarkable journey that reflects our innate desire to explore the unknown. With advancements in technology and a growing interest from the private sector, the future of space exploration looks promising. However, as we progress, it is crucial to balance our ambitions with responsibility towards the universe we inhabit.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What has significantly changed the way we understand the universe?",
+      "options": {
+        "A": "The launch of satellite missions.",
+        "B": "The development of telescopes.",
+        "C": "The study of ancient stars.",
+        "D": "The interest of private companies."
+      },
+      "answer": "A",
+      "explanation": "The passage states that satellite missions, like the Hubble Space Telescope, have provided invaluable data and changed our understanding of the universe."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "The International Space Station promotes competition among countries.",
+      "answer": "False",
+      "explanation": "The passage indicates that the ISS fosters teamwork and peaceful relations among nations, not competition."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "Is there a possibility of human settlement on Mars?",
+      "answer": "Yes",
+      "explanation": "The passage mentions the potential for human settlement on Mars as a future consideration."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following missions with their outcomes.",
+      "text": "",
+      "options": {
+        "A": "Hubble Space Telescope",
+        "B": "Mars rovers",
+        "C": "International Space Station"
+      },
+      "outcomes": {
+        "1": "Provided breathtaking images of galaxies",
+        "2": "Conducted unique experiments in space",
+        "3": "Sparked interest in extraterrestrial life"
+      },
+      "answer": {
+        "A": "1",
+        "B": "3",
+        "C": "2"
+      },
+      "explanation": "Hubble provided images, Mars rovers sparked interest in life, and the ISS conducted experiments."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The passage emphasizes the importance of _______ in space exploration.",
+      "answer": "international collaboration",
+      "explanation": "The passage discusses how scientists from different countries work together on the ISS."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "extraterrestrial",
+      "meaning": "relating to things that originate outside the Earth."
+    },
+    {
+      "word": "ecosystem",
+      "meaning": "a biological community of interacting organisms and their physical environment."
+    }
+  ],
+  "tactics": "<h2>Tips for Reading</h2><p>1. Skim the passage for the main ideas before reading in detail. 2. Pay attention to keywords in questions to find relevant sections in the text. 3. Look for paraphrased information and make connections between different parts of the passage. 4. Manage your time well, ensuring you complete all questions within the time limit.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,145 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_127",
+  "title": "Our Changing Earth",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Our Changing Earth</h2><p>Our Earth is getting warmer every year. This warming is called global warming. The temperature of the air and the oceans is going up. This happens because of human activities. We burn coal, oil, and gas to make energy. We use this energy for our cars, homes, and factories. This burning creates special gases in the air. These gases trap heat from the sun, like a greenhouse. This is why we call it the greenhouse effect.</p><p>Global warming changes our weather. In some places, the weather is very hot and dry. There is no rain for a long time, so plants cannot grow. This is called a drought. In other places, there is too much rain. This causes big floods. The weather is becoming very dangerous for people and animals.</p><p>The ice in cold places is also melting. In the Arctic and Antarctic, the ice is turning into water. This water goes into the sea. Because of this, the sea level is rising. Many small islands and cities near the ocean are in danger of flooding. In the future, these places might be under water.</p><p>Animals are also in danger because of climate change. Polar bears live on the ice. When the ice melts, they lose their homes and cannot find food. Many fish and sea animals are also dying because the oceans are too warm.</p><p>We can help our Earth. We can save energy at home. For example, we can turn off the lights when we leave a room. We can walk or ride bicycles instead of driving cars. We can also plant more green trees. Trees are very good because they clean the air. If we work together, we can protect our beautiful planet.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the warming of the Earth called?",
+      "options": {
+        "A": "Climate change",
+        "B": "Global warming",
+        "C": "Greenhouse effect",
+        "D": "Weather change"
+      },
+      "answer": "B",
+      "explanation": "The passage states: 'This warming is called global warming.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why do humans burn coal, oil, and gas?",
+      "options": {
+        "A": "To make energy",
+        "B": "To clean the air",
+        "C": "To make rain",
+        "D": "To cool the Earth"
+      },
+      "answer": "A",
+      "explanation": "The passage states: 'We burn coal, oil, and gas to make energy.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a drought?",
+      "options": {
+        "A": "A lot of rain and floods",
+        "B": "Very cold weather with ice",
+        "C": "Hot and dry weather with no rain",
+        "D": "Clean and fresh air"
+      },
+      "answer": "C",
+      "explanation": "The passage defines a drought as: 'the weather is very hot and dry. There is no rain for a long time... This is called a drought.'"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Where do polar bears live?",
+      "options": {
+        "A": "In the desert",
+        "B": "On the ice",
+        "C": "In the forest",
+        "D": "In cities"
+      },
+      "answer": "B",
+      "explanation": "The passage states: 'Polar bears live on the ice.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "The temperature of the oceans is going up.",
+      "answer": "TRUE",
+      "explanation": "The passage states: 'The temperature of the air and the oceans is going up.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "The sea level is falling.",
+      "answer": "FALSE",
+      "explanation": "The passage states: 'Because of this, the sea level is rising.' Rising is the opposite of falling."
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Polar bears can find more food when the ice melts.",
+      "answer": "FALSE",
+      "explanation": "The passage states: 'When the ice melts, they lose their homes and cannot find food.'"
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Planting trees is very expensive.",
+      "answer": "NOT GIVEN",
+      "explanation": "The passage mentions planting trees to clean the air, but does not mention if it is expensive or cheap."
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Gases in the air trap ________ from the sun.",
+      "answer": "HEAT",
+      "explanation": "The passage says: 'These gases trap heat from the sun...'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Cities near the ________ are in danger of flooding.",
+      "answer": "OCEAN",
+      "explanation": "The passage says: 'Many small islands and cities near the ocean are in danger of flooding.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "At home, we can turn off the ________ to save energy.",
+      "answer": "LIGHTS",
+      "explanation": "The passage says: 'For example, we can turn off the lights when we leave a room.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "Global warming",
+      "meaning": "Sự nóng lên toàn cầu (Earth getting warmer)"
+    },
+    {
+      "word": "Greenhouse effect",
+      "meaning": "Hiệu ứng nhà kính (gases trapping heat)"
+    },
+    {
+      "word": "Drought",
+      "meaning": "Hạn hán (very dry weather with no rain)"
+    },
+    {
+      "word": "Flood",
+      "meaning": "Lũ lụt (too much water on land)"
+    },
+    {
+      "word": "Melting",
+      "meaning": "Tan chảy (ice turning into water)"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài đạt điểm cao (A1-A2)</h2><p>1. <b>Tìm từ khóa trực tiếp:</b> Đề thi ở mức độ này không sử dụng nhiều từ đồng nghĩa phức tạp. Hãy tìm đúng từ xuất hiện trong câu hỏi để định vị đoạn văn chứa câu trả lời.</p><p>2. <b>Phân biệt FALSE và NOT GIVEN:</b> Nếu thông tin trong bài nói ngược lại hoàn toàn với câu hỏi, chọn FALSE (Ví dụ: bài nói 'rising', câu hỏi nói 'falling'). Nếu bài đọc không hề nói về ý đó (Ví dụ: việc trồng cây đắt hay rẻ), chọn NOT GIVEN.</p><p>3. <b>Chú ý giới hạn số từ:</b> Với dạng điền từ, chỉ viết tối đa 2 từ lấy chính xác từ bài đọc, không tự ý thay đổi dạng của từ (ví dụ: giữ nguyên số nhiều/số ít).</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

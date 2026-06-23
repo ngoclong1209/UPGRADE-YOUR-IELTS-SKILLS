@@ -1,0 +1,78 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_475",
+  "title": "Navigating the Cosmos: The Future of Space Exploration",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The New Era of Space Exploration</h2><p>In recent decades, the landscape of space exploration has undergone a profound transformation, marked by significant advancements in technology and international collaboration. The dawn of private space travel has catalyzed a new era, wherein companies such as SpaceX and Blue Origin are not merely competitors but are reshaping the very fabric of our understanding of the cosmos. These enterprises are not only focusing on lunar missions but are ambitiously setting their sights on Mars, indicating a shift from governmental space agencies to a more diversified approach in exploring celestial bodies.</p><p>Furthermore, the implications of these developments extend beyond mere exploration. The prospect of establishing human colonies on Mars raises pertinent questions regarding sustainability and the ethical considerations of interplanetary habitation. Research initiatives are actively investigating the psychological and physiological effects of prolonged exposure to space environments, highlighting the necessity for comprehensive preparation for future astronauts.</p><p>As we advance, the role of artificial intelligence in space exploration cannot be overstated. AI technologies are being integrated into spacecraft systems, enhancing navigational capabilities and data analysis. This evolution not only augments human capabilities but also optimizes mission efficiency. For instance, autonomous drones are now being deployed to gather data from Mars’s surface, enabling scientists to make groundbreaking discoveries without the immediate presence of human operators.</p><p>While the excitement surrounding space exploration is palpable, it is crucial to address the environmental impact of space missions. The accumulation of space debris poses a significant threat to both current and future missions. Efforts to mitigate this issue are underway, with new strategies being developed to ensure that the pursuit of knowledge does not compromise the integrity of outer space.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a primary focus of private companies in space exploration according to the passage?",
+      "options": {
+        "A": "Establishing human colonies on Mars.",
+        "B": "Collaborating exclusively with governmental agencies.",
+        "C": "Developing solely lunar missions.",
+        "D": "Eliminating space debris."
+      },
+      "answer": "A",
+      "explanation": "The passage indicates that private companies are ambitiously setting their sights on Mars, highlighting their focus on establishing human colonies."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Artificial intelligence is solely responsible for conducting space missions.",
+      "answer": "False",
+      "explanation": "The passage mentions that AI enhances navigational capabilities and data analysis, but it does not suggest that AI conducts missions independently."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The passage suggests that environmental concerns are being ignored in space exploration.",
+      "answer": "No",
+      "explanation": "The passage explicitly addresses the environmental impact of space missions and mentions efforts to mitigate space debris."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following concepts with their corresponding descriptions.",
+      "items": {
+        "A": "Private space companies",
+        "B": "AI technologies",
+        "C": "Space debris management",
+        "D": "Psychological research"
+      },
+      "descriptions": {
+        "1": "Focus on sustainability in long-term space missions.",
+        "2": "Enhance navigational capabilities and data analysis.",
+        "3": "Reshape the exploration landscape.",
+        "4": "Address concerns about environmental impact."
+      },
+      "answers": {
+        "A": "3",
+        "B": "2",
+        "C": "4",
+        "D": "1"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "autonomous",
+      "meaning": "capable of operating independently without human intervention"
+    },
+    {
+      "word": "sustainability",
+      "meaning": "the ability to be maintained at a certain rate or level, especially in terms of environmental practices"
+    },
+    {
+      "word": "catalyze",
+      "meaning": "to cause or accelerate a reaction or change"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle this passage, focus on understanding the overarching themes and implications of advancements in space exploration. Pay close attention to the nuances in language, particularly in words that indicate the author's perspective on private versus governmental roles in space missions. Utilize skimming techniques to identify main ideas and scanning for specific details when answering questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

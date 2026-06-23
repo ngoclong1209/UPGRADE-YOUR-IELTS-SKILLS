@@ -1,0 +1,84 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_102",
+  "title": "The Evolution of Online Learning: Opportunities and Challenges",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Online Learning in the 21st Century</h2><p>In recent years, the landscape of education has undergone a radical transformation, driven by the rapid advancements in technology. Online learning, once considered a mere alternative to traditional classroom instruction, has emerged as a prominent mode of education worldwide. This shift has been facilitated by the proliferation of digital devices and high-speed internet, which have made access to education more flexible and widespread than ever before. However, while online learning offers numerous advantages, it also brings forth a set of challenges that educators and learners must navigate.</p><p>One of the most significant benefits of online education is its accessibility. Students from diverse backgrounds can now participate in courses offered by prestigious institutions, regardless of their geographical location. This democratization of education fosters greater inclusivity and empowers individuals who may have previously faced barriers to learning.</p><p>Nevertheless, the reliance on technology poses a challenge in terms of digital literacy. Not all learners possess the necessary skills to effectively engage with online platforms, which can hinder their educational experience. Furthermore, the lack of face-to-face interaction may lead to feelings of isolation among students, impacting their motivation and overall learning outcomes.</p><p>Another critical aspect to consider is the quality of online courses. The proliferation of online programs has resulted in a wide variance in quality. While some courses are meticulously designed and offer rich, interactive content, others may be poorly structured and lack essential resources. This inconsistency can lead to confusion and dissatisfaction among learners.</p><p>As online education continues to evolve, it is imperative for institutions to implement robust quality assurance measures. By doing so, they can ensure that the educational experiences provided are not only accessible but also meaningful and impactful. Educators must also adapt their teaching methodologies to accommodate the unique needs of online learners, fostering engagement and promoting a sense of community within virtual classrooms.</p><p>In conclusion, the future of online learning holds immense potential, but it is fraught with challenges that must be addressed. By embracing innovation and prioritizing quality, stakeholders in education can harness the power of technology to create enriching learning environments that benefit all.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the primary advantages of online learning mentioned in the passage?",
+      "options": {
+        "A": "It allows students to learn at their own pace.",
+        "B": "It eliminates the need for technology.",
+        "C": "It restricts access to education.",
+        "D": "It guarantees high-quality content."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct as the passage emphasizes the flexibility and accessibility of online learning, allowing students to learn at their own pace."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Online learning has completely replaced traditional classroom instruction.",
+      "answer": "False",
+      "explanation": "The passage indicates that online learning has emerged as a prominent mode of education but does not state that it has entirely replaced traditional instruction."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author believe that online learners often feel isolated?",
+      "answer": "Yes",
+      "explanation": "The passage discusses how the lack of face-to-face interaction can lead to feelings of isolation among online learners."
+    },
+    {
+      "id": "q4",
+      "type": "matching_headings",
+      "instruction": "Match the headings with the paragraphs.",
+      "options": {
+        "A": "The future of online education",
+        "B": "Challenges in online learning",
+        "C": "Quality assurance in online courses",
+        "D": "The benefits of technology in education"
+      },
+      "answer": {
+        "1": "D",
+        "2": "B",
+        "3": "C",
+        "4": "A"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "short_answer",
+      "instruction": "Answer using no more than two words.",
+      "text": "What is a potential risk of online learning mentioned in the passage?",
+      "answer": "Digital literacy",
+      "explanation": "The passage highlights digital literacy as a challenge hindering the educational experience for some learners."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "democratization",
+      "meaning": "The process of making something accessible to everyone."
+    },
+    {
+      "word": "robust",
+      "meaning": "Strong and effective in all or most situations."
+    },
+    {
+      "word": "meticulously",
+      "meaning": "In a way that shows great attention to detail; very thoroughly."
+    },
+    {
+      "word": "proliferation",
+      "meaning": "Rapid increase in numbers."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on understanding the main ideas and the author's perspective on online learning. Pay attention to the nuances in language, especially when it comes to the challenges and benefits discussed in the passage. Look for keywords that can help you identify key points quickly.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

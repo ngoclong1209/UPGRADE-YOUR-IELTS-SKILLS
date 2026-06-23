@@ -1,0 +1,82 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_011",
+  "title": "Higher Education vs Vocational Training: Making the Right Choice",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Understanding Higher Education and Vocational Training</h2><p>In today's world, the choice between higher education and vocational training is a significant decision for many young people. Higher education typically involves attending a university or college, where students pursue academic degrees in various fields. This path is often seen as a way to gain a broader understanding of the world and develop critical thinking skills. However, it can also come with a high financial cost and may not guarantee immediate employment.</p><p>On the other hand, vocational training focuses on teaching specific skills needed for particular jobs, such as plumbing, electrical work, or culinary arts. This type of education is usually shorter in duration and often less expensive than traditional higher education. Graduates of vocational programs can enter the workforce quickly, which is appealing in today's job market where skilled trades are in high demand.</p><p>Many argue that higher education provides a more comprehensive education that fosters intellectual growth. Critics, however, point out that it can sometimes lead to a mismatch between graduates' skills and the needs of employers. In contrast, vocational training is praised for its practicality, giving individuals direct experience through apprenticeships and hands-on training.</p><p>Ultimately, the decision between higher education and vocational training should be based on an individual’s career goals, financial situation, and personal interests. Both paths have their merits and can lead to successful careers, but they cater to different types of learners and job markets.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a primary benefit of higher education according to the passage?",
+      "options": {
+        "A": "It guarantees immediate employment.",
+        "B": "It fosters intellectual growth.",
+        "C": "It is less expensive than vocational training.",
+        "D": "It provides specific job skills."
+      },
+      "answer": "B",
+      "explanation": "The passage states that higher education is seen as a way to gain a broader understanding of the world and develop critical thinking skills, which relates to intellectual growth."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Vocational training is generally more expensive than higher education.",
+      "answer": "False",
+      "explanation": "The passage clearly states that vocational training is often less expensive than traditional higher education."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that vocational training is more practical than higher education.",
+      "answer": "Yes",
+      "explanation": "The passage indicates that vocational training is praised for its practicality, suggesting the author's positive view on it."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following benefits with higher education or vocational training.",
+      "options": {
+        "A": "Comprehensive education",
+        "B": "Quick entry into workforce",
+        "C": "Hands-on experience",
+        "D": "Higher financial cost"
+      },
+      "answers": {
+        "A": "Higher Education",
+        "B": "Vocational Training",
+        "C": "Vocational Training",
+        "D": "Higher Education"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "Vocational training often leads to _________ in skilled trades.",
+      "answer": "quick employment",
+      "explanation": "The passage mentions that vocational training allows graduates to enter the workforce quickly, particularly in skilled trades."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "vocational",
+      "meaning": "related to training for a specific job or career"
+    },
+    {
+      "word": "apprenticeship",
+      "meaning": "a system of training where a person learns a trade from a skilled employer"
+    },
+    {
+      "word": "financial cost",
+      "meaning": "the total amount of money required for education"
+    },
+    {
+      "word": "intellectual growth",
+      "meaning": "the development of one's thinking and understanding capabilities"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, begin by skimming for key ideas. Pay attention to contrasting points about higher education and vocational training. Look for specific examples that support the main arguments. When answering questions, refer back to the passage to find evidence for your choices, especially for True/False/Not Given questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

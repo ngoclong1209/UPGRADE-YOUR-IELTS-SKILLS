@@ -1,0 +1,116 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_613",
+  "title": "The Unfolding Crisis: Climate Change and Global Warming",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Unfolding Crisis: Climate Change and Global Warming</h2><p>Climate change, a pressing issue of our time, is not merely an environmental challenge but a complex socio-economic dilemma that intertwines with various facets of human existence. The scientific consensus underscores that anthropogenic activities, particularly the combustion of fossil fuels, are the principal drivers of global warming. This phenomenon manifests itself in rising sea levels, increased frequency of extreme weather events, and significant alterations in biodiversity. Moreover, the implications of climate change extend far beyond mere environmental degradation; they encompass profound socio-economic repercussions, particularly for vulnerable populations in developing nations.</p><p>As temperatures continue to rise, the resultant stress on natural ecosystems exacerbates existing inequalities, leading to food insecurity, displacement, and increased health risks. While developed nations bear historical responsibility for emissions, the burden of adaptation and mitigation disproportionately falls on developing countries, often with limited resources and infrastructural capacity. This disparity raises ethical questions about global responsibility and equity in addressing climate change.</p><p>To mitigate these effects, an integrated approach that includes technological innovation, policy reform, and grassroots activism is imperative. Transitioning to renewable energy sources, enhancing energy efficiency, and promoting sustainable agricultural practices are critical steps. Additionally, international cooperation through frameworks such as the Paris Agreement is essential to synergize efforts across borders, ensuring that all nations contribute to a sustainable future. Ultimately, addressing climate change demands a collective commitment to reimagining our relationship with the planet and each other.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary cause of global warming according to the passage?",
+      "options": {
+        "A": "Natural climate variations",
+        "B": "Deforestation",
+        "C": "Anthropogenic activities",
+        "D": "Volcanic eruptions"
+      },
+      "answer": "C",
+      "explanation": "The passage states that 'anthropogenic activities, particularly the combustion of fossil fuels, are the principal drivers of global warming', making option C the correct choice."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write True, False or Not Given.",
+      "text": "The passage suggests that developed nations are not contributing to climate change.",
+      "answer": "False",
+      "explanation": "The passage indicates that developed nations bear 'historical responsibility for emissions', suggesting they are indeed contributing to climate change."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write Yes, No or Not Given.",
+      "text": "The author believes that international cooperation is unnecessary for addressing climate change.",
+      "answer": "No",
+      "explanation": "The passage clearly states that 'international cooperation through frameworks such as the Paris Agreement is essential', indicating the author's belief in the necessity of cooperation."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following effects of climate change with their corresponding descriptions.",
+      "text": "1. Rising sea levels\n2. Increased frequency of extreme weather events\n3. Alterations in biodiversity",
+      "options": {
+        "A": "This effect causes habitat loss for various species.",
+        "B": "This phenomenon leads to coastal erosion and habitat displacement.",
+        "C": "This change results in more frequent hurricanes and droughts."
+      },
+      "answer": {
+        "1": "B",
+        "2": "C",
+        "3": "A"
+      },
+      "explanation": "The passage discusses how rising sea levels cause coastal erosion (B), increased extreme weather events result in hurricanes and droughts (C), and alterations in biodiversity lead to habitat loss (A)."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph to the correct heading.",
+      "text": "Headings: 1. The Ethical Implications of Climate Change\n2. Technological Solutions to Mitigation\n3. The Socio-Economic Effects of Global Warming",
+      "paragraphs": {
+        "A": "Paragraph 1 discusses the drivers of climate change and its broader implications.",
+        "B": "Paragraph 2 highlights the socio-economic disparities exacerbated by climate change.",
+        "C": "Paragraph 3 advocates for technological and policy solutions to mitigate climate effects."
+      },
+      "answer": {
+        "A": "1",
+        "B": "3",
+        "C": "2"
+      },
+      "explanation": "Paragraph 1 is about ethical implications (1), Paragraph 2 covers socio-economic effects (3), and Paragraph 3 discusses technological solutions (2)."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence with NO MORE THAN TWO WORDS.",
+      "text": "The passage states that the burden of adaptation disproportionately falls on __________.",
+      "answer": "developing countries",
+      "explanation": "The text mentions that 'the burden of adaptation and mitigation disproportionately falls on developing countries' which fits the completion."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using NO MORE THAN TWO WORDS for each blank.",
+      "text": "The passage emphasizes the need for __________ initiatives and __________ efforts to combat climate change.",
+      "answer": [
+        "technological",
+        "grassroots"
+      ],
+      "explanation": "The passage advocates for 'technological innovation' and 'grassroots activism', making these the correct completions."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following question in NO MORE THAN THREE WORDS.",
+      "text": "According to the passage, what agreement is crucial for international cooperation on climate change?",
+      "answer": "Paris Agreement",
+      "explanation": "The passage states that 'international cooperation through frameworks such as the Paris Agreement is essential' indicating that this is the correct answer."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "anthropogenic",
+      "meaning": "Caused by human activity, especially in relation to environmental change."
+    },
+    {
+      "word": "disparity",
+      "meaning": "A great difference; in this context, refers to the unequal effects of climate change."
+    },
+    {
+      "word": "mitigation",
+      "meaning": "The action of reducing the severity, seriousness, or painfulness of something, particularly in environmental contexts."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on understanding the complex relationships between human activities and climate change. Pay attention to the author's tone and purpose in discussing the ethical implications and socio-economic impacts. Look for paraphrases of key terms in the questions, as they may not match the text verbatim. Practice skimming for main ideas and scanning for specific details to answer the questions efficiently.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,115 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_488",
+  "title": "The Digital Nexus: Understanding the Internet's Impact on Contemporary Society",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Internet as a Social Fabric</h2><p>The advent of the Internet has revolutionized the very fabric of modern society, intertwining social, economic, and cultural dimensions. It serves not merely as a tool for communication but as an expansive platform for knowledge dissemination and social interaction. Through various digital mediums, individuals can connect beyond geographical confines, fostering a sense of global citizenship. Yet, this connectivity comes with complexities, including the proliferation of misinformation and the erosion of privacy. The duality of the Internet as a facilitator of progress and a harbinger of challenges necessitates a critical examination of its role in shaping contemporary norms and values.</p><p>Moreover, the Internet’s influence extends to the economic landscape. E-commerce has burgeoned, radically altering consumer behavior and business models. Traditional retail has been disrupted as consumers increasingly favor online shopping for its convenience and accessibility. However, this shift raises questions regarding the sustainability of local businesses and employment practices in the digital age. The implications are profound, touching upon economic equity and the future of work in an era dominated by technological advancement.</p><p>Culturally, the Internet acts as a double-edged sword. On one hand, it democratizes access to information, enabling marginalized voices to be heard and fostering cultural exchange. On the other hand, it risks homogenizing cultural expressions, leading to a dilution of local identities. The emergence of social media platforms has further complicated this landscape, creating echo chambers that reinforce existing biases and limit exposure to diverse perspectives. It is imperative to navigate these waters with an understanding of the broader societal implications, ensuring that technology serves as a bridge rather than a barrier.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the passage suggest about the role of the Internet in economic practices?",
+      "options": {
+        "A": "It has eliminated the need for traditional retail completely.",
+        "B": "It has transformed consumer habits and business strategies significantly.",
+        "C": "It has no discernible effect on local businesses.",
+        "D": "It has only benefited large corporations at the expense of small businesses."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct as the passage discusses how e-commerce has radically altered consumer behavior and business models, implying a significant transformation."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "The Internet has unambiguously enhanced local cultural identities.",
+      "answer": "False",
+      "explanation": "The passage indicates that while the Internet democratizes information access, it also risks homogenizing cultural expressions, thereby diluting local identities."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given based on the passage.",
+      "text": "The author believes that the Internet primarily benefits global citizenship.",
+      "answer": "Not Given",
+      "explanation": "The passage mentions the fostering of global citizenship but does not explicitly state that the author believes this is the primary benefit of the Internet."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statement with the corresponding paragraph.",
+      "options": [
+        "The Internet fosters global connections.",
+        "E-commerce disrupts traditional retail.",
+        "Social media creates echo chambers."
+      ],
+      "answers": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "options": [
+        "The dual nature of technology",
+        "Transformations in consumer behavior",
+        "Cultural exchanges and challenges",
+        "The Internet and social cohesion"
+      ],
+      "answers": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence using NO MORE THAN TWO WORDS.",
+      "text": "The author suggests that the Internet risks the __ of local identities.",
+      "answer": "homogenization"
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using NO MORE THAN THREE WORDS.",
+      "text": "The Internet has changed the economic landscape by promoting __ and altering consumer habits.",
+      "answer": "e-commerce practices"
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer in NO MORE THAN TWO WORDS.",
+      "text": "What is a significant challenge posed by the Internet according to the passage?",
+      "answer": "misinformation"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "intertwining",
+      "meaning": "the act of twisting or linking together."
+    },
+    {
+      "word": "proliferation",
+      "meaning": "rapid increase or spread of something."
+    },
+    {
+      "word": "homogenizing",
+      "meaning": "making things uniform or similar."
+    },
+    {
+      "word": "democratizes",
+      "meaning": "makes something accessible to all."
+    },
+    {
+      "word": "echo chambers",
+      "meaning": "situations where beliefs are amplified by communication and repetition."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on understanding the nuances in the text and the author's attitude. Pay attention to how different sections of the passage interrelate, particularly in terms of the implications of the Internet on society. Look for paraphrases of key concepts in the questions, as they often do not use the exact wording found in the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

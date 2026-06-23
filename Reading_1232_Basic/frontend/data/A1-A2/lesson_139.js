@@ -1,0 +1,101 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_139",
+  "title": "The Joys and Challenges of Tourism",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Tourism and Its Impacts</h2><p>Tourism is when people travel to different places for fun. Many people like to visit new cities, beaches, and mountains. They want to see new things and meet new people. Tourism helps local economies. When tourists visit, they spend money on hotels, food, and activities. This creates jobs for local people.</p><p>However, tourism can also have problems. Too many tourists can harm the environment. For example, beaches can become dirty, and animals can lose their homes. It is important to protect nature while enjoying tourism.</p><p>Another challenge is that some local cultures can change because of tourism. Sometimes, local people change their way of life to please tourists. This can make the culture less special. It is important for tourists to respect local customs.</p><p>In conclusion, tourism can be good for economies, but it can also create problems for the environment and culture. We must find a balance to enjoy tourism without harming our planet.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is tourism?",
+      "options": {
+        "A": "Traveling for fun",
+        "B": "Working in a city",
+        "C": "Studying at home",
+        "D": "Eating in restaurants"
+      },
+      "answer": "A",
+      "explanation": "Tourism is defined in the passage as when people travel to different places for fun."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Tourism helps local economies.",
+      "answer": "True",
+      "explanation": "The passage states that tourism helps local economies by creating jobs."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "There are no problems with tourism.",
+      "answer": "False",
+      "explanation": "The passage mentions problems such as environmental harm and cultural changes due to tourism."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What can happen to the environment with too many tourists?",
+      "options": {
+        "A": "It can get better.",
+        "B": "It can become dirty.",
+        "C": "It can get more animals.",
+        "D": "It can be more beautiful."
+      },
+      "answer": "B",
+      "explanation": "The passage clearly states that too many tourists can harm the environment and make beaches dirty."
+    },
+    {
+      "id": "q5",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What should tourists do?",
+      "options": {
+        "A": "Change local customs.",
+        "B": "Leave trash everywhere.",
+        "C": "Respect local customs.",
+        "D": "Ignore the culture."
+      },
+      "answer": "C",
+      "explanation": "The passage advises tourists to respect local customs to maintain the special nature of cultures."
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer the question with one or two words.",
+      "text": "What do tourists spend money on?",
+      "answer": "Hotels",
+      "explanation": "The passage mentions that tourists spend money on hotels."
+    },
+    {
+      "id": "q7",
+      "type": "short_answer",
+      "instruction": "Answer the question with one or two words.",
+      "text": "What can tourists harm?",
+      "answer": "Environment",
+      "explanation": "According to the passage, tourists can harm the environment."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "tourism",
+      "meaning": "the activity of traveling for pleasure"
+    },
+    {
+      "word": "economy",
+      "meaning": "the system of how money is used in a place"
+    },
+    {
+      "word": "environment",
+      "meaning": "the natural world around us"
+    },
+    {
+      "word": "culture",
+      "meaning": "the way of life of a group of people"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully. Look for keywords in the questions to find answers. Pay attention to the main ideas and details in the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

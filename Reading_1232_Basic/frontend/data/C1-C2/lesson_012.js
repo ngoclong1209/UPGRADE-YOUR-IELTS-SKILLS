@@ -1,0 +1,124 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_012",
+  "title": "The Future of Distance Education: Opportunities and Challenges",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Exploring the Landscape of Online Learning</h2><p>In recent years, the paradigm of education has undergone a significant transformation, largely propelled by advancements in technology. Online learning, once viewed as an alternative to traditional classroom settings, has now emerged as a primary mode of education for millions worldwide. This transition has been facilitated by the proliferation of digital platforms, which offer unprecedented access to knowledge and resources. However, this evolution is not without its challenges. Issues such as digital equity, the need for self-regulation among learners, and the potential for social isolation present substantial hurdles that must be addressed. Moreover, the effectiveness of online learning often hinges on the pedagogical approaches adopted by educators, necessitating a careful consideration of instructional design. As we delve deeper into this subject, it becomes essential to evaluate both the advantages and drawbacks that this educational model entails.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary factor contributing to the rise of online education?",
+      "options": {
+        "A": "The accessibility of digital platforms.",
+        "B": "The decrease in traditional classroom attendance.",
+        "C": "The affordability of online courses.",
+        "D": "The improved quality of educational content."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct as the passage emphasizes that advancements in technology and the proliferation of digital platforms have significantly facilitated access to education."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "Online learning eliminates the need for self-discipline among learners.",
+      "answer": "False",
+      "explanation": "The passage mentions that self-regulation among learners is necessary, implying that online learning does require discipline."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The author advocates for online learning as the best educational approach.",
+      "answer": "No",
+      "explanation": "The passage discusses both the advantages and challenges of online learning, indicating that the author does not unconditionally advocate for it."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match each challenge of online learning with its description.",
+      "text": "1. Digital equity\n2. Self-regulation\n3. Social isolation\n4. Instructional design",
+      "options": {
+        "A": "The necessity for learners to manage their own learning effectively.",
+        "B": "The disparity in access to digital resources.",
+        "C": "The potential for students to feel disconnected from peers.",
+        "D": "The importance of designing effective online courses."
+      },
+      "answer": {
+        "1": "B",
+        "2": "A",
+        "3": "C",
+        "4": "D"
+      },
+      "explanation": "Each challenge is matched with the correct description based on the details provided in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "text": "1. The Evolution of Learning Methods\n2. The Role of Technology\n3. Challenges Faced by Online Education\n4. Future Perspectives",
+      "options": {
+        "A": "Discusses the ongoing development of educational practices.",
+        "B": "Explores the significance of technological advancements.",
+        "C": "Highlights the obstacles that online education encounters.",
+        "D": "Speculates on upcoming trends in distance learning."
+      },
+      "answer": {
+        "1": "A",
+        "2": "B",
+        "3": "C",
+        "4": "D"
+      },
+      "explanation": "Each heading accurately reflects the content of the respective paragraphs, demonstrating comprehension of main ideas."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence using NO MORE THAN THREE WORDS.",
+      "text": "The effectiveness of online learning greatly depends on the ________ adopted by educators.",
+      "answer": "pedagogical approaches",
+      "explanation": "The passage indicates that the pedagogical approaches are crucial for ensuring effective online learning."
+    },
+    {
+      "id": "q7",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary using NO MORE THAN TWO WORDS.",
+      "text": "The rise of online education has been driven by ________ and the availability of resources, yet it faces issues like ________ and isolation.",
+      "answer": [
+        "technology",
+        "social isolation"
+      ],
+      "explanation": "The summary captures key points from the passage, highlighting technology as a driving force and social isolation as a challenge."
+    },
+    {
+      "id": "q8",
+      "type": "short-answer_questions",
+      "instruction": "Answer the following question using NO MORE THAN TWO WORDS.",
+      "text": "What must educators consider to improve online learning?",
+      "answer": "instructional design",
+      "explanation": "The passage states that instructional design is a critical factor in enhancing online education."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "paradigm",
+      "meaning": "a typical example or pattern of something; a model."
+    },
+    {
+      "word": "facilitated",
+      "meaning": "made an action or process easier."
+    },
+    {
+      "word": "pedagogical",
+      "meaning": "related to the methods and practice of teaching."
+    },
+    {
+      "word": "disparity",
+      "meaning": "a great difference."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on understanding the main ideas and the author's perspective. Pay attention to the challenges and benefits discussed in relation to online learning. Look for paraphrased information and be cautious of distractors in multiple-choice questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

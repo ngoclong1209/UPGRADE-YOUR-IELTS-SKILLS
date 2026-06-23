@@ -1,0 +1,121 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_270",
+  "title": "The Interplay of Nutrition and Psychological Well-Being",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Interplay of Nutrition and Psychological Well-Being</h2><p>In recent years, the intricate relationship between diet and mental health has garnered considerable attention from researchers and health professionals alike. It has become increasingly apparent that what we consume does not merely affect our physical health; it also plays a pivotal role in our psychological well-being. Studies indicate that certain dietary patterns, particularly those rich in fruits, vegetables, and omega-3 fatty acids, are associated with a lower incidence of depression and anxiety. Conversely, diets high in processed foods and sugars may exacerbate these conditions.</p><p>Moreover, the concept of 'food as medicine' is gaining traction, suggesting that nutritional interventions could serve as adjunct therapies in treating mental health disorders. For instance, a randomized controlled trial demonstrated that participants who adhered to a Mediterranean diet showed significant improvements in mood and cognitive function over a 12-week period. This diet, characterized by its emphasis on whole foods, lean proteins, and healthy fats, appears to foster an environment conducive to mental wellness.</p><p>Furthermore, the microbiome, the complex community of microorganisms residing in our gut, has emerged as a critical factor in the gut-brain axis, influencing not only digestion but also mood regulation. Emerging research has highlighted the role of probiotics and prebiotics in potentially mitigating symptoms of depression and anxiety. This burgeoning field of study underscores the importance of a holistic approach to health, wherein dietary choices are viewed as integral components of psychological resilience.</p><p>In conclusion, the evidence supporting the connection between nutrition and mental health is robust and growing. As we continue to unravel the complexities of this relationship, it is vital for health practitioners to incorporate nutritional counseling into their therapeutic practices, thereby addressing the multifaceted nature of health that encompasses both body and mind.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the passage suggest about the role of diet in mental health?",
+      "options": {
+        "A": "Diet has no bearing on psychological conditions.",
+        "B": "Certain diets can contribute to the exacerbation of mental health issues.",
+        "C": "All dietary patterns are equally beneficial for mental health.",
+        "D": "Only processed foods influence mental wellness."
+      },
+      "answer": "B",
+      "explanation": "The passage indicates that diets high in processed foods and sugars may exacerbate mental health conditions like depression and anxiety."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "The Mediterranean diet is linked to improved mood and cognitive function.",
+      "answer": "True",
+      "explanation": "The passage states that participants adhering to a Mediterranean diet showed significant improvements in mood and cognitive function."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes that nutrition should be considered in mental health treatments.",
+      "answer": "Yes",
+      "explanation": "The passage concludes that it is vital for health practitioners to incorporate nutritional counseling into their therapeutic practices."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct sections of the passage.",
+      "text": "Match each statement to the corresponding paragraph.",
+      "options": {
+        "1": "The gut-brain axis is influenced by dietary choices.",
+        "2": "Evidence is accumulating regarding nutrition's impact on mental health.",
+        "3": "The Mediterranean diet is beneficial for mood enhancement."
+      },
+      "answers": {
+        "1": "Paragraph 3",
+        "2": "Paragraph 4",
+        "3": "Paragraph 2"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Choose the appropriate heading for each paragraph.",
+      "text": "Match each paragraph with the correct heading.",
+      "options": {
+        "A": "Nutritional Interventions",
+        "B": "The Role of the Microbiome",
+        "C": "Psychological Benefits of Healthy Eating",
+        "D": "The Dangers of Processed Foods"
+      },
+      "answers": {
+        "1": "C",
+        "2": "A",
+        "3": "B",
+        "4": "D"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN THREE WORDS.",
+      "text": "Diets rich in fruits and omega-3 fatty acids are associated with a lower incidence of ______.",
+      "answer": "depression and anxiety",
+      "explanation": "The passage states that these dietary patterns are linked to lower rates of these mental health conditions."
+    },
+    {
+      "id": "q7",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The passage emphasizes the importance of a holistic approach to health, integrating ______ as key components.",
+      "answer": "nutritional counseling",
+      "explanation": "The conclusion stresses the need for nutritional counseling as part of mental health treatments."
+    },
+    {
+      "id": "q8",
+      "type": "short-answer_questions",
+      "instruction": "Answer the following question with NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "How long was the duration of the study mentioned in the passage?",
+      "answer": "12 weeks",
+      "explanation": "The passage specifies that the randomized controlled trial lasted for 12 weeks."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "interplay",
+      "meaning": "the way in which two or more things have an effect on each other."
+    },
+    {
+      "word": "exacerbate",
+      "meaning": "to make a problem, bad situation, or negative feeling worse."
+    },
+    {
+      "word": "adjunct",
+      "meaning": "something added to another thing but not an essential part of it."
+    },
+    {
+      "word": "microbiome",
+      "meaning": "the collection of all the microorganisms living in a particular environment, such as the gut."
+    },
+    {
+      "word": "probiotics",
+      "meaning": "live bacteria and yeasts that are good for health, especially the digestive system."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on understanding the connections between dietary practices and mental health as presented in the text. Look for key phrases that indicate cause and effect, and pay attention to the nuances in the author's arguments. When answering questions, ensure you grasp the implied meanings and the author’s tone, as this can help clarify your choices, particularly in True/False/Not Given and Yes/No/Not Given sections.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,88 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_164",
+  "title": "The Rise of Artificial Intelligence and Robotics",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Artificial Intelligence: A New Era</h2><p>Artificial Intelligence (AI) and robotics are rapidly transforming various sectors of society. From healthcare to finance, these technologies are improving efficiency and productivity. AI refers to the simulation of human intelligence in machines that are programmed to think and learn like humans. Robotics, on the other hand, involves the design, construction, and operation of robots that can perform tasks autonomously.</p><p>One significant application of AI is in medical diagnostics. AI systems can analyze medical data much faster than human doctors, leading to quicker diagnoses and treatment plans. For instance, AI algorithms can interpret X-ray images to detect diseases such as pneumonia with remarkable accuracy. This not only saves time but also reduces the burden on healthcare professionals.</p><p>In the finance sector, AI is used for fraud detection and algorithmic trading. Financial institutions employ AI systems to monitor transactions in real-time, identifying suspicious activities that may indicate fraud. Furthermore, AI-driven algorithms can analyze market trends and execute trades more efficiently than human traders.</p><p>However, the rise of AI and robotics also raises ethical concerns. Many fear that as machines become more capable, they may replace human workers in various jobs. While it is true that automation can lead to job displacement, experts argue that it also creates new job opportunities in fields such as AI development and maintenance.</p><p>In conclusion, AI and robotics are revolutionizing the way we work and live. As these technologies continue to evolve, it is essential to strike a balance between embracing innovation and addressing the challenges they present.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major benefit of AI in healthcare?",
+      "options": {
+        "A": "AI systems can diagnose diseases faster than doctors.",
+        "B": "AI eliminates the need for doctors entirely.",
+        "C": "AI is used to operate medical equipment only.",
+        "D": "AI can replace all human jobs in healthcare."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct because the passage states that AI systems can analyze medical data much faster than human doctors, leading to quicker diagnoses."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False or Not Given.",
+      "text": "AI can only be used in healthcare and finance.",
+      "answer": "False",
+      "explanation": "The passage mentions that AI is transforming various sectors, indicating its application goes beyond just healthcare and finance."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Choose Yes, No or Not Given.",
+      "text": "The author believes that AI will not lead to job loss.",
+      "answer": "No",
+      "explanation": "The passage highlights fears about job displacement due to AI, suggesting the author acknowledges this concern."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the applications of AI with their descriptions.",
+      "text": "1. Medical diagnostics 2. Fraud detection 3. Algorithmic trading",
+      "options": {
+        "A": "Analyzing market trends.",
+        "B": "Detecting diseases in X-ray images.",
+        "C": "Monitoring transactions for suspicious activities."
+      },
+      "answers": {
+        "1": "B",
+        "2": "C",
+        "3": "A"
+      },
+      "explanation": "Each application is matched with its corresponding description as provided in the passage."
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "AI systems analyze medical data faster than ________.",
+      "answer": "human doctors",
+      "explanation": "The passage clearly states that AI can analyze data much faster than human doctors."
+    },
+    {
+      "id": "q6",
+      "type": "summary_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "AI is revolutionizing healthcare by providing ________ and quicker treatment plans.",
+      "answer": "quicker diagnoses",
+      "explanation": "The passage indicates that AI leads to quicker diagnoses and treatment plans in healthcare."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "autonomously",
+      "meaning": "acting independently without human control."
+    },
+    {
+      "word": "algorithm",
+      "meaning": "a process or set of rules to be followed in calculations or problem-solving operations."
+    },
+    {
+      "word": "displacement",
+      "meaning": "the act of replacing or being replaced."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To succeed in this passage, focus on understanding the main ideas and supporting details. Pay attention to how AI is applied in various fields and the implications discussed. For multiple choice questions, eliminate options that are clearly incorrect. For True/False/Not Given questions, look for specific evidence in the text to support your answer.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

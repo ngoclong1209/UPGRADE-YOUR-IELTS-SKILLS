@@ -1,0 +1,130 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_659",
+  "title": "The Double-Edged Sword of Tourism: Economic Boon or Environmental Bane?",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Paradox of Tourism</h2><p>Tourism has emerged as one of the most significant economic activities globally, contributing billions to national economies and providing employment to millions. However, this growth often comes at a steep price. The environmental impacts of tourism are profound, ranging from the depletion of natural resources to the degradation of local ecosystems. In destinations where tourism is a primary economic driver, the influx of visitors can lead to overcrowding, increased waste, and pollution. This phenomenon, often termed 'overtourism,' raises critical questions about sustainability and the long-term viability of these areas as tourist destinations.</p><p>Moreover, the cultural impacts of tourism cannot be overlooked. While tourism can facilitate cultural exchange and promote understanding, it can also lead to the commodification of local traditions and practices. As local artisans and communities cater to tourist expectations, the authenticity of cultural expressions may diminish, leading to a loss of identity. This complex interplay between economic benefit and cultural preservation necessitates a nuanced approach to tourism management, one that balances the needs of local communities with those of visitors.</p><p>Furthermore, the COVID-19 pandemic has highlighted the vulnerabilities of the tourism sector. As countries closed their borders, the immediate economic implications were stark, showcasing the extent to which many economies rely on tourism. However, this pause in tourism has also provided an opportunity for reflection on how to rebuild the sector more sustainably, prioritizing environmental stewardship and community engagement.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern regarding the economic benefits of tourism mentioned in the passage?",
+      "options": {
+        "A": "It leads to environmental degradation.",
+        "B": "It creates job opportunities for locals.",
+        "C": "It fosters cultural exchange.",
+        "D": "It increases government revenue."
+      },
+      "answer": "A",
+      "explanation": "The passage explicitly states that the growth of tourism often results in significant environmental impacts, such as resource depletion and ecosystem degradation."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Overtourism has no impact on local communities.",
+      "answer": "False",
+      "explanation": "The passage discusses how overtourism can lead to overcrowding and pollution, indicating that it does have an impact on local communities."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No or Not Given based on the text.",
+      "text": "The author believes that tourism is entirely beneficial.",
+      "answer": "No",
+      "explanation": "The passage presents a balanced view, highlighting both the benefits and drawbacks of tourism, indicating that the author does not view it as entirely beneficial."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statement with the correct paragraph.",
+      "text": "The economic repercussions of the pandemic on tourism.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3"
+      },
+      "answer": "C",
+      "explanation": "The third paragraph specifically discusses the economic implications of the COVID-19 pandemic on tourism."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the appropriate paragraphs.",
+      "text": "Headings: 1. The Role of Culture in Tourism 2. Environmental Consequences 3. Economic Impact of COVID-19 4. Sustainability Challenges",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3"
+      },
+      "answer": "B",
+      "explanation": "Paragraph 2 discusses cultural impacts and challenges, making it the best fit for heading 1."
+    },
+    {
+      "id": "q6",
+      "type": "matching_features",
+      "instruction": "Match the features to their correct descriptions.",
+      "text": "Features: A. Overtourism B. Cultural Commodification C. Economic Vulnerability",
+      "options": {
+        "1": "Leads to loss of cultural identity.",
+        "2": "Causes environmental degradation.",
+        "3": "Highlights dependence on tourism."
+      },
+      "answer": "3",
+      "explanation": "Economic Vulnerability (C) relates to the dependence on tourism, especially highlighted during the pandemic."
+    },
+    {
+      "id": "q7",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "The influx of visitors can lead to ______________ and increased pollution.",
+      "answer": "overtourism",
+      "explanation": "The passage describes issues resulting from a high number of tourists, specifically naming overtourism."
+    },
+    {
+      "id": "q8",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "The pandemic has caused a significant economic impact on ___________ economies.",
+      "answer": "tourism-dependent",
+      "explanation": "The passage discusses how economies reliant on tourism faced immediate economic implications during the pandemic."
+    },
+    {
+      "id": "q9",
+      "type": "diagram_label_completion",
+      "instruction": "Label the diagram with NO MORE THAN TWO WORDS.",
+      "text": "The process of tourism leading to environmental issues can be labeled as __________.",
+      "answer": "sustainable management",
+      "explanation": "The passage emphasizes the need for a nuanced approach to tourism that includes sustainable management practices."
+    },
+    {
+      "id": "q10",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following question with NO MORE THAN THREE WORDS.",
+      "text": "What opportunity has the pandemic provided for the tourism industry?",
+      "answer": "reflection on sustainability",
+      "explanation": "The passage indicates that the pause in tourism allows for reflection on sustainable practices."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "overtourism",
+      "meaning": "A situation where too many visitors overcrowd a destination, leading to negative impacts."
+    },
+    {
+      "word": "commodification",
+      "meaning": "The process of turning cultural practices into products for commercial gain."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "The ability to maintain ecological balance without depleting resources."
+    },
+    {
+      "word": "economic dependence",
+      "meaning": "Reliance on a particular industry or sector for financial stability."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on identifying the author's perspective regarding tourism's benefits and drawbacks. Pay attention to the nuanced language used to describe the impacts of tourism, especially in terms of environmental and cultural aspects. Be prepared to infer implied meanings and assess the tone of the author when answering questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

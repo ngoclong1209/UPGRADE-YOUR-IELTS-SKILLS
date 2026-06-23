@@ -1,0 +1,87 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_005",
+  "title": "Exploring the Final Frontier: Insights into Space Exploration",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Journey Beyond Earth</h2><p>Space exploration has fascinated humanity for centuries, driving us to look beyond our planet and discover what lies in the cosmos. The advent of space technology has made it possible to send spacecraft and rovers to distant planets and moons, expanding our knowledge of the universe. From the historic Moon landing in 1969 to the ongoing missions to Mars, the quest for exploration is fueled by curiosity and the desire to understand our place in the universe.</p><p>One of the most significant achievements in space exploration was the Apollo program, which successfully landed astronauts on the Moon. This program not only demonstrated the capabilities of human ingenuity but also provided invaluable scientific data about the lunar surface. The samples collected from the Moon have helped researchers better understand its geology and the history of our solar system.</p><p>In recent years, Mars has become the focal point for many space agencies. NASA's Perseverance rover, launched in 2020, aims to search for signs of ancient life and collect samples for future return to Earth. The exploration of Mars poses challenges due to its harsh environment, but the potential discoveries could revolutionize our understanding of life beyond Earth.</p><p>Moreover, international cooperation has played a crucial role in modern space exploration. The International Space Station (ISS), a joint project involving multiple countries, serves as a laboratory for scientific research and a platform for future missions to the Moon and Mars. Collaborating on such projects not only enhances scientific knowledge but also promotes peace and understanding among nations.</p><p>As we look to the future, the prospects of human settlement on other planets are becoming more realistic. Companies like SpaceX are developing technologies to transport humans to Mars, aiming to establish a sustainable presence. This vision could potentially open a new chapter in human history, where living on other planets becomes a reality. The journey of space exploration continues to inspire generations, reminding us that the universe is vast and full of mysteries waiting to be uncovered.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What was the main aim of NASA's Perseverance rover?",
+      "options": {
+        "A": "To gather lunar samples",
+        "B": "To explore the Moon's geology",
+        "C": "To search for signs of ancient life on Mars",
+        "D": "To build a space station"
+      },
+      "answer": "C",
+      "explanation": "The passage states that the Perseverance rover aims to search for signs of ancient life and collect samples on Mars."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the following statement is True, False, or Not Given.",
+      "text": "The Apollo program was the first to explore Mars.",
+      "answer": "False",
+      "explanation": "The passage discusses the Apollo program's focus on the Moon, not Mars."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author believe that international cooperation is essential for space exploration?",
+      "answer": "Yes",
+      "explanation": "The passage highlights the importance of international cooperation in the success of projects like the ISS."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match each space mission to its purpose.",
+      "text": {
+        "1": "Apollo Program",
+        "2": "Perseverance Rover",
+        "3": "International Space Station"
+      },
+      "options": {
+        "A": "Search for ancient life",
+        "B": "Research laboratory in space",
+        "C": "Moon landing and geological studies"
+      },
+      "answers": {
+        "1": "C",
+        "2": "A",
+        "3": "B"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "short-answer_questions",
+      "instruction": "Answer using NO MORE THAN THREE WORDS.",
+      "text": "What year was the Perseverance rover launched?",
+      "answer": "2020",
+      "explanation": "The passage mentions that the Perseverance rover was launched in 2020."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "fascinated",
+      "meaning": "extremely interested and attracted"
+    },
+    {
+      "word": "ingenuity",
+      "meaning": "the quality of being clever and inventive"
+    },
+    {
+      "word": "sustainable",
+      "meaning": "able to be maintained at a certain rate or level"
+    },
+    {
+      "word": "revolutionize",
+      "meaning": "to change something greatly and suddenly"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully, paying attention to the main ideas and specific details. Take notes on important missions and their purposes, and be sure to understand the role of international cooperation in space exploration. Use the questions to guide your reading and focus on key phrases that may appear in the answers.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

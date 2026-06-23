@@ -1,0 +1,83 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_300",
+  "title": "Eating Well: A Guide to Healthy Eating",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Eating Well: A Guide to Healthy Eating</h2><p>Maintaining a healthy diet is essential for overall well-being. It involves consuming a variety of foods that provide the necessary nutrients. A balanced diet typically includes fruits, vegetables, whole grains, and lean proteins. These food groups are crucial as they help to strengthen the immune system and reduce the risk of diseases.</p><p>Fruits and vegetables are rich in vitamins and minerals. Eating a wide range of these can contribute to better health. For instance, leafy greens like spinach and kale are packed with iron, while citrus fruits provide vitamin C, which boosts immunity.</p><p>Whole grains, such as brown rice and whole wheat bread, are excellent sources of fiber. Fiber helps in digestion and can prevent issues like constipation. Additionally, it plays a role in maintaining a healthy weight by making you feel full longer.</p><p>Lean proteins, including fish, chicken, and legumes, are vital for muscle repair and growth. They provide the body with the amino acids necessary for various functions. However, it is important to limit the intake of red and processed meats, as excessive consumption can lead to health problems.</p><p>Moreover, hydration is often overlooked in dietary discussions. Drinking enough water every day is crucial for bodily functions, including digestion and temperature regulation. It is recommended to drink at least eight glasses of water daily, more if you are active.</p><p>In conclusion, a healthy diet is not just about restricting certain foods; it is about making informed choices. Incorporating a variety of nutritious foods into your meals can lead to a healthier lifestyle and improved well-being.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What are the benefits of eating fruits and vegetables?",
+      "options": {
+        "A": "They provide essential vitamins and minerals.",
+        "B": "They are high in calories.",
+        "C": "They are the only source of protein.",
+        "D": "They are difficult to digest."
+      },
+      "answer": "A",
+      "explanation": "Fruits and vegetables are mentioned as rich in vitamins and minerals, which are beneficial for health."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What role does fiber play in a diet?",
+      "options": {
+        "A": "It helps with digestion.",
+        "B": "It is a source of protein.",
+        "C": "It increases water intake.",
+        "D": "It causes weight gain."
+      },
+      "answer": "A",
+      "explanation": "The passage states that fiber helps in digestion and can prevent issues like constipation."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Lean proteins should be consumed in large amounts daily.",
+      "answer": "False",
+      "explanation": "The passage advises to limit the intake of red and processed meats, suggesting moderation."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe hydration is important for health?",
+      "answer": "Yes",
+      "explanation": "The passage emphasizes the importance of drinking enough water for bodily functions."
+    },
+    {
+      "id": "q5",
+      "type": "matching_information",
+      "instruction": "Match the food group with its benefit.",
+      "text": "1. Fruits and Vegetables 2. Whole Grains 3. Lean Proteins",
+      "options": {
+        "A": "A source of fiber.",
+        "B": "Packed with vitamins.",
+        "C": "Essential for muscle repair."
+      },
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "C"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "nutrients",
+      "meaning": "substances that provide nourishment essential for growth and the maintenance of life"
+    },
+    {
+      "word": "hydration",
+      "meaning": "the process of causing something to absorb water"
+    },
+    {
+      "word": "immune system",
+      "meaning": "the body's defense against infectious organisms and other invaders"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully and note key points about each food group. Pay attention to the benefits mentioned. For multiple-choice questions, eliminate the obviously incorrect options first. For True/False/Not Given, look for specific information in the text. In matching questions, focus on the details provided in each section to ensure accurate connections.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

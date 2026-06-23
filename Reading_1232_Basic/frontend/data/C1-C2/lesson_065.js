@@ -1,0 +1,82 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_065",
+  "title": "The Quest Beyond: Humanity's Journey into the Cosmos",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Quest Beyond: Humanity's Journey into the Cosmos</h2><p>In the annals of human history, few endeavors have captured our imagination as profoundly as the exploration of outer space. Since the dawn of the Space Age in the late 1950s, mankind has embarked on a quest that transcends mere curiosity; it is a pursuit imbued with deeper philosophical questions about our place in the universe. This journey, initially marked by the historic launch of Sputnik 1, has evolved into sophisticated missions that not only seek to understand celestial bodies but also aim to unravel the mysteries of existence itself.</p><p>As we venture further into the cosmos, the motivations driving space exploration have diversified. Initially propelled by the fervor of the Cold War, subsequent missions have shifted towards scientific discovery, international collaboration, and even the potential for human colonization of other planets. The recent advancements in technology have ushered in a new era, where private enterprises are beginning to play a pivotal role alongside governmental agencies. This paradigm shift raises crucial questions about the ethical implications of commercializing space and the responsibilities that come with such ventures.</p><p>Critics argue that the allocation of vast resources towards space exploration diverts attention from pressing issues on Earth, such as poverty and climate change. However, proponents contend that the innovations stemming from space research have historically yielded significant benefits, from satellite communications to advancements in medical technology. This interplay between earthbound challenges and cosmic aspirations encapsulates the dual nature of our endeavors.</p><p>Moreover, the psychological impact of space exploration cannot be understated. The images of Earth from space have instilled a sense of unity and fragility, prompting a reevaluation of our environmental responsibilities. Such perspectives challenge us to think critically about sustainability and our stewardship of the planet, thereby intertwining the fates of terrestrial and extraterrestrial pursuits.</p><p>Ultimately, as humanity stands on the brink of interstellar exploration, the question remains: what legacy do we wish to leave behind? The exploration of space is not merely about expanding our physical boundaries; it is a reflection of our aspirations, our fears, and our collective identity. As we continue this journey, it is imperative that we remain mindful of the ethical considerations and philosophical inquiries that accompany our reach for the stars.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary motivation for space exploration mentioned in the passage?",
+      "options": {
+        "A": "The pursuit of scientific knowledge and collaboration.",
+        "B": "The desire to compete with other nations.",
+        "C": "The need to address Earth's environmental issues.",
+        "D": "The commercialization of space travel."
+      },
+      "answer": "A",
+      "explanation": "The passage emphasizes the shift from competition to scientific discovery and collaboration as key motivations for space exploration."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "The passage suggests that advancements in space exploration have no significant benefits for Earth.",
+      "answer": "False",
+      "explanation": "The passage argues that innovations from space exploration have historically yielded significant benefits, countering the statement."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer 'Yes', 'No' or 'Not Given'.",
+      "text": "Does the author believe that space exploration should prioritize Earth’s issues?",
+      "answer": "Not Given",
+      "explanation": "The author discusses both sides of the argument but does not explicitly state a belief on prioritization."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following motivations for space exploration with their descriptions.",
+      "items": {
+        "A": "Scientific discovery",
+        "B": "Commercialization",
+        "C": "Environmental awareness",
+        "D": "International collaboration"
+      },
+      "descriptions": {
+        "1": "The drive to understand celestial phenomena.",
+        "2": "The role of private companies in space missions.",
+        "3": "The perception of Earth's fragility from space.",
+        "4": "Working together across nations for mutual goals."
+      },
+      "answers": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "4"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "annals",
+      "meaning": "Historical records; chronicles."
+    },
+    {
+      "word": "transcend",
+      "meaning": "To go beyond the limits of; to surpass."
+    },
+    {
+      "word": "paradigm shift",
+      "meaning": "A fundamental change in approach or underlying assumptions."
+    },
+    {
+      "word": "ethical implications",
+      "meaning": "The moral consequences or considerations of an action."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle this passage, focus on understanding the underlying themes and motivations behind space exploration. Pay attention to the author's tone and the implications of their arguments, as these are often tested in the questions. Additionally, keep an eye out for paraphrased concepts, especially in the multiple-choice and true/false questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,73 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_553",
+  "title": "The Unseen Costs of Climate Change: A Global Perspective",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Unseen Costs of Climate Change: A Global Perspective</h2><p>Climate change, often perceived as a distant threat, is manifesting itself with alarming immediacy. The implications are not merely environmental but extend into the realms of socio-economic stability and public health. Researchers have identified that the economic burden of climate change is escalating, with losses projected to reach trillions of dollars annually if significant mitigation efforts are not undertaken. This comprehensive analysis explores the multifaceted dimensions of climate change, shedding light on the intricate interplay between environmental degradation and human welfare.</p><p>Firstly, the phenomenon of global warming is increasingly linked to extreme weather events. The intensification of hurricanes, droughts, and floods not only devastates ecosystems but also disrupts agricultural production, leading to food scarcity. Consequently, regions dependent on agriculture face heightened risks of economic collapse. Moreover, the displacement of populations due to climate-induced disasters exacerbates social tensions, creating a ripple effect of instability.</p><p>Secondly, the health implications of climate change are profound. Rising temperatures contribute to the spread of vector-borne diseases, while air pollution exacerbated by climate change leads to respiratory illnesses. Vulnerable populations, particularly in developing nations, bear the brunt of these health crises, underscoring the ethical dimensions of climate action. The question arises: who is responsible for addressing these disparities?</p><p>Finally, while technological advancements hold promise for mitigation, they also introduce new challenges. The transition to renewable energy sources is fraught with complexities, including the need for substantial investments and the potential for job losses in traditional energy sectors. Thus, a balanced approach that prioritizes economic transition alongside social equity is essential for sustainable solutions.</p><p>In conclusion, the multifaceted challenges posed by climate change necessitate a holistic understanding of its impacts. As we grapple with this global crisis, the need for collaborative efforts across nations becomes increasingly critical. Only through a unified approach can we hope to mitigate the pervasive effects of climate change and safeguard the future for generations to come.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary focus of the passage?",
+      "options": {
+        "A": "The immediate economic impacts of climate change.",
+        "B": "The technological advancements in renewable energy.",
+        "C": "The ethical implications of health crises caused by climate change.",
+        "D": "The interconnectedness of climate change with socio-economic and health issues."
+      },
+      "answer": "D",
+      "explanation": "The passage discusses how climate change impacts not only the environment but also socio-economic stability and public health, making D the most comprehensive answer."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Climate change primarily affects only developed countries.",
+      "answer": "False",
+      "explanation": "The passage highlights that vulnerable populations in developing nations bear the brunt of health crises due to climate change, indicating that its effects are global."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer with 'Yes', 'No', or 'Not Given'.",
+      "text": "The author believes technological advancements alone can resolve climate issues.",
+      "answer": "No",
+      "explanation": "The passage indicates that while technology can help, it introduces new challenges and stresses the need for a balanced approach."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct paragraphs.",
+      "text": "Match the following statements to the correct paragraph number (1, 2, 3, 4).",
+      "options": {
+        "A": "The role of renewable energy in economic transition.",
+        "B": "The impact of climate change on health.",
+        "C": "The consequences of extreme weather events.",
+        "D": "The ethical responsibilities in addressing climate change."
+      },
+      "answers": {
+        "A": "3",
+        "B": "2",
+        "C": "1",
+        "D": "4"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "mitigation",
+      "meaning": "the action of reducing the severity, seriousness, or painfulness of something, particularly in the context of climate change."
+    },
+    {
+      "word": "displacement",
+      "meaning": "the forced movement of people from their locality or environment and occupational activities."
+    },
+    {
+      "word": "vulnerable",
+      "meaning": "capable of being physically or emotionally wounded; open to attack or damage."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When tackling this passage, focus on understanding the main ideas and the relationships between different concepts. Pay attention to the nuanced language used, particularly in discussing the implications of climate change.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

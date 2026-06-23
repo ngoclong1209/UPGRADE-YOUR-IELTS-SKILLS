@@ -1,0 +1,89 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_325",
+  "title": "Navigating the Cosmos: The Future of Space Exploration",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Next Frontier in Space Exploration</h2><p>As humanity stands on the precipice of a new era in space exploration, the ambitions of both governmental and private entities have expanded significantly. The historical narrative of space travel, characterized by the Apollo missions and the Space Shuttle program, has given way to a more diversified approach involving international partnerships and commercial ventures. Today, the quest for Mars has become a focal point, sparking discussions not only on technological advancements but also on ethical considerations surrounding extraterrestrial colonization.</p><p>Moreover, the advent of reusable rocket technology, pioneered by companies like SpaceX, has dramatically reduced the costs associated with space travel. This financial accessibility opens doors to new possibilities, including the mining of asteroids for resources and the potential establishment of permanent bases on the Moon and Mars. However, these ambitions raise pressing questions about sustainability and the long-term implications for both Earth and the solar system.</p><p>Furthermore, the role of artificial intelligence in space exploration cannot be overstated. AI systems are increasingly used to analyze vast amounts of data from space missions, optimize flight paths, and even operate autonomous rovers on distant planets. The integration of AI signifies a paradigm shift in how we approach interplanetary exploration, suggesting that future missions may be less reliant on human presence and more on intelligent systems capable of making decisions in real-time.</p><p>In summary, while the technological advancements herald a promising future for space exploration, they also necessitate a critical evaluation of the ethical, environmental, and sociopolitical dimensions of venturing beyond our planet.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary focus of current space exploration efforts?",
+      "options": {
+        "A": "Developing new technologies for Earth.",
+        "B": "Colonizing Mars and other celestial bodies.",
+        "C": "Establishing international partnerships.",
+        "D": "Reducing costs of space travel."
+      },
+      "answer": "B",
+      "explanation": "The passage highlights that the quest for Mars has become a focal point in current space exploration efforts, indicating a strong interest in colonization."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is true, false, or not given.",
+      "text": "The Apollo missions were primarily focused on commercial ventures.",
+      "answer": "False",
+      "explanation": "The passage discusses historical narratives of space travel like the Apollo missions but does not mention them being focused on commercial ventures."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The passage suggests that artificial intelligence will replace human astronauts in future missions.",
+      "answer": "Not Given",
+      "explanation": "While the passage mentions the increasing role of AI, it does not explicitly state that AI will replace human astronauts."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following technological advancements with their implications.",
+      "pairs": {
+        "Reusable rocket technology": "A significant reduction in space travel costs.",
+        "AI in space missions": "Enhanced decision-making capabilities.",
+        "Mars colonization discussions": "Ethical considerations regarding extraterrestrial life."
+      },
+      "answer": {
+        "Reusable rocket technology": "A significant reduction in space travel costs.",
+        "AI in space missions": "Enhanced decision-making capabilities.",
+        "Mars colonization discussions": "Ethical considerations regarding extraterrestrial life."
+      },
+      "explanation": "The passage discusses these advancements and their respective implications, confirming the matches."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph with its correct heading.",
+      "headings": {
+        "A": "The ethical implications of space colonization.",
+        "B": "Technological advancements in space travel.",
+        "C": "The future of interplanetary missions.",
+        "D": "Historical context of space exploration."
+      },
+      "answers": {
+        "Paragraph 1": "D",
+        "Paragraph 2": "B",
+        "Paragraph 3": "C",
+        "Paragraph 4": "A"
+      },
+      "explanation": "Each paragraph corresponds with specific themes that align with the headings provided."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "precipice",
+      "meaning": "a very steep rock face or cliff; a dangerous situation."
+    },
+    {
+      "word": "pioneered",
+      "meaning": "developed or introduced something new and innovative."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "the ability to be maintained at a certain rate or level, particularly regarding environmental impact."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the main ideas and the implications of technological advancements in space exploration. Pay attention to the nuances in language that indicate the author's attitude towards the future of space travel.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

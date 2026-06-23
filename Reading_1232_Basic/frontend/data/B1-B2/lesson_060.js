@@ -1,0 +1,82 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_060",
+  "title": "Eating Right: The Key to a Healthy Life",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Importance of a Balanced Diet</h2><p>A balanced diet is essential for a healthy lifestyle. It provides the body with the necessary nutrients to function properly. This includes carbohydrates, proteins, fats, vitamins, and minerals. Each nutrient has a specific role in maintaining health. For example, carbohydrates are the body’s primary energy source, while proteins are crucial for growth and repair of tissues.</p><p>Many people struggle to maintain a healthy diet due to busy lifestyles and the prevalence of fast food. However, it is important to make conscious choices about what we eat. Preparing meals at home can lead to healthier eating habits. Incorporating a variety of fruits and vegetables into daily meals can significantly improve overall health. Studies show that a diet rich in these foods can reduce the risk of chronic diseases such as heart disease and diabetes.</p><p>Moreover, staying hydrated is another key aspect of a healthy diet. Drinking enough water helps in digestion and nutrient absorption. It is recommended to drink at least eight glasses of water a day. Additionally, limiting the intake of sugary drinks and snacks can also enhance one’s health.</p><p>In conclusion, making informed dietary choices contributes to a healthier life. It requires effort and planning, but the benefits are worth it.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary energy source for the body according to the passage?",
+      "options": {
+        "A": "Proteins are essential for growth.",
+        "B": "Fats provide long-term energy.",
+        "C": "Carbohydrates are the primary energy source.",
+        "D": "Vitamins help in maintaining health."
+      },
+      "answer": "C",
+      "explanation": "The passage states that carbohydrates are the body’s primary energy source."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Preparing meals at home can lead to healthier eating habits.",
+      "answer": "True",
+      "explanation": "The passage mentions that preparing meals at home can lead to healthier eating habits."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that busy lifestyles prevent healthy eating.",
+      "answer": "Not Given",
+      "explanation": "The passage discusses struggles with maintaining a healthy diet but does not explicitly state the author's belief."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following nutrients with their roles.",
+      "options": {
+        "1": "Carbohydrates",
+        "2": "Proteins",
+        "3": "Vitamins",
+        "4": "Fats"
+      },
+      "answers": {
+        "A": "Primary energy source",
+        "B": "Crucial for growth",
+        "C": "Maintain overall health",
+        "D": "Provide long-term energy"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "It is recommended to drink at least _____ glasses of water a day.",
+      "answer": "eight",
+      "explanation": "The passage states that it is recommended to drink at least eight glasses of water a day."
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer the question with NO MORE THAN THREE WORDS.",
+      "text": "What can reduce the risk of chronic diseases?",
+      "answer": "Fruits and vegetables",
+      "explanation": "The passage mentions that a diet rich in fruits and vegetables can reduce the risk of chronic diseases."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "nutrients",
+      "meaning": "Substances that provide nourishment essential for growth and the maintenance of life."
+    },
+    {
+      "word": "chronic diseases",
+      "meaning": "Long-lasting conditions that can be controlled but not cured."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on understanding the main ideas and specific details in the passage. Pay attention to keywords in the questions that will help you locate information in the text. Use skimming and scanning techniques to find answers efficiently.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

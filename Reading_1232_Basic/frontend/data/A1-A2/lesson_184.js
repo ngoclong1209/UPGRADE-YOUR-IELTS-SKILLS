@@ -1,0 +1,109 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_184",
+  "title": "Introduction to Artificial Intelligence and Robotics",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>What is Artificial Intelligence?</h2><p>Artificial Intelligence (AI) is when machines can think and learn like humans. AI can help us with many tasks like answering questions or making decisions. For example, when you talk to Siri or Google Assistant, you are using AI.</p><h2>What is Robotics?</h2><p>Robotics is the study of robots. Robots are machines that can do work. Some robots can help in factories, and others can help in homes. For example, a vacuum robot cleans your floor.</p><h2>How do AI and Robotics work together?</h2><p>AI and robotics often work together. AI helps robots make choices. This makes robots smarter. For example, a robot in a factory can learn to pick up boxes better with AI.</p><h2>Why are AI and Robotics important?</h2><p>AI and robotics are important because they can make our lives easier. They can do boring tasks. This gives us more time to do fun things. In the future, they may help us in many new ways.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does AI help us do?",
+      "options": {
+        "A": "Talk to machines",
+        "B": "Make decisions",
+        "C": "Build robots",
+        "D": "Cook food"
+      },
+      "answer": "B",
+      "explanation": "AI helps us with tasks like answering questions and making decisions."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Robots can clean floors.",
+      "answer": "True"
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "AI is only used in factories.",
+      "answer": "False"
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "Robotics is the study of machines.",
+      "answer": "True"
+    },
+    {
+      "id": "q5",
+      "type": "short_answer",
+      "text": "What can robots do in homes?",
+      "answer": "Clean"
+    },
+    {
+      "id": "q6",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do robots in factories learn to do?",
+      "options": {
+        "A": "Dance better",
+        "B": "Pick up boxes",
+        "C": "Play games",
+        "D": "Cook food"
+      },
+      "answer": "B",
+      "explanation": "Robots in factories can learn to pick up boxes better with AI."
+    },
+    {
+      "id": "q7",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does AI help robots do?",
+      "options": {
+        "A": "Make choices",
+        "B": "Dance",
+        "C": "Eat food",
+        "D": "Sleep"
+      },
+      "answer": "A",
+      "explanation": "AI helps robots make choices, making them smarter."
+    },
+    {
+      "id": "q8",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why are AI and robotics important?",
+      "options": {
+        "A": "They are fun",
+        "B": "They can make our lives easier",
+        "C": "They are expensive",
+        "D": "They are heavy"
+      },
+      "answer": "B",
+      "explanation": "AI and robotics are important because they can make our lives easier."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "Artificial Intelligence",
+      "meaning": "Machines that can think and learn like humans."
+    },
+    {
+      "word": "Robotics",
+      "meaning": "The study of robots."
+    },
+    {
+      "word": "robots",
+      "meaning": "Machines that can do work."
+    },
+    {
+      "word": "decisions",
+      "meaning": "Choices that people or machines make."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully. Look for keywords in the questions. This will help you find the answers quickly.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

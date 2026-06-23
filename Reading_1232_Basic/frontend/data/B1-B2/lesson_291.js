@@ -1,0 +1,79 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_291",
+  "title": "The Great Debate: Higher Education vs Vocational Training",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Great Debate: Higher Education vs Vocational Training</h2><p>In today's rapidly changing job market, the debate between higher education and vocational training has gained significant attention. Higher education, often associated with universities and colleges, offers a comprehensive curriculum that prepares students for a variety of professions. Graduates typically receive a degree, which can open doors to advanced career opportunities and higher salaries. However, the rising cost of tuition and student debt has led many to question the value of a traditional university degree.</p><p>On the other hand, vocational training focuses on equipping students with specific skills required for particular trades or careers. Programs often take less time to complete and are generally more affordable than university degrees. Fields such as plumbing, electrical work, and culinary arts are examples where vocational training can lead to immediate employment and practical experience.</p><p>Advocates for higher education argue that a degree provides a well-rounded education that fosters critical thinking, communication skills, and adaptability — qualities highly valued in the modern workforce. In contrast, supporters of vocational training emphasize its effectiveness in meeting the immediate needs of employers and the economy, particularly in skilled labor sectors where there is a shortage of qualified workers.</p><p>Ultimately, the choice between higher education and vocational training depends on individual career goals and the job market's demands. As technology continues to evolve, both pathways will likely play crucial roles in preparing the workforce of the future.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one advantage of higher education mentioned in the passage?",
+      "options": {
+        "A": "It usually leads to immediate employment.",
+        "B": "It offers a well-rounded education.",
+        "C": "It is less expensive than vocational training.",
+        "D": "It takes less time to complete."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct because the passage states that higher education fosters critical thinking and communication skills, which are valuable in the workforce."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Vocational training programs are generally more expensive than university degrees.",
+      "answer": "False",
+      "explanation": "The passage mentions that vocational training is generally more affordable than university degrees."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Indicate whether the statement reflects the author's opinion.",
+      "text": "The author believes that vocational training is less valuable than higher education.",
+      "answer": "No",
+      "explanation": "The author presents both sides of the debate without stating a preference, indicating that both education paths have value."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following benefits with their corresponding education type.",
+      "text": "1. Immediate employment\n2. Critical thinking skills\n3. More affordable\n4. Comprehensive curriculum",
+      "options": {
+        "A": "Higher Education",
+        "B": "Vocational Training"
+      },
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "B",
+        "4": "A"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "short-answer_questions",
+      "instruction": "Answer in no more than two words.",
+      "text": "What type of skills does vocational training primarily focus on?",
+      "answer": "specific skills",
+      "explanation": "The passage states that vocational training equips students with skills required for particular trades."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "tuition",
+      "meaning": "the fee for instruction at a school or university."
+    },
+    {
+      "word": "advocates",
+      "meaning": "people who publicly support or recommend a particular cause or policy."
+    },
+    {
+      "word": "equipping",
+      "meaning": "providing someone with the necessary skills or resources."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively approach this passage, focus on identifying the main ideas in each paragraph. Take note of the advantages and disadvantages of both higher education and vocational training as they are presented. Pay attention to the author's tone and opinion, as these can help in answering the Yes/No/Not Given questions. Lastly, for matching and multiple-choice questions, look for keywords that can help differentiate between the options provided.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

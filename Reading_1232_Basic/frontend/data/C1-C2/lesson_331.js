@@ -1,0 +1,103 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_331",
+  "title": "Navigating the Divide: Higher Education vs Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Educational Dichotomy</h2><p>In contemporary society, the discourse surrounding higher education and vocational training has intensified, revealing a profound dichotomy in the pathways individuals may pursue for career success. Higher education, traditionally synonymous with university degrees, is often perceived as the pinnacle of academic achievement, promising a breadth of theoretical knowledge and critical thinking skills. Conversely, vocational training emphasizes practical skills and direct entry into the workforce, catering to industries that increasingly demand specialized knowledge. This divergence raises essential questions about the value and applicability of each educational model in an ever-evolving job market.</p><p>Proponents of higher education argue that a university degree fosters a comprehensive understanding of complex concepts, enabling graduates to engage in innovative thinking and problem-solving. They contend that such intellectual rigor equips individuals with transferable skills applicable across various fields. However, critics point out the rising student debt and the underemployment of degree holders, suggesting that the return on investment may not justify the cost.</p><p>On the other hand, advocates of vocational training highlight its efficiency in addressing specific industry needs, arguing that it provides immediate employment opportunities and less financial burden on students. Vocational programs are designed to offer hands-on experience, which can lead to quicker job placements and career advancement. Yet, detractors of this model often raise concerns about the perceived lower status of vocational careers and the potential for limited upward mobility.</p><p>The ongoing debate reveals not only differing educational philosophies but also societal values regarding success and intelligence. As the job market continues to change, it is imperative for individuals to weigh the pros and cons of each path, considering their personal goals, financial implications, and the evolving landscape of employment opportunities.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary argument in favor of higher education according to the passage?",
+      "options": {
+        "A": "It guarantees immediate employment.",
+        "B": "It promotes innovative thinking and problem-solving skills.",
+        "C": "It is more financially beneficial than vocational training.",
+        "D": "It offers a broader range of practical skills."
+      },
+      "answer": "B",
+      "explanation": "Answer B is correct because the passage states that proponents of higher education argue it fosters a comprehensive understanding of complex concepts, enabling graduates to engage in innovative thinking and problem-solving."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "Vocational training is seen as inferior to higher education by all critics.",
+      "answer": "False",
+      "explanation": "The passage indicates that while some detractors raise concerns about the perceived lower status of vocational careers, it does not state that all critics view it as inferior."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Decide if the author's attitude towards vocational training is Yes, No or Not Given.",
+      "text": "The author believes vocational training can lead to career advancement.",
+      "answer": "Yes",
+      "explanation": "The passage mentions that vocational training can lead to quicker job placements and career advancement, indicating a positive view from the author."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the arguments to the correct educational model.",
+      "text": "1. Offers hands-on experience. 2. Involves significant student debt. 3. Provides immediate employment opportunities.",
+      "options": {
+        "A": "Higher Education",
+        "B": "Vocational Training"
+      },
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "B"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "options": {
+        "A": "The financial burden of education.",
+        "B": "The practical advantages of vocational training.",
+        "C": "The theoretical benefits of higher education.",
+        "D": "The societal implications of educational choices."
+      },
+      "answers": {
+        "1": "C",
+        "2": "A",
+        "3": "B",
+        "4": "D"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short-answer",
+      "instruction": "Answer the following question in no more than three words.",
+      "text": "What do proponents of vocational training argue it provides?",
+      "answer": "Immediate employment opportunities",
+      "explanation": "The passage states that vocational training highlights its efficiency in addressing specific industry needs and provides immediate employment opportunities."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "dichotomy",
+      "meaning": "a division or contrast between two things that are represented as being opposed or entirely different."
+    },
+    {
+      "word": "proponents",
+      "meaning": "individuals who advocate for a particular idea or course of action."
+    },
+    {
+      "word": "underemployment",
+      "meaning": "a situation in which an individual is working in a job that does not fully utilize their skills or education."
+    },
+    {
+      "word": "advocates",
+      "meaning": "those who publicly support or recommend a particular cause or policy."
+    },
+    {
+      "word": "transferable skills",
+      "meaning": "skills that can be applied in various job settings, not limited to one specific area."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on the contrasting perspectives provided on higher education and vocational training. Take note of the author's tone, which may reveal biases or leanings towards one educational pathway over the other. Pay close attention to the implications of each argument, especially when considering the potential outcomes of different educational choices. Be prepared to identify both explicit statements and implied meanings within the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

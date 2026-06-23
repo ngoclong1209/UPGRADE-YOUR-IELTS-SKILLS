@@ -1,0 +1,111 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_339",
+  "title": "Exploring the Dual Nature of Tourism: Benefits and Consequences",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Dichotomy of Tourism</h2><p>Tourism, a multifaceted phenomenon, has emerged as a vital economic driver in numerous regions worldwide. While it generates substantial revenue and employment opportunities, it simultaneously precipitates a myriad of social, cultural, and environmental challenges. This paradox underscores the necessity of a nuanced understanding of tourism's impacts.</p><p>On one hand, the influx of tourists stimulates local economies through their spending on accommodation, dining, and recreational activities. This financial boon often leads to infrastructural development, enhancing the quality of life for residents. Moreover, tourism can foster cultural exchange, enabling communities to share their heritage and traditions with a global audience, thus promoting cultural preservation.</p><p>Conversely, the adverse effects of mass tourism are equally pronounced. Destinations frequently grapple with issues such as overcrowding, which can strain local resources and disrupt daily life. Environmental degradation, manifested in pollution and habitat destruction, poses a significant threat to biodiversity. Furthermore, the commodification of local cultures can lead to a dilution of authentic experiences, as traditions are often altered to cater to tourist expectations.</p><p>In light of these complexities, sustainable tourism practices have gained traction as a means to reconcile the benefits and detriments of tourism. Such practices advocate for responsible travel that prioritizes environmental stewardship and cultural respect, thereby ensuring that destinations can thrive economically without sacrificing their integrity.</p><p>Ultimately, understanding the dual nature of tourism requires a critical examination of its broader implications. Policymakers, industry stakeholders, and travelers alike must collaborate to devise strategies that maximize tourism's positive impacts while mitigating its negative consequences.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary focus of the passage?",
+      "options": {
+        "A": "The economic benefits of tourism.",
+        "B": "The cultural exchanges facilitated by tourism.",
+        "C": "The contrasting effects of tourism on societies and environments.",
+        "D": "The historical development of tourism as an industry."
+      },
+      "answer": "C",
+      "explanation": "The passage discusses both the benefits and negative impacts of tourism, highlighting the contrasting effects on societies and environments."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "Tourism has no significant negative effects on local cultures.",
+      "answer": "False",
+      "explanation": "The passage clearly states that the commodification of local cultures can lead to the dilution of authentic experiences."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The author believes that all forms of tourism are harmful.",
+      "answer": "No",
+      "explanation": "The author recognizes the benefits of tourism but emphasizes the need for sustainable practices to mitigate harmful impacts."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct paragraphs.",
+      "text": "Match each statement with the corresponding paragraph number (1-4).",
+      "options": {
+        "A": "Discusses the economic advantages tourism provides.",
+        "B": "Highlights the negative environmental impacts of tourism.",
+        "C": "Explores the need for sustainable tourism practices.",
+        "D": "Describes the cultural exchange opportunities tourism creates."
+      },
+      "answer": {
+        "A": "2",
+        "B": "3",
+        "C": "4",
+        "D": "2"
+      },
+      "explanation": "Each paragraph is focused on different aspects of tourism, with specific details supporting each option."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the following headings with the paragraphs.",
+      "text": "Match each heading with the correct paragraph number (1-4).",
+      "options": {
+        "A": "The economic impact of tourism",
+        "B": "Challenges posed by mass tourism",
+        "C": "Cultural implications of tourism",
+        "D": "Strategies for sustainable tourism",
+        "E": "The complex nature of tourism"
+      },
+      "answer": {
+        "A": "2",
+        "B": "3",
+        "C": "2",
+        "D": "4",
+        "E": "1"
+      },
+      "explanation": "The headings reflect the main ideas of each paragraph, showcasing the breadth of tourism's impacts."
+    },
+    {
+      "id": "q6",
+      "type": "short-answer_questions",
+      "instruction": "Answer the following questions using NO MORE THAN TWO WORDS.",
+      "text": "What is a significant threat to biodiversity mentioned in the passage?",
+      "answer": "Environmental degradation",
+      "explanation": "The passage explicitly mentions environmental degradation as a threat to biodiversity."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "multifaceted",
+      "meaning": "having many aspects or sides."
+    },
+    {
+      "word": "precipitate",
+      "meaning": "to cause or bring about suddenly."
+    },
+    {
+      "word": "commodification",
+      "meaning": "the action or process of treating something as a mere commodity."
+    },
+    {
+      "word": "dilution",
+      "meaning": "the action of making something weaker in force, content, or value."
+    },
+    {
+      "word": "stewardship",
+      "meaning": "the job of supervising or taking care of something."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this passage, focus on understanding the main ideas and the nuanced arguments presented. Pay attention to key vocabulary and how the author contrasts the benefits and challenges of tourism. Tackle the questions systematically, ensuring you read each question carefully to identify the specific information requested.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,96 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_374",
+  "title": "The Rise of Artificial Intelligence and Robotics",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Artificial Intelligence and Robotics</h2><p>Artificial intelligence (AI) and robotics are rapidly transforming our world. With the integration of advanced algorithms and machine learning techniques, robots are now capable of performing tasks that were once considered exclusive to humans. Industries such as manufacturing, healthcare, and even education are beginning to adopt these technologies to enhance efficiency and productivity.</p><p>In manufacturing, for instance, robots are used to automate repetitive tasks, which reduces the need for human labor in dangerous environments. This not only increases safety but also lowers production costs. In healthcare, AI assists in diagnosing diseases by analyzing patient data faster and more accurately than human doctors. Furthermore, educational institutions are exploring AI-driven personalized learning systems that adapt to individual student needs.</p><p>Despite these benefits, there are concerns about the implications of AI and robotics on employment. Many fear that as machines become more capable, they will replace human jobs, leading to widespread unemployment. However, proponents argue that while certain jobs may be lost, new opportunities will arise in tech-driven fields that require human oversight and creativity.</p><p>Moreover, ethical questions regarding the use of AI are gaining attention. Issues such as privacy, bias in algorithms, and the potential for misuse are critical areas for debate. As society navigates this complex landscape, it is essential to establish regulations that ensure the responsible development of AI technologies.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one benefit of using robots in manufacturing?",
+      "options": {
+        "A": "They can reduce production costs.",
+        "B": "They eliminate the need for human creativity.",
+        "C": "They completely replace all human workers.",
+        "D": "They are capable of diagnosing diseases."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct because the passage states that using robots lowers production costs in manufacturing."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "How does AI assist in healthcare according to the passage?",
+      "options": {
+        "A": "By performing surgeries.",
+        "B": "By analyzing patient data quickly.",
+        "C": "By replacing doctors entirely.",
+        "D": "By providing physical therapy."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct as the passage mentions that AI helps in diagnosing diseases by analyzing patient data faster and more accurately."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "The passage states that AI will lead to a complete loss of jobs.",
+      "answer": "False",
+      "explanation": "The passage discusses concerns about job loss but also mentions that new opportunities may arise in tech-driven fields."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that regulations are necessary for AI development?",
+      "answer": "Yes",
+      "explanation": "The passage indicates that it is essential to establish regulations for the responsible development of AI technologies."
+    },
+    {
+      "id": "q5",
+      "type": "matching_information",
+      "instruction": "Match the following applications to their respective fields.",
+      "pairs": {
+        "A": "Manufacturing",
+        "B": "Healthcare",
+        "C": "Education"
+      },
+      "options": {
+        "1": "Using robots to automate tasks.",
+        "2": "AI-driven personalized learning systems.",
+        "3": "AI assists in diagnosing diseases."
+      },
+      "answer": {
+        "A": "1",
+        "B": "3",
+        "C": "2"
+      },
+      "explanation": "The pairs match correctly as per the applications described in the passage."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "algorithm",
+      "meaning": "A process or set of rules to be followed in calculations or other problem-solving operations."
+    },
+    {
+      "word": "automation",
+      "meaning": "The use of largely automatic equipment in a system of operation."
+    },
+    {
+      "word": "efficiency",
+      "meaning": "The ability to accomplish a job with a minimum expenditure of time and effort."
+    },
+    {
+      "word": "ethical",
+      "meaning": "Relating to moral principles or the branch of knowledge dealing with these."
+    },
+    {
+      "word": "implications",
+      "meaning": "The conclusions that can be drawn from something, although it is not explicitly stated."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching the passage, focus on identifying the main ideas in each paragraph. Take note of any specific examples that support these ideas. For multiple-choice questions, eliminate options that are clearly incorrect to improve your chances of choosing the right answer. For True/False/Not Given questions, pay attention to the nuances in the wording to determine if the information is explicitly stated, contradicted, or not mentioned at all.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

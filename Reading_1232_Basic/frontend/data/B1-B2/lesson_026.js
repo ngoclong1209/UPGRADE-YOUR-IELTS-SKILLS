@@ -1,0 +1,107 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_026",
+  "title": "Harnessing the Power of Renewable Energy",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Future of Renewable Energy</h2><p>Renewable energy sources, such as solar, wind, and hydroelectric power, are becoming increasingly important as the world seeks to reduce its dependence on fossil fuels. These energy sources are sustainable and have a much lower environmental impact compared to traditional energy sources. Solar energy, for instance, harnesses sunlight through photovoltaic cells, converting it into electricity. Wind energy uses turbines to capture wind movement, generating power without releasing harmful emissions. Hydroelectric power relies on the flow of water to produce electricity, making it a reliable source of energy. However, despite their advantages, renewable energy sources also face challenges, including initial costs, resource availability, and technological limitations.</p><p>The transition to renewable energy is critical for combating climate change. According to experts, shifting to a greener energy system could significantly reduce greenhouse gas emissions. Governments around the world are implementing policies to encourage the use of renewables by offering tax incentives and subsidies. Additionally, public awareness campaigns aim to educate citizens about the benefits of renewable energy, promoting its adoption in homes and businesses.</p><p>In conclusion, while renewable energy sources present several challenges, their potential to create a sustainable future cannot be ignored. Continued investment in technology and infrastructure is essential to fully harness their capabilities and ensure a cleaner, healthier planet for future generations.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major benefit of renewable energy sources?",
+      "options": {
+        "A": "They rely on non-renewable resources.",
+        "B": "They have a lower environmental impact.",
+        "C": "They are always cheaper than fossil fuels.",
+        "D": "They require more land to produce energy."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct because the passage states that renewable energy sources have a much lower environmental impact compared to traditional energy sources."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False or Not Given.",
+      "text": "Solar energy is generated using wind movement.",
+      "answer": "False",
+      "explanation": "The passage indicates that solar energy is generated from sunlight, not wind movement."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No or Not Given.",
+      "text": "Governments are promoting renewable energy through financial incentives.",
+      "answer": "Yes",
+      "explanation": "The passage mentions that governments are implementing policies to encourage the use of renewables, including tax incentives and subsidies."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the renewable energy sources with their descriptions.",
+      "items": [
+        {
+          "source": "Solar energy",
+          "description": "Harnesses sunlight."
+        },
+        {
+          "source": "Wind energy",
+          "description": "Uses turbines to capture wind."
+        },
+        {
+          "source": "Hydroelectric power",
+          "description": "Relies on water flow."
+        }
+      ],
+      "answers": {
+        "Solar energy": "Harnesses sunlight.",
+        "Wind energy": "Uses turbines to capture wind.",
+        "Hydroelectric power": "Relies on water flow."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph to the correct heading.",
+      "paragraphs": [
+        "Paragraph 1: Discusses the types and benefits of renewable energy sources.",
+        "Paragraph 2: Explains the role of government policies in promoting renewable energy.",
+        "Paragraph 3: Concludes the discussion on the importance of renewable energy."
+      ],
+      "headings": [
+        "Importance of Government Support",
+        "Types of Renewable Energy",
+        "Conclusion on Renewable Energy"
+      ],
+      "answers": {
+        "Paragraph 1": "Types of Renewable Energy",
+        "Paragraph 2": "Importance of Government Support",
+        "Paragraph 3": "Conclusion on Renewable Energy"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences using NO MORE THAN TWO WORDS.",
+      "text": "The major challenge for renewable energy is its initial _________.",
+      "answer": "costs",
+      "explanation": "The passage mentions 'initial costs' as a challenge faced by renewable energy."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "sustainable",
+      "meaning": "Able to be maintained at a certain rate or level."
+    },
+    {
+      "word": "emissions",
+      "meaning": "Pollutants released into the air."
+    },
+    {
+      "word": "incentives",
+      "meaning": "Encouragements or rewards to promote a certain action."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Pay attention to the main ideas in each paragraph and look for specific details that support those ideas. Use skimming for headings and scanning for keywords when answering questions.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

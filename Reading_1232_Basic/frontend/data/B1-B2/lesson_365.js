@@ -1,0 +1,88 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_365",
+  "title": "Exploring the Final Frontier: The Journey into Space",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Age of Space Exploration</h2><p>Space exploration has captivated the imagination of humanity for decades. It began in the mid-20th century with the launch of Sputnik by the Soviet Union in 1957, marking the dawn of the space age. Since then, numerous missions have expanded our understanding of the universe. These missions have not only been about reaching new frontiers but also about the quest for knowledge regarding our own planet and its place in the cosmos.</p><p>One of the most notable achievements in space exploration is the Apollo program, which successfully landed humans on the Moon. The first manned Moon landing occurred in 1969, when Neil Armstrong took his historic first step onto the lunar surface. This event was not just a scientific triumph but also a significant cultural milestone that demonstrated what humanity could achieve through cooperation and determination.</p><p>As technology has advanced, so too have our ambitions in space. Today, we are not only looking to explore our nearest celestial neighbors but also contemplating missions to Mars and even beyond. The potential for discovering life on other planets fuels the imagination of scientists and the public alike. Robotic missions, such as the Mars rovers, have paved the way for future human exploration by gathering critical data about the Martian environment.</p><p>Moreover, private companies have begun to play a significant role in space exploration. Companies like SpaceX and Blue Origin are working to make space travel more accessible and affordable. Their advancements in reusable rocket technology have drastically reduced the cost of sending payloads into orbit, opening up opportunities for more exploratory missions.</p><p>In conclusion, space exploration continues to be a testament to human ingenuity and curiosity. As we look to the future, the possibilities seem endless, and the quest for knowledge about the universe is more vibrant than ever.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What was the significance of the Apollo program?",
+      "options": {
+        "A": "It successfully landed humans on the Moon.",
+        "B": "It marked the end of space exploration.",
+        "C": "It was the first mission to Mars.",
+        "D": "It was solely focused on robotic missions."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct because the Apollo program is renowned for successfully landing humans on the Moon, particularly during the first manned Moon landing in 1969."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False' or 'Not Given'.",
+      "text": "Space exploration began with the launch of a manned spacecraft.",
+      "answer": "False",
+      "explanation": "The passage states that space exploration began with the launch of Sputnik, which was an unmanned spacecraft."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No' or 'Not Given'.",
+      "text": "The passage suggests that private companies have had no impact on space exploration.",
+      "answer": "No",
+      "explanation": "The passage indicates that private companies like SpaceX and Blue Origin are significantly impacting space exploration."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the missions with their significance.",
+      "text": "Match the following missions with their descriptions.",
+      "options": {
+        "1": "Sputnik",
+        "2": "Apollo Program",
+        "3": "Mars Rovers"
+      },
+      "descriptions": {
+        "A": "First manned Moon landing.",
+        "B": "Pioneered the space age.",
+        "C": "Gathered data for future human exploration."
+      },
+      "matches": {
+        "1": "B",
+        "2": "A",
+        "3": "C"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "short_answer",
+      "instruction": "Write NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "What year did the first manned Moon landing occur?",
+      "answer": "1969",
+      "explanation": "The passage states that the first manned Moon landing occurred in 1969."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "captivated",
+      "meaning": "attracted and held the interest and attention of"
+    },
+    {
+      "word": "cosmos",
+      "meaning": "the universe seen as a well-ordered whole"
+    },
+    {
+      "word": "ambitions",
+      "meaning": "strong desires to achieve something, typically requiring determination and hard work"
+    },
+    {
+      "word": "accessible",
+      "meaning": "able to be reached or entered"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Focus on understanding the main ideas and supporting details in each paragraph. Pay attention to specific years and events mentioned in the text. When answering matching questions, look for keywords in the descriptions that relate to the missions. For multiple choice questions, eliminate clearly incorrect options to improve your chances of selecting the right answer.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

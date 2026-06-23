@@ -1,0 +1,81 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_144",
+  "title": "The Rise of Intelligent Machines",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Intelligent Machines</h2><p>Artificial Intelligence (AI) and robotics are increasingly becoming integral parts of our daily lives. From virtual assistants like Siri and Alexa to robotic vacuum cleaners, these technologies are designed to make our lives easier and more efficient. AI systems can learn from data, adapt to new information, and even make decisions. As these technologies advance, they are being integrated into various sectors, including healthcare, education, and manufacturing.</p><p>In healthcare, AI algorithms can analyze medical images to help doctors diagnose diseases more accurately. For example, AI can detect early signs of conditions such as cancer that may be missed by the human eye. This not only saves time but can also lead to better patient outcomes. In education, AI-powered tools provide personalized learning experiences, allowing students to learn at their own pace. Meanwhile, in manufacturing, robots are used to automate repetitive tasks, increasing productivity and reducing the risk of injury for human workers.</p><p>However, the rise of intelligent machines also raises ethical concerns. Many fear that as robots become more capable, they could replace human jobs. While it is true that automation can lead to job displacement, it can also create new opportunities in fields we cannot yet imagine. It is essential for society to adapt to these changes by investing in education and training programs that prepare the workforce for a technology-driven future.</p><p>In conclusion, while AI and robotics present challenges, they also offer significant benefits that can transform our world for the better. By embracing these technologies while addressing their implications, we can harness their potential to improve our lives.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one way AI is beneficial in healthcare?",
+      "options": {
+        "A": "It can analyze medical images accurately.",
+        "B": "It completely replaces doctors in diagnosis.",
+        "C": "It is only useful for administrative tasks.",
+        "D": "It has no impact on patient outcomes."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct as the passage states that AI algorithms can analyze medical images to help doctors diagnose diseases more accurately."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "AI tools can provide a personalized learning experience for students.",
+      "answer": "True",
+      "explanation": "The passage mentions that AI-powered tools in education provide personalized learning experiences, which confirms the statement as true."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that robots will create more job opportunities?",
+      "answer": "Yes",
+      "explanation": "The author suggests that while automation can lead to job displacement, it can also create new opportunities, indicating agreement with the idea."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the sector with its use of AI.",
+      "options": {
+        "1": "Healthcare",
+        "2": "Education",
+        "3": "Manufacturing"
+      },
+      "answers": {
+        "A": "Automates repetitive tasks.",
+        "B": "Analyzes medical images.",
+        "C": "Provides personalized learning."
+      },
+      "correct_answers": {
+        "1": "B",
+        "2": "C",
+        "3": "A"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentence with NO MORE THAN TWO WORDS.",
+      "text": "AI has the potential to improve _____ outcomes in healthcare.",
+      "answer": "patient",
+      "explanation": "The passage discusses better patient outcomes as a benefit of AI in healthcare."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "integral",
+      "meaning": "essential or necessary for completeness."
+    },
+    {
+      "word": "algorithms",
+      "meaning": "a process or set of rules to be followed in calculations or problem-solving operations."
+    },
+    {
+      "word": "displacement",
+      "meaning": "the removal or replacement of something."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on understanding the main ideas and details regarding the applications of AI and robotics. Pay attention to keywords that indicate the benefits and challenges of these technologies. Skim for the structure of the text to help locate specific information quickly.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,67 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_111",
+  "title": "Navigating Your Future: Higher Education vs Vocational Training",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Choice Between Higher Education and Vocational Training</h2><p>In today's competitive job market, individuals face a critical decision: whether to pursue higher education or opt for vocational training. Higher education, typically offered at universities and colleges, provides students with a broad understanding of various subjects and prepares them for professional careers. On the other hand, vocational training focuses on specific trades and skills, equipping students with practical knowledge that can lead directly to employment.</p><p>Higher education often requires several years of study and can be quite costly. Students may earn degrees in disciplines such as engineering, medicine, or the humanities. These programs aim to develop critical thinking and analytical skills, which are highly valued in many industries. However, graduates may find themselves facing stiff competition in the job market, as many positions require not only a degree but also relevant experience.</p><p>In contrast, vocational training programs are usually shorter and less expensive. They often include hands-on training in fields such as plumbing, electrical work, or culinary arts. These programs are designed to meet the immediate needs of employers looking for skilled workers. As a result, vocational graduates may find job placements more readily available, as they possess the specific skills that employers seek.</p><p>Despite the advantages of vocational training, some argue that it lacks the prestige associated with a university degree. Higher education can open doors to advanced positions and provide networking opportunities that vocational training may not offer. Nevertheless, the economic landscape is changing, and many employers are beginning to value skill sets over formal education.</p><p>Ultimately, the decision between higher education and vocational training depends on an individual's career goals, financial situation, and personal preferences. Both pathways have their merits and can lead to successful and fulfilling careers.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary focus of vocational training?",
+      "options": {
+        "A": "Broad understanding of various subjects",
+        "B": "Practical skills and specific trades",
+        "C": "Advanced positions in companies",
+        "D": "Networking opportunities for graduates"
+      },
+      "answer": "B",
+      "explanation": "Vocational training focuses on providing practical skills and knowledge for specific trades, as mentioned in the passage."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why might vocational graduates find job placements more readily available?",
+      "options": {
+        "A": "They have a broad education.",
+        "B": "They lack practical experience.",
+        "C": "They possess specific skills employers seek.",
+        "D": "They graduate from prestigious institutions."
+      },
+      "answer": "C",
+      "explanation": "The passage states that vocational graduates have specific skills that meet the immediate needs of employers, making them more employable."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a common argument in favor of higher education?",
+      "options": {
+        "A": "It is less costly than vocational training.",
+        "B": "It develops critical thinking and analytical skills.",
+        "C": "It guarantees immediate job placement.",
+        "D": "It focuses solely on practical skills."
+      },
+      "answer": "B",
+      "explanation": "The passage highlights that higher education develops critical thinking and analytical skills, which are valuable in many industries."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "competitive",
+      "meaning": "involving competition; striving to gain or win something by defeating others."
+    },
+    {
+      "word": "prestige",
+      "meaning": "widespread respect and admiration felt for someone or something based on a perception of their achievements or quality."
+    },
+    {
+      "word": "equipping",
+      "meaning": "providing someone with the necessary skills or resources."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching the reading passage, focus on identifying the main ideas in each paragraph. Pay attention to the differences between higher education and vocational training as outlined in the text. Look for keywords in the questions that will help you locate the relevant information in the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

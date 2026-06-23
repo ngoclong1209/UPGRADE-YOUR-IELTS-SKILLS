@@ -1,0 +1,87 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_028",
+  "title": "The Internet: A Double-Edged Sword in Contemporary Society",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Internet: A Double-Edged Sword in Contemporary Society</h2><p>The advent of the Internet has revolutionized communication, altering the fundamental dynamics of human interaction. From its inception, the Internet has served as a catalyst for the democratization of information, providing unprecedented access to knowledge across the globe. However, this accessibility has also engendered a plethora of concerns, particularly regarding misinformation and the erosion of privacy.</p><p>In contemporary society, the Internet is not merely a tool for information dissemination; it has morphed into a complex ecosystem that influences social behaviors and cultural norms. Social media platforms, a significant facet of this ecosystem, have redefined how individuals construct their identities and engage with their communities. While these platforms facilitate connectivity, they also risk fostering echo chambers, where users are exposed predominantly to viewpoints that reinforce their existing beliefs.</p><p>Moreover, the commercial exploitation of personal data has raised ethical questions about consent and the commodification of privacy. As businesses leverage data analytics to tailor their services, the potential for surveillance and manipulation becomes increasingly concerning. This intersection of technology and ethics necessitates a critical examination of the implications of Internet usage on societal values.</p><p>Furthermore, the Internet has profound implications for education and professional development. Online learning platforms have democratized access to education, enabling learners from diverse backgrounds to acquire skills and knowledge that were previously inaccessible. However, this shift raises questions about the quality of education and the potential for digital divides that exacerbate existing inequalities.</p><p>In conclusion, the Internet stands as a double-edged sword, offering both opportunities and challenges. Its role in modern society is multifaceted, necessitating an ongoing dialogue about its impact on our lives, values, and future.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern regarding the Internet's democratization of information?",
+      "options": {
+        "A": "It improves educational access for all.",
+        "B": "It increases the amount of misinformation.",
+        "C": "It fosters community engagement.",
+        "D": "It enhances privacy settings."
+      },
+      "answer": "B",
+      "explanation": "The passage explicitly states that the accessibility of information has engendered concerns particularly regarding misinformation."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statement is True, False, or Not Given.",
+      "text": "The Internet has no impact on individual identity construction.",
+      "answer": "False",
+      "explanation": "The passage discusses how social media platforms have redefined how individuals construct their identities."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The author believes that the Internet predominantly benefits society.",
+      "answer": "No",
+      "explanation": "The passage portrays the Internet as a double-edged sword, highlighting both benefits and challenges."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following concerns with their descriptions.",
+      "text": {
+        "1": "Misinformation",
+        "2": "Privacy erosion",
+        "3": "Digital divides"
+      },
+      "options": {
+        "A": "Inaccessibility of quality education for some.",
+        "B": "The risk of incorrect information spreading.",
+        "C": "Commercial exploitation of personal data."
+      },
+      "answers": {
+        "1": "B",
+        "2": "C",
+        "3": "A"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "short_answer",
+      "instruction": "Write NO MORE THAN THREE WORDS.",
+      "text": "What has the Internet changed in terms of education?",
+      "answer": "Access to education",
+      "explanation": "The passage mentions that online learning platforms have democratized access to education."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "ecosystem",
+      "meaning": "a complex network or interconnected system."
+    },
+    {
+      "word": "democratization",
+      "meaning": "the process of making something accessible to all."
+    },
+    {
+      "word": "commodification",
+      "meaning": "the process of turning something into a commodity."
+    },
+    {
+      "word": "echo chambers",
+      "meaning": "environments where a person only encounters information or opinions that reflect and reinforce their own."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the nuanced arguments presented by the author. Pay attention to the specific vocabulary and the context in which it is used, as this can often provide hints toward the correct answers. For multiple-choice questions, consider the implications of each option carefully. In true/false and yes/no questions, look for subtle cues about the author's perspective.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

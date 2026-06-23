@@ -1,0 +1,108 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_317",
+  "title": "Navigating Choices: Public Transportation vs. Private Cars",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Public Transportation vs. Private Cars: An In-Depth Analysis</h2><p>In contemporary urban environments, the debate surrounding public transportation versus private cars has become increasingly pertinent. Advocates for public transport argue that it offers an efficient means of reducing traffic congestion and lowering carbon emissions. Conversely, proponents of private car usage highlight the convenience and flexibility that comes with personal vehicles. This dichotomy raises significant questions about urban planning, environmental sustainability, and social equity.</p><p>Research indicates that cities with robust public transport systems tend to experience less congestion and greater economic productivity. For instance, the implementation of extensive subway networks has been credited with revitalizing urban centers, allowing for easier access to jobs and services. Moreover, studies have shown that reliance on public transport can lead to a decline in urban pollution levels, thereby promoting public health.</p><p>However, the transition from private car dependency to a more sustainable public transportation model is fraught with challenges. Many individuals express concerns regarding the reliability and safety of public transport systems, often citing overcrowding and inadequate coverage as deterrents. Furthermore, there exists a socio-economic divide wherein lower-income individuals may rely heavily on public transportation due to financial constraints, while higher-income individuals often prefer the comfort and privacy of their own vehicles.</p><p>In conclusion, while public transportation presents a viable solution to many urban issues, its implementation must address the concerns of reliability, safety, and accessibility. Policymakers are tasked with finding a balance between promoting public transport and accommodating the undeniable appeal of private cars.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary advantage of public transportation mentioned in the passage?",
+      "options": {
+        "A": "It offers flexibility and convenience.",
+        "B": "It reduces traffic congestion and pollution.",
+        "C": "It is more expensive than using private cars.",
+        "D": "It is a preferred choice among wealthier individuals."
+      },
+      "answer": "B",
+      "explanation": "The passage clearly states that public transportation provides an efficient means of reducing traffic congestion and lowering carbon emissions, making option B the correct answer."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Public transportation is always more reliable than private car travel.",
+      "answer": "Not Given",
+      "explanation": "The passage does not make a definitive statement about the reliability of public transport compared to private cars."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Do higher-income individuals often prefer public transportation over private cars?",
+      "answer": "No",
+      "explanation": "The passage suggests that higher-income individuals generally prefer the comfort and privacy of their own vehicles."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following statements to the correct paragraph.",
+      "options": {
+        "A": "Public transport systems can revitalize urban centers.",
+        "B": "Concerns about public transport include overcrowding.",
+        "C": "There is a socio-economic divide in transportation preference."
+      },
+      "paragraphs": {
+        "1": "Paragraph 1",
+        "2": "Paragraph 2",
+        "3": "Paragraph 3"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Choose the appropriate heading for each paragraph.",
+      "paragraphs": {
+        "1": "Introduction to the Debate",
+        "2": "Benefits of Public Transport",
+        "3": "Challenges Facing Public Transport"
+      },
+      "headings": [
+        "The Convenience of Private Cars",
+        "Economic Impacts of Transportation",
+        "Public Health Benefits of Reduced Pollution"
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "text": "According to the passage, cities with extensive subway networks tend to experience _____ economic productivity.",
+      "answer": "greater",
+      "explanation": "The passage states that research indicates cities with robust public transport systems tend to experience greater economic productivity."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "text": "Public transportation must address concerns regarding _____, safety, and accessibility.",
+      "answer": "reliability",
+      "explanation": "The passage emphasizes that reliability is one of the key concerns that must be addressed in promoting public transportation."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer",
+      "text": "What are two main challenges in transitioning to public transportation mentioned in the passage?",
+      "answer": "reliability, safety",
+      "explanation": "The passage highlights reliability and safety as significant challenges in transitioning to a public transportation model."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "dichotomy",
+      "meaning": "A division or contrast between two things that are represented as being opposed or entirely different."
+    },
+    {
+      "word": "revitalizing",
+      "meaning": "To restore to a vigorous, active condition; to give new life or energy."
+    },
+    {
+      "word": "convenience",
+      "meaning": "The state of being able to proceed with something without difficulty."
+    },
+    {
+      "word": "deterrents",
+      "meaning": "Factors that discourage or prevent a particular action or behavior."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading this passage, pay close attention to the nuances in the arguments presented. Identify the main points in each paragraph and how they relate to the overall debate. Take note of specific vocabulary that indicates the author's attitude toward public transportation and private cars. This will aid in answering questions related to inference and the author's purpose.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

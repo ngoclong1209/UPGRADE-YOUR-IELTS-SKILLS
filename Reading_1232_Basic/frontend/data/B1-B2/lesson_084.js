@@ -1,0 +1,91 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_084",
+  "title": "The Rise of Artificial Intelligence in Everyday Life",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Artificial Intelligence in Everyday Life</h2><p>Artificial intelligence (AI) is rapidly transforming our world, influencing various aspects of our daily lives. From personal assistants like Siri and Alexa to advanced algorithms that power search engines and social media, AI is becoming an integral part of our existence. It enhances productivity, improves efficiency, and provides personalized experiences tailored to individual needs.</p><p>In education, AI tools can assist teachers by customizing learning experiences for students, helping them learn at their own pace. This technology can also provide instant feedback, allowing for immediate adjustments in teaching methods. Furthermore, AI in healthcare is revolutionizing diagnostics, enabling doctors to detect diseases earlier and more accurately than ever before.</p><p>However, the rise of AI brings with it a set of challenges. Issues such as data privacy, job displacement due to automation, and the ethical implications of machine decision-making are becoming increasingly important. Society must find a balance between embracing AI's benefits and addressing its potential risks.</p><p>As we look to the future, the integration of AI into various fields will likely continue to grow. It is crucial for individuals to understand this technology and its implications to navigate the changing landscape effectively.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one benefit of AI in education mentioned in the passage?",
+      "options": {
+        "A": "It helps teachers customize learning experiences.",
+        "B": "It replaces teachers in the classroom.",
+        "C": "It reduces the need for technology.",
+        "D": "It makes learning more difficult."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct because the passage states that AI tools can assist teachers by customizing learning experiences for students."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "AI technology is only beneficial and has no associated risks.",
+      "answer": "False",
+      "explanation": "The passage discusses the challenges and risks associated with AI, indicating that it is not solely beneficial."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer 'Yes', 'No', or 'Not Given'.",
+      "text": "Does the author believe that AI will continue to grow in various fields?",
+      "answer": "Yes",
+      "explanation": "The passage suggests that the integration of AI into various fields will likely continue to grow, indicating the author's belief."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following benefits of AI with their corresponding fields.",
+      "options": {
+        "1": "Healthcare",
+        "2": "Education",
+        "3": "Personal Assistants"
+      },
+      "details": {
+        "A": "Customizes learning experiences.",
+        "B": "Revolutionizes diagnostics.",
+        "C": "Provides personalized assistance."
+      },
+      "matches": {
+        "1": "B",
+        "2": "A",
+        "3": "C"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "short_answer",
+      "instruction": "Answer in no more than three words.",
+      "text": "What is a major challenge posed by AI according to the passage?",
+      "answer": "Data privacy",
+      "explanation": "The passage mentions data privacy as one of the significant challenges brought by the rise of AI."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "transforming",
+      "meaning": "changing significantly in form or appearance"
+    },
+    {
+      "word": "algorithms",
+      "meaning": "a process or set of rules to be followed in calculations or other problem-solving operations"
+    },
+    {
+      "word": "customizing",
+      "meaning": "modifying something to suit a particular individual or task"
+    },
+    {
+      "word": "revolutionizing",
+      "meaning": "causing a dramatic and wide-reaching change"
+    },
+    {
+      "word": "implications",
+      "meaning": "the possible effects or results of an action or a decision"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, pay attention to the main ideas in each paragraph. Look for specific examples that illustrate the benefits and challenges of AI. Make notes of key terms and their meanings to help you answer the questions accurately.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,76 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_461",
+  "title": "Navigating the Divide: Higher Education and Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Divergence of Higher Education and Vocational Training</h2><p>In contemporary society, the dichotomy between higher education and vocational training has become increasingly pronounced. While traditional academic pathways are often lauded for their theoretical rigor and intellectual stimulation, vocational training programs are gaining recognition for their pragmatic approach to skill acquisition and immediate job readiness. This divergence raises critical questions regarding the efficacy of each educational model and their respective roles in addressing the complexities of today’s labor market.</p><p>Proponents of higher education argue that it cultivates a broad intellectual foundation, fostering critical thinking and analytical skills essential for navigating multifaceted problem-solving scenarios. Graduates from these institutions are frequently perceived as possessing enhanced cognitive flexibility, which is invaluable in roles that demand innovation and adaptability. However, critics point out that the theoretical nature of these programs may leave students ill-prepared for the practical demands of the workforce, particularly in industries where hands-on experience is paramount.</p><p>Conversely, vocational training is designed to equip individuals with specific skills tailored to particular professions. This mode of education often involves direct engagement with industry standards and practices, thereby facilitating a smoother transition into the workforce. Advocates highlight that vocational programs are typically shorter in duration and more cost-effective, making them an attractive option for those seeking immediate employment. Nonetheless, detractors argue that such training may inadvertently limit the scope of one’s career trajectory, confining individuals to narrow skill sets that may not adapt well to evolving job markets.</p><p>As the landscape of employment continues to evolve, with automation and technological advancement reshaping the nature of work, the debate surrounding these two educational pathways intensifies. The challenge lies in striking a balance between equipping students with the essential skills for employment while also nurturing a lifelong capacity for learning and adaptation. Ultimately, the choice between higher education and vocational training may not be as clear-cut as it appears, necessitating a more nuanced understanding of individual aspirations and market dynamics.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a primary criticism of higher education according to the passage?",
+      "options": {
+        "A": "It emphasizes theoretical knowledge over practical skills.",
+        "B": "It is too expensive for most students.",
+        "C": "It fails to promote critical thinking.",
+        "D": "It does not prepare students for teamwork."
+      },
+      "answer": "A",
+      "explanation": "The passage states that critics point out the theoretical nature of higher education may leave students unprepared for practical demands, highlighting the emphasis on theoretical knowledge."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Vocational training programs are generally longer than traditional higher education courses.",
+      "answer": "False",
+      "explanation": "The passage clearly states that vocational programs are typically shorter in duration, making the statement false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Respond with Yes, No, or Not Given.",
+      "text": "Does the author believe that higher education is more valuable than vocational training?",
+      "answer": "Not Given",
+      "explanation": "The passage discusses the merits and drawbacks of both educational pathways but does not explicitly state that one is more valuable than the other."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements to the appropriate paragraph.",
+      "text": "1. Higher education promotes innovation. <br> 2. Vocational training is cost-effective. <br> 3. Critics of vocational training argue about skill limitations.",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3"
+      },
+      "answers": {
+        "1": "B",
+        "2": "C",
+        "3": "C"
+      },
+      "explanation": "Each statement corresponds to the discussions found in the respective paragraphs in the passage."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "dichotomy",
+      "meaning": "a division or contrast between two things that are represented as being opposed or entirely different."
+    },
+    {
+      "word": "pragmatic",
+      "meaning": "dealing with things sensibly and realistically in a way that is based on practical rather than theoretical considerations."
+    },
+    {
+      "word": "cognitive flexibility",
+      "meaning": "the mental ability to switch between thinking about two different concepts or to think about multiple concepts simultaneously."
+    },
+    {
+      "word": "automation",
+      "meaning": "the use of largely automatic equipment in a system of operation or production."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this reading passage, focus on understanding the author's arguments regarding the strengths and weaknesses of both higher education and vocational training. Pay attention to the nuances in language that indicate the author's attitude and purpose. Note key terms and their definitions as they are crucial for answering vocabulary-related questions. Skim for main ideas and scan for specific details to enhance your comprehension and speed.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

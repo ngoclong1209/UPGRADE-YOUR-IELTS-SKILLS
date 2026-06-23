@@ -1,0 +1,81 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_007",
+  "title": "The Great Debate: Public Transportation vs Private Cars",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Public Transportation vs Private Cars</h2><p>In many cities around the world, the debate between public transportation and private cars continues to be a hot topic. While both modes of transport have their advantages and disadvantages, they cater to different needs and preferences.</p><p>Public transportation, which includes buses, trains, and subways, is often seen as a more sustainable option. It reduces the number of cars on the road, which can help minimize traffic congestion and lower carbon emissions. Furthermore, it is usually more affordable for the average person, as public transport fares are generally lower than the costs associated with owning and maintaining a private vehicle.</p><p>On the other hand, private cars offer convenience and flexibility. They allow individuals to travel at their own pace and can be more comfortable for long distances. Moreover, in areas where public transport is limited or non-existent, having a private vehicle can be essential for commuting to work or running errands.</p><p>However, the environmental impact of private cars cannot be ignored. They contribute significantly to air pollution and urban sprawl. As cities grow, the reliance on private vehicles often leads to the construction of more roads and parking spaces, which can encroach on green spaces and disrupt local ecosystems.</p><p>Many urban planners are now advocating for a balanced approach that combines the benefits of both public transportation and private car use. For instance, enhancing public transport systems can encourage more people to use them, while establishing car-sharing programs can help reduce the number of vehicles on the road. Ultimately, the choice between public transportation and private cars will depend on individual circumstances, including location, budget, and personal preferences.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one advantage of public transportation mentioned in the passage?",
+      "options": {
+        "A": "It is more sustainable and reduces emissions.",
+        "B": "It is always faster than private cars.",
+        "C": "It offers more comfort than private vehicles.",
+        "D": "It requires no maintenance costs."
+      },
+      "answer": "A",
+      "explanation": "Option A is correct because the passage states that public transportation is often seen as more sustainable and helps reduce carbon emissions."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Private cars are less expensive than public transportation.",
+      "answer": "False",
+      "explanation": "The passage mentions that public transport fares are generally lower than the costs associated with owning a private vehicle, indicating that private cars are more expensive."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that public transportation is the best option for all individuals?",
+      "answer": "No",
+      "explanation": "The passage suggests that the choice between public transportation and private cars depends on individual circumstances, indicating that it is not the best option for everyone."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following advantages to their respective modes of transportation.",
+      "options": [
+        "Convenience and flexibility",
+        "Affordability for the average person",
+        "Reduces traffic congestion",
+        "Comfort for long distances"
+      ],
+      "answers": [
+        "Private Cars",
+        "Public Transportation",
+        "Public Transportation",
+        "Private Cars"
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "short_answer_questions",
+      "text": "What can help reduce the number of vehicles on the road according to urban planners?",
+      "answer": "Car-sharing programs",
+      "explanation": "The passage states that establishing car-sharing programs can help reduce the number of vehicles on the road."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "sustainable",
+      "meaning": "capable of being maintained over the long term without harming the environment"
+    },
+    {
+      "word": "congestion",
+      "meaning": "a situation in which a place is crowded and blocked, often referring to traffic"
+    },
+    {
+      "word": "encroach",
+      "meaning": "to gradually intrude on someone's territory or space"
+    },
+    {
+      "word": "urban sprawl",
+      "meaning": "the uncontrolled expansion of urban areas into the surrounding countryside"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading this passage, pay attention to the advantages and disadvantages of both public transportation and private cars. Take notes on key points and use the context to understand the vocabulary. Be mindful of the author's opinions and how they relate to the questions asked.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

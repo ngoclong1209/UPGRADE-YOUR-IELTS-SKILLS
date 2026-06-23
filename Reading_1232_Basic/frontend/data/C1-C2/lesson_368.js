@@ -1,0 +1,110 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_368",
+  "title": "The Internet: Catalyst for Societal Transformation",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Internet: Catalyst for Societal Transformation</h2><p>The advent of the Internet has fundamentally reshaped the fabric of modern society, influencing everything from interpersonal communication to economic structures. As a ubiquitous platform, it has democratized access to information, allowing individuals from diverse backgrounds to obtain knowledge that was once confined to academic institutions or privileged circles. This shift has profound implications for education, as learners can now engage with a plethora of resources beyond traditional textbooks.</p><p>Moreover, the Internet has fostered unprecedented levels of connectivity. Social media platforms serve not only as tools for personal expression but also as powerful mechanisms for social change. Movements such as #MeToo and Black Lives Matter have utilized these platforms to galvanize support and spread awareness on a global scale. Yet, this connectivity comes with its own set of challenges, including the spread of misinformation and the erosion of privacy.</p><p>Economically, the Internet has given rise to new business models and transformed industries. E-commerce has revolutionized the retail landscape, leading to the decline of brick-and-mortar stores, while the gig economy has emerged, offering flexible work opportunities for millions. However, this rapid evolution raises questions regarding employment stability and labor rights in an increasingly digital workforce.</p><p>In conclusion, while the Internet serves as a powerful tool for empowerment and innovation, it also necessitates critical scrutiny of its societal impacts. Understanding the nuances of this duality is essential for navigating the complexities of modern life.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one of the primary effects of the Internet on education as mentioned in the passage?",
+      "options": {
+        "A": "It has limited access to academic resources.",
+        "B": "It has made learning more engaging through traditional textbooks.",
+        "C": "It has expanded access to diverse sources of information.",
+        "D": "It has reduced the importance of interpersonal communication."
+      },
+      "answer": "C",
+      "explanation": "The passage states that the Internet has democratized access to information, allowing individuals to obtain knowledge beyond traditional academic sources, which supports option C."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Social media has only positive effects on societal movements.",
+      "answer": "False",
+      "explanation": "The passage discusses both the positive impact of social media on movements and the challenges it presents, indicating that the statement is false."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No or Not Given.",
+      "text": "The passage suggests that the Internet has created more stable jobs.",
+      "answer": "No",
+      "explanation": "The passage mentions the gig economy and raises concerns about employment stability, indicating that the Internet has not created more stable jobs."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following concepts with the correct statements from the passage.",
+      "options": {
+        "A": "Democratization of information",
+        "B": "Social media's role in activism",
+        "C": "Economic transformation due to the Internet"
+      },
+      "statements": {
+        "1": "Has led to new business models and the decline of traditional stores.",
+        "2": "Enables global movements to gain traction.",
+        "3": "Allows diverse individuals to access knowledge."
+      },
+      "matches": {
+        "A": "3",
+        "B": "2",
+        "C": "1"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the appropriate paragraphs.",
+      "headings": {
+        "A": "Educational Shifts",
+        "B": "The Double-Edged Sword of Connectivity",
+        "C": "Economic Implications",
+        "D": "The Internet's Role in Society"
+      },
+      "paragraphs": {
+        "1": "The advent of the Internet has fundamentally reshaped the fabric of modern society...",
+        "2": "Moreover, the Internet has fostered unprecedented levels of connectivity...",
+        "3": "Economically, the Internet has given rise to new business models...",
+        "4": "In conclusion, while the Internet serves as a powerful tool for empowerment..."
+      },
+      "matches": {
+        "1": "D",
+        "2": "B",
+        "3": "C",
+        "4": "A"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short_answer_questions",
+      "instruction": "Answer using NO MORE THAN THREE WORDS.",
+      "text": "What major concern is raised about social media?",
+      "answer": "Spread of misinformation",
+      "explanation": "The passage highlights the challenges posed by social media, particularly the spread of misinformation."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "ubiquitous",
+      "meaning": "present or existing everywhere."
+    },
+    {
+      "word": "democratized",
+      "meaning": "made accessible to all."
+    },
+    {
+      "word": "galvanize",
+      "meaning": "to stimulate or excite someone to act."
+    },
+    {
+      "word": "nuance",
+      "meaning": "a subtle difference in meaning or opinion."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the main ideas presented in each paragraph. Pay attention to the author's tone and the implications of their arguments. For multiple-choice questions, look for keywords in the passage that relate to the options provided. In true/false/not given questions, be careful to distinguish between what is explicitly stated and what is implied. Utilize the vocabulary section to enhance your understanding of complex terms used in the text.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

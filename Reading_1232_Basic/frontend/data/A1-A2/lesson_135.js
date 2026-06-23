@@ -1,0 +1,159 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_135",
+  "title": "Our Warming Planet",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Our Planet is Getting Warmer</h2><p>Earth is our home. Today, our planet is getting warmer. This warming is called global warming. It is a big problem for everyone. Why is this happening?</p><p>Humans use coal, oil, and gas to make energy. We use energy to drive cars, heat our homes, and run big factories. When we burn these things, they make greenhouse gases. These gases go up into the sky. They form a thick cover around the Earth. This cover traps the heat from the sun. This is why our world is getting hotter every year.</p><p>Global warming changes our weather. In many places, summers are now very hot and dry. In other places, there are heavy rains and big floods. The ice in very cold areas, like the Arctic, is melting fast. Because the ice melts, the sea level is rising. This is dangerous for cities near the ocean. Many animals are also in danger. For example, polar bears cannot find food easily because the sea ice is disappearing.</p><p>How can we help our planet? We can do many simple things every day. First, we can save energy. We can turn off the lights and TVs when we do not use them. Second, we can walk, ride bicycles, or take buses instead of driving private cars. Third, we can plant more trees in our gardens. Trees clean the air because they take in greenhouse gases. Fourth, we can recycle paper, plastic, and glass. Making new things uses a lot of energy, so recycling helps save energy.</p><p>We must protect our beautiful Earth. Every small action can help make our world a better and safer place for the future.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main problem of our planet mentioned in the text?",
+      "options": {
+        "A": "It is getting colder.",
+        "B": "It is getting warmer.",
+        "C": "It has too many trees.",
+        "D": "It has no water."
+      },
+      "answer": "B",
+      "explanation": "The text states: 'Today, our planet is getting warmer. This warming is called global warming.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What forms a thick cover around the Earth?",
+      "options": {
+        "A": "Greenhouse gases",
+        "B": "Cold ice",
+        "C": "Big trees",
+        "D": "Heavy rains"
+      },
+      "answer": "A",
+      "explanation": "The text states: 'When we burn these things, they make greenhouse gases... They form a thick cover around the Earth.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why is the sea level rising?",
+      "options": {
+        "A": "Because trees are growing",
+        "B": "Because the ice melts",
+        "C": "Because of private cars",
+        "D": "Because of polar bears"
+      },
+      "answer": "B",
+      "explanation": "The text states: 'The ice in very cold areas, like the Arctic, is melting fast. Because the ice melts, the sea level is rising.'"
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Humans burn coal, oil, and gas to make energy.",
+      "options": {
+        "TRUE": "If the statement is true",
+        "FALSE": "If the statement is false",
+        "NOT_GIVEN": "If the information is not in the passage"
+      },
+      "answer": "TRUE",
+      "explanation": "The text states: 'Humans use coal, oil, and gas to make energy... When we burn these things...'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Polar bears can find food very easily now.",
+      "options": {
+        "TRUE": "If the statement is true",
+        "FALSE": "If the statement is false",
+        "NOT_GIVEN": "If the information is not in the passage"
+      },
+      "answer": "FALSE",
+      "explanation": "The text states: 'For example, polar bears cannot find food easily because the sea ice is disappearing.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Planting trees makes the air dirty.",
+      "options": {
+        "TRUE": "If the statement is true",
+        "FALSE": "If the statement is false",
+        "NOT_GIVEN": "If the information is not in the passage"
+      },
+      "answer": "FALSE",
+      "explanation": "The text states: 'Trees clean the air because they take in greenhouse gases.' Therefore, planting trees makes the air clean, not dirty."
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Children like to ride bicycles to school.",
+      "options": {
+        "TRUE": "If the statement is true",
+        "FALSE": "If the statement is false",
+        "NOT_GIVEN": "If the information is not in the passage"
+      },
+      "answer": "NOT_GIVEN",
+      "explanation": "The text mentions riding bicycles as a way to help the planet, but it does not mention whether children like to ride them to school."
+    },
+    {
+      "id": "q8",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Greenhouse gases go up into the ______.",
+      "options": null,
+      "answer": "sky",
+      "explanation": "The text states: 'These gases go up into the sky.'"
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "The sea ice is ______ so polar bears cannot find food.",
+      "options": null,
+      "answer": "disappearing",
+      "explanation": "The text states: 'polar bears cannot find food easily because the sea ice is disappearing.'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "We can walk, ride bicycles, or take ______ instead of driving private cars.",
+      "options": null,
+      "answer": "buses",
+      "explanation": "The text states: 'we can walk, ride bicycles, or take buses instead of driving private cars.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Recycling helps to save ______.",
+      "options": null,
+      "answer": "energy",
+      "explanation": "The text states: 'so recycling helps save energy.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "global warming",
+      "meaning": "the process of the Earth's temperature rising and getting hotter"
+    },
+    {
+      "word": "greenhouse gases",
+      "meaning": "gases that stay in the air and trap heat around the Earth"
+    },
+    {
+      "word": "melting",
+      "meaning": "turning from solid ice into liquid water because of heat"
+    },
+    {
+      "word": "recycle",
+      "meaning": "to collect and treat rubbish (like paper or plastic) to produce useful materials again"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài Reading A1-A2</h2><p><b>1. Tìm từ khóa giống hệt:</b> Đối với trình độ này, các câu hỏi thường sử dụng từ vựng chính xác từ bài đọc. Hãy khoanh vùng các từ như 'buses', 'disappearing', 'sky' trong bài đọc để tìm ra đáp án nhanh chóng.</p><p><b>2. Chú ý giới hạn từ:</b> Với dạng bài điền từ, luôn đọc kỹ yêu cầu số lượng từ (ví dụ: NO MORE THAN TWO WORDS). Đáp án phải được lấy trực tiếp từ văn bản, không tự ý thay đổi dạng của từ.</p><p><b>3. Phân biệt False và Not Given:</b> Nếu thông tin trong câu hỏi ngược lại hoàn toàn với bài đọc, chọn FALSE. Nếu thông tin không được nhắc đến (ví dụ: sở thích của trẻ em), chọn NOT GIVEN.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,71 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_251",
+  "title": "Navigating the Divide: Higher Education vs Vocational Training",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Understanding the Educational Spectrum</h2><p>In an era where the economy demands highly skilled individuals, the debate between higher education and vocational training has become increasingly relevant. Higher education, traditionally associated with academic pursuits and theoretical knowledge, offers a pathway to professions requiring extensive specialization, such as medicine, law, and academia. Conversely, vocational training emphasizes practical skills and immediate employability, catering to sectors like healthcare, construction, and technology. This dichotomy raises questions regarding the value of each educational approach in preparing individuals for the workforce and society at large.</p><p>Proponents of higher education argue that it cultivates critical thinking, fostering individuals capable of innovation and theoretical advancements. They contend that graduates possess a broader understanding of their fields, which can lead to significant contributions to society. However, critics highlight the rising student debt and the mismatch between degree qualifications and job market demands, questioning the return on investment for many graduates.</p><p>On the other hand, advocates of vocational training emphasize its efficiency and relevance. They argue that vocational programs align closely with job market needs, equipping students with specific skills that employers are actively seeking. Furthermore, vocational training often requires less time to complete, allowing for quicker entry into the workforce. Nonetheless, some detractors argue that vocational paths may limit future opportunities for advancement and personal growth.</p><p>As the landscape of the job market evolves, the integration of both educational pathways may prove essential. An educational system that encourages collaboration between academic institutions and vocational training centers could foster a more versatile workforce, capable of adapting to changing economic demands.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "According to the passage, what is a primary advantage of higher education?",
+      "options": {
+        "A": "It leads to immediate employment opportunities.",
+        "B": "It fosters critical thinking and innovation.",
+        "C": "It is less costly than vocational training.",
+        "D": "It guarantees a higher salary upon graduation."
+      },
+      "answer": "B",
+      "explanation": "The passage states that proponents of higher education argue it cultivates critical thinking, which fosters innovation and theoretical advancements."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False or Not Given.",
+      "text": "Vocational training is considered less valuable than higher education by all experts.",
+      "answer": "Not Given",
+      "explanation": "The passage presents arguments for both educational paths but does not state that all experts regard vocational training as less valuable."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No or Not Given.",
+      "text": "Does the author believe vocational training offers better immediate job prospects?",
+      "answer": "Yes",
+      "explanation": "The author discusses how vocational training aligns closely with job market needs and allows quicker entry into the workforce."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following statements with the correct educational approach.",
+      "text": "1. Emphasizes immediate employability\n2. Cultivates broader theoretical knowledge\n3. Can lead to significant debt\n4. Requires less time to complete",
+      "options": {
+        "A": "Higher Education",
+        "B": "Vocational Training"
+      },
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "A",
+        "4": "B"
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "dichotomy",
+      "meaning": "a division or contrast between two things that are represented as being opposed or entirely different."
+    },
+    {
+      "word": "proponents",
+      "meaning": "individuals who advocate for a particular idea or proposal."
+    },
+    {
+      "word": "equipping",
+      "meaning": "providing someone with the necessary skills or tools."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, pay close attention to the arguments presented for both higher education and vocational training. Note the nuances in the language that indicate the author's attitude towards each approach. Look for key vocabulary that may be rephrased in the questions, and practice identifying the main ideas of each paragraph to aid in answering the questions accurately.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

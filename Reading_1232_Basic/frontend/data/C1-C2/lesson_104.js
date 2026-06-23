@@ -1,0 +1,112 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_104",
+  "title": "The Evolution and Ethical Implications of Artificial Intelligence",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Rise of Artificial Intelligence</h2><p>Artificial Intelligence (AI) has undergone significant transformations since its inception, evolving from rudimentary algorithms to complex systems capable of autonomous decision-making. This evolution raises profound questions about the ethical implications of machines that can learn and adapt, potentially surpassing human intelligence. Scholars argue that while AI presents numerous benefits, such as increased efficiency and problem-solving capabilities, it also poses risks that society must address.</p><p>One major concern is the potential for bias in AI systems. As these technologies learn from historical data, they may inadvertently perpetuate existing societal biases, leading to outcomes that reinforce discrimination. For instance, facial recognition technologies have been criticized for their accuracy disparities across different demographic groups, highlighting the necessity for diverse training datasets and ethical oversight.</p><p>Furthermore, the question of accountability in AI systems is paramount. When an AI makes a decision that results in harm, determining who is responsible—whether the developers, users, or the systems themselves—becomes exceedingly complex. Legal frameworks are struggling to keep pace with technological advancements, necessitating a re-evaluation of existing laws to encompass the unique challenges posed by AI.</p><p>Moreover, the emergence of AI in the workforce raises economic implications. Automation threatens to displace jobs, particularly in sectors reliant on routine tasks. However, advocates suggest that AI also has the potential to create new job opportunities, particularly in areas focused on AI maintenance and development. The challenge lies in ensuring that the workforce is prepared for this transition through education and retraining programs.</p><p>In conclusion, while AI holds remarkable promise for enhancing human capabilities, it is imperative to approach its integration into society with caution. Ethical considerations, accountability, and workforce adaptation must be prioritized to harness AI's potential while mitigating its risks.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a primary concern regarding AI's use of historical data?",
+      "options": {
+        "A": "AI may enhance efficiency in various sectors.",
+        "B": "AI could replicate and reinforce existing biases.",
+        "C": "AI systems are fully accountable for their actions.",
+        "D": "AI has no impact on job displacement."
+      },
+      "answer": "B",
+      "explanation": "Option B is correct because the passage discusses how AI systems can perpetuate existing societal biases due to their reliance on historical data."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "AI systems are universally accepted as being free from bias.",
+      "answer": "False",
+      "explanation": "The passage indicates that there are significant concerns about bias in AI systems, thus confirming that they are not universally accepted as free from bias."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that AI will completely replace human jobs.",
+      "answer": "No",
+      "explanation": "The passage suggests that while AI may displace some jobs, it also has the potential to create new job opportunities, indicating the author's belief that complete replacement is not the case."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following concerns to their descriptions.",
+      "items": {
+        "A": "Bias in AI systems",
+        "B": "Accountability of AI",
+        "C": "Job displacement due to AI"
+      },
+      "descriptions": {
+        "1": "May lead to discrimination in decision-making.",
+        "2": "Challenges in determining responsibility for harm.",
+        "3": "Potential for new employment opportunities."
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Match each paragraph with the correct heading.",
+      "paragraphs": {
+        "1": "Introduction to AI evolution",
+        "2": "Concerns about bias",
+        "3": "Complexity of accountability",
+        "4": "Economic implications of AI",
+        "5": "Conclusion"
+      },
+      "headings": {
+        "A": "The promise of AI",
+        "B": "Bias in technology",
+        "C": "Responsibility in the digital age",
+        "D": "Job market transformations"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences using NO MORE THAN TWO WORDS.",
+      "text": "AI systems may perpetuate existing ________ due to biased training data."
+    },
+    {
+      "id": "q7",
+      "type": "summary_completion",
+      "instruction": "Complete the summary using NO MORE THAN TWO WORDS.",
+      "text": "The integration of AI into society must prioritize ________ considerations."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer in NO MORE THAN THREE WORDS.",
+      "text": "What is a key factor in preparing the workforce for AI integration?"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "autonomous",
+      "meaning": "self-governing; capable of making decisions independently."
+    },
+    {
+      "word": "perpetuate",
+      "meaning": "to make something continue indefinitely, often something undesirable."
+    },
+    {
+      "word": "discrimination",
+      "meaning": "unjust treatment based on different categories, such as race or gender."
+    },
+    {
+      "word": "accountability",
+      "meaning": "the obligation to explain, justify, and take responsibility for actions."
+    },
+    {
+      "word": "economic implications",
+      "meaning": "the effects or consequences of an action in the economic context."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To approach this passage effectively, focus on the intricate relationships between AI development and its societal impact. Pay attention to the author's tone, particularly in discussions of bias and accountability. When answering questions, look for subtle cues that indicate the author's perspective and the implications of AI technology. Additionally, practice skimming for main ideas and scanning for specific information to enhance your comprehension and speed.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

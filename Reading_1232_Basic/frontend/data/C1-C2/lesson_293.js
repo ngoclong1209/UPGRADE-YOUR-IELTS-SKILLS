@@ -1,0 +1,108 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_293",
+  "title": "The Urgency of Climate Action: Navigating the Global Response to Climate Change",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Climate Change: An Existential Threat</h2><p>The phenomenon of climate change is not merely a future concern; it is a pressing reality that is reshaping ecosystems and human societies worldwide. The Intergovernmental Panel on Climate Change (IPCC) has consistently warned that the window for effective action is rapidly closing. Scientific evidence points to unprecedented temperature rises, with projections indicating that without significant intervention, the planet's temperature could rise by 1.5 degrees Celsius above pre-industrial levels by as early as 2030. This threshold is critical, as crossing it could trigger irreversible impacts on both natural and human systems.</p><p>Moreover, the discourse surrounding climate change often neglects the socio-economic dimensions of the crisis. Marginalized communities, particularly in developing countries, bear the brunt of climate impacts despite contributing the least to greenhouse gas emissions. The ethical implications of climate action, therefore, extend beyond environmental stewardship to encompass justice and equity. Activists argue that climate policies must prioritize those most affected and ensure that wealthier nations, historically the largest polluters, take responsibility for their contributions to global warming.</p><p>In response to these challenges, various frameworks have emerged, such as the Paris Agreement, which aims to unite nations in the fight against climate change through nationally determined contributions (NDCs). However, the effectiveness of such agreements is contingent upon the political will and commitment of individual countries. As climate-induced disasters become more frequent and severe, the urgency for collective action intensifies.</p><p>Additionally, innovative solutions, such as renewable energy technologies and sustainable agricultural practices, are being explored to mitigate the effects of climate change. These strategies not only address the symptoms of climate change but also provide opportunities for economic development and job creation. Nevertheless, transition to a sustainable economy requires significant investment and a shift in public policy, which often faces resistance from entrenched interests.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary concern regarding the rise in global temperatures mentioned in the passage?",
+      "options": {
+        "A": "It could lead to irreparable damage to ecosystems.",
+        "B": "It will primarily affect wealthier nations more than poorer ones.",
+        "C": "It can be easily mitigated with current technologies.",
+        "D": "It is a distant problem that will not manifest for decades."
+      },
+      "answer": "A",
+      "explanation": "The passage highlights that exceeding the 1.5 degrees Celsius threshold could trigger irreversible impacts on natural and human systems, clearly indicating that the primary concern is the potential for irreparable damage."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False or Not Given.",
+      "text": "The IPCC believes that climate change can be effectively addressed without significant international cooperation.",
+      "answer": "False",
+      "explanation": "The passage discusses the necessity of collective action and the importance of frameworks like the Paris Agreement, implying that international cooperation is essential."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No or Not Given.",
+      "text": "Does the author suggest that wealthier nations should take responsibility for their historical emissions?",
+      "answer": "Yes",
+      "explanation": "The passage explicitly states that wealthier nations, being the largest polluters historically, should take responsibility for their contributions to global warming."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following phrases with the correct paragraph.",
+      "text": "1. The ethical implications of climate action<br>2. The urgency of climate policies<br>3. Innovative solutions for mitigation",
+      "options": {
+        "A": "Paragraph 1",
+        "B": "Paragraph 2",
+        "C": "Paragraph 3",
+        "D": "Paragraph 4"
+      },
+      "answers": {
+        "1": "B",
+        "2": "C",
+        "3": "D"
+      },
+      "explanation": "The ethical implications are discussed in Paragraph 2, the urgency of climate policies in Paragraph 3, and innovative solutions in Paragraph 4."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match each paragraph with the correct heading.",
+      "text": "1. The role of technology in climate action<br>2. Climate change as a current issue<br>3. The socio-economic aspects of climate change<br>4. International frameworks for climate agreements",
+      "options": {
+        "A": "Introduction to Climate Change",
+        "B": "The Paris Agreement and Its Challenges",
+        "C": "Technological Innovations for Sustainability",
+        "D": "Ethics and Equity in Climate Action"
+      },
+      "answers": {
+        "1": "C",
+        "2": "A",
+        "3": "D",
+        "4": "B"
+      },
+      "explanation": "Paragraph 1 serves as an introduction, Paragraph 2 discusses socio-economic aspects, Paragraph 3 focuses on international frameworks, and Paragraph 4 covers technological innovations."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the following sentence with NO MORE THAN THREE WORDS.",
+      "text": "The effectiveness of international climate agreements relies on the _____ of individual countries.",
+      "answer": "political will",
+      "explanation": "The passage mentions that the effectiveness of agreements like the Paris Agreement is contingent upon the political will of nations."
+    },
+    {
+      "id": "q7",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following question with NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      "text": "By what year might the planet's temperature exceed 1.5 degrees Celsius if no action is taken?",
+      "answer": "2030",
+      "explanation": "The passage states that projections indicate a potential rise by 2030, emphasizing the urgency."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "irreversible",
+      "meaning": "incapable of being undone or altered"
+    },
+    {
+      "word": "marginalized",
+      "meaning": "pushed to the edge of a group and not considered important"
+    },
+    {
+      "word": "nationally determined contributions (NDCs)",
+      "meaning": "commitments made by countries to reduce national emissions and adapt to climate change"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To excel in this reading passage, focus on understanding the author's arguments and the nuances of language used. Pay attention to the structure of the passage, noting how each paragraph builds on the previous one. Practice skimming for main ideas and scanning for specific details to answer the questions accurately.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

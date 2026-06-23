@@ -1,0 +1,76 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_045",
+  "title": "Exploring the Universe: Our Journey into Space",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Exploring the Universe: Our Journey into Space</h2><p>Space exploration has fascinated humanity for centuries. From the first telescope to modern rovers on Mars, our quest to understand the universe has been relentless. Early astronomers like Galileo opened our eyes to the wonders beyond Earth, allowing us to dream of distant worlds. Today, organizations like NASA and ESA are at the forefront of space research, launching missions that not only seek to explore other planets but also to understand our own environment better.</p><p>One of the significant achievements in recent years was the landing of the Mars Rover, which has been sending back valuable data about the planet's surface and atmosphere. Scientists hope that one day, humans will set foot on Mars. This endeavor is not without challenges; the distance from Earth, the harsh conditions on Mars, and the need for sustainable life support systems are just a few hurdles that must be overcome.</p><p>Moreover, space exploration has led to numerous technological advancements that benefit life on Earth. Innovations in materials science, satellite technology, and even medical imaging have roots in the demands of space missions. As we continue to push the boundaries of what is possible, the collaboration between nations in space exploration has become more important than ever. International partnerships are fostering a spirit of cooperation that could lead to even greater discoveries in the future.</p><p>In conclusion, space exploration is not just about discovering new worlds; it is also about understanding our place in the universe and using that knowledge to improve life on Earth.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What was one of the significant achievements mentioned in the passage?",
+      "options": {
+        "A": "The invention of the telescope",
+        "B": "The landing of the Mars Rover",
+        "C": "The first manned mission to the Moon",
+        "D": "The launch of the Hubble Space Telescope"
+      },
+      "answer": "B",
+      "explanation": "B is correct because the passage specifically mentions the landing of the Mars Rover as a significant achievement in recent years."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Write 'True', 'False', or 'Not Given'.",
+      "text": "Galileo was the first to launch a mission to Mars.",
+      "answer": "False",
+      "explanation": "This statement is false because Galileo was an early astronomer who used a telescope and did not launch any missions to Mars."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Write 'Yes', 'No', or 'Not Given'.",
+      "text": "The passage states that space exploration has improved life on Earth.",
+      "answer": "Yes",
+      "explanation": "Yes is correct as the passage notes that technological advancements from space exploration benefit life on Earth."
+    },
+    {
+      "id": "q4",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "text": "1. Benefits of Space Exploration 2. Future of Mars Missions 3. Historical Perspectives",
+      "options": {
+        "1": "Paragraph 1",
+        "2": "Paragraph 2",
+        "3": "Paragraph 3"
+      },
+      "answer": "1: Paragraph 3, 2: Paragraph 2, 3: Paragraph 1",
+      "explanation": "The headings correspond to the topics discussed in each paragraph."
+    },
+    {
+      "id": "q5",
+      "type": "short_answer_questions",
+      "instruction": "Answer using no more than two words.",
+      "text": "What do scientists hope to achieve on Mars?",
+      "answer": "human presence",
+      "explanation": "The passage states that scientists hope humans will set foot on Mars."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "relentless",
+      "meaning": "continuing without becoming weaker or less severe"
+    },
+    {
+      "word": "endeavor",
+      "meaning": "an attempt to achieve a goal"
+    },
+    {
+      "word": "sustainable",
+      "meaning": "able to be maintained at a certain rate or level"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, pay attention to the main ideas presented in each paragraph. Take notes on key achievements and challenges in space exploration, as these will help you answer the questions effectively. Look for context clues to help with vocabulary understanding, and remember to paraphrase information as needed.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

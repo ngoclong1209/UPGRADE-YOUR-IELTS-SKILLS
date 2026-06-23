@@ -1,0 +1,93 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_464",
+  "title": "The Evolution of Conscious Machines: Bridging the Gap Between Intelligence and Emotion",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Emergence of Artificial Consciousness</h2><p>The evolution of artificial intelligence (AI) has progressed from simple computational systems to increasingly sophisticated entities capable of learning and adaptation. This advancement raises critical questions about the potential for machines to achieve a form of consciousness. Researchers argue that true consciousness in machines would require not only advanced algorithms but also an understanding of emotional intelligence, a trait often considered uniquely human. As we delve deeper into the realm of robotics and AI, the ethical implications of creating machines that can think and feel like humans become increasingly profound.</p><h2>Emotional Intelligence in Robotics</h2><p>Emotional intelligence encompasses the ability to recognize, understand, and manage our own emotions and the emotions of others. In the context of robotics, integrating emotional intelligence into AI systems could enhance human-robot interactions. For example, robots that can empathize with human feelings may provide better companionship or assistance in caregiving roles. However, the challenge lies in programming machines to genuinely understand emotional nuances rather than merely simulating emotional responses.</p><h2>The Ethical Considerations</h2><p>The debate surrounding the ethical implications of conscious machines is multifaceted. Proponents argue that conscious machines could lead to advancements in various fields, from healthcare to education. Conversely, critics caution against the potential risks, such as loss of jobs, ethical dilemmas in decision-making, and the moral status of such entities. The question remains: if machines can possess a form of consciousness, what rights should they hold? As AI continues to evolve, society must grapple with these pressing questions.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do researchers believe is necessary for machines to achieve true consciousness?",
+      "options": {
+        "A": "The ability to perform complex computations.",
+        "B": "Advanced algorithms and emotional intelligence.",
+        "C": "A deep understanding of human culture.",
+        "D": "A high level of machine learning capabilities."
+      },
+      "answer": "B",
+      "explanation": "Researchers argue that true consciousness in machines requires not only advanced algorithms but also an understanding of emotional intelligence, which is explicitly stated in the passage."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False, or Not Given.",
+      "text": "Emotional intelligence is a trait that can be easily programmed into robots.",
+      "answer": "False",
+      "explanation": "The passage states that the challenge lies in programming machines to genuinely understand emotional nuances rather than merely simulating emotional responses, indicating that it cannot be easily programmed."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "The passage suggests that conscious machines could positively impact the job market.",
+      "answer": "No",
+      "explanation": "The passage mentions that critics caution against potential risks such as loss of jobs, which implies that the impact on the job market may not be positive."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the statements with the correct paragraph.",
+      "text": "Identify which paragraph discusses the ethical implications of conscious machines.",
+      "options": {
+        "1": "Paragraph 1",
+        "2": "Paragraph 2",
+        "3": "Paragraph 3"
+      },
+      "answer": "3",
+      "explanation": "Paragraph 3 specifically addresses the ethical implications of creating conscious machines."
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the appropriate sections of the passage.",
+      "options": {
+        "A": "The Role of Emotional Intelligence",
+        "B": "The Future of AI in Society",
+        "C": "The Challenges of Consciousness",
+        "D": "The Ethical Dilemmas of AI"
+      },
+      "answer": {
+        "1": "A",
+        "2": "C",
+        "3": "D"
+      },
+      "explanation": "Heading A matches with the section about emotional intelligence, C relates to the challenges of achieving consciousness, and D aligns with the ethical dilemmas discussed."
+    },
+    {
+      "id": "q6",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following question in no more than three words.",
+      "text": "What is a major trait that machines need to develop for improved interactions with humans?",
+      "answer": "Emotional intelligence",
+      "explanation": "The passage indicates that integrating emotional intelligence could enhance human-robot interactions."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "nuance",
+      "meaning": "a subtle difference in meaning or opinion."
+    },
+    {
+      "word": "ethical implications",
+      "meaning": "the consequences or considerations related to moral principles."
+    },
+    {
+      "word": "consciousness",
+      "meaning": "the state of being aware of and able to think about one's own existence."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on the key concepts presented in each paragraph. Pay attention to terms that indicate the author's opinions and implications. When answering questions, look for paraphrased phrases and synonyms that align with the original context of the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

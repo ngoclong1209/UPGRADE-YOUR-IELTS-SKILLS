@@ -1,0 +1,87 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_346",
+  "title": "Harnessing Potential: The Future of Renewable Energy",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Renewable Energy: A Path to Sustainability</h2><p>In an era marked by the urgent need for sustainable solutions to combat climate change, renewable energy sources such as solar, wind, and hydroelectric power are increasingly recognized as essential to the global energy landscape. These energy forms offer a plethora of advantages over conventional fossil fuels, including reduced greenhouse gas emissions, lower air pollution, and enhanced energy security. However, the transition to renewable energy is fraught with challenges, including technological limitations, economic considerations, and political resistance.</p><p>The global investment in renewable energy has seen unprecedented growth in the last decade, driven by advancements in technology and a growing public consciousness regarding environmental issues. For instance, solar power technology has dramatically decreased in cost due to innovations in photovoltaic cells, making it a more viable option for both individual consumers and large-scale energy producers. Wind energy, similarly, has benefited from improvements in turbine efficiency and energy storage solutions, further solidifying its role in future energy strategies.</p><p>Despite these advancements, a myriad of hurdles remains. Transitioning to a renewable energy framework requires substantial investments and substantial infrastructural changes, which can face significant opposition from traditional energy sectors. Moreover, the intermittency of renewable energy sources poses additional challenges; energy production can fluctuate based on weather conditions, necessitating robust energy storage systems and a diversified energy portfolio to ensure reliability.</p><p>Furthermore, the socio-political landscape surrounding energy policy cannot be overlooked. Policymakers play a crucial role in facilitating or hindering the adoption of renewable technologies through regulations, subsidies, and incentives. While some governments have embraced ambitious renewable energy targets, others remain tethered to fossil fuel interests, complicating global cooperation efforts necessary for addressing climate change.</p><p>As we move towards a future fueled by renewable resources, it becomes imperative to foster innovation, invest in research and development, and create comprehensive policies that promote the transition. The collective action of individuals, businesses, and governments will determine the pace and success of this transformation, ultimately shaping a sustainable energy future for generations to come.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is primarily driving the investment in renewable energy according to the passage?",
+      "options": {
+        "A": "Technological innovations and public awareness",
+        "B": "Government regulations and subsidies",
+        "C": "Pressure from fossil fuel industries",
+        "D": "International cooperation and treaties"
+      },
+      "answer": "A",
+      "explanation": "The passage states that the global investment in renewable energy has seen unprecedented growth driven by advancements in technology and public consciousness regarding environmental issues."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "The passage suggests that renewable energy sources are completely reliable.",
+      "answer": "False",
+      "explanation": "The passage mentions that the intermittency of renewable energy sources poses challenges, indicating they are not completely reliable."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "Does the author believe that political resistance is a significant barrier to renewable energy adoption?",
+      "answer": "Yes",
+      "explanation": "The passage discusses political resistance as a complicating factor in the transition to renewable energy, suggesting the author's belief in its significance."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following renewable energy sources with their respective advantages.",
+      "options": {
+        "1": "Solar Power",
+        "2": "Wind Energy",
+        "3": "Hydroelectric Power"
+      },
+      "answers": {
+        "A": "Lower cost due to technology",
+        "B": "Improved efficiency and storage",
+        "C": "Consistent energy production"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "text": "Choose the correct heading for each paragraph.",
+      "options": {
+        "A": "The Role of Government in Energy Policy",
+        "B": "Challenges and Opportunities in Renewable Energy",
+        "C": "The Future of Energy Production",
+        "D": "Technological Breakthroughs in Energy"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "short_answer",
+      "instruction": "Answer in NO MORE THAN TWO WORDS.",
+      "text": "What is essential for the transition to renewable energy according to the author?",
+      "answer": "Comprehensive policies",
+      "explanation": "The passage indicates that comprehensive policies are crucial for promoting the transition to renewable energy."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "intermittency",
+      "meaning": "The quality of not being continuous or steady, particularly in relation to renewable energy production."
+    },
+    {
+      "word": "photovoltaic",
+      "meaning": "Relating to the conversion of light into electricity using semiconducting materials."
+    },
+    {
+      "word": "infrastructure",
+      "meaning": "The underlying foundation or framework of systems necessary for the operation of a society or enterprise, especially in relation to energy."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When approaching this passage, focus on understanding the main arguments related to renewable energy. Pay close attention to the nuances in the author's tone and the implications of political resistance on energy policies. Also, practice skimming for main ideas and scanning for specific details to enhance your comprehension.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

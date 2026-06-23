@@ -1,0 +1,80 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_243",
+  "title": "The Unseen Impact of Climate Change on Global Ecosystems",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>Understanding the Ripple Effects of Climate Change</h2><p>Climate change, an increasingly pressing issue, manifests not only through rising temperatures but also through a cascade of ecological consequences that threaten the stability of global ecosystems. The Intergovernmental Panel on Climate Change (IPCC) reports indicate that the average global temperature has risen by approximately 1.2 degrees Celsius since the late 19th century, a trend that has triggered alarming shifts in biodiversity and habitat conditions. Ecosystems, which are finely balanced networks of interactions among organisms and their environment, are particularly susceptible to these changes. </p><p>One significant impact of climate change is the alteration of species distribution. Many flora and fauna are migrating towards cooler areas, often leading to competition with native species and potential extinctions. For instance, research shows that the Arctic tundra is experiencing a northward shift, which not only affects the local wildlife but also indigenous communities dependent on these ecosystems for their livelihood. Furthermore, oceanic warming has resulted in coral bleaching, devastating marine biodiversity and disrupting fishing industries globally.</p><p>Moreover, climate change exacerbates the frequency and intensity of natural disasters, such as hurricanes and wildfires, which can devastate entire habitats. The aftermath of such events often leads to soil degradation and a loss of vegetation, further compromising the ecosystem's resilience. The economic implications are profound as well; countries reliant on agriculture face declining yields due to shifting weather patterns, which in turn affects food security and economic stability.</p><p>In conclusion, the multifaceted repercussions of climate change underscore the urgency of global action. Understanding and addressing these impacts requires a comprehensive approach that integrates scientific research with policy-making and community engagement, ensuring a sustainable future for both humanity and the planet.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is indicated as a primary consequence of climate change on species distribution?",
+      "options": {
+        "A": "Species are adapting to new climates without competition.",
+        "B": "Many species are moving towards cooler regions, leading to potential extinctions.",
+        "C": "Species are becoming more resilient to habitat changes.",
+        "D": "Climate change has no impact on species distribution."
+      },
+      "answer": "B",
+      "explanation": "B is correct because the passage clearly states that many flora and fauna are migrating towards cooler areas, often leading to competition with native species and potential extinctions."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Indicate whether the statement is True, False or Not Given.",
+      "text": "The IPCC has reported that climate change has resulted in increased fishing industries.",
+      "answer": "False",
+      "explanation": "The passage mentions that oceanic warming has resulted in coral bleaching, which devastates marine biodiversity and disrupts fishing industries, indicating a negative impact."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author believe that economic stability is unaffected by climate change?",
+      "answer": "No",
+      "explanation": "The passage discusses how countries reliant on agriculture face declining yields due to shifting weather patterns, affecting food security and economic stability, suggesting that the author does not believe economic stability is unaffected."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following impacts of climate change to their descriptions.",
+      "options": {
+        "A": "Alteration of species distribution",
+        "B": "Increased natural disasters",
+        "C": "Economic implications for agriculture",
+        "D": "Coral bleaching"
+      },
+      "answers": {
+        "1": "A",
+        "2": "B",
+        "3": "C",
+        "4": "D"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "short_answer",
+      "instruction": "Write your answer in NO MORE THAN TWO WORDS.",
+      "text": "What is the primary driving force behind the rising average global temperature?",
+      "answer": "climate change",
+      "explanation": "The passage discusses the rise in average global temperature as a manifestation of climate change."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "cascade",
+      "meaning": "a series of events or processes that occur as a result of a single action or change"
+    },
+    {
+      "word": "biodiversity",
+      "meaning": "the variety of life in the world or in a particular habitat or ecosystem"
+    },
+    {
+      "word": "resilience",
+      "meaning": "the capacity to recover quickly from difficulties; toughness"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on understanding the main ideas and specific details. Pay attention to the relationships between different impacts of climate change and how they affect ecosystems and economies. Look for paraphrased information in the questions and practice skimming for key terms.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

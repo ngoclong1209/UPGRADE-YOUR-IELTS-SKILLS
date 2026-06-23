@@ -1,0 +1,88 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_097",
+  "title": "Public Transportation vs Private Cars: Which is Better for Our Cities?",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Public Transportation vs Private Cars</h2><p>In recent years, the debate between public transportation and private cars has gained significant attention. Many cities around the world are facing challenges related to traffic congestion, pollution, and the need for sustainable development. Public transportation systems, including buses, subways, and trains, offer an efficient means for large numbers of people to travel. They reduce the number of vehicles on the road, which can lead to lower emissions and less traffic. On the other hand, private cars provide convenience and flexibility for individuals, allowing them to travel at their own pace.</p><p>One major advantage of public transportation is its cost-effectiveness. For many individuals, the monthly expenses associated with maintaining a private car, such as fuel, insurance, and maintenance, can be significantly higher than the cost of public transport tickets. In addition, public transport can be more accessible for people who do not own a car or are unable to drive due to various reasons, such as age or disability.</p><p>However, public transportation is not without its downsides. Many systems suffer from issues like overcrowding, delays, and lack of cleanliness. These factors can discourage people from using public transport and lead them to rely on their private vehicles instead. Furthermore, in some regions, public transportation may not reach all areas, making it difficult for residents to utilize these services.</p><p>Private cars, while offering advantages in terms of comfort and privacy, contribute significantly to urban pollution and traffic issues. The rise in car ownership has led to wider roads and increased parking needs, which can be detrimental to city landscapes. Moreover, traffic jams caused by numerous vehicles can waste time and fuel, leading to frustration among drivers.</p><p>In conclusion, both public transportation and private cars have their pros and cons. The choice between them often depends on individual circumstances, including location, financial situation, and personal preference. As cities continue to grow, finding a balance between the two modes of transport will be essential for sustainable urban development.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one major advantage of public transportation mentioned in the passage?",
+      "options": {
+        "A": "It is more cost-effective than private car ownership.",
+        "B": "It provides more comfort than private cars.",
+        "C": "It is always free for users.",
+        "D": "It reduces parking needs significantly."
+      },
+      "answer": "A",
+      "explanation": "The passage states that public transportation is more cost-effective than the expenses associated with private car ownership."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a downside of public transportation mentioned in the text?",
+      "options": {
+        "A": "It is always on time.",
+        "B": "It can be overcrowded and delayed.",
+        "C": "It is less flexible than private cars.",
+        "D": "It requires a monthly subscription."
+      },
+      "answer": "B",
+      "explanation": "The passage mentions that public transportation systems often suffer from issues like overcrowding and delays."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Public transportation is available in all areas of every city.",
+      "answer": "False",
+      "explanation": "The text indicates that in some regions, public transportation may not reach all areas."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "Private cars lead to increased pollution and traffic congestion.",
+      "answer": "True",
+      "explanation": "The passage states that private cars contribute significantly to urban pollution and traffic issues."
+    },
+    {
+      "id": "q5",
+      "type": "yes_no_not_given",
+      "text": "The author believes that public transportation is the best option for everyone.",
+      "answer": "No",
+      "explanation": "The author discusses the pros and cons of both transportation modes and does not state one is better for everyone."
+    },
+    {
+      "id": "q6",
+      "type": "matching_information",
+      "instruction": "Match the statements to the correct part of the passage.",
+      "pairs": {
+        "A": "Public transportation is more accessible.",
+        "B": "Private cars offer more personal comfort.",
+        "C": "Traffic jams waste time and fuel."
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "convenience",
+      "meaning": "the state of being able to proceed with something with little effort."
+    },
+    {
+      "word": "sustainable",
+      "meaning": "able to be maintained at a certain rate or level."
+    },
+    {
+      "word": "congestion",
+      "meaning": "the state of being overcrowded."
+    },
+    {
+      "word": "emissions",
+      "meaning": "the production and discharge of something, especially gas or radiation."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To tackle this passage effectively, focus on skimming for main ideas and scanning for specific details mentioned in the text. Pay attention to the transitions between ideas, as they can help you understand the author's perspective. Make sure to read the questions carefully to understand what type of information you are looking for.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

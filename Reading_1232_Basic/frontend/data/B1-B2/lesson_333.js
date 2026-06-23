@@ -1,0 +1,82 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_333",
+  "title": "Understanding Climate Change: A Global Challenge",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>The Impact of Climate Change</h2><p>Climate change refers to significant changes in global temperatures and weather patterns over time. While climate change is a natural phenomenon, scientific evidence shows that human activities are currently driving an unprecedented rate of change. The burning of fossil fuels, deforestation, and industrial processes have increased concentrations of greenhouse gases in the atmosphere, which trap heat from the sun. This leads to a rise in average global temperatures, commonly referred to as global warming.</p><p>As global temperatures rise, the consequences are far-reaching. We see more frequent and severe weather events, such as hurricanes, droughts, and floods. These events not only disrupt ecosystems but also have dire consequences for human society, including food and water shortages. Furthermore, rising sea levels due to melting ice caps threaten coastal communities and biodiversity.</p><p>Governments and organizations worldwide are grappling with the challenges posed by climate change. Strategies to mitigate its effects include reducing greenhouse gas emissions, transitioning to renewable energy sources, and promoting sustainability practices. However, public awareness and education are crucial in driving effective change. Individuals can contribute by making environmentally friendly choices in their daily lives.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary cause of the current climate change according to the passage?",
+      "options": {
+        "A": "Natural climate phenomena",
+        "B": "Human activities",
+        "C": "Solar radiation",
+        "D": "Volcanic eruptions"
+      },
+      "answer": "B",
+      "explanation": "The passage states that human activities are currently driving an unprecedented rate of change, making option B the correct answer."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What are some consequences of climate change mentioned in the passage?",
+      "options": {
+        "A": "Increased wildlife populations",
+        "B": "More frequent and severe weather events",
+        "C": "Lower global temperatures",
+        "D": "Stable weather patterns"
+      },
+      "answer": "B",
+      "explanation": "The passage highlights that climate change leads to more frequent and severe weather events, making option B correct."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Climate change has no effect on food and water availability.",
+      "answer": "False",
+      "explanation": "The passage indicates that climate change has dire consequences for human society, including food and water shortages."
+    },
+    {
+      "id": "q4",
+      "type": "yes_no_not_given",
+      "text": "The author believes that individual actions can help mitigate climate change.",
+      "answer": "Yes",
+      "explanation": "The passage suggests that individuals can contribute by making environmentally friendly choices, indicating the author's positive view on individual actions."
+    },
+    {
+      "id": "q5",
+      "type": "matching_information",
+      "instruction": "Match the following strategies to their descriptions.",
+      "options": {
+        "A": "Reducing greenhouse gas emissions",
+        "B": "Transitioning to renewable energy sources",
+        "C": "Promoting sustainability practices"
+      },
+      "descriptions": {
+        "1": "This involves changing the way we produce and consume energy.",
+        "2": "This strategy aims to lower the amount of harmful gases released into the atmosphere.",
+        "3": "This includes actions that encourage efficient use of resources."
+      }
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "greenhouse gases",
+      "meaning": "Gases that trap heat in the atmosphere, contributing to global warming."
+    },
+    {
+      "word": "mitigate",
+      "meaning": "To make something less severe or serious."
+    },
+    {
+      "word": "sustainability",
+      "meaning": "Practices that maintain ecological balance and do not deplete resources."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>To effectively tackle this passage, focus on understanding the main ideas and supporting details about climate change. Pay attention to the causes and consequences outlined, as well as the proposed solutions. For multiple choice questions, eliminate distractors by identifying key terms in the passage. For true/false/not given and yes/no/not given questions, look for specific phrases that confirm or contradict the statements. Matching questions require careful reading to connect ideas accurately. Take note of vocabulary and their meanings as they are crucial for understanding the context.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

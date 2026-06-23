@@ -1,0 +1,81 @@
+window.lessonData = {
+  "test_id": "reading_b1_b2_261",
+  "title": "Exploring the Benefits of Higher Education and Vocational Training",
+  "level": "B1-B2",
+  "time_limit": 1200,
+  "passage": "<h2>Higher Education vs Vocational Training</h2><p>In today's rapidly changing job market, individuals are faced with the crucial decision of whether to pursue higher education or vocational training. Higher education, which typically refers to university degrees, is often viewed as a pathway to more prestigious careers. It provides students with critical thinking skills and a broad knowledge base that can be applied in various fields. On the other hand, vocational training focuses on specific skills and practical experience, preparing students directly for the workforce. This type of training is usually shorter in duration and can lead to immediate job opportunities in trades such as plumbing, electrical work, or culinary arts.</p><p>While higher education often comes with significant costs and can lead to student debt, vocational training is generally less expensive and allows students to enter the job market sooner. Many employers are increasingly recognizing the value of vocational training graduates, seeing them as well-prepared and skilled for specific roles. Furthermore, vocational training often includes hands-on experience, which can be more appealing to students who prefer practical learning over theoretical studies.</p><p>Ultimately, the choice between higher education and vocational training depends on individual career goals, financial situations, and personal preferences. A balanced approach might be to consider combining both pathways, as some institutions offer programs that include elements of both education types, thus catering to a wider range of students.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one advantage of vocational training mentioned in the passage?",
+      "options": {
+        "A": "It leads to immediate job opportunities.",
+        "B": "It provides a broad knowledge base.",
+        "C": "It is more prestigious than higher education.",
+        "D": "It guarantees higher salaries."
+      },
+      "answer": "A",
+      "explanation": "The passage states that vocational training allows students to enter the job market sooner, indicating immediate job opportunities."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "text": "Higher education is always more expensive than vocational training.",
+      "answer": "False",
+      "explanation": "The passage mentions that vocational training is generally less expensive than higher education."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "text": "The author believes that vocational training is less valuable than higher education.",
+      "answer": "No",
+      "explanation": "The passage indicates that many employers recognize the value of vocational training graduates."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "text": "Match the following aspects to either higher education or vocational training.",
+      "options": {
+        "A": "Includes hands-on experience",
+        "B": "Provides critical thinking skills",
+        "C": "Typically results in student debt",
+        "D": "Shorter in duration"
+      },
+      "answers": {
+        "A": "Vocational training",
+        "B": "Higher education",
+        "C": "Higher education",
+        "D": "Vocational training"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "text": "Vocational training prepares students directly for the __________.",
+      "answer": "workforce",
+      "explanation": "The passage mentions that vocational training is aimed at preparing students for the workforce."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "prestigious",
+      "meaning": "having a high reputation or status, especially in education or profession"
+    },
+    {
+      "word": "immediate",
+      "meaning": "happening or done without delay"
+    },
+    {
+      "word": "recognizing",
+      "meaning": "acknowledging or being aware of the value or significance of something"
+    },
+    {
+      "word": "combining",
+      "meaning": "putting together different elements or aspects"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>When reading the passage, focus on identifying the main ideas of each paragraph. Pay attention to specific examples and advantages of both higher education and vocational training. This will help you answer questions related to the benefits and drawbacks of each option. Additionally, look for keywords in the questions that correspond to phrases in the passage.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

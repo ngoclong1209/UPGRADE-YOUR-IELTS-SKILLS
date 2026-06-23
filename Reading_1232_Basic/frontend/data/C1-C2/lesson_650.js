@@ -1,0 +1,126 @@
+window.lessonData = {
+  "test_id": "reading_c1_c2_650",
+  "title": "The Impact of Nutritional Choices on Mental Health",
+  "level": "C1-C2",
+  "time_limit": 1200,
+  "passage": "<h2>The Interconnection Between Diet and Mental Well-being</h2><p>The intricate relationship between dietary habits and mental health has garnered significant attention from researchers in recent years. Scientific studies have illuminated the profound impact that nutritional choices can have on cognitive functions and emotional stability. For instance, diets rich in omega-3 fatty acids, commonly found in fish, nuts, and seeds, have been associated with a decreased risk of depression and anxiety disorders. Conversely, the consumption of high levels of processed foods, laden with sugars and unhealthy fats, appears to correlate with an increase in mood disorders.</p><p>Moreover, emerging evidence suggests that the gut microbiome plays a pivotal role in influencing mental health. The presence of beneficial bacteria in the gastrointestinal tract seems to enhance mood regulation and cognitive performance, potentially through the production of neurotransmitters such as serotonin. Consequently, a diet that promotes gut health, incorporating fibers, probiotics, and prebiotics, may lead to improved psychological outcomes.</p><p>Furthermore, cultural and socioeconomic factors intricately weave into the fabric of dietary choices, impacting mental health outcomes across diverse populations. Access to nutritious foods is often limited in lower-income areas, resulting in dietary deficiencies that can adversely affect psychological well-being. Thus, addressing nutritional inequities is essential for fostering mental health on a broader scale.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the primary focus of the passage?",
+      "options": {
+        "A": "The effects of processed foods on physical health.",
+        "B": "The relationship between diet and mental health.",
+        "C": "Cultural influences on dietary habits.",
+        "D": "The role of socioeconomic factors in food access."
+      },
+      "answer": "B",
+      "explanation": "The passage centers on how dietary habits influence mental well-being, making B the correct choice."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Decide if the statements are True, False, or Not Given.",
+      "text": "Omega-3 fatty acids can help reduce the risk of anxiety disorders.",
+      "answer": "True",
+      "explanation": "The passage states that diets rich in omega-3 fatty acids are associated with a decreased risk of depression and anxiety disorders."
+    },
+    {
+      "id": "q3",
+      "type": "yes_no_not_given",
+      "instruction": "Answer Yes, No, or Not Given.",
+      "text": "Does the author suggest that dietary choices can affect emotional stability?",
+      "answer": "Yes",
+      "explanation": "The passage indicates that nutritional choices have a profound impact on cognitive functions and emotional stability."
+    },
+    {
+      "id": "q4",
+      "type": "matching_information",
+      "instruction": "Match the following concepts with the corresponding details.",
+      "text": {
+        "1": "Omega-3 fatty acids",
+        "2": "Processed foods",
+        "3": "Gut microbiome",
+        "4": "Socioeconomic impacts"
+      },
+      "options": {
+        "A": "Linked to increased mood disorders.",
+        "B": "Promote mood regulation.",
+        "C": "Associated with reduced depression risk.",
+        "D": "Influences food access and choices."
+      },
+      "answers": {
+        "1": "C",
+        "2": "A",
+        "3": "B",
+        "4": "D"
+      }
+    },
+    {
+      "id": "q5",
+      "type": "matching_headings",
+      "instruction": "Match the headings to the paragraphs.",
+      "text": {
+        "1": "Introduction to the topic",
+        "2": "Nutritional components beneficial for mental health",
+        "3": "The role of culture and economics in dietary choices"
+      },
+      "options": {
+        "A": "The influence of gut health on psychology.",
+        "B": "Linking diet to emotional and cognitive health.",
+        "C": "Socioeconomic barriers to nutrition.",
+        "D": "The impact of saturated fats on mood."
+      },
+      "answers": {
+        "1": "B",
+        "2": "A",
+        "3": "C"
+      }
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences with NO MORE THAN TWO WORDS.",
+      "text": "The gut microbiome is thought to produce __________ that regulate mood.",
+      "answer": "neurotransmitters",
+      "explanation": "The passage explicitly mentions the production of neurotransmitters by beneficial bacteria in the gastrointestinal tract."
+    },
+    {
+      "id": "q7",
+      "type": "summary_note_completion",
+      "instruction": "Complete the summary with NO MORE THAN TWO WORDS.",
+      "text": "A balanced diet that includes __________ and __________ may lead to better psychological health.",
+      "answers": [
+        "fibers",
+        "probiotics"
+      ],
+      "explanation": "The passage highlights the importance of fibers and probiotics for promoting gut health, which is linked to mental well-being."
+    },
+    {
+      "id": "q8",
+      "type": "short_answer_questions",
+      "instruction": "Answer the following questions with NO MORE THAN THREE WORDS.",
+      "text": "What are the two categories of food mentioned that can impact mental health?",
+      "answer": "Processed foods, fish",
+      "explanation": "The passage mentions the negative effects of processed foods and the positive effects of fish-rich diets."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "intricate",
+      "meaning": "complex and detailed"
+    },
+    {
+      "word": "equities",
+      "meaning": "fairness or justice in the way people are treated"
+    },
+    {
+      "word": "cognitive",
+      "meaning": "related to mental processes of perception, memory, judgment, and reasoning"
+    }
+  ],
+  "tactics": "<h2>Reading Strategies</h2><p>To effectively tackle this passage, focus on identifying key terms related to diet and mental health. Pay close attention to the connections made between different dietary components and psychological outcomes. Taking notes on the main ideas will help clarify complex sentences and enhance comprehension.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);

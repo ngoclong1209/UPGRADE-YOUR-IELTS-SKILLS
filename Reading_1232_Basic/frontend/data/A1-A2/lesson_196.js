@@ -1,0 +1,82 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_196",
+  "title": "The Power of Renewable Energy",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Renewable Energy</h2><p>Renewable energy is energy from sources that do not run out. They are good for our planet. Some examples are solar energy, wind energy, and water energy. Solar energy comes from the sun. We can use it to make electricity. Wind energy comes from the wind. Wind turbines help to turn wind into electricity. Water energy comes from rivers and oceans. It is also called hydro energy.</p><p>Using renewable energy helps to reduce pollution. This is important for our health and the environment. Many countries are using more renewable energy. They want to be cleaner and greener. For example, Germany uses a lot of solar energy. In the United States, wind energy is growing fast.</p><p>People can also use renewable energy at home. They can install solar panels on their roofs. This helps them save money on electricity. Using renewable energy is a good choice for the future.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is solar energy from?",
+      "options": {
+        "A": "the sun",
+        "B": "the wind",
+        "C": "the rivers",
+        "D": "the ocean"
+      },
+      "answer": "A",
+      "explanation": "Solar energy comes from the sun, as stated in the passage."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What helps turn wind into electricity?",
+      "options": {
+        "A": "solar panels",
+        "B": "wind turbines",
+        "C": "water energy",
+        "D": "rivers"
+      },
+      "answer": "B",
+      "explanation": "Wind turbines help to turn wind into electricity, according to the passage."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "text": "Renewable energy is bad for the environment.",
+      "answer": "False",
+      "explanation": "The passage states that renewable energy is good for the planet."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "text": "Germany uses a lot of solar energy.",
+      "answer": "True",
+      "explanation": "The passage mentions that Germany uses a lot of solar energy."
+    },
+    {
+      "id": "q5",
+      "type": "short_answer",
+      "text": "What can people install on their roofs to use renewable energy?",
+      "answer": "solar panels",
+      "explanation": "The passage says people can install solar panels on their roofs."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "renewable energy",
+      "meaning": "Energy from sources that do not run out."
+    },
+    {
+      "word": "solar energy",
+      "meaning": "Energy from the sun."
+    },
+    {
+      "word": "wind energy",
+      "meaning": "Energy from the wind."
+    },
+    {
+      "word": "pollution",
+      "meaning": "Harmful substances in the air or water."
+    },
+    {
+      "word": "turbines",
+      "meaning": "Machines that turn wind into energy."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn</h2><p>Read the passage carefully. Look for keywords in the questions. Pay attention to the details about each type of renewable energy. Use the vocabulary section to help understand important terms.</p>"
+};
+if(typeof onLessonDataLoaded === 'function') onLessonDataLoaded(window.lessonData);
