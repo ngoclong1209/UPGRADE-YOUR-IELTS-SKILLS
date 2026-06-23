@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,101 +158,101 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_86</h1>
-            <p>IELTS Listening Practice - Test 86</p>
-<p>Part 1: Questions 1-10
-Complete the notes below. Write NO MORE THAN ONE WORD OR A NUMBER.</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 86</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-10</strong>
+Complete the notes below. Write <strong>NO MORE THAN ONE WORD OR A NUMBER.</strong></p>
 <p>Accommodation form : rental properties</p>
-<p>Name: Jane Ryder
-Contact phone number: (1) 0044  _______</p>
-<p>Part 2: Questions 11-15
-Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>The police officer suggests neighbours give each other their (11)  _______ 
-Neighbours should discuss what to do if there’s any kind of (12)  _______ 
-It’s a good idea to leave on the (13)  _______ 
-Think carefully about where you put any (14)  _______ 
-It’s a good idea to buy good-quality (15)  _______</p>
-<p>Questions 16-20</p>
+<h3 class="test-heading">Name: Jane Ryder
+Contact phone number: <strong>(1)</strong> 0044  _______</h3>
+<p><strong>Part 2: Questions 11-15</strong>
+Complete the sentences below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p>The police officer suggests neighbours give each other their <strong>(11)</strong>  _______ 
+Neighbours should discuss what to do if there’s any kind of <strong>(12)</strong>  _______ 
+It’s a good idea to leave on the <strong>(13)</strong>  _______ 
+Think carefully about where you put any <strong>(14)</strong>  _______ 
+It’s a good idea to buy good-quality <strong>(15)</strong>  _______</p>
+<p><strong>Questions 16-20</strong></p>
 <p>Which crime prevention measure is proposed for each area affected by crime?</p>
-<p>Choose FIVE answers from the box and write correct letter A-G next to questions 16-20.</p>
-<p>Proposed crime prevention measures
-A install more lighting
-B have more police officers on patrol
-C remove surrounding vegetation
-D contact local police
-E fix damage quickly
-F change road design
-G use security cameras</p>
-<p>Areas affected by crime
+<p>Choose <strong>FIVE</strong> answers from the box and write correct letter A-G next to questions 16-20.</p>
+<p><strong>Proposed crime prevention measures</strong>
+<strong>A</strong> install more lighting
+<strong>B</strong> have more police officers on patrol
+<strong>C</strong> remove surrounding vegetation
+<strong>D</strong> contact local police
+<strong>E</strong> fix damage quickly
+<strong>F</strong> change road design
+<strong>G</strong> use security cameras</p>
+<p><strong>Areas affected by crime</strong>
 16. skate park  _______ 
 17. local primary schools  _______ 
 18. Abbostford street  _______ 
 19. shops on Victoria street  _______ 
 20. supermarket car park  _______</p>
-<p>Part 3: Questions 21-26
+<p><strong>Part 3: Questions 21-26</strong>
 Choose the correct letter A, B or C.</p>
-<p>Presentation on the problems and potential of biofuels
+<p><strong>Presentation on the problems and potential of biofuels</strong>
 21. Mike suggests they begin their presentation by
-[ ]  A explaining what kind of harm is caused by fossil fuels.
-[ ]  B pointing out that biofuels were in use before fossil fuels.
-[ ]  C ensuring students know the difference between fossil fuels and biofuels.</p>
+<strong>[ ] </strong><strong> A</strong> explaining what kind of harm is caused by fossil fuels.
+<strong>[ ] </strong><strong> B</strong> pointing out that biofuels were in use before fossil fuels.
+<strong>[ ] </strong><strong> C</strong> ensuring students know the difference between fossil fuels and biofuels.</p>
 <p>22. Karina doesn’t want to discuss the production of ethanol because
-[ ]  A other students will already be familiar with the process.
-[ ]  B there will not be time to cover more important information.
-[ ]  C they may not provide an accurate description.</p>
+<strong>[ ] </strong><strong> A</strong> other students will already be familiar with the process.
+<strong>[ ] </strong><strong> B</strong> there will not be time to cover more important information.
+<strong>[ ] </strong><strong> C</strong> they may not provide an accurate description.</p>
 <p>23. Which source of biofuel do the students agree is least environmentally friendly?
-[ ]  A sugar cane
-[ ]  B corn
-[ ]  C canola</p>
+<strong>[ ] </strong><strong> A</strong> sugar cane
+<strong>[ ] </strong><strong> B</strong> corn
+<strong>[ ] </strong><strong> C</strong> canola</p>
 <p>24. What is the main problem facing the development of the biofuel industry in the USA?
-[ ]  A inadequate infrastructure for transporting ethanol
-[ ]  B not enough farmers growing biofuel crops
-[ ]  C little government support of biofuel development</p>
+<strong>[ ] </strong><strong> A</strong> inadequate infrastructure for transporting ethanol
+<strong>[ ] </strong><strong> B</strong> not enough farmers growing biofuel crops
+<strong>[ ] </strong><strong> C</strong> little government support of biofuel development</p>
 <p>25. Karina doubts that sugar cane production in Brazil will
-[ ]  A lead to the loss of wildlife habitats.
-[ ]  B create a large number of jobs in the biofuel sector.
-[ ]  C continue to provide enough energy for the country’s needs.</p>
+<strong>[ ] </strong><strong> A</strong> lead to the loss of wildlife habitats.
+<strong>[ ] </strong><strong> B</strong> create a large number of jobs in the biofuel sector.
+<strong>[ ] </strong><strong> C</strong> continue to provide enough energy for the country’s needs.</p>
 <p>26. Karina and Mike conclude that in order to increase the use of biofuels
-[ ]  A the price of fossil fuels must go up.
-[ ]  B more machinery must be adapted to use them.
-[ ]  C production methods must be more energy-efficient.</p>
-<p>Questions 27-30
-Answer the questions below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>What TWO biofuel-related problems do Mike and Karina decide to focus on in the last section of their presentation?
-• (27)  _______ 
-• (28)  _______</p>
+<strong>[ ] </strong><strong> A</strong> the price of fossil fuels must go up.
+<strong>[ ] </strong><strong> B</strong> more machinery must be adapted to use them.
+<strong>[ ] </strong><strong> C</strong> production methods must be more energy-efficient.</p>
+<p><strong>Questions 27-30</strong>
+Answer the questions below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p>What <strong>TWO</strong> biofuel-related problems do Mike and Karina decide to focus on in the last section of their presentation?
+• <strong>(27)</strong>  _______ 
+• <strong>(28)</strong>  _______</p>
 <p>Which two sources of biofuel do Mike and Karina say are being tried out?
-• (29)  _______ 
+• <strong>(29)</strong>  _______ 
 • algae
-• (30)  _______</p>
-<p>Part 4: Questions 31-34
-Complete the summary below. Write ONE WORD ONLY for each answer.</p>
-<p>The ‘weak-tie’ theory: how friends-of-friends influence us
-In 1973, Mark Granovetter claimed that the influence of ‘weak-ties’ can affect the behaviour of populations in the fields of information science, politics and (31)  _______  Although friends-of-friends may be unlike us, they have similar enough (32)  _______  to have a beneficial effect on our lives. An example of this influence is when we hear about (33)  _______  Because information about them is provided by weak-ties. Since Granovetter proposed his theory, other studies have shown that weak-tie networks also benefit our (34)  _______</p>
-<p>Questions 35 and 36
-Choose TWO letters, A-E.</p>
-<p>Which does the speaker believe are TWO real benefits of online social networking?
-[ ]  A people can gain higher self-esteem
-[ ]  B people can access useful medical information
-[ ]  C people can form relationships more quickly
-[ ]  D people can improve academic performance
-[ ]  E people can be reliably informed about current affairs</p>
-<p>Questions 37 and 38
-Choose TWO letters, A-E.</p>
-<p>Which TWO problems related to online social networking will increase, according to the speaker?
-[ ]  A criminal activity
-[ ]  B poorer grades at school
-[ ]  C a decline in physical fitness
-[ ]  D less work done by employees
-[ ]  E loss of career prospects</p>
-<p>Questions 39 and 40
-Choose TWO letters, A-E.</p>
-<p>Which TWO claims are made by Robin Dunbar about social networking sites?
-[ ]  A They are not helpful for developing certain social skills.
-[ ]  B They cannot fully reveal a person’s real character.
-[ ]  C They are not a good starting point for building new relationships.
-[ ]  D They do not encourage people to widen their social circle.
-[ ]  E They will not retain their popularity with the young generation.</p>
-<p>ANSWER KEY</p>
+• <strong>(30)</strong>  _______</p>
+<p><strong>Part 4: Questions 31-34</strong>
+Complete the summary below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+<p><strong>The ‘weak-tie’ theory: how friends-of-friends influence us</strong>
+In 1973, Mark Granovetter claimed that the influence of ‘weak-ties’ can affect the behaviour of populations in the fields of information science, politics and <strong>(31)</strong>  _______  Although friends-of-friends may be unlike us, they have similar enough <strong>(32)</strong>  _______  to have a beneficial effect on our lives. An example of this influence is when we hear about <strong>(33)</strong>  _______  Because information about them is provided by weak-ties. Since Granovetter proposed his theory, other studies have shown that weak-tie networks also benefit our <strong>(34)</strong>  _______</p>
+<p><strong>Questions 35 and 36</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>Which does the speaker believe are <strong>TWO</strong> real benefits of online social networking?
+<strong>[ ] </strong><strong> A</strong> people can gain higher self-esteem
+<strong>[ ] </strong><strong> B</strong> people can access useful medical information
+<strong>[ ] </strong><strong> C</strong> people can form relationships more quickly
+<strong>[ ] </strong><strong> D</strong> people can improve academic performance
+<strong>[ ] </strong><strong> E</strong> people can be reliably informed about current affairs</p>
+<p><strong>Questions 37 and 38</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>Which <strong>TWO</strong> problems related to online social networking will increase, according to the speaker?
+<strong>[ ] </strong><strong> A</strong> criminal activity
+<strong>[ ] </strong><strong> B</strong> poorer grades at school
+<strong>[ ] </strong><strong> C</strong> a decline in physical fitness
+<strong>[ ] </strong><strong> D</strong> less work done by employees
+<strong>[ ] </strong><strong> E</strong> loss of career prospects</p>
+<p><strong>Questions 39 and 40</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>Which <strong>TWO</strong> claims are made by Robin Dunbar about social networking sites?
+<strong>[ ] </strong><strong> A</strong> They are not helpful for developing certain social skills.
+<strong>[ ] </strong><strong> B</strong> They cannot fully reveal a person’s real character.
+<strong>[ ] </strong><strong> C</strong> They are not a good starting point for building new relationships.
+<strong>[ ] </strong><strong> D</strong> They do not encourage people to widen their social circle.
+<strong>[ ] </strong><strong> E</strong> They will not retain their popularity with the young generation.</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. 2086132978</p>
 <p>2. visiontech</p>
 <p>3. doctor</p>
@@ -450,11 +506,34 @@ Choose TWO letters, A-E.</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_86.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_86.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -474,12 +553,23 @@ Choose TWO letters, A-E.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -491,14 +581,6 @@ Choose TWO letters, A-E.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

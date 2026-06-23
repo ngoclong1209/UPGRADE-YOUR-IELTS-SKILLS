@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,34 +158,34 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_84</h1>
-            <p>IELTS Listening Practice - Test 84</p>
-<p>Part 1: Questions 1-6
-Complete the table below. Write NO MORE THAN ONE WORD OR A NUMBER.</p>
-<p>Community Centre Evening Classes</p>
-<p>(1)  _______</p>
-<p>Questions 7-10
-Complete the sentences below. Write ONE WORD ONLY for each answer.</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 84</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-6</strong>
+Complete the table below. Write <strong>NO MORE THAN ONE WORD OR A NUMBER.</strong></p>
+<h3 class="test-heading"><strong>Community Centre Evening Classes</strong></h3>
+<h3 class="test-heading"><strong>(1)</strong>  _______</h3>
+<p><strong>Questions 7-10</strong>
+Complete the sentences below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
 <p>7. The watercolours class suits people who are  _______ 
 8. To find out about the Maori language class, contact Jason  _______ 
 9. For the photography class, check the  _______  for the camera.
 10. There is a trip to a local  _______  in the final week of the photography class.</p>
-<p>Part 2: Questions 11 and 12
-Choose TWO letters A-E.</p>
-<p>Which TWO tasks will the volunteers in group A be responsible for?
-[ ]  A. widening pathways
-[ ]  B. planting trees
-[ ]  C. picking up rubbish
-[ ]  D. putting up signs
-[ ]  E. building fences</p>
-<p>Questions 13 and 14
-Choose TWO letters A-E.</p>
-<p>Which TWO items should volunteers in group A bring with them?
-[ ]  A. food and water
-[ ]  B. boots
-[ ]  C. gloves
-[ ]  D. raincoats
-[ ]  E. their own tools</p>
-<p>Questions 15-20
+<p><strong>Part 2: Questions 11 and 12</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>Which <strong>TWO</strong> tasks will the volunteers in group A be responsible for?
+<strong>[ ] </strong><strong> A</strong>. widening pathways
+<strong>[ ] </strong><strong> B</strong>. planting trees
+<strong>[ ] </strong><strong> C</strong>. picking up rubbish
+<strong>[ ] </strong><strong> D</strong>. putting up signs
+<strong>[ ] </strong><strong> E</strong>. building fences</p>
+<p><strong>Questions 13 and 14</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>Which <strong>TWO</strong> items should volunteers in group A bring with them?
+<strong>[ ] </strong><strong> A</strong>. food and water
+<strong>[ ] </strong><strong> B</strong>. boots
+<strong>[ ] </strong><strong> C</strong>. gloves
+<strong>[ ] </strong><strong> D</strong>. raincoats
+<strong>[ ] </strong><strong> E</strong>. their own tools</p>
+<p><strong>Questions 15-20</strong>
 Label the plan below. Write the correct letter A-I next of questions 15-20.</p>
 <p>15. Vegetable beds  _______ 
 16. Bee hives  _______ 
@@ -137,64 +193,64 @@ Label the plan below. Write the correct letter A-I next of questions 15-20.</p>
 18. adventure playground  _______ 
 19. Sand area  _______ 
 20. Pond  _______</p>
-<p>Part 3: Questions 21-25
+<p><strong>Part 3: Questions 21-25</strong>
 Choose the correct letter; A, B or C</p>
-<p>Food Waste
+<p><strong>Food Waste</strong>
 21. What point does Robert make about the 2013 study in Britain?
-[ ]  A. It focused more on packaging than wasted food.
-[ ]  B. It proved that households produced more waste than restaurants.
-[ ]  C. It included liquid waste as well as solid waste.</p>
+<strong>[ ] </strong><strong> A</strong>. It focused more on packaging than wasted food.
+<strong>[ ] </strong><strong> B</strong>. It proved that households produced more waste than restaurants.
+<strong>[ ] </strong><strong> C</strong>. It included liquid waste as well as solid waste.</p>
 <p>22. The speakers agree that food waste reports should emphasise the connection between carbon dioxide emissions and
-[ ]  A. food production.
-[ ]  B. transport of food to landfill sites.
-[ ]  C. distribution of food products.</p>
+<strong>[ ] </strong><strong> A</strong>. food production.
+<strong>[ ] </strong><strong> B</strong>. transport of food to landfill sites.
+<strong>[ ] </strong><strong> C</strong>. distribution of food products.</p>
 <p>23. Television programmes now tend to focus on
-[ ]  A. the nutritional value of food products.
-[ ]  B. the origin of food products.
-[ ]  C. the chemicals found in food products.</p>
+<strong>[ ] </strong><strong> A</strong>. the nutritional value of food products.
+<strong>[ ] </strong><strong> B</strong>. the origin of food products.
+<strong>[ ] </strong><strong> C</strong>. the chemicals found in food products.</p>
 <p>24. For Anna, the most significant point about food waste is
-[ ]  A. the moral aspect.
-[ ]  B. the environmental impact.
-[ ]  C. the economic effect.</p>
+<strong>[ ] </strong><strong> A</strong>. the moral aspect.
+<strong>[ ] </strong><strong> B</strong>. the environmental impact.
+<strong>[ ] </strong><strong> C</strong>. the economic effect.</p>
 <p>25. Anna and Robert decide to begin their presentation by
-[ ]  A. handing out a questionnaire.
-[ ]  B. providing statistical evidence.
-[ ]  C. showing images of wasted food.</p>
-<p>Questions 26-30
+<strong>[ ] </strong><strong> A</strong>. handing out a questionnaire.
+<strong>[ ] </strong><strong> B</strong>. providing statistical evidence.
+<strong>[ ] </strong><strong> C</strong>. showing images of wasted food.</p>
+<p><strong>Questions 26-30</strong>
 What advantage do the speakers identify for each of the following projects?</p>
-<p>Choose FIVE answers from the box and write the correct letter, A-G, next to Questions 26-30.</p>
-<p>Advantages
-A. it should save time
-B. it will create new jobs
-C. it will benefit local communities
-D. it will make money
-E. it will encourage personal responsibility
-F. it will be easy to advertise
-G. it will involve very little cost</p>
-<p>Projects
+<p>Choose <strong>FIVE</strong> answers from the box and write the correct letter, A-G, next to Questions 26-30.</p>
+<p><strong>Advantages</strong>
+<strong>A</strong>. it should save time
+<strong>B</strong>. it will create new jobs
+<strong>C</strong>. it will benefit local communities
+<strong>D</strong>. it will make money
+<strong>E</strong>. it will encourage personal responsibility
+<strong>F</strong>. it will be easy to advertise
+<strong>G</strong>. it will involve very little cost</p>
+<p><strong>Projects</strong>
 26. edible patch  _______ 
 27. ripeness centre  _______ 
 28. waste tracking technology  _______ 
 29. smartphone application  _______ 
 30. food waste composting  _______</p>
-<p>Part 4: Questions 31-40
-Complete the notes below. Write ONE WORD for each answer.</p>
-<p>Kite making by the Maori people of New Zealand</p>
-<p>Making and appearance of kites
+<p><strong>Part 4: Questions 31-40</strong>
+Complete the notes below. Write <strong>ONE WORD</strong> for each answer.</p>
+<p><strong>Kite making by the Maori people of New Zealand</strong></p>
+<p><strong>Making and appearance of kites</strong>
 • The priests who made the kites had rules for size and scale
-• (31)  _______  was not allowed during a kite’s preparation</p>
-<p>Kites:
-• Often represented a god, a bird or a (32)  _______ 
-• Had frames that were decorated with grasses and (33)  _______ 
-• Had a line of noisy (34)  _______  attached to them.
-• Could be triangular, rectangular or (35)  _______  shaped.
-• Had patterns made from clay mixed with (36)  _______  oil.
-• Sometimes had human head masks with (37)  _______  and a tattoo.</p>
-<p>Purpose and function of kites:
-• A way of sending (38)  _______  to the gods
-• A way of telling other villages that a (39)  _______  was necessary
-• A means of (40)  _______  if enemies were coming.</p>
-<p>ANSWER KEY</p>
+• <strong>(31)</strong>  _______  was not allowed during a kite’s preparation</p>
+<p><strong>Kites:</strong>
+• Often represented a god, a bird or a <strong>(32)</strong>  _______ 
+• Had frames that were decorated with grasses and <strong>(33)</strong>  _______ 
+• Had a line of noisy <strong>(34)</strong>  _______  attached to them.
+• Could be triangular, rectangular or <strong>(35)</strong>  _______  shaped.
+• Had patterns made from clay mixed with <strong>(36)</strong>  _______  oil.
+• Sometimes had human head masks with <strong>(37)</strong>  _______  and a tattoo.</p>
+<p><strong>Purpose and function of kites:</strong>
+• A way of sending <strong>(38)</strong>  _______  to the gods
+• A way of telling other villages that a <strong>(39)</strong>  _______  was necessary
+• A means of <strong>(40)</strong>  _______  if enemies were coming.</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. 7.30</p>
 <p>2. pencils</p>
 <p>3. top</p>
@@ -448,11 +504,34 @@ Complete the notes below. Write ONE WORD for each answer.</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_84.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_84.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -472,12 +551,23 @@ Complete the notes below. Write ONE WORD for each answer.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -489,14 +579,6 @@ Complete the notes below. Write ONE WORD for each answer.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

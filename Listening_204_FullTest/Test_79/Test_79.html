@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,110 +158,110 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_79</h1>
-            <p>IELTS Listening Practice - Test 79</p>
-<p>Part 1: Questions 1-10
-Complete the notes below. Write ONE WORD AND/OR A NUMBER.</p>
-<p>Enquiry about joining Youth Council
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 79</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-10</strong>
+Complete the notes below. Write <strong>ONE WORD AND/OR A NUMBER.</strong></p>
+<h3 class="test-heading"><strong>Enquiry about joining Youth Council</strong>
 Name: Roger Brown
 Age: 18
-Currently staying in a (1)  _______</p>
-<p>Part 2: Questions 11-20</p>
-<p>New staff at theatre</p>
-<p>Questions 11 and 12
-Choose TWO letters A-E.</p>
-<p>Which TWO changes have been made so far during the refurbishment of the theatre?
-[ ]  A Some rooms now have a different use.
-[ ]  B A different type of seating has been installed.
-[ ]  C An elevator has been installed.
-[ ]  D The outside of the building has been repaired.
-[ ]  E Extra seats have been added.</p>
-<p>Questions 13 and 14
-Choose TWO letters, A-E.</p>
-<p>Which TWO facilities does the theatre currently offer to the public?
-[ ]  A rooms for hire
-[ ]  B backstage tours
-[ ]  C hire of costumes
-[ ]  D a bookshop
-[ ]  E a cafe</p>
-<p>Questions 15 and 16
-Choose TWO letters, A-E.</p>
-<p>Which TWO workshops does the theatre currently offer?
-[ ]  A sound
-[ ]  B acting
-[ ]  C making puppets
-[ ]  D make-up
-[ ]  E lighting</p>
-<p>Questions 17-20
+Currently staying in a <strong>(1)</strong>  _______</h3>
+<h3 class="test-heading"><strong>Part 2: Questions 11-20</strong></h3>
+<h3 class="test-heading"><strong>New staff at theatre</strong></h3>
+<p><strong>Questions 11 and 12</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>Which <strong>TWO</strong> changes have been made so far during the refurbishment of the theatre?
+<strong>[ ] </strong><strong> A</strong> Some rooms now have a different use.
+<strong>[ ] </strong><strong> B</strong> A different type of seating has been installed.
+<strong>[ ] </strong><strong> C</strong> An elevator has been installed.
+<strong>[ ] </strong><strong> D</strong> The outside of the building has been repaired.
+<strong>[ ] </strong><strong> E</strong> Extra seats have been added.</p>
+<p><strong>Questions 13 and 14</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>Which <strong>TWO</strong> facilities does the theatre currently offer to the public?
+<strong>[ ] </strong><strong> A</strong> rooms for hire
+<strong>[ ] </strong><strong> B</strong> backstage tours
+<strong>[ ] </strong><strong> C</strong> hire of costumes
+<strong>[ ] </strong><strong> D</strong> a bookshop
+<strong>[ ] </strong><strong> E</strong> a cafe</p>
+<p><strong>Questions 15 and 16</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>Which <strong>TWO</strong> workshops does the theatre currently offer?
+<strong>[ ] </strong><strong> A</strong> sound
+<strong>[ ] </strong><strong> B</strong> acting
+<strong>[ ] </strong><strong> C</strong> making puppets
+<strong>[ ] </strong><strong> D</strong> make-up
+<strong>[ ] </strong><strong> E</strong> lighting</p>
+<p><strong>Questions 17-20</strong>
 Label the plan below. Write the correct letter A-G, next to questions 17-20.</p>
-<p>(17)  _______                     (18)  _______ 
-(19)  _______                    (20)  _______</p>
-<p>Part 3: Questions 21-26
+<p><strong>(17)</strong>  _______                     <strong>(18)</strong>  _______ 
+<strong>(19)</strong>  _______                    <strong>(20)</strong>  _______</p>
+<p><strong>Part 3: Questions 21-26</strong>
 Choose the correct letter A, B or C.</p>
-<p>Rocky Bay field trip</p>
+<p><strong>Rocky Bay field trip</strong></p>
 <p>21. What do the students agree should be included in their aims?
-[ ]  A factors affecting where organisms live
-[ ]  B the need to preserve endangered species
-[ ]  C techniques for classifying different organisms</p>
+<strong>[ ] </strong><strong> A</strong> factors affecting where organisms live
+<strong>[ ] </strong><strong> B</strong> the need to preserve endangered species
+<strong>[ ] </strong><strong> C</strong> techniques for classifying different organisms</p>
 <p>22. What equipment did they forget to take on the Field Trip?
-[ ]  A string
-[ ]  B a compass
-[ ]  C a ruler</p>
+<strong>[ ] </strong><strong> A</strong> string
+<strong>[ ] </strong><strong> B</strong> a compass
+<strong>[ ] </strong><strong> C</strong> a ruler</p>
 <p>23. In Helen’s procedure section, Colin suggests a change in
-[ ]  A the order in which information is given
-[ ]  B the way the information is divided up
-[ ]  C the amount of information provided</p>
+<strong>[ ] </strong><strong> A</strong> the order in which information is given
+<strong>[ ] </strong><strong> B</strong> the way the information is divided up
+<strong>[ ] </strong><strong> C</strong> the amount of information provided</p>
 <p>24. What do they say about the method they used to measure wave speed?
-[ ]  A It provided accurate results
-[ ]  B It was simple to carry out
-[ ]  C It required special equipment</p>
+<strong>[ ] </strong><strong> A</strong> It provided accurate results
+<strong>[ ] </strong><strong> B</strong> It was simple to carry out
+<strong>[ ] </strong><strong> C</strong> It required special equipment</p>
 <p>25. What mistake did Helen make when first drawing the map?
-[ ]  A She chose the wrong scale
-[ ]  B She stood in the wrong place
-[ ]  C She did it at the wrong time</p>
+<strong>[ ] </strong><strong> A</strong> She chose the wrong scale
+<strong>[ ] </strong><strong> B</strong> She stood in the wrong place
+<strong>[ ] </strong><strong> C</strong> She did it at the wrong time</p>
 <p>26. What do they decide to do next with their map?
-[ ]  A scan it onto a computer
-[ ]  B check it using photographs
-[ ]  C add information from the internet</p>
-<p>Questions 27 and 28
-Choose TWO letters A-E.</p>
-<p>Which TWO problems affecting organisms in the splash zone are mentioned?
-[ ]  A lack of water
-[ ]  B strong winds
-[ ]  C lack of food
-[ ]  D high temperatures
-[ ]  E large waves</p>
-<p>Questions 29 and 30
-Choose TWO letters, A-E.</p>
-<p>Which TWO reasons for possible error will they include in their report?
-[ ]  A inaccurate records of the habitat of organisms
-[ ]  B influence on behaviour of organisms by observer
-[ ]  C incorrect identification of some organisms
-[ ]  D making generalisations from a small sample
-[ ]  E missing some organisms when counting</p>
-<p>Part 4: Questions 31-40
-Complete the notes below. Write ONE WORD ONLY.</p>
-<p>DESIGNING A PUBLIC BUILDING:
-THE TAYLOR CONCERT HALL</p>
-<p>Introduction
+<strong>[ ] </strong><strong> A</strong> scan it onto a computer
+<strong>[ ] </strong><strong> B</strong> check it using photographs
+<strong>[ ] </strong><strong> C</strong> add information from the internet</p>
+<p><strong>Questions 27 and 28</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>Which <strong>TWO</strong> problems affecting organisms in the splash zone are mentioned?
+<strong>[ ] </strong><strong> A</strong> lack of water
+<strong>[ ] </strong><strong> B</strong> strong winds
+<strong>[ ] </strong><strong> C</strong> lack of food
+<strong>[ ] </strong><strong> D</strong> high temperatures
+<strong>[ ] </strong><strong> E</strong> large waves</p>
+<p><strong>Questions 29 and 30</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>Which <strong>TWO</strong> reasons for possible error will they include in their report?
+<strong>[ ] </strong><strong> A</strong> inaccurate records of the habitat of organisms
+<strong>[ ] </strong><strong> B</strong> influence on behaviour of organisms by observer
+<strong>[ ] </strong><strong> C</strong> incorrect identification of some organisms
+<strong>[ ] </strong><strong> D</strong> making generalisations from a small sample
+<strong>[ ] </strong><strong> E</strong> missing some organisms when counting</p>
+<p><strong>Part 4: Questions 31-40</strong>
+Complete the notes below. Write <strong>ONE WORD ONLY.</strong></p>
+<p><strong>DESIGNING A PUBLIC BUILDING:</strong>
+<strong>THE TAYLOR CONCERT HALL</strong></p>
+<p><strong>Introduction</strong>
 The designer of a public building may need to consider the building’s
 • Function
-• Physical and (31)  _______  context
+• Physical and <strong>(31)</strong>  _______  context
 • Symbolic meaning</p>
-<p>Location and concept of the Concert Hall
-• On the site of a discussed (32)  _______ 
-• Beside a (33)  _______ 
+<p><strong>Location and concept of the Concert Hall</strong>
+• On the site of a discussed <strong>(32)</strong>  _______ 
+• Beside a <strong>(33)</strong>  _______ 
 • The design is based on the concept of a mystery</p>
-<p>Building design
-It’s approached by a (34)  _______  for pedestrians
-The building is the shape of a (35)  _______ 
-One exterior wall acts as a large (36)  _______</p>
-<p>In the auditorium:
-• The floor is built on huge pads made of (37)  _______ 
-• The walls are made of local wood and are (38)  _______  in shape
-• Ceiling panels and (39)  _______  on walls allow adjustment of acoustics</p>
-<p>Evaluation
-Some critics say the (40)  _______  style of building is inappropriate</p>
-<p>ANSWER KEY</p>
+<p><strong>Building design</strong>
+It’s approached by a <strong>(34)</strong>  _______  for pedestrians
+The building is the shape of a <strong>(35)</strong>  _______ 
+One exterior wall acts as a large <strong>(36)</strong>  _______</p>
+<p><strong>In the auditorium:</strong>
+• The floor is built on huge pads made of <strong>(37)</strong>  _______ 
+• The walls are made of local wood and are <strong>(38)</strong>  _______  in shape
+• Ceiling panels and <strong>(39)</strong>  _______  on walls allow adjustment of acoustics</p>
+<p><strong>Evaluation</strong>
+Some critics say the <strong>(40)</strong>  _______  style of building is inappropriate</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. hostel</p>
 <p>2. Buckleigh</p>
 <p>3. PE9 7QT</p>
@@ -459,11 +515,34 @@ Some critics say the (40)  _______  style of building is inappropriate</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_79.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_79.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -483,12 +562,23 @@ Some critics say the (40)  _______  style of building is inappropriate</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -500,14 +590,6 @@ Some critics say the (40)  _______  style of building is inappropriate</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,111 +158,111 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_177</h1>
-            <p>IELTS Listening Practice - Test 177</p>
-<p>Part 1: Questions 1 – 10
-Complete the notes below. Write ONE WORD AND/ OR A NUMBER for each answer.</p>
-<p>Flanders Conference Hotel</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 177</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1 – 10</strong>
+Complete the notes below. Write <strong>ONE WORD AND/ OR A NUMBER</strong> for each answer.</p>
+<h3 class="test-heading"><strong>Flanders Conference Hotel</strong></h3>
 <p>Customer Services Manager – Angela</p>
-<p>Date available
-• weekend beginning February 4th</p>
-<p>Conference facilities
-• the (1)  _______  room for talks, (projector and (2)  _______  available)
-• area for coffee and an (3)  _______ 
-• free (4)  _______  throughout
-• a standard buffet lunch costs (5) $  _______  per head</p>
-<p>Accommodation
-• Rooms will cost (6) $  _______  including breakfast.</p>
-<p>Other facilities
-• The hotel also has a spa and rooftop (7)  _______ 
-• There’s a free shuttle service to the (8)  _______</p>
-<p>Location
-• Wilby Street (quite near the (9)  _______  )
-• near to restaurants and many (10)  _______</p>
-<p>Part 2: Questions 11 and 12
-Choose TWO letters A-E.</p>
-<p>Which TWO activities that volunteers do are mentioned?
-[ ]  A decorating
-[ ]  B cleaning
-[ ]  C delivering meals
-[ ]  D shopping
-[ ]  E childcare</p>
-<p>Questions 13 and 14
-Choose TWO letters A-E.</p>
-<p>Which TWO ways that volunteers can benefit from volunteering are mentioned?
-[ ]  A learning how to be part of a team
-[ ]  B having a sense of purpose
-[ ]  C realising how lucky they are
-[ ]  D improved ability at time management
-[ ]  E boosting their employment prospects</p>
-<p>Questions 15 – 20
+<h3 class="test-heading"><strong>Date available</strong>
+• weekend beginning February 4th</h3>
+<p><strong>Conference facilities</strong>
+• the <strong>(1)</strong>  _______  room for talks, (projector and <strong>(2)</strong>  _______  available)
+• area for coffee and an <strong>(3)</strong>  _______ 
+• free <strong>(4)</strong>  _______  throughout
+• a standard buffet lunch costs <strong>(5)</strong> $  _______  per head</p>
+<p><strong>Accommodation</strong>
+• Rooms will cost <strong>(6)</strong> $  _______  including breakfast.</p>
+<p><strong>Other facilities</strong>
+• The hotel also has a spa and rooftop <strong>(7)</strong>  _______ 
+• There’s a free shuttle service to the <strong>(8)</strong>  _______</p>
+<p><strong>Location</strong>
+• Wilby Street (quite near the <strong>(9)</strong>  _______  )
+• near to restaurants and many <strong>(10)</strong>  _______</p>
+<p><strong>Part 2: Questions 11 and 12</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>Which <strong>TWO</strong> activities that volunteers do are mentioned?
+<strong>[ ] </strong><strong> A</strong> decorating
+<strong>[ ] </strong><strong> B</strong> cleaning
+<strong>[ ] </strong><strong> C</strong> delivering meals
+<strong>[ ] </strong><strong> D</strong> shopping
+<strong>[ ] </strong><strong> E</strong> childcare</p>
+<p><strong>Questions 13 and 14</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>Which <strong>TWO</strong> ways that volunteers can benefit from volunteering are mentioned?
+<strong>[ ] </strong><strong> A</strong> learning how to be part of a team
+<strong>[ ] </strong><strong> B</strong> having a sense of purpose
+<strong>[ ] </strong><strong> C</strong> realising how lucky they are
+<strong>[ ] </strong><strong> D</strong> improved ability at time management
+<strong>[ ] </strong><strong> E</strong> boosting their employment prospects</p>
+<p><strong>Questions 15 – 20</strong>
 What has each of the following volunteers helped someone to do?</p>
-<p>Choose SIX answers from the box and write the correct letter, A-G, next to Questions 15-20.</p>
-<p>What volunteers have helped people to do
-A overcome physical difficulties
-B rediscover skills not used for a long time
-C improve their communication skills
-D solve problems independently
-E escape isolation
-F remember past times
-G start a new hobby</p>
-<p>Volunteers</p>
+<p>Choose <strong>SIX</strong> answers from the box and write the correct letter, A-G, next to Questions 15-20.</p>
+<p><strong>What volunteers have helped people to do</strong>
+<strong>A</strong> overcome physical difficulties
+<strong>B</strong> rediscover skills not used for a long time
+<strong>C</strong> improve their communication skills
+<strong>D</strong> solve problems independently
+<strong>E</strong> escape isolation
+<strong>F</strong> remember past times
+<strong>G</strong> start a new hobby</p>
+<p><strong>Volunteers</strong></p>
 <p>15. Habib  _______ 
 16. Consuela  _______ 
 17. Minh  _______ 
 18. Tanya  _______ 
 19. Alexei  _______ 
 20. Juba  _______</p>
-<p>Part 3: Questions 21 – 26
-Complete the notes below. Write ONE WORD AND/OR A NUMBER for each answer.</p>
-<p>Background on school marching band</p>
-<p>It consists of around (21)  _______  students.
-It is due to play in a (22)  _______  band competition.
-It has been invited to play in the town’s (23)  _______ 
-They have listened to a talk by a (24)  _______ 
-Joe will discuss a (25)  _______  with the band.
-Joe hopes the band will attend a (26)  _______  next month.</p>
-<p>Questions 27 – 30
+<p><strong>Part 3: Questions 21 – 26</strong>
+Complete the notes below. Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
+<p><strong>Background on school marching band</strong></p>
+<p>It consists of around <strong>(21)</strong>  _______  students.
+It is due to play in a <strong>(22)</strong>  _______  band competition.
+It has been invited to play in the town’s <strong>(23)</strong>  _______ 
+They have listened to a talk by a <strong>(24)</strong>  _______ 
+Joe will discuss a <strong>(25)</strong>  _______  with the band.
+Joe hopes the band will attend a <strong>(26)</strong>  _______  next month.</p>
+<p><strong>Questions 27 – 30</strong>
 What problem does Joe mention in connection with each of the following band members?</p>
-<p>Choose FOUR answers from the box and write the correct letter, A-F, next to Questions 27-30.</p>
-<p>Problems
-A makes a lot of mistakes in rehearsals
-B keeps making unhelpful suggestions
-C has difficulty with rhythm
-D misses too many rehearsals
-E has a health problem
-F doesn’t mix with other students</p>
-<p>Band members
+<p>Choose <strong>FOUR</strong> answers from the box and write the correct letter, A-F, next to Questions 27-30.</p>
+<p><strong>Problems</strong>
+<strong>A</strong> makes a lot of mistakes in rehearsals
+<strong>B</strong> keeps making unhelpful suggestions
+<strong>C</strong> has difficulty with rhythm
+<strong>D</strong> misses too many rehearsals
+<strong>E</strong> has a health problem
+<strong>F</strong> doesn’t mix with other students</p>
+<p><strong>Band members</strong>
 27. flutist  _______ 
 28. trumpeter  _______ 
 29. trombonist  _______ 
 30. percussionist  _______</p>
-<p>Part 4: Questions 31 – 40
-Complete the notes below. Write ONE WORD AND/OR A NUMBER for each answer</p>
-<p>Concerts in university arts festival</p>
-<p>Concert 1
+<p><strong>Part 4: Questions 31 – 40</strong>
+Complete the notes below. Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer</p>
+<p><strong>Concerts in university arts festival</strong></p>
+<p><strong>Concert 1</strong>
 • Australian composer: Liza Lim
-• studied piano and (31)  _______  before turning to composition
+• studied piano and <strong>(31)</strong>  _______  before turning to composition
 • performers and festivals around the world have given her a lot of commissions
-• compositions show a great deal of (32)  _______  and are drawn from various cultural sources
-• her music is very expressive and also (33)  _______ 
-• festival will include her (34)  _______  called The Oresteia
-• Lim described the sounds in The Oresteia as (35)  _______ 
+• compositions show a great deal of <strong>(32)</strong>  _______  and are drawn from various cultural sources
+• her music is very expressive and also <strong>(33)</strong>  _______ 
+• festival will include her <strong>(34)</strong>  _______  called The Oresteia
+• Lim described the sounds in The Oresteia as <strong>(35)</strong>  _______ 
 • British composers: Ralph Vaughan Williams, Frederick Delius</p>
-<p>Concert 2
+<p><strong>Concert 2</strong>
 • British composers: Benjamin Britten, Judith Weir
 • Australian composer: Ross Edwards
 • festival will include The Tower of Remoteness, inspired by nature
-• The Tower of Remoteness is performed by piano and (36)  _______ 
+• The Tower of Remoteness is performed by piano and <strong>(36)</strong>  _______ 
 • compositions include music for children
-• celebrates Australia’s cultural (37)  _______</p>
-<p>Concert 3
+• celebrates Australia’s cultural <strong>(37)</strong>  _______</p>
+<p><strong>Concert 3</strong>
 • Australian composer: Carl Vine
 • played cornet then piano
-• studied (38)  _______  before studying music
+• studied <strong>(38)</strong>  _______  before studying music
 • worked in Sydney as a pianist and composer
-• became well known as composer of music for (39)  _______ 
-• festival will include his music for the 1996 (40)  _______</p>
-<p>ANSWER KEY</p>
+• became well known as composer of music for <strong>(39)</strong>  _______ 
+• festival will include his music for the 1996 <strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Tesla</p>
 <p>2. microphone</p>
 <p>3. exhibition</p>
@@ -465,6 +521,29 @@ Complete the notes below. Write ONE WORD AND/OR A NUMBER for each answer</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -484,12 +563,23 @@ Complete the notes below. Write ONE WORD AND/OR A NUMBER for each answer</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -501,14 +591,6 @@ Complete the notes below. Write ONE WORD AND/OR A NUMBER for each answer</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

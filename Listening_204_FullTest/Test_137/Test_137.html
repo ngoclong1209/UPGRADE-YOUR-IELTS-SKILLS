@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,85 +158,85 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_137</h1>
-            <p>IELTS Listening Practice - Test 137</p>
-<p>Part 1: Questions 1-5
-Complete the table below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Your Best Furniture</p>
-<p>(1)  _______                    (2)  _______ 
-(3)  _______                   (4)  _______ 
-(5)  _______</p>
-<p>Questions 6-10
-Complete the notes below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Customer’s details</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 137</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-5</strong>
+Complete the table below. Write <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<h3 class="test-heading"><strong>Your Best Furniture</strong></h3>
+<p><strong>(1)</strong>  _______                    <strong>(2)</strong>  _______ 
+<strong>(3)</strong>  _______                   <strong>(4)</strong>  _______ 
+<strong>(5)</strong>  _______</p>
+<p><strong>Questions 6-10</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>Customer’s details</strong></p>
 <p>Name: Daniel Kahn
-Address: Hill House, (6)  _______  16th
+Address: Hill House, <strong>(6)</strong>  _______  16th
 Contact number: 44780135
-Delivery time: 1 pm – 2 pm on next (7)  _______ 
+Delivery time: 1 pm – 2 pm on next <strong>(7)</strong>  _______ 
 Total cost: £760
-Payment: (8)  _______ 
+Payment: <strong>(8)</strong>  _______ 
 Delivery fee: Free
-Delivery transport: (9)  _______ 
-Reference number: (10)  _______</p>
-<p>Part 2: Questions 11-15
-Complete the notes below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Tulip Hot Spring Garden Resort</p>
+Delivery transport: <strong>(9)</strong>  _______ 
+Reference number: <strong>(10)</strong>  _______</p>
+<p><strong>Part 2: Questions 11-15</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>Tulip Hot Spring Garden Resort</strong></p>
 <p>Location:
-• (11)  _______  close to Peak Mountains
-• Hot spring was exploited (12)  _______  meters under the ground
-• Temperature of Tulip hot spring is (13)  _______</p>
+• <strong>(11)</strong>  _______  close to Peak Mountains
+• Hot spring was exploited <strong>(12)</strong>  _______  meters under the ground
+• Temperature of Tulip hot spring is <strong>(13)</strong>  _______</p>
 <p>Notice for tourists:
 • Adjust water temperature before bathing
 • Do not bath immediately after drink
-• Do not take your (14)  _______  when bathing</p>
+• Do not take your <strong>(14)</strong>  _______  when bathing</p>
 <p>There are:
 • 56 different water sports
-• 21 different (15)  _______</p>
-<p>Questions 16-20
-Complete the map below. Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>(16)  _______                  (17)  _______ 
-(18)  _______                  (19)  _______ 
-(20)  _______</p>
-<p>Part 3: Questions 21 and 22
+• 21 different <strong>(15)</strong>  _______</p>
+<p><strong>Questions 16-20</strong>
+Complete the map below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p><strong>(16)</strong>  _______                  <strong>(17)</strong>  _______ 
+<strong>(18)</strong>  _______                  <strong>(19)</strong>  _______ 
+<strong>(20)</strong>  _______</p>
+<p><strong>Part 3: Questions 21 and 22</strong>
 Choose the correct letter A, B or C.</p>
 <p>21. The conversation may take place in a
-[ ]  A university
-[ ]  B bookstore
-[ ]  C canteen</p>
+<strong>[ ] </strong><strong> A</strong> university
+<strong>[ ] </strong><strong> B</strong> bookstore
+<strong>[ ] </strong><strong> C</strong> canteen</p>
 <p>22. The topic of the first lecture is
-[ ]  A local snack
-[ ]  B study strategies
-[ ]  C social life</p>
-<p>Questions 23 and 24
-Choose TWO letters A-E.</p>
-<p>Which TWO main factors are important for students’ successful study?</p>
-<p>[ ]  A using time effectively
-[ ]  B doing research
-[ ]  C taking more lectures
-[ ]  D working independently
-[ ]  E coping well will stress</p>
-<p>Questions 25-30
-Complete the table below. Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>(25)  _______                 (26)  _______ 
-(27)  _______                 (28)  _______ 
-(29)  _______                 (30)  _______</p>
-<p>Part 4: Questions 31-40
-Complete the notes below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
-<p>The Antarctic Polar View project maps Antarctic sea ice by using (31)  _______</p>
+<strong>[ ] </strong><strong> A</strong> local snack
+<strong>[ ] </strong><strong> B</strong> study strategies
+<strong>[ ] </strong><strong> C</strong> social life</p>
+<p><strong>Questions 23 and 24</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>Which <strong>TWO</strong> main factors are important for students’ successful study?</p>
+<p><strong>[ ] </strong><strong> A</strong> using time effectively
+<strong>[ ] </strong><strong> B</strong> doing research
+<strong>[ ] </strong><strong> C</strong> taking more lectures
+<strong>[ ] </strong><strong> D</strong> working independently
+<strong>[ ] </strong><strong> E</strong> coping well will stress</p>
+<p><strong>Questions 25-30</strong>
+Complete the table below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p><strong>(25)</strong>  _______                 <strong>(26)</strong>  _______ 
+<strong>(27)</strong>  _______                 <strong>(28)</strong>  _______ 
+<strong>(29)</strong>  _______                 <strong>(30)</strong>  _______</p>
+<p><strong>Part 4: Questions 31-40</strong>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p>The Antarctic Polar View project maps Antarctic sea ice by using <strong>(31)</strong>  _______</p>
 <p>Problems to navigate through the water:
 • The safety of the ship
-• (32)  _______  the efficiency of the ship</p>
+• <strong>(32)</strong>  _______  the efficiency of the ship</p>
 <p>NVSAT Satellite:
 • Collect data
-• Identify difference between open water and (33)  _______ 
-• Scientists can see surface of sea clearly by using (34)  _______</p>
+• Identify difference between open water and <strong>(33)</strong>  _______ 
+• Scientists can see surface of sea clearly by using <strong>(34)</strong>  _______</p>
 <p>Helicopter:
 • Advantage: can map the sea in the air
-• Disadvantages: much more (35)  _______  and (36)  _______</p>
-<p>The color of the map is (37)  _______ 
-Problem is sending pictures in Antarctic ship: (38)  _______ 
-Measure to the problem: com press images into (39)  _______  format
-The equipment scientists need for mapping is a (40)  _______  on ship.</p>
-<p>ANSWER KEY</p>
+• Disadvantages: much more <strong>(35)</strong>  _______  and <strong>(36)</strong>  _______</p>
+<p>The color of the map is <strong>(37)</strong>  _______ 
+Problem is sending pictures in Antarctic ship: <strong>(38)</strong>  _______ 
+Measure to the problem: com press images into <strong>(39)</strong>  _______  format
+The equipment scientists need for mapping is a <strong>(40)</strong>  _______  on ship.</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. king</p>
 <p>2. light</p>
 <p>3. 4 chairs</p>
@@ -439,6 +495,29 @@ The equipment scientists need for mapping is a (40)  _______  on ship.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -458,12 +537,23 @@ The equipment scientists need for mapping is a (40)  _______  on ship.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -475,14 +565,6 @@ The equipment scientists need for mapping is a (40)  _______  on ship.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

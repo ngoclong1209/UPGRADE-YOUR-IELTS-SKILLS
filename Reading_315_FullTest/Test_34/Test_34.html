@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,85 +158,85 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_34</h1>
-            <p>IELTS Reading Practice - Test 34</p>
-<p>IMPLEMENTING THE CYCLE OF SUCCESS: A CASE STUDY</p>
-<p>Within Australia, Australian Hotels Inc (AHI) operates nine hotels and employs over 2000 permanent full-time staff, 300 permanent part-time employees and 100 casual staff. One of its latest ventures, the Sydney Airport hotel (SAH), opened in March 1995. The hotel is the closest to Sydney Airport and is designed to provide the best available accommodation, food and beverage and meeting facilities in Sydney’s southern suburbs. Similar to many international hotel chains, however, AHI has experienced difficulties in Australia in providing long-term profits for hotel owners, as a result of the country’s high labour-cost structure. In order to develop an economically viable hotel organisation model, AHI decided to implement some new policies and practices at SAH.</p>
-<p>The first of the initiatives was an organisational structure with only three levels of management – compared to the traditional seven. Partly as a result of this change, there are 25 per cent fewer management positions, enabling a significant saving. This change also has other implications. Communication, both up and down the organisation, has greatly improved. Decision-making has been forced down in many cases to front-line employees. As a result, guest requests are usually met without reference to a supervisor, improving both customer and employee satisfaction.</p>
-<p>The hotel also recognised that it would need a different approach to selecting employees who would fit in with its new policies. In its advertisements, the hotel stated a preference for people with some ‘service’ experience in order to minimise traditional work practices being introduced into the hotel. Over 7000 applicants filled in application forms for the 120 jobs initially offered at SAH. The balance of the positions at the hotel (30 management and 40 shift leader positions) were predominantly filled by transfers from other AHI properties.</p>
-<p>A series of tests and interviews were conducted with potential employees, which eventually left 280 applicants competing for the 120 advertised positions. After the final interview, potential recruits were divided into three categories. Category A was for applicants exhibiting strong leadership qualities, Category C was for applicants perceived to be followers, and Category B was for applicants with both leader and follower qualities. Department heads and shift leaders then composed prospective teams using a combination of people from all three categories. Once suitable teams were formed, offers of employment were made to team members.</p>
-<p>Another major initiative by SAH was to adopt a totally multi-skilled workforce. Although there may be some limitations with highly technical jobs such as cooking or maintenance, wherever possible, employees at SAH are able to work in a wide variety of positions. A multi-skilled workforce provides far greater management flexibility during peak and quiet times to transfer employees to needed positions. For example, when office staff are away on holidays during quiet period of the year, employees in either food or beverage or housekeeping departments can temporarily fill in.</p>
-<p>The most crucial way, however, of improving the labour cost structure at SAH was to find better, more productive ways of providing customer service. SAH management concluded this would first require a process of ‘benchmarking’. The prime objective of the benchmarking process was to compare a range of service delivery processes across a range of criteria using teams made up of employees from different departments within the hotel which interacted with each other. This process resulted in performance measures that greatly enhanced SAH’s ability to improve productivity and quality.</p>
-<p>The front office team discovered through this project that a high proportion of AHI Club member reservations were incomplete. As a result, the service provided to these guests was below the standard promised to them as part of their membership agreement. Reducing the number of incomplete reservations greatly improved guest perceptions of service.</p>
-<p>In addition, a program modelled on an earlier project called ‘Take Charge’ was implemented. Essentially, Take Charge provides an effective feedback loop from both customers and employees. Customer comments, both positive and negative, are recorded by staff. These are collated regularly to identify opportunities for improvement. Just as importantly, employees are requested to note down their own suggestions for improvement. (AHI has set an expectation that employees will submit at least three suggestions for every one they receive from a customer.)</p>
-<p>Employee feedback is reviewed daily and suggestions are implemented within 48 hours, if possible, or a valid reason is given for non-implementation. If suggestions require analysis or data collection, the Take Charge team has 30 days in which to address the issue and come up with recommendations.</p>
-<p>Although quantitative evidence of AHI’s initiatives at SAH are limited at present, anecdotal evidence clearly suggests that these practices are working. Indeed AHI is progressively rolling out these initiatives in other hotels in Australia, whilst numerous overseas visitors have come to see how the program works.</p>
-<p>Questions 1—5
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 34</strong></h3>
+<h3 class="test-heading"><strong>IMPLEMENTING THE CYCLE OF SUCCESS: A CASE STUDY</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>Within Australia, Australian Hotels Inc (AHI) operates nine hotels and employs over 2000 permanent full-time staff, 300 permanent part-time employees and 100 casual staff. One of its latest ventures, the Sydney Airport hotel (SAH), opened in March 1995. The hotel is the closest to Sydney Airport and is designed to provide the best available accommodation, food and beverage and meeting facilities in Sydney’s southern suburbs. Similar to many international hotel chains, however, AHI has experienced difficulties in Australia in providing long-term profits for hotel owners, as a result of the country’s high labour-cost structure. In order to develop an economically viable hotel organisation model, AHI decided to implement some new policies and practices at SAH.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>The first of the initiatives was an organisational structure with only three levels of management – compared to the traditional seven. Partly as a result of this change, there are 25 per cent fewer management positions, enabling a significant saving. This change also has other implications. Communication, both up and down the organisation, has greatly improved. Decision-making has been forced down in many cases to front-line employees. As a result, guest requests are usually met without reference to a supervisor, improving both customer and employee satisfaction.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>The hotel also recognised that it would need a different approach to selecting employees who would fit in with its new policies. In its advertisements, the hotel stated a preference for people with some ‘service’ experience in order to minimise traditional work practices being introduced into the hotel. Over 7000 applicants filled in application forms for the 120 jobs initially offered at SAH. The balance of the positions at the hotel (30 management and 40 shift leader positions) were predominantly filled by transfers from other AHI properties.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>A series of tests and interviews were conducted with potential employees, which eventually left 280 applicants competing for the 120 advertised positions. After the final interview, potential recruits were divided into three categories. Category A was for applicants exhibiting strong leadership qualities, Category C was for applicants perceived to be followers, and Category B was for applicants with both leader and follower qualities. Department heads and shift leaders then composed prospective teams using a combination of people from all three categories. Once suitable teams were formed, offers of employment were made to team members.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>Another major initiative by SAH was to adopt a totally multi-skilled workforce. Although there may be some limitations with highly technical jobs such as cooking or maintenance, wherever possible, employees at SAH are able to work in a wide variety of positions. A multi-skilled workforce provides far greater management flexibility during peak and quiet times to transfer employees to needed positions. For example, when office staff are away on holidays during quiet period of the year, employees in either food or beverage or housekeeping departments can temporarily fill in.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>The most crucial way, however, of improving the labour cost structure at SAH was to find better, more productive ways of providing customer service. SAH management concluded this would first require a process of ‘benchmarking’. The prime objective of the benchmarking process was to compare a range of service delivery processes across a range of criteria using teams made up of employees from different departments within the hotel which interacted with each other. This process resulted in performance measures that greatly enhanced SAH’s ability to improve productivity and quality.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>The front office team discovered through this project that a high proportion of AHI Club member reservations were incomplete. As a result, the service provided to these guests was below the standard promised to them as part of their membership agreement. Reducing the number of incomplete reservations greatly improved guest perceptions of service.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>In addition, a program modelled on an earlier project called ‘Take Charge’ was implemented. Essentially, Take Charge provides an effective feedback loop from both customers and employees. Customer comments, both positive and negative, are recorded by staff. These are collated regularly to identify opportunities for improvement. Just as importantly, employees are requested to note down their own suggestions for improvement. (AHI has set an expectation that employees will submit at least three suggestions for every one they receive from a customer.)</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>Employee feedback is reviewed daily and suggestions are implemented within 48 hours, if possible, or a valid reason is given for non-implementation. If suggestions require analysis or data collection, the Take Charge team has 30 days in which to address the issue and come up with recommendations.</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p>Although quantitative evidence of AHI’s initiatives at SAH are limited at present, anecdotal evidence clearly suggests that these practices are working. Indeed AHI is progressively rolling out these initiatives in other hotels in Australia, whilst numerous overseas visitors have come to see how the program works.</p></div></div>
+<p><strong>Questions 1—5</strong>
 
 Choose the appropriate letters A—D and write them in boxes 1-5 on your answer sheet.</p>
 <p>1 The high costs of running AHIs hotels are related to their
 
-A management
+<strong>A</strong> management
 
-B size
+<strong>B</strong> size
 
-C staff
+<strong>C</strong> staff
 
-D policies</p>
+<strong>D</strong> policies</p>
 <p>2 SAH’s new organisational structure requires
 
-A 75% of the old management positions
+<strong>A</strong> 75% of the old management positions
 
-B 25% of the old management positions
+<strong>B</strong> 25% of the old management positions
 
-C 25% more management positions
+<strong>C</strong> 25% more management positions
 
-D 5% fewer management positions</p>
+<strong>D</strong> 5% fewer management positions</p>
 <p>3 The SAH’s approach to organisational structure required changing practices in
 
-A industrial relations
+<strong>A</strong> industrial relations
 
-B firing staff
+<strong>B</strong> firing staff
 
-C hiring staff
+<strong>C</strong> hiring staff
 
-D marketing</p>
+<strong>D</strong> marketing</p>
 <p>4 The total number of jobs advertised at the SAH was …
 
-A 70
+<strong>A</strong> 70
 
-B 120
+<strong>B</strong> 120
 
-C 170
+<strong>C</strong> 170
 
-D 280</p>
+<strong>D</strong> 280</p>
 <p>5 Categories A, B and C were used to select…
 
-A front office staff
+<strong>A</strong> front office staff
 
-B new teams
+<strong>B</strong> new teams
 
-C department heads
+<strong>C</strong> department heads
 
-D new managers</p>
-<p>Questions 6-13
+<strong>D</strong> new managers</p>
+<p><strong>Questions 6-13</strong>
 
-Complete the following summary of the last four paragraphs of Reading Passage 1 using ONE OR TWO words from the passage.</p>
-<p>What they did at SAH
+Complete the following summary of the last four paragraphs of Reading Passage 1 using <strong>ONE OR TWO</strong> words from the passage.</p>
+<p><strong>What they did at SAH</strong>
 
 Teams of employees were selected from different hotel departments to participate in a (6)……………………….. exercise. The information collected was used to compare (7)……………………… processes which, in turn, led to the development of (8)………………………… that would be used to increase the hotel’s capacity to improve (9)……………………… as well as quality. Also, an older program known as (10)…………………… was introduced at SAH. In this program, (11)……………………….. is sought from customers and staff. Wherever possible (12)…………………….. suggestions are implemented within 48 hours. Other suggestions are investigated for their feasibility for a period of up to (13)…………………………</p>
 <p>Cambridge IELTS Test 1 to 17</p>
-<p>READING PASSAGE 2</p>
+<p><strong>READING PASSAGE 2</strong></p>
 <p>The discovery that language can be a barrier to communication is quickly made by all who travel, study, govern or sell. Whether the activity is tourism, research, government, policing, business, or data dissemination, the lack of a common language can severely impede progress or can halt it altogether. ‘Common language’ here usually means a foreign language, but the same point applies in principle to any encounter with unfamiliar dialects or styles within a single language. ‘They don’t talk the same language’ has a major metaphorical meaning alongside its literal one.</p>
 <p>Although communication problems of this kind must happen thousands of times each day, very few become public knowledge. Publicity comes only when a failure to communicate has major consequences, such as strikes, lost orders, legal problems, or fatal accidents — even, at times, war. One reported instance of communication failure took place in 1970, when several Americans ate a species of poisonous mushroom. No remedy was known, and two of the people died within days. A radio report of the case was heard by a chemist who knew of a treatment that had been successfully used in 1959 and published in 1963. Why had the American doctors not heard of it seven years later? Presumably because the report of the treatment had been published only in journals written in European languages other than English.</p>
 <p>Several comparable cases have been reported. But isolated examples do not give an impression of the size of the problem — something that can come only from studies of the use or avoidance of foreign-language materials and contacts in different communicative situations. In the English-speaking scientific world, for example, surveys of books and documents consulted in libraries and other information agencies have shown that very little foreign-language material is ever consulted. Library requests in the field of science and technology showed that only 13 per cent were for foreign language periodicals. Studies of the sources cited in publications lead to a similar conclusion: the use of foreign- language sources is often found to be as low as 10 per cent.</p>
 <p>The language barrier presents itself in stark form to firms who wish to market their products in other countries. British industry, in particular, has in recent decades often been criticized for its linguistic insularity — for its assumption that foreign buyers will be happy to communicate in English, and that awareness of other languages is not therefore a priority. In the 1960s, over two-thirds of British firms dealing with non-English-speaking customers were using English for outgoing correspondence; many had their sales literature only in English; and as many as 40 per cent employed no-one able to communicate in the customers’ languages. A similar problem was identified in other English-speaking countries, notably the USA, Australia and New Zealand. And non-English-speaking countries were by no means exempt-although the widespread use of English as an alternative language made them less open to the charge of insularity.</p>
 <p>The criticism and publicity given to this problem since the 1960s seems to have greatly improved the situation. Industrial training schemes have promoted an increase in linguistic and cultural awareness. Many firms now have their own translation services; to take just one example in Britain, Rowntree Mackintosh now publish their documents in six languages (English, French, German, Dutch, Italian and Xhosa). Some firms run part-time language courses in the languages of the countries with which they are most involved; some produce their own technical glossaries, to ensure consistency when material is being translated. It is now much more readily appreciated that marketing efforts can be delayed, damaged, or disrupted by a failure to take account of the linguistic needs of the customer.</p>
 <p>The changes in awareness have been most marked in English-speaking countries, where the realisation has gradually dawned that by no means everyone in the world knows English well enough to negotiate in it. This is especially a problem when English is not an official language of public administration, as in most parts of the Far East, Russia, Eastern Europe, the Arab world, Latin America and French speaking Africa. Even in cases where foreign customers can speak English quite well, it is often forgotten that they may not be able to understand it to the required level — bearing in mind the regional and social variation which permeates speech and which can cause major problems of listening comprehension. In securing understanding, how ‘we’ speak to ‘them’ is just as important, it appears, as how ‘they’ speak to ‘us’.</p>
-<p>Questions 14-17
+<p><strong>Questions 14-17</strong>
 
 Complete each of the following statements (Questions 14-17) with words taken from Reading Passage 2.
 
-Write NO MORE THAN THREE WORDS for each answer.</p>
+Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
 <p>14 Language problems may come to the attention of the public when they have………………………..such as fatal accidents or social problems.
 
 15 Evidence of the extent of the language barrier has been gained from……………………….of materials used by scientists such as books and periodicals.
@@ -188,39 +244,39 @@ Write NO MORE THAN THREE WORDS for each answer.</p>
 16 An example of British linguistic insularity is the use of English for materials such as………………….
 
 17 An example of a part of the world where people may have difficulty in negotiating English is………….</p>
-<p>Questions 18-20
+<p><strong>Questions 18-20</strong>
 
 Choose the appropriate letters A—D and write them in boxes 18-20 on your answer sheet.</p>
 <p>18 According to the passage, ‘They don’t talk the same language’ (paragraph 1), can refer to problems in …
 
-A understanding metaphor
+<strong>A</strong> understanding metaphor
 
-B learning foreign languages
+<strong>B</strong> learning foreign languages
 
-C understanding dialect or style
+<strong>C</strong> understanding dialect or style
 
-D dealing with technological change</p>
+<strong>D</strong> dealing with technological change</p>
 <p>19 The case of the poisonous mushrooms (paragraph 2) suggests that American doctors …
 
-A should pay more attention to radio reports
+<strong>A</strong> should pay more attention to radio reports
 
-B only read medical articles if they are in English
+<strong>B</strong> only read medical articles if they are in English
 
-C are sometimes unwilling to try foreign treatments
+<strong>C</strong> are sometimes unwilling to try foreign treatments
 
-D do not always communicate effectively with their patients</p>
+<strong>D</strong> do not always communicate effectively with their patients</p>
 <p>20 According to the writer, the linguistic insularity of British businesses …
 
-A later spread to other countries
+<strong>A</strong> later spread to other countries
 
-B had a negative effect on their business
+<strong>B</strong> had a negative effect on their business
 
-C is not as bad now as it used to be in the past
+<strong>C</strong> is not as bad now as it used to be in the past
 
-D made non-English-speaking companies turn to other markets</p>
-<p>Questions 21-24
+<strong>D</strong> made non-English-speaking companies turn to other markets</p>
+<p><strong>Questions 21-24</strong>
 
-List the FOUR main ways in which British companies have tried to solve the problems of the language barrier since the 1960s. Write NO MORE THAN THREE WORDS for each answer.</p>
+List the FOUR main ways in which British companies have tried to solve the problems of the language barrier since the 1960s. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
 <p>21……………………………….
 
 22………………………………
@@ -228,41 +284,41 @@ List the FOUR main ways in which British companies have tried to solve the probl
 23…………………………………
 
 24………………………………..</p>
-<p>Questions 25 and 26
+<p><strong>Questions 25 and 26</strong>
 
 Choose the appropriate letters A-D and write them in boxes 25 and 26 on your answer sheet.</p>
 <p>25 According to the writer, English-speaking people need to be aware that…
 
-A some foreigners have never met an English-speaking person
+<strong>A</strong> some foreigners have never met an English-speaking person
 
-B many foreigners have no desire to learn English
+<strong>B</strong> many foreigners have no desire to learn English
 
-C foreign languages may pose a greater problem in the future
+<strong>C</strong> foreign languages may pose a greater problem in the future
 
-D English-speaking foreigners may have difficulty understanding English</p>
+<strong>D</strong> English-speaking foreigners may have difficulty understanding English</p>
 <p>26 A suitable title for this passage would be
 
-A Overcoming the language barrier
+<strong>A</strong> Overcoming the language barrier
 
-B How to survive an English-speaking world
+<strong>B</strong> How to survive an English-speaking world
 
-C Global understanding – the key to personal progress
+<strong>C</strong> Global understanding – the key to personal progress
 
-D The need for a common language</p>
-<p>What is a Port City?</p>
-<p>A A port must be distinguished from a harbour. They are two very different things. Most ports have poor harbours, and many fine harbours see few ships. Harbour is a physical concept, a shelter for ships; port is an economic concept, a centre of land-sea exchange which requires good access to a hinterland even more than a sea-linked foreland. It is landward access, which is productive of goods for export and which demands imports, that is critical. Poor harbours can be improved with breakwaters and dredging if there is a demand for a port. Madras and Colombo are examples of harbours expensively improved by enlarging, dredging and building breakwaters.</p>
-<p>B Port cities become industrial, financial and service centres and political capitals because of their water connections and the urban concentration which arises there and later draws to it railways, highways and air routes. Water transport means cheap access, the chief basis of all port cities. Many of the world’s biggest cities, for example, London, New York, Shanghai, Istanbul, Buenos Aires, Tokyo, Jakarta, Calcutta, Philadelphia and San Francisco began as ports – that is, with land-sea exchange as their major function – but they have since grown disproportionately in other respects so that their port functions are no longer dominant. They remain different kinds of places from non-port cities and their port functions account for that difference.</p>
-<p>C Port functions, more than anything else, make a city cosmopolitan. A port city is open to the world. In it races, cultures, and ideas, as well as goods from a variety of places, jostle, mix and enrich each other and the life of the city. The smell of the sea and the harbour, the sound of boat whistles or the moving tides are symbols of their multiple links with a wide world, samples of which are present in microcosm within their own urban areas.</p>
-<p>D Sea ports have been transformed by the advent of powered vessels, whose size and draught have increased. Many formerly important ports have become economically and physically less accessible as a result. By-passed by most of their former enriching flow of exchange, they have become cultural and economic backwaters or have acquired the character of museums of the past. Examples of these are Charleston, Salem, Bristol, Plymouth, Surat, Galle, Melaka, Soochow, and a long list of earlier prominent port cities in Southeast Asia, Africa and Latin America.</p>
-<p>E Much domestic port trade has not been recorded. What evidence we have that domestic trade was greater at all periods than external trade. Shanghai, for example, did most of its trade with other Chinese ports and inland cities. Calcutta traded mainly with other parts of India and so on. Most of any city’s population is engaged in providing goods and services for the city itself. Trade outside the city is its basic function. But each basic worker requires food, housing, clothing and other such services. Estimates of the ratio of basic to service workers range from 1A to 1:8.</p>
-<p>F No city can be simply a port but must be involved in a variety of other activities. The port function of the city draws to it raw materials and distributes them in many other forms. Ports take advantage of the need for breaking up the bulk material where water and land transport meet and where loading and unloading costs can be minimised by refining raw materials or turning them into finished goods. The major examples here are oil refining and ore refining, which are commonly located at ports. It is not easy to draw a line around what is and is not a port function. All ports handle, unload, sort, alter, process, repack, and reship most of what they receive. A city may still be regarded as a port city when it becomes involved in a great range of functions not immediately involved with ships or docks.</p>
-<p>G Cities which began as ports retain the chief commercial and administrative centre of the city close to the waterfront. The centre of New York is in lower Manhattan between two river mouths, the City of London is on the Thames, Shanghai along the Bund. This proximity to water is also true of Boston, Philadelphia, Bombay, Calcutta, Madras, Singapore, Bangkok, Hong Kong and Yokohama, where the commercial, financial, and administrative centres are still grouped around their harbours even though each city has expanded into a metropolis. Even a casual visitor cannot mistake them as anything but port cities.</p>
-<p>Questions 27-30
+<strong>D</strong> The need for a common language</p>
+<p><strong>What is a Port City?</strong></p>
+<p><strong>A</strong> A port must be distinguished from a harbour. They are two very different things. Most ports have poor harbours, and many fine harbours see few ships. Harbour is a physical concept, a shelter for ships; port is an economic concept, a centre of land-sea exchange which requires good access to a hinterland even more than a sea-linked foreland. It is landward access, which is productive of goods for export and which demands imports, that is critical. Poor harbours can be improved with breakwaters and dredging if there is a demand for a port. Madras and Colombo are examples of harbours expensively improved by enlarging, dredging and building breakwaters.</p>
+<p><strong>B</strong> Port cities become industrial, financial and service centres and political capitals because of their water connections and the urban concentration which arises there and later draws to it railways, highways and air routes. Water transport means cheap access, the chief basis of all port cities. Many of the world’s biggest cities, for example, London, New York, Shanghai, Istanbul, Buenos Aires, Tokyo, Jakarta, Calcutta, Philadelphia and San Francisco began as ports – that is, with land-sea exchange as their major function – but they have since grown disproportionately in other respects so that their port functions are no longer dominant. They remain different kinds of places from non-port cities and their port functions account for that difference.</p>
+<p><strong>C</strong> Port functions, more than anything else, make a city cosmopolitan. A port city is open to the world. In it races, cultures, and ideas, as well as goods from a variety of places, jostle, mix and enrich each other and the life of the city. The smell of the sea and the harbour, the sound of boat whistles or the moving tides are symbols of their multiple links with a wide world, samples of which are present in microcosm within their own urban areas.</p>
+<p><strong>D</strong> Sea ports have been transformed by the advent of powered vessels, whose size and draught have increased. Many formerly important ports have become economically and physically less accessible as a result. By-passed by most of their former enriching flow of exchange, they have become cultural and economic backwaters or have acquired the character of museums of the past. Examples of these are Charleston, Salem, Bristol, Plymouth, Surat, Galle, Melaka, Soochow, and a long list of earlier prominent port cities in Southeast Asia, Africa and Latin America.</p>
+<p><strong>E</strong> Much domestic port trade has not been recorded. What evidence we have that domestic trade was greater at all periods than external trade. Shanghai, for example, did most of its trade with other Chinese ports and inland cities. Calcutta traded mainly with other parts of India and so on. Most of any city’s population is engaged in providing goods and services for the city itself. Trade outside the city is its basic function. But each basic worker requires food, housing, clothing and other such services. Estimates of the ratio of basic to service workers range from 1A to 1:8.</p>
+<p><strong>F</strong> No city can be simply a port but must be involved in a variety of other activities. The port function of the city draws to it raw materials and distributes them in many other forms. Ports take advantage of the need for breaking up the bulk material where water and land transport meet and where loading and unloading costs can be minimised by refining raw materials or turning them into finished goods. The major examples here are oil refining and ore refining, which are commonly located at ports. It is not easy to draw a line around what is and is not a port function. All ports handle, unload, sort, alter, process, repack, and reship most of what they receive. A city may still be regarded as a port city when it becomes involved in a great range of functions not immediately involved with ships or docks.</p>
+<p><strong>G</strong> Cities which began as ports retain the chief commercial and administrative centre of the city close to the waterfront. The centre of New York is in lower Manhattan between two river mouths, the City of London is on the Thames, Shanghai along the Bund. This proximity to water is also true of Boston, Philadelphia, Bombay, Calcutta, Madras, Singapore, Bangkok, Hong Kong and Yokohama, where the commercial, financial, and administrative centres are still grouped around their harbours even though each city has expanded into a metropolis. Even a casual visitor cannot mistake them as anything but port cities.</p>
+<p><strong>Questions 27-30</strong>
 
 Reading passage 3 has seven paragraphs A-G. From the list of headings below choose the most suitable headings for paragraphs B-E. Write the appropriate numbers (i-viii) in boxes 27-30 on your answer sheet.
 
 NB There are more headings than paragraphs, so you will not use them all.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 
 i. A truly international environment
 
@@ -286,7 +342,7 @@ viii. The demands of the oil industry</p>
 29 Paragraph D
 
 30 Paragraph E</p>
-<p>Questions 31-34
+<p><strong>Questions 31-34</strong>
 
 Look at the following descriptions of some port cities mentioned in the passage. Match the pairs of cities (A-H) listed below with the descriptions. Write the appropriate letters A-H in boxes 31-34. NB There are more pairs of port cities than descriptions so you will not use them all.</p>
 <p>31 required considerable harbor development
@@ -296,31 +352,31 @@ Look at the following descriptions of some port cities mentioned in the passage.
 33 lost their prominence when large ships could not be accommodated
 
 34 maintain their business centres near the port waterfront</p>
-<p>A Bombay and Buenos Aires
+<p><strong>A</strong> Bombay and Buenos Aires
 
-B Hong Kong and Salem
+<strong>B</strong> Hong Kong and Salem
 
-C Istanbul and Jakarta
+<strong>C</strong> Istanbul and Jakarta
 
-D Madras and Colombo
+<strong>D</strong> Madras and Colombo
 
-E New York and Bristol
+<strong>E</strong> New York and Bristol
 
-F Plymouth and Melaka
+<strong>F</strong> Plymouth and Melaka
 
-G Singapore and Yokohama
+<strong>G</strong> Singapore and Yokohama
 
-H Surat and London</p>
-<p>Question 35-40
+<strong>H</strong> Surat and London</p>
+<p><strong>Question 35-40</strong>
 
 Do the following statements agree with the information given in Reading Passage 3?
 
 In boxes 35-40 on your answer sheet write</p>
-<p>YES                           if the statement agrees with the information
+<p><strong>YES</strong>                           if the statement agrees with the information
 
-NO                             if the statement contradicts the information
+<strong>NO</strong>                             if the statement contradicts the information
 
-NOT GIVEN          if there is no information on this in the passage</p>
+<strong>NOT GIVEN</strong>          if there is no information on this in the passage</p>
 <p>35 Cities cease to be port cities when other functions dominate.
 
 36 In the past, many port cities did more trade within their own country than with overseas ports.
@@ -333,7 +389,7 @@ NOT GIVEN          if there is no information on this in the passage</p>
 
 40 Ports often have river connections.</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. C</p>
 <p>2. A</p>
 <p>3. C</p>
@@ -592,6 +648,29 @@ NOT GIVEN          if there is no information on this in the passage</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -611,12 +690,23 @@ NOT GIVEN          if there is no information on this in the passage</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -628,14 +718,6 @@ NOT GIVEN          if there is no information on this in the passage</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

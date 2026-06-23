@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,47 +158,47 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_205</h1>
-            <p>IELTS Reading Practice - Test 205</p>
-<p>A song on the brain</p>
-<p>A Everyone knows the situation where you can’t get a song out of your head. You hear a pop song on the radio – or even just read the song’s title and it haunts you for hours, playing over and over in your mind until you’re heartily sick of it. The condition now even has a medical name ‘song-in-head syndrome’.</p>
-<p>В But why does the mind annoy us like this? No one knows for sure, but it’s probably because the brain is better at holding onto information than it is at knowing what information is important. Roger Chaffin, a psychologist at the University of Connecticut says, ‘It’s a manifestation of an aspect of memory which is normally an asset to us, but in this instance it can be a nuisance.’</p>
-<p>С This eager acquisitiveness of the brain may have helped our ancestors remember important information in the past. Today, students use it to learn new material, and musicians rely on it to memorise complicated pieces. But when this useful function goes awry it can get you stuck on a tune. Unfortunately, superficial, repetitive pop tunes are, by their very nature, more likely to stick than something more inventive.</p>
-<p>D The annoying playback probably originates in the auditory cortex. Located at the front of the brain, this region handles both listening and playback of music and other sounds. Neuroscientist Robert Zatorre of McGill University in Montreal proved this some years ago when he asked volunteers to replay the theme from the TV show Dallas in their heads. Brain imaging studies showed that this activated the same region of the auditory cortex as when the people actually heard the song.</p>
-<p>E Not every stored musical memory emerges into consciousness, however. The frontal lobe of the brain gets to decide which thoughts become conscious and which ones are simply stored away. But it can become fatigued or depressed, which is when people most commonly suffer from song-in-head syndrome and other intrusive thoughts, says Susan Ball, a clinical psychologist at Indiana University School of Medicine in Indianapolis. And once the unwanted song surfaces, it’s hard to stuff it back down into the subconscious. ‘The more you try to suppress a thought, the more you get it,’ says Ball. ‘We call this the pink elephant phenomenon. Tell the brain not to think about pink elephants, and it’s guaranteed to do so,’ she says.</p>
-<p>F For those not severely afflicted, simply avoiding certain kinds of music can help. ‘I know certain pieces that are kind of “sticky” to me, so I will not play them in the early morning for fear that they will run around in my head all day,’ says Steven Brown, who trained as a classical pianist but is now a neuroscientist at the University of Texas Health Science Center at San Antonio. He says he always has a song in his head and, even more annoying, his mind never seems to make it all the way through. ‘It tends to involve short fragments between, say, 5 or 15 seconds. They seem to get looped, for hours sometimes,’ he says.</p>
-<p>G Brown’s experience of repeated musical loops may represent a phenomenon called ‘chunking’, in which people remember musical phrases as a single unit of memory, says Caroline Palmer, a psychologist at Ohio State University in Columbus. Most listeners have little choice about what chunks they remember. Particular chunks may be especially ‘sticky’ if you hear them often or if they follow certain predictable patterns, such as the chord progression of rock ‘n’ roll music. Palmer’s research shows that the more a piece of music conforms to these patterns, the easier it is to remember. That’s why you’re more likely to be haunted by the tunes of pop music than by those of a classical composer such as J. S. Bach.</p>
-<p>H But this ability can be used for good as well as annoyance. Teachers can tap into memory reinforcement by setting their lessons to music. For example, in one experiment students who heard a history text set as the lyrics to a catchy song remembered the words better than those who simply read them, says Sandra Calvert, a psychologist at Georgetown University in Washington DC.</p>
-<p>I This sort of memory enhancement may even explain the origin of music. Before the written word could be used to record history, people memorised it in songs, says Leon James, a psychologist at the University of Hawaii. And music may have had an even more important role. ‘All music has a message.’ he says. ‘This message functions to unite society and to standardise the thought processes of people in society.’</p>
-<p>Questions 1-3
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 205</strong></h3>
+<h3 class="test-heading"><strong>A song on the brain</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Everyone knows the situation where you can’t get a song out of your head. You hear a pop song on the radio – or even just read the song’s title and it haunts you for hours, playing over and over in your mind until you’re heartily sick of it. The condition now even has a medical name ‘song-in-head syndrome’.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>В</strong> But why does the mind annoy us like this? No one knows for sure, but it’s probably because the brain is better at holding onto information than it is at knowing what information is important. Roger Chaffin, a psychologist at the University of Connecticut says, ‘It’s a manifestation of an aspect of memory which is normally an asset to us, but in this instance it can be a nuisance.’</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>С</strong> This eager acquisitiveness of the brain may have helped our ancestors remember important information in the past. Today, students use it to learn new material, and musicians rely on it to memorise complicated pieces. But when this useful function goes awry it can get you stuck on a tune. Unfortunately, superficial, repetitive pop tunes are, by their very nature, more likely to stick than something more inventive.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> The annoying playback probably originates in the auditory cortex. Located at the front of the brain, this region handles both listening and playback of music and other sounds. Neuroscientist Robert Zatorre of McGill University in Montreal proved this some years ago when he asked volunteers to replay the theme from the TV show Dallas in their heads. Brain imaging studies showed that this activated the same region of the auditory cortex as when the people actually heard the song.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> Not every stored musical memory emerges into consciousness, however. The frontal lobe of the brain gets to decide which thoughts become conscious and which ones are simply stored away. But it can become fatigued or depressed, which is when people most commonly suffer from song-in-head syndrome and other intrusive thoughts, says Susan Ball, a clinical psychologist at Indiana University School of Medicine in Indianapolis. And once the unwanted song surfaces, it’s hard to stuff it back down into the subconscious. ‘The more you try to suppress a thought, the more you get it,’ says Ball. ‘We call this the pink elephant phenomenon. Tell the brain not to think about pink elephants, and it’s guaranteed to do so,’ she says.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> For those not severely afflicted, simply avoiding certain kinds of music can help. ‘I know certain pieces that are kind of “sticky” to me, so I will not play them in the early morning for fear that they will run around in my head all day,’ says Steven Brown, who trained as a classical pianist but is now a neuroscientist at the University of Texas Health Science Center at San Antonio. He says he always has a song in his head and, even more annoying, his mind never seems to make it all the way through. ‘It tends to involve short fragments between, say, 5 or 15 seconds. They seem to get looped, for hours sometimes,’ he says.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> Brown’s experience of repeated musical loops may represent a phenomenon called ‘chunking’, in which people remember musical phrases as a single unit of memory, says Caroline Palmer, a psychologist at Ohio State University in Columbus. Most listeners have little choice about what chunks they remember. Particular chunks may be especially ‘sticky’ if you hear them often or if they follow certain predictable patterns, such as the chord progression of rock ‘n’ roll music. Palmer’s research shows that the more a piece of music conforms to these patterns, the easier it is to remember. That’s why you’re more likely to be haunted by the tunes of pop music than by those of a classical composer such as J. S. Bach.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>H</strong> But this ability can be used for good as well as annoyance. Teachers can tap into memory reinforcement by setting their lessons to music. For example, in one experiment students who heard a history text set as the lyrics to a catchy song remembered the words better than those who simply read them, says Sandra Calvert, a psychologist at Georgetown University in Washington DC.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p><strong>I</strong> This sort of memory enhancement may even explain the origin of music. Before the written word could be used to record history, people memorised it in songs, says Leon James, a psychologist at the University of Hawaii. And music may have had an even more important role. ‘All music has a message.’ he says. ‘This message functions to unite society and to standardise the thought processes of people in society.’</p></div></div>
+<p><strong>Questions 1-3</strong>
 Choose the correct answer A, B, C or D</p>
 <p>1. The writer says that song-in-head syndrome’ may occur because the brain
-A confuses two different types of memory.
-B cannot decide what information it needs to retain.
-C has been damaged by harmful input.
-D cannot hold onto all the information it processes.</p>
+<strong>A</strong> confuses two different types of memory.
+<strong>B</strong> cannot decide what information it needs to retain.
+<strong>C</strong> has been damaged by harmful input.
+<strong>D</strong> cannot hold onto all the information it processes.</p>
 <p>2. A tune is more likely to stay in your head if
-A it is simple and unoriginal.
-B you have musical training.
-C it is part of your culture.
-D you have a good memory.</p>
+<strong>A</strong> it is simple and unoriginal.
+<strong>B</strong> you have musical training.
+<strong>C</strong> it is part of your culture.
+<strong>D</strong> you have a good memory.</p>
 <p>3. Robert Zatorre found that a part of the auditory cortex was activated when volunteers
-A listened to certain types of music.
-B learned to play a tune on an instrument.
-C replayed a piece of music after several years.
-D remembered a tune they had heard previously</p>
-<p>Questions 4-7
+<strong>A</strong> listened to certain types of music.
+<strong>B</strong> learned to play a tune on an instrument.
+<strong>C</strong> replayed a piece of music after several years.
+<strong>D</strong> remembered a tune they had heard previously</p>
+<p><strong>Questions 4-7</strong>
 Look at the following theories (Questions 4-7) and the list of people below. Match each theory with the person it is credited to.</p>
 <p>4. The memorable nature of some tunes can help other learning processes.
 5. Music may not always be stored in the memory in the form of separate notes.
 6. People may have started to make music because of their need to remember things.
 7. Having a song going round your head may happen to you more often when one part of the brain is tired.</p>
-<p>A Roger Chaffin
-B Susan Ball
-C Steven Brown
-D Caroline Palmer
-E Sandra Calvert
-F Leon James</p>
-<p>Questions 8-13
+<p><strong>A</strong> Roger Chaffin
+<strong>B</strong> Susan Ball
+<strong>C</strong> Steven Brown
+<strong>D</strong> Caroline Palmer
+<strong>E</strong> Sandra Calvert
+<strong>F</strong> Leon James</p>
+<p><strong>Questions 8-13</strong>
 Reading Passage 1 has nine paragraphs labelled A-l. Which paragraph contains the following information? NB You may use any letter more than once.</p>
 <p>8. a claim that music strengthens social bonds
 9. two reasons why some bits of music tend to stick in your mind more than others
@@ -150,7 +206,7 @@ Reading Passage 1 has nine paragraphs labelled A-l. Which paragraph contains the
 11. the name of the part of the brain where song-in-head syndrome begins
 12. examples of two everyday events that can set off song-m-head syndrome
 13. a description of what one person does to prevent song-in-head syndrome</p>
-<p>Worldly Wealth</p>
+<p><strong>Worldly Wealth</strong></p>
 <p>The world’s population is expected to stablize at around nine billion. Will it be possible for nine billion people to have the lifestyle enjoyed today only by the wealthy? One school of thought says no: not only should the majority of the world’s people resign themselves to poverty forever, but rich nations must also revert to simpler lifestyles in order to save the planet.</p>
 <p>Admittedly, there may be political or social barriers to achieving a rich world. But in fact there seems to be no insuperable physical or ecological reason why nine billion people should not achieve a comfortable lifestyle, using technology only slightly more advanced than that which we now possess. In thinking about the future of civilization, we ought to start by asking what people want. The evidence demonstrates that as people get richer they w ant a greater range of personal technology, they want lots of room (preferably near or in natural surroundings) and they w ant greater speed in travel. More possessions, more space, more mobility.</p>
 <p>In the developed world, the personal technologies of the wealthy, including telephones, washing machines and ears, have become necessities within a generation or two. Increasing productivity that results m decreasing costs for such goods has been responsible for the greatest gains in the standard of living, and there is every reason to believe that this will continue.</p>
@@ -161,35 +217,35 @@ Reading Passage 1 has nine paragraphs labelled A-l. Which paragraph contains the
 <p>With rising personal incomes come rising expectations of mobility. This is another luxury of today’s rich that could become a necessity of tomorrow’s global population – particularly if its members choose to live widely dispersed in a post-agrarian wilderness. In his recent book Free Flight. James Fallows, a pilot as well as a writer, describes serious attempts by both state and private entrepreneurs in the USA to promote an ‘air taxi’ system within the price range of today’s middle class and perhaps tomorrow’s global population.</p>
 <p>Two of the chief obstacles to the science fiction fantasy of the personal plane or hover car are price and danger. While technological improvements are driving prices down, piloting an aircraft in three dimensions is still more difficult than driving a car in two. and pilot error causes more fatalities than driver error. But before long our aircraft and cars will be piloted by computers which arc never tired or stressed.</p>
 <p>So perhaps there are some grounds for optimism when viewing the future of civilization. With the help of technology, and without putting serious strains on the global environment, possessions, space and mobility can be achieved for all the projected population of the world.</p>
-<p>Questions 14-19
+<p><strong>Questions 14-19</strong>
 Do the following statements reflect the claims of the writer in Reading Passage 2? In boxes 14-19 on your answer sheet write</p>
-<p>YES if the statement agrees with the views of the writer
-NO if the statement contradicts the views of the writer
-NOT GIVEN if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong> if the statement agrees with the views of the writer
+<strong>NO</strong> if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this</p>
 <p>14. Today’s wealthy people ignore the fact that millions are living in poverty.
 15. There are reasons why the future population of the world may not enjoy a comfortable lifestyle.
 16. The first thing to consider when planning for the future is environmental protection.
 17. As manufactured goods get cheaper, people will benefit more from them.
 18. It may be possible to find new types of raw materials for use in the production of machinery.
 19. The rising prices of fossil fuels may bring some benefits.</p>
-<p>Questions 20-25
-Complete the summary below. Choose ONE WORD ONLY from the passage for each answer.</p>
-<p>Space for an increased population
+<p><strong>Questions 20-25</strong>
+Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+<p><strong>Space for an increased population</strong>
 According to the writer, the use of land for (20)…………………is the most serious threat to the environment. However, in the US. there has already been an increase in the amount of land used for (21)…………………..and forests. Far less land would be required to feed the world’s population if the (22)……………………of the land could be improved worldwide. It has also been claimed that the industrial production of animal foods could allow greater access to animal (23)…………………………by the entire world’s population.</p>
 <p>Scientists could use (24)……………………from domesticated animals to help produce meat by tissue cloning, and these species could then be allowed to die out. In addition to this type of meat. (25)……………………will also be widely available.</p>
-<p>Questions 26-27
+<p><strong>Questions 26-27</strong>
 Choose the correct answer, A. B, C or D</p>
 <p>26. Greater mobility may be a feature of the future because of changes in
-A the location of housing.
-B patterns of employment.
-C centres of transport.
-D the distribution of wealth.</p>
+<strong>A</strong> the location of housing.
+<strong>B</strong> patterns of employment.
+<strong>C</strong> centres of transport.
+<strong>D</strong> the distribution of wealth.</p>
 <p>27. Air transport will be safe because of
-A new types of aircraft.
-B better training methods.
-C three-dimensional models.
-D improved technology.</p>
-<p>Space: The Final Archaeological Frontier</p>
+<strong>A</strong> new types of aircraft.
+<strong>B</strong> better training methods.
+<strong>C</strong> three-dimensional models.
+<strong>D</strong> improved technology.</p>
+<p><strong>Space: The Final Archaeological Frontier</strong></p>
 <p>In 1993, University of Hawaii’s anthropologist Ben Finney, who for much of his career has studied the technology once used by Polynesians to colonize islands in the Pacific, suggested that it would not be premature to begin thinking about the archaeology of Russian and American aerospace sites on the Moon and Mars. Finney pointed out that just as todays scholars use archaeological records to investigate how Polynesians diverged culturally as they explored the Pacific, archaeologists will someday study off-Earth sites to trace the development of humans in space. He realized that it was unlikely anyone would be able to conduct fieldwork in the near future, but he was convinced that one day such work would be done.</p>
 <p>There is a growing awareness, however, that it won’t be long before both corporate adventurers and space tourists reach the Moon and Mars. There is a wealth of important archaeological sites from the history of space exploration on the Moon and Mars and measures need to be taken to protect these sites. In addition to the threat from profit- seeking corporations, scholars cite other potentially destructive forces such as souvenir hunting and unmonitored scientific sampling, as has already occurred in explorations of remote polar regions. Already in 1999 one company was proposing a robotic lunar rover mission beginning at the site of Tranquility Base and rumbling across the Moon from one archaeological site to another, from the wreck of the Ranger S probe to Apollo 17 s landing site. The mission, which would leave vehicle tyre- marks all over some of the most famous sites on the Moon, was promoted as a form of theme-park entertainment.</p>
 <p>According to the vaguely worded United Motions Outer Space Treaty of 1967. what it terms ‘space junk’ remains the property of the country that sent the craft or probe into space. But the treaty doesn’t explicitly address protection of sites like Tranquility Base, and equating the remains of human exploration of the heavens with ‘space junk’ leaves them vulnerable to scavengers. Another problem arises through other international treaties proclaiming that land in space cannot be owned by any country or individual. This presents some interesting dilemmas for the aspiring manager of extraterrestrial cultural resources. Does the US own Neil Armstrong’s famous first footprints on the Moon but not the lunar dust in which they were recorded? Surely those footprints are as important in the story of human development as those left by hominids at Laetoli, Tanzania. But unlike the Laetoli prints, which have survived for 3.5 million years encased in cement-like ash. those at Tranquility Base could be swept away with a casual brush of a space tourist’s hand. To deal with problems like these, it may be time to look to innovative international administrative structures for the preservation of historic remains on the new frontier.</p>
@@ -197,24 +253,24 @@ D improved technology.</p>
 <p>After the obligatory planting of the American flag and some geological sampling, Conrad and Bean made their way to Surveyor 3. They observed that the probe had bounced after touchdown and carefully photographed the impressions made by its footpads. The whole spacecraft was covered in dust, perhaps kicked up by the landing. The astronaut-archaeologists carefully removed the probes television camera, remote sampling arm. and pieces of tubing. They bagged and labelled these artefacts, and stowed them on board their lunar module. On their return to Earth, they passed them on to the Daveson Space Center in Houston, Texas, and the Hughes Air and Space Corporation in bl Segundo, California. There, scientists analyzed the changes in these aerospace artefacts.</p>
 <p>One result of the analysis astonished them. A fragment of the television camera revealed evidence of the bacteria Streptococcus mitis. I or a moment it was thought Conrad and Bean had discovered evidence for life on the Moon, but after further research the real explanation became apparent. While the camera was being installed in the probe prior to the launch, someone sneezed on it. The resulting bacteria had travelled to the Moon, remained in an alternating freezing.’ boiling vacuum for more than two years, and returned promptly to life upon reaching the safety of a laboratory back on Earth.</p>
 <p>The finding that not even the vastness of space can stop humans from spreading a sore throat was an unexpected spin-off. But the artefacts brought back by Rean and Conrad have a broader significance. Simple as they may seem, they provide the first example of extraterrestrial archaeology and perhaps more significant for the history of the discipline formational archaeology, the study of environmental and cultural forces upon the life history of human artefacts in space.</p>
-<p>Questions 28-33
+<p><strong>Questions 28-33</strong>
 Complete each sentence with the correct ending A-H from the box below.</p>
-<p>A activities of tourists and scientists have harmed the environment.
-B some sites in space could be important in the history of space exploration.
-C vehicles used for tourism have polluted the environment.
-D it may be unclear who has responsibility for historic human footprints.
-E past explorers used technology in order to find new places to live.
-F man-made objects left in space are regarded as rubbish.
-G astronauts may need to work more closely with archaeologists.
-H important sites on the Moon may be under threat.</p>
+<p><strong>A</strong> activities of tourists and scientists have harmed the environment.
+<strong>B</strong> some sites in space could be important in the history of space exploration.
+<strong>C</strong> vehicles used for tourism have polluted the environment.
+<strong>D</strong> it may be unclear who has responsibility for historic human footprints.
+<strong>E</strong> past explorers used technology in order to find new places to live.
+<strong>F</strong> man-made objects left in space are regarded as rubbish.
+<strong>G</strong> astronauts may need to work more closely with archaeologists.
+<strong>H</strong> important sites on the Moon may be under threat.</p>
 <p>28. Ben Finney’s main academic work investigates the way that
 29. Ben Finney thought that in the long term
 30. Commercial pressures mean that in the immediate future
 31. Academics are concerned by the fact that in isolated regions on Earth.
 32. One problem with the 1967 UN treaty is that
 33. The wording of legal agreements over ownership of land in space means that</p>
-<p>Questions 34-38
-Complete the flow chart below. Choose NO MORE THAN ONE WORD from the passage for each answer.</p>
+<p><strong>Questions 34-38</strong>
+Complete the flow chart below. Choose <strong>NO MORE THAN ONE WORD</strong> from the passage for each answer.</p>
 <p>• During the assembly of the Surveyor 3 probe, someone (34)……………………..on a TV camera
 • The TV Camera was carried to the Moon on Surveyor 3
 • The TV Camera remained on the Moon for over (35)………………….years
@@ -223,15 +279,15 @@ Complete the flow chart below. Choose NO MORE THAN ONE WORD from the passage for
 • The Streptococcus mitis bacteria were found.
 • The theory that this suggested there was (38)…………………on the Moon was rejected.
 • Scientists concluded that the bacteria can survive lunar conditions.</p>
-<p>Questions 39-40
-Choose TWO letters A-E</p>
-<p>The TWO main purposes of the writer of this text are to explain</p>
-<p>A the reasons why space archaeology is not possible
-B the dangers that could follow from contamination of objects from space
-C the need to set up careful controls over space tourism
-D the need to preserve historic sites and objects in space
-E the possible cultural effects of space travel</p>
-<p>ANSWER KEY</p>
+<p><strong>Questions 39-40</strong>
+Choose <strong>TWO</strong> letters A-E</p>
+<p>The <strong>TWO</strong> main purposes of the writer of this text are to explain</p>
+<p><strong>A</strong> the reasons why space archaeology is not possible
+<strong>B</strong> the dangers that could follow from contamination of objects from space
+<strong>C</strong> the need to set up careful controls over space tourism
+<strong>D</strong> the need to preserve historic sites and objects in space
+<strong>E</strong> the possible cultural effects of space travel</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. B</p>
 <p>2. A</p>
 <p>3. D</p>
@@ -490,6 +546,29 @@ E the possible cultural effects of space travel</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -509,12 +588,23 @@ E the possible cultural effects of space travel</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -526,14 +616,6 @@ E the possible cultural effects of space travel</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

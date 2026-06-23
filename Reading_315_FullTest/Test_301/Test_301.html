@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,14 +158,14 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_301</h1>
-            <p>IELTS Reading Practice - Test 301</p>
-<p>Lake Vostok</p>
-<p>A Beneath the white blanket of Antarctica lies half a continent of virtually uncharted territory – an area so completely hidden that scientists have little clue what riches await discovery. Recently, Russian and British glaciologists identified an immense lake – one of Earth’s largest and deepest – buried beneath 4,000 meters of ice immediately below Russia’s Vostok Station.</p>
-<p>B As details have emerged, a growing number of scientists are showing interest, with dozens of investigators keen to explore the feature, known as Lake Vostok. A thick layer of sediment at the bottom of the lake could hold novel dues to the planet’s climate going back tens of millions of years. By looking at the ratio of different oxygen isotopes, scientists should be able to trace how Earth’s temperature changed over the millennia. NASA has expressed interest in Lake Vostok because of its similarity to Europa. This moon of Jupiter appears to have a water ocean covered by a thick ice sheet, measuring perhaps tens of kilometers in depth. If hydrothermal vents existed beneath the ice, chemical reactions on Europa could have created the molecular building blocks for life, if not life itself. Vostok would be an ideal testing ground for technology that would eventually fly to Europa or places even more distant, say many scientists. Though cheap compared with a Europan mission, any expedition to Vostok would represent a significant investment.</p>
-<p>C Vostok Station holds the uncomfortable distinction of having recorded the coldest temperature on Earth. Thermometers there measured in July 1983, and the average temperature hovers around -55ºC. It’s the thick ice, strangely, that enables a lake to survive in such a frozen environment. The 4 kilometers of ice acts effectively as an insulating blanket protecting the bedrock underneath the ice from the cold temperatures above. Geothermal heat coming from the planet’s interior keeps the lake from freezing and warms the lowest layers of ice. The tremendous weight of the ice sheet also plays a role in maintaining the lake. Beneath 4 kilometers of glacier, the pressure is intense enough to melt ice at a temperature of -4°C. These factors have helped lakes develop across much of the thickly blanketed East Antarctica. More than 70 hidden lakes have been detected in the small portion of the continent to date. Lake Vostok is the largest of these, stretching 280km from south to north and some 60 km from east to west. At Vostok station, which sits at the southern end of the lake, the water depth appears to be 500m according to seismic experiments carried out by Russian researchers.</p>
-<p>D The first clues to Lake Vostok’s existence came in the 1970s, when British, U.S., and Danish researchers collected radar observations by flying over this region. The radar penetrates the ice and bounces off whatever sits below. When researchers found a surface as flat as a mirror, they surmised that a lake must exist underneath the ice. An airborne survey of the lake is being undertaken, the first step toward eventually drilling into the water. Along with the potential rewards come a host of challenges. Researchers must find a way to penetrate the icy covering without introducing any microorganisms or pollutants into the sealed-off water.</p>
-<p>E What about life in the depths? If tiny microbes do populate the lake, they may be some of the hungriest organisms ever discovered. Lake Vostok has the potential to be one of the most energy-limited, or oligotrophic, environments on the planet. For the lake’s residents, the only nutrients would come from below. Russian investigators have speculated that the lake floor may have hot springs spewing out hydrothermal fluids stocked with reduced metals and other sorts of chemical nutrients. Scant geological evidence available for this region, however, indicates that the crust is old and dead. Without a stream of nutrients seeping up from the deep Earth, the only potential source of energy lies above the lake. The ice sheet above the water is creeping from west to east at a rate of roughly four meters per year. The lowermost layers of ice melt when they come in contact with the lake, liberating trapped gases and bits of crushed-up rock. If the glacier recently passed over rock before reaching the lake, it could be supplying organic compounds useful to microorganisms. It also could be seeding the lake with a continuous source of new residents. Bacteria, yeasts, fungi, algae and even pollen grains have been found in the Vostok ice core samples taken down to depths of 2,750m – three quarters of the way to the bottom. At least some of these organisms are alive and capable of growing, according to recent reports. The results of this analysis may indirectly indicate whether anything survives in the lightless body of water.</p>
-<p>Questions 1-4
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 301</strong></h3>
+<h3 class="test-heading"><strong>Lake Vostok</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Beneath the white blanket of Antarctica lies half a continent of virtually uncharted territory – an area so completely hidden that scientists have little clue what riches await discovery. Recently, Russian and British glaciologists identified an immense lake – one of Earth’s largest and deepest – buried beneath 4,000 meters of ice immediately below Russia’s Vostok Station.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> As details have emerged, a growing number of scientists are showing interest, with dozens of investigators keen to explore the feature, known as Lake Vostok. A thick layer of sediment at the bottom of the lake could hold novel dues to the planet’s climate going back tens of millions of years. By looking at the ratio of different oxygen isotopes, scientists should be able to trace how Earth’s temperature changed over the millennia. NASA has expressed interest in Lake Vostok because of its similarity to Europa. This moon of Jupiter appears to have a water ocean covered by a thick ice sheet, measuring perhaps tens of kilometers in depth. If hydrothermal vents existed beneath the ice, chemical reactions on Europa could have created the molecular building blocks for life, if not life itself. Vostok would be an ideal testing ground for technology that would eventually fly to Europa or places even more distant, say many scientists. Though cheap compared with a Europan mission, any expedition to Vostok would represent a significant investment.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> Vostok Station holds the uncomfortable distinction of having recorded the coldest temperature on Earth. Thermometers there measured in July 1983, and the average temperature hovers around -55ºC. It’s the thick ice, strangely, that enables a lake to survive in such a frozen environment. The 4 kilometers of ice acts effectively as an insulating blanket protecting the bedrock underneath the ice from the cold temperatures above. Geothermal heat coming from the planet’s interior keeps the lake from freezing and warms the lowest layers of ice. The tremendous weight of the ice sheet also plays a role in maintaining the lake. Beneath 4 kilometers of glacier, the pressure is intense enough to melt ice at a temperature of -4°C. These factors have helped lakes develop across much of the thickly blanketed East Antarctica. More than 70 hidden lakes have been detected in the small portion of the continent to date. Lake Vostok is the largest of these, stretching 280km from south to north and some 60 km from east to west. At Vostok station, which sits at the southern end of the lake, the water depth appears to be 500m according to seismic experiments carried out by Russian researchers.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> The first clues to Lake Vostok’s existence came in the 1970s, when British, U.S., and Danish researchers collected radar observations by flying over this region. The radar penetrates the ice and bounces off whatever sits below. When researchers found a surface as flat as a mirror, they surmised that a lake must exist underneath the ice. An airborne survey of the lake is being undertaken, the first step toward eventually drilling into the water. Along with the potential rewards come a host of challenges. Researchers must find a way to penetrate the icy covering without introducing any microorganisms or pollutants into the sealed-off water.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> What about life in the depths? If tiny microbes do populate the lake, they may be some of the hungriest organisms ever discovered. Lake Vostok has the potential to be one of the most energy-limited, or oligotrophic, environments on the planet. For the lake’s residents, the only nutrients would come from below. Russian investigators have speculated that the lake floor may have hot springs spewing out hydrothermal fluids stocked with reduced metals and other sorts of chemical nutrients. Scant geological evidence available for this region, however, indicates that the crust is old and dead. Without a stream of nutrients seeping up from the deep Earth, the only potential source of energy lies above the lake. The ice sheet above the water is creeping from west to east at a rate of roughly four meters per year. The lowermost layers of ice melt when they come in contact with the lake, liberating trapped gases and bits of crushed-up rock. If the glacier recently passed over rock before reaching the lake, it could be supplying organic compounds useful to microorganisms. It also could be seeding the lake with a continuous source of new residents. Bacteria, yeasts, fungi, algae and even pollen grains have been found in the Vostok ice core samples taken down to depths of 2,750m – three quarters of the way to the bottom. At least some of these organisms are alive and capable of growing, according to recent reports. The results of this analysis may indirectly indicate whether anything survives in the lightless body of water.</p></div></div>
+<p><strong>Questions 1-4</strong>
 
 The passage has 5 sections A-E. Choose the most suitable heading for sections B-E from the list of headings below. Write the appropriate numbers (i-viii). There are more headings than sections so you will not use all of them.</p>
 <p>i. Cost of exploration
@@ -127,35 +183,35 @@ vi. Possible sources of nutrients to support life
 vii. Types of organisms in the lake
 
 viii. Scientific interest in Lake Vostok</p>
-<p>Questions 5-6
+<p><strong>Questions 5-6</strong>
 
 Choose the correct letter A-D.</p>
 <p>5. Which is NOT given as a reason for interest in exploring Lake Vostok?
 
-A to test technology for space exploration
+<strong>A</strong> to test technology for space exploration
 
-B to develop anti-pollution devices
+<strong>B</strong> to develop anti-pollution devices
 
-C to investigate the history of Earth’s climate
+<strong>C</strong> to investigate the history of Earth’s climate
 
-D to look for living organisms</p>
+<strong>D</strong> to look for living organisms</p>
 <p>6. Lake Vostok does not freeze because …
 
-A a thick ice cover provides insulation.
+<strong>A</strong> a thick ice cover provides insulation.
 
-B it is waned by heat from the earth’s surface.
+<strong>B</strong> it is waned by heat from the earth’s surface.
 
-C low pressure prevents freezing.
+<strong>C</strong> low pressure prevents freezing.
 
-D an underwater volcano erupted recently.</p>
-<p>Questions 7-13
+<strong>D</strong> an underwater volcano erupted recently.</p>
+<p><strong>Questions 7-13</strong>
 
 Do the following statements reflect the claims of the author? Write:</p>
-<p>YES                                       if the statement agrees with the views of the writer
+<p><strong>YES</strong>                                       if the statement agrees with the views of the writer
 
-NO                                         if the statement contradicts the views of the writer
+<strong>NO</strong>                                         if the statement contradicts the views of the writer
 
-NOT GIVEN                     if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>                     if it is impossible to say what the writer thinks about this</p>
 <p>7. Only one lake has been found beneath Antarctica.
 
 8. The water in the lake is approximately 500m deep at the southern end.
@@ -169,7 +225,7 @@ NOT GIVEN                     if it is impossible to say what the wri
 12. Nutrients to support life have been found in the Antarctic ice.
 
 13. The ice above the lake is moving to the east.</p>
-<p>The cells from hell</p>
+<p><strong>The cells from hell</strong></p>
 <p>Recently, an international team of biologists met to discuss what they believe is a global crisis in the sudden appearance of strange marine microorganisms capable of poisoning not just fish but people too.</p>
 <p>In the mid-1980s, fishermen in North Carolina, on the eastern coast of the United States, began complaining about mysterious fish kills. They were convinced that pollution was responsible but nobody would listen. That changed in 1988 after an accident at a research center. Tank after tank of fish suddenly died. Researchers spotted an unknown microorganism in the water. It was later named pfiesteria.</p>
 <p>Pfiesteria belongs to a prehistoric group of algae that are part plant, part animal. They are called dinoflagellates after the liny whips or flagella that propel them through the wafer. Magnified a thousand limes they are some of the strangest and most beautiful creatures in the sea. They are at the bottom of the food chain but, to deter fish from swallowing them, some have evolved powerful toxins.</p>
@@ -180,22 +236,22 @@ NOT GIVEN                     if it is impossible to say what the wri
 <p>That may have already happened in Australian waters. A tuna kill in 1996 cost fish farmers an estimated $45 million. The official explanation was that a storm was to blame. But there were also reports of orange-brown streaks in the water. When a water sample was examined, it was found to be teeming with an alga never before seen in Australia, called chattonella. The same chattonella killed half a billion dollars’ worth of fish in Japan in 1972.</p>
 <p>This toxin was also present in the livers of the dead tuna. Despite this powerful evidence, the official explanation remains that a storm was the killer. However, in Japan this was a prime example of an algal bloom induced by the waste products of the aquaculture industry itself, and of course that is not something that the tuna industry wants to hear.</p>
 <p>It is clear that chattonella is present in Australian waters. But there is little knowledge of what else may surface or where it may have come from. What is of greater concern is that, in Australia and around the world, there is a reluctance to acknowledge that it is human activity which is triggering the transformation of normally benign organisms into increasingly dangerous forms. If we continue to mismanage the way nutrients and pollutants are released into the environment, we will have to confront new versions of the cells from hell.</p>
-<p>Questions 14-17
+<p><strong>Questions 14-17</strong>
 
 Complete the summary below. Choose your answers from the box below the summary. There are more words than you need so you will not use all of them.</p>
 <p>Pfiesteria is a microorganism (Example) with some unusual characteristics. Under normal conditions, it acts like a (14) ……………….. but it has also developed powerful (15) ………………. as a defence against being eaten by fish. When the fish are disabled and killed by the neurotoxins, the organism (16) ………………. them and it (17) ……………….. afterward.</p>
-<p>Questions 18-21
+<p><strong>Questions 18-21</strong>
 
-Fill in the blanks with NO MORE THAN THREE WORDS from the passage.</p>
+Fill in the blanks with <strong>NO MORE THAN THREE WORDS</strong> from the passage.</p>
 <p>Conditions which favour the growth of toxic algae include high levels of (18) ………………. and (19) ………………… fish feeding together. Research scientists at the international conference learned about (20) ……………… types of toxic algae and how they are spreading around the world in water stored on (21) ………….. at sea.</p>
-<p>Questions 22-26
+<p><strong>Questions 22-26</strong>
 
 Classify the following as:</p>
-<p>A caused by pfiesteria
+<p><strong>A</strong> caused by pfiesteria
 
-B caused by chattonella
+<strong>B</strong> caused by chattonella
 
-C caused by an unidentified micro-organism</p>
+<strong>C</strong> caused by an unidentified micro-organism</p>
 <p>22. death of sea-lions off the coast of California (1990s)
 
 23. fish kill in Japan (1972)
@@ -205,7 +261,7 @@ C caused by an unidentified micro-organism</p>
 25. tuna industry losses in Australia (1990s)
 
 26. fish kill in North Carolina (1980s)</p>
-<p>Mystery of the mummies</p>
+<p><strong>Mystery of the mummies</strong></p>
 <p>In 1992, a German scientist made a discovery which was to upset whole areas of scientific study from history and archaeology to chemistry and botany. Dr. Svetlana Balabanova, a forensic specialist, was performing tissue tests on an Egyptian mummy, part of a German museum collection. The mummified remains were of a woman named Henut-Taui who had died over 3,000 years ago. Amazingly, the tests revealed that her body contained large quantities of cocaine and nicotine. Dr. Balabanova had regularly used the same testing methods to convict people of drug consumption but she had not expected to find nicotine and cocaine in an Ancient Egyptian mummy. It is generally accepted that these two plants, native to the Americas, did not exist on other continents prior to European exploration.</p>
 <p>Dr. Balabanova repeated the tests then sent out fresh samples to three other labs. When the results came back positive, she published a paper with two other scientists. If Balabanova was shocked by the results of her tests, she was even more shocked at the hostile response to her publication. She received many insulting letters, accusing her of fraud.</p>
 <p>There were two explanations that came immediately to mind. One was that something in the tests could have given a false result. The second was that the mummies tested were not truly Ancient Egyptian. Perhaps they were relatively modern bodies, containing traces of cocaine. Dr. Balabanova then examined tissue from 134 naturally preserved bodies over a thousand years old discovered in an excavated cemetery in the Sudan. About a third of them tested positive for nicotine or cocaine.</p>
@@ -213,39 +269,39 @@ C caused by an unidentified micro-organism</p>
 <p>So now the question had returned. Could Ancient Egyptian trade have stretched all the way across the Atlantic Ocean? This was an idea so unbelievable it could only be considered after all other possibilities had been eliminated. Could Egyptians have obtained imports from a place thousands of miles away, from a continent supposedly not discovered until thousands of years later? Was it possible that coca – a plant from South America – had found its way to Egypt 3,000 years ago? If the cocaine found in mummies could not be explained by contamination, or fake mummies or by Egyptian plants containing it, there appeared to be another interesting possibility: a trade route with links all the way to the Americas.</p>
 <p>The Egyptians did make great efforts to obtain incense and other valuable plants used in religious ceremonies and herbal medicines, but to the majority of archaeologists, the idea is hardly worth talking about. Professor John Baines, an Egyptologist from Oxford University, states: ‘I don’t think it is at all likely that there was an ancient trade network that included America. The essential problem with any such idea is that there are no artefacts found either in Europe or in America.’ But other experts aren’t so sure. Professor Martin Bernal, a historian from Cornell University, says, ‘We’re getting more and more evidence of world trade at an earlier stage. You have the Chinese silk definitely arriving in Egypt by 1000 BC.’ In his opinion, it is arrogance on the part of modern people to believe that a transoceanic trading network could only have been set up in recent times.</p>
 <p>The discoveries in mummies from Egypt and Sudan have challenged conventional beliefs. It is no longer possible to exclude the hypothesis of transoceanic trade in ancient times. The tale of Henut-Taui and the story of Ramses II show that, in science, facts can be rejected if they don’t fit with our beliefs, while what is believed to be proven, may actually be uncertain. It is understandable then, how a story of a scientist, a few mummies and some routine tests, could upset whole areas of knowledge we thought we could take for granted.</p>
-<p>Questions 27-29
+<p><strong>Questions 27-29</strong>
 
 Choose the correct letter A-D.</p>
 <p>27. What most surprised Dr. Balabanova about her discovery?
 
-A the presence of drugs in the mummies
+<strong>A</strong> the presence of drugs in the mummies
 
-B the fact that the plants originated in the western hemisphere
+<strong>B</strong> the fact that the plants originated in the western hemisphere
 
-C the positive results of tests on other mummies
+<strong>C</strong> the positive results of tests on other mummies
 
-D the hostile reaction of the scientific community</p>
+<strong>D</strong> the hostile reaction of the scientific community</p>
 <p>28. Which of the following was ruled out by Dr. Lescot’s investigation?
 
-A Tobacco had been dropped onto the mummy.
+<strong>A</strong> Tobacco had been dropped onto the mummy.
 
-B Tobacco grew in Ancient Egypt.
+<strong>B</strong> Tobacco grew in Ancient Egypt.
 
-C Chemicals produced false test results.
+<strong>C</strong> Chemicals produced false test results.
 
-D The mummies were fake.</p>
+<strong>D</strong> The mummies were fake.</p>
 <p>29. Why was the discovery of tobacco in the body of Ramses II ignored?
 
-A Contamination was suspected.
+<strong>A</strong> Contamination was suspected.
 
-B The evidence raised difficult questions.
+<strong>B</strong> The evidence raised difficult questions.
 
-C The tests produced false results.
+<strong>C</strong> The tests produced false results.
 
-D The researcher was a woman.</p>
-<p>Questions 30-34
+<strong>D</strong> The researcher was a woman.</p>
+<p><strong>Questions 30-34</strong>
 
-Match ONE of the researchers (A-D) to each of the statements (30-34) below. There may be more than one correct answer.</p>
+Match <strong>ONE</strong> of the researchers (A-D) to each of the statements (30-34) below. There may be more than one correct answer.</p>
 <p>30. first to find a substance from the Americas in a mummy
 
 31. argues against transoceanic trade because of lack of evidence
@@ -255,21 +311,21 @@ Match ONE of the researchers (A-D) to each of the statements (30-34) below. Ther
 33. gives evidence of extensive Egyptian trade in ancient times
 
 34. publication of research results was controversial</p>
-<p>A Dr. Svetlana Balabanova
+<p><strong>A</strong> Dr. Svetlana Balabanova
 
-B Dr. Michelle Lescot
+<strong>B</strong> Dr. Michelle Lescot
 
-C Professor John Baines
+<strong>C</strong> Professor John Baines
 
-D Professor Martin Bernal.</p>
-<p>Questions 35-39
+<strong>D</strong> Professor Martin Bernal.</p>
+<p><strong>Questions 35-39</strong>
 
 Do the following statements reflect the opinions of the writer in the passage? Write:</p>
-<p>YES                                if the statement agrees with the views of the writer
+<p><strong>YES</strong>                                if the statement agrees with the views of the writer
 
-NO                                 if the statement contradicts the views of the writer
+<strong>NO</strong>                                 if the statement contradicts the views of the writer
 
-NOT GIVEN              if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>              if it is impossible to say what the writer thinks about this</p>
 <p>35. There is proof that tobacco was grown in Ancient Egypt.
 
 36. Trade routes across the Atlantic Ocean may have existed thousands of years ago.
@@ -279,20 +335,20 @@ NOT GIVEN              if it is impossible to say what the writer thinks 
 38. The scientific community generally rejects the idea of contact between Ancient Egypt and the Americas.
 
 39. The unusual test results could have come from ‘qat’, a plant native to North Africa.</p>
-<p>Question 40
+<p><strong>Question 40</strong>
 
 Choose the correct letter A-D.</p>
 <p>40. What is the main idea of this passage?
 
-A Experimental research often gives false results.
+<strong>A</strong> Experimental research often gives false results.
 
-B Long-held beliefs can be challenged by new information.
+<strong>B</strong> Long-held beliefs can be challenged by new information.
 
-C The scientific community is conservative by nature.
+<strong>C</strong> The scientific community is conservative by nature.
 
-D Ideas which don’t fit our belief system must be wrong.</p>
+<strong>D</strong> Ideas which don’t fit our belief system must be wrong.</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. viii</p>
 <p>2. ii</p>
 <p>3. iv</p>
@@ -551,6 +607,29 @@ D Ideas which don’t fit our belief system must be wrong.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -570,12 +649,23 @@ D Ideas which don’t fit our belief system must be wrong.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -587,14 +677,6 @@ D Ideas which don’t fit our belief system must be wrong.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

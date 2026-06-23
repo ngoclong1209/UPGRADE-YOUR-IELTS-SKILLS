@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,18 +158,18 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_225</h1>
-            <p>IELTS Reading Practice - Test 225</p>
-<p>the return of the huarango</p>
-<p>The south coast of Peru is a narrow, 2,000-kilometre-long strip of desert squeezed between the Andes and the Pacific Ocean. It is also one of the most fragile ecosystems on Earth. It hardly ever rains there, and the only year-round source of water is located tens of metres below the surface. This is why the huarango tree is so suited to life there: it has the longest roots of any tree in the world. They stretch down 50-80 metres and, as well as sucking up water for the tree, they bring it into the higher subsoil, creating a water source for other plant life.</p>
-<p>Dr David Beresford-Jones, archaeobotanist at Cambridge University, has been studying the role of the huarango tree in landscape change in the Lower lea Valley in southern Peru. He believes the huarango was key to the ancient people’s diet and, because it could reach deep water sources, it allowed local people to withstand years of drought when their other crops failed. But over the centuries huarango trees were gradually replaced with crops. Cutting down native woodland leads to erosion, as there is nothing to keep the soil in place. So when the huarangos go, the land turns into a desert. Nothing grows at all in the Lower lea Valley now.</p>
-<p>For centuries the huarango tree was vital to the people of the neighbouring Middle lea Valley too. They grew vegetables under it and ate products made from its seed pods. Its leaves and bark were used for herbal remedies, while its branches were used for charcoal for cooking and heating, and its trunk was used to build houses. But now it is disappearing rapidly. The majority of the huarango forests in the valley have already been cleared for fuel and agriculture – initially, these were smallholdings, but now they’re huge farms producing crops for the international market.</p>
-<p>‘Of the forests that were here 1,000 years ago, 99 per cent have already gone,’ says botanist Oliver Whaley from Kew Gardens in London, who, together with ethnobotanist Dr William Milliken, is rumiing a pioneering project to protect and restore the rapidly disappearing habitat. In order to succeed, Whaley needs to get the local people on board, and that has meant overcoming local prejudices. ‘Increasingly aspirational communities think that if you plant food trees in your home or street, it shows you are poor, and still need to grow your own food,’ he says. In order to stop the Middle lea Valley going the same way as the Lower lea Valley, Whaley is encouraging locals to love the huarangos again. ‘It’s a process of cultural resuscitation,’ he says. He has already set up a huarango festival to reinstate a sense of pride in their eco-heritage, and has helped local schoolchildren plant thousands of trees.</p>
-<p>‘In order to get people interested in habitat restoration, you need to plant a tree that is useful to them,’ says Whaley. So, he has been working with local families to attempt to create a sustainable income from the huarangos by turning their products into foodstuffs. ‘Boil up the beans and you get this thick brown syrup like molasses. You can also use it in drinks, soups or stews.’ The pods can be ground into flour to make cakes, and the seeds roasted into a sweet, chocolatey ‘coffee’. ‘It’s packed full of vitamins and minerals,’ Whaley says.</p>
-<p>And some farmers are already planting huarangos. Alberto Benevides, owner of lea Valley’s only certified organic farm, which Whaley helped set up, has been planting the tree for 13 years. He produces syrup and flour, and sells these products at an organic farmers’ market in Lima. His farm is relatively small and doesn’t yet provide him with enough to live on, but he hopes this will change. ‘The organic market is growing rapidly in Peru,’ Benevides says. ‘I am investing in the future.’</p>
-<p>But even if Whaley can convince the local people to fall in love with the huarango again, there is still the threat of the larger farms. Some of these cut across the forests and break up the corridors that allow the essential movement of mammals, birds and pollen up and down the narrow forest strip. In the hope of counteracting this, he’s persuading farmers to let him plant forest corridors on their land. He believes the extra woodland will also benefit the farms by reducing their water usage through a lowering of evaporation and providing a refuge for bio-control insects.</p>
-<p>‘If we can record biodiversity and see how it all works, then we’re in a good position to move on from there. Desert habitats can reduce down to very little,’ Whaley explains. ‘It’s not like a rainforest that needs to have this huge expanse. Life has always been confined to corridors and islands here. If you just have a few trees left, the population can grow up quickly because it’s used to exploiting water when it arrives.’ He sees his project as a model that has the potential to be rolled out across other arid areas around the world. ‘If we can do it here, in the most fragile system on Earth, then that’s a real message of hope for lots of places, including Africa, where there is drought and they just can’t afford to wait for rain.’</p>
-<p>Questions 1-5
-Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.</p>
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 225</strong></h3>
+<h3 class="test-heading"><strong>the return of the huarango</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>The south coast of Peru is a narrow, 2,000-kilometre-long strip of desert squeezed between the Andes and the Pacific Ocean. It is also one of the most fragile ecosystems on Earth. It hardly ever rains there, and the only year-round source of water is located tens of metres below the surface. This is why the huarango tree is so suited to life there: it has the longest roots of any tree in the world. They stretch down 50-80 metres and, as well as sucking up water for the tree, they bring it into the higher subsoil, creating a water source for other plant life.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>Dr David Beresford-Jones, archaeobotanist at Cambridge University, has been studying the role of the huarango tree in landscape change in the Lower lea Valley in southern Peru. He believes the huarango was key to the ancient people’s diet and, because it could reach deep water sources, it allowed local people to withstand years of drought when their other crops failed. But over the centuries huarango trees were gradually replaced with crops. Cutting down native woodland leads to erosion, as there is nothing to keep the soil in place. So when the huarangos go, the land turns into a desert. Nothing grows at all in the Lower lea Valley now.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>For centuries the huarango tree was vital to the people of the neighbouring Middle lea Valley too. They grew vegetables under it and ate products made from its seed pods. Its leaves and bark were used for herbal remedies, while its branches were used for charcoal for cooking and heating, and its trunk was used to build houses. But now it is disappearing rapidly. The majority of the huarango forests in the valley have already been cleared for fuel and agriculture – initially, these were smallholdings, but now they’re huge farms producing crops for the international market.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>‘Of the forests that were here 1,000 years ago, 99 per cent have already gone,’ says botanist Oliver Whaley from Kew Gardens in London, who, together with ethnobotanist Dr William Milliken, is rumiing a pioneering project to protect and restore the rapidly disappearing habitat. In order to succeed, Whaley needs to get the local people on board, and that has meant overcoming local prejudices. ‘Increasingly aspirational communities think that if you plant food trees in your home or street, it shows you are poor, and still need to grow your own food,’ he says. In order to stop the Middle lea Valley going the same way as the Lower lea Valley, Whaley is encouraging locals to love the huarangos again. ‘It’s a process of cultural resuscitation,’ he says. He has already set up a huarango festival to reinstate a sense of pride in their eco-heritage, and has helped local schoolchildren plant thousands of trees.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>‘In order to get people interested in habitat restoration, you need to plant a tree that is useful to them,’ says Whaley. So, he has been working with local families to attempt to create a sustainable income from the huarangos by turning their products into foodstuffs. ‘Boil up the beans and you get this thick brown syrup like molasses. You can also use it in drinks, soups or stews.’ The pods can be ground into flour to make cakes, and the seeds roasted into a sweet, chocolatey ‘coffee’. ‘It’s packed full of vitamins and minerals,’ Whaley says.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>And some farmers are already planting huarangos. Alberto Benevides, owner of lea Valley’s only certified organic farm, which Whaley helped set up, has been planting the tree for 13 years. He produces syrup and flour, and sells these products at an organic farmers’ market in Lima. His farm is relatively small and doesn’t yet provide him with enough to live on, but he hopes this will change. ‘The organic market is growing rapidly in Peru,’ Benevides says. ‘I am investing in the future.’</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>But even if Whaley can convince the local people to fall in love with the huarango again, there is still the threat of the larger farms. Some of these cut across the forests and break up the corridors that allow the essential movement of mammals, birds and pollen up and down the narrow forest strip. In the hope of counteracting this, he’s persuading farmers to let him plant forest corridors on their land. He believes the extra woodland will also benefit the farms by reducing their water usage through a lowering of evaporation and providing a refuge for bio-control insects.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>‘If we can record biodiversity and see how it all works, then we’re in a good position to move on from there. Desert habitats can reduce down to very little,’ Whaley explains. ‘It’s not like a rainforest that needs to have this huge expanse. Life has always been confined to corridors and islands here. If you just have a few trees left, the population can grow up quickly because it’s used to exploiting water when it arrives.’ He sees his project as a model that has the potential to be rolled out across other arid areas around the world. ‘If we can do it here, in the most fragile system on Earth, then that’s a real message of hope for lots of places, including Africa, where there is drought and they just can’t afford to wait for rain.’</p></div></div>
+<p><strong>Questions 1-5</strong>
+Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
 <p>The importance of the huarango tree
 • its roots can extend as far as 80 metres into the soil
 • can access (1) …………….. deep below the surface
@@ -121,20 +177,20 @@ Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.
 • helped people to survive periods of (3) ………………..
 • prevents (4) ………………. of the soil
 • prevents land from becoming a (5) ……………..</p>
-<p>Questions 6-8
-Complete the table below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>traditional uses of the huarango tree</p>
-<p>Questions 9-13
+<p><strong>Questions 6-8</strong>
+Complete the table below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>traditional uses of the huarango tree</strong></p>
+<p><strong>Questions 9-13</strong>
 Do the following statements agree with the information given in Reading Passage 1? In boxes 9-13, write</p>
-<p>TRUE                   if the statement agrees with the information
-FALSE                 if the statement contradicts the information
-NOT GIVEN     if there is no information on this</p>
+<p><strong>TRUE</strong>                   if the statement agrees with the information
+<strong>FALSE</strong>                 if the statement contradicts the information
+<strong>NOT GIVEN</strong>     if there is no information on this</p>
 <p>9. Local families have told Whaley about some traditional uses of huarango products.
 10. Farmer Alberto Benevides is now making a good profit from growing huarangos.
 11. Whaley needs the co-operation of farmers to help preserve the area’s wildlife.
 12. For Whaley’s project to succeed, it needs to be extended over a very large area.
 13. Whaley has plans to go to Africa to set up a similar project.</p>
-<p>silbo Gomero – the whistle ‘language’ of the canary islands</p>
+<p><strong>silbo Gomero – the whistle ‘language’ of the canary islands</strong></p>
 <p>La Gomera is one of the Canary Islands situated in the Atlantic Ocean off the northwest coast of Africa. This small volcanic island is mountainous, with steep rocky slopes and deep, wooded ravines, rising to 1,487 metres at its highest peak. It is also home to the best known of the world’s whistle languages’, a means of transmitting information over long distances which is perfectly adapted to the extreme terrain of the island.</p>
 <p>This ‘language’, known as ‘Silbo’ or ‘Silbo Gomero’ – from the Spanish word for ‘whistle’ – is now shedding light on the language-processing abilities of the human brain, according to scientists. Researchers say that Silbo activates parts of the brain normally associated with spoken language, suggesting that the brain is remarkably flexible in its ability to interpret sounds as language.</p>
 <p>‘Science has developed the idea of brain areas that are dedicated to language, and we are starting to understand the scope of signals that can be recognised as language,’ says David Corina, co-author of a recent study and associate professor of psychology at the University of Washington in Seattle.</p>
@@ -144,32 +200,32 @@ NOT GIVEN     if there is no information on this</p>
 <p>‘Our results provide more evidence about the flexibility of human capacity for language in a variety of forms,’ Gorina says. ‘These data suggest that left-hemisphere language regions are uniquely adapted for communicative purposes, independent of the modality of signal. The non- Silbo speakers were not recognising Silbo as a language. They had nothing to grab onto, so multiple areas of their brains were activated.’</p>
 <p>Carreiras says the origins of Silbo Gomero remain obscure, but that indigenous Canary Islanders, who were of North African origin, already had a whistled language when Spain conquered the volcanic islands in the 15th century Whistled languages survive-today in Papua New Guinea, Mexico, Vietnam, Guyana, China, Nepal, Senegal, and a few mountainous pockets in southern Europe. There are thought to be as many as 70 whistled languages still in use, though only 12 have been described and studied scientifically. This form of communication is an adaptation found among cultures where people are often isolated from each other, according to Julien Meyer, a researcher at the Institute of Human Sciences in Lyon, France. ‘They are mostly used in mountains or dense forests,’ he says. ‘Whistled languages are quite clearly defined and represent an original adaptation of the spoken language for the needs of isolated human groups.’</p>
 <p>But with modern communication technology now widely available, researchers say whistled languages like Silbo are threatened with extinction. With dwindling numbers of Gomera islanders still fluent in the language, Canaries’ authorities are taking steps to try to ensure its survival. Since 1999, Silbo Gomero has been taught in all of the island’s elementary schools. In addition, locals are seeking assistance from the United Nations Educational, Scientific and Cultural Organization (UNESCO). ‘The local authorities are trying to get an award from the organisation to declare (Silbo Gomero) as something that should be preserved for humanity,’ Carreiras adds.</p>
-<p>Questions 14-19
+<p><strong>Questions 14-19</strong>
 Do the following statements agree with the information given in Reading Passage 2? In boxes 14-19, write</p>
-<p>TRUE                  if the statement agrees with the information
-FALSE                if the statement contradicts the information
-NOT GIVEN    if there is no information on this</p>
+<p><strong>TRUE</strong>                  if the statement agrees with the information
+<strong>FALSE</strong>                if the statement contradicts the information
+<strong>NOT GIVEN</strong>    if there is no information on this</p>
 <p>14. La Gomera is the most mountainous of all the Canary Islands.
 15. Silbo is only appropriate for short and simple messages.
 16. In the brain-activity study, silbadores and non-whistlers produced different results.
 17. The Spanish introduced Silbo to the islands in the 15th century.
 18. There is precise data available regarding all of the whistle languages in existence today.
 19. The children of Gomera now learn Silbo.</p>
-<p>Questions 20-26
-Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.</p>
-<p>Silbo Gomero</p>
-<p>How Silbo is produced
+<p><strong>Questions 20-26</strong>
+Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+<p><strong>Silbo Gomero</strong></p>
+<p><strong>How Silbo is produced</strong>
 • high- and low-frequency tones represent different sounds in Spanish (20) ………………
 • pitch of whistle is controlled using silbador’s (21) ………………
 • (22) ……………… is changed with a cupped hand</p>
-<p>How Silbo is used
+<p><strong>How Silbo is used</strong>
 • has long been used by shepherds and people living in secluded locations
 • in everyday use for the transmission of brief (23) ……………..
 • can relay essential information quickly, e.g. to inform people about (24) ……………..</p>
-<p>The future of Silbo
+<p><strong>The future of Silbo</strong>
 • future under threat because of new (25) ………………
 • Canaries’ authorities hoping to receive a UNESCO (26) ………………. to help preserve it</p>
-<p>environmental practices of big businesses</p>
+<p><strong>environmental practices of big businesses</strong></p>
 <p>The environmental practices of big businesses are shaped by a fundamental fact that for many of us offends our sense of justice. Depending on the circumstances, a business may maximize the amount of money it makes, at least in the short term, by damaging the environment and hurting people. That is still the case today for fishermen in an unmanaged fishery without quotas, and for international logging companies with short-term leases on tropical rainforest land in places with corrupt officials and unsophisticated landowners. When government regulation is effective, and when the public is environmentally aware, environmentally clean big businesses may out-compete dirty ones, but the reverse is likely to be true if government regulation is ineffective and if the public doesn’t care.</p>
 <p>It is easy for the rest of us to blame a business for helping itself by hurting other people. But blaming alone is unlikely to produce change. It ignores the fact that businesses are not charities but profit-making companies, and that publicly owned companies with shareholders are under obligation to those shareholders to maximize profits, provided that they do so by legal means. US laws make a company’s directors legally liable for something termed ‘breach of fiduciary responsibility’ if they knowingly manage a company in a way that reduces profits. The car manufacturer Henry Ford was in fact successfully sued by shareholders in 1919 for raising the minimum wage of his workers to $5 per day: the courts declared that, while Ford’s humanitarian sentiments about his employees were nice, his business existed to make profits for its stockholders.</p>
 <p>Our blaming of businesses also ignores the ultimate responsibility of the public for creating the conditions that let a business profit through destructive environmental policies. In the long run, it is the public, either directly or through its politicians, that has the power to make such destructive policies unprofitable and illegal, and to make sustainable environmental policies profitable.</p>
@@ -177,55 +233,55 @@ Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.
 <p>In turn, big businesses can exert powerful pressure on any suppliers that might ignore public or government pressure. For instance, after the US public became concerned about the spread of a disease known as BSE, which was transmitted to humans through infected meat, the US government’s Food and Drug Administration introduced rules demanding that the meat industry abandon practices associated with the risk of the disease spreading. But for five years the meat packers refused to follow these, claiming that they would be too expensive to obey. However, when a major fast-food company then made the same demands after customer purchases of its hamburgers plummeted, the meat industry complied within weeks. The public’s task is therefore to identify which links in the supply chain are sensitive to public pressure: for instance, fast-food chains or jewelry stores, but not meat packers or gold miners.</p>
 <p>Some readers may be disappointed or outraged that I place the ultimate responsibility for business practices harming the public on the public itself. I also believe that the public must accept the necessity for higher prices for products to cover the added costs, if any, of sound environmental practices. My views may seem to ignore the belief that businesses should act in accordance with moral principles even if this leads to a reduction in their profits. But I think we have to recognize that, throughout human history, in all politically complex human societies, government regulation has arisen precisely because it was found that not only did moral principles need to be made explicit, they also needed to be enforced.</p>
 <p>To me, the conclusion that the public has the ultimate responsibility for the behavior of even the biggest businesses is empowering and hopeful, rather than disappointing. My conclusion is not a moralistic one about who is right or wrong, admirable or selfish, a good guy or a bad guy. In the past, businesses have changed when the public came to expect and require different behavior, to reward businesses for behavior that the public wanted, and to make things difficult for businesses practicing behaviors that the public didn’t want. I predict that in the future, just as in the past, changes in public attitudes will be essential for changes in businesses’ environmental practices.</p>
-<p>Questions 27-31
+<p><strong>Questions 27-31</strong>
 Complete the summary using the list of words, A-I, below.</p>
-<p>Big businesses</p>
+<p><strong>Big businesses</strong></p>
 <p>Many big businesses today are prepared to harm people and the environment in order to make money, and they appear to have no (27) …………………. Lack of (28) ……………….by governments and lack of public (29)……………….. can lead to environmental problems such as (30) …………….. or the destruction of (31)……………</p>
-<p>A funding
-B trees
-C rare species
-D moral standards
-E control
-F involvement
-G flooding
-H overfishing
-I worker support</p>
-<p>Questions 32-34
+<p><strong>A</strong> funding
+<strong>B</strong> trees
+<strong>C</strong> rare species
+<strong>D</strong> moral standards
+<strong>E</strong> control
+<strong>F</strong> involvement
+<strong>G</strong> flooding
+<strong>H</strong> overfishing
+<strong>I</strong> worker support</p>
+<p><strong>Questions 32-34</strong>
 Choose the correct letter, A, B, C or D.</p>
 <p>32. The main idea of the third paragraph is that environmental damage
-A requires political action if it is to be stopped.
-B is the result of ignorance on the part of the public.
-C could be prevented by the action of ordinary people.
-D can only be stopped by educating business leaders.</p>
+<strong>A</strong> requires political action if it is to be stopped.
+<strong>B</strong> is the result of ignorance on the part of the public.
+<strong>C</strong> could be prevented by the action of ordinary people.
+<strong>D</strong> can only be stopped by educating business leaders.</p>
 <p>33. In the fourth paragraph, the writer describes ways in which the public can
-A reduce their own individual impact on the environment.
-B learn more about the impact of business on the environment.
-C raise awareness of the effects of specific environmental disasters.
-D influence the environmental policies of businesses and governments.</p>
+<strong>A</strong> reduce their own individual impact on the environment.
+<strong>B</strong> learn more about the impact of business on the environment.
+<strong>C</strong> raise awareness of the effects of specific environmental disasters.
+<strong>D</strong> influence the environmental policies of businesses and governments.</p>
 <p>34. What pressure was exerted by big business in the case of the disease BSE?
-A Meat packers stopped supplying hamburgers to fast-food chains.
-B A fast-food company forced their meat suppliers to follow the law.
-C Meat packers persuaded the government to reduce their expenses.
-D A fast-food company encouraged the government to introduce legislation.</p>
-<p>Questions 35-39
+<strong>A</strong> Meat packers stopped supplying hamburgers to fast-food chains.
+<strong>B</strong> A fast-food company forced their meat suppliers to follow the law.
+<strong>C</strong> Meat packers persuaded the government to reduce their expenses.
+<strong>D</strong> A fast-food company encouraged the government to introduce legislation.</p>
+<p><strong>Questions 35-39</strong>
 Do the following statements agree with the claims of the writer in Reading Passage 3? In boxes 35-39, write</p>
-<p>YES                     if the statement agrees with the claims of the writer
-NO                       if the statement contradicts the claims of the writer
-NOT GIVEN     if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                     if the statement agrees with the claims of the writer
+<strong>NO</strong>                       if the statement contradicts the claims of the writer
+<strong>NOT GIVEN</strong>     if it is impossible to say what the writer thinks about this</p>
 <p>35. The public should be prepared to fund good environmental practices.
 36. There is a contrast between the moral principles of different businesses.
 37. It is important to make a clear distinction between acceptable and unacceptable behaviour.
 38. The public have successfully influenced businesses in the past.
 39. In the future, businesses will show more concern for the environment.</p>
-<p>Question 40
+<p><strong>Question 40</strong>
 Choose the correct letter, A, B, C or B.</p>
 <p>40. What would be the best subheading for this passage?
-A Will the world survive the threat caused by big businesses?
-B How can big businesses be encouraged to be less driven by profit?
-C What environmental dangers are caused by the greed of businesses?
-D Are big businesses to blame for the damage they cause the environment?</p>
+<strong>A</strong> Will the world survive the threat caused by big businesses?
+<strong>B</strong> How can big businesses be encouraged to be less driven by profit?
+<strong>C</strong> What environmental dangers are caused by the greed of businesses?
+<strong>D</strong> Are big businesses to blame for the damage they cause the environment?</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Water</p>
 <p>2. Diet</p>
 <p>3. Drought</p>
@@ -484,6 +540,29 @@ D Are big businesses to blame for the damage they cause the environment?</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -503,12 +582,23 @@ D Are big businesses to blame for the damage they cause the environment?</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -520,14 +610,6 @@ D Are big businesses to blame for the damage they cause the environment?</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

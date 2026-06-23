@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,37 +158,37 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_152</h1>
-            <p>IELTS Listening Practice - Test 152</p>
-<p>Part 1: Questions 1-10
-Complete the notes below. Write NO MORE THAN TWO WORDS OR A NUMBER.</p>
-<p>WEST BAY HOTEL – DETAILS OF JOB
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 152</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-10</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS OR A NUMBER.</strong></p>
+<p><strong>WEST BAY HOTEL – DETAILS OF JOB</strong>
 • Newspaper advert for temporary staff
-• Vacancies for (1)  _______ 
+• Vacancies for <strong>(1)</strong>  _______ 
 • Two shifts
-• Can choose your (2)  _______  (must be the same each week)
-• Pay: £5.50 per hour including a (3)  _______ 
-• A (4)  _______  is provided in the hotel
+• Can choose your <strong>(2)</strong>  _______  (must be the same each week)
+• Pay: £5.50 per hour including a <strong>(3)</strong>  _______ 
+• A <strong>(4)</strong>  _______  is provided in the hotel
 • Total weekly pay: £231
-• Dress: a white shirt and (5)  _______  trousers (not supplied), a (6)  _______  (supplied)
-• Starting date: (7)  _______ 
-• Call Jane (8)  _______  (service manage) before (9)  _______  tomorrow (Tel: 832009)
-• She will require a (10)  _______</p>
-<p>Part 2: Questions 11-13
+• Dress: a white shirt and <strong>(5)</strong>  _______  trousers (not supplied), a <strong>(6)</strong>  _______  (supplied)
+• Starting date: <strong>(7)</strong>  _______ 
+• Call Jane <strong>(8)</strong>  _______  (service manage) before <strong>(9)</strong>  _______  tomorrow (Tel: 832009)
+• She will require a <strong>(10)</strong>  _______</p>
+<p><strong>Part 2: Questions 11-13</strong>
 Choose the correct letter A, B or C.</p>
-<p>Improvements to Red Hill Suburb
+<p><strong>Improvements to Red Hill Suburb</strong>
 11. Community groups are mainly concerned about
-[ ]  A pedestrian safety
-[ ]  B traffic jams
-[ ]  C increased pollution</p>
+<strong>[ ] </strong><strong> A</strong> pedestrian safety
+<strong>[ ] </strong><strong> B</strong> traffic jams
+<strong>[ ] </strong><strong> C</strong> increased pollution</p>
 <p>12. It has been decided that the overhead power lines will be
-[ ]  A extended
-[ ]  B buried
-[ ]  C repaired</p>
+<strong>[ ] </strong><strong> A</strong> extended
+<strong>[ ] </strong><strong> B</strong> buried
+<strong>[ ] </strong><strong> C</strong> repaired</p>
 <p>13. The expenses related to the power lines will be paid by
-[ ]  A the council
-[ ]  B the power company
-[ ]  C local businesses</p>
-<p>Questions 14-20
+<strong>[ ] </strong><strong> A</strong> the council
+<strong>[ ] </strong><strong> B</strong> the power company
+<strong>[ ] </strong><strong> C</strong> local businesses</p>
+<p><strong>Questions 14-20</strong>
 Label the map below. Write the correct letter A-H next to questions 14-20.</p>
 <p>14. Trees  _______ 
 15. Wider footpaths  _______ 
@@ -141,63 +197,63 @@ Label the map below. Write the correct letter A-H next to questions 14-20.</p>
 18. Traffic lights  _______ 
 19. Artwork  _______ 
 20. Children’s playground  _______</p>
-<p>Part 3: Questions 21 and 22
-Choose TWO letters A-E.</p>
-<p>In which TWO ways is Dan financing his course?
-[ ]  A He is receiving money from the government
-[ ]  B His family are willing to help him
-[ ]  C The college is giving him a small grant
-[ ]  D His local council is supporting him for a limited period
-[ ]  E A former employer is providing partial funding</p>
-<p>Questions 23 and 24
-Choose TWO letters, A-E.</p>
-<p>Which TWO reasons does Jeannie give for deciding to leave some college clubs?
-[ ]  A She is not sufficiently challenged
-[ ]  B The activity interferes with her studies
-[ ]  C She does not have enough time
-[ ]  D The activity is too demanding physically
-[ ]  E She does not think she is any good at the activity</p>
-<p>Questions 25 and 26
+<p><strong>Part 3: Questions 21 and 22</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>In which <strong>TWO</strong> ways is Dan financing his course?
+<strong>[ ] </strong><strong> A</strong> He is receiving money from the government
+<strong>[ ] </strong><strong> B</strong> His family are willing to help him
+<strong>[ ] </strong><strong> C</strong> The college is giving him a small grant
+<strong>[ ] </strong><strong> D</strong> His local council is supporting him for a limited period
+<strong>[ ] </strong><strong> E</strong> A former employer is providing partial funding</p>
+<p><strong>Questions 23 and 24</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>Which <strong>TWO</strong> reasons does Jeannie give for deciding to leave some college clubs?
+<strong>[ ] </strong><strong> A</strong> She is not sufficiently challenged
+<strong>[ ] </strong><strong> B</strong> The activity interferes with her studies
+<strong>[ ] </strong><strong> C</strong> She does not have enough time
+<strong>[ ] </strong><strong> D</strong> The activity is too demanding physically
+<strong>[ ] </strong><strong> E</strong> She does not think she is any good at the activity</p>
+<p><strong>Questions 25 and 26</strong>
 Choose the correct letter, A, B or C.</p>
 <p>25. What does Dan say about the seminars on the course?
-[ ]  A The other students do not give him a chance to speak
-[ ]  B The seminars make him feel inferior to the other students
-[ ]  C The preparation for seminars takes too much time</p>
+<strong>[ ] </strong><strong> A</strong> The other students do not give him a chance to speak
+<strong>[ ] </strong><strong> B</strong> The seminars make him feel inferior to the other students
+<strong>[ ] </strong><strong> C</strong> The preparation for seminars takes too much time</p>
 <p>26. What does Jeannie say about the tutorials on the course?
-[ ]  A They are an inefficient way of providing guidance
-[ ]  B They are more challenging than she had expected
-[ ]  C They are helping her to develop her study skills</p>
-<p>Questions 27-30
-Complete the flow chart below. Write NO MORE THAN TWO WORDS OR A NUMBER.</p>
-<p>(27)  _______                    (28)  _______ 
-(29)  _______                    (30)  _______</p>
-<p>Part 4: Questions 31-36</p>
-<p>Australian Aboriginal Rock Paintings</p>
+<strong>[ ] </strong><strong> A</strong> They are an inefficient way of providing guidance
+<strong>[ ] </strong><strong> B</strong> They are more challenging than she had expected
+<strong>[ ] </strong><strong> C</strong> They are helping her to develop her study skills</p>
+<p><strong>Questions 27-30</strong>
+Complete the flow chart below. Write <strong>NO MORE THAN TWO WORDS OR A NUMBER.</strong></p>
+<p><strong>(27)</strong>  _______                    <strong>(28)</strong>  _______ 
+<strong>(29)</strong>  _______                    <strong>(30)</strong>  _______</p>
+<p><strong>Part 4: Questions 31-36</strong></p>
+<p><strong>Australian Aboriginal Rock Paintings</strong></p>
 <p>Which painting styles have the following features?</p>
 <p>Write the correct letter A, B or C next to questions 31-36.</p>
-<p>Features
+<p><strong>Features</strong>
 31. figures revealing bones  _______ 
 32. rounded figures  _______ 
 33. figures with parts missing  _______ 
 34. figures smaller than life size  _______ 
 35. sea creatures  _______ 
 36. plants  _______</p>
-<p>Painting Styles
-A Dynamic
-B Yam
-C Modern</p>
-<p>Questions 37-40
-Complete the notes below. Write NO MORE THAN TWO WORDS.</p>
-<p>RAINBOW SERPENT PROJECT</p>
-<p>Aim of project: to identify the (37)  _______  used as the basis for the Rainbow Serpent
+<p><strong>Painting Styles</strong>
+<strong>A</strong> Dynamic
+<strong>B</strong> Yam
+<strong>C</strong> Modern</p>
+<p><strong>Questions 37-40</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS.</strong></p>
+<p><strong>RAINBOW SERPENT PROJECT</strong></p>
+<p>Aim of project: to identify the <strong>(37)</strong>  _______  used as the basis for the Rainbow Serpent
 Yam Period:
-• Environmental changes led to higher (38)  _______ 
-• Traditional activities were affected especially (39)  _______</p>
+• Environmental changes led to higher <strong>(38)</strong>  _______ 
+• Traditional activities were affected especially <strong>(39)</strong>  _______</p>
 <p>Rainbow Serpent Image
 • Similar to a sea horse
 • Unusual because it appeared in inland areas
-• Symbolises (40)  _______  in Aboriginal culture</p>
-<p>ANSWER KEY</p>
+• Symbolises <strong>(40)</strong>  _______  in Aboriginal culture</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. waiters</p>
 <p>2. day off</p>
 <p>3. break</p>
@@ -456,6 +512,29 @@ Yam Period:
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -475,12 +554,23 @@ Yam Period:
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -492,14 +582,6 @@ Yam Period:
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

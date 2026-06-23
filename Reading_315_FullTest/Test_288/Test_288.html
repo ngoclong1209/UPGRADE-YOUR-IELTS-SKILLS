@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,30 +158,30 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_288</h1>
-            <p>IELTS Reading Practice - Test 288</p>
-<p>Traditional Maori medicines</p>
-<p>The Maori are the indigenous people of the islands of New Zealand. Their traditional medicine, which is believed to date back as far as the 13th century, was a system of healing that was passed down through the generations orally. It comprised diverse practices and placed an emphasis on the spiritual dimension of health. Its practice included remedies made from herbs, and physical therapies such as massage to relieve discomfort in the muscles and bones.</p>
-<p>Maori systems for treating illness were well developed before European arrived in New Zealand in the late 1700s: they had quite detailed knowledge of anatomy and recognition of the healing properties of various plants. When Europeans first visited New Zealand, the average age of death for Maori adults was around 30. However, apart from this, the people were fit and healthy, and troubled by few diseases.</p>
-<p>Illness was often seen as spiritually based. Maori saw themselves as guardians of the earth, and the focus of their existence was to remain at one with the natural and supernatural world. Rather than a medical problem, sickness was often viewed as a symptom of disharmony with natures.</p>
-<p>In Maori culture, illnesses were divided into diseases of the gods (mate atua) and physical diseases (mate tangata). Diseases sent by the gods were often attributed to attacks by evil spirits, because the person had broken a religious rule. For instance, for Maori, Places where people had died, or places where their ancestors were buried were sacred, so if someone took food from a river where someone had died, or took a stick form a tree that had held their ancestor’s bones and placed it on a cooking fire, it was believed that the gods could punish them for their disrespectful acts by making them SICK.</p>
-<p>More than 200 plants were used medicinally by Maori. The leaves of the flax plant were used to treat skin infections and food poisoning, and the hard part of the leaf was also used as a splint or brace for broken bones and injured backs. Flax fibers were used along with a sharpened stick to sew up bad cuts. The bark and leaves of the pepper tree were used to heal cuts, wounds and stomach pain. People who had toothache were instructed to chew the leaves of this same tree, and this was found to be of considerable benefit. The pepper tree was also used in vapor baths to treat people with painful joints.</p>
-<p>Colonization by European in the 1800s had a significant effect on traditional Maori healing. Europeans brought many new diseases with them which Maori healers had limited ability to combat. Though Western medicine was also relatively ineffectual at the time, this failure still strongly affected Maori confidence in their healers. Some western missionaries attributed the spread of disease to the fact the Maori did not believe in Christianity, and as Maori healers appeared powerless, many Maori accepted this explanation and turned to Christianity. Over time the schools of higher learning which had trained healers started to close and the tradition of the Maori healer declined.</p>
-<p>From the late 20th century, there was renewed Maori interest in their traditional medicine. This was due to several factors. There was a resurgence of all aspects of Maori culture in New Zealand. Furthermore, people started to be less trusting of Western medicine-statistics from the 1970s came out revealing that Maori health continued to be poorer than that of other New Zealanders. There were also problems with access to health care for Maori. Additionally, there was and still a today a perceived lack of a spiritual dimension in Western health services.</p>
-<p>Although Maori today largely accepted Western concepts of health and illness, and use the mainstream health system, there is significant demand for traditional medicine. This is true for unusual illnesses, or those that fail to respond to standard medical treatment, but also for common ailments such as the cold and influenza.</p>
-<p>Today’s healers differ significantly from those of old times. Training is highly variable, usually informal, and often less tribally bound than the rigorous education of the traditional houses of higher learning. Many modern healers work in urban clinics, some alongside mainstream health professionals. They experiment, incorporating knowledge from Western and other medical systems. As a result, their modern day work has no standard system of diagnosis or widespread agreement about treatments. Despite this, many healers are recognized as having knowledge and ability that has been passed down from their ancestors. The Maori language is also seen as important by many of those receiving treatment.</p>
-<p>Questions 1-6
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 288</strong></h3>
+<h3 class="test-heading"><strong>Traditional Maori medicines</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>The Maori are the indigenous people of the islands of New Zealand. Their traditional medicine, which is believed to date back as far as the 13th century, was a system of healing that was passed down through the generations orally. It comprised diverse practices and placed an emphasis on the spiritual dimension of health. Its practice included remedies made from herbs, and physical therapies such as massage to relieve discomfort in the muscles and bones.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>Maori systems for treating illness were well developed before European arrived in New Zealand in the late 1700s: they had quite detailed knowledge of anatomy and recognition of the healing properties of various plants. When Europeans first visited New Zealand, the average age of death for Maori adults was around 30. However, apart from this, the people were fit and healthy, and troubled by few diseases.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Illness was often seen as spiritually based. Maori saw themselves as guardians of the earth, and the focus of their existence was to remain at one with the natural and supernatural world. Rather than a medical problem, sickness was often viewed as a symptom of disharmony with natures.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>In Maori culture, illnesses were divided into diseases of the gods (mate atua) and physical diseases (mate tangata). Diseases sent by the gods were often attributed to attacks by evil spirits, because the person had broken a religious rule. For instance, for Maori, Places where people had died, or places where their ancestors were buried were sacred, so if someone took food from a river where someone had died, or took a stick form a tree that had held their ancestor’s bones and placed it on a cooking fire, it was believed that the gods could punish them for their disrespectful acts by making them SICK.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>More than 200 plants were used medicinally by Maori. The leaves of the flax plant were used to treat skin infections and food poisoning, and the hard part of the leaf was also used as a splint or brace for broken bones and injured backs. Flax fibers were used along with a sharpened stick to sew up bad cuts. The bark and leaves of the pepper tree were used to heal cuts, wounds and stomach pain. People who had toothache were instructed to chew the leaves of this same tree, and this was found to be of considerable benefit. The pepper tree was also used in vapor baths to treat people with painful joints.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Colonization by European in the 1800s had a significant effect on traditional Maori healing. Europeans brought many new diseases with them which Maori healers had limited ability to combat. Though Western medicine was also relatively ineffectual at the time, this failure still strongly affected Maori confidence in their healers. Some western missionaries attributed the spread of disease to the fact the Maori did not believe in Christianity, and as Maori healers appeared powerless, many Maori accepted this explanation and turned to Christianity. Over time the schools of higher learning which had trained healers started to close and the tradition of the Maori healer declined.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>From the late 20th century, there was renewed Maori interest in their traditional medicine. This was due to several factors. There was a resurgence of all aspects of Maori culture in New Zealand. Furthermore, people started to be less trusting of Western medicine-statistics from the 1970s came out revealing that Maori health continued to be poorer than that of other New Zealanders. There were also problems with access to health care for Maori. Additionally, there was and still a today a perceived lack of a spiritual dimension in Western health services.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>Although Maori today largely accepted Western concepts of health and illness, and use the mainstream health system, there is significant demand for traditional medicine. This is true for unusual illnesses, or those that fail to respond to standard medical treatment, but also for common ailments such as the cold and influenza.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>Today’s healers differ significantly from those of old times. Training is highly variable, usually informal, and often less tribally bound than the rigorous education of the traditional houses of higher learning. Many modern healers work in urban clinics, some alongside mainstream health professionals. They experiment, incorporating knowledge from Western and other medical systems. As a result, their modern day work has no standard system of diagnosis or widespread agreement about treatments. Despite this, many healers are recognized as having knowledge and ability that has been passed down from their ancestors. The Maori language is also seen as important by many of those receiving treatment.</p></div></div>
+<p><strong>Questions 1-6</strong>
 Do the following statements agree with the information given in reading passage? In boxes 1-6 on your answer sheet, write</p>
-<p>TRUE                               if the statement agrees with the information
-FALSE                             if the statement contradicts the information
-NOT GIVEN                  if there is no information on this</p>
-<p>Questions 7-13
-Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.</p>
-<p>A short history of Maori healing</p>
-<p>Pre-European arrival
+<p><strong>TRUE</strong>                               if the statement agrees with the information
+<strong>FALSE</strong>                             if the statement contradicts the information
+<strong>NOT GIVEN</strong>                  if there is no information on this</p>
+<p><strong>Questions 7-13</strong>
+Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+<p><strong>A short history of Maori healing</strong></p>
+<p><strong>Pre-European arrival</strong>
 • Maori were using plant based remedies, as well as treatment including massage
 • Diseases sent from the gods were thought to be caused by disobeying a spiritual (7) ……………..
 • Sickness could be attributed to eating food from a sacred (8) ………………. or burning sacred wood</p>
-<p>After European arrival</p>
+<p><strong>After European arrival</strong></p>
 <p>1800s
 • The inability of Maori healers to cure new diseases meant the Maori people lost (9) ……………….. in them.
 • Eventually the (10) ………………. for Maori healing began shutting down 1970s
@@ -133,7 +189,7 @@ Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.
 <p>2000s
 • Maori healers can be seen working with Western doctors in (12) ……………….. in cities
 • Many patients appreciate the fact that the Maoris (13) ………………. in used by healers</p>
-<p>Chinstrap Penguin Population In The Last 50 Years</p>
+<p><strong>Chinstrap Penguin Population In The Last 50 Years</strong></p>
 <p>The chinstrap penguin has a cap of black plumage, a white face, and a continuous band of black feathers extending from one side of the head to the other, the “chinstrap.” The northern part of the Antarctic Peninsula, several Antarctic and subantarctic islands, and the uninhabited Balleny Islands between Antarctica and New Zealand are the habitats of the species.</p>
 <p>Antarctic penguin colonies in some parts of the Antarctic have declined over the last 50 years, mostly because of climate change, researchers say. The colonies of chinstrap penguins, also known as ringed or bearded penguins, have dramatically dropped since they were last surveyed almost 50 years ago, scientists discovered. The findings became surprising because, until now, the chinstraps have been deemed of “least concern” by the International Union for Conservation of Nature (IUCN). “We really didn’t know what to expect, and then we found this huge decline on Elephant Island,” Noah Strycker, an ornithologist and penguin researcher at Stony Brook University, told CNN from Greenpeace’s Esperanza ship in the Antarctic. “It’s a little bit worrying as it means that something is shifting in the ecosystem and the fall in penguin numbers is reflecting that shift.”</p>
 <p>Every colony of Elephant Island, which is a crucial penguin habitat northeast of the Antarctic Peninsula, when surveyed, experienced a population fall, as per the independent researchers who joined a Greenpeace expedition to the region. Elephant Island was last surveyed in 1971, and there were 122,550 pairs of penguins across all colonies. However, the recent count revealed just 52,786 pairs with a drop of almost 60%. On Elephant Island, the size of the population change varied from colony to colony, and the most significant decline was recorded at a colony known as Chinstrap Camp, which is 77%.</p>
@@ -142,7 +198,7 @@ Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.
 <p>However, some good news was also there, as the researchers reported an increase in gentoo penguins population in neighbouring colonies, beyond Elephant Island. “It’s interesting, as a tale of two penguins on the Antarctic Peninsula,” said Strycker. “Gentoo is a species from further north and they appear to be colonizing the area and are actually increasing in numbers.”</p>
 <p>The Greenpeace ship Esperanza has been documenting the threat to the oceans worldwide and taking the scientists for travelling abroad. For the first time, the Low Island in the South Shetland Islands, north of the Antarctic Peninsula, has been surveyed properly. The manual and drone techniques are used by the researchers, from Stony Brook and Northeastern University in Boston, to survey a series of significant but relatively unknown colonies of chinstrap penguin here. The results are, however, not yet available. Greenpeace has been campaigning for the three Antarctic sanctuaries that it would establish to offer protection to many of the colonies surveyed. These would be off-limits to humans.</p>
 <p>Louisa Casson, Greenpeace Oceans Campaigner, said in a statement: “Penguins are an iconic species, but this new research shows how the climate emergency is decimating their numbers and having far-reaching impacts on wildlife in the most remote corners of Earth. This is a critical year for our oceans. “Governments must respond to the science and agree on a strong Global Ocean Treaty at the United Nations this spring that can create a network of ocean sanctuaries to protect marine life and help these creatures adapt to our rapidly changing climate.”</p>
-<p>Questions 14-20
+<p><strong>Questions 14-20</strong>
 The reading passage has 8 paragraphs labelled A-H. Which paragraph contains the following information? NB You may use any letter more than once.</p>
 <p>14. The highest temperatures ever.
 15. The difference between current and past records on penguin population.
@@ -151,21 +207,21 @@ The reading passage has 8 paragraphs labelled A-H. Which paragraph contains the 
 18. Measures to protect ocean species.
 19. Factors contributing to the decline in the amount of food available.
 20. Description of a specific species.</p>
-<p>Questions 21-23
+<p><strong>Questions 21-23</strong>
 Do the following statements agree with the information given in reading passage? In boxes 21-23 on your answer sheet, choose:</p>
-<p>TRUE                           if the statement agrees with the information
-FALSE                         if the statement contradicts the information
-NOT GIVEN              if there is no information on this</p>
+<p><strong>TRUE</strong>                           if the statement agrees with the information
+<strong>FALSE</strong>                         if the statement contradicts the information
+<strong>NOT GIVEN</strong>              if there is no information on this</p>
 <p>21. The IUCN showed little concern about the fall in penguin numbers.
 22. Climate change is a reason for the changes in the food chain of chinstrap penguins.
 23. Gentoo penguins are not affected by climate change.</p>
-<p>Questions 24-26
-Complete the note below. Choose ONLY ONE WORD from the passage for each answer.</p>
+<p><strong>Questions 24-26</strong>
+Complete the note below. Choose <strong>ONLY ONE WORD</strong> from the passage for each answer.</p>
 <p>The Greenpeace ship has been used to:
 • record the (24) ……………… to marine life over the world.
 • carry the (25) ………………….. overseas.
 • Build (26) …………………. to protect many surveyed colonies.</p>
-<p>Why Do We Touch Strangers So Much? A History Of The Handshake Offers Clues</p>
+<p><strong>Why Do We Touch Strangers So Much? A History Of The Handshake Offers Clues</strong></p>
 <p>For thousands of years, the handshake has been used for different purposes.</p>
 <p>There is a lot that can be conveyed in a handshake, a kiss, or a hug. Throughout history, such a greeting was used to signal friendship, finalize a business transaction, or indicate religious devotion. Touching strangers, however, can also transmit other, less beneficial shared outcomes—like disease outbreaks.
 As fears about COVID-19, or coronavirus, mount, France has warned its citizens to pause their famous cheek kisses, and across the world, business deals are being sealed with an elbow bump. But with histories tracing back thousands of years, both greetings are likely too entrenched to be so easily halted.</p>
@@ -177,11 +233,11 @@ There may be a scientific explanation for its lasting power. In a 2015 study, re
 <p>Today, a swift kiss on the cheek known in French as “la bise,” is a standard greeting in much of the world. The word may have originated with the Romans, who had a different term for each type of kiss and called the polite version “basium.” In Paris, two kisses are common. In Provence expect three, and four is the norm in the Loire Valley. The cheek kiss is also common in countries like Egypt, where three kisses is customary, Latin America, and the Philippines. It is thought that during the plague in the 14th century, la bise may have stopped and was not revived again until 400 years later, after the French Revolution. In 2009, la bise was temporarily paused as swine flu became a concern. At the end of February, the French Health Minister advised against it as the coronavirus cases increased. “The reduction in social contacts of a physical nature is advised,” he said. “That includes the practice of the bise.”</p>
 <p>In her book Don’t Look, Don’t Touch, behavioural scientist Val Curtis of the London School of Hygiene and Tropical Medicine, says that one possible reason for the kiss and handshake as a greeting is to signify that the other person is trusted enough to share germs with. Because of this, the practice can go in and out of style depending on public health concerns.</p>
 <p>In a 1929 study, a nurse named Leila Given wrote an article in the American Journal of Nursing lamenting the loss of the last generation’s “finger-tipping and the high handshake” customs in favour of a handshake. She warned that hands “are agents of bacterial transfer” and cited early studies showing that a handshake could easily spread germs. In conclusion, she recommended that Americans adopt the Chinese custom at the time of shaking one’s own hands together when greeting a friend. “At least our bacteria would then stay at home,” she wrote.</p>
-<p>Questions 27-33
+<p><strong>Questions 27-33</strong>
 Do the following statements agree with the information given in reading passage? In boxes 27-33 on your answer sheet, choose:</p>
-<p>TRUE                         if the statement agrees with the information
-FALSE                       if the statement contradicts the information
-NOT GIVEN           if there is no information on this</p>
+<p><strong>TRUE</strong>                         if the statement agrees with the information
+<strong>FALSE</strong>                       if the statement contradicts the information
+<strong>NOT GIVEN</strong>           if there is no information on this</p>
 <p>27. Shaking hands is an indicator of hospitality.
 28. Evidence showed that the handshake started as a sign of peace.
 29. When shaking hands, people often rolled up their sleeves.
@@ -189,15 +245,15 @@ NOT GIVEN           if there is no information on this</p>
 31. In America, handshakes became prevalent because they represented equality and freedom.
 32. A research conducted in 2015 showed that exactly 25% of participants smelled their hands after a handshake.
 33. People often smell their hands to spot poisonous chemicals.</p>
-<p>Questions 34-38
-Complete the summary below. Choose no more than THREE WORDS AND/OR A NUMBER from the passage for each answer.</p>
-<p>The history of cheek kissing</p>
+<p><strong>Questions 34-38</strong>
+Complete the summary below. Choose no more than <strong>THREE WORDS AND/OR A NUMBER</strong> from the passage for each answer.</p>
+<p><strong>The history of cheek kissing</strong></p>
 <p>In the past, Christian used cheek kisses in (34) ………………….. In the Middle Age, the kiss-as-greeting was used to show (35) …………….. or used in making agreements. At present, it is a norm for people almost all over the world to greet each other. In Rome, people named different types of kisses in different ways. It is common for people in Paris to exchange (36) ………………….. The standard is three in Provence and four in the Lore Valley. A kiss on the cheek is also popular among people of Egypt, Latin America and the Philippines. People believe that in the 14th century, the cheek kiss might have been paused and it remained so for (37) …………………. In 2009, due to (38) ………………….. cheek kisses were also stopped for a while.</p>
-<p>Questions 39-40
-Answer the question below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+<p><strong>Questions 39-40</strong>
+Answer the question below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>39. What did French Health Minister advise people to avoid to prevent the spread of coronavirus?
 40. What can be transferred from a handshake?</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. False</p>
 <p>2. Not given</p>
 <p>3. Not given</p>
@@ -456,6 +512,29 @@ Answer the question below. Choose NO MORE THAN TWO WORDS from the passage for ea
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -475,12 +554,23 @@ Answer the question below. Choose NO MORE THAN TWO WORDS from the passage for ea
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -492,14 +582,6 @@ Answer the question below. Choose NO MORE THAN TWO WORDS from the passage for ea
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

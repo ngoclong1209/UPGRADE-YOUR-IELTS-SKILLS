@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,94 +158,94 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_130</h1>
-            <p>IELTS Listening Practice - Test 130</p>
-<p>Part 1: Questions 1-10
-Complete the notes below. Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer</p>
-<p>Going away party for Albert</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 130</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-10</strong>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer</p>
+<h3 class="test-heading"><strong>Going away party for Albert</strong></h3>
 <p>Date – August 24th</p>
-<p>Place: (1)  _______  grill
-People to invite: (2)  _______  from college
+<p>Place: <strong>(1)</strong>  _______  grill
+People to invite: <strong>(2)</strong>  _______  from college
 Cousins
-(3)  _______  and boss
-Date to send out invites: (4)  _______  August</p>
-<p>Need to ask each person for this much money: (5) $  _______</p>
-<p>Gift idea: (6)  _______  light</p>
-<p>For the meal: Buffet (7)  _______  is probably cheaper than everyone ordering individually
-People can buy drinks themselves or (8)  _______</p>
-<p>Ask people to bring: A/ an (9)  _______  for music
-Digital (10)  _______  or ones that can be scanned</p>
-<p>Part 2: Questions 11-16
+<strong>(3)</strong>  _______  and boss
+Date to send out invites: <strong>(4)</strong>  _______  August</p>
+<h3 class="test-heading">Need to ask each person for this much money: <strong>(5)</strong> $  _______</h3>
+<h3 class="test-heading">Gift idea: <strong>(6)</strong>  _______  light</h3>
+<p>For the meal: Buffet <strong>(7)</strong>  _______  is probably cheaper than everyone ordering individually
+People can buy drinks themselves or <strong>(8)</strong>  _______</p>
+<p>Ask people to bring: A/ an <strong>(9)</strong>  _______  for music
+Digital <strong>(10)</strong>  _______  or ones that can be scanned</p>
+<p><strong>Part 2: Questions 11-16</strong>
 Choose the correct letter A, B or C.</p>
 <p>11. To find out more about reservations, one needs to
-[ ]  A click a link in a corner of the page
-[ ]  B navigate to another page on the website
-[ ]  C call a number that is at the bottom of the page</p>
+<strong>[ ] </strong><strong> A</strong> click a link in a corner of the page
+<strong>[ ] </strong><strong> B</strong> navigate to another page on the website
+<strong>[ ] </strong><strong> C</strong> call a number that is at the bottom of the page</p>
 <p>12. ‘Extreme Tours’ are special vacation packages for those
-[ ]  A who desire to visit safe destinations
-[ ]  B who need to see familiar places
-[ ]  C who want to have a really exciting experience</p>
+<strong>[ ] </strong><strong> A</strong> who desire to visit safe destinations
+<strong>[ ] </strong><strong> B</strong> who need to see familiar places
+<strong>[ ] </strong><strong> C</strong> who want to have a really exciting experience</p>
 <p>13. The travel agency says these excursions will give people the chance to
-[ ]  A see famous and well-known tourist sites
-[ ]  B test themselves and become stronger
-[ ]  C buy lots of interesting souvenirs</p>
+<strong>[ ] </strong><strong> A</strong> see famous and well-known tourist sites
+<strong>[ ] </strong><strong> B</strong> test themselves and become stronger
+<strong>[ ] </strong><strong> C</strong> buy lots of interesting souvenirs</p>
 <p>14. The company has offices in South America, Australia and
-[ ]  A North America
-[ ]  B Southeast Asia
-[ ]  C Europe</p>
+<strong>[ ] </strong><strong> A</strong> North America
+<strong>[ ] </strong><strong> B</strong> Southeast Asia
+<strong>[ ] </strong><strong> C</strong> Europe</p>
 <p>15. Unlike other companies, Fremen allows you to
-[ ]  A hire a car for the duration of your vacation
-[ ]  B travel about independently
-[ ]  C speak with a travel agent for free</p>
+<strong>[ ] </strong><strong> A</strong> hire a car for the duration of your vacation
+<strong>[ ] </strong><strong> B</strong> travel about independently
+<strong>[ ] </strong><strong> C</strong> speak with a travel agent for free</p>
 <p>16. Included in all tour packages is the cost of
-[ ]  A airfare, accommodation and transportation
-[ ]  B food and entertainment
-[ ]  C tour guides</p>
-<p>Questions 17-20
-Complete the table below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each answer.</p>
-<p>(17)  _______                   (18)  _______ 
-(19)  _______                  (20)  _______</p>
-<p>Part 3: Questions 21-26
-Complete the table below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>(21)  _______                            (22)  _______ 
-(23)  _______                           (24)  _______ 
-(25)  _______                           (26)  _______</p>
-<p>Questions 27-30
+<strong>[ ] </strong><strong> A</strong> airfare, accommodation and transportation
+<strong>[ ] </strong><strong> B</strong> food and entertainment
+<strong>[ ] </strong><strong> C</strong> tour guides</p>
+<p><strong>Questions 17-20</strong>
+Complete the table below. Write <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>(17)</strong>  _______                   <strong>(18)</strong>  _______ 
+<strong>(19)</strong>  _______                  <strong>(20)</strong>  _______</p>
+<p><strong>Part 3: Questions 21-26</strong>
+Complete the table below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>(21)</strong>  _______                            <strong>(22)</strong>  _______ 
+<strong>(23)</strong>  _______                           <strong>(24)</strong>  _______ 
+<strong>(25)</strong>  _______                           <strong>(26)</strong>  _______</p>
+<p><strong>Questions 27-30</strong>
 What problems do Jimi and Janis identify for each art project?</p>
 <p>Choose your answers from the box and write the letters A-G next to questions 27-30.</p>
-<p>(27)  _______                    (28)  _______ 
-(29)  _______                    (30)  _______</p>
-<p>Part 4: Questions 31-35
-Complete the notes below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>The Gray Wolf
-They might prey on animals people depend on for a living, but wolves are actually a (31)  _______  of the Earth’s living system.</p>
-<p>Wolves hunt in small group and have a well developed (32)  _______</p>
-<p>At the top of the hierarchy are an alpha male and an alpha (33)  _______</p>
+<p><strong>(27)</strong>  _______                    <strong>(28)</strong>  _______ 
+<strong>(29)</strong>  _______                    <strong>(30)</strong>  _______</p>
+<p><strong>Part 4: Questions 31-35</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>The Gray Wolf</strong>
+They might prey on animals people depend on for a living, but wolves are actually a <strong>(31)</strong>  _______  of the Earth’s living system.</p>
+<p>Wolves hunt in small group and have a well developed <strong>(32)</strong>  _______</p>
+<p>At the top of the hierarchy are an alpha male and an alpha <strong>(33)</strong>  _______</p>
 <p>The alpha pair’s pups are usually the B  _______  successfully.</p>
-<p>Challenges for leadership do not always lead to physical (35)  _______  but are mostly for show.</p>
-<p>Questions 36-38
+<p>Challenges for leadership do not always lead to physical <strong>(35)</strong>  _______  but are mostly for show.</p>
+<p><strong>Questions 36-38</strong>
 Choose the correct letter A, B or C.</p>
 <p>36. Gray wolves are now found only in Canada, Alaska, Northern Eurasia and
-[ ]  A many other places in the southern hemisphere
-[ ]  B a few other isolated areas in the world
-[ ]  C on the Indian subcontinent</p>
+<strong>[ ] </strong><strong> A</strong> many other places in the southern hemisphere
+<strong>[ ] </strong><strong> B</strong> a few other isolated areas in the world
+<strong>[ ] </strong><strong> C</strong> on the Indian subcontinent</p>
 <p>37. Supporters of the reintroduction program agreed to
-[ ]  A give money to people whose cattle were at risk
-[ ]  B delay restoring the wolf population for several years
-[ ]  C fund more studies</p>
+<strong>[ ] </strong><strong> A</strong> give money to people whose cattle were at risk
+<strong>[ ] </strong><strong> B</strong> delay restoring the wolf population for several years
+<strong>[ ] </strong><strong> C</strong> fund more studies</p>
 <p>38. After reintroducing the wolves, biodiversity in Yellowstone Park increased and
-[ ]  A maintained itself
-[ ]  B fell soon afterwards
-[ ]  C stayed exactly the same</p>
-<p>Questions 39 and 40
-Choose TWO letters A-F.</p>
-<p>What are TWO results of the wolf reintroduction program in Yellowstone Park?</p>
-<p>[ ]  A ranchers have become angry
-[ ]  B there are fewer tourists in Yellowstone
-[ ]  C eagle and hawk species have increased
-[ ]  D Yellowstone is not as healthy as before
-[ ]  E the local economy has benefitted
-[ ]  F local population are fearful</p>
-<p>ANSWER KEY</p>
+<strong>[ ] </strong><strong> A</strong> maintained itself
+<strong>[ ] </strong><strong> B</strong> fell soon afterwards
+<strong>[ ] </strong><strong> C</strong> stayed exactly the same</p>
+<p><strong>Questions 39 and 40</strong>
+Choose <strong>TWO</strong> letters A-F.</p>
+<p>What are <strong>TWO</strong> results of the wolf reintroduction program in Yellowstone Park?</p>
+<p><strong>[ ] </strong><strong> A</strong> ranchers have become angry
+<strong>[ ] </strong><strong> B</strong> there are fewer tourists in Yellowstone
+<strong>[ ] </strong><strong> C</strong> eagle and hawk species have increased
+<strong>[ ] </strong><strong> D</strong> Yellowstone is not as healthy as before
+<strong>[ ] </strong><strong> E</strong> the local economy has benefitted
+<strong>[ ] </strong><strong> F</strong> local population are fearful</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. apple tree</p>
 <p>2. best friend</p>
 <p>3. coworkers</p>
@@ -448,6 +504,29 @@ Choose TWO letters A-F.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -467,12 +546,23 @@ Choose TWO letters A-F.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -484,14 +574,6 @@ Choose TWO letters A-F.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

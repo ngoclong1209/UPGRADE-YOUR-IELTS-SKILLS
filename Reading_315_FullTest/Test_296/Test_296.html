@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,93 +158,93 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_296</h1>
-            <p>IELTS Reading Practice - Test 296</p>
-<p>Survivor from the sky</p>
-<p>In a remarkable documentary, Wings of Hope, German director Werner Herzog re-counts the true story of an eighteen-year-old girl, the sole survivor of a plane crash in the Amazon jungle in 1971. Twenty-nine years later, Herzog returns to the jungle with Juliane Koepke, now a 46-year-old biologist, and she tells her amazing story on film.</p>
-<p>Juliane had just graduated from high school in Lima, Peru and, with her mother, was flying out to spend Christmas at her father’s research station in the jungle. A half hour into the flight they encountered a horrific storm. In the midst of wild turbulence, the plane was struck by lightning and fell into a nosedive. Passengers screamed as baggage flew around the compartment. Then the plane broke into pieces and suddenly Juliane found herself outside free-falling 30,000 feet. ‘I was suspended in mid-air, still in my scat. It wasn’t so much that I had left the plane but that the plane had left me. It simply wasn’t there any more. I was all alone with my row of seats,’ says Juliane. ‘I sailed on through the air, then I tumbled into a fall. The seatbelt squeezed my stomach and I couldn’t breathe any more.’ Before she lost consciousness, Juliane saw the dense jungle below, ‘a deep green, like broccoli’, with no clearings for hundreds of miles.</p>
-<p>Somehow, miraculously, Juliane survived that fall from the sky. In the film, she speculates on a number of factors which may have combined to save her. First, the storm had produced a strong updraft from the thunder clouds. Secondly, being strapped into a row of seats, she was aware of falling in a spiralling movement, like a maple seed pod. Then, hitting the canopy of trees, she tumbled through a maze of vines which slowed her landing in deep mud.</p>
-<p>But surviving the fall, though miraculous in itself, was just the beginning. When Juliane awoke hours later, wet and covered with mud, she was still strapped to her seat. Staggering to her feet, she assessed her injuries: a fractured bone in the neck, concussion and deep cuts in her leg and back. She was also in shock, lost and totally alone in the Amazon jungle.</p>
-<p>No doubt it was her familiarity with the wilderness that enabled her to cope. Her parents were biologists and Juliane had grown up in the jungle. She realised her only hope was to follow a little stream of water nearby, trusting that it would eventually lead to a larger river and rescue. With no provisions, dressed in the miniskirt she had worn on the plane and wearing just one shoe, she set off through the jungle. She passed broken fragments from the plane – a wheel, an engine. ‘Initially, I saw planes circling above me, but after a few days I realised the search had been called off,’ she said.</p>
-<p>Surprisingly she felt no hunger but as the days passed her health was deteriorating rapidly. The gash in her shoulder, where flies had laid their eggs was now crawling with maggots. ‘I knew I’d perish in the jungle so I stayed in the water.’ Walking in the stream, however, presented one risk more serious than any others. Before each step she had to poke ahead in the sand with a stick, to avoid treading on poisonous sting rays, lying hidden on the bottom.</p>
-<p>As the stream grew into a river, swimming was the only option. However, here in deeper water, there were new threats. Crocodiles basking on the shores slipped silently into the water as she passed. Juliane trusted that they feared humans and were entering the water to hide. She swam on. On the tenth day, starving and barely conscious, she spotted a hut and a canoe. They belonged to three woodcutters working nearby. Rescue was at hand.</p>
-<p>For this 46-year-old woman, re-living such a traumatic experience on film must have been a great challenge. But she shows little emotion. Flying back into the jungle, she sits in the same seat (19F) as on that fateful day. She is dispassionate, unemotional in describing the flight. On the ground, when they finally locate the crash site, in dense jungle, Juliane is scientific in her detachment, looking through the debris, now buried under dense vegetation. She examines a girl’s purse, the skeleton of a suitcase. Walking along the stream, she spots the engine which she remembers passing on the third day. Her arms and legs are covered with mosquitoes, but she seems to ignore all discomfort. Then, back in the town, standing in front of a monument erected in memory of the victims of the crash, entitled Alas de Esperanza (Wings of Hope), Juliane comments simply, T emerged, as the sole embodiment of hope from this disaster.</p>
-<p>Questions 1-3
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 296</strong></h3>
+<h3 class="test-heading"><strong>Survivor from the sky</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>In a remarkable documentary, Wings of Hope, German director Werner Herzog re-counts the true story of an eighteen-year-old girl, the sole survivor of a plane crash in the Amazon jungle in 1971. Twenty-nine years later, Herzog returns to the jungle with Juliane Koepke, now a 46-year-old biologist, and she tells her amazing story on film.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>Juliane had just graduated from high school in Lima, Peru and, with her mother, was flying out to spend Christmas at her father’s research station in the jungle. A half hour into the flight they encountered a horrific storm. In the midst of wild turbulence, the plane was struck by lightning and fell into a nosedive. Passengers screamed as baggage flew around the compartment. Then the plane broke into pieces and suddenly Juliane found herself outside free-falling 30,000 feet. ‘I was suspended in mid-air, still in my scat. It wasn’t so much that I had left the plane but that the plane had left me. It simply wasn’t there any more. I was all alone with my row of seats,’ says Juliane. ‘I sailed on through the air, then I tumbled into a fall. The seatbelt squeezed my stomach and I couldn’t breathe any more.’ Before she lost consciousness, Juliane saw the dense jungle below, ‘a deep green, like broccoli’, with no clearings for hundreds of miles.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Somehow, miraculously, Juliane survived that fall from the sky. In the film, she speculates on a number of factors which may have combined to save her. First, the storm had produced a strong updraft from the thunder clouds. Secondly, being strapped into a row of seats, she was aware of falling in a spiralling movement, like a maple seed pod. Then, hitting the canopy of trees, she tumbled through a maze of vines which slowed her landing in deep mud.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>But surviving the fall, though miraculous in itself, was just the beginning. When Juliane awoke hours later, wet and covered with mud, she was still strapped to her seat. Staggering to her feet, she assessed her injuries: a fractured bone in the neck, concussion and deep cuts in her leg and back. She was also in shock, lost and totally alone in the Amazon jungle.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>No doubt it was her familiarity with the wilderness that enabled her to cope. Her parents were biologists and Juliane had grown up in the jungle. She realised her only hope was to follow a little stream of water nearby, trusting that it would eventually lead to a larger river and rescue. With no provisions, dressed in the miniskirt she had worn on the plane and wearing just one shoe, she set off through the jungle. She passed broken fragments from the plane – a wheel, an engine. ‘Initially, I saw planes circling above me, but after a few days I realised the search had been called off,’ she said.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Surprisingly she felt no hunger but as the days passed her health was deteriorating rapidly. The gash in her shoulder, where flies had laid their eggs was now crawling with maggots. ‘I knew I’d perish in the jungle so I stayed in the water.’ Walking in the stream, however, presented one risk more serious than any others. Before each step she had to poke ahead in the sand with a stick, to avoid treading on poisonous sting rays, lying hidden on the bottom.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>As the stream grew into a river, swimming was the only option. However, here in deeper water, there were new threats. Crocodiles basking on the shores slipped silently into the water as she passed. Juliane trusted that they feared humans and were entering the water to hide. She swam on. On the tenth day, starving and barely conscious, she spotted a hut and a canoe. They belonged to three woodcutters working nearby. Rescue was at hand.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>For this 46-year-old woman, re-living such a traumatic experience on film must have been a great challenge. But she shows little emotion. Flying back into the jungle, she sits in the same seat (19F) as on that fateful day. She is dispassionate, unemotional in describing the flight. On the ground, when they finally locate the crash site, in dense jungle, Juliane is scientific in her detachment, looking through the debris, now buried under dense vegetation. She examines a girl’s purse, the skeleton of a suitcase. Walking along the stream, she spots the engine which she remembers passing on the third day. Her arms and legs are covered with mosquitoes, but she seems to ignore all discomfort. Then, back in the town, standing in front of a monument erected in memory of the victims of the crash, entitled Alas de Esperanza (Wings of Hope), Juliane comments simply, T emerged, as the sole embodiment of hope from this disaster.</p></div></div>
+<p><strong>Questions 1-3</strong>
 
-Answer the following questions using NO MORE THAN ONE WORDS AND/OR A NUMBER from the passage.</p>
-<p>Questions 4-10
+Answer the following questions using <strong>NO MORE THAN ONE WORDS AND/OR A NUMBER</strong> from the passage.</p>
+<p><strong>Questions 4-10</strong>
 
 Choose the correct letter A-D.</p>
 <p>4. What happened to the plane?
 
-A It broke apart in the air
+<strong>A</strong> It broke apart in the air
 
-B It hit trees and exploded.
+<strong>B</strong> It hit trees and exploded.
 
-C It crashed into a mountainside.
+<strong>C</strong> It crashed into a mountainside.
 
-D It hit the ground and burst into flames.</p>
+<strong>D</strong> It hit the ground and burst into flames.</p>
 <p>5. Which of the following did NOT help to slow her fall?
 
-A an updraft caused by storm clouds
+<strong>A</strong> an updraft caused by storm clouds
 
-B hitting vines
+<strong>B</strong> hitting vines
 
-C the section of seats to which she was attached
+<strong>C</strong> the section of seats to which she was attached
 
-D a parachute</p>
+<strong>D</strong> a parachute</p>
 <p>6. Which of the following injuries did she sustain?
 
-A a broken foot
+<strong>A</strong> a broken foot
 
-B a broken arm
+<strong>B</strong> a broken arm
 
-C concussion
+<strong>C</strong> concussion
 
-D cuts on her head</p>
+<strong>D</strong> cuts on her head</p>
 <p>7. What, helped her to survive?
 
-A Knowledge of the jungle
+<strong>A</strong> Knowledge of the jungle
 
-B a map showing the location of the river
+<strong>B</strong> a map showing the location of the river
 
-C appropriate clothing and shoes
+<strong>C</strong> appropriate clothing and shoes
 
-D food supplies from the plane</p>
+<strong>D</strong> food supplies from the plane</p>
 <p>8. What was the biggest threat to her survival?
 
-A infected wounds
+<strong>A</strong> infected wounds
 
-B sting rays
+<strong>B</strong> sting rays
 
-C starvation
+<strong>C</strong> starvation
 
-D crocodiles</p>
+<strong>D</strong> crocodiles</p>
 <p>9. How long was she lost in the jungle?
 
-A 3 days
+<strong>A</strong> 3 days
 
-B 5 days
+<strong>B</strong> 5 days
 
-C 10 days
+<strong>C</strong> 10 days
 
-D 15 days</p>
+<strong>D</strong> 15 days</p>
 <p>10. How was she finally rescued?
 
-A A search party found her in the jungle.
+<strong>A</strong> A search party found her in the jungle.
 
-B Native hunters found her.
+<strong>B</strong> Native hunters found her.
 
-C She signaled to a plane from the river.
+<strong>C</strong> She signaled to a plane from the river.
 
-D She reached a campsite along the river.</p>
-<p>Questions 11-14
+<strong>D</strong> She reached a campsite along the river.</p>
+<p><strong>Questions 11-14</strong>
 
 Do the following statements agree with the views of the writer in this passage? Write</p>
-<p>YES                            if the statement agrees with the views of the writer
+<p><strong>YES</strong>                            if the statement agrees with the views of the writer
 
-NO                              if the statement contradicts the views of the writer
+<strong>NO</strong>                              if the statement contradicts the views of the writer
 
-NOT GIVEN          if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>          if it is impossible to say what the writer thinks about this</p>
 <p>11. Other survivors of the crash were found in the jungle.
 
 12. Juliane was upset when she re-visited the crash site.
@@ -196,7 +252,7 @@ NOT GIVEN          if it is impossible to say what the writer thinks about 
 13. Wings of Hope is the name given to a memorial statue.
 
 14. Juliane suffered nightmares for many years as a result of her experience.</p>
-<p>The race to make spider silk</p>
+<p><strong>The race to make spider silk</strong></p>
 <p>The strength, toughness, and elasticity of silk continue to fascinate scientists, who wonder what gives this natural material its unusual qualities. Finer than human hair, lighter than cotton, and ounce for ounce stronger than steel, silk is of special interest to materials researchers. They are trying to duplicate its properties and synthesise it for large-scale production. Silk holds the promise of wear-resistant shoes and clothes; stronger ropes, nets, seatbelts and parachutes; rustfree panels and bumpers for automobiles; improved sutures and bandages; artificial tendons and ligaments; supports for weakened blood vessels as well as bulletproof vests.</p>
 <p>Many insects secrete silks of varying quality. Best known is the moth bombyx mori, whose caterpillar is commonly known as the silkworm. It spins its cocoon from a single thread between 300 and 900 metres long and has been used for centuries to make fine garments. But the focus of scientific attention today is on spider silk: tougher, stretchier, and more waterproof than silkworm strands. Spiders make as many as seven different types of silk, but one spider and two types of silk are at the centre of intense interest. The spider is the golden orb-weaving spider, nephila clavipes. Its two silks under investigation go by the evocative names ‘dragline’ and ‘capture’.</p>
 <p>Dragline is the silk which forms the frame for the wheel-shaped webs and enables the dangling spider to drop down and grab its prey. This silk exhibits a combination of strength and toughness unmatched by high-performance synthetic fibre.</p>
@@ -205,14 +261,14 @@ NOT GIVEN          if it is impossible to say what the writer thinks about 
 <p>The first two steps are well underway. The molecular structure for both dragline and capture silk is known and now researchers have cloned several genes for the silks and unravelled their protein structure.</p>
 <p>The next step is to find hosts for the artificial genes. Plants and fungi, as well as bacteria, are being considered. If a hardy plant could express a dragline silk gene, silk proteins could eventually be harvested in large quantities, processed into a liquid, polymer, and spun in factories, A different experimental approach is to insert the web gene into goats in order to collect the protein from the goats’ milk. Goats are being used instead of the simpler and much cheaper bacteria, because the secret of the protein’s strength lies in how the molecules cross-link with one another. When bacteria is used to make artificial web, the protein folds in a way that prevents it. from cross-linking properly, resulting in hard while lumps. The spider makes protein in a manner similar to the way mammals make milk, so the researchers hope that the protein made in the goats’ mammary glands will be able to cross-link properly. Once the protein is extracted from the goats’ milk, the next step is to find a way to spin it.</p>
 <p>Spiders make their silk in environmentally friendly ways. They process proteins from water-based solutions which, from a manufacturing point of view, is very attractive. The process of making synthetic fibres like nylon, on the other hand, requires petroleum products or organic solvents and results in pollution. So bio-technologists are motivated by both the practical and economic potential of generating artificial spider silk. Globally, as much as 60 per cent of the threads used to weave clothing come from natural fibre, including cotton, wool, and silk. The aim is to offer substitutes for natural fibres that are free of the problems of poor wash-wear performance: stretching, wrinkling and shrinkage. They are seeking a better-than-natural alternative fibre for which there is a major market. Bio-inspired materials are providing a new frontier for the fibre business.</p>
-<p>Questions 15-19
+<p><strong>Questions 15-19</strong>
 
 Classify the following as relating to:</p>
-<p>A the silk of bombyx mori
+<p><strong>A</strong> the silk of bombyx mori
 
-B dragline silk of nephila clavipes
+<strong>B</strong> dragline silk of nephila clavipes
 
-C capture silk of nephila clavipes</p>
+<strong>C</strong> capture silk of nephila clavipes</p>
 <p>15. forms the framework of a web
 
 16. most elastic silk
@@ -222,14 +278,14 @@ C capture silk of nephila clavipes</p>
 18. single strand can be up to 900 metres long
 
 19. strongest silk</p>
-<p>Questions 20-24
+<p><strong>Questions 20-24</strong>
 
 Do the following statements reflect the claims of the writer in the passage? Write</p>
-<p>YES                              if the statement agrees with the views of the writer
+<p><strong>YES</strong>                              if the statement agrees with the views of the writer
 
-NO                                if the statement contradicts the views of the writer
+<strong>NO</strong>                                if the statement contradicts the views of the writer
 
-NOT GIVEN             if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>             if it is impossible to say what the writer thinks about this</p>
 <p>20. All spiders secrete silk.
 
 21. Artificial genes for spider silk have been produced.
@@ -239,16 +295,16 @@ NOT GIVEN             if it is impossible to say what the writer thinks a
 23. China is leading research efforts in the area of spider silk.
 
 24. Spider silk is now being produced commercially.</p>
-<p>Questions 25-27
+<p><strong>Questions 25-27</strong>
 
-Using ONE WORD ONLY from the passage for each answer, complete the following.</p>
-<p>Comparison of Synthetic and Natural Fibres</p>
+Using <strong>ONE WORD ONLY</strong> from the passage for each answer, complete the following.</p>
+<p><strong>Comparison of Synthetic and Natural Fibres</strong></p>
 <p>• Main problem in the production of synthetic fibres: (25) ……………
 
 • 3 disadvantages of natural fibres: losing elasticity, reducing in size, and (26) ………….
 
 • Proportion of clothing made from natural fibre: (27) ………………. percent</p>
-<p>Map wars</p>
+<p><strong>Map wars</strong></p>
 <p>A map of the world expresses a point of view. A correct model of the earth is a sphere – or an ellipsoid to be precise. Photographs of the earth from space provide comforting reassurance on that point. If you wish to know the relative positions of the continents and the oceans you should go out and buy yourself a globe and spin it around.</p>
 <p>But a globe cannot be pinned to a wall or printed in a book. For that you need a two-dimensional representation. This is where the problems start since you cannot project three-dimensional information onto a flat plane without making certain assumptions. The arguments between cartographers mostly concern what those assumptions should be.</p>
 <p>The simplest two-dimensional representation is a ‘cylindrical’ projection – what you get by wrapping a sheet of paper around a globe and simply transferring the information across. This means it indicates true north and south. So, Newfoundland is directly north of Venezuela and it appears that way on the map. East and west similarly are also indicated correctly. Such a map demonstrates what is called ‘fidelity of axis’.</p>
@@ -259,20 +315,20 @@ Using ONE WORD ONLY from the passage for each answer, complete the following.</p
 <p>Then there is the question of country shape. If you were to take a photo of a globe in its normal position you would find the countries around the equator like Zaire or Ecuador came out of it pretty well. They would be shown relatively large and with something close to their correct shape. But further north or south there are considerable distortions: Australia tails away alarmingly. Dr. Peters decided that the minimum distortions should occur not at the equator but at the 45 degree lines of latitude, as these are much more populated areas. However, this controversial Peters map does radically change the shape of both Africa and South America; and although all projections distort to some extent, it is clear that Africa appears exceptionally long and thin on the Peters map.</p>
 <p>But the oddity of the Peters projection is at least partly responsible for its success, as there has been widespread discussion on the misrepresentation of country sizes in previous maps. The issues which the Peters map raises are relatively simple. If you decide you want an equal area map with fidelity of axis you will always get something resembling the Peters projection. If you decide that shape is more significant you will get something else.</p>
 <p>The real value of the Peters projection is that it has made the world think about something that before was never taken seriously: that maps of the world represent a point of view just as do press articles or TV programmes or photographs. But it isn’t recommended that you navigate a ‘747’ round the world with the Peters projection or with any other single global projection they would all lead you astray!</p>
-<p>Questions 28-31
+<p><strong>Questions 28-31</strong>
 
 Complete the summary. Choose your answers from the box below the summary.</p>
-<p>List of Words</p>
+<p><strong>List of Words</strong></p>
 <p>For four centuries, map makers have been trying to convert three-dimensional information as accurately (example) as possible onto a two-dimensional plane. However, each method of (28) …………………. involves a compromise. Thus, a cylindrical projection indicates true north and south, known as fidelity of (29) …………. but misrepresents the relative size of countries.</p>
 <p>To avoid this distortion, other cartographers rounded the lines of latitude and longitude. Dr. Peters felt that such maps presented a first-world (30) ……………… His map, with equal area projection, enables us to (31) …………… the size of one country with another.</p>
-<p>Questions 32-36
+<p><strong>Questions 32-36</strong>
 
 Use the information in the text to match the map projections [M A P] with the characteristics listed below.</p>
-<p>M Mercator projection
+<p><strong>M</strong> Mercator projection
 
-A Aitoff projection
+<strong>A</strong> Aitoff projection
 
-P Peters projection</p>
+<strong>P</strong> Peters projection</p>
 <p>32. makes Europe seem larger than it is
 
 33. maximum distortions at the poles
@@ -282,7 +338,7 @@ P Peters projection</p>
 35. most distorts the position of the equator
 
 36. more accurately represents country shapes and sizes</p>
-<p>Questions 37-39
+<p><strong>Questions 37-39</strong>
 
 Choose one drawing (A-D) to match each of the three projection types (37-39).</p>
 <p>37. Mercator projection
@@ -290,18 +346,18 @@ Choose one drawing (A-D) to match each of the three projection types (37-39).</p
 38. Aitoff projection
 
 39. Peters projection</p>
-<p>Questions 40
+<p><strong>Questions 40</strong>
 
 Choose the correct letter A-D.</p>
 <p>40. The main point made by the writer of this article is that we need to
 
-A understand maps.
+<strong>A</strong> understand maps.
 
-B understand map-making.
+<strong>B</strong> understand map-making.
 
-C understand that maps are not objective.
+<strong>C</strong> understand that maps are not objective.
 
-D understand the importance of latitude and longitude.</p>
+<strong>D</strong> understand the importance of latitude and longitude.</p>
 <p>_______  _______  _______ Show Answers</p>
 <p>18 (years old)</p>
 <p>Biologist</p>
@@ -343,7 +399,7 @@ D understand the importance of latitude and longitude.</p>
 <p>C</p>
 <p>A</p>
 <p>C</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. (years old)</p>
 <p>2. Biologist</p>
 <p>3. Storm/ lightning</p>
@@ -602,6 +658,29 @@ D understand the importance of latitude and longitude.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -621,12 +700,23 @@ D understand the importance of latitude and longitude.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -638,14 +728,6 @@ D understand the importance of latitude and longitude.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

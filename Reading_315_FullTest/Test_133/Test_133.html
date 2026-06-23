@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,62 +158,62 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_133</h1>
-            <p>IELTS Reading Practice - Test 133</p>
-<p>health in the wild</p>
-<p>Many animals seem able to treat their illnesses themselves. Humans may have a thing or two to learn from them. For the past decade Dr Engel, a lecturer in environmental sciences at Britain’s Open University, has been collating examples of self-medicating behaviour in wild animals. She recently published a book on the subject. In a talk at the Edinburgh Science Festival earlier this month, she explained that the idea that animals can treat themselves has been regarded with some scepticism by her colleagues in the past. But a growing number of animal behaviourists now think that wild animals can and do deal with their own medical needs.</p>
-<p>One example of self-medication was discovered in 1987. Michael Huffman and Mohamedi Seifu, working in the Mahale Mountains National Park in Tanzania, noticed that local chimpanzees suffering from intestinal worms would dose themselves with the pith of a plant called Veronia. This plant produces poisonous chemicals called terpenes. Its pith contains a strong enough concentration to kill gut parasites, but not so strong as to kill chimps (nor people, for that matter; locals use the pith for the same purpose). Given that the plant is known locally as “goat- killer”, however, it seems that not all animals are as smart as chimps and humans. Some consume it indiscriminately, and succumb.</p>
-<p>Since the Veronia-eating chimps were discovered, more evidence has emerged suggesting that animals often eat things for medical rather than nutritional reasons. Many species, for example, consume dirt—a behaviour known as geophagy. Historically, the preferred explanation was that soil supplies minerals such as salt. But geophagy occurs in areas where the earth is not a useful source of minerals, and also in places where minerals can be more easily obtained from certain plants that are known to be rich in them. Clearly, the animals must be getting something else out of eating earth.</p>
-<p>The current belief is that soil—and particularly the clay in it—helps to detoxify the defensive poisons that some plants produce in an attempt to prevent themselves from being eaten. Evidence for the detoxifying nature of clay came in 1999, from an experiment carried out on macaws by James Gilardi and his colleagues at the University of California, Davis. Macaws eat seeds containing alkaloids, a group of chemicals that has some notoriously toxic members, such as strychnine. In the wild, the birds are frequently seen perched on eroding riverbanks eating clay. Dr Gilardi fed one group of macaws a mixture of harmless alkaloid and clay, and a second group just the alkaloid. Several hours later, the macaws that had eaten the clay had 60% less alkaloid in their bloodstreams than those that had not, suggesting that the hypothesis is correct.</p>
-<p>Other observations also support the idea that clay is detoxifying. Towards the tropics the amount of toxic compounds in plants increases-and so does the amount of earth eaten by herbivores. Elephants lick clay from mud holes all year round, except in September when they are bingeing on fruit which, because it has evolved to be eaten, is not toxic. And the addition of clay to the diets of domestic cattle increases the amount of nutrients that they can absorb from their food by 10-20%.</p>
-<p>A third instance of animal self-medication is the use of mechanical scours to get rid of gut parasites, in 1972 Richard Wrangham, a researcher at the Gombe Stream Reserve in Tanzania, noticed that chimpanzees were eating the leaves of a tree called Aspilia. The chimps chose the leaves carefully by testing them in their mouths. Having chosen a leaf, a chimp would fold it into a fan and swallow it. Some of the chimps were noticed wrinkling their noses as they swallowed these leaves, suggesting the experience was unpleasant. Later, undigested leaves were found on the forest floor.</p>
-<p>Dr Wrangham rightly guessed that the leaves had a medicinal purpose—this was, indeed, one of the earliest interpretations of a behaviour pattern as self-medication. However, he guessed wrong about what the mechanism was. His (and everybody else’s) assumption was that Aspilia contained a drug, and this sparked more than two decades of phytochemical research to try to find out what chemical the chimps were after. But by the 1990s, chimps across Africa had been seen swallowing the leaves of 19 different species that seemed to have few suitable chemicals in common. The drug hypothesis was looking more and more dubious.</p>
-<p>It was Dr Huffman who got to the bottom of the problem. He did so by watching what came out of the chimps, rather than concentrating on what went in. He found that the egested leaves were full of intestinal worms. The factor common to all 19 species of leaves swallowed by the chimps was that they were covered with microscopic hooks. These caught the worms and dragged them from their lodgings.</p>
-<p>Following that observation, Dr Engel is now particularly excited about how knowledge of the way that animals look after themselves could be used to improve the health of live-stock. People might also be able to learn a thing or two, and may, indeed, already have done so. Geophagy, for example, is a common behaviour in many parts of the world The medical stalls in African markets frequently sell tablets made of different sorts of clays, appropriate to different medical conditions.</p>
-<p>Africans brought to the Americas as slaves continued this tradition, which gave their owners one more excuse to affect to despise them. Yet, as Dr Engel points out, Rwandan mountain gorillas eat a type of clay rather similar to kaolinite – the main ingredient of many patent medicines sold over the counter in the West for digestive complaints. Dirt can sometimes be good for you, and to be “as sick as a parrot” may, after all, be a state to be desired.</p>
-<p>Questions 1-4
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 133</strong></h3>
+<h3 class="test-heading"><strong>health in the wild</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>Many animals seem able to treat their illnesses themselves. Humans may have a thing or two to learn from them. For the past decade Dr Engel, a lecturer in environmental sciences at Britain’s Open University, has been collating examples of self-medicating behaviour in wild animals. She recently published a book on the subject. In a talk at the Edinburgh Science Festival earlier this month, she explained that the idea that animals can treat themselves has been regarded with some scepticism by her colleagues in the past. But a growing number of animal behaviourists now think that wild animals can and do deal with their own medical needs.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>One example of self-medication was discovered in 1987. Michael Huffman and Mohamedi Seifu, working in the Mahale Mountains National Park in Tanzania, noticed that local chimpanzees suffering from intestinal worms would dose themselves with the pith of a plant called Veronia. This plant produces poisonous chemicals called terpenes. Its pith contains a strong enough concentration to kill gut parasites, but not so strong as to kill chimps (nor people, for that matter; locals use the pith for the same purpose). Given that the plant is known locally as “goat- killer”, however, it seems that not all animals are as smart as chimps and humans. Some consume it indiscriminately, and succumb.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Since the Veronia-eating chimps were discovered, more evidence has emerged suggesting that animals often eat things for medical rather than nutritional reasons. Many species, for example, consume dirt—a behaviour known as geophagy. Historically, the preferred explanation was that soil supplies minerals such as salt. But geophagy occurs in areas where the earth is not a useful source of minerals, and also in places where minerals can be more easily obtained from certain plants that are known to be rich in them. Clearly, the animals must be getting something else out of eating earth.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>The current belief is that soil—and particularly the clay in it—helps to detoxify the defensive poisons that some plants produce in an attempt to prevent themselves from being eaten. Evidence for the detoxifying nature of clay came in 1999, from an experiment carried out on macaws by James Gilardi and his colleagues at the University of California, Davis. Macaws eat seeds containing alkaloids, a group of chemicals that has some notoriously toxic members, such as strychnine. In the wild, the birds are frequently seen perched on eroding riverbanks eating clay. Dr Gilardi fed one group of macaws a mixture of harmless alkaloid and clay, and a second group just the alkaloid. Several hours later, the macaws that had eaten the clay had 60% less alkaloid in their bloodstreams than those that had not, suggesting that the hypothesis is correct.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>Other observations also support the idea that clay is detoxifying. Towards the tropics the amount of toxic compounds in plants increases-and so does the amount of earth eaten by herbivores. Elephants lick clay from mud holes all year round, except in September when they are bingeing on fruit which, because it has evolved to be eaten, is not toxic. And the addition of clay to the diets of domestic cattle increases the amount of nutrients that they can absorb from their food by 10-20%.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>A third instance of animal self-medication is the use of mechanical scours to get rid of gut parasites, in 1972 Richard Wrangham, a researcher at the Gombe Stream Reserve in Tanzania, noticed that chimpanzees were eating the leaves of a tree called Aspilia. The chimps chose the leaves carefully by testing them in their mouths. Having chosen a leaf, a chimp would fold it into a fan and swallow it. Some of the chimps were noticed wrinkling their noses as they swallowed these leaves, suggesting the experience was unpleasant. Later, undigested leaves were found on the forest floor.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>Dr Wrangham rightly guessed that the leaves had a medicinal purpose—this was, indeed, one of the earliest interpretations of a behaviour pattern as self-medication. However, he guessed wrong about what the mechanism was. His (and everybody else’s) assumption was that Aspilia contained a drug, and this sparked more than two decades of phytochemical research to try to find out what chemical the chimps were after. But by the 1990s, chimps across Africa had been seen swallowing the leaves of 19 different species that seemed to have few suitable chemicals in common. The drug hypothesis was looking more and more dubious.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>It was Dr Huffman who got to the bottom of the problem. He did so by watching what came out of the chimps, rather than concentrating on what went in. He found that the egested leaves were full of intestinal worms. The factor common to all 19 species of leaves swallowed by the chimps was that they were covered with microscopic hooks. These caught the worms and dragged them from their lodgings.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>Following that observation, Dr Engel is now particularly excited about how knowledge of the way that animals look after themselves could be used to improve the health of live-stock. People might also be able to learn a thing or two, and may, indeed, already have done so. Geophagy, for example, is a common behaviour in many parts of the world The medical stalls in African markets frequently sell tablets made of different sorts of clays, appropriate to different medical conditions.</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p>Africans brought to the Americas as slaves continued this tradition, which gave their owners one more excuse to affect to despise them. Yet, as Dr Engel points out, Rwandan mountain gorillas eat a type of clay rather similar to kaolinite – the main ingredient of many patent medicines sold over the counter in the West for digestive complaints. Dirt can sometimes be good for you, and to be “as sick as a parrot” may, after all, be a state to be desired.</p></div></div>
+<p><strong>Questions 1-4</strong>
 Do the following statements agree with the information given in Reading Passage 1? Write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN if there is no information on this</p>
-<p>Questions 5-9
-Complete the notes below using NO MORE THAN ONE WORD OR NUMBER from the passage.</p>
-<p>Questions 10-13
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> if there is no information on this</p>
+<p><strong>Questions 5-9</strong>
+Complete the notes below using <strong>NO MORE THAN ONE WORD OR NUMBER</strong> from the passage.</p>
+<p><strong>Questions 10-13</strong>
 Complete the summary below using words from the box. Write your answers, A-H, in boxes 10-13 on your answer sheet.</p>
 <p>Though often doubted, the self-medicating behavior of animals has been supported by an increasing amount of evidence. One piece of evidence particularly deals with (10)………….., a soil-consuming behavior commonly found across animals species, because earth, often clay, can neutralize the (11)…………content of their diet. Such behavior can also be found among humans in Africa, where people purchase (12)………….at market stalls as a kind of medication to their illnesses. Another example of this is found in chimps eating leaves of often (13)…………..taste but with no apparent medicinal value until its unique structure came into light.</p>
-<p>A. mineral
-B. plants
-C. unpleasant
-D. toxic
-E. clay tablets
-F. nutritional
-G. geophagy
-H. harmless</p>
-<p>the conquest of malaria in italy</p>
-<p>A. Everybody now knows that malaria is carried by mosquitoes. But in the 19th century, most experts believed that the disease was produced by “miasma” or “poisoning of the air”. Others made a link between swamps, water and malaria, but did not make the further leap towards insects. The consequences of these theories were that little was done to combat the disease before the end of the century. Things became so bad that 11m Italians (from a total population of 25m) were “permanently at risk”. In malarial zones the life expectancy of land workers was a terrifying 22.5 years. Those who escaped death were weakened or suffered from splenomegaly — a “painful enlargement of the spleen” and “a lifeless stare”. The economic impact of the disease was immense. Epidemics were blamed on southern Italians, given the widespread belief that malaria was hereditary. In the 1880s, such theories began to collapse as the dreaded mosquito was identified as the real culprit.</p>
-<p>B. Italian scientists, drawing on the pioneering work of French doctor Alphonse Laveran, were able to predict the cycles of fever but it was in Rome that further key discoveries were made. Giovanni Battista Grassi, a naturalist, found that a particular type of mosquito was the carrier of malaria. By experimenting on healthy volunteers (mosquitoes were released into rooms where they drank the blood of the human guinea pigs), Grassi was able to make the direct link between the insects (all females of a certain kind) and the disease. Soon, doctors and scientists made another startling discovery: the mosquitoes themselves were also infected and not mere carriers. Every year, during the mosquito season, malarial blood was moved around the population by the insects. Definitive proof of these new theories was obtained after an extraordinary series of experiments in Italy, where healthy people were introduced into malarial zones but kept free of mosquito bites — and remained well. The new Italian state had the necessary information to tackle the disease.</p>
-<p>C. A complicated approach was adopted, which made use of quinine – a drug obtained from tree bark which had long been used to combat fever, but was now seen as a crucial part of the war on malaria. Italy introduced a quinine law and a quinine tax in 1904, and the drug was administered to large numbers of rural workers. Despite its often terrible side-effects (the headaches produced were known as the “quinine-buzz”) the drug was successful in limiting the spread of the disease, and in breaking cycles of infection. In addition, Italy set up rural health centres and invested heavily in education programmes. Malaria, as Snowden shows, was not just a medical problem but a social and regional issue, and could only be defeated through multi-layered strategies. Politics was itself transformed by the anti malarial campaigns. It was originally decided to give quinine to all those in certain regions – even healthy people; peasants were often suspicious of medicine being forced upon them. Doctors were sometimes met with hostility and refusal, and many were dubbed “poisoners”.</p>
-<p>D. Despite these problems, the strategy was hugely successful. Deaths from malaria fell by some 80% in the first decade of the 20th century and some areas escaped altogether from the scourge of the disease. War, from 1915-18, delayed the campaign. Funds were diverted to the battlefields and the fight against malaria became a military issue, laying the way for the fascist approach to the problem. Mussolini’s policies in the 20s and 30s are subjected to a serious cross-examination by Snowden. He shows how much of the regime’s claims to have “eradicated” malaria through massive land reclamation, forced population removals and authoritarian clean-ups were pure propaganda. Mass draining was instituted — often at a great cost as Mussolini waged war not on the disease itself, but on the mosquitoes that carried it. The cleansing of Italy was also ethnic, as “carefully selected” Italians were chosen to inhabit the gleaming new towns of the former marshlands around Rome. The “successes” under fascism were extremely vulnerable, based as they were on a top-down concept of eradication. As war swept through the drained lands in the 40s, the disease returned with a vengeance.</p>
-<p>E. In the most shocking part of the book, Snowden describes — passionately, but with the skill of a great historian — how the retreating Nazi armies in Italy in 1943-44 deliberately caused a massive malaria epidemic in Lazio. It was “the only known example of biological warfare in 20th-century Europe”. Shamefully, the Italian malaria expert Alberto Missiroli had a role to play in the disaster: he did not distribute quinine, despite being well aware of the epidemic to come. Snowden claims that Missiroli was already preparing a new strategy — with the support of the US Rockefeller Foundation — using a new pesticide, DDT Missiroli allowed the epidemic to spread, in order to create the ideal conditions for a massive, and lucrative, human experiment. Fifty-five thousand cases of malaria were recorded in the province of Littoria alone in 1944. It is estimated that more than a third of those in the affected area contracted the disease. Thousands, nobody knows how many, died. With the war over, the US government and the Rockefeller Foundation were free to experiment. DDT was sprayed from the air and 3m Italians had their bodies covered with the chemical. The effects were dramatic, and nobody really cared about the toxic effects of the chemical.</p>
-<p>F. By 1962, malaria was more or less gone from the whole peninsula. The last cases were noted in a poor region of Sicily. One of the final victims to die of the disease in Italy was the popular cyclist, Fausto Coppi. He had contracted malaria in Africa in 1960, and the failure of doctors in the north of Italy to spot the disease was a sign of the times. A few decades earlier they would have immediately noticed the tell-tale signs; it was later claimed that a small dose of quinine would have saved his life. As there are still more than 1m deaths every year from malaria worldwide, Snowden’s book also has contemporary relevance. This is a disease that affects every level of the societies where it is rampant. It also provides us with “a message of hope for a world struggling with the great present-day medical emergency”.</p>
-<p>Questions 14-18
-Complete the summary below using NO MORE THAN TWO WORDS from the passage. Write your answers in boxes 14-18 on your answer sheet.</p>
+<p><strong>A</strong>. mineral
+<strong>B</strong>. plants
+<strong>C</strong>. unpleasant
+<strong>D</strong>. toxic
+<strong>E</strong>. clay tablets
+<strong>F</strong>. nutritional
+<strong>G</strong>. geophagy
+<strong>H</strong>. harmless</p>
+<p><strong>the conquest of malaria in italy</strong></p>
+<p><strong>A</strong>. Everybody now knows that malaria is carried by mosquitoes. But in the 19th century, most experts believed that the disease was produced by “miasma” or “poisoning of the air”. Others made a link between swamps, water and malaria, but did not make the further leap towards insects. The consequences of these theories were that little was done to combat the disease before the end of the century. Things became so bad that 11m Italians (from a total population of 25m) were “permanently at risk”. In malarial zones the life expectancy of land workers was a terrifying 22.5 years. Those who escaped death were weakened or suffered from splenomegaly — a “painful enlargement of the spleen” and “a lifeless stare”. The economic impact of the disease was immense. Epidemics were blamed on southern Italians, given the widespread belief that malaria was hereditary. In the 1880s, such theories began to collapse as the dreaded mosquito was identified as the real culprit.</p>
+<p><strong>B</strong>. Italian scientists, drawing on the pioneering work of French doctor Alphonse Laveran, were able to predict the cycles of fever but it was in Rome that further key discoveries were made. Giovanni Battista Grassi, a naturalist, found that a particular type of mosquito was the carrier of malaria. By experimenting on healthy volunteers (mosquitoes were released into rooms where they drank the blood of the human guinea pigs), Grassi was able to make the direct link between the insects (all females of a certain kind) and the disease. Soon, doctors and scientists made another startling discovery: the mosquitoes themselves were also infected and not mere carriers. Every year, during the mosquito season, malarial blood was moved around the population by the insects. Definitive proof of these new theories was obtained after an extraordinary series of experiments in Italy, where healthy people were introduced into malarial zones but kept free of mosquito bites — and remained well. The new Italian state had the necessary information to tackle the disease.</p>
+<p><strong>C</strong>. A complicated approach was adopted, which made use of quinine – a drug obtained from tree bark which had long been used to combat fever, but was now seen as a crucial part of the war on malaria. Italy introduced a quinine law and a quinine tax in 1904, and the drug was administered to large numbers of rural workers. Despite its often terrible side-effects (the headaches produced were known as the “quinine-buzz”) the drug was successful in limiting the spread of the disease, and in breaking cycles of infection. In addition, Italy set up rural health centres and invested heavily in education programmes. Malaria, as Snowden shows, was not just a medical problem but a social and regional issue, and could only be defeated through multi-layered strategies. Politics was itself transformed by the anti malarial campaigns. It was originally decided to give quinine to all those in certain regions – even healthy people; peasants were often suspicious of medicine being forced upon them. Doctors were sometimes met with hostility and refusal, and many were dubbed “poisoners”.</p>
+<p><strong>D</strong>. Despite these problems, the strategy was hugely successful. Deaths from malaria fell by some 80% in the first decade of the 20th century and some areas escaped altogether from the scourge of the disease. War, from 1915-18, delayed the campaign. Funds were diverted to the battlefields and the fight against malaria became a military issue, laying the way for the fascist approach to the problem. Mussolini’s policies in the 20s and 30s are subjected to a serious cross-examination by Snowden. He shows how much of the regime’s claims to have “eradicated” malaria through massive land reclamation, forced population removals and authoritarian clean-ups were pure propaganda. Mass draining was instituted — often at a great cost as Mussolini waged war not on the disease itself, but on the mosquitoes that carried it. The cleansing of Italy was also ethnic, as “carefully selected” Italians were chosen to inhabit the gleaming new towns of the former marshlands around Rome. The “successes” under fascism were extremely vulnerable, based as they were on a top-down concept of eradication. As war swept through the drained lands in the 40s, the disease returned with a vengeance.</p>
+<p><strong>E</strong>. In the most shocking part of the book, Snowden describes — passionately, but with the skill of a great historian — how the retreating Nazi armies in Italy in 1943-44 deliberately caused a massive malaria epidemic in Lazio. It was “the only known example of biological warfare in 20th-century Europe”. Shamefully, the Italian malaria expert Alberto Missiroli had a role to play in the disaster: he did not distribute quinine, despite being well aware of the epidemic to come. Snowden claims that Missiroli was already preparing a new strategy — with the support of the US Rockefeller Foundation — using a new pesticide, DDT Missiroli allowed the epidemic to spread, in order to create the ideal conditions for a massive, and lucrative, human experiment. Fifty-five thousand cases of malaria were recorded in the province of Littoria alone in 1944. It is estimated that more than a third of those in the affected area contracted the disease. Thousands, nobody knows how many, died. With the war over, the US government and the Rockefeller Foundation were free to experiment. DDT was sprayed from the air and 3m Italians had their bodies covered with the chemical. The effects were dramatic, and nobody really cared about the toxic effects of the chemical.</p>
+<p><strong>F</strong>. By 1962, malaria was more or less gone from the whole peninsula. The last cases were noted in a poor region of Sicily. One of the final victims to die of the disease in Italy was the popular cyclist, Fausto Coppi. He had contracted malaria in Africa in 1960, and the failure of doctors in the north of Italy to spot the disease was a sign of the times. A few decades earlier they would have immediately noticed the tell-tale signs; it was later claimed that a small dose of quinine would have saved his life. As there are still more than 1m deaths every year from malaria worldwide, Snowden’s book also has contemporary relevance. This is a disease that affects every level of the societies where it is rampant. It also provides us with “a message of hope for a world struggling with the great present-day medical emergency”.</p>
+<p><strong>Questions 14-18</strong>
+Complete the summary below using <strong>NO MORE THAN TWO WORDS</strong> from the passage. Write your answers in boxes 14-18 on your answer sheet.</p>
 <p>Before the link between malaria and (14)…………was established, there were many popular theories circulating among the public, one of which points to (15)………….., the unclean air. The lack of proper treatment affected the country so badly that rural people in malaria infested places had extremely short (16)…………..The disease spread so quickly, especially in the south of Italy, thus giving rise to the idea that the disease was (17)……………People believed in these theories until mosquito was found to be the (18)…………in the 1880s.</p>
-<p>Questions 19-21
+<p><strong>Questions 19-21</strong>
 Do the following statements agree with the information given in Reading Passage 2? Write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN if there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> if there is no information on this</p>
 <p>19. The volunteers of the Italian experiments that provided assuring evidence were from all over Italy.
 20. It’s possible to come out of malarial zones alive.
 21. The government successfully managed to give all people quinine medication.</p>
-<p>Questions 22-26
+<p><strong>Questions 22-26</strong>
 Reading Passage 2 has six paragraphs, A-F. Which paragraph contains the following information? Write the correct letter, A-F, in boxes 22-26 on your answer sheet.</p>
 <p>22. A breakthrough in the theory of the cause of malaria
 23. A story for today’s readers
 24. A description of an expert who didn’t do anything to restrict the spread disease
 25. A setback in the battle against malaria due to government policies
 26. A description of how malaria affects the human body</p>
-<p>sunset for the oil business</p>
+<p><strong>sunset for the oil business</strong></p>
 <p>The world is about to run out of oil. Or perhaps not. It depends whom you believe… Members of Oil Depletion Analysis Centre (ODAC) recently met in London and presented technical data that support their grim forecast that the world is perilously dose to running out of oil. Leading lights of this movement, including Colin Campbell, rejected rival views presented by American Geological Survey and the International Energy Agency (IEA) that contradicted their views. Dr Campbell even decried the “amazing display of ignorance, deliberate ignorance, denial and obfuscation” by governments, industry and academics on this topic.</p>
 <p>So is the oil really running out? The answer is easy: Yes. Nobody seriously disputes the notion that oil is, for all practical purposes, a non-renewable resource that will run out some day, be that years or decades away. The harder question is determining when precisely oil will begin to get scarce. And answering that question involves scaling Hubbert’s peak.</p>
 <p>M. King Hubbert, a Shell geologist of legendary status among depletion experts, forecast in 1956 that oil production in the United States would peak in the early 1970s and then slowly decline, in something resembling a bell-shaped curve. At the time, his forecast was controversial, and many rubbished it. After 1970, however, empirical evidence proved him correct: oil production in America did indeed peak and has been in decline ever since.</p>
@@ -169,33 +225,33 @@ Reading Passage 2 has six paragraphs, A-F. Which paragraph contains the followin
 <p>Yet techno-optimists argue that the technological revolution in oil has only just begun. Average recovery rates (how much of the known oil in a reservoir can actually be brought to the surface) are still only around 30-35%. Industry optimists believe that new techniques on the drawing board today could lift th figure to 50-60% within a decade.</p>
 <p>Given the industry’s astonishing track record of innovation, it may be foolish to bet against it. That is the result of adversity: the oil crisis of the 1970s forced Big Oil to develop reserves in expensive, inaccessible places such as the North and Alaska, undermining Dr Hubbert’s assumption that cheap reserves are developed first. The resulting upstream investments have driven down the cost of finding and developing wells over the last two decades from over $20 a barrel to around $6 a barrel. The cost of producing oil has fallen by half, to under $4 a barrel.</p>
 <p>Such miracles will not come cheap, however, since much of the world’s oil is now produced in ageing fields that are rapidly declining. The IEA concludes that global oil production need not peak in the next two decades if the necessary investments are made. So how much is necessary? If oil companies are to replace the output lost at those ageing fields and meet the worlds ever-rising demand for oil, the agency reckons they must invest $1 trillion in l non-OPEC countries over the next decade alone. Ouch.</p>
-<p>Questions 27-31
+<p><strong>Questions 27-31</strong>
 Do the following statements agree with the information given in Reading Passage 3?</p>
-<p>YES if the statement agrees with the information
-NO if the statement contradicts the information
-NOT GIVEN if there is no information on this</p>
+<p><strong>YES</strong> if the statement agrees with the information
+<strong>NO</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> if there is no information on this</p>
 <p>27. Hubbert has a high-profile reputation amongst ODAC members.
 28. Oil is likely to last longer than some other energy sources.
 29. The majority of geologists believe that oil will start to run out some time this decade.
 30. Over 50 percent of the oil we know about is currently being recovered.
 31. History has shown that some of Hubbert’s principles were mistaken.</p>
-<p>Questions 32-35
-Complete the sentences below using NO MORE THAN ONE WORD OR NUMBER from the passage. Write your answers in boxes 32-35 on your answer sheet.</p>
+<p><strong>Questions 32-35</strong>
+Complete the sentences below using <strong>NO MORE THAN ONE WORD OR NUMBER</strong> from the passage. Write your answers in boxes 32-35 on your answer sheet.</p>
 <p>Many people believed Hubbert’s theory was (32)……………..when it was originally presented.</p>
-<p>Questions 36-40
+<p><strong>Questions 36-40</strong>
 Look at the following statements (Questions 36-40) and the list of people below. Match each statement with the correct person, A-E. Write the correct letter, A-E, in boxes 36-40 on your answer sheet. ‘</p>
 <p>36. has found fault in geological research procedure.
 37. has provided the longest-range forecast regarding oil supply.
 38. has convinced others that oil production will follow a particular model.
 39. has accused fellow scientists of refusing to see the truth.
 40. has expressed doubt over whether improved methods of extracting oil are possible</p>
-<p>A. Colin Campbell
-B. M. King Hubbert
-C. Kenneth Deffeyes
-D. Rene Dahan
-E. Michael Lynch</p>
+<p><strong>A.</strong> Colin Campbell
+<strong>B.</strong> M. King Hubbert
+<strong>C</strong>. Kenneth Deffeyes
+<strong>D</strong>. Rene Dahan
+<strong>E</strong>. Michael Lynch</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. TRUE</p>
 <p>2. NOT GIVEN</p>
 <p>3. FALSE</p>
@@ -454,6 +510,29 @@ E. Michael Lynch</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -473,12 +552,23 @@ E. Michael Lynch</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -490,14 +580,6 @@ E. Michael Lynch</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

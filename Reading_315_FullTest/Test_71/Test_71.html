@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,18 +158,18 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_71</h1>
-            <p>IELTS Reading Practice - Test 71</p>
-<p>seaweeds of new zealand</p>
-<p>A Seaweed is a particularly wholesome food, which absorbs and concentrates traces of a wide variety of minerals necessary to the body’s health. Many elements may occur in seaweed – aluminium, barium, calcium, chlorine, copper, iodine and iron, to name but a few – traces normally produced by erosion and carried to the seaweed beds by river and sea currents. Seaweeds are also rich in vitamins; indeed, Inuits obtain a high proportion of their bodily requirements of vitamin C from the seaweeds they eat. The health benefits of seaweed have long been recognised. For instance, there is a remarkably low incidence of goitre among the Japanese, and also among New Zealand’s indigenous Maori people, who have always eaten seaweeds, and this may well be attributed to the high iodine content of this food. Research into historical Maori eating customs shows that jellies were made using seaweeds, nuts, fuchsia and tutu berries, cape gooseberries, and many other fruits both native to New Zealand and sown there from seeds brought by settlers and explorers. As with any plant life, some seaweeds are more palatable than others, but in a survival situation, most seaweeds could be chewed to provide a certain sustenance.</p>
-<p>B New Zealand lays claim to approximately 700 species of seaweed, some of which have no representation outside that country. Of several species grown worldwide, New Zealand also has a particularly large share. For example, it is estimated that New Zealand has some 30 species of Gigartina, a close relative of carrageen or Irish moss. These are often referred to as the New Zealand carrageens. The substance called agar which can be extracted from these species gives them great commercial application in the production of seameal, from which seameal custard (a food product) is made, and in the canning, paint and leather industries. Agar is also used in the manufacture of cough mixtures, cosmetics, confectionery and toothpastes. In fact, during World War II, New Zealand Gigartina were sent to Australia to be used in toothpaste.</p>
-<p>C New Zealand has many of the commercially profitable red seaweeds, several species of which are a source of agar (Pterocladia, Gelidium, Chondrus, Gigartina). Despite this, these seaweeds were not much utilised until several decades ago. Although distribution of the Gigartina is confined to certain areas according to species, it is only on the east coast of the North Island that its occurrence is rare. And even then, the east coast, and the area around Hokianga, have a considerable supply of the two species of Pterocladia from which agar is also made. New Zealand used to import the Northern Hemisphere Irish moss (Chondrus crispus) from England and ready-made agar from Japan.</p>
-<p>D Seaweeds are divided into three classes determined by colour – red, brown and green – and each tends to live in a specific position. However, except for the unmistakable sea lettuce (Ulva), few are totally one colour; and especially when dry, some species can change colour significantly – a brown one may turn quite black, or a red one appear black, brown, pink or purple. Identification is nevertheless facilitated by the fact that the factors which determine where a seaweed will grow are quite precise, and they tend therefore to occur in very well-defined zones. Although there are exceptions, the green seaweeds are mainly shallow-water algae; the browns belong to the medium depths; and the reds are plants of the deeper water, furthest from the shore. Those shallow-water species able to resist long periods of exposure to sun and air are usually found on the upper shore, while those less able to withstand such exposure occur nearer to, or below, the low-water mark. Radiation from the sun, the temperature level, and the length of time immersed also play a part in the zoning of seaweeds. Flat rock surfaces near mid-level tides are the most usual habitat of sea-bombs, Venus’ necklace, and most brown seaweeds. This is also the home of the purple laver or Maori karengo, which looks rather like a reddish-purple lettuce. Deep-water rocks on open coasts, exposed only at very low tide, are usually the site of bull-kelp, strapweeds and similar tough specimens. Kelp, or bladder kelp, has stems that rise to the surface from massive bases or ‘holdfasts’, the leafy branches and long ribbons of leaves surging with the swells beyond the line of shallow coastal breakers or covering vast areas of calmer coastal water.</p>
-<p>E Propagation of seaweeds occurs by seed-like spores, or by fertilisation of egg cells. None have roots in the usual sense; few have leaves; and none have flowers, fruits or seeds. The plants absorb their nourishment through their leafy fronds when they are surrounded by water; the holdfast of seaweeds is purely an attaching organ, not an absorbing one.</p>
-<p>F Some of the large seaweeds stay on the surface of the water by means of air- filled floats; others, such as bull-kelp, have large cells filled with air. Some which spend a good part of their time exposed to the air, often reduce dehydration either by having swollen stems that contain water, or they may (like Venus’ necklace) have swollen nodules, or they may have a distinctive shape like a sea-bomb. Others, like the sea cactus, are filled with a slimy fluid or have a coating of mucilage on the surface. In some of the larger kelps, this coating is not only to keep the plant moist, but also to protect it from the violent action of waves.</p>
-<p>Questions 1-6
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 71</strong></h3>
+<h3 class="test-heading"><strong>seaweeds of new zealand</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Seaweed is a particularly wholesome food, which absorbs and concentrates traces of a wide variety of minerals necessary to the body’s health. Many elements may occur in seaweed – aluminium, barium, calcium, chlorine, copper, iodine and iron, to name but a few – traces normally produced by erosion and carried to the seaweed beds by river and sea currents. Seaweeds are also rich in vitamins; indeed, Inuits obtain a high proportion of their bodily requirements of vitamin C from the seaweeds they eat. The health benefits of seaweed have long been recognised. For instance, there is a remarkably low incidence of goitre among the Japanese, and also among New Zealand’s indigenous Maori people, who have always eaten seaweeds, and this may well be attributed to the high iodine content of this food. Research into historical Maori eating customs shows that jellies were made using seaweeds, nuts, fuchsia and tutu berries, cape gooseberries, and many other fruits both native to New Zealand and sown there from seeds brought by settlers and explorers. As with any plant life, some seaweeds are more palatable than others, but in a survival situation, most seaweeds could be chewed to provide a certain sustenance.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> New Zealand lays claim to approximately 700 species of seaweed, some of which have no representation outside that country. Of several species grown worldwide, New Zealand also has a particularly large share. For example, it is estimated that New Zealand has some 30 species of Gigartina, a close relative of carrageen or Irish moss. These are often referred to as the New Zealand carrageens. The substance called agar which can be extracted from these species gives them great commercial application in the production of seameal, from which seameal custard (a food product) is made, and in the canning, paint and leather industries. Agar is also used in the manufacture of cough mixtures, cosmetics, confectionery and toothpastes. In fact, during World War II, New Zealand Gigartina were sent to Australia to be used in toothpaste.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> New Zealand has many of the commercially profitable red seaweeds, several species of which are a source of agar (Pterocladia, Gelidium, Chondrus, Gigartina). Despite this, these seaweeds were not much utilised until several decades ago. Although distribution of the Gigartina is confined to certain areas according to species, it is only on the east coast of the North Island that its occurrence is rare. And even then, the east coast, and the area around Hokianga, have a considerable supply of the two species of Pterocladia from which agar is also made. New Zealand used to import the Northern Hemisphere Irish moss (Chondrus crispus) from England and ready-made agar from Japan.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> Seaweeds are divided into three classes determined by colour – red, brown and green – and each tends to live in a specific position. However, except for the unmistakable sea lettuce (Ulva), few are totally one colour; and especially when dry, some species can change colour significantly – a brown one may turn quite black, or a red one appear black, brown, pink or purple. Identification is nevertheless facilitated by the fact that the factors which determine where a seaweed will grow are quite precise, and they tend therefore to occur in very well-defined zones. Although there are exceptions, the green seaweeds are mainly shallow-water algae; the browns belong to the medium depths; and the reds are plants of the deeper water, furthest from the shore. Those shallow-water species able to resist long periods of exposure to sun and air are usually found on the upper shore, while those less able to withstand such exposure occur nearer to, or below, the low-water mark. Radiation from the sun, the temperature level, and the length of time immersed also play a part in the zoning of seaweeds. Flat rock surfaces near mid-level tides are the most usual habitat of sea-bombs, Venus’ necklace, and most brown seaweeds. This is also the home of the purple laver or Maori karengo, which looks rather like a reddish-purple lettuce. Deep-water rocks on open coasts, exposed only at very low tide, are usually the site of bull-kelp, strapweeds and similar tough specimens. Kelp, or bladder kelp, has stems that rise to the surface from massive bases or ‘holdfasts’, the leafy branches and long ribbons of leaves surging with the swells beyond the line of shallow coastal breakers or covering vast areas of calmer coastal water.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> Propagation of seaweeds occurs by seed-like spores, or by fertilisation of egg cells. None have roots in the usual sense; few have leaves; and none have flowers, fruits or seeds. The plants absorb their nourishment through their leafy fronds when they are surrounded by water; the holdfast of seaweeds is purely an attaching organ, not an absorbing one.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> Some of the large seaweeds stay on the surface of the water by means of air- filled floats; others, such as bull-kelp, have large cells filled with air. Some which spend a good part of their time exposed to the air, often reduce dehydration either by having swollen stems that contain water, or they may (like Venus’ necklace) have swollen nodules, or they may have a distinctive shape like a sea-bomb. Others, like the sea cactus, are filled with a slimy fluid or have a coating of mucilage on the surface. In some of the larger kelps, this coating is not only to keep the plant moist, but also to protect it from the violent action of waves.</p></div></div>
+<p><strong>Questions 1-6</strong>
 Reading Passage 1 has six paragraphs, A-F.
 Choose the correct heading for each paragraph from the list of headings below.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i The appearance and location of different seaweeds
 ii The nutritional value of seaweeds
 iii How seaweeds reproduce and grow
@@ -129,19 +185,19 @@ ix Why seaweeds don’t sink or dry out</p>
 4 Paragraph D
 5 Paragraph E
 6 Paragraph F</p>
-<p>Questions 7-10
-Complete the flow-chart below. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
-<p>Questions 11-13
+<p><strong>Questions 7-10</strong>
+Complete the flow-chart below. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
+<p><strong>Questions 11-13</strong>
 Classify the following characteristics as belonging to
-A brown seaweed
-B green seaweed
-C red seaweed</p>
+<strong>A</strong> brown seaweed
+<strong>B</strong> green seaweed
+<strong>C</strong> red seaweed</p>
 <p>Write the correct letter, A, B or C, in boxes 11-13 on your answer sheet.
 11 can survive the heat and dryness at the high-water mark
 12 grow far out in the open sea
 13 share their site with karengo seaweed</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>two wings and a toolkit</p>
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>two wings and a toolkit</strong></p>
 <p>Betty and her mate Abel are captive crows in the care of Alex Kacelnik, an expert in animal behaviour at Oxford University. They belong to a forest-dwelling species of bird (Corvus rnoneduloides) confined to two islands in the South Pacific. New Caledonian crows are tenacious predators, and the only birds that habitually use a wide selection of self-made tools to find food.</p>
 <p>One of the wild crows’ cleverest tools is the crochet hook, made by detaching a side twig from a larger one, leaving enough of the larger twig to shape into a hook. Equally cunning is a tool crafted from the barbed vine-leaf, which consists of a central rib with paired leaflets each with a rose-like thorn at its base. They strip out a piece of this rib, removing the leaflets and all but one thorn at the top, which remains as a ready-made hook to prise out insects from awkward cracks.</p>
 <p>The crows also make an ingenious tool called a padanus probe from padanus tree leaves. The tool has a broad base, sharp tip, a row of tiny hooks along one edge, and a tapered shape created by the crow nipping and tearing to form a progression of three or four steps along the other edge of the leaf. What makes this tool special is that they manufacture it to a standard design, as if following a set of instructions. Although it is rare to catch a crow in the act of clipping out a padanus probe, we do have ample proof of their workmanship: the discarded leaves from which the tools are cut. The remarkable thing that these ‘counterpart’ leaves tell us is that crows consistently produce the same design every time, with no in-between or trial versions. It’s left the researchers wondering whether, like people, they envisage the tool before they start and perform the actions they know are needed to make it. Research has revealed that genetics plays a part in the less sophisticated toolmaking skills of finches in the Galapagos islands. No one knows if that’s also the case for New Caledonian crows, but it’s highly unlikely that their toolmaking skills are hardwired into the brain. ‘The picture so far points to a combination of cultural transmission – from parent birds to their young – and individual resourcefulness,’ says Kacelnik.</p>
@@ -150,30 +206,30 @@ C red seaweed</p>
 <p>The question of what’s going on in a crow’s mind will take time and a lot more experiments to answer, but there could be a lesson in it for understanding our own evolution. Maybe our ancestors, who suddenly began to create symmetrical tools with carefully worked edges some 1.5 million years ago, didn’t actually have the sophisticated mental abilities with which we credit them. Closer scrutiny of the brains of New Caledonian crows might provide a few pointers to the special attributes they would have needed. ‘If we’re lucky we may find specific developments in the brain that set these animals apart,’ says Kacelnik.</p>
 <p>One of these might be a very strong degree of laterality – the specialisation of one side of the brain to perform specific tasks. In people, the left side of the brain controls the processing of complex sequential tasks, and also language and speech. One of the consequences of this is thought to be right-handedness. Interestingly, biologists have noticed that most padanus probes are cut from the left side of the leaf, meaning that the birds clip them with the right side of their beaks – the crow equivalent of right- handedness. The team thinks this reflects the fact that the left side of the crow’s brain is specialised to handle the sequential processing required to make complex tools.</p>
 <p>Under what conditions might this extraordinary talent have emerged in these two species? They are both social creatures, and wide-ranging in their feeding habits. These factors were probably important but, ironically, it may have been their shortcomings that triggered the evolution of toolmaking. Maybe the ancestors of crows and humans found themselves in a position where they couldn’t make the physical adaptations required for survival – so they had to change their behaviour instead. The stage was then set for the evolution of those rare cognitive skills that produce sophisticated tools. New Caledonian crows may tell us what those crucial skills are.</p>
-<p>Questions 14-17
-Label the diagrams below. Write NO MORE THAN TWO WORDS.</p>
-<p>Questions 18-23
+<p><strong>Questions 14-17</strong>
+Label the diagrams below. Write <strong>NO MORE THAN TWO WORDS</strong>.</p>
+<p><strong>Questions 18-23</strong>
 Do the following statements agree with the information given in Reading Passage 2? In boxes 18-23 on your answer sheet, write</p>
-<p>TRUE                             if the statement agrees with the information
-FALSE                           if the statement contradicts the information
-NOT GIVEN               if there is no information on this</p>
+<p><strong>TRUE</strong>                             if the statement agrees with the information
+<strong>FALSE</strong>                           if the statement contradicts the information
+<strong>NOT GIVEN</strong>               if there is no information on this</p>
 <p>18 There appears to be a fixed pattern for the padanus probe’s construction.
 19 There is plenty of evidence to indicate how the crows manufacture the padanus probe.
 20 Crows seem to practise a number of times before making a usable padanus probe.
 21 The researchers suspect the crows have a mental image of the padanus probe before they create it.
 22 Research into how the padanus probe is made has helped to explain the toolmaking skills of many other bird species.
 23 The researchers believe the ability to make the padanus probe is passed down to the crows in their genes.</p>
-<p>Questions 24-26
-Choose THREE letters, A-G.</p>
-<p>According to the information in the passage, which THREE of the following features are probably common to both New Caledonian crows and human beings?
-A keeping the same mate for life
-B having few natural predators
-C having a bias to the right when working
-D being able to process sequential tasks
-E living in extended family groups
-F eating a variety of foodstuffs
-G being able to adapt to diverse habitats</p>
-<p>how did writing begin?</p>
+<p><strong>Questions 24-26</strong>
+Choose <strong>THREE</strong> letters, A-G.</p>
+<p>According to the information in the passage, which <strong>THREE</strong> of the following features are probably common to both New Caledonian crows and human beings?
+<strong>A</strong> keeping the same mate for life
+<strong>B</strong> having few natural predators
+<strong>C</strong> having a bias to the right when working
+<strong>D</strong> being able to process sequential tasks
+<strong>E</strong> living in extended family groups
+<strong>F</strong> eating a variety of foodstuffs
+<strong>G</strong> being able to adapt to diverse habitats</p>
+<p><strong>how did writing begin?</strong></p>
 <p>The Sumerians, an ancient people of the Middle East, had a story explaining the invention of writing more than 5,000 years ago. It seems a messenger of the King of Uruk arrived at the court of a distant ruler so exhausted that he was unable to deliver the oral message. So the king set down the words of his next messages on a clay tablet. A charming story, whose retelling at a recent symposium at the University of Pennsylvania amused scholars. They smiled at the absurdity of a letter which the recipient would not have been able to read. They also doubted that the earliest writing was a direct rendering of speech. Writing more likely began as a separate, symbolic system of communication and only later merged with spoken language.</p>
 <p>Yet in the story the Sumerians, who lived in Mesopotamia, in what is now southern Iraq, seemed to understand writing’s transforming function. As Dr Holly Pittman, director of the University’s Center for Ancient Studies, observed, writing ‘arose out of the need to store and transmit information … over time and space’.</p>
 <p>In exchanging interpretations and information, the scholars acknowledged that they still had no fully satisfying answers to the questions of how and why writing developed. Many favoured an explanation of writing’s origins in the visual arts, pictures becoming increasingly abstract and eventually representing spoken words. Their views clashed with a widely held theory among archaeologists that writing developed from the pieces of clay that Sumerian accountants used as tokens to keep track of goods.</p>
@@ -183,29 +239,29 @@ G being able to adapt to diverse habitats</p>
 <p>Though Dr Schmandt-Besserat has won much support, some linguists question her thesis, and others, like Dr Pittman, think it too narrow. They emphasise that pictorial representation and writing evolved together. ‘There’s no question that the token system is a forerunner of writing,’ Dr Pittman said, ‘but I have an argument with her evidence for a link between tokens and signs, and she doesn’t open up the process to include picture making.’</p>
 <p>Dr Schmandt-Besserat vigorously defended her ideas. ‘My colleagues say that pictures were the beginning of writing/ she said, ‘but show me a single picture that becomes a sign in writing. They say that designs on pottery were the beginning of writing, but show me a single sign of writing you can trace back to a pot – it doesn’t exist.’ In its first 500 years, she asserted, cuneiform writing was used almost solely for recording economic information, and after that its uses multiplied and broadened.</p>
 <p>Yet other scholars have advanced different ideas. Dr Piotr Michalowski, Professor of Near East Civilizations at the University of Michigan, said that the proto-writing of Sumerian Uruk was ‘so radically different as to be a complete break with the past’. It no doubt served, he said, to store and communicate information, but also became a new instrument of power. Some scholars noted that the origins of writing may not always have been in economics. In Egypt, most early writing is high on monuments or deep in tombs. In this case, said Dr Pascal Vernus from a university in Paris, early writing was less administrative than sacred. It seems that the only certainty in this field is that many questions remain to be answered.</p>
-<p>Questions 27-30
+<p><strong>Questions 27-30</strong>
 Choose the correct letter, A, B, C or D.</p>
 <p>27 The researchers at the symposium regarded the story of the King of Uruk as ridiculous because
-A writing probably developed independently of speech
-B clay tablets had not been invented at that time
-C the distant ruler would have spoken another language
-D evidence of writing has been discovered from an earlier period</p>
+<strong>A</strong> writing probably developed independently of speech
+<strong>B</strong> clay tablets had not been invented at that time
+<strong>C</strong> the distant ruler would have spoken another language
+<strong>D</strong> evidence of writing has been discovered from an earlier period</p>
 <p>28 According to the writer, the story of the King of Uruk
-A is a probable explanation of the origins of writing
-B proves that early writing had a different function to writing today
-C provides an example of symbolic writing
-D shows some awareness amongst Sumerians of the purpose of writing</p>
+<strong>A</strong> is a probable explanation of the origins of writing
+<strong>B</strong> proves that early writing had a different function to writing today
+<strong>C</strong> provides an example of symbolic writing
+<strong>D</strong> shows some awareness amongst Sumerians of the purpose of writing</p>
 <p>29 There was disagreement among the researchers at the symposium about
-A the area where writing began
-B the nature of early writing materials
-C the way writing began
-D the meaning of certain abstract images</p>
+<strong>A</strong> the area where writing began
+<strong>B</strong> the nature of early writing materials
+<strong>C</strong> the way writing began
+<strong>D</strong> the meaning of certain abstract images</p>
 <p>30 The opponents of the theory that writing developed from tokens believe that it
-A grew out of accountancy
-B evolved from pictures
-C was initially intended as decoration
-D was unlikely to have been connected with commerce</p>
-<p>Questions 31-36
+<strong>A</strong> grew out of accountancy
+<strong>B</strong> evolved from pictures
+<strong>C</strong> was initially intended as decoration
+<strong>D</strong> was unlikely to have been connected with commerce</p>
+<p><strong>Questions 31-36</strong>
 Look at the following statements (Questions 31-36) and the list of people below.
 Match each statement with the correct person, A-E.</p>
 <p>31 There is no proof that early writing is connected to decorated household objects.
@@ -214,18 +270,18 @@ Match each statement with the correct person, A-E.</p>
 34 Early writing did not represent the grammatical features of speech.
 35 There is no convincing proof that tokens and signs are connected.
 36 The uses of cuneiform writing were narrow at first, and later widened.</p>
-<p>List of People
-A Dr Holly Pittman
-B Dr Peter Damerow
-C Dr Denise Schmandt-Besserat
-D Dr Piotr Michalowski
-E Dr Pascal Vernus</p>
-<p>Questions 37-40
+<p><strong>List of People</strong>
+<strong>A</strong> Dr Holly Pittman
+<strong>B</strong> Dr Peter Damerow
+<strong>C</strong> Dr Denise Schmandt-Besserat
+<strong>D</strong> Dr Piotr Michalowski
+<strong>E</strong> Dr Pascal Vernus</p>
+<p><strong>Questions 37-40</strong>
 Complete the summary using the list of words, A-N, below.</p>
-<p>The earliest form of writing
+<p><strong>The earliest form of writing</strong>
 Most archaeological evidence shows that the people of (37)……………………………invented writing in around 3,300 BC. Their script was written on (38)……………………………and was called (39)………………………………..Their script originally showed images related to political power and business, and later developed to become more (40)………………………….</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. ii</p>
 <p>2. viii</p>
 <p>3. v</p>
@@ -484,6 +540,29 @@ Most archaeological evidence shows that the people of (37)…………………�
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -503,12 +582,23 @@ Most archaeological evidence shows that the people of (37)…………………�
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -520,14 +610,6 @@ Most archaeological evidence shows that the people of (37)…………………�
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

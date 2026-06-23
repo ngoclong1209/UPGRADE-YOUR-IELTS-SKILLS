@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,138 +158,138 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_166</h1>
-            <p>IELTS Listening Practice - Test 166</p>
-<p>Part 1: Questions 1-5
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 166</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-5</strong>
 Choose the correct letter, A, B or C.</p>
-<p>1. What does Peter want to drink?
-[ ]  A tea
-[ ]  B coffee
-[ ]  C a cold drink</p>
+<h3 class="test-heading">1. What does Peter want to drink?
+<strong>[ ] </strong><strong> A</strong> tea
+<strong>[ ] </strong><strong> B</strong> coffee
+<strong>[ ] </strong><strong> C</strong> a cold drink</h3>
 <p>2. What caused Peter problems at the bank?
-[ ]  A The exchange rate was down
-[ ]  B He was late
-[ ]  C The computers weren’t working</p>
+<strong>[ ] </strong><strong> A</strong> The exchange rate was down
+<strong>[ ] </strong><strong> B</strong> He was late
+<strong>[ ] </strong><strong> C</strong> The computers weren’t working</p>
 <p>3. Who did Peter talk to at the bank?
-[ ]  A an old friend
-[ ]  B an American man
-[ ]  C a German man</p>
-<p>4. Henry gave Peter a map of
-[ ]  A the city
-[ ]  B the bus routes
-[ ]  C the train system</p>
+<strong>[ ] </strong><strong> A</strong> an old friend
+<strong>[ ] </strong><strong> B</strong> an American man
+<strong>[ ] </strong><strong> C</strong> a German man</p>
+<h3 class="test-heading">4. Henry gave Peter a map of
+<strong>[ ] </strong><strong> A</strong> the city
+<strong>[ ] </strong><strong> B</strong> the bus routes
+<strong>[ ] </strong><strong> C</strong> the train system</h3>
 <p>5. What do Peter and Sally decide to order?
-[ ]  A food and drinks
-[ ]  B just food
-[ ]  C just drinks</p>
-<p>Questions 6-8
+<strong>[ ] </strong><strong> A</strong> food and drinks
+<strong>[ ] </strong><strong> B</strong> just food
+<strong>[ ] </strong><strong> C</strong> just drinks</p>
+<p><strong>Questions 6-8</strong>
 Complete the notes below using words from the options given below.</p>
 <p>Art gallery
 Cathedral
 Castle
 Gardens
 Markets</p>
-<p>Tourist attractions open all day: (6)  _______  and Gardens
-Tourist attractions NOT open on Mondays: (7)  _______  and Castle
-Tourist attractions which have free entry: (8)  _______  and Markets</p>
-<p>Questions 9 and 10
-Complete the sentences below. Write NO MORE THAN THREE WORDS for each answer.</p>
+<p>Tourist attractions open all day: <strong>(6)</strong>  _______  and Gardens
+Tourist attractions NOT open on Mondays: <strong>(7)</strong>  _______  and Castle
+Tourist attractions which have free entry: <strong>(8)</strong>  _______  and Markets</p>
+<p><strong>Questions 9 and 10</strong>
+Complete the sentences below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
 <p>9. The first place Peter and Sally will visit is the  _______ 
 10. At the Cathedral, Peter really wants to  _______</p>
-<p>Part 2: Questions 11-20
+<p><strong>Part 2: Questions 11-20</strong>
 Choose the correct letter A, B or C.</p>
 <p>11. The Counselling Service may contact tutors if
-[ ]  A they are too slow in marking assignments
-[ ]  B they give students a lot of work
-[ ]  C they don’t inform students about their progress</p>
+<strong>[ ] </strong><strong> A</strong> they are too slow in marking assignments
+<strong>[ ] </strong><strong> B</strong> they give students a lot of work
+<strong>[ ] </strong><strong> C</strong> they don’t inform students about their progress</p>
 <p>12. Stress may be caused by
-[ ]  A new teachers
-[ ]  B time pressure
-[ ]  C unfamiliar subject matter</p>
+<strong>[ ] </strong><strong> A</strong> new teachers
+<strong>[ ] </strong><strong> B</strong> time pressure
+<strong>[ ] </strong><strong> C</strong> unfamiliar subject matter</p>
 <p>13. International students may find stress difficult to handle because
-[ ]  A they lack support from family and friends
-[ ]  B they don’t have time to make new friends
-[ ]  C they find it difficult to socialise</p>
+<strong>[ ] </strong><strong> A</strong> they lack support from family and friends
+<strong>[ ] </strong><strong> B</strong> they don’t have time to make new friends
+<strong>[ ] </strong><strong> C</strong> they find it difficult to socialise</p>
 <p>14. A personal crisis may be caused by
-[ ]  A studying for too long overseas
-[ ]  B business problems in the student’s own country
-[ ]  C disruptions to personal relationships</p>
+<strong>[ ] </strong><strong> A</strong> studying for too long overseas
+<strong>[ ] </strong><strong> B</strong> business problems in the student’s own country
+<strong>[ ] </strong><strong> C</strong> disruptions to personal relationships</p>
 <p>15. Students may lose self-esteem if
-[ ]  A they have to change courses
-[ ]  B they don’t complete a course
-[ ]  C their family puts too much pressure on them</p>
+<strong>[ ] </strong><strong> A</strong> they have to change courses
+<strong>[ ] </strong><strong> B</strong> they don’t complete a course
+<strong>[ ] </strong><strong> C</strong> their family puts too much pressure on them</p>
 <p>16. Students should consult Glenda Roberts if
-[ ]  A their general health is poor
-[ ]  B their diet is too strict
-[ ]  C they can’t eat the local food</p>
+<strong>[ ] </strong><strong> A</strong> their general health is poor
+<strong>[ ] </strong><strong> B</strong> their diet is too strict
+<strong>[ ] </strong><strong> C</strong> they can’t eat the local food</p>
 <p>17. Students in financial difficulties can receive
-[ ]  A assistance to buy books
-[ ]  B a loan to pay their course fees
-[ ]  C a no-interest loan to cover study expenses</p>
+<strong>[ ] </strong><strong> A</strong> assistance to buy books
+<strong>[ ] </strong><strong> B</strong> a loan to pay their course fees
+<strong>[ ] </strong><strong> C</strong> a no-interest loan to cover study expenses</p>
 <p>18. Loans are also available to students who
-[ ]  A can’t pay their rent
-[ ]  B need to buy furniture
-[ ]  C can’t cover their living expenses</p>
+<strong>[ ] </strong><strong> A</strong> can’t pay their rent
+<strong>[ ] </strong><strong> B</strong> need to buy furniture
+<strong>[ ] </strong><strong> C</strong> can’t cover their living expenses</p>
 <p>19. The number of students counselled by the service last year was
-[ ]  A 214
-[ ]  B 240
-[ ]  C 2,600</p>
+<strong>[ ] </strong><strong> A</strong> 214
+<strong>[ ] </strong><strong> B</strong> 240
+<strong>[ ] </strong><strong> C</strong> 2,600</p>
 <p>20. The speaker thinks the Counselling Service
-[ ]  A has been effective in spite of staff shortages
-[ ]  B in under used by students
-[ ]  C has suffered badly because of staff cuts</p>
-<p>Part 3: Questions 21-24
-Complete the notes below. Write NO MORE THAN TWO WORDS OR A NUMBER for each answer.</p>
-<p>DETAILS OF ASSIGNMENT
-Part 1 Essay: Title ‘Assess the two methods of (21)  _______  in social science research
-Number of words: (22)  _______ 
+<strong>[ ] </strong><strong> A</strong> has been effective in spite of staff shortages
+<strong>[ ] </strong><strong> B</strong> in under used by students
+<strong>[ ] </strong><strong> C</strong> has suffered badly because of staff cuts</p>
+<p><strong>Part 3: Questions 21-24</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS OR A NUMBER</strong> for each answer.</p>
+<p><strong>DETAILS OF ASSIGNMENT</strong>
+Part 1 Essay: Title ‘Assess the two methods of <strong>(21)</strong>  _______  in social science research
+Number of words: <strong>(22)</strong>  _______ 
 Part 2 Small scale study: Choose one method
-Gather data from at least (23)  _______  subjects
-Part 3 Report on study: Number of words: (24)  _______</p>
-<p>Questions 25 and 26
-Choose TWO letters A-E.</p>
-<p>What TWO disadvantages of the questionnaire form of data collection do the students discuss?</p>
-<p>[ ]  A The data is sometimes invalid
-[ ]  B Too few people may respond
-[ ]  C It is less likely to reveal the unexpected
-[ ]  D It can only be used with literate populations
-[ ]  E There is a delay between the distribution and return of questionnaires</p>
-<p>Questions 27-30
-Complete the table below. Write NO MORE THREE TWO WORDS OR A NUMBER for each answer.</p>
-<p>(27)  _______                   (28)  _______ 
-(29)  _______                   (30)  _______</p>
-<p>Part 4: Questions 31 and 32
+Gather data from at least <strong>(23)</strong>  _______  subjects
+Part 3 Report on study: Number of words: <strong>(24)</strong>  _______</p>
+<p><strong>Questions 25 and 26</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>What <strong>TWO</strong> disadvantages of the questionnaire form of data collection do the students discuss?</p>
+<p><strong>[ ] </strong><strong> A</strong> The data is sometimes invalid
+<strong>[ ] </strong><strong> B</strong> Too few people may respond
+<strong>[ ] </strong><strong> C</strong> It is less likely to reveal the unexpected
+<strong>[ ] </strong><strong> D</strong> It can only be used with literate populations
+<strong>[ ] </strong><strong> E</strong> There is a delay between the distribution and return of questionnaires</p>
+<p><strong>Questions 27-30</strong>
+Complete the table below. Write <strong>NO MORE THREE TWO WORDS OR A NUMBER</strong> for each answer.</p>
+<p><strong>(27)</strong>  _______                   <strong>(28)</strong>  _______ 
+<strong>(29)</strong>  _______                   <strong>(30)</strong>  _______</p>
+<p><strong>Part 4: Questions 31 and 32</strong>
 Choose the correct letter A, B and C.</p>
 <p>31. Corporate crime is generally committed
-[ ]  A against individuals
-[ ]  B by groups
-[ ]  C for companies</p>
+<strong>[ ] </strong><strong> A</strong> against individuals
+<strong>[ ] </strong><strong> B</strong> by groups
+<strong>[ ] </strong><strong> C</strong> for companies</p>
 <p>32. Corporate crime does NOT include
-[ ]  A employees stealing from their company
-[ ]  B unintentional crime by employees
-[ ]  C fraud resulting from company policy</p>
-<p>Questions 33-38
-Complete the notes below. Write NO MORE THREE TWO WORDS OR A NUMBER for each answer.</p>
+<strong>[ ] </strong><strong> A</strong> employees stealing from their company
+<strong>[ ] </strong><strong> B</strong> unintentional crime by employees
+<strong>[ ] </strong><strong> C</strong> fraud resulting from company policy</p>
+<p><strong>Questions 33-38</strong>
+Complete the notes below. Write <strong>NO MORE THREE TWO WORDS OR A NUMBER</strong> for each answer.</p>
 <p>Corporate crime has been ignored by:
-• The (33)  _______  e.g. films
-• (34)  _______ 
+• The <strong>(33)</strong>  _______  e.g. films
+• <strong>(34)</strong>  _______ 
 Reasons:
-• Often more complex and needing (35)  _______ 
+• Often more complex and needing <strong>(35)</strong>  _______ 
 • Less human interest than conventional crime
-• Victims often (36)  _______ 
+• Victims often <strong>(36)</strong>  _______ 
 Effects:
 • Economic costs
-o May appear unimportant to (37)  _______ 
-o Can make large (38)  _______  for company</p>
-<p>Questions 39 and 40
-Choose TWO letters A-F.</p>
+o May appear unimportant to <strong>(37)</strong>  _______ 
+o Can make large <strong>(38)</strong>  _______  for company</p>
+<p><strong>Questions 39 and 40</strong>
+Choose <strong>TWO</strong> letters A-F.</p>
 <p>The oil tanker explosion was an example of a crime which
-[ ]  A was no-one’s fault
-[ ]  B was not a corporate crime
-[ ]  C was intentional
-[ ]  D was caused by indifference
-[ ]  E has tragic results
-[ ]  F made a large profit for the company</p>
-<p>ANSWER KEY</p>
+<strong>[ ] </strong><strong> A</strong> was no-one’s fault
+<strong>[ ] </strong><strong> B</strong> was not a corporate crime
+<strong>[ ] </strong><strong> C</strong> was intentional
+<strong>[ ] </strong><strong> D</strong> was caused by indifference
+<strong>[ ] </strong><strong> E</strong> has tragic results
+<strong>[ ] </strong><strong> F</strong> made a large profit for the company</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. C</p>
 <p>2. C</p>
 <p>3. B</p>
@@ -492,6 +548,29 @@ Choose TWO letters A-F.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -511,12 +590,23 @@ Choose TWO letters A-F.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -528,14 +618,6 @@ Choose TWO letters A-F.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

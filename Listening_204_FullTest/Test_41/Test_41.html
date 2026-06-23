@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,83 +158,83 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_41</h1>
-            <p>IELTS Listening Practice - Test 41</p>
-<p>Part 1: Questions 1-7
-Complete the table and the notes below using NO MORE THAN THREE WORDS for each answer.</p>
-<p>(1)  _______                        (2)  _______</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 41</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-7</strong>
+Complete the table and the notes below using <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<h3 class="test-heading"><strong>(1)</strong>  _______                        <strong>(2)</strong>  _______</h3>
 <p>8. Jetty No.2 is situated  _______ 
 9. The commentary is in  _______ 
 10. The lady recommends that they  _______</p>
-<p>Part 2: Questions 11-14
-Complete the table below. Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>Preparing for the interview</p>
-<p>(11)   _______                        (12)  _______ 
-(13)  _______                        (14)  _______</p>
-<p>Questions 15-20
-Complete the notes below. Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>At the interview
-Arrive no more than (15)  _______  before the time of the interview.</p>
-<p>After you hear the question, you can (16)  _______  before you reply.</p>
-<p>You can (17)  _______  if you don’t understand what they are asking you.</p>
-<p>Wait for them to offer you the job before you say what (18)  _______  you want.</p>
-<p>Learning from the experience will make you more (19)  _______  in future interviews.</p>
-<p>Pay attention to your (20)  _______  – it shows you have a positive attitude.</p>
-<p>Part 3: Questions 21-23
-Complete the sentences below. Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>Effects of weather on mood
+<p><strong>Part 2: Questions 11-14</strong>
+Complete the table below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<h3 class="test-heading"><strong>Preparing for the interview</strong></h3>
+<p><strong>(11)</strong>   _______                        <strong>(12)</strong>  _______ 
+<strong>(13)</strong>  _______                        <strong>(14)</strong>  _______</p>
+<p><strong>Questions 15-20</strong>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p><strong>At the interview</strong>
+Arrive no more than <strong>(15)</strong>  _______  before the time of the interview.</p>
+<p>After you hear the question, you can <strong>(16)</strong>  _______  before you reply.</p>
+<p>You can <strong>(17)</strong>  _______  if you don’t understand what they are asking you.</p>
+<p>Wait for them to offer you the job before you say what <strong>(18)</strong>  _______  you want.</p>
+<p>Learning from the experience will make you more <strong>(19)</strong>  _______  in future interviews.</p>
+<p>Pay attention to your <strong>(20)</strong>  _______  – it shows you have a positive attitude.</p>
+<p><strong>Part 3: Questions 21-23</strong>
+Complete the sentences below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p><strong>Effects of weather on mood</strong>
 21. Phil and Stella’s goal is to  _______  the hypothesis that weather has an effect on a person’s mood.
 22. They expect to find that ‘good’ weather (weather which is  _______  and  _______  ) has a positive effect on a person’s mood.
 23. Stella defines ‘effect on mood’ as a  _______  in the way a person feels.</p>
-<p>Questions 24-27
+<p><strong>Questions 24-27</strong>
 What information was given by each writer? Choose you answers from the list of options A-F next to questions 24-27.</p>
-<p>A the benefits of moving to a warmer environment</p>
-<p>B the type of weather with the worst affect on mood</p>
-<p>C how past events affect attitudes to weather</p>
-<p>D the important effect of stress on mood</p>
+<p><strong>A</strong> the benefits of moving to a warmer environment</p>
+<p><strong>B</strong> the type of weather with the worst affect on mood</p>
+<p><strong>C</strong> how past events affect attitudes to weather</p>
+<p><strong>D</strong> the important effect of stress on mood</p>
 <p>E the importance of effect of hours of sunshine on modd</p>
-<p>F psychological problems due to having to cope with bad weather</p>
+<p><strong>F</strong> psychological problems due to having to cope with bad weather</p>
 <p>24. Vickers   _______ 
 25. Whitebourne   _______ 
 26. Haverton   _______ 
 27. Stanfield   _______</p>
-<p>Questions 28-30
-Choose THREE letters A-H.</p>
-<p>Which THREE things do Phil and Stella still have to decide on?</p>
-<p>[ ]  A how to analyse their results
-[ ]  B their methods of presentation
-[ ]  C the design of their questionnaire
-[ ]  D the location of their survey
-[ ]  E weather variables to be measured
-[ ]  F the dates of their survey
-[ ]  G the size of their survey
-[ ]  H the source of data on weather variables</p>
-<p>Part 4: Questions 31-35
+<p><strong>Questions 28-30</strong>
+Choose <strong>THREE</strong> letters A-H.</p>
+<p>Which <strong>THREE</strong> things do Phil and Stella still have to decide on?</p>
+<p><strong>[ ] </strong><strong> A</strong> how to analyse their results
+<strong>[ ] </strong><strong> B</strong> their methods of presentation
+<strong>[ ] </strong><strong> C</strong> the design of their questionnaire
+<strong>[ ] </strong><strong> D</strong> the location of their survey
+<strong>[ ] </strong><strong> E</strong> weather variables to be measured
+<strong>[ ] </strong><strong> F</strong> the dates of their survey
+<strong>[ ] </strong><strong> G</strong> the size of their survey
+<strong>[ ] </strong><strong> H</strong> the source of data on weather variables</p>
+<p><strong>Part 4: Questions 31-35</strong>
 Choose the correct letter A, B or C.</p>
 <p>31. How long would terms be under the six-term system?
-[ ]  A six weeks
-[ ]  B seven weeks
-[ ]  C thirteen weeks</p>
+<strong>[ ] </strong><strong> A</strong> six weeks
+<strong>[ ] </strong><strong> B</strong> seven weeks
+<strong>[ ] </strong><strong> C</strong> thirteen weeks</p>
 <p>32. What would happen to the summer holiday?
-[ ]  A it would disappear
-[ ]  B it would be shortened
-[ ]  C it would be lengthened</p>
+<strong>[ ] </strong><strong> A</strong> it would disappear
+<strong>[ ] </strong><strong> B</strong> it would be shortened
+<strong>[ ] </strong><strong> C</strong> it would be lengthened</p>
 <p>33. How much was the average learning loss in the summer?
-[ ]  A two weeks
-[ ]  B three weeks
-[ ]  C seven weeks</p>
+<strong>[ ] </strong><strong> A</strong> two weeks
+<strong>[ ] </strong><strong> B</strong> three weeks
+<strong>[ ] </strong><strong> C</strong> seven weeks</p>
 <p>34. In which subject was learning loss greatest among disadvantaged?
-[ ]  A maths
-[ ]  B reading
-[ ]  C writing</p>
+<strong>[ ] </strong><strong> A</strong> maths
+<strong>[ ] </strong><strong> B</strong> reading
+<strong>[ ] </strong><strong> C</strong> writing</p>
 <p>35. According to Marchmont’s research, in the six-term system pupils performed
-[ ]  A better than under the existing system
-[ ]  B worse than under the existing system
-[ ]  C the same as under the existing system</p>
-<p>Questions 36-40
-Complete the summary below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>The school terms that we use originated when many people worked in (36)  _______  Also because of the heat it was difficult to teach children in July and August before the invention (37)  _______  A different approach can be provided by the (38)  _______  An important factor in the success of these is the small (39)  _______  Also the element of (40)  _______  is usually present which contributes greatly.</p>
+<strong>[ ] </strong><strong> A</strong> better than under the existing system
+<strong>[ ] </strong><strong> B</strong> worse than under the existing system
+<strong>[ ] </strong><strong> C</strong> the same as under the existing system</p>
+<p><strong>Questions 36-40</strong>
+Complete the summary below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p>The school terms that we use originated when many people worked in <strong>(36)</strong>  _______  Also because of the heat it was difficult to teach children in July and August before the invention <strong>(37)</strong>  _______  A different approach can be provided by the <strong>(38)</strong>  _______  An important factor in the success of these is the small <strong>(39)</strong>  _______  Also the element of <strong>(40)</strong>  _______  is usually present which contributes greatly.</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. coffee</p>
 <p>2. 9.30</p>
 <p>3. postcard</p>
@@ -432,11 +488,34 @@ Complete the summary below. Write NO MORE THAN TWO WORDS for each answer.</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_41.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_41.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -456,12 +535,23 @@ Complete the summary below. Write NO MORE THAN TWO WORDS for each answer.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -473,14 +563,6 @@ Complete the summary below. Write NO MORE THAN TWO WORDS for each answer.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,31 +158,31 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_309</h1>
-            <p>IELTS Reading Practice - Test 309</p>
-<p>THE DEVELOPMENT OF THE ENGLISH LANGUAGE</p>
-<p>A The history of the English language is a tale of centuries of evolution. In the fifth century AD, Britain was invaded by Germanic tribes from present-day Germany and Denmark. The Angles, Saxons, and Jutes brought with them dialects of the West Germanic family of languages, which are the ancestors of English. The Angles were named from Engle, their land of origin. Their language was called Englisc, which is the origin of the word English. These invaders pushed the original Celtic-speaking inhabitants out of what is now England into Scotland, Wales, Cornwall, and Ireland, leaving behind a few Celtic words. One of these was the Celtic word “brocc”, which became the modern English word badger. Others include place names such as London, Dover, and Kent.</p>
-<p>B The next wave of invaders was the Vikings from present-day Norway and Denmark, who spoke Old Norse, a North Germanic language. Many English words that begin with “sk” are of Old Norse origin, such as sky, skill, and skin. The Vikings also gave us the pronouns they, their, and them. Although the Vikings left their mark on the English language, they did not add many words to the English vocabulary because the English already had words for the things the Vikings discussed. However, the Old Norse word “happ” meaning chance or good luck did make it into modern English as the word happy.</p>
-<p>C The next invasion of Britain took place in 1066, when William the Conqueror of France invaded England, bringing the French language with him. French became the language of the Norman aristocracy and added more than 10,000 words to the English language. The words crown, castle, court, parliament, army, and government all come from French, as do justice, crime, prison, and tax. The French also left their mark on English spelling. For example, the Old English “cw” was changed to the French “qu”, so the Old English word “cwene” became “queen”. Similarly, the Old English word “myln” became mill, and “cniht” became “knight”. The French also gave us many words that we use to describe food. The words “beef, mutton, pork, and veal” come from the French words “boeuf, mouton, porc, and veau”. However, the animals from which these meats come have Anglo-Saxon names: cow, sheep, pig, and calf. This is because the Anglo-Saxons were the ones looking after the animals, while the Normans were the ones who got to eat them.</p>
-<p>D Up until the 14th century, the English used the Roman numerals they had learned from the Normans. Then, in 1392, a Welshman named Geoffrey Chaucer wrote a poem called A Treatise on the Astrolabe, in which he used Hindu-Arabic numerals (0, 1, 2, 3, 4, 5, 6, 7, 8, 9) for the first time in English. He also wrote The Canterbury Tales, which was the first book of poetry written in English. Chaucer is known as the Father of English literature because he was the first person to prove that English was not a vulgar language but could be used for literary purposes. His works were written in Middle English, which is the name given to the English used from the 11th to the 15th centuries.</p>
-<p>E In 1476, William Caxton introduced the printing press to England. Books became cheaper and more people learned to read. However, English spelling was still not standardised, and the same word was often spelt several different ways in the same book. Caxton himself was inconsistent, spelling the word book in three different ways on the same page. Caxton published many books in English, which helped it to be standardised more and expand the English vocabulary by introducing words such as canon, catholic, chapter, and history. The first English dictionary, Robert Cawdrey’s Table Alphabetical, was published in 1604. It contained 3,000 words, each with a simple definition. The definitions were so simple, in fact, that the word apples was defined as a word used to describe more than one apple.</p>
-<p>F The English Renaissance saw the invention of new words, as well as new uses for existing ones. The word muscle, for example, comes from the Latin word meaning little mouse. Renaissance doctors thought that the muscles of the human body looked like little mice running around under people’s skin. The word fact comes from the Latin word factum, meaning a thing done. Before the Renaissance, a fact was simply something that people did. It was only in the 16th century that the word fact was used to mean something that is true.</p>
-<p>Questions 1-6
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 309</strong></h3>
+<h3 class="test-heading"><strong>THE DEVELOPMENT OF THE ENGLISH LANGUAGE</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> The history of the English language is a tale of centuries of evolution. In the fifth century AD, Britain was invaded by Germanic tribes from present-day Germany and Denmark. The Angles, Saxons, and Jutes brought with them dialects of the West Germanic family of languages, which are the ancestors of English. The Angles were named from Engle, their land of origin. Their language was called Englisc, which is the origin of the word English. These invaders pushed the original Celtic-speaking inhabitants out of what is now England into Scotland, Wales, Cornwall, and Ireland, leaving behind a few Celtic words. One of these was the Celtic word “brocc”, which became the modern English word badger. Others include place names such as London, Dover, and Kent.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> The next wave of invaders was the Vikings from present-day Norway and Denmark, who spoke Old Norse, a North Germanic language. Many English words that begin with “sk” are of Old Norse origin, such as sky, skill, and skin. The Vikings also gave us the pronouns they, their, and them. Although the Vikings left their mark on the English language, they did not add many words to the English vocabulary because the English already had words for the things the Vikings discussed. However, the Old Norse word “happ” meaning chance or good luck did make it into modern English as the word happy.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> The next invasion of Britain took place in 1066, when William the Conqueror of France invaded England, bringing the French language with him. French became the language of the Norman aristocracy and added more than 10,000 words to the English language. The words crown, castle, court, parliament, army, and government all come from French, as do justice, crime, prison, and tax. The French also left their mark on English spelling. For example, the Old English “cw” was changed to the French “qu”, so the Old English word “cwene” became “queen”. Similarly, the Old English word “myln” became mill, and “cniht” became “knight”. The French also gave us many words that we use to describe food. The words “beef, mutton, pork, and veal” come from the French words “boeuf, mouton, porc, and veau”. However, the animals from which these meats come have Anglo-Saxon names: cow, sheep, pig, and calf. This is because the Anglo-Saxons were the ones looking after the animals, while the Normans were the ones who got to eat them.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> Up until the 14th century, the English used the Roman numerals they had learned from the Normans. Then, in 1392, a Welshman named Geoffrey Chaucer wrote a poem called A Treatise on the Astrolabe, in which he used Hindu-Arabic numerals (0, 1, 2, 3, 4, 5, 6, 7, 8, 9) for the first time in English. He also wrote The Canterbury Tales, which was the first book of poetry written in English. Chaucer is known as the Father of English literature because he was the first person to prove that English was not a vulgar language but could be used for literary purposes. His works were written in Middle English, which is the name given to the English used from the 11th to the 15th centuries.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> In 1476, William Caxton introduced the printing press to England. Books became cheaper and more people learned to read. However, English spelling was still not standardised, and the same word was often spelt several different ways in the same book. Caxton himself was inconsistent, spelling the word book in three different ways on the same page. Caxton published many books in English, which helped it to be standardised more and expand the English vocabulary by introducing words such as canon, catholic, chapter, and history. The first English dictionary, Robert Cawdrey’s Table Alphabetical, was published in 1604. It contained 3,000 words, each with a simple definition. The definitions were so simple, in fact, that the word apples was defined as a word used to describe more than one apple.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> The English Renaissance saw the invention of new words, as well as new uses for existing ones. The word muscle, for example, comes from the Latin word meaning little mouse. Renaissance doctors thought that the muscles of the human body looked like little mice running around under people’s skin. The word fact comes from the Latin word factum, meaning a thing done. Before the Renaissance, a fact was simply something that people did. It was only in the 16th century that the word fact was used to mean something that is true.</p></div></div>
+<p><strong>Questions 1-6</strong>
 
 Reading passage has six paragraphs, A-F. Which paragraph contains the following information? Write the correct letter, A-F, in boxes 1-6.</p>
-<p>Questions 7-13
+<p><strong>Questions 7-13</strong>
 
-Complete the table below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 7-13.</p>
-<p>THE FUTURE OF URBAN PARKING</p>
-<p>A For almost a century, urban planning has been based on the assumption that cars are essential to city life. In many cities, this assumption has resulted in an urban landscape dominated by parking lots, garages, and wide roads. But this may be changing. According to the International Transport Forum (ITF), self-driving cars will make up 50% of all road traffic by 2050. This is likely to have a significant impact on the design of cities and the provision of parking.</p>
-<p>B The ITF has conducted a number of studies to explore the effect of self-driving cars on urban parking. These studies show that the number of cars needed to make all the journeys currently made in a city could be reduced by 90%. This is because self-driving cars can be shared more easily than conventional cars, and can be used more efficiently. The studies also show that the number of parking spaces needed in a city could be reduced by 90% because self-driving cars can park themselves more efficiently. For example, self-driving cars do not need to open their doors when parked, so they can park very close together.</p>
-<p>C However, some people believe that self-driving cars will not reduce the number of parking spaces needed in cities. According to a report by the WZB Berlin Social Science Centre, self-driving cars will still need to be parked somewhere, and this will still require a lot of space. The report also says that self-driving cars are likely to increase the number of journeys made by car because they will make car travel more accessible to people who do not currently drive, such as the elderly and the disabled. This could lead to more traffic on the roads, which would increase the demand for parking spaces.</p>
-<p>D While autonomous vehicles could reduce on-street parking in busy areas, they may also contribute to congestion. These cars can relocate to distant parking areas and return when needed, potentially freeing up urban space for cycling lanes and wider sidewalks. However, an increase in vehicle movement to and from remote parking locations could lead to higher traffic volumes in city centers, offsetting the expected benefits.</p>
-<p>E In residential areas, the shift toward self-driving cars could minimize the need for private parking spaces. Instead of occupying driveways and curbside spots, these cars could park in designated off-site locations and return on demand. While this might open up space for other urban developments, there is concern that the constant movement of vehicles between these parking zones and residential areas could lead to unforeseen traffic congestion.</p>
-<p>F Despite these possibilities, the ITF estimates that self-driving cars will not be widely adopted until 2040. This means cities must continue accommodating conventional vehicles for the foreseeable future. To ease the transition, urban planners should begin integrating self-driving technology into city infrastructure now.</p>
-<p>G One approach to preparing for self-driving cars is reducing reliance on private vehicles. Cities can achieve this by limiting available parking, raising parking cost, and investing in public transportation and car-sharing programs. Such measures would encourage residents to shift toward shared mobility solutions, ultimately decreasing future parking demands.</p>
-<p>H In the long term, city planning should incorporate infrastructure suited for autonomous vehicles. This could include designated parking areas that serve both conventional and self-driving cars, as well as charging stations for electric vehicles. Smart traffic management systems and digital coordination between vehicles and parking facilities may also play a crucial role in optimizing urban mobility.</p>
-<p>I The transition to self-driving cars will reshape urban landscapes and redefine parking needs. To ensure a smooth shift, cities must adopt proactive policies that balance technology with sustainable urban design. By integrating self-driving infrastructure early, municipalities can create more efficient, accessible, and environmentally friendly city spaces.</p>
-<p>Questions 14-19
+Complete the table below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer. Write your answers in boxes 7-13.</p>
+<p><strong>THE FUTURE OF URBAN PARKING</strong></p>
+<p><strong>A</strong> For almost a century, urban planning has been based on the assumption that cars are essential to city life. In many cities, this assumption has resulted in an urban landscape dominated by parking lots, garages, and wide roads. But this may be changing. According to the International Transport Forum (ITF), self-driving cars will make up 50% of all road traffic by 2050. This is likely to have a significant impact on the design of cities and the provision of parking.</p>
+<p><strong>B</strong> The ITF has conducted a number of studies to explore the effect of self-driving cars on urban parking. These studies show that the number of cars needed to make all the journeys currently made in a city could be reduced by 90%. This is because self-driving cars can be shared more easily than conventional cars, and can be used more efficiently. The studies also show that the number of parking spaces needed in a city could be reduced by 90% because self-driving cars can park themselves more efficiently. For example, self-driving cars do not need to open their doors when parked, so they can park very close together.</p>
+<p><strong>C</strong> However, some people believe that self-driving cars will not reduce the number of parking spaces needed in cities. According to a report by the WZB Berlin Social Science Centre, self-driving cars will still need to be parked somewhere, and this will still require a lot of space. The report also says that self-driving cars are likely to increase the number of journeys made by car because they will make car travel more accessible to people who do not currently drive, such as the elderly and the disabled. This could lead to more traffic on the roads, which would increase the demand for parking spaces.</p>
+<p><strong>D</strong> While autonomous vehicles could reduce on-street parking in busy areas, they may also contribute to congestion. These cars can relocate to distant parking areas and return when needed, potentially freeing up urban space for cycling lanes and wider sidewalks. However, an increase in vehicle movement to and from remote parking locations could lead to higher traffic volumes in city centers, offsetting the expected benefits.</p>
+<p><strong>E</strong> In residential areas, the shift toward self-driving cars could minimize the need for private parking spaces. Instead of occupying driveways and curbside spots, these cars could park in designated off-site locations and return on demand. While this might open up space for other urban developments, there is concern that the constant movement of vehicles between these parking zones and residential areas could lead to unforeseen traffic congestion.</p>
+<p><strong>F</strong> Despite these possibilities, the ITF estimates that self-driving cars will not be widely adopted until 2040. This means cities must continue accommodating conventional vehicles for the foreseeable future. To ease the transition, urban planners should begin integrating self-driving technology into city infrastructure now.</p>
+<p><strong>G</strong> One approach to preparing for self-driving cars is reducing reliance on private vehicles. Cities can achieve this by limiting available parking, raising parking cost, and investing in public transportation and car-sharing programs. Such measures would encourage residents to shift toward shared mobility solutions, ultimately decreasing future parking demands.</p>
+<p><strong>H</strong> In the long term, city planning should incorporate infrastructure suited for autonomous vehicles. This could include designated parking areas that serve both conventional and self-driving cars, as well as charging stations for electric vehicles. Smart traffic management systems and digital coordination between vehicles and parking facilities may also play a crucial role in optimizing urban mobility.</p>
+<p><strong>I</strong> The transition to self-driving cars will reshape urban landscapes and redefine parking needs. To ensure a smooth shift, cities must adopt proactive policies that balance technology with sustainable urban design. By integrating self-driving infrastructure early, municipalities can create more efficient, accessible, and environmentally friendly city spaces.</p>
+<p><strong>Questions 14-19</strong>
 
 Reading passage has nine paragraphs, A-I. Which paragraph contains the following information? Write the correct letter, A-I, in boxes 14-19. NB: You can write any letter more than once</p>
 <p>14. a suggestion that the use of self-driving cars may have no effect on the number of vehicles in urban areas
@@ -140,7 +196,7 @@ Reading passage has nine paragraphs, A-I. Which paragraph contains the following
 18. a suggestion for how to make streets safer for pedestrians and cyclists
 
 19. a proposal for designing urban infrastructure to accommodate self-driving cars.</p>
-<p>Questions 20-22
+<p><strong>Questions 20-22</strong>
 
 Look at the following statements (Questions 20-22) and the list of organisations below. Match each statement with the correct organisation, A-C. Write the correct letter, A-C, in boxes 20-22. NB You can choose any letter more than once</p>
 <p>20. Self-driving cars will make urban travel easier for people who find it difficult to drive.
@@ -148,31 +204,31 @@ Look at the following statements (Questions 20-22) and the list of organisations
 21. The use of self-driving cars will mean that fewer people own a car.
 
 22. The use of self-driving cars will mean that fewer people need to park in city centres.</p>
-<p>List of Organisations
+<p><strong>List of Organisations</strong>
 
 A. the International Transport Forum
 
 B. the WZB Berlin Social Science Centre
 
 C. both the International Transport Forum and the WZB Berlin Social Science Centre</p>
-<p>Questions 23-26
+<p><strong>Questions 23-26</strong>
 
-Complete the summary below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 23-26</p>
-<p>FUTURE PARKING SOLUTIONS</p>
+Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer. Write your answers in boxes 23-26</p>
+<p><strong>FUTURE PARKING SOLUTIONS</strong></p>
 <p>To prepare for the arrival of self-driving cars, cities should focus on reducing parking availability. This can be achieved by raising the (23) ………………. of parking or by limiting the number of spaces. Additionally, urban planners should modify infrastructure to support autonomous vehicles by incorporating (24) ……………. for electric cars and designing adaptable parking zones.</p>
 <p>The (25) ………………. from conventional cars to self-driving vehicles will require strategic planning. Cities must implement policies that ensure minimal disruption during this process. Long-term urban development should prioritize integrating self-driving technology by establishing suitable road networks and smart traffic systems. In the future, (26) ……………… must rethink their policies to create sustainable and efficient urban environments.</p>
-<p>THE HISTORY OF LANGUAGE</p>
-<p>A The evolution of language has been a central concern of philosophers, psychologists, and linguists for centuries. The question of how language evolved is intrinsically linked to the question of why humans are the only species to have evolved language. The answer to this question is not straightforward, and there are several competing theories.</p>
-<p>B One possible theory is that the evolution of language was linked to the evolution of the human brain. The human brain is proportionally larger than that of other species, and it has a larger neocortex, which is the part of the brain responsible for higher-order thinking. The human brain also has a larger Broca’s area, which is responsible for speech production, and a larger Wernicke’s area, which is responsible for language comprehension. These areas of the brain are also present in other primates, but they are not as developed as they are in humans. This suggests that the evolution of language may have been linked to the evolution of the human brain.</p>
-<p>C Another possible theory is that the evolution of language was linked to the evolution of social structures. Humans are social animals, and language is a tool that allows us to communicate with one another. It is possible that the evolution of language was driven by the need for humans to communicate with one another in order to cooperate and form social groups. This theory is supported by the fact that other social animals, such as dolphins and elephants, also have complex communication systems.</p>
-<p>D A third possible theory is that the evolution of language was linked to the evolution of tool use. Humans are unique among animals in their use of tools, and it is possible that the evolution of language was driven by the need for humans to communicate with one another in order to share information about tool use. This theory is supported by the fact that other tool-using animals, such as chimpanzees and crows, also have complex communication systems.</p>
-<p>E Regardless of the specific theory, it is clear that the evolution of language was a complex process that was influenced by a variety of factors. The evolution of language was likely driven by a combination of biological, social, and environmental factors.</p>
-<p>F The evolution of language can be divided into several stages. The first stage is the evolution of vocalizations. All animals produce vocalizations, and it is likely that the first stage in the evolution of language was the evolution of vocalizations that were used to communicate with other members of the same species. These vocalizations would have been simple and would have been used to communicate basic information, such as the presence of a predator or the location of food.</p>
-<p>G The second stage in the evolution of language is the evolution of syntax. Syntax is the set of rules that govern the structure of sentences, and it is what allows us to combine words into sentences that convey complex meanings. The evolution of syntax was likely driven by the need for humans to communicate more complex information. For example, the ability to communicate about the past or the future would have been an important advantage for early humans.</p>
-<p>H The third stage in the evolution of language is the evolution of semantics. Semantics is the study of meaning, and it is what allows us to understand the meaning of words and sentences. The evolution of semantics was likely driven by the need for humans to communicate more abstract information. For example, the ability to communicate about abstract concepts, such as justice or love, would have been an important advantage for early humans.</p>
-<p>I The fourth stage in the evolution of language is the evolution of pragmatics. Pragmatics is the study of how language is used in context, and it is what allows us to understand the meaning of a sentence based on the context in which it is used. The evolution of pragmatics was likely driven by the need for humans to communicate more effectively in social situations. For example, the ability to understand sarcasm or irony would have been an important advantage for early humans.</p>
-<p>J The evolution of language was a complex process that was influenced by a variety of factors. The evolution of language was likely driven by a combination of biological, social, and environmental factors. The evolution of language was a gradual process that took place over millions of years, and it is likely that the evolution of language was influenced by a variety of factors, including the evolution of the human brain, the evolution of social structures, and the evolution of tool use.</p>
-<p>Questions 27-33
+<p><strong>THE HISTORY OF LANGUAGE</strong></p>
+<p><strong>A</strong> The evolution of language has been a central concern of philosophers, psychologists, and linguists for centuries. The question of how language evolved is intrinsically linked to the question of why humans are the only species to have evolved language. The answer to this question is not straightforward, and there are several competing theories.</p>
+<p><strong>B</strong> One possible theory is that the evolution of language was linked to the evolution of the human brain. The human brain is proportionally larger than that of other species, and it has a larger neocortex, which is the part of the brain responsible for higher-order thinking. The human brain also has a larger Broca’s area, which is responsible for speech production, and a larger Wernicke’s area, which is responsible for language comprehension. These areas of the brain are also present in other primates, but they are not as developed as they are in humans. This suggests that the evolution of language may have been linked to the evolution of the human brain.</p>
+<p><strong>C</strong> Another possible theory is that the evolution of language was linked to the evolution of social structures. Humans are social animals, and language is a tool that allows us to communicate with one another. It is possible that the evolution of language was driven by the need for humans to communicate with one another in order to cooperate and form social groups. This theory is supported by the fact that other social animals, such as dolphins and elephants, also have complex communication systems.</p>
+<p><strong>D</strong> A third possible theory is that the evolution of language was linked to the evolution of tool use. Humans are unique among animals in their use of tools, and it is possible that the evolution of language was driven by the need for humans to communicate with one another in order to share information about tool use. This theory is supported by the fact that other tool-using animals, such as chimpanzees and crows, also have complex communication systems.</p>
+<p><strong>E</strong> Regardless of the specific theory, it is clear that the evolution of language was a complex process that was influenced by a variety of factors. The evolution of language was likely driven by a combination of biological, social, and environmental factors.</p>
+<p><strong>F</strong> The evolution of language can be divided into several stages. The first stage is the evolution of vocalizations. All animals produce vocalizations, and it is likely that the first stage in the evolution of language was the evolution of vocalizations that were used to communicate with other members of the same species. These vocalizations would have been simple and would have been used to communicate basic information, such as the presence of a predator or the location of food.</p>
+<p><strong>G</strong> The second stage in the evolution of language is the evolution of syntax. Syntax is the set of rules that govern the structure of sentences, and it is what allows us to combine words into sentences that convey complex meanings. The evolution of syntax was likely driven by the need for humans to communicate more complex information. For example, the ability to communicate about the past or the future would have been an important advantage for early humans.</p>
+<p><strong>H</strong> The third stage in the evolution of language is the evolution of semantics. Semantics is the study of meaning, and it is what allows us to understand the meaning of words and sentences. The evolution of semantics was likely driven by the need for humans to communicate more abstract information. For example, the ability to communicate about abstract concepts, such as justice or love, would have been an important advantage for early humans.</p>
+<p><strong>I</strong> The fourth stage in the evolution of language is the evolution of pragmatics. Pragmatics is the study of how language is used in context, and it is what allows us to understand the meaning of a sentence based on the context in which it is used. The evolution of pragmatics was likely driven by the need for humans to communicate more effectively in social situations. For example, the ability to understand sarcasm or irony would have been an important advantage for early humans.</p>
+<p><strong>J</strong> The evolution of language was a complex process that was influenced by a variety of factors. The evolution of language was likely driven by a combination of biological, social, and environmental factors. The evolution of language was a gradual process that took place over millions of years, and it is likely that the evolution of language was influenced by a variety of factors, including the evolution of the human brain, the evolution of social structures, and the evolution of tool use.</p>
+<p><strong>Questions 27-33</strong>
 
 Reading passage has seven paragraphs, A-G. Which paragraph contains the following information? Write the correct letter, A-G, in boxes 27-33 on your answer sheet.</p>
 <p>27. The emergence of syntax allowed humans to communicate more complex ideas.
@@ -188,19 +244,19 @@ Reading passage has seven paragraphs, A-G. Which paragraph contains the followin
 32. The reason humans are the only species to have developed language is still debated.
 
 33. Language may have evolved due to the necessity of social interactions and cooperation.</p>
-<p>Questions 34-36
+<p><strong>Questions 34-36</strong>
 
-Complete the summary below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 34-36 on your answer sheet.</p>
-<p>THE EVOLUTION OF LANGUAGE</p>
+Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer. Write your answers in boxes 34-36 on your answer sheet.</p>
+<p><strong>THE EVOLUTION OF LANGUAGE</strong></p>
 <p>The evolution of language was probably the result of a combination of factors, including biological, social and (34) ……………… ones. It is likely that the first stage involved the development of (35) ……………… which were used to convey simple messages. In the second stage, it became possible to construct (36) ……………… allowing more complex meanings to be expressed.</p>
-<p>Questions 37-40
+<p><strong>Questions 37-40</strong>
 
 Do the following statements agree with the information given in reading passage? In boxes 37-40 on your answer sheet, write</p>
-<p>TRUE                                 if the statement agrees with the information
+<p><strong>TRUE</strong>                                 if the statement agrees with the information
 
-FALSE                               if the statement contradicts the information
+<strong>FALSE</strong>                               if the statement contradicts the information
 
-NOT GIVEN                   if there is no information on this</p>
+<strong>NOT GIVEN</strong>                   if there is no information on this</p>
 <p>37. The size of the human brain is not the only factor which makes humans more intelligent than other species.
 
 38. The ability to use language may have resulted in humans becoming more sociable.
@@ -208,7 +264,7 @@ NOT GIVEN                   if there is no information on this</p>
 39. The development of language may be connected to the use of weapons.
 
 40. Dolphins have a more advanced form of communication than elephants.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. A</p>
 <p>2. B</p>
 <p>3. D</p>
@@ -467,6 +523,29 @@ NOT GIVEN                   if there is no information on this</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -486,12 +565,23 @@ NOT GIVEN                   if there is no information on this</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -503,14 +593,6 @@ NOT GIVEN                   if there is no information on this</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

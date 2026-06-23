@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,81 +158,81 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_204</h1>
-            <p>IELTS Listening Practice - Test 204</p>
-<p>Part 1: Questions 1-10
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 204</strong></h3>
+<p><strong>Part 1: Questions 1-10</strong>
 
-Complete the notes below. Write ONE WORD AND/ OR A NUMBER for each answer.</p>
-<p>Advice on family visit
+Complete the notes below. Write <strong>ONE WORD AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>Advice on family visit</strong>
 
-Accommodation
+<strong>Accommodation</strong>
 
 • (1)  _______  hotel on George Street
 
 • cost of family room per night: £ (2)  _______  (approx.)</p>
-<p>Recommended trips
+<p><strong>Recommended trips</strong>
 
 • a (3)  _______  tour of the city centre (starts in Carlton Square)
 
 • a trip by (4)  _______  to the old fort</p>
-<p>Science Museum
+<p><strong>Science Museum</strong>
 
 • best day to visit: (5)  _______ 
 
 • see the exhibition about (6) _______  , which opens soon</p>
-<p>Food
+<p><strong>Food</strong>
 
 • Clacton Market:
 
 o good for (7) _______  food
 
 o need to have lunch before (8)  _______  p.m.</p>
-<p>Theatre tickets
+<h3 class="test-heading"><strong>Theatre tickets</strong>
 
-• save up to (9)  _______  % on ticket prices at bargaintickets.com</p>
-<p>Free activities
+• save up to (9)  _______  % on ticket prices at bargaintickets.com</h3>
+<p><strong>Free activities</strong>
 
 • Blakewell Gardens:
 
 • Roots Music Festival
 
 • climb Telegraph Hill to see a view of the (10)  _______</p>
-<p>Part 2: Questions 11 and 12</p>
-<p>Choose TWO letters, A-E.
+<h3 class="test-heading"><strong>Part 2: Questions 11 and 12</strong></h3>
+<p>Choose <strong>TWO</strong> letters, A-E.
 
-Which TWO things does the speaker say about visiting the football stadium with children?
-
-
-
-[ ] A Children can get their photo taken with a football player.
-
-[ ] B There is a competition for children today.
-
-[ ] C Parents must stay with their children at all times.
-
-[ ] D Children will need sunhats and drinks.
-
-[ ] E The cafe has a special offer on meals for children.</p>
-<p>Questions 13 and 14
-
-Choose TWO letters, A-E.
-
-Which TWO features of the stadium tour are new this year?
+Which <strong>TWO</strong> things does the speaker say about visiting the football stadium with children?
 
 
+<strong>
+</strong><strong>[ ] </strong><strong>A</strong> Children can get their photo taken with a football player.
 
-[ ] A VIP tour
+<strong>[ ] </strong><strong>B</strong> There is a competition for children today.
 
-[ ] B 360 cinema experience
+<strong>[ ] </strong><strong>C</strong> Parents must stay with their children at all times.
 
-[ ] C audio guide
+<strong>[ ] </strong><strong>D</strong> Children will need sunhats and drinks.
 
-[ ] D dressing room tour
+<strong>[ ] </strong><strong>E</strong> The cafe has a special offer on meals for children.</p>
+<p><strong>Questions 13 and 14</strong>
 
-[ ] E tours in other languages</p>
-<p>Questions 15 – 20
+Choose <strong>TWO</strong> letters, A-E.
+
+Which <strong>TWO</strong> features of the stadium tour are new this year?
+
+
+<strong>
+</strong><strong>[ ] </strong><strong>A</strong> VIP tour
+
+<strong>[ ] </strong><strong>B</strong> 360 cinema experience
+
+<strong>[ ] </strong><strong>C</strong> audio guide
+
+<strong>[ ] </strong><strong>D</strong> dressing room tour
+
+<strong>[ ] </strong><strong>E</strong> tours in other languages</p>
+<p><strong>Questions 15 – 20</strong>
 
 Which event in the history of football in the UK took place in each of the following years? Choose SIX answers from the box and write the correct letter, A- H, next to Questions 15- 20.</p>
-<p>Events in the history of football</p>
+<p><strong>Events in the history of football</strong></p>
 <p>15. 1870  _______ 
 
 16. 1874  _______ 
@@ -188,101 +244,101 @@ Which event in the history of football in the UK took place in each of the follo
 19. 1878  _______ 
 
 20. 1880  _______</p>
-<p>A The introduction of pay for the players
+<p><strong>A</strong> The introduction of pay for the players
 
-B a change to the design of the goal
+<strong>B</strong> a change to the design of the goal
 
-C the first use of lights for matches
+<strong>C</strong> the first use of lights for matches
 
-D the Introduction of goalkeepers
+<strong>D</strong> the Introduction of goalkeepers
 
-E the first International match
+<strong>E</strong> the first International match
 
-F two changes to the rules of the game
+<strong>F</strong> two changes to the rules of the game
 
-G the introduction of a fee for spectators
+<strong>G</strong> the introduction of a fee for spectators
 
-H an agreement on the length of a game</p>
-<p>Part 3: Questions 21 and 22</p>
-<p>Choose TWO letters, A-E.
+<strong>H</strong> an agreement on the length of a game</p>
+<p><strong>Part 3: Questions 21 and 22</strong></p>
+<p>Choose <strong>TWO</strong> letters, A-E.
 
-Which TWO benefits for children of learning to write did both students find surprising?</p>
-<p>[ ] A improved fine motor skills
+Which <strong>TWO</strong> benefits for children of learning to write did both students find surprising?</p>
+<p><strong>[ ] </strong><strong>A</strong> improved fine motor skills
 
-[ ] B improved memory
+<strong>[ ] </strong><strong>B</strong> improved memory
 
-[ ] C improved concentration
+<strong>[ ] </strong><strong>C</strong> improved concentration
 
-[ ] D improved imagination
+<strong>[ ] </strong><strong>D</strong> improved imagination
 
-[ ] E improved spatial awareness</p>
-<p>Questions 23 and 24
+<strong>[ ] </strong><strong>E</strong> improved spatial awareness</p>
+<p><strong>Questions 23 and 24</strong>
 
-Choose TWO letters, A-E.
+Choose <strong>TWO</strong> letters, A-E.
 
 For children with dyspraxia, which TWO problems with handwriting do the students think are easiest to correct?</p>
-<p>[ ] A not spacing letters correctly
+<p><strong>[ ] </strong><strong>A</strong> not spacing letters correctly
 
-[ ] B not writing in a straight line
+<strong>[ ] </strong><strong>B</strong> not writing in a straight line
 
-[ ] C applying too much pressure when writing
+<strong>[ ] </strong><strong>C</strong> applying too much pressure when writing
 
-[ ] D confusing letter shapes
+<strong>[ ] </strong><strong>D</strong> confusing letter shapes
 
-[ ] E writing very slowly</p>
-<p>Questions 25-30
+<strong>[ ] </strong><strong>E</strong> writing very slowly</p>
+<p><strong>Questions 25-30</strong>
 
 Choose the correct letter, A, B or C.</p>
-<p>Teaching handwriting</p>
+<p><strong>Teaching handwriting</strong></p>
 <p>25. What does the woman say about using laptops to teach writing to children with dyslexia?
 
-[ ] A Children often lack motivation to learn that way.
+<strong>[ ] </strong><strong>A</strong> Children often lack motivation to learn that way.
 
-[ ] B Children become fluent relatively quickly.
+<strong>[ ] </strong><strong>B</strong> Children become fluent relatively quickly.
 
-[ ] C Children react more positively if they make a mistake.
+<strong>[ ] </strong><strong>C</strong> Children react more positively if they make a mistake.
 
 
 
 26. When discussing whether to teach cursive or print writing, the woman thinks that
 
-[ ] A cursive writing disadvantages a certain group of children.
+<strong>[ ] </strong><strong>A</strong> cursive writing disadvantages a certain group of children.
 
-[ ] B print writing is associated with lower academic performance.
+<strong>[ ] </strong><strong>B</strong> print writing is associated with lower academic performance.
 
-[ ] C most teachers in the UK prefer a traditional approach to handwriting.</p>
+<strong>[ ] </strong><strong>C</strong> most teachers in the UK prefer a traditional approach to handwriting.</p>
 <p>27. According to the students, what impact does poor handwriting have on exam performance?
 
-[ ] A There is evidence to suggest grades are affected by poor handwriting.
+<strong>[ ] </strong><strong>A</strong> There is evidence to suggest grades are affected by poor handwriting.
 
-[ ] B Neat handwriting is less important now than it used to be.
+<strong>[ ] </strong><strong>B</strong> Neat handwriting is less important now than it used to be.
 
-[ ] C Candidates write more slowly and produce shorter answers.</p>
+<strong>[ ] </strong><strong>C</strong> Candidates write more slowly and produce shorter answers.</p>
 <p>28. What prediction does the man make about the future of handwriting?
 
-[ ] A Touch typing will be taught before writing by hand.
+<strong>[ ] </strong><strong>A</strong> Touch typing will be taught before writing by hand.
 
-[ ] B Children will continue to learn to write by hand.
+<strong>[ ] </strong><strong>B</strong> Children will continue to learn to write by hand.
 
-[ ] C People will dislike handwriting on digital devices.</p>
+<strong>[ ] </strong><strong>C</strong> People will dislike handwriting on digital devices.</p>
 <p>29. The woman is concerned that relying on digital devices has made it difficult for her to
 
-[ ] A take detailed notes.
+<strong>[ ] </strong><strong>A</strong> take detailed notes.
 
-[ ] B spell and punctuate.
+<strong>[ ] </strong><strong>B</strong> spell and punctuate.
 
-[ ] C read old documents.</p>
+<strong>[ ] </strong><strong>C</strong> read old documents.</p>
 <p>30. How do the students feel about their own handwriting?
 
-[ ] A concerned they are unable to write quickly
+<strong>[ ] </strong><strong>A</strong> concerned they are unable to write quickly
 
-[ ] B embarrassed by comments made about it
+<strong>[ ] </strong><strong>B</strong> embarrassed by comments made about it
 
-[ ] C regretful that they have lost the habit</p>
-<p>Part 4: Questions 31 – 40
+<strong>[ ] </strong><strong>C</strong> regretful that they have lost the habit</p>
+<p><strong>Part 4: Questions 31 – 40</strong>
 
-Complete the notes below. Write ONE WORD ONLY for each answer.</p>
-<p>Research in the area around the Chembe Bird Sanctuary</p>
+Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+<p><strong>Research in the area around the Chembe Bird Sanctuary</strong></p>
 <p>The importance of birds of prey to the local communities
 
 • They destroy (31)  _______  and other rodents.
@@ -316,7 +372,7 @@ o making a (39)  _______
 o e.g. with metal objects
 
 • A (40)  _______  of methods is usually most effective.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. King’s/ Kings</p>
 <p>2. 125</p>
 <p>3. Walking</p>
@@ -575,6 +631,29 @@ o e.g. with metal objects
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -594,12 +673,23 @@ o e.g. with metal objects
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -611,14 +701,6 @@ o e.g. with metal objects
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

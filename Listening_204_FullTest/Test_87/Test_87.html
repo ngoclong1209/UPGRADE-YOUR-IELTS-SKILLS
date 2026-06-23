@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,120 +158,120 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_87</h1>
-            <p>IELTS Listening Practice - Test 87</p>
-<p>Part 1: Questions 1-6
-Complete the table below. Write NO MORE THAN ONE WORD OR A NUMBER for each answer.</p>
-<p>Hostel Accommodation in Darwin</p>
-<p>(1)  _______</p>
-<p>Questions 7-10
-Complete the notes below. Write ONE WORD ONLY for each answer.</p>
-<p>Kangaroo lodge
-Address: on (7)  _______  Lane
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 87</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-6</strong>
+Complete the table below. Write <strong>NO MORE THAN ONE WORD OR A NUMBER</strong> for each answer.</p>
+<h3 class="test-heading"><strong>Hostel Accommodation in Darwin</strong></h3>
+<h3 class="test-heading"><strong>(1)</strong>  _______</h3>
+<p><strong>Questions 7-10</strong>
+Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+<p><strong>Kangaroo lodge</strong>
+Address: on <strong>(7)</strong>  _______  Lane
 General information about hostel accommodation
 • Sheets are provided
-• Can hire a (8)  _______ 
-• (9)  _______ is included
-• A shared (10)  _______  is available</p>
-<p>Part 2: Questions 11-16
+• Can hire a <strong>(8)</strong>  _______ 
+• <strong>(9)</strong>  _______ is included
+• A shared <strong>(10)</strong>  _______  is available</p>
+<p><strong>Part 2: Questions 11-16</strong>
 Choose the correct letter A, B, C or D.</p>
-<p>Anglia Sculpture Park
+<p><strong>Anglia Sculpture Park</strong>
 11. The land where the Sculpture Park is located was previously
-[ ]  A completely covered by forest.
-[ ]  B the site of a private house.
-[ ]  C occupied by a factory.</p>
+<strong>[ ] </strong><strong> A</strong> completely covered by forest.
+<strong>[ ] </strong><strong> B</strong> the site of a private house.
+<strong>[ ] </strong><strong> C</strong> occupied by a factory.</p>
 <p>12. What is unusual about the Anglia Sculpture Park?
-[ ]  A Artists have made sculptures especially for it.
-[ ]  B Some of its sculptures were donated by the artists.
-[ ]  C It only shows contemporary sculptures.</p>
+<strong>[ ] </strong><strong> A</strong> Artists have made sculptures especially for it.
+<strong>[ ] </strong><strong> B</strong> Some of its sculptures were donated by the artists.
+<strong>[ ] </strong><strong> C</strong> It only shows contemporary sculptures.</p>
 <p>13. What is the theme of Joe Tremain’s ‘burnt’ sculptures?
-[ ]  A the contrast between nature and urban life
-[ ]  B the effect of man on the environment
-[ ]  C the violence of nature</p>
+<strong>[ ] </strong><strong> A</strong> the contrast between nature and urban life
+<strong>[ ] </strong><strong> B</strong> the effect of man on the environment
+<strong>[ ] </strong><strong> C</strong> the violence of nature</p>
 <p>14. The path by the Lower Lake
-[ ]  A is rather wet in some places.
-[ ]  B has recently been repaired.
-[ ]  C is difficult to walk on.</p>
+<strong>[ ] </strong><strong> A</strong> is rather wet in some places.
+<strong>[ ] </strong><strong> B</strong> has recently been repaired.
+<strong>[ ] </strong><strong> C</strong> is difficult to walk on.</p>
 <p>15. What does the speaker say about the Visitor Centre?
-[ ]  A It is being enlarged at present.
-[ ]  B It has received an international award.
-[ ]  C It was designed by a Canadian architect.</p>
+<strong>[ ] </strong><strong> A</strong> It is being enlarged at present.
+<strong>[ ] </strong><strong> B</strong> It has received an international award.
+<strong>[ ] </strong><strong> C</strong> It was designed by a Canadian architect.</p>
 <p>16. Today, visitors can buy snacks and sandwiches
-[ ]  A at the kiosk.
-[ ]  B in the Terrace Room.
-[ ]  C at the Lower Lake Cafe.</p>
-<p>Questions 17-20
+<strong>[ ] </strong><strong> A</strong> at the kiosk.
+<strong>[ ] </strong><strong> B</strong> in the Terrace Room.
+<strong>[ ] </strong><strong> C</strong> at the Lower Lake Cafe.</p>
+<p><strong>Questions 17-20</strong>
 Label the map below. Write the correct letter A-F next to questions 17-20.</p>
 <p>17. Joe Tremain sculptures  _______ 
 18. Giorgio catalucci bird sculptures  _______ 
 19. Garden gallery  _______ 
 20. Long house  _______</p>
-<p>Part 3: Questions 21-26
+<p><strong>Part 3: Questions 21-26</strong>
 Choose the correct letter A, B or C.</p>
-<p>Marketing report
+<p><strong>Marketing report</strong>
 21. Why did Leo choose instant coffee as the topic for his marketing report?
-[ ]  A He found plenty of material on the topic.
-[ ]  B He had some practical experience in the area.
-[ ]  C He had an idea of a brand he wanted to target.</p>
+<strong>[ ] </strong><strong> A</strong> He found plenty of material on the topic.
+<strong>[ ] </strong><strong> B</strong> He had some practical experience in the area.
+<strong>[ ] </strong><strong> C</strong> He had an idea of a brand he wanted to target.</p>
 <p>22. Leo discovered that in Australia, recent technological developments
-[ ]  A are producing less healthy types of instant coffee.
-[ ]  B are reducing the demand for instant coffee.
-[ ]  C are improving the quality of instant coffee.</p>
+<strong>[ ] </strong><strong> A</strong> are producing less healthy types of instant coffee.
+<strong>[ ] </strong><strong> B</strong> are reducing the demand for instant coffee.
+<strong>[ ] </strong><strong> C</strong> are improving the quality of instant coffee.</p>
 <p>23. What do the speakers agree about Leo’s table of coffee products?
-[ ]  A It needs more explanation in the text.
-[ ]  B It is factually inaccurate in some places.
-[ ]  C It would be best to put this in the appendix.</p>
+<strong>[ ] </strong><strong> A</strong> It needs more explanation in the text.
+<strong>[ ] </strong><strong> B</strong> It is factually inaccurate in some places.
+<strong>[ ] </strong><strong> C</strong> It would be best to put this in the appendix.</p>
 <p>24. What do they decide about the description of Shaffers coffee as a market follower?
-[ ]  A Leo needs to define his terms.
-[ ]  B Leo needs to provide more evidence.
-[ ]  C Leo needs to put it in a different section.</p>
+<strong>[ ] </strong><strong> A</strong> Leo needs to define his terms.
+<strong>[ ] </strong><strong> B</strong> Leo needs to provide more evidence.
+<strong>[ ] </strong><strong> C</strong> Leo needs to put it in a different section.</p>
 <p>25. What does Anna say about originality in someone’s first marketing report?
-[ ]  A Clear analysis of data can be considered original.
-[ ]  B Graphs and diagrams should be original, not copied.
-[ ]  C Reports should contain some original data collected by the student.</p>
+<strong>[ ] </strong><strong> A</strong> Clear analysis of data can be considered original.
+<strong>[ ] </strong><strong> B</strong> Graphs and diagrams should be original, not copied.
+<strong>[ ] </strong><strong> C</strong> Reports should contain some original data collected by the student.</p>
 <p>26. What difference between his school assignments and this report has surprised Leo?
-[ ]  A not knowing the criteria for getting a good mark
-[ ]  B being required to produce work without assistance
-[ ]  C having to do a great deal of research</p>
-<p>Questions 27-30
-Complete the notes below. Write ONE WORD ONLY for each answer.</p>
-<p>Notes on specific sections of marketing report
-Executive summary
-• Give a brief overview including the (27)  _______</p>
-<p>Problems
-• Link each problem to a (28)  _______  which explains it</p>
-<p>Implementation
+<strong>[ ] </strong><strong> A</strong> not knowing the criteria for getting a good mark
+<strong>[ ] </strong><strong> B</strong> being required to produce work without assistance
+<strong>[ ] </strong><strong> C</strong> having to do a great deal of research</p>
+<p><strong>Questions 27-30</strong>
+Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+<p><strong>Notes on specific sections of marketing report</strong>
+<strong>Executive summary</strong>
+• Give a brief overview including the <strong>(27)</strong>  _______</p>
+<p><strong>Problems</strong>
+• Link each problem to a <strong>(28)</strong>  _______  which explains it</p>
+<p><strong>Implementation</strong>
 • Practical solutions to problems
-• Include details such as participants, (29)  _______  and sequence
-• Section is often poorly done because of lack of (30)  _______</p>
-<p>Conclusion
+• Include details such as participants, <strong>(29)</strong>  _______  and sequence
+• Section is often poorly done because of lack of <strong>(30)</strong>  _______</p>
+<p><strong>Conclusion</strong>
 • Don’t use new material here</p>
-<p>Part 4: Questions 31-40
-Complete the notes below. Write ONE WORD ONLY for each answer.</p>
-<p>History of fireworks in Europe
-13th-16th centuries
+<p><strong>Part 4: Questions 31-40</strong>
+Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+<p><strong>History of fireworks in Europe</strong>
+<strong>13th-16th centuries</strong>
 • Fireworks were introduced from China
 • Their use was mainly to do with:
 o War
-o (31)  _______  (in plays and festivals)</p>
-<p>17th century
-• Various features of (32)  _______  were shown in fireworks displays
+o <strong>(31)</strong>  _______  (in plays and festivals)</p>
+<p><strong>17th century</strong>
+• Various features of <strong>(32)</strong>  _______  were shown in fireworks displays
 • Scientists were interested in using ideas from fireworks displays:
-o To make human (33)  _______  possible
-o To show the formation of (34)  _______</p>
-<p>• London:
+o To make human <strong>(33)</strong>  _______  possible
+o To show the formation of <strong>(34)</strong>  _______</p>
+<p><strong>• London:</strong>
 o Scientists were distrustful at first
-o Later they investigated (35)  _______  uses of fireworks</p>
-<p>• St Petersburg:
-o Fireworks were seen as a work of (36)  _______  for people</p>
-<p>• Paris:
-o Displays emphasized the power of the (37)  _______ 
-o Scientists aimed to provide (38)  _______</p>
-<p>18th century
+o Later they investigated <strong>(35)</strong>  _______  uses of fireworks</p>
+<p><strong>• St Petersburg:</strong>
+o Fireworks were seen as a work of <strong>(36)</strong>  _______  for people</p>
+<p><strong>• Paris:</strong>
+o Displays emphasized the power of the <strong>(37)</strong>  _______ 
+o Scientists aimed to provide <strong>(38)</strong>  _______</p>
+<p><strong>18th century</strong>
 • Italian fireworks specialists became influential
-• Servandoni’s fireworks display followed the same pattern as an (39)  _______ 
+• Servandoni’s fireworks display followed the same pattern as an <strong>(39)</strong>  _______ 
 • The appeal of fireworks extended to the middle classes
-• Some displays demonstrated new scientific discoveries such as (40)  _______</p>
-<p>ANSWER KEY</p>
+• Some displays demonstrated new scientific discoveries such as <strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. unfriendly</p>
 <p>2. noisy</p>
 <p>3. 23.50</p>
@@ -469,11 +525,34 @@ o Scientists aimed to provide (38)  _______</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_87.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_87.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -493,12 +572,23 @@ o Scientists aimed to provide (38)  _______</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -510,14 +600,6 @@ o Scientists aimed to provide (38)  _______</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

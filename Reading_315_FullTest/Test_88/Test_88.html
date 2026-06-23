@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,23 +158,23 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_88</h1>
-            <p>IELTS Reading Practice - Test 88</p>
-<p>The Phoenicians: an almost forgotten people</p>
-<p>The Phoenicians inhabited the region of modern Lebanon and Syria from about 3000 BC. They became the greatest traders of the pre-classical world, and were the first people to establish a large colonial network. Both of these activities were based on seafaring, an ability the Phoenicians developed from the example of their maritime predecessors, the Minoans of Crete.</p>
-<p>An Egyptian narrative of about 1080 BC, the Story of Wen-Amen, provides an insight into the scale of their trading activity. One of the characters is Wereket-El, a Phoenician merchant living at Tanis in Egypt’s Nile delta. As many as 50 ships carry out his business, plying back and forth between the Nile and the Phoenician port of Sidon.</p>
-<p>The most prosperous period for Phoenicia was the 10th century BC, when the surrounding region was stable. Hiram, the king of the Phoenician city of Tyre, was an ally and business partner of Solomon, King of Israel. For Solomon’s temple in Jerusalem, Hiram provided craftsmen with particular skills that were needed for this major construction project. He also supplied materials – particularly timber, including cedar from the forests of Lebanon. And the two kings went into trade in partnership. They sent out Phoenician vessels on long expeditions (of up to three years for the return trip) to bring back gold, sandalwood, ivory, monkeys and peacocks from Ophir. This is an unidentified place, probably on the east coast of Africa or the west coast of India.</p>
-<p>Phoenicia was famous for its luxury goods. The cedar wood was not only exported as top-quality timber for architecture and shipbuilding. It was also carved by the Phoenicians, and the same skill was adapted to even more precious work in ivory. The rare and expensive dye for cloth, Tyrian purple, complemented another famous local product, fine linen. The metalworkers of the region, particularly those working in gold, were famous. Tyre and Sidon were also known for their glass.</p>
-<p>These were the main products which the Phoenicians exported. In addition, as traders and middlemen, they took a commission on a much greater range of precious goods that they transported from elsewhere.</p>
-<p>The extensive trade of Phoenicia required much book-keeping and correspondence, and it was in the field of writing that the Phoenicians made their most lasting contribution to world history. The scripts in use in the world up to the second millennium BC (in Egypt, Mesopotamia or China) all required the writer to learn a large number of separate characters – each of them expressing either a whole word or an element of its meaning. By contrast, the Phoenicians, in about 1500 BC, developed an entirely new approach to writing. The marks made (with a pointed tool called a stylus, on damp clay) now attempted to capture the sound of a word. This required an alphabet of individual letters.</p>
-<p>The trading and seafaring skills of the Phoenicians resulted in a network of colonies, spreading westwards through the Mediterranean. The first was probably Citium, in Cyprus, established in the 9th century BC. But the main expansion came from the 8th century BC onwards, when pressure from Assyria to the east disrupted the patterns of trade on the Phoenician coast.</p>
-<p>Trading colonies were developed on the string of islands in the centre of the Mediterranean – Crete, Sicily, Malta, Sardinia, Ibiza – and also on the coast of north Africa. The African colonies clustered in particular around the great promontory which, with Sicily opposite, forms the narrowest channel on the main Mediterranean sea route. This is the site of Carthage.</p>
-<p>Carthage was the largest of the towns founded by the Phoenicians on the north African coast, and it rapidly assumed a leading position among the neighbouring colonies. The traditional date of its founding is 814 BC, but archaeological evidence suggests that it was probably settled a little over a century later.</p>
-<p>The subsequent spread and growth of Phoenician colonies in the western Mediterranean, and even out to the Atlantic coasts of Africa and Spain, was as much the achievement of Carthage as of the original Phoenician trading cities such as Tyre and Sidon. But no doubt links were maintained with the homeland, and new colonists continued to travel west.</p>
-<p>From the 8th century BC, many of the coastal cities of Phoenicia came under the control of a succession of imperial powers, each of them defeated and replaced in the region by the next: first the Assyrians, then the Babylonians, Persians and Macedonian Greeks. In 64 BC, the area of Phoenicia became part of the Roman province of Syria. The Phoenicians as an identifiable people then faded from history, merging into the populations of modern Lebanon and northern Syria.</p>
-<p>Questions 1-8
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 88</strong></h3>
+<h3 class="test-heading"><strong>The Phoenicians: an almost forgotten people</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>The Phoenicians inhabited the region of modern Lebanon and Syria from about 3000 BC. They became the greatest traders of the pre-classical world, and were the first people to establish a large colonial network. Both of these activities were based on seafaring, an ability the Phoenicians developed from the example of their maritime predecessors, the Minoans of Crete.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>An Egyptian narrative of about 1080 BC, the Story of Wen-Amen, provides an insight into the scale of their trading activity. One of the characters is Wereket-El, a Phoenician merchant living at Tanis in Egypt’s Nile delta. As many as 50 ships carry out his business, plying back and forth between the Nile and the Phoenician port of Sidon.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>The most prosperous period for Phoenicia was the 10th century BC, when the surrounding region was stable. Hiram, the king of the Phoenician city of Tyre, was an ally and business partner of Solomon, King of Israel. For Solomon’s temple in Jerusalem, Hiram provided craftsmen with particular skills that were needed for this major construction project. He also supplied materials – particularly timber, including cedar from the forests of Lebanon. And the two kings went into trade in partnership. They sent out Phoenician vessels on long expeditions (of up to three years for the return trip) to bring back gold, sandalwood, ivory, monkeys and peacocks from Ophir. This is an unidentified place, probably on the east coast of Africa or the west coast of India.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Phoenicia was famous for its luxury goods. The cedar wood was not only exported as top-quality timber for architecture and shipbuilding. It was also carved by the Phoenicians, and the same skill was adapted to even more precious work in ivory. The rare and expensive dye for cloth, Tyrian purple, complemented another famous local product, fine linen. The metalworkers of the region, particularly those working in gold, were famous. Tyre and Sidon were also known for their glass.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>These were the main products which the Phoenicians exported. In addition, as traders and middlemen, they took a commission on a much greater range of precious goods that they transported from elsewhere.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>The extensive trade of Phoenicia required much book-keeping and correspondence, and it was in the field of writing that the Phoenicians made their most lasting contribution to world history. The scripts in use in the world up to the second millennium BC (in Egypt, Mesopotamia or China) all required the writer to learn a large number of separate characters – each of them expressing either a whole word or an element of its meaning. By contrast, the Phoenicians, in about 1500 BC, developed an entirely new approach to writing. The marks made (with a pointed tool called a stylus, on damp clay) now attempted to capture the sound of a word. This required an alphabet of individual letters.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>The trading and seafaring skills of the Phoenicians resulted in a network of colonies, spreading westwards through the Mediterranean. The first was probably Citium, in Cyprus, established in the 9th century BC. But the main expansion came from the 8th century BC onwards, when pressure from Assyria to the east disrupted the patterns of trade on the Phoenician coast.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>Trading colonies were developed on the string of islands in the centre of the Mediterranean – Crete, Sicily, Malta, Sardinia, Ibiza – and also on the coast of north Africa. The African colonies clustered in particular around the great promontory which, with Sicily opposite, forms the narrowest channel on the main Mediterranean sea route. This is the site of Carthage.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>Carthage was the largest of the towns founded by the Phoenicians on the north African coast, and it rapidly assumed a leading position among the neighbouring colonies. The traditional date of its founding is 814 BC, but archaeological evidence suggests that it was probably settled a little over a century later.</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p>The subsequent spread and growth of Phoenician colonies in the western Mediterranean, and even out to the Atlantic coasts of Africa and Spain, was as much the achievement of Carthage as of the original Phoenician trading cities such as Tyre and Sidon. But no doubt links were maintained with the homeland, and new colonists continued to travel west.</p></div></div>
+<div class="para-row"><div class="para-label">K</div><div class="para-text"><p>From the 8th century BC, many of the coastal cities of Phoenicia came under the control of a succession of imperial powers, each of them defeated and replaced in the region by the next: first the Assyrians, then the Babylonians, Persians and Macedonian Greeks. In 64 BC, the area of Phoenicia became part of the Roman province of Syria. The Phoenicians as an identifiable people then faded from history, merging into the populations of modern Lebanon and northern Syria.</p></div></div>
+<p><strong>Questions 1-8</strong>
 
-Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer.</p>
-<p>The Phoenician’s trading activities
+Complete the sentences below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+<p><strong>The Phoenician’s trading activities</strong>
 
 1. The Phoenicians’ skill at……………………………….helped them to trade.
 
@@ -135,14 +191,14 @@ Complete the sentences below. Choose ONE WORD ONLY from the passage for each ans
 7. Phoenicians carved………………………………………., as well as cedar.
 
 8. The Phoenicians also earned a………………………………………. for shipping goods.</p>
-<p>Questions 9-13
+<p><strong>Questions 9-13</strong>
 
 Do the following statements agree with the information given in Reading Passage 1?</p>
-<p>TRUE                             if the statement agrees with the information
+<p><strong>TRUE</strong>                             if the statement agrees with the information
 
-FALSE                           if the statement contradicts the information
+<strong>FALSE</strong>                           if the statement contradicts the information
 
-NOT GIVEN                if there is no information on this</p>
+<strong>NOT GIVEN</strong>                if there is no information on this</p>
 <p>9 Problems with Assyria led to the establishment of a number of Phoenician colonies.
 
 10 Carthage was an enemy town which the Phoenicians won in battle.
@@ -152,18 +208,18 @@ NOT GIVEN                if there is no information on this</p>
 12 Parts of Phoenicia were conquered by a series of empires.
 
 13 The Phoenicians welcomed Roman control of the area.</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>The Hollywood Film Industry</p>
-<p>A This chapter examines the ‘Golden Age’ of the Hollywood film studio system and explores how a particular kind of filmmaking developed during this period in US film history. It also focuses on the two key elements which influenced the emergence of the classic Hollywood studio system: the advent of sound and the business ideal of vertical integration. In addition to its historical interest, inspecting the growth of the studio system may offer clues regarding the kinds of struggles that accompany the growth of any new medium. It might, in fact, be intriguing to examine which changes occurred during the growth of the Hollywood studio, and compare those changes to contemporary struggles in which production companies are trying to define and control emerging industries, such as online film and interactive television.</p>
-<p>B The shift of the industry away from ‘silent’ films began during the late 1920s. Warner Bros.’ 1927 film The Jazz Singer was the first to feature synchronized speech, and with it came a period of turmoil for the industry. Studios now had proof that ‘talkie’ films would make them money, but the financial investment this kind of filmmaking would require, from new camera equipment to new projection facilities, made the studios hesitant to invest at first. In the end, the power of cinematic sound to both move audiences and enhance the story persuaded studios that talkies were worth investing in. Overall, the use of sound in film was well-received by audiences, but there were still many technical factors to consider. Although full integration of sound into movies was complete by 1930, it would take somewhat longer for them to regain their stylistic elegance and dexterity. The camera now had to be encased in a big, clumsy, unmoveable soundproof box. In addition, actors struggled, having to direct their speech to awkwardly-hidden microphones in huge plants, telephones or even costumes.</p>
-<p>C Vertical integration is the other key component in the rise of the Hollywood studio system. The major studios realized they could increase their profits by handling each stage of a film’s life: production (making the film), distribution (getting the film out to people) and exhibition (owning the theaters in major cities where films were shown first). Five studios, ‘The Big Five’, worked to achieve vertical integration through the late 1940s, owning vast real estate on which to construct elaborate sets. In addition, these studios set the exact terms of films’ release dates and patterns. Warner Bros., Paramount, 20th Century Fox, MGM and RKO formed this exclusive club. ‘The Little Three’ studios – Universal, Columbia and United Artists – also made pictures, but each lacked one of the crucial elements of vertical integration. Together these eight companies operated as a mature oligopoly, essentially running the entire market.</p>
-<p>D During the Golden Age, the studios were remarkably consistent and stable enterprises, due in large part to long-term management heads – the infamous ‘movie moguls’ who ruled their kingdoms with iron fists. At MGM, Warner Bros, and Columbia, the same men ran their studios for decades. The rise of the studio system also hinges on the treatment of stars, who were constructed and exploited to suit a studio’s image and schedule. Actors were bound up in seven-year contracts to a single studio, and the studio boss generally held all the options. Stars could be loaned out to other production companies at any time. Studio bosses could also force bad roles on actors, and manipulate every single detail of stars’ images with their mammoth in-house publicity departments. Some have compared the Hollywood studio system to a factory, and it is useful to remember that studios were out to make money first and art second.</p>
-<p>E On the other hand, studios also had to cultivate flexibility, in addition to consistent factory output. Studio heads realized that they couldn’t make virtually the same film over and over again with the same cast of stars and still expect to keep turning a profit. They also had to create product differentiation. Examining how each production company tried to differentiate itself has led to loose characterizations of individual studios’ styles. MGM tended to put out a lot of all-star productions while Paramount excelled in comedy and Warner Bros, developed a reputation for gritty social realism. 20th Century Fox forged the musical and a great deal of prestige biographies, while Universal specialized in classic horror movies.</p>
-<p>F In 1948, struggling independent movie producers and exhibitors finally triumphed in their battle against the big studios’ monopolistic behavior. In the United States versus Paramount federal decree of that year, the studios were ordered to give up their theaters in what is commonly referred to as ‘divestiture’ – opening the market to smaller producers. This, coupled with the advent of television in the 1950s, seriously compromised the studio system’s influence and profits. Hence, 1930 and 1948 are generally considered bookends to Hollywood’s Golden Age.</p>
-<p>Questions 14-19
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>The Hollywood Film Industry</strong></p>
+<p><strong>A</strong> This chapter examines the ‘Golden Age’ of the Hollywood film studio system and explores how a particular kind of filmmaking developed during this period in US film history. It also focuses on the two key elements which influenced the emergence of the classic Hollywood studio system: the advent of sound and the business ideal of vertical integration. In addition to its historical interest, inspecting the growth of the studio system may offer clues regarding the kinds of struggles that accompany the growth of any new medium. It might, in fact, be intriguing to examine which changes occurred during the growth of the Hollywood studio, and compare those changes to contemporary struggles in which production companies are trying to define and control emerging industries, such as online film and interactive television.</p>
+<p><strong>B</strong> The shift of the industry away from ‘silent’ films began during the late 1920s. Warner Bros.’ 1927 film The Jazz Singer was the first to feature synchronized speech, and with it came a period of turmoil for the industry. Studios now had proof that ‘talkie’ films would make them money, but the financial investment this kind of filmmaking would require, from new camera equipment to new projection facilities, made the studios hesitant to invest at first. In the end, the power of cinematic sound to both move audiences and enhance the story persuaded studios that talkies were worth investing in. Overall, the use of sound in film was well-received by audiences, but there were still many technical factors to consider. Although full integration of sound into movies was complete by 1930, it would take somewhat longer for them to regain their stylistic elegance and dexterity. The camera now had to be encased in a big, clumsy, unmoveable soundproof box. In addition, actors struggled, having to direct their speech to awkwardly-hidden microphones in huge plants, telephones or even costumes.</p>
+<p><strong>C</strong> Vertical integration is the other key component in the rise of the Hollywood studio system. The major studios realized they could increase their profits by handling each stage of a film’s life: production (making the film), distribution (getting the film out to people) and exhibition (owning the theaters in major cities where films were shown first). Five studios, ‘The Big Five’, worked to achieve vertical integration through the late 1940s, owning vast real estate on which to construct elaborate sets. In addition, these studios set the exact terms of films’ release dates and patterns. Warner Bros., Paramount, 20th Century Fox, MGM and RKO formed this exclusive club. ‘The Little Three’ studios – Universal, Columbia and United Artists – also made pictures, but each lacked one of the crucial elements of vertical integration. Together these eight companies operated as a mature oligopoly, essentially running the entire market.</p>
+<p><strong>D</strong> During the Golden Age, the studios were remarkably consistent and stable enterprises, due in large part to long-term management heads – the infamous ‘movie moguls’ who ruled their kingdoms with iron fists. At MGM, Warner Bros, and Columbia, the same men ran their studios for decades. The rise of the studio system also hinges on the treatment of stars, who were constructed and exploited to suit a studio’s image and schedule. Actors were bound up in seven-year contracts to a single studio, and the studio boss generally held all the options. Stars could be loaned out to other production companies at any time. Studio bosses could also force bad roles on actors, and manipulate every single detail of stars’ images with their mammoth in-house publicity departments. Some have compared the Hollywood studio system to a factory, and it is useful to remember that studios were out to make money first and art second.</p>
+<p><strong>E</strong> On the other hand, studios also had to cultivate flexibility, in addition to consistent factory output. Studio heads realized that they couldn’t make virtually the same film over and over again with the same cast of stars and still expect to keep turning a profit. They also had to create product differentiation. Examining how each production company tried to differentiate itself has led to loose characterizations of individual studios’ styles. MGM tended to put out a lot of all-star productions while Paramount excelled in comedy and Warner Bros, developed a reputation for gritty social realism. 20th Century Fox forged the musical and a great deal of prestige biographies, while Universal specialized in classic horror movies.</p>
+<p><strong>F</strong> In 1948, struggling independent movie producers and exhibitors finally triumphed in their battle against the big studios’ monopolistic behavior. In the United States versus Paramount federal decree of that year, the studios were ordered to give up their theaters in what is commonly referred to as ‘divestiture’ – opening the market to smaller producers. This, coupled with the advent of television in the 1950s, seriously compromised the studio system’s influence and profits. Hence, 1930 and 1948 are generally considered bookends to Hollywood’s Golden Age.</p>
+<p><strong>Questions 14-19</strong>
 
 Reading Passage 2 has six paragraphs, A-F. Choose the correct heading for each paragraph from the list of headings below.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 
 i The power within each studio
 
@@ -191,14 +247,14 @@ viii The top movies of Hollywood’s Golden Age</p>
 18 Paragraph E
 
 19 Paragraph F</p>
-<p>Questions 20-23
+<p><strong>Questions 20-23</strong>
 
 Do the following statements agree with the information given in Reading Passage 2?</p>
-<p>TRUE                            if the statement agrees with the information
+<p><strong>TRUE</strong>                            if the statement agrees with the information
 
-FALSE                          if the statement contradicts the information
+<strong>FALSE</strong>                          if the statement contradicts the information
 
-NOT GIVEN               if there is no information on this</p>
+<strong>NOT GIVEN</strong>               if there is no information on this</p>
 <p>20 After The Jazz Singer came out, other studios immediately began making movies with synchronized sound.
 
 21 There were some drawbacks to recording movie actors’ voices in the early 1930s.
@@ -206,22 +262,22 @@ NOT GIVEN               if there is no information on this</p>
 22 There was intense competition between actors for contracts with the leading studios.
 
 23 Studios had total control over how their actors were perceived by the public.</p>
-<p>Questions 24-26
+<p><strong>Questions 24-26</strong>
 
-Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>THE HOLLYWOOD STUDIOS
+Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>THE HOLLYWOOD STUDIOS</strong>
 
 Throughout its Golden Age, the Hollywood movie industry was controlled by a handful of studios. Using a system known as (24)……………………………… , the biggest studios not only made movies, but handled their distribution and then finally showed them in their own theaters. These studios were often run by autocratic bosses – men known as (25)………………………………… , who often remained at the head of organisations for decades. However, the domination of the industry by the leading studios came to an end in 1948, when they were forced to open the market to smaller producers – a process known as (26)…………………………</p>
-<p>Left or right?</p>
-<p>A Creatures across the animal kingdom have a preference for one foot, eye or even antenna. The cause of this trait, called lateralisation, is fairly simple: one side of the brain, which generally controls the opposite side of the body, is more dominant than the other when processing certain tasks. This does, on some occasions, let the animal down: such as when a toad fails to escape from a snake approaching from the right, just because its right eye is worse at spotting danger than its left. So why would animals evolve a characteristic that seems to endanger them?</p>
-<p>B For many years it was assumed that lateralisation was a uniquely human trait, but this notion rapidly fell apart as researchers started uncovering evidence of lateralisation in all sorts of animals. For example, in the 1970s, Lesley Rogers, now at the University of New England in Australia, was studying memory and learning in chicks. She had been injecting a chemical into chicks’ brains to stop them learning how to spot grains of food among distracting pebbles, and was surprised to observe that the chemical only worked when applied to the left hemisphere of the brain. That strongly suggested that the right side of the chicks brain played little or no role in the learning of such behaviours. Similar evidence appeared in songbirds and rats around the same time, and since then, researchers have built up an impressive catalogue of animal lateralisation.</p>
-<p>C In some animals, lateralisation is simply a preference for a single paw or foot, while in others it appears in more general patterns of behaviour. The left side of most vertebrate brains, for example, seems to process and control feeding. Since the left hemisphere processes input from the right side of the body, that means animals as diverse as fish, toads and birds are more likely to attack prey or food items viewed with their right eye. Even humpback whales prefer to use the right side of their jaws to scrape sand eels from the ocean floor.</p>
-<p>D Genetics plays a part in determining lateralisation, but environmental factors have an impact too. Rogers found that a chicks lateralisation depends on whether it is exposed to light before hatching from its egg – if it is kept in the dark during this period, neither hemisphere becomes dominant. In 2004, Rogers used this observation to test the advantages of brain bias in chicks faced with the challenge of multitasking. She hatched chicks with either strong or weak lateralisation, then presented the two groups with food hidden among small pebbles and the threatening shape of a fake predator flying overhead. As predicted, the birds incubated in the light looked for food mainly with their right eye, while using the other to check out the predator. The weakly-lateralised chicks, meanwhile, had difficulty performing these two activities simultaneously.</p>
-<p>E Similar results probably hold true for many other animals. In 2006, Angelo Bisazza at the University of Padua set out to observe the differences in feeding behaviour between strongly-lateralised and weakly-lateralised fish. He found that strongly-lateralised individuals were able to feed twice as fast as weakly-lateralised ones when there was a threat of a predator looming above them. Assigning different jobs to different brain halves may be especially advantageous for animals such as birds or fish, whose eyes are placed on the sides of their heads. This enables them to process input from each side separately, with different tasks in mind.</p>
-<p>F And what of those animals who favour a specific side for almost all tasks? In 2009, Maria Magat and Culum Brown at Macquarie University in Australia wanted to see if there was general cognitive advantage in lateralisation. To investigate, they turned to parrots, which can be either strongly right- or left-footed, or ambidextrous (without dominance). The parrots were given the intellectually demanding task of pulling a snack on a string up to their beaks, using a co-ordinated combination of claws and beak. The results showed that the parrots with the strongest foot preferences worked out the puzzle far more quickly than their ambidextrous peers.</p>
-<p>G A further puzzle is why are there always a few exceptions, like left-handed humans, who are wired differently from the majority of the population? Giorgio Vallortigara and Stefano Ghirlanda of Stockholm University seem to have found the answer via mathematical models. These have shown that a group of fish is likely to survive a shark attack with the fewest casualties if the majority turn together in one direction while a very small proportion of the group escape in the direction that the predator is not expecting.</p>
-<p>H This imbalance of lateralisation within populations may also have advantages for individuals. Whereas most co-operative interactions require participants to react similarly, there are some situations – such as aggressive interactions – where it can benefit an individual to launch an attack from an unexpected quarter. Perhaps this can partly explain the existence of left-handers in human societies. It has been suggested that when it comes to hand-to-hand fighting, left-handers may have the advantage over the right-handed majority. Where survival depends on the element of surprise, it may indeed pay to be different.</p>
-<p>Questions 27-30
+<p><strong>Left or right?</strong></p>
+<p><strong>A</strong> Creatures across the animal kingdom have a preference for one foot, eye or even antenna. The cause of this trait, called lateralisation, is fairly simple: one side of the brain, which generally controls the opposite side of the body, is more dominant than the other when processing certain tasks. This does, on some occasions, let the animal down: such as when a toad fails to escape from a snake approaching from the right, just because its right eye is worse at spotting danger than its left. So why would animals evolve a characteristic that seems to endanger them?</p>
+<p><strong>B</strong> For many years it was assumed that lateralisation was a uniquely human trait, but this notion rapidly fell apart as researchers started uncovering evidence of lateralisation in all sorts of animals. For example, in the 1970s, Lesley Rogers, now at the University of New England in Australia, was studying memory and learning in chicks. She had been injecting a chemical into chicks’ brains to stop them learning how to spot grains of food among distracting pebbles, and was surprised to observe that the chemical only worked when applied to the left hemisphere of the brain. That strongly suggested that the right side of the chicks brain played little or no role in the learning of such behaviours. Similar evidence appeared in songbirds and rats around the same time, and since then, researchers have built up an impressive catalogue of animal lateralisation.</p>
+<p><strong>C</strong> In some animals, lateralisation is simply a preference for a single paw or foot, while in others it appears in more general patterns of behaviour. The left side of most vertebrate brains, for example, seems to process and control feeding. Since the left hemisphere processes input from the right side of the body, that means animals as diverse as fish, toads and birds are more likely to attack prey or food items viewed with their right eye. Even humpback whales prefer to use the right side of their jaws to scrape sand eels from the ocean floor.</p>
+<p><strong>D</strong> Genetics plays a part in determining lateralisation, but environmental factors have an impact too. Rogers found that a chicks lateralisation depends on whether it is exposed to light before hatching from its egg – if it is kept in the dark during this period, neither hemisphere becomes dominant. In 2004, Rogers used this observation to test the advantages of brain bias in chicks faced with the challenge of multitasking. She hatched chicks with either strong or weak lateralisation, then presented the two groups with food hidden among small pebbles and the threatening shape of a fake predator flying overhead. As predicted, the birds incubated in the light looked for food mainly with their right eye, while using the other to check out the predator. The weakly-lateralised chicks, meanwhile, had difficulty performing these two activities simultaneously.</p>
+<p><strong>E</strong> Similar results probably hold true for many other animals. In 2006, Angelo Bisazza at the University of Padua set out to observe the differences in feeding behaviour between strongly-lateralised and weakly-lateralised fish. He found that strongly-lateralised individuals were able to feed twice as fast as weakly-lateralised ones when there was a threat of a predator looming above them. Assigning different jobs to different brain halves may be especially advantageous for animals such as birds or fish, whose eyes are placed on the sides of their heads. This enables them to process input from each side separately, with different tasks in mind.</p>
+<p><strong>F</strong> And what of those animals who favour a specific side for almost all tasks? In 2009, Maria Magat and Culum Brown at Macquarie University in Australia wanted to see if there was general cognitive advantage in lateralisation. To investigate, they turned to parrots, which can be either strongly right- or left-footed, or ambidextrous (without dominance). The parrots were given the intellectually demanding task of pulling a snack on a string up to their beaks, using a co-ordinated combination of claws and beak. The results showed that the parrots with the strongest foot preferences worked out the puzzle far more quickly than their ambidextrous peers.</p>
+<p><strong>G</strong> A further puzzle is why are there always a few exceptions, like left-handed humans, who are wired differently from the majority of the population? Giorgio Vallortigara and Stefano Ghirlanda of Stockholm University seem to have found the answer via mathematical models. These have shown that a group of fish is likely to survive a shark attack with the fewest casualties if the majority turn together in one direction while a very small proportion of the group escape in the direction that the predator is not expecting.</p>
+<p><strong>H</strong> This imbalance of lateralisation within populations may also have advantages for individuals. Whereas most co-operative interactions require participants to react similarly, there are some situations – such as aggressive interactions – where it can benefit an individual to launch an attack from an unexpected quarter. Perhaps this can partly explain the existence of left-handers in human societies. It has been suggested that when it comes to hand-to-hand fighting, left-handers may have the advantage over the right-handed majority. Where survival depends on the element of surprise, it may indeed pay to be different.</p>
+<p><strong>Questions 27-30</strong>
 
 Complete each sentence with the correct ending, A-F, below.</p>
 <p>27 In the 1970s, Lesley Rogers discovered that
@@ -231,24 +287,24 @@ Complete each sentence with the correct ending, A-F, below.</p>
 29 Magat and Brown’s studies show that
 
 30 Vallortigara and Ghirlanda’s research findings suggest that</p>
-<p>A lateralisation is more common in some species than in others.
+<p><strong>A</strong> lateralisation is more common in some species than in others.
 
-B it benefits a population if some members have a different lateralisation than the majority.
+<strong>B</strong> it benefits a population if some members have a different lateralisation than the majority.
 
-C lateralisation helps animals do two things at the same time.
+<strong>C</strong> lateralisation helps animals do two things at the same time.
 
-D lateralisation is not confined to human beings.
+<strong>D</strong> lateralisation is not confined to human beings.
 
-E the greater an animal’s lateralisation, the better it is at problem-solving.
+<strong>E</strong> the greater an animal’s lateralisation, the better it is at problem-solving.
 
-F strong lateralisation may sometimes put groups of animals in danger.</p>
-<p>Questions 31-35
+<strong>F</strong> strong lateralisation may sometimes put groups of animals in danger.</p>
+<p><strong>Questions 31-35</strong>
 
-Complete the summary below. Choose ONE WORD ONLY from the passage for each answer.</p>
-<p>Lesley Rogers’ 2004 Experiment
+Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+<p><strong>Lesley Rogers’ 2004 Experiment</strong>
 
 Lateralisation is determined by both genetic and (31)………………………… influences. Rogers found that chicks whose eggs are given (32)……………………………. during the incubation period tend to have a stronger lateralisation. Her 2004 experiment set out to prove that these chicks were better at (33)………………………………than weakly lateralized chicks. As expected, the strongly lateralised birds in the experiment were more able to locate (34)……………………… using their right eye, while using their left eye to monitor an imitation (35)……………………………located above them.</p>
-<p>Questions 36-40
+<p><strong>Questions 36-40</strong>
 
 Reading Passage 3 has eight paragraphs, A-H.</p>
 <p>Which paragraph contains the following information?</p>
@@ -262,7 +318,7 @@ Reading Passage 3 has eight paragraphs, A-H.</p>
 
 40. a suggestion that lateralisation would seem to disadvantage animals</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. seafaring</p>
 <p>2. merchant</p>
 <p>3. temple</p>
@@ -521,6 +577,29 @@ Reading Passage 3 has eight paragraphs, A-H.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -540,12 +619,23 @@ Reading Passage 3 has eight paragraphs, A-H.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -557,14 +647,6 @@ Reading Passage 3 has eight paragraphs, A-H.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

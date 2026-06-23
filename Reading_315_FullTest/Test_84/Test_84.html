@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,86 +158,86 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_84</h1>
-            <p>IELTS Reading Practice - Test 84</p>
-<p>South pole adventurer</p>
-<p>FOR a few weeks in January 1912, Antarctica was full of explorers. Norwegian Roald Amundsen had reached the South Pole on 14 December and was speeding back to the coast. On 17 January, Robert Scott and the men of the British Antarctic expedition had arrived at the pole to find they had been beaten to it. Just then, a third man arrived; Japanese explorer Nobu Shirase. However, his part in one of the greatest adventure stories of the 20th century is hardly known outside his own country, even by fellow explorers. Yet as Scott was nearing the pole and with the rest of the world still unaware of Amundsen’s triumph, Shirase and his team sailed into Antarctica’s Bay of Whales in the smallest ship ever to try its luck in these dangerous waters.</p>
-<p>Since boyhood Shirase had dreamed of becoming a polar explorer. Like Amundsen, he initially set his sights on the North Pole. But after the American Robert Peary claimed to have reached it in 1909, both men hastily altered their plans. Instead they would aim for the last big prize: the South Pole. In January 1910, Shirase put his plans before Japanese government officials, promising to raise the flag at the South Pole within three years. For many of them, the question wasn’t could he do it but why would it be worth doing? 15 years earlier the International Geographical Congress had said that as the last unknown continent the Antarctic offered the chance to add to knowledge in almost every branch of science. So, like the British, Shirase presented his expedition as a search for knowledge: he would bring back fossils, make meteorological measurements and explore unknown parts of the continent.</p>
-<p>The response from the government was cool, however, and Shirase struggled to raise funds. Fortunately, a few months later, Japan’s former prime minister Shigenobu □kuma came to Shirase’s rescue. With □kuma’s backing, Shirase got together just enough money to buy and equip a small ship. He eventually acquired a scientist, too, called Terutaro Takeda. At the end of November 1910, his ship the Kainan Maru finally left Tokyo with 27 men and 28 Siberian dogs on board. Before leaving, Shirase confidently outlined his plans to the media. He would sail to New Zealand, then reach Antarctica in February, during the southern summer, and then proceed to the pole the following spring. This was not to be, however. Bad weather delayed the expedition and they didn’t reach New Zealand until 8 February; Amundsen and Scott had already been in Antarctica for a month, preparing for winter. In New Zealand local reporters were astonished: the ship was half the size of Amundsen’s ship. True, it was reinforced with iron plate and extra wood, but the ship had only the feeblest engine to help force its way through ice. Few doubted Shirase’s courage, but most reckoned the expedition to be ill- prepared as the Japanese had only lightweight sledges for transport across the ice, made of bamboo and wood.</p>
-<p>But Shirase’s biggest challenge was time. Antarctica is only accessible by sea for a few weeks in summer and expeditions usually aimed to arrive in January or February. ‘Even with their determination and daring, our Japanese friends are running it rather fine,’ wrote local reporters. Nevertheless, on 11 February the Kainan Maru left New Zealand and sailed straight into the worst weather the captain had ever seen. Then, on 6 March, they approached the coastline of Antarctica’s Ross Sea, looking for a place to land. The ice began to close in, threatening to trap them for the winter, an experience no one was likely to survive. With a remarkable piece of seamanship, the captain steered the ship out of the ice and turned north. They would have to wait out the winter in a warmer climate.</p>
-<p>A year later than planned, Shirase and six men finally reached Antarctica. Catching up with Scott or Amundsen was out of the question and he had said he would stick to science this time. Yet Shirase still felt the pull of the pole and eventually decided he would head southward to experience the thrills and hardships of polar exploration he had always dreamed of. With provisions for 20 days, he and four men would see how far they could get.</p>
-<p>Shirase set off on 20 January 1912 with Takeda and two dog handlers, leaving two men at the edge of the ice shelf to make meteorological measurements. For a week they struggled through one blizzard after another, holing up in their tents during the worst of the weather. The temperature fell to -25°C, and frostbite claimed some of the dogs. On 26 January, Shirase estimated there were enough provisions to continue for two more days. Two days later, he announced it was time to turn back. Takeda calculated they had reached 80° 5 south and had travelled 250 kilometres. The men hoisted the Japanese flag.</p>
-<p>On 3 February, all the men were heading home. The ship reached Tokyo in June 1912 – and Shirase was greeted like a hero despite the fact that he never reached the pole. Nor did he contribute much to science – but then nor did Amundsen, whose only interest was in being first to the pole. Yet Shirase’s expedition was heroic. They travelled beyond 80° south, one of only four teams to have gone so far south at the time. Furthermore, they did it all without the advantages of the other teams and with no previous experience.</p>
-<p>Questions 1-8
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 84</strong></h3>
+<h3 class="test-heading"><strong>South pole adventurer</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>FOR a few weeks in January 1912, Antarctica was full of explorers. Norwegian Roald Amundsen had reached the South Pole on 14 December and was speeding back to the coast. On 17 January, Robert Scott and the men of the British Antarctic expedition had arrived at the pole to find they had been beaten to it. Just then, a third man arrived; Japanese explorer Nobu Shirase. However, his part in one of the greatest adventure stories of the 20th century is hardly known outside his own country, even by fellow explorers. Yet as Scott was nearing the pole and with the rest of the world still unaware of Amundsen’s triumph, Shirase and his team sailed into Antarctica’s Bay of Whales in the smallest ship ever to try its luck in these dangerous waters.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>Since boyhood Shirase had dreamed of becoming a polar explorer. Like Amundsen, he initially set his sights on the North Pole. But after the American Robert Peary claimed to have reached it in 1909, both men hastily altered their plans. Instead they would aim for the last big prize: the South Pole. In January 1910, Shirase put his plans before Japanese government officials, promising to raise the flag at the South Pole within three years. For many of them, the question wasn’t could he do it but why would it be worth doing? 15 years earlier the International Geographical Congress had said that as the last unknown continent the Antarctic offered the chance to add to knowledge in almost every branch of science. So, like the British, Shirase presented his expedition as a search for knowledge: he would bring back fossils, make meteorological measurements and explore unknown parts of the continent.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>The response from the government was cool, however, and Shirase struggled to raise funds. Fortunately, a few months later, Japan’s former prime minister Shigenobu □kuma came to Shirase’s rescue. With □kuma’s backing, Shirase got together just enough money to buy and equip a small ship. He eventually acquired a scientist, too, called Terutaro Takeda. At the end of November 1910, his ship the Kainan Maru finally left Tokyo with 27 men and 28 Siberian dogs on board. Before leaving, Shirase confidently outlined his plans to the media. He would sail to New Zealand, then reach Antarctica in February, during the southern summer, and then proceed to the pole the following spring. This was not to be, however. Bad weather delayed the expedition and they didn’t reach New Zealand until 8 February; Amundsen and Scott had already been in Antarctica for a month, preparing for winter. In New Zealand local reporters were astonished: the ship was half the size of Amundsen’s ship. True, it was reinforced with iron plate and extra wood, but the ship had only the feeblest engine to help force its way through ice. Few doubted Shirase’s courage, but most reckoned the expedition to be ill- prepared as the Japanese had only lightweight sledges for transport across the ice, made of bamboo and wood.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>But Shirase’s biggest challenge was time. Antarctica is only accessible by sea for a few weeks in summer and expeditions usually aimed to arrive in January or February. ‘Even with their determination and daring, our Japanese friends are running it rather fine,’ wrote local reporters. Nevertheless, on 11 February the Kainan Maru left New Zealand and sailed straight into the worst weather the captain had ever seen. Then, on 6 March, they approached the coastline of Antarctica’s Ross Sea, looking for a place to land. The ice began to close in, threatening to trap them for the winter, an experience no one was likely to survive. With a remarkable piece of seamanship, the captain steered the ship out of the ice and turned north. They would have to wait out the winter in a warmer climate.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>A year later than planned, Shirase and six men finally reached Antarctica. Catching up with Scott or Amundsen was out of the question and he had said he would stick to science this time. Yet Shirase still felt the pull of the pole and eventually decided he would head southward to experience the thrills and hardships of polar exploration he had always dreamed of. With provisions for 20 days, he and four men would see how far they could get.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Shirase set off on 20 January 1912 with Takeda and two dog handlers, leaving two men at the edge of the ice shelf to make meteorological measurements. For a week they struggled through one blizzard after another, holing up in their tents during the worst of the weather. The temperature fell to -25°C, and frostbite claimed some of the dogs. On 26 January, Shirase estimated there were enough provisions to continue for two more days. Two days later, he announced it was time to turn back. Takeda calculated they had reached 80° 5 south and had travelled 250 kilometres. The men hoisted the Japanese flag.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>On 3 February, all the men were heading home. The ship reached Tokyo in June 1912 – and Shirase was greeted like a hero despite the fact that he never reached the pole. Nor did he contribute much to science – but then nor did Amundsen, whose only interest was in being first to the pole. Yet Shirase’s expedition was heroic. They travelled beyond 80° south, one of only four teams to have gone so far south at the time. Furthermore, they did it all without the advantages of the other teams and with no previous experience.</p></div></div>
+<p><strong>Questions 1-8</strong>
 
 Do the following statements agree with the information given in Reading Passage 1? In boxes 1-8 on your answer sheet, write</p>
-<p>TRUE                         if the statement agrees with the information
+<p><strong>TRUE</strong>                         if the statement agrees with the information
 
-FALSE                       if the statement contradicts the information
+<strong>FALSE</strong>                       if the statement contradicts the information
 
-NOT GIVEN            if there is no information on this</p>
-<p>Questions 9-13
+<strong>NOT GIVEN</strong>            if there is no information on this</p>
+<p><strong>Questions 9-13</strong>
 
 Choose the correct letter; A, B, C or D.</p>
 <p>9. When reporters in New Zealand met Shirase, they were
 
-A. concerned about the quality of his equipment.
+<strong>A</strong>. concerned about the quality of his equipment.
 
-B. impressed with the design of his ship.
+<strong>B</strong>. impressed with the design of his ship.
 
-C. certain he was unaware of the dangers ahead.
+<strong>C</strong>. certain he was unaware of the dangers ahead.
 
-D. surprised by the bravery he demonstrated.</p>
+<strong>D</strong>. surprised by the bravery he demonstrated.</p>
 <p>10. What are we told about the captain of the Kainan Maru in the fifth paragraph?
 
-A. He had given Shirase some poor advice.
+<strong>A</strong>. He had given Shirase some poor advice.
 
-B. His skill at sailing saved the boat and crew.
+<strong>B</strong>. His skill at sailing saved the boat and crew.
 
-C. He refused to listen to the warnings of others.
+<strong>C</strong>. He refused to listen to the warnings of others.
 
-D. He was originally confident they could reach Antarctica.</p>
+<strong>D</strong>. He was originally confident they could reach Antarctica.</p>
 <p>11. After Shirase finally reached Antarctica he realised that
 
-A. he was unsure of the direction he should follow.
+<strong>A</strong>. he was unsure of the direction he should follow.
 
-B. he would have to give up on fulfilling his personal ambition.
+<strong>B</strong>. he would have to give up on fulfilling his personal ambition.
 
-C. he might not have enough food to get to the South Pole.
+<strong>C</strong>. he might not have enough food to get to the South Pole.
 
-D. he still wanted to compete in the race against the other teams.</p>
+<strong>D</strong>. he still wanted to compete in the race against the other teams.</p>
 <p>12. What is the writer doing in the seventh paragraph?
 
-A. criticising a decision concerning scientific research.
+<strong>A</strong>. criticising a decision concerning scientific research.
 
-B. explaining why a particular mistake had occurred.
+<strong>B</strong>. explaining why a particular mistake had occurred.
 
-C. describing the conditions that the expedition faced.
+<strong>C</strong>. describing the conditions that the expedition faced.
 
-D. rejecting the idea that Shirase was poorly prepared.</p>
+<strong>D</strong>. rejecting the idea that Shirase was poorly prepared.</p>
 <p>13. What is the writer’s main point in the final paragraph?
 
-A. Considering the problems Shirase had to deal with, his achievement was incredible.
+<strong>A</strong>. Considering the problems Shirase had to deal with, his achievement was incredible.
 
-B. In Japan, the reaction to Shirase’s adventure in Antarctica came as a surprise to him.
+<strong>B</strong>. In Japan, the reaction to Shirase’s adventure in Antarctica came as a surprise to him.
 
-C. It was obvious that Amundsen would receive more attention as an explorer than Shirase.
+<strong>C</strong>. It was obvious that Amundsen would receive more attention as an explorer than Shirase.
 
-D. Shirase had achieved more on the Antarctic expedition than even he had expected.</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>The rise of agribots</p>
+<strong>D</strong>. Shirase had achieved more on the Antarctic expedition than even he had expected.</p>
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>The rise of agribots</strong></p>
 <p>The next time you stand at the supermarket checkout, spare a thought for the farmers who helped fill your shopping basket as life is hard for them right now. This, in turn, inevitably means bigger grocery bills for consumers, and greater hardship for the millions in countries where food shortages are a matter of life and death. Worse, studies suggest that the world will need twice as much food by 2050. Yet while farmers must squeeze more out of the land, they must also address the necessity of reducing their impact on the soil, waterways and atmosphere. All this means rethinking how agriculture is practiced, and taking automation to a whole new level. On the new model farms of the future, precision will be key. Why dose a whole field with chemicals if you can spray only where they are needed? Each plant could get exactly the right amount of everything, no more or less, an approach that could slash chemical use and improve yields in one move. But this is easier said than done; the largest farms in Europe and the U.S. can cover thousands of acres. That’s why automation is key to precision farming. Specifically, say agricultural engineers, precision farming needs robot farmers.</p>
 <p>One day, we might see fields with ‘agribots’ (agricultural robots) that can identify individual seedlings and encourage them along with drops of fertilizer. Other machines would distinguish problem weeds from crops and eliminate them with shots from high-power lasers or a microdot of pesticide. These machines will also be able to identify and harvest all kinds of vegetables. More than a century of mechanization has already turned farming into an industrial-scale activity in much of the world, with farms that grow cereals being the most heavily automated.</p>
 <p>But a variety of other crops, including oranges and tomatoes destined to become processed foods, are also picked mechanically, albeit to a slightly lesser extent. Yet the next wave of autonomous farm machinery is already at work. You probably haven’t even noticed, for these robots are disguised as tractors. Many are self-steering, use GPS to cross a field, and can even ‘talk’ to their implements – a plough or sprayer, for example. And the implements can talk back, telling the tractor that it’s going too fast or needs to move to the left. This kind of communication is also being developed in other farm vehicles. A new system allows a combine harvester, say, to send a call over to a tractor- trailer so the driver can unload the grain as and when necessary.</p>
 <p>However, when fully autonomous systems take to the field, they’ll look nothing like tractors. With their enormous size and weight, today’s farm machines have significant downsides: they compact the soil, reducing porosity and killing beneficial life, meaning crops don’t grow so well. Simon Blackmore, who researches agricultural technology at Harper Adams University College in England believes that fleets of lightweight autonomous robots have the potential to solve this problem and that replacing brute force with precision is key. ‘A seed only needs one cubic centimeter of soil to grow. If we cultivate just that we only put tiny amounts of energy in and the plants still grow nicely.’ There is another reason why automation may be the way forward according to Eldert van Henten, a robotics researcher at Wageningen University in the Netherlands. ‘While the population is growing and needs to be fed, a rapidly shrinking number of people are willing to work in agriculture,’ he points out. Other researchers such as Linda Calvin, an economist at the U.S. Department of Agriculture, and Philip Martin at the University of California, Davis, have studied trends in mechanization to predict how US farms might fare. Calvin and Martin have observed how rising employment costs have led to the adoption of labour-saving farm technology in the past, citing the raisin industry as an example. In 2000, a bumper harvest crashed prices and, with profits squeezed, farmers looked for a solution. With labour one of their biggest costs – 42 percent of production expenses on U.S. farms, on average – they started using a mechanical harvester adapted from a machine used by wine makers. By 2007, almost half of California’s raisins were mechanically harvested and a labour force once numbering 50,000 had shrunk to 30,000.</p>
 <p>As well as having an impact on the job market, the widespread adoption of agribots might bring changes at the supermarket. Lewis Holloway, who studies agriculture at the University of Hull, UK, says that robotic milking is likely to influence the genetics of dairy herds as farmers opt for ‘robot-friendly’ cows, with udder shape, and even attitudes, suited to automated milking. Similarly, he says, it’s conceivable that agribots could influence what fruit or vegetable varieties get to the shops, since farmers may prefer to grow those with, say, leaf shapes that are easier for their robots to discriminate from weeds. Almost inevitably, these machines will eventually alter the landscape, too. The real tipping point for robot agriculture will come when farms are being designed with agribots in mind, says Salah Sukkarieh, a robotics researcher at the Australian Center for Field Robotics, Sydney. This could mean a return to smaller fields, with crops planted in grids rather than rows and fruit trees pruned into two-dimensional shapes to make harvesting easier. This alien terrain tended by robots is still a while away, he says ‘but it will happen.’</p>
-<p>Questions 14-17
+<p><strong>Questions 14-17</strong>
 
 Do the following statements agree with the claims of the writer in Reading Passage 2? In boxes 14-17 on your answer sheet, write</p>
-<p>YES                           if the statement agrees with the claims of the writer
+<p><strong>YES</strong>                           if the statement agrees with the claims of the writer
 
-NO                             if the statement contradicts the claims of the writer
+<strong>NO</strong>                             if the statement contradicts the claims of the writer
 
-NOT GIVEN          if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>          if it is impossible to say what the writer thinks about this</p>
 <p>14. Governments should do more to ensure that food is generally affordable.
 
 15. Farmers need to reduce the harm they do to the environment.
@@ -189,9 +245,9 @@ NOT GIVEN          if it is impossible to say what the writer thinks about 
 16. In the future, farmers are likely to increase their dependency on chemicals.
 
 17. Farms in Europe and the US may find it hard to adapt to precision farming.</p>
-<p>Questions 18-21
+<p><strong>Questions 18-21</strong>
 
-Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer.</p>
+Complete the sentences below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
 <p>18. In the future, agribots will provide………………………….to young plants.
 
 19. Some machines will use chemicals or……………………………..to get rid of unwanted plants.
@@ -199,7 +255,7 @@ Complete the sentences below. Choose ONE WORD ONLY from the passage for each ans
 20. It is the production of………………………………which currently uses most machinery on farms.
 
 21. ……………………………….between machines such as tractors is making farming more efficient.</p>
-<p>Questions 22-26
+<p><strong>Questions 22-26</strong>
 
 Look at the following researchers (Questions 22-26) and the list of statements below. Match each researcher with the correct statement, A-H.</p>
 <p>22. Simon Blackmore
@@ -211,31 +267,31 @@ Look at the following researchers (Questions 22-26) and the list of statements b
 25. Lewis Holloway
 
 26. Salah Sukkarieh</p>
-<p>List of Findings
+<p><strong>List of Findings</strong>
 
-A. The use of automation might impact on the development of particular animal and plant species.
+<strong>A</strong>. The use of automation might impact on the development of particular animal and plant species.
 
-B. We need to consider the effect on employment that increased automation will have.
+<strong>B</strong>. We need to consider the effect on employment that increased automation will have.
 
-C. We need machines of the future to be exact, not more powerful.
+<strong>C</strong>. We need machines of the future to be exact, not more powerful.
 
-D. As farming becomes more automated the appearance of farmland will change.
+<strong>D</strong>. As farming becomes more automated the appearance of farmland will change.
 
-E. New machinery may require more investment than certain farmers can afford.
+<strong>E</strong>. New machinery may require more investment than certain farmers can afford.
 
-F. There is a shortage of employees in the farming industry.
+<strong>F</strong>. There is a shortage of employees in the farming industry.
 
-G. There are limits to the environmental benefits of automation.
+<strong>G</strong>. There are limits to the environmental benefits of automation.
 
-H. Economic factors are often the driving force behind the development of machinery.</p>
-<p>Homer’s Literary Legacy</p>
-<p>A Until the last tick of history’s clock, cultural transmission meant oral transmission and poetry, passed from mouth to ear, was the principal medium of moving information across space and from one generation to the next. Oral poetry was not simply a way of telling lovely or important stories, or of flexing the imagination. It was, argues the classicist Eric Havelock, a “massive repository of useful knowledge, a sort of encyclopedia of ethics, politics, history and technology which the effective citizen was required to learn as the core of his educational equipment”. The great oral works transmitted a shared cultural heritage, held in common not on bookshelves, but in brains. In India, an entire class of priests was charged with memorizing the Vedas with perfect fidelity. In pre-lslamic Arabia, people known as Rawis were often attached to poets as official memorizers.The Buddha’s teachings were passed down in an unbroken chain of oral tradition for four centuries until they were committed to writing in Sri Lanka in the first century B.C.</p>
-<p>B The most famous of the Western tradition’s oral works, and the first to have been systematically studied, were Homer’s Odyssey and Iliad. These two poems – possibly the first to have been written down in the Greek alphabet – had long been held up as literary archetypes. However, even as they were celebrated as the models to which all literature should aspire, Homer’s masterworks had also long been the source of scholarly unease. The earliest modern critics sensed that they were somehow qualitatively different from everything that came after – even a little strange. For one thing, both poems were oddly repetitive in the way they referred to characters. Odysseus was always “clever Odysseus”. Dawn was always “rosy-fingered”. Why would someone write that? Sometimes the epithets seemed completely off-key. Why call the murderer of Agamemnon “blameless Aegisthos”? Why refer to “swift-footed Achilles” even when he was sitting down? Or to “laughing Aphrodite” even when she was in tears? In terms of both structure and theme, the Odyssey and Iliad were also oddly formulaic, to the point of predictability. The same narrative units – gathering armies, heroic shields, challenges between rivals – pop up again and again, only with different characters and different circumstances. In the context of such finely spun, deliberate masterpieces, these quirks* seemed hard to explain.</p>
-<p>C At the heart of the unease about these earliest works of literature were two fundamental questions: first, how could Greek literature have been born ex nihilo* with two masterpieces? Surely a few less perfect stories must have come before, and yet these two were among the first on record. And second, who exactly was their author? Or was it authors? There were no historical records of Homer, and no trustworthy biography of the man exists beyond a few self-referential hints embedded in the texts themselves.</p>
-<p>D Jean-Jacques Rousseau was one of the first modern critics to suggest that Homer might not have been an author in the contemporary sense of a single person who sat down and wrote a story and then published it for others to read. In his 1781 Essay on the Origin of Languages, the Swiss philosopher suggested that the Odyssey and Iliad might have been “written only in men’s memories. Somewhat later they were laboriously collected in writing”- though that was about as far as his enquiry into the matter went.</p>
-<p>E In 1795, the German philologist Friedrich August Wolf argued for the first time that not only were Homer’s works not written down by Homer, but they weren’t even by Homer. They were, rather, a loose collection of songs transmitted by generations of Greek bards*, and only redacted* in their present form at some later date. In 1920, an eighteen-year-old scholar named Milman Parry took up the question of Homeric authorship as his Master’s thesis at the University of California, Berkeley. He suggested that the reason Homer’s epics seemed unlike other literature was because they were unlike other literature. Parry had discovered what Wood and Wolf had missed: the evidence that the poems had been transmitted orally was right there in the text itself. All those stylistic quirks, including the formulaic and recurring plot elements and the bizarrely repetitive epithets -“clever Odysseus”and “gray-eyed Athena”- that had always perplexed readers were actually like thumbprints left by a potter: material evidence of how the poems had been crafted. They were mnemonic* aids that helped the bard(s) fit the meter and pattern of the line, and remember the essence of the poems.</p>
-<p>F The greatest author of antiquity was actually, Parry argued, just “one of a long tradition of oral poets that… composed wholly without the aid of writing”. Parry realised that if you were setting out to create memorable poems, the Odyssey and the Iliad were exactly the kind of poems you’d create. It’s said that cliches* are the worst sin a writer can commit, but to an oral bard, they were essential. The very reason that cliches so easily seep into our speech and writing – their insidious memorability – is exactly why they played such an important role in oral storytelling.The principles that the oral bards discovered as they sharpened their stories through telling and retelling were the same mnemonic principles that psychologists rediscovered when they began conducting their first scientific experiments on memory around the turn of the twentieth century. Words that rhyme are much more memorable than words that don’t, and concrete nouns are easier to remember than abstract ones. Finding patterns and structure in information is how our brains extract meaning from the world, and putting words to music and rhyme is a way of adding extra levels of pattern and structure to language.</p>
-<p>Questions 27-32
+<strong>H</strong>. Economic factors are often the driving force behind the development of machinery.</p>
+<p><strong>Homer’s Literary Legacy</strong></p>
+<p><strong>A</strong> Until the last tick of history’s clock, cultural transmission meant oral transmission and poetry, passed from mouth to ear, was the principal medium of moving information across space and from one generation to the next. Oral poetry was not simply a way of telling lovely or important stories, or of flexing the imagination. It was, argues the classicist Eric Havelock, a “massive repository of useful knowledge, a sort of encyclopedia of ethics, politics, history and technology which the effective citizen was required to learn as the core of his educational equipment”. The great oral works transmitted a shared cultural heritage, held in common not on bookshelves, but in brains. In India, an entire class of priests was charged with memorizing the Vedas with perfect fidelity. In pre-lslamic Arabia, people known as Rawis were often attached to poets as official memorizers.The Buddha’s teachings were passed down in an unbroken chain of oral tradition for four centuries until they were committed to writing in Sri Lanka in the first century B.C.</p>
+<p><strong>B</strong> The most famous of the Western tradition’s oral works, and the first to have been systematically studied, were Homer’s Odyssey and Iliad. These two poems – possibly the first to have been written down in the Greek alphabet – had long been held up as literary archetypes. However, even as they were celebrated as the models to which all literature should aspire, Homer’s masterworks had also long been the source of scholarly unease. The earliest modern critics sensed that they were somehow qualitatively different from everything that came after – even a little strange. For one thing, both poems were oddly repetitive in the way they referred to characters. Odysseus was always “clever Odysseus”. Dawn was always “rosy-fingered”. Why would someone write that? Sometimes the epithets seemed completely off-key. Why call the murderer of Agamemnon “blameless Aegisthos”? Why refer to “swift-footed Achilles” even when he was sitting down? Or to “laughing Aphrodite” even when she was in tears? In terms of both structure and theme, the Odyssey and Iliad were also oddly formulaic, to the point of predictability. The same narrative units – gathering armies, heroic shields, challenges between rivals – pop up again and again, only with different characters and different circumstances. In the context of such finely spun, deliberate masterpieces, these quirks* seemed hard to explain.</p>
+<p><strong>C</strong> At the heart of the unease about these earliest works of literature were two fundamental questions: first, how could Greek literature have been born ex nihilo* with two masterpieces? Surely a few less perfect stories must have come before, and yet these two were among the first on record. And second, who exactly was their author? Or was it authors? There were no historical records of Homer, and no trustworthy biography of the man exists beyond a few self-referential hints embedded in the texts themselves.</p>
+<p><strong>D</strong> Jean-Jacques Rousseau was one of the first modern critics to suggest that Homer might not have been an author in the contemporary sense of a single person who sat down and wrote a story and then published it for others to read. In his 1781 Essay on the Origin of Languages, the Swiss philosopher suggested that the Odyssey and Iliad might have been “written only in men’s memories. Somewhat later they were laboriously collected in writing”- though that was about as far as his enquiry into the matter went.</p>
+<p><strong>E</strong> In 1795, the German philologist Friedrich August Wolf argued for the first time that not only were Homer’s works not written down by Homer, but they weren’t even by Homer. They were, rather, a loose collection of songs transmitted by generations of Greek bards*, and only redacted* in their present form at some later date. In 1920, an eighteen-year-old scholar named Milman Parry took up the question of Homeric authorship as his Master’s thesis at the University of California, Berkeley. He suggested that the reason Homer’s epics seemed unlike other literature was because they were unlike other literature. Parry had discovered what Wood and Wolf had missed: the evidence that the poems had been transmitted orally was right there in the text itself. All those stylistic quirks, including the formulaic and recurring plot elements and the bizarrely repetitive epithets -“clever Odysseus”and “gray-eyed Athena”- that had always perplexed readers were actually like thumbprints left by a potter: material evidence of how the poems had been crafted. They were mnemonic* aids that helped the bard(s) fit the meter and pattern of the line, and remember the essence of the poems.</p>
+<p><strong>F</strong> The greatest author of antiquity was actually, Parry argued, just “one of a long tradition of oral poets that… composed wholly without the aid of writing”. Parry realised that if you were setting out to create memorable poems, the Odyssey and the Iliad were exactly the kind of poems you’d create. It’s said that cliches* are the worst sin a writer can commit, but to an oral bard, they were essential. The very reason that cliches so easily seep into our speech and writing – their insidious memorability – is exactly why they played such an important role in oral storytelling.The principles that the oral bards discovered as they sharpened their stories through telling and retelling were the same mnemonic principles that psychologists rediscovered when they began conducting their first scientific experiments on memory around the turn of the twentieth century. Words that rhyme are much more memorable than words that don’t, and concrete nouns are easier to remember than abstract ones. Finding patterns and structure in information is how our brains extract meaning from the world, and putting words to music and rhyme is a way of adding extra levels of pattern and structure to language.</p>
+<p><strong>Questions 27-32</strong>
 
 Reading Passage 3 has six paragraphs, A-F.</p>
 <p>Which paragraph contains the following information?</p>
@@ -250,43 +306,43 @@ Reading Passage 3 has six paragraphs, A-F.</p>
 31. examples of the kinds of people employed to recall language
 
 32. doubts regarding Homer’s apparently inappropriate descriptions</p>
-<p>Questions 33 and 34
+<p><strong>Questions 33 and 34</strong>
 
-Choose TWO letters, A-E.</p>
-<p>Which TWO of these points are made by the writer of the text about the Odyssey and the Iliad?
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>Which <strong>TWO</strong> of these points are made by the writer of the text about the Odyssey and the Iliad?
 
-A. They are sometimes historically inaccurate.
+<strong>A</strong>. They are sometimes historically inaccurate.
 
-B. It is uncertain which century they were written in.
+<strong>B</strong>. It is uncertain which century they were written in.
 
-C. Their content is very similar.
+<strong>C</strong>. Their content is very similar.
 
-D. Later writers referred to them as ideal examples of writing.
+<strong>D</strong>. Later writers referred to them as ideal examples of writing.
 
-E. There are stylistic differences between them.</p>
-<p>Questions 35 and 36
+<strong>E</strong>. There are stylistic differences between them.</p>
+<p><strong>Questions 35 and 36</strong>
 
-Choose TWO letters, A-E.</p>
-<p>Which TWO of the following theories does the writer of the text refer to?
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>Which <strong>TWO</strong> of the following theories does the writer of the text refer to?
 
-A. Homer wrote his work during a period of captivity.
+<strong>A</strong>. Homer wrote his work during a period of captivity.
 
-B. Neither the Odyssey nor the Iliad were written by Homer.
+<strong>B</strong>. Neither the Odyssey nor the Iliad were written by Homer.
 
-C. Homer created the Odyssey and Iliad without writing them down.
+<strong>C</strong>. Homer created the Odyssey and Iliad without writing them down.
 
-D. Homer may have suffered from a failing memory in later life.
+<strong>D</strong>. Homer may have suffered from a failing memory in later life.
 
-E. The oral and written versions of Homer’s work may not be identical.</p>
-<p>Questions 37-40
+<strong>E</strong>. The oral and written versions of Homer’s work may not be identical.</p>
+<p><strong>Questions 37-40</strong>
 
-Complete the summary below. Choose ONE WORD ONLY from the passage for each answer.</p>
-<p>The importance of the spoken word and how words are remembered
+Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+<p><strong>The importance of the spoken word and how words are remembered</strong>
 
 Spoken poetry was once the means by which each (37)……………………………….. of a particular culture or community could pass on its knowledge. Indeed, it has been suggested that it was the duty of a (38)………………………… to know poetry so they would be informed about subjects such as politics and history.</p>
 <p>Psychologists now know that when people are trying to remember information, they may find it difficult to remember words that express (39)……………………………… ideas. It is easier to remember words which sound similar or go together with (40)………………………………</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. false</p>
 <p>2. not given</p>
 <p>3. true</p>
@@ -545,6 +601,29 @@ Spoken poetry was once the means by which each (37)………………………�
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -564,12 +643,23 @@ Spoken poetry was once the means by which each (37)………………………�
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -581,14 +671,6 @@ Spoken poetry was once the means by which each (37)………………………�
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

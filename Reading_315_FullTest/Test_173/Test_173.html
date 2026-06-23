@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,34 +158,34 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_173</h1>
-            <p>IELTS Reading Practice - Test 173</p>
-<p>The King of Fruits</p>
-<p>A One fact is certain: you’ll smell it before you see it. The scent (or should that be odour?) is overpowering (or should that be nauseating?). One inhales it with delight, or shrinks back in disgust. Is it sweet almonds with vanilla custard and a splash of whiskey? Or old socks garnished with rotten onion and a sprinkling of turpentine? Whatever the description, it wafts from what must be considered the most singular fruit on the planet—the durian, a Southeast Asian favourite, commonly called the ‘king of fruits’.</p>
-<p>B Its title is, in many ways, deserved. As fruits go, it is huge and imposing. As big as a basketball, up to three kilograms heavy, and most noticeably, covered with a thick and tough thorn-covered husk, it demands a royal respect. The thorns are so sharp that even holding the massive object is difficult. In supermarkets, they are usually put into mesh bags to ease handling, while extracting the flesh itself requires the wearing of thick protective gloves, a delicate and dextrous use of a large knife, and visible effort. One can see why it is increasingly popular, in western markets, to have that flesh removed, wrapped up, and purchased directly.</p>
-<p>C This leads one to wonder why nature designed such a smelly fruit in such an inconvenient package. Nature is, however, cleverer than one might think. For a start, that pungent odour allows easier detection by animals in the thick tropical forests of Brunei, Indonesia, and Malaysia, where the wild durian originates. When the pod falls, and the husk begins to crack open, wild deer, pigs, orangutans, and elephants, are easily drawn forth, navigating from hundreds of meters away directly to the tree. The second clever fact is that, since the inner seeds are rather large, the durian tree needs correspondingly larger animals to eat, ingest, and transport these seeds away, hence the use of that tough spiny cover. Only the largest and strongest animals can get past that.</p>
-<p>D And what are they seeking? Upon prising open the large pod, one is presented with white fibrous pith in which are nestled pockets of soft yellowish flesh, divided into lobes. Each lobe holds a large brown seed within. Although these seeds themselves can be cooked and eaten, it is the surrounding flesh over which all the fuss is made. One of the best descriptions comes from the British naturalist, Alfred Wallace. Writen in 1856, his experience is typical of many, and certainly of mine. At first, he struggled hard to overcome the ‘disagreeable aroma’, but upon ‘eating it out of doors’ found the flesh to have a ‘rich glutinous smoothness, neither acid nor sweet nor juicy; yet it wants neither of these qualities, for it is in itself perfect’. He ‘at once became a confirmed durian eater’. Exactly!</p>
-<p>E In actual fact, the flavour can vary considerably depending on the stage of ripeness and methods of storage. In Southern Thailand, the people prefer younger durian, with firmer texture and milder flavour, whereas in Malaysia, the preference is to allow the durian to fall naturally from the tree, then further ripen during transport. This results in a buttery texture and highly individual aroma, often slightly fermented. Whatever the case, it is this soft creamy consistency which easily allows durian to blend with other Southeast Asian delicacies, from candy and cakes, to modern milkshakes and ice cream. It can also appear in meals, mixed with vegetables or chili, and lower-grade durian (otherwise unfit for human consumption) is fermented into paste, used in a variety of local rice dishes.</p>
-<p>F Such popularity has seen the widespread cultivation of durian, although the tree will only respond to tropical climates’—for example, only in the very northern parts of Australia, where it was introduced in the early 1960s. Since that time, modern breeding and cultivating techniques have resulted in the introduction of hundreds of cultivars (subspecies bred, and maintained by propagation, for desirable characteristics). They produce different degrees of odour, seed size, colour, and texture of flesh. The tree itself is always very large, up to 50 metres, and given that the heavy thorny pods can hang from even the highest branches, and will drop when ripened, one does not walk within a durian plantation without a hardhat—or at least, not without risking serious injury.</p>
-<p>G Thailand, where durian remains very popular, now exports most of this fruit, with five cultivars in large-scale commercial production. The market is principally other Asian nations, although interest is growing in the West as Asian immigrants take their tastes and eating preferences with them — for example, in Canada and Australia. The fruit is seasonal, and local, sale of durian pods is usually done by weight. These can fetch high prices, particularly in the more affluent Asian countries, and especially when one considers that less than one third of that heavy pod contains the edible pulp. In the true spirit of Alfred Wallace, there are certainly a large and growing number of ‘confirmed durian eaters’ out there.</p>
-<p>Questions 1-4
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 173</strong></h3>
+<h3 class="test-heading"><strong>The King of Fruits</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> One fact is certain: you’ll smell it before you see it. The scent (or should that be odour?) is overpowering (or should that be nauseating?). One inhales it with delight, or shrinks back in disgust. Is it sweet almonds with vanilla custard and a splash of whiskey? Or old socks garnished with rotten onion and a sprinkling of turpentine? Whatever the description, it wafts from what must be considered the most singular fruit on the planet—the durian, a Southeast Asian favourite, commonly called the ‘king of fruits’.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> Its title is, in many ways, deserved. As fruits go, it is huge and imposing. As big as a basketball, up to three kilograms heavy, and most noticeably, covered with a thick and tough thorn-covered husk, it demands a royal respect. The thorns are so sharp that even holding the massive object is difficult. In supermarkets, they are usually put into mesh bags to ease handling, while extracting the flesh itself requires the wearing of thick protective gloves, a delicate and dextrous use of a large knife, and visible effort. One can see why it is increasingly popular, in western markets, to have that flesh removed, wrapped up, and purchased directly.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> This leads one to wonder why nature designed such a smelly fruit in such an inconvenient package. Nature is, however, cleverer than one might think. For a start, that pungent odour allows easier detection by animals in the thick tropical forests of Brunei, Indonesia, and Malaysia, where the wild durian originates. When the pod falls, and the husk begins to crack open, wild deer, pigs, orangutans, and elephants, are easily drawn forth, navigating from hundreds of meters away directly to the tree. The second clever fact is that, since the inner seeds are rather large, the durian tree needs correspondingly larger animals to eat, ingest, and transport these seeds away, hence the use of that tough spiny cover. Only the largest and strongest animals can get past that.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> And what are they seeking? Upon prising open the large pod, one is presented with white fibrous pith in which are nestled pockets of soft yellowish flesh, divided into lobes. Each lobe holds a large brown seed within. Although these seeds themselves can be cooked and eaten, it is the surrounding flesh over which all the fuss is made. One of the best descriptions comes from the British naturalist, Alfred Wallace. Writen in 1856, his experience is typical of many, and certainly of mine. At first, he struggled hard to overcome the ‘disagreeable aroma’, but upon ‘eating it out of doors’ found the flesh to have a ‘rich glutinous smoothness, neither acid nor sweet nor juicy; yet it wants neither of these qualities, for it is in itself perfect’. He ‘at once became a confirmed durian eater’. Exactly!</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> In actual fact, the flavour can vary considerably depending on the stage of ripeness and methods of storage. In Southern Thailand, the people prefer younger durian, with firmer texture and milder flavour, whereas in Malaysia, the preference is to allow the durian to fall naturally from the tree, then further ripen during transport. This results in a buttery texture and highly individual aroma, often slightly fermented. Whatever the case, it is this soft creamy consistency which easily allows durian to blend with other Southeast Asian delicacies, from candy and cakes, to modern milkshakes and ice cream. It can also appear in meals, mixed with vegetables or chili, and lower-grade durian (otherwise unfit for human consumption) is fermented into paste, used in a variety of local rice dishes.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> Such popularity has seen the widespread cultivation of durian, although the tree will only respond to tropical climates’—for example, only in the very northern parts of Australia, where it was introduced in the early 1960s. Since that time, modern breeding and cultivating techniques have resulted in the introduction of hundreds of cultivars (subspecies bred, and maintained by propagation, for desirable characteristics). They produce different degrees of odour, seed size, colour, and texture of flesh. The tree itself is always very large, up to 50 metres, and given that the heavy thorny pods can hang from even the highest branches, and will drop when ripened, one does not walk within a durian plantation without a hardhat—or at least, not without risking serious injury.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> Thailand, where durian remains very popular, now exports most of this fruit, with five cultivars in large-scale commercial production. The market is principally other Asian nations, although interest is growing in the West as Asian immigrants take their tastes and eating preferences with them — for example, in Canada and Australia. The fruit is seasonal, and local, sale of durian pods is usually done by weight. These can fetch high prices, particularly in the more affluent Asian countries, and especially when one considers that less than one third of that heavy pod contains the edible pulp. In the true spirit of Alfred Wallace, there are certainly a large and growing number of ‘confirmed durian eaters’ out there.</p></div></div>
+<p><strong>Questions 1-4</strong>
 Reading Passage 1 has seven paragraphs, A-G.</p>
 <p>Which paragraph gives a reason for durian’s</p>
-<p>Questions 5-7
-Label the diagram. Choose ONE WORD from the passage for each answer.</p>
-<p>Questions 8-10
+<p><strong>Questions 5-7</strong>
+Label the diagram. Choose <strong>ONE WORD</strong> from the passage for each answer.</p>
+<p><strong>Questions 8-10</strong>
 Do the following statements agree with the information given in Reading Passage One?</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>8. The seeds can be eaten.
 9. Durian trees are grown in many parts of Australia.
 10. Thailand consumes the most durians.</p>
-<p>Questions 11-13
-Answer the questions. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+<p><strong>Questions 11-13</strong>
+Answer the questions. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>11. What can help to carry durians around?
 12. Which sort of durian is usually fermented into paste?
 13. What should one wear when walking among durian trees?</p>
-<p>Esperanto</p>
+<p><strong>Esperanto</strong></p>
 <p>Cu vi paroli Esperanlon? Ne? Can you understand this? Should you be expected to? Depending on who you ask, somewhere from 10,000 to two million people in places all over the world could understand this sentence, and presumably reply in this same language. And it is not one that ever evolved through any natural process. To give it its technical name, it is a ‘constructed auxiliary language’. More specifically, it is ‘Esperanto’, and out of the several attempts throughout modern history to create artificial languages, Esperanto remains the most widely spoken.</p>
 <p>‘Widely spoken’ is a relative term here. Compared to any natural language, the number of Esperanto speakers remains pitiably small — a far cry from the high hopes of its inventor, Dr. Ludwig Zamenhof, who was an eye doctor growing up in the racially divided Eastern-European town of Bialystok. In this complex and uneasy mixture of Poles, Jews, Russians, and Germans, each speaking their own language, a high-minded Zamenhof lamented how these languages so obviously categorised the city’s residents into different, and often hostile, groups. He resolved to create an easily learnt and politically neutral language, one that would transcend nationality, ethnicity, race, colour, and creed. It would be a universal second language, and his first book detailing this idea was published in 1887.</p>
 <p>Surprisingly perhaps, the concept quickly gained acceptance and a loyal following. It seems that in a linguistically divided Eastern Europe, many people possessed the same idealism which drove Zamenhof. From there, then to the West, then into the Americas and Asia, Esperanto journals, magazines, and clubs, were formed, ultimately leading to the first world congress of Esperanto speakers in France, in 1905. These congresses have been held every year since then, apart from when world wars delayed proceedings. And today, Esperanto is still present, although very much under the radar. Whilst not yet having achieved the status of being an official language of any state or governing body, it is, at least, occasionally taught at schools and educational institutions on an informal or experimental basis.</p>
@@ -138,59 +194,59 @@ Answer the questions. Choose NO MORE THAN TWO WORDS from the passage for each an
 <p>One problem with Esperanto is that it is culturally European. Its vocabulary and internal rules of construction derive from European languages, making it difficult for Asian learners. There is also a large and imposing vocabulary, with many nouns rather idiosyncratically chosen, and a certain unnecessary complexity which Zamenhof (who was not a professional linguist) had not realised. In 1894, he suggested a ‘reformed Esperanto’; however, the Esperanto speakers of that day were loathe to alter a language which they had already mastered, rejecting Zamenhof’s proposals, and also those of a special French committee formed 13 years later to discuss the adoption of a standard international language.</p>
 <p>In the meantime, another artificial language had emerged. Called ‘Ido’, it was a product of various academics who embedded the changes that Esperanto was thought to have needed. This new language, sharing the same lofty goals, divided the support base of Esperanto. A large number defected to Ido, which then underwent further changes through committee after committee, and eventually the formation of an independent academy. However, Ido suffered substantial decline when its best-known advocate was killed in a car accident, and with the advent of World War One. After the war, its most vocal proponent published his own constructed language, ‘Novial’, making the schism all too confusing, such that the original Esperanto quickly became the predominant language of its type.</p>
 <p>Esperanto may lead the field, but it falls far short of the aim of both its creator and many of its speakers — that of a truly global second language uniting all in mutual understanding. This high-minded goal, almost universally shared in the early days of the language, has mellowed among many followers, who are now content just to have a special language and its culture and community with whom they can interact. The unlikelihood of achieving more than this was even admitted in an Esperanto convention in 1980, although many still cling to the pracelo, the ‘original goal’, of an official status and worldwide use. Will this ever be achieved? All I can say is estus agrable pensas tiel, sed preshau certe ne estos.</p>
-<p>Questions 14-17
+<p><strong>Questions 14-17</strong>
 Do the following statements agree with the information given in Reading Passage Two?</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>14. The number of Esperanto speakers is quite large.
 15. Zamenhof spoke many languages.
 16. Esperanto is easier to learn than other languages.
 17. Esperanto World Congresses have been held every year since 1905.</p>
-<p>Questions 18-21
-Complete the sentences. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+<p><strong>Questions 18-21</strong>
+Complete the sentences. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>The different ethnic groups in Zamenhof s hometown were frequently (18)……………………</p>
 <p>The first Esperanto speakers shared Zamenhofs (19)……………………</p>
 <p>English now essentially provides the means of (20)……………………..</p>
 <p>Official support of Esperanto could be considered a waste of (21)…………………..</p>
-<p>Questions 22-26
+<p><strong>Questions 22-26</strong>
 Answer the questions. Choose the correct letter, E, I, or B.</p>
-<p>E Esperanto
-I Ido
-B Both</p>
+<p><strong>E</strong> Esperanto
+<strong>I</strong> Ido
+<strong>B</strong> Both</p>
 <p>Which language</p>
 <p>22. had many stages in its development?
 23. had its development affected by World War One?
 24. has some strange words?
 25. was designed by many people?
 26. has never achieved its aim?</p>
-<p>The Year Without a Summer</p>
+<p><strong>The Year Without a Summer</strong></p>
 <p>1816 was a strange year indeed. In America, in midsummer, a ‘dry log’ covered the land so thickly that snow fell, and large parts of the country were gripped by an intense and lingering cold front. The situation was no better in Great Britain and Europe, where cool temperatures and wet weather persisted for months. Mary Shelley, author of Frankenstein, while holidaying in Switzerland, complained of ‘incessant rainfall’, a feeling which may have put her in the mood for writing her most famous work. But there were to be far more significant effects of what become known as the ‘year without a summer”.</p>
 <p>But where did the summer go? The main culprit, surprisingly, was a volcano on the other side of the planet: Mount Tamhora. in Indonesia, whose eruption of the year before was of such colossal magnitude that it altered global climate. In the years leading to this, the mountain had experienced minor eruptions, but the 18.15 event was the culmination — a huge explosive outburst of the central volcanic vent with subsequent caldera collapse. Over 70,000 people in the vicinity were killed from lava flows, tsunamis, and pumice and ash falls. But more significantly, the eruption — now acknowledged as the largest in recorded history —ejected huge amounts of dust into the stratosphere. This atmospheric layer is the highest and most static, and least affected by rainfall, which means that it takes relatively long periods for volcanic dust to be washed out. If these dust particles are of fine composition, they are quickly blown around the globe, to remain there for years.</p>
 <p>On a somewhat benign note, this air-borne ash resulted in beautiful pastel-coloured sunsets and extended twilights in Northern Europe. However, on a (quite literally) darker note, it set into motion a ‘volcanic winter’ due to the filtering of the sun’s rays, and the increased reflectivity of the atmosphere, where heat and sunlight are bounced back into space. But what is intriguing in this case is that even without the Tambora explosion, the period 1790 to 1830 was already one of the coldest on record. This period has officially become known as the ‘Dalton Minimum’, after John Dalton, a London-based meteorologist who noted that the sun at that time did not seem as active in its production of sunspots and solar flares. Whether there is a correlation between this and the average amount of solar radiation emitted is still unclear. If this does exist, the effect would be small—a fraction of a percent less, but, arguably, significant to our small planet orbiting so far away.</p>
 <p>Adding further complexity to the issue, there had been other significant volcanic eruptions in the years prior to Tambora — in the Caribbean, Japan, and the Philippines — in which massive dust clouds were the characterising feature. Looking at the Philippino example, 1814 saw the most destructive eruption of Mt Mayon ever. Killing thousands, burying whole towns and villages, the volcano spewed out millions of tons of ash and rock into the high atmosphere. When we put all these factors together, the sequence is thus clearer. With the world already suffering from lower temperatures due to natural variations in the sun’s surface action, a series of severe volcanic eruptions occurred. As a result, the accumulation of ash in the stratosphere rose to a historic high, to which the mammoth Tambora explosion substantially added, sending a savage cold spike throughout the already cooler globe.</p>
 <p>The consequences were dire. With the dramatic temperature swings, falling to near-freezing within hours, and with the sudden summer frosts and sustained drenching rainfall, all across the Northern Hemisphere, staple crops such as maize and wheat failed to mature, and much livestock were killed. With agricultural production already low due to the cooler preceding years, and with the rudimentary road systems of those times rendering the importation and distribution of emergency food supplies limited, this final blow was devastating. It resulted in widespread malnutrition, starvation, and outbreaks of diseases such as typhus and cholera. It created streams of starving refugees, large shifts of population, riots, looting of food warehouses, and other breakdowns of civic order. 100,000 people were thought to have died in Ireland alone, with many times that figure on the European continent. There was such mortality that the famine is now considered the worst of that century.</p>
 <p>The question then is whether it could happen again. And the answer is, since it has happened many times before in geological history, a definite yes. The most extreme case occurred about 70,000 years ago, when the world’s largest known eruption took place at Lake Toba (relatively close to Tambora). This is thought to have plunged the planet into a decade-long volcanic winter, and triggered the onset of the last ice age, a deep freeze of the planet which lasted many tens of thousands of years, all of which, some speculate, just about wiped out the human race. We can rest in the assurance, however, that such events are extremely few and far between. You will certainly be able to enjoy your summer holidays, for a long time to come.</p>
-<p>Questions 27-34
-Complete the flowchart. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
-<p>A Year without a summer</p>
-<p>Questions 35-40
+<p><strong>Questions 27-34</strong>
+Complete the flowchart. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
+<p><strong>A Year without a summer</strong></p>
+<p><strong>Questions 35-40</strong>
 Answer the questions.</p>
 <p>Which location saw</p>
-<p>A America
-B Lake Toba
-C London
-D Northern Europe
-E Philippines
-F Switzerland
-G Tambora</p>
+<p><strong>A</strong> America
+<strong>B</strong> Lake Toba
+<strong>C</strong> London
+<strong>D</strong> Northern Europe
+<strong>E</strong> Philippines
+<strong>F</strong> Switzerland
+<strong>G</strong> Tambora</p>
 <p>35. a positive effect of a volcanic eruption?
 36. the biggest volcanic eruption?
 37. scientific observation?
 38. a series of eruptions?
 39. buildings destroyed?
 40. a book written?</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. G</p>
 <p>2. F</p>
 <p>3. E</p>
@@ -449,6 +505,29 @@ G Tambora</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -468,12 +547,23 @@ G Tambora</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -485,14 +575,6 @@ G Tambora</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

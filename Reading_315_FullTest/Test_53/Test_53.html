@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,20 +158,20 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_53</h1>
-            <p>IELTS Reading Practice - Test 53</p>
-<p>Cod In Trouble</p>
-<p>A In 1992, the devastating collapse of the cod stocks off the East coast of Newfoundland forced the Canadian government to take drastic measures and close the fishery. Over 40,000 people lost their jobs, communities are still struggling to recover and the marine ecosystem is still in a state of collapse. The disintegration of this vital fishery sounded a warning bell to governments around the world who were shocked that a relatively sophisticated, scientifically based fisheries management program, not unlike their own, could have gone so wrong. The Canadian government ignored warnings that their fleets were employing destructive fishing practices and refused to significantly reduce quotas citing the loss of jobs as too great a concern.</p>
-<p>B In the 1950s Canadian and US east coast waters provided an annual 100,000 tons in cod catches rising to 800,000 by 1970. This over fishing led to a catch of only 300,000 tons by 1975. Canada and the US reacted by passing legislation to extend their national jurisdictions over marine living resources out to 200 nautical miles and catches naturally declined to 139,000 tons in 1980. However the Canadian fishing industry took over and restarted the over fishing and catches rose again until, from 1985, it was the Canadians who were landing more than 250,000 tons of northern cod annually. This exploitation ravaged the stocks and by 1990 the catch was so low (29,000 tons) that in 1992 (12%000 tons) Canada had to ban all fishing in east coast waters. In a fishery that had for over a century yielded a quarter-million ton catches, there remained a biomass of less than 1700 tons and the fisheries department also predicted that, even with an immediate recovery, stocks need at least 15 years before they would be healthy enough to withstand previous levels of fishing.</p>
-<p>C The devastating fishing came from massive investment poured into constructing huge “draggers”. Draggers haul enormous nets held open by a combination of huge steel plates and heavy chains and rollers that plough the ocean bottom. They drag up anything in the way, inflicting immense damage, destroying critical habitat and contributing to the destabilization of the northern cod ecosystem. The draggers targeted huge aggregations of cod while they were spawning, a time when the fish population is highly vulnerable to capture. Excessive trawling on spawning stocks became highly disruptive to the spawning process and ecosystem. In addition, the trawling activity resulted in a physical dispersion of eggs leading to a higher fertilization failure. Physical and chemical damage to larvae caused by the trawling action also reduced their chances of survival. These draggers are now banned forever from Canadian waters.</p>
-<p>D Canadian media often cite excessive fishing by overseas fleets, primarily driven by the capitalist ethic, as the primary cause of the fishing out of the north Atlantic cod stocks. Many nations took fish off the coast of Newfoundland and all used deep-sea trawlers, and many often blatantly exceeded established catch quotas and treaty agreements. There can be little doubt that non North American fishing was a contributing factor in the cod stock collapse, and that the capitalist dynamics that were at work in Canada were all too similar for the foreign vessels and companies. But all of the blame cannot be put there, no matter how easy it is to do, as it does not account for the management of the resources.</p>
-<p>E Who was to blame? As the exploitation of the Newfoundland fishery was so predominantly guided by the government, we can argue that a fishery is not a private area, as the fisher lacks management rights normally associated with property and common property. The state had appropriated the property, and made all of the management decisions. Fishermen get told who can fish, what they can fish, and essentially, what to do with the fish once it is caught. In this regard then, when a resource such as the Newfoundland fishery collapses, it is more a tragedy of government negligence than a tragedy of the general public.</p>
-<p>F Following the ‘92 ban on northern cod fishing and most other species, an estimated 30 thousand people that had already lost their jobs after the 1992 Northern Cod moratorium took effect, were joined by an additional 12,000 fishermen and plant workers. With more than forty thousand people out of jobs, Newfoundland became an economic disaster area, as processing plants shut down, and vessels from the smallest dory to the monster draggers were made idle or sold overseas at bargain prices. Several hundred Newfoundland communities were devastated.</p>
-<p>G Europeans need only look across the North Atlantic to see what could be in store for their cod fishery. In Canada they were too busy with making plans, setting expansive goals, and then allocating fish, and lots of it, instead of making sound business plans to match fishing with the limited availability of the resource. Cod populations in European waters are now so depleted that scientists have recently warned that “all fisheries in this area that target cod should be closed.” The Canadian calamity demonstrates that we now have the technological capability to find and annihilate every commercial fish stock, in any ocean and do irreparable damage to entire ecosystems in the process. In Canada’s case, a two billion dollar recovery bill may only be a part of the total long-term costs. The costs to individuals and desperate communities now deprived of meaningful and sustainable employment is staggering.</p>
-<p>Questions 1-6
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 53</strong></h3>
+<h3 class="test-heading"><strong>Cod In Trouble</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> In 1992, the devastating collapse of the cod stocks off the East coast of Newfoundland forced the Canadian government to take drastic measures and close the fishery. Over 40,000 people lost their jobs, communities are still struggling to recover and the marine ecosystem is still in a state of collapse. The disintegration of this vital fishery sounded a warning bell to governments around the world who were shocked that a relatively sophisticated, scientifically based fisheries management program, not unlike their own, could have gone so wrong. The Canadian government ignored warnings that their fleets were employing destructive fishing practices and refused to significantly reduce quotas citing the loss of jobs as too great a concern.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> In the 1950s Canadian and US east coast waters provided an annual 100,000 tons in cod catches rising to 800,000 by 1970. This over fishing led to a catch of only 300,000 tons by 1975. Canada and the US reacted by passing legislation to extend their national jurisdictions over marine living resources out to 200 nautical miles and catches naturally declined to 139,000 tons in 1980. However the Canadian fishing industry took over and restarted the over fishing and catches rose again until, from 1985, it was the Canadians who were landing more than 250,000 tons of northern cod annually. This exploitation ravaged the stocks and by 1990 the catch was so low (29,000 tons) that in 1992 (12%000 tons) Canada had to ban all fishing in east coast waters. In a fishery that had for over a century yielded a quarter-million ton catches, there remained a biomass of less than 1700 tons and the fisheries department also predicted that, even with an immediate recovery, stocks need at least 15 years before they would be healthy enough to withstand previous levels of fishing.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> The devastating fishing came from massive investment poured into constructing huge “draggers”. Draggers haul enormous nets held open by a combination of huge steel plates and heavy chains and rollers that plough the ocean bottom. They drag up anything in the way, inflicting immense damage, destroying critical habitat and contributing to the destabilization of the northern cod ecosystem. The draggers targeted huge aggregations of cod while they were spawning, a time when the fish population is highly vulnerable to capture. Excessive trawling on spawning stocks became highly disruptive to the spawning process and ecosystem. In addition, the trawling activity resulted in a physical dispersion of eggs leading to a higher fertilization failure. Physical and chemical damage to larvae caused by the trawling action also reduced their chances of survival. These draggers are now banned forever from Canadian waters.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> Canadian media often cite excessive fishing by overseas fleets, primarily driven by the capitalist ethic, as the primary cause of the fishing out of the north Atlantic cod stocks. Many nations took fish off the coast of Newfoundland and all used deep-sea trawlers, and many often blatantly exceeded established catch quotas and treaty agreements. There can be little doubt that non North American fishing was a contributing factor in the cod stock collapse, and that the capitalist dynamics that were at work in Canada were all too similar for the foreign vessels and companies. But all of the blame cannot be put there, no matter how easy it is to do, as it does not account for the management of the resources.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> Who was to blame? As the exploitation of the Newfoundland fishery was so predominantly guided by the government, we can argue that a fishery is not a private area, as the fisher lacks management rights normally associated with property and common property. The state had appropriated the property, and made all of the management decisions. Fishermen get told who can fish, what they can fish, and essentially, what to do with the fish once it is caught. In this regard then, when a resource such as the Newfoundland fishery collapses, it is more a tragedy of government negligence than a tragedy of the general public.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> Following the ‘92 ban on northern cod fishing and most other species, an estimated 30 thousand people that had already lost their jobs after the 1992 Northern Cod moratorium took effect, were joined by an additional 12,000 fishermen and plant workers. With more than forty thousand people out of jobs, Newfoundland became an economic disaster area, as processing plants shut down, and vessels from the smallest dory to the monster draggers were made idle or sold overseas at bargain prices. Several hundred Newfoundland communities were devastated.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> Europeans need only look across the North Atlantic to see what could be in store for their cod fishery. In Canada they were too busy with making plans, setting expansive goals, and then allocating fish, and lots of it, instead of making sound business plans to match fishing with the limited availability of the resource. Cod populations in European waters are now so depleted that scientists have recently warned that “all fisheries in this area that target cod should be closed.” The Canadian calamity demonstrates that we now have the technological capability to find and annihilate every commercial fish stock, in any ocean and do irreparable damage to entire ecosystems in the process. In Canada’s case, a two billion dollar recovery bill may only be a part of the total long-term costs. The costs to individuals and desperate communities now deprived of meaningful and sustainable employment is staggering.</p></div></div>
+<p><strong>Questions 1-6</strong>
 
 Reading Passage 1 has 7 paragraphs (A – G). From the list of headings below choose the most suitable headings for paragraphs B – G.</p>
 <p>Example Paragraph A        iv</p>
-<p>List of headings
+<p><strong>List of headings</strong>
 
 i Factory Closures
 
@@ -149,47 +205,47 @@ xi Foreign Over-fishing</p>
 5 Paragraph F
 
 6 Paragraph G</p>
-<p>Questions 7-10
+<p><strong>Questions 7-10</strong>
 
 Choose the appropriate letters A – D and write them in boxes 7 – 10 on your answer sheet.</p>
 <p>7 The Canadian government didn’t want to reduce cod catches pre 1992 because they were worried about
 
-A possible rising unemployment
+<strong>A</strong> possible rising unemployment
 
-B the ecological effects
+<strong>B</strong> the ecological effects
 
-C the marine ecosystem
+<strong>C</strong> the marine ecosystem
 
-D drastic measures</p>
+<strong>D</strong> drastic measures</p>
 <p>8 Which graph most accurately describes Canadian cod catches from 1950 to 1992?</p>
-<p>9 According to Reading Passage 1, which of the following is now true about the Newfoundland fisheries?
+<p><strong>9</strong> According to Reading Passage 1, which of the following is now true about the Newfoundland fisheries?
 
-A Catches of 1700 tons a year only are permitted.
+<strong>A</strong> Catches of 1700 tons a year only are permitted.
 
-B Normal fishing could start again in 2007.
+<strong>B</strong> Normal fishing could start again in 2007.
 
-C No cod fishing is allowed but some other species can be caught.
+<strong>C</strong> No cod fishing is allowed but some other species can be caught.
 
-D Fishing with draggers will be allowed again in 2007.</p>
+<strong>D</strong> Fishing with draggers will be allowed again in 2007.</p>
 <p>10 Who does the writer blame for the collapse of the Newfoundland cod fishery?
 
-A The Canadian fishing industry
+<strong>A</strong> The Canadian fishing industry
 
-B The foreign fishing industry
+<strong>B</strong> The foreign fishing industry
 
-C The Canadian government
+<strong>C</strong> The Canadian government
 
-D The US fishing industry</p>
-<p>Questions 11-14
+<strong>D</strong> The US fishing industry</p>
+<p><strong>Questions 11-14</strong>
 
 Do the following statements agree with the views of the writer of the reading passage on Cod in Trouble?
 
 In Boxes 11 – 14 write:</p>
-<p>YES                              if the statement agrees with the writer
+<p><strong>YES</strong>                              if the statement agrees with the writer
 
-NO                                if the statement doesn’t agree with the writer
+<strong>NO</strong>                                if the statement doesn’t agree with the writer
 
-NOT GIVEN             if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>             if it is impossible to say what the writer thinks about this</p>
 <p>11 Disruption of cod breeding was a major factor in the Newfoundland cod disaster.
 
 12 Foreign trawlers frequently broke the catch allowances.
@@ -197,17 +253,17 @@ NOT GIVEN             if it is impossible to say what the writer thinks a
 13 There was often conflict between the foreign fishermen and the Canadian authorities.
 
 14 Europe does not face the seriousness of the Canadian disaster.</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>The Rise of Antibiotic-Resistant Infections</p>
-<p>A When penicillin became widely available during the Second World War, it was a medical miracle, rapidly vanquishing the biggest wartime killer – infected wounds. Discovered initially by a French medical student, Ernest Duchesne, in 1896, and then rediscovered by Scottish physician Alexander Fleming in 1928, Penicillium crippled many types of disease-causing bacteria. But just four years after drug companies began mass-producing penicillin in 1943, microbes began appearing that could resist it.</p>
-<p>B “There was complacency in the 1980s. The perception was that we had licked the bacterial infection problem. Drug companies weren’t working on new agents. They were concentrating on other areas, such as viral infections,” says Michael Blum, M.D., medical officer in the Food and Drug Administration’s division of anti-infective drug products. “In the meantime, resistance increased to a number of commonly used antibiotics, possibly related to overuse. In the 1990s, we’ve come to a point for certain infections that we don’t have agents available.”</p>
-<p>C The increased prevalence of antibiotic resistance is an outcome of evolution. Any population of organisms, bacteria included, naturally includes variants with unusual traits – in this case, the ability to withstand an antibiotic’s attack on a microbe. When a person takes an antibiotic, the drug kills the defenceless bacteria, leaving behind – or “selecting,” in biological terms – those that can resist it. These renegade bacteria then multiply, increasing their numbers a million fold in a day, becoming the predominant microorganism. “Whenever antibiotics are used, there is selective pressure for resistance to occur. More and more organisms develop resistance to more and more drugs,” says Joe Cranston, Ph.D., director of the department of drug policy and standards at the American Medical Association in Chicago.</p>
-<p>D Disease-causing microbes thwart antibiotics by interfering with their mechanism of action. For example, penicillin kills bacteria by attaching to their cell walls, then destroying a key part of the wall. The wall falls apart, and the bacterium dies. Resistant microbes, however, either alter their cell walls so penicillin can’t bind or produce enzymes that dismantle the antibiotic. Antibiotic resistance results from gene action. Bacteria acquire genes conferring resistance in different ways. Bacterial DNA may mutate spontaneously. Drug-resistant tuberculosis arises this way. Another way is called transformation where one bacterium may take up DNA from another bacterium. Most frightening, however, is resistance acquired from a small circle of DNA called a plasmid, which can flit from one type of bacterium to another. A single plasmid can provide a slew of different resistances.</p>
-<p>E Many of us have come to take antibiotics for granted. A child develops a sore throat or an ear infection, and soon a bottle of pink medicine makes everything better. Linda McCaig, a scientist at the CDC, comments that “many consumers have an expectation that when they’re ill, antibiotics are the answer. Most of the time the illness is viral, and antibiotics are not the answer. This large burden of antibiotics is certainly selecting resistant bacteria.” McCaig and Peter Killeen, a fellow scientist at the CDC, tracked antibiotic use in treating common illnesses. The report cites nearly 6 million antibiotic prescriptions for sinusitis alone in 1985, and nearly 13 million in 1992. Ironically, advances in modern medicine have made more people predisposed to infection. McCaig notes that “there are a number of immunocompromised patients who wouldn’t have survived in earlier times. Radical procedures produce patients who are in difficult shape in the hospital, and there is routine use of antibiotics to prevent infection in these patients.”</p>
-<p>F There are measures we can take to slow the inevitable resistance. Barbara Murray, M.D., of the University of Texas Medical School at Houston writes that “simple improvements in public health measures can go a long way towards preventing infection”. Such approaches include more frequent hand washing by health-care workers, quick identification and isolation of patients with drug-resistant infections, and improving sewage systems and water purity.</p>
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>The Rise of Antibiotic-Resistant Infections</strong></p>
+<p><strong>A</strong> When penicillin became widely available during the Second World War, it was a medical miracle, rapidly vanquishing the biggest wartime killer – infected wounds. Discovered initially by a French medical student, Ernest Duchesne, in 1896, and then rediscovered by Scottish physician Alexander Fleming in 1928, Penicillium crippled many types of disease-causing bacteria. But just four years after drug companies began mass-producing penicillin in 1943, microbes began appearing that could resist it.</p>
+<p><strong>B</strong> “There was complacency in the 1980s. The perception was that we had licked the bacterial infection problem. Drug companies weren’t working on new agents. They were concentrating on other areas, such as viral infections,” says Michael Blum, M.D., medical officer in the Food and Drug Administration’s division of anti-infective drug products. “In the meantime, resistance increased to a number of commonly used antibiotics, possibly related to overuse. In the 1990s, we’ve come to a point for certain infections that we don’t have agents available.”</p>
+<p><strong>C</strong> The increased prevalence of antibiotic resistance is an outcome of evolution. Any population of organisms, bacteria included, naturally includes variants with unusual traits – in this case, the ability to withstand an antibiotic’s attack on a microbe. When a person takes an antibiotic, the drug kills the defenceless bacteria, leaving behind – or “selecting,” in biological terms – those that can resist it. These renegade bacteria then multiply, increasing their numbers a million fold in a day, becoming the predominant microorganism. “Whenever antibiotics are used, there is selective pressure for resistance to occur. More and more organisms develop resistance to more and more drugs,” says Joe Cranston, Ph.D., director of the department of drug policy and standards at the American Medical Association in Chicago.</p>
+<p><strong>D</strong> Disease-causing microbes thwart antibiotics by interfering with their mechanism of action. For example, penicillin kills bacteria by attaching to their cell walls, then destroying a key part of the wall. The wall falls apart, and the bacterium dies. Resistant microbes, however, either alter their cell walls so penicillin can’t bind or produce enzymes that dismantle the antibiotic. Antibiotic resistance results from gene action. Bacteria acquire genes conferring resistance in different ways. Bacterial DNA may mutate spontaneously. Drug-resistant tuberculosis arises this way. Another way is called transformation where one bacterium may take up DNA from another bacterium. Most frightening, however, is resistance acquired from a small circle of DNA called a plasmid, which can flit from one type of bacterium to another. A single plasmid can provide a slew of different resistances.</p>
+<p><strong>E</strong> Many of us have come to take antibiotics for granted. A child develops a sore throat or an ear infection, and soon a bottle of pink medicine makes everything better. Linda McCaig, a scientist at the CDC, comments that “many consumers have an expectation that when they’re ill, antibiotics are the answer. Most of the time the illness is viral, and antibiotics are not the answer. This large burden of antibiotics is certainly selecting resistant bacteria.” McCaig and Peter Killeen, a fellow scientist at the CDC, tracked antibiotic use in treating common illnesses. The report cites nearly 6 million antibiotic prescriptions for sinusitis alone in 1985, and nearly 13 million in 1992. Ironically, advances in modern medicine have made more people predisposed to infection. McCaig notes that “there are a number of immunocompromised patients who wouldn’t have survived in earlier times. Radical procedures produce patients who are in difficult shape in the hospital, and there is routine use of antibiotics to prevent infection in these patients.”</p>
+<p><strong>F</strong> There are measures we can take to slow the inevitable resistance. Barbara Murray, M.D., of the University of Texas Medical School at Houston writes that “simple improvements in public health measures can go a long way towards preventing infection”. Such approaches include more frequent hand washing by health-care workers, quick identification and isolation of patients with drug-resistant infections, and improving sewage systems and water purity.</p>
 <p>Drug manufacturers are also once again becoming interested in developing new antibiotics. The FDA is doing all it can to speed development and availability of new antibiotic drugs. “We can’t identify new agents – that’s the job of the pharmaceutical industry. But once they have identified a promising new drug, what we can do is to meet with the company very early and help design the development plan and clinical trials,” says Blum. In addition, drugs in development can be used for patients with multi-drug-resistant infections on an emergency compassionate use basis for people with AIDS or cancer, for example.” Blum adds. Appropriate prescribing is important. This means that physicians use a narrow spectrum antibiotics – those that target only a few bacterial types – whenever possible, so that resistances can be restricted. “There has been a shift to using costlier, broader spectrum agents. This prescribing trend heightens the resistance problem because more diverse bacteria are being exposed to antibiotics,” writes Killeen. So, while awaiting the next wonder drug, we must appreciate, and use correctly, the ones that we already have.</p>
 <p>Another problem with antibiotic use is that patients often stop taking the drug too soon, because symptoms improve. However, this merely encourages resistant microbes to proliferate. The infection returns a few weeks later, and this time a different drug must be used to treat it. The conclusion: resistance can be slowed if patients take medications correctly.</p>
-<p>Questions 15-21
+<p><strong>Questions 15-21</strong>
 
 Match the views (15 – 21) with the people listed below.
 
@@ -225,16 +281,16 @@ Write the appropriate letters in boxes 15 – 21 on your answer sheet.</p>
 20 Merely washing hands can have a positive effect.
 
 21 Antibiotics are often impotently used against viruses.</p>
-<p>PK        Peter Killeen
+<p><strong>PK</strong>        Peter Killeen
 
-JC         Joe Cranston
+<strong>JC</strong>         Joe Cranston
 
-LM       Linda McCaig
+<strong>LM</strong>       Linda McCaig
 
-MB       Michael Blum
+<strong>MB</strong>       Michael Blum
 
-BM      Barbara Murray</p>
-<p>Questions 22-27
+<strong>BM</strong>      Barbara Murray</p>
+<p><strong>Questions 22-27</strong>
 
 Reading Passage 2 has 6 paragraphs (A – F). Which paragraphs concentrate on the following information? Write the appropriate letters (A – F) in boxes 22 – 27 on your answer sheet.</p>
 <p>22 How antibiotic resistance happens.
@@ -248,7 +304,7 @@ Reading Passage 2 has 6 paragraphs (A – F). Which paragraphs concentrate on th
 26 The misuse and overuse of antibiotics.
 
 27 The cessation of research into combating bacterial infections.</p>
-<p>Hydroelectric Power</p>
+<p><strong>Hydroelectric Power</strong></p>
 <p>Hydroelectric power is America’s leading renewable energy resource. Of all the renewable power sources, it’s the most reliable, efficient, and economical. Water is needed to run a hydroelectric generating unit. It’s held in a reservoir or lake behind a dam, and the force of the water being released from the reservoir through the dam spins the blades of a turbine. The turbine is connected to the generator that produces electricity. After passing through the turbine, the water re-enters the river on the downstream side of the dam.</p>
 <p>Hydroelectric plants convert the kinetic energy within falling water into electricity. The energy in moving water is produced in the sun, and consequently is continually being renewed. The energy in sunlight evaporates water from the seas and deposits it on land as rain. Land elevation differences result in rainfall runoff, and permit some of the original solar energy to be harnessed as hydroelectric power. Hydroelectric power is at present the earth’s chief renewable electricity source, generating 6% of global energy and about 15% of worldwide electricity. Hydroelectric power in Canada is plentiful and provides 60% of their electrical requirements. Usually regarded as an inexpensive and clean source of electricity, most big hydroelectric projects being planned today are facing a great deal of hostility from environmental groups and local people.</p>
 <p>The earliest recorded use of water power was a clock, constructed around 250 BC. Since then, people have used falling water to supply power for grain and saw mills, as well as a host of other uses. The earliest use of flowing water to generate electricity was a waterwheel on the Fox River in Wisconsin in 1882.</p>
@@ -260,16 +316,16 @@ Reading Passage 2 has 6 paragraphs (A – F). Which paragraphs concentrate on th
 <p>The clearest result of hydroelectric dams is the flooding of huge areas of land. The reservoirs built can be exceptionally big and they have often flooded the lands of indigenous peoples and destroyed their way of life. Numerous rare ecosystems are also endangered by hydroelectric power plant development.</p>
 <p>Damming rivers may also change the quantity and quality of water in the rivers below the dams, as well as stopping fish migrating upstream to spawn. In addition, silt, usually taken downstream to the lower parts of a river, is caught by a dam and so the river downstream loses the silt that should fertilize the river’s flood plains during high water periods.</p>
 <p>Theoretical global hydroelectric power is approximately four times larger than the amount that has been taken advantage of today. Most of the residual hydro potential left in the world can be found in African and Asian developing countries. Exploiting this resource would involve an investment of billions of dollars, since hydroelectric plants normally have very high building costs. Low head hydro capacity facilities on small scales will probably increase in the future as low head turbine research, and the standardization of turbine production, reduce the costs of low head hydro-electric power production. New systems of control and improvements in turbines could lead in the future to more electricity created from present facilities. In addition, in the 1950’s and 60’s when oil and coal prices were very low, lots of smaller hydroelectric plants were closed down. Future increases in the prices of fuel could lead to these places being renovated.</p>
-<p>Questions 28-32
+<p><strong>Questions 28-32</strong>
 
 Read the passage about Hydroelectric Power again and look at the statements below.
 
 In boxes 28 – 32 on your answer sheet write:</p>
-<p>TRUE                          if the statement is true
+<p><strong>TRUE</strong>                          if the statement is true
 
-FALSE                        if the statement is false
+<strong>FALSE</strong>                        if the statement is false
 
-NOT GIVEN            if the information is not given in the passage</p>
+<strong>NOT GIVEN</strong>            if the information is not given in the passage</p>
 <p>28 Canada uses the most hydroelectric power in the world today.
 
 29 An early use of hydroelectric power was in the timber industry.
@@ -279,11 +335,11 @@ NOT GIVEN            if the information is not given in the passage</p>
 31 People have been drowned by the flooding of their traditional territory when reservoirs are created.
 
 32 Nowadays, agriculture below hydroelectric dams is not affected by the change in water flow.</p>
-<p>Questions 33-36
+<p><strong>Questions 33-36</strong>
 
 Complete each of the following statements (Questions 33 – 36) with words taken from Reading Passage 3.
 
-Write NO MORE THAN THREE WORDS for each answer.</p>
+Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
 <p>33 The origin of hydroelectric power is the…………………………produced when water obeys the laws of gravity.
 
 34 How far water drops to the turbines in a power station is known as…………………………….
@@ -291,9 +347,9 @@ Write NO MORE THAN THREE WORDS for each answer.</p>
 35 A drawback to low head hydroelectric power stations is that they depend on………………….
 
 36 Derelict hydroelectric power stations could be……………………….in the future.</p>
-<p>Questions 37-40
+<p><strong>Questions 37-40</strong>
 
-Using NO MORE THAN THREE WORDS from Reading Passage 3, answer the following questions.</p>
+Using <strong>NO MORE THAN THREE WORDS</strong> from Reading Passage 3, answer the following questions.</p>
 <p>37 What proportion of the world’s electricity supply is provided by hydroelectric power?
 
 38 How is the flow rate of a hydroelectric power station quantified?
@@ -302,7 +358,7 @@ Using NO MORE THAN THREE WORDS from Reading Passage 3, answer the following ques
 
 40 What underwater action can lead to the production of pollution similar to that produced by fossil fuel power stations?</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. viii</p>
 <p>2. vi</p>
 <p>3. xi</p>
@@ -561,6 +617,29 @@ Using NO MORE THAN THREE WORDS from Reading Passage 3, answer the following ques
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -580,12 +659,23 @@ Using NO MORE THAN THREE WORDS from Reading Passage 3, answer the following ques
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -597,14 +687,6 @@ Using NO MORE THAN THREE WORDS from Reading Passage 3, answer the following ques
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

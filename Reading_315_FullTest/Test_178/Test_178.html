@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,79 +158,79 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_178</h1>
-            <p>IELTS Reading Practice - Test 178</p>
-<p>Climate Change: Instant Expert</p>
-<p>A Climate change is with us. A decade ago, it was conjecture. Now the future is unfolding before our eyes. Canada’s Inuit see it in disappearing Arctic ice and permafrost. The shantytown dwellers of Latin America and Southern Asia see it in lethal storms and floods. Europeans see it in disappearing glaciers, forest fires and fatal heat waves. Scientists see it in tree rings, ancient coral and bubbles trapped in ice cores. These reveal that the world has not been as warm as it is now for a millennium or more. The three warmest years on record have all occurred since 1998; 19 of the warmest 20 since 1980. And Earth has probably never warmed as fast as in the past 30 years–a period when natural influences on global temperatures, such as solar cycles and volcanoes should have cooled us down.</p>
-<p>B Climatologists reporting for the UN Intergovernmental Panel on Climate Change (IPCC) say we are seeing global warming caused by human activities. People are causing the change by burning nature’s vast stores of coal, oil and natural gas. This releases billions of tonnes of carbon dioxide (CO2) every year, although the changes may actually have started with the dawn of agriculture, say some scientists. The physics of the “greenhouse effect” has been a matter of scientific fact for a century. CO2 is a greenhouse gas that traps the Sun’s radiation within the troposphere, the lower atmosphere. It has accumulated along with other manmade greenhouse gases, such as methane and chlorofluorocarbons (CFCs). Some studies suggest that cosmic rays may also be involved in warming.</p>
-<p>C If current trends continue, we will raise atmospheric CO2concentrations to double pre-industrial levels during this century. That will probably be enough to raise global temperatures by around 2℃ to 5℃. Some warming is certain, but the degree will be determined by cycles involving melting ice, the oceans, water vapour, clouds and changes to vegetation. Warming is bringing other unpredictable changes. Melting glaciers and precipitation are causing some rivers to overflow, while evaporation is emptying others. Diseases are spreading. Some crops grow faster while others see yields slashed by disease and drought. Clashes over dwindling water resources may cause conflicts in many regions.</p>
-<p>D As natural ecosystems – such as coral reefs – are disrupted, biodiversity is reduced. Most species cannot migrate fast enough to keep up, though others are already evolving in response to warming. Thermal expansion of the oceans, combined with melting ice on land, is also raising sea levels. In this century, human activity could trigger an irreversible melting of the Greenland ice sheet. This would condemn the world to a rise in sea level of six metres – enough to flood land occupied by billions of people.</p>
-<p>E The global warming would be more pronounced if it were not for sulphur particles and other pollutants that shade us, and because forests and oceans absorb around half of the CO2 we produce. But the accumulation rate of atmospheric CO2 has doubled since 2001, suggesting that nature’s ability to absorb the gas could now be stretched to the limit. Recent research suggests that natural CO2 “sinks”, like peat bogs and forests, are actually starting to release CO2.</p>
-<p>F At the Earth Summit in 1992, the world agreed to prevent “dangerous” climate change. The first step was the 1997 Kyoto Protocol, which came into force during 2005. It will bring modest emission reductions from industrialised countries. Many observers say deeper cuts are needed and developing nations, which have large and growing populations, will one day have to join in. Some, including the US Bush administration, say the scientific uncertainty over the pace of climate change is grounds for delaying action. The US and Australia have reneged on Kyoto. Most scientists believe we are under-estimating the dangers.</p>
-<p>G In any case, according to the IPCC, the world needs to quickly improve the efficiency of its energy usage and develop renewable non-carbon fuels like: wind, solar, tidal, wave and perhaps nuclear power. It also means developing new methods of converting this clean energy into motive power, like hydrogen fuel cells for cars. Other less conventional solutions include ideas to stave off warming by “mega-engineering” the planet with giant mirrors to deflect the Sun’s rays, seeding the oceans with iron to generate algal blooms, or burying greenhouse gases below the sea. The bottom line is that we will need to cut CO2 emissions by 70% to 80% simply to stabilise atmospheric CO2 concentrations–and thus temperatures. The quicker we do that, the less unbearably hot our future world will be.</p>
-<p>Questions 1-4
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 178</strong></h3>
+<h3 class="test-heading"><strong>Climate Change: Instant Expert</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Climate change is with us. A decade ago, it was conjecture. Now the future is unfolding before our eyes. Canada’s Inuit see it in disappearing Arctic ice and permafrost. The shantytown dwellers of Latin America and Southern Asia see it in lethal storms and floods. Europeans see it in disappearing glaciers, forest fires and fatal heat waves. Scientists see it in tree rings, ancient coral and bubbles trapped in ice cores. These reveal that the world has not been as warm as it is now for a millennium or more. The three warmest years on record have all occurred since 1998; 19 of the warmest 20 since 1980. And Earth has probably never warmed as fast as in the past 30 years–a period when natural influences on global temperatures, such as solar cycles and volcanoes should have cooled us down.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> Climatologists reporting for the UN Intergovernmental Panel on Climate Change (IPCC) say we are seeing global warming caused by human activities. People are causing the change by burning nature’s vast stores of coal, oil and natural gas. This releases billions of tonnes of carbon dioxide (CO2) every year, although the changes may actually have started with the dawn of agriculture, say some scientists. The physics of the “greenhouse effect” has been a matter of scientific fact for a century. CO2 is a greenhouse gas that traps the Sun’s radiation within the troposphere, the lower atmosphere. It has accumulated along with other manmade greenhouse gases, such as methane and chlorofluorocarbons (CFCs). Some studies suggest that cosmic rays may also be involved in warming.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> If current trends continue, we will raise atmospheric CO2concentrations to double pre-industrial levels during this century. That will probably be enough to raise global temperatures by around 2℃ to 5℃. Some warming is certain, but the degree will be determined by cycles involving melting ice, the oceans, water vapour, clouds and changes to vegetation. Warming is bringing other unpredictable changes. Melting glaciers and precipitation are causing some rivers to overflow, while evaporation is emptying others. Diseases are spreading. Some crops grow faster while others see yields slashed by disease and drought. Clashes over dwindling water resources may cause conflicts in many regions.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> As natural ecosystems – such as coral reefs – are disrupted, biodiversity is reduced. Most species cannot migrate fast enough to keep up, though others are already evolving in response to warming. Thermal expansion of the oceans, combined with melting ice on land, is also raising sea levels. In this century, human activity could trigger an irreversible melting of the Greenland ice sheet. This would condemn the world to a rise in sea level of six metres – enough to flood land occupied by billions of people.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> The global warming would be more pronounced if it were not for sulphur particles and other pollutants that shade us, and because forests and oceans absorb around half of the CO2 we produce. But the accumulation rate of atmospheric CO2 has doubled since 2001, suggesting that nature’s ability to absorb the gas could now be stretched to the limit. Recent research suggests that natural CO2 “sinks”, like peat bogs and forests, are actually starting to release CO2.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> At the Earth Summit in 1992, the world agreed to prevent “dangerous” climate change. The first step was the 1997 Kyoto Protocol, which came into force during 2005. It will bring modest emission reductions from industrialised countries. Many observers say deeper cuts are needed and developing nations, which have large and growing populations, will one day have to join in. Some, including the US Bush administration, say the scientific uncertainty over the pace of climate change is grounds for delaying action. The US and Australia have reneged on Kyoto. Most scientists believe we are under-estimating the dangers.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> In any case, according to the IPCC, the world needs to quickly improve the efficiency of its energy usage and develop renewable non-carbon fuels like: wind, solar, tidal, wave and perhaps nuclear power. It also means developing new methods of converting this clean energy into motive power, like hydrogen fuel cells for cars. Other less conventional solutions include ideas to stave off warming by “mega-engineering” the planet with giant mirrors to deflect the Sun’s rays, seeding the oceans with iron to generate algal blooms, or burying greenhouse gases below the sea. The bottom line is that we will need to cut CO2 emissions by 70% to 80% simply to stabilise atmospheric CO2 concentrations–and thus temperatures. The quicker we do that, the less unbearably hot our future world will be.</p></div></div>
+<p><strong>Questions 1-4</strong>
 The text has 7 paragraphs (A-G).</p>
 <p>Which paragraph contains each of the following pieces of information?</p>
-<p>Questions 5-8
-Complete the following sentences using NO MORE THAN THREE WORDS from the text.</p>
+<p><strong>Questions 5-8</strong>
+Complete the following sentences using <strong>NO MORE THAN THREE WORDS</strong> from the text.</p>
 <p>Wars could be fought over reduced (5)…………………….</p>
 <p>Certain pollutants actually protect us from (6)…………………….</p>
 <p>(7)…………………………..countries were not required to make cuts in emissions under the Kyoto Protocol.</p>
 <p>Algal blooms feed on (8)………………….</p>
-<p>Questions 9-13
+<p><strong>Questions 9-13</strong>
 Do the following statements agree with the information given in Reading Passage 1?</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>9. Volcanoes can influence the global climate.
 10. Billions of people live near the sea.
 11. Peat bogs never release CO2.
 12. Improving energy efficiency can be done quickly.
 13. Burying greenhouse gases under the sea is not possible.</p>
-<p>Britain’s canals – the solution to overcrowded roads?</p>
-<p>A It’s hard to imagine that only a decade or so ago many of the nation’s canals were little more than the last resting place for abandoned shopping trolleys. There’s still work to be done, but their transformation has been remarkable. Projects such as Castlefield in Manchester and Brindley Place in Birmingham have transformed city-centre canals from stagnant reminders of a fading industrial past to the epitome of urban cool. However, 21st-century priorities dictate that the rehabilitation of this 18th-century motorway system cannot stop there. Canals and navigable rivers form a major transport network, in need of only piecemeal investment, and with the spare capacity to take away the need for hundreds of thousands of lorry journeys. In the second half of the 18th century, canals drove the industrial revolution. Today, authorities want them to drive congestion off the roads. Last month, for example, the European Commission proposed a seven-year plan to shift large amounts of freight from roads to inland waterways.</p>
-<p>B Europe’s enthusiasm comes as no surprise. Freight traffic is expected to grow by a third in the next decade. The cost of pollution and congestion is set to swallow one per cent of Europe’s entire GDP by 2010. “With a fleet of 11000 vessels and a capacity equalling 10000 trains or 440000 trucks, inland waterways can make transport in Europe more efficient, reliable and environmental friendly,” says Jacques Barrot, vice-president of the European Commission in charge of transport. “Europe cannot afford to leave that potential untapped.”</p>
-<p>C Mainland Europe has never, in fairness, left it completely untapped. The canals of the low countries and the rivers of central and eastern Europe buzzed with the sound of freight barges long after British industry had thrown in its lot with railways and roads. Attempts to revive freight on British canals have been hampered by the fact that their heyday lasted barely 60 years, and they were first considered obsolete 150 years ago. For much of the intervening period, many have simply been left to rot. “Our network was in decline for a long time compared to much of Europe,” says Eugene Baston of British Waterways. “Whereas other countries developed road and rail transport but carried on using their waterways as well, our canals were neglected. In fact many European countries actually enlarged their canals 100 years ago.”</p>
-<p>D That decline in Britain has been reversed, first by leisure seekers and more recently by industry. Boaters, anglers, walkers and cyclists now benefit from around 4000 miles of navigable waterways and the paths and trails that run alongside them. Waterside living is fashionable, and city-centre canals have been a focus for urban renewal, And, despite our obsession with road transport, environmental considerations are forcing government and business to mm the clock back 200 years and–at least in a minor way–get our waterways working again.</p>
-<p>E In fact, industrial goods such as coal, steel, aggregates and petroleum have never completely disappeared from large rivers and designated commercial waterways. Barges on the river Severn have recently started carrying the equivalent of 34000 lorry loads of aggregates each year, the first freight traffic on the river for a decade. British Waterways, which owns about half of the country’s navigable inland waterways, carded the equivalent of 64000 25-ton lorry loads of freight in 2004. The organisation says these figures are certain to increase as new schemes start, and environmentalists hope they will. Carrying freight by water uses about a quarter of the energy of an equivalent road journey. In comparison to lorries, barges produce low emissions, low noise and are visually unobtrusive. “We think that anything that can take freight off the roads needs to be fully explored,” says Tony Bosworth, transport campaigner for Friends of the Earth. “Canals can do that. They can help cut the pollution that causes climate change.”</p>
-<p>F There is a limit to what canals can carry. The slow pace of water travel does not fit well with the limited shelf-life of fresh produce. If supermarkets won’t trust their cherry tomatoes to water, they might trust the waste paper and plastic that protects them. Many of the proposals to utilise Britain’s waterways are based around waste management and recycling schemes. For example, a pilot scheme in Hackney, east London, has seen municipal waste collected by truck and transferred to barge for transportation to a reprocessing plant. In the future, the scheme could remove 300000 dustcart miles from the borough’s streets every year. Current arrangements could be just the tip of the iceberg.</p>
-<p>G Planning permission has been given for a Powerday recycling plant at Willesden Junction, a site that sits on the intersection of road, rail and canal networks. “The plant will have the capacity to handle a million and a half tons of waste every year, but the amount carried by road will be capped at 500000 tons,” says Ed Fox of British Waterways London. “If they want to grow the business, they will have to work with us.” Fox says getting freight back on the canals has been “a nice idea” for 50 years, but until recently little more than an idea. “The Powerday project, on the other hand, is proof of what really can be done.”</p>
-<p>H Though details have yet to be decided, British Waterways believes the most appropriate way to transport some of the building materials destined for London’s giant Olympic construction project is by the network of waterways that links the Thames and east London. The Olympic Delivery Authority says: “It’s being looked at and the final solution could well involve some transportation by water. What exactly we do will be based on a range of factors, but one of those will be sustainability.” Their gentle pace will always make canals a niche player in a busy world, but after 200 years of neglect, the tide is starting to turn.</p>
-<p>Questions 14-17
+<p><strong>Britain’s canals – the solution to overcrowded roads?</strong></p>
+<p><strong>A</strong> It’s hard to imagine that only a decade or so ago many of the nation’s canals were little more than the last resting place for abandoned shopping trolleys. There’s still work to be done, but their transformation has been remarkable. Projects such as Castlefield in Manchester and Brindley Place in Birmingham have transformed city-centre canals from stagnant reminders of a fading industrial past to the epitome of urban cool. However, 21st-century priorities dictate that the rehabilitation of this 18th-century motorway system cannot stop there. Canals and navigable rivers form a major transport network, in need of only piecemeal investment, and with the spare capacity to take away the need for hundreds of thousands of lorry journeys. In the second half of the 18th century, canals drove the industrial revolution. Today, authorities want them to drive congestion off the roads. Last month, for example, the European Commission proposed a seven-year plan to shift large amounts of freight from roads to inland waterways.</p>
+<p><strong>B</strong> Europe’s enthusiasm comes as no surprise. Freight traffic is expected to grow by a third in the next decade. The cost of pollution and congestion is set to swallow one per cent of Europe’s entire GDP by 2010. “With a fleet of 11000 vessels and a capacity equalling 10000 trains or 440000 trucks, inland waterways can make transport in Europe more efficient, reliable and environmental friendly,” says Jacques Barrot, vice-president of the European Commission in charge of transport. “Europe cannot afford to leave that potential untapped.”</p>
+<p><strong>C</strong> Mainland Europe has never, in fairness, left it completely untapped. The canals of the low countries and the rivers of central and eastern Europe buzzed with the sound of freight barges long after British industry had thrown in its lot with railways and roads. Attempts to revive freight on British canals have been hampered by the fact that their heyday lasted barely 60 years, and they were first considered obsolete 150 years ago. For much of the intervening period, many have simply been left to rot. “Our network was in decline for a long time compared to much of Europe,” says Eugene Baston of British Waterways. “Whereas other countries developed road and rail transport but carried on using their waterways as well, our canals were neglected. In fact many European countries actually enlarged their canals 100 years ago.”</p>
+<p><strong>D</strong> That decline in Britain has been reversed, first by leisure seekers and more recently by industry. Boaters, anglers, walkers and cyclists now benefit from around 4000 miles of navigable waterways and the paths and trails that run alongside them. Waterside living is fashionable, and city-centre canals have been a focus for urban renewal, And, despite our obsession with road transport, environmental considerations are forcing government and business to mm the clock back 200 years and–at least in a minor way–get our waterways working again.</p>
+<p><strong>E</strong> In fact, industrial goods such as coal, steel, aggregates and petroleum have never completely disappeared from large rivers and designated commercial waterways. Barges on the river Severn have recently started carrying the equivalent of 34000 lorry loads of aggregates each year, the first freight traffic on the river for a decade. British Waterways, which owns about half of the country’s navigable inland waterways, carded the equivalent of 64000 25-ton lorry loads of freight in 2004. The organisation says these figures are certain to increase as new schemes start, and environmentalists hope they will. Carrying freight by water uses about a quarter of the energy of an equivalent road journey. In comparison to lorries, barges produce low emissions, low noise and are visually unobtrusive. “We think that anything that can take freight off the roads needs to be fully explored,” says Tony Bosworth, transport campaigner for Friends of the Earth. “Canals can do that. They can help cut the pollution that causes climate change.”</p>
+<p><strong>F</strong> There is a limit to what canals can carry. The slow pace of water travel does not fit well with the limited shelf-life of fresh produce. If supermarkets won’t trust their cherry tomatoes to water, they might trust the waste paper and plastic that protects them. Many of the proposals to utilise Britain’s waterways are based around waste management and recycling schemes. For example, a pilot scheme in Hackney, east London, has seen municipal waste collected by truck and transferred to barge for transportation to a reprocessing plant. In the future, the scheme could remove 300000 dustcart miles from the borough’s streets every year. Current arrangements could be just the tip of the iceberg.</p>
+<p><strong>G</strong> Planning permission has been given for a Powerday recycling plant at Willesden Junction, a site that sits on the intersection of road, rail and canal networks. “The plant will have the capacity to handle a million and a half tons of waste every year, but the amount carried by road will be capped at 500000 tons,” says Ed Fox of British Waterways London. “If they want to grow the business, they will have to work with us.” Fox says getting freight back on the canals has been “a nice idea” for 50 years, but until recently little more than an idea. “The Powerday project, on the other hand, is proof of what really can be done.”</p>
+<p><strong>H</strong> Though details have yet to be decided, British Waterways believes the most appropriate way to transport some of the building materials destined for London’s giant Olympic construction project is by the network of waterways that links the Thames and east London. The Olympic Delivery Authority says: “It’s being looked at and the final solution could well involve some transportation by water. What exactly we do will be based on a range of factors, but one of those will be sustainability.” Their gentle pace will always make canals a niche player in a busy world, but after 200 years of neglect, the tide is starting to turn.</p>
+<p><strong>Questions 14-17</strong>
 The text has 8 paragraphs (A-H).</p>
 <p>Which paragraph does each of the following headings best fit?</p>
 <p>14. Olympic transport
 15. The decline of British canals
 16. Modern leisure uses
 17. Energy efficient</p>
-<p>Questions 18-22
-According to the text, FIVE of the following statements are true.</p>
+<p><strong>Questions 18-22</strong>
+According to the text, <strong>FIVE</strong> of the following statements are true.</p>
 <p>Choose the corresponding letters in answer boxes 18-22.</p>
-<p>A canals were important in the industrial revolution in britain
-B the use of canals in Europe is expected to grow by a third over the next ten years
-C Britain was the only European country to let its canal decline
-D Canals in Britain have become a focus for city centre renewal
-E barges are less polluting that lorries
-F in London most waste is transported on canals
-G the amount of waste that can be taken to the Powerday plant by road is limited
-H canals will not become a major form of transport in the world</p>
-<p>Questions 23-26</p>
+<p><strong>A</strong> canals were important in the industrial revolution in britain
+<strong>B</strong> the use of canals in Europe is expected to grow by a third over the next ten years
+<strong>C</strong> Britain was the only European country to let its canal decline
+<strong>D</strong> Canals in Britain have become a focus for city centre renewal
+<strong>E</strong> barges are less polluting that lorries
+<strong>F</strong> in London most waste is transported on canals
+<strong>G</strong> the amount of waste that can be taken to the Powerday plant by road is limited
+<strong>H</strong> canals will not become a major form of transport in the world</p>
+<p><strong>Questions 23-26</strong></p>
 <p>23. Canals will require
-A relatively little investment.
-B considerable investment.
-C investment equal to 1% of Europe’s transport budget.</p>
+<strong>A</strong> relatively little investment.
+<strong>B</strong> considerable investment.
+<strong>C</strong> investment equal to 1% of Europe’s transport budget.</p>
 <p>24. The European canal network
-A transported most of Europe’s goods for 60 years.
-B was built mostly about 150 years ago.
-C has actually been expanded in some countries over the last hundred years.</p>
+<strong>A</strong> transported most of Europe’s goods for 60 years.
+<strong>B</strong> was built mostly about 150 years ago.
+<strong>C</strong> has actually been expanded in some countries over the last hundred years.</p>
 <p>25. Suitable products for transportation by canal include
-A fresh fruit and vegetables.
-B fuel
-C cereal</p>
+<strong>A</strong> fresh fruit and vegetables.
+<strong>B</strong> fuel
+<strong>C</strong> cereal</p>
 <p>26. How much waste can Powerday recycling plant treat in one year?
-A 1.5 million tons
-B 500 tons
-C 15 million tons</p>
-<p>Are You Being Served?</p>
+<strong>A</strong> 1.5 million tons
+<strong>B</strong> 500 tons
+<strong>C</strong> 15 million tons</p>
+<p><strong>Are You Being Served?</strong></p>
 <p>The world’s factory, it turns out, has a sizeable canteen attached, not to mention an office block and shopping mall. Last month’s official revision of China’s gross domestic product revealed an economy worth 16 trillion yuan (＄1.9 trillion) in 2004, 17% more than previously thought. Some ＄265 billion of the increase – 93% of it – was ascribed to the services sector. As a result, services’ share of the economy has jumped by nine percentage points, to 41%, compared with 46% for manufacturing and 13% for primary industries (mainly agriculture and mining).</p>
 <p>Where has all this extra activity come from? The bulk of it is obvious to any traveller in China. As people grow wealthier, they want more restaurants and bars, clothes stores, car dealerships, bookshops, private hospitals, English language classes and beauty salons. In many of these businesses, however, turnover and profits have not previously been captured by a statistical system geared to measuring factory production. The small, often private, companies that dominate these areas have also often been at pains to escape notice – and therefore taxes.</p>
 <p>Li Deshui, commissioner of China’s National Bureau of Statistics, confirms that most of the newly unearthed GDP comes from three categories. The first is wholesale, retail and catering; the second, transport, storage, post and telecommunications. While postal and telecoms services are still state-controlled and thus readily measured, more than a million small tracking and removal companies are not. The third activity is real estate, booming particularly in the coastal cities and increasingly inland too, leading to an influx of private money – not least from overseas speculators. Property development has, in turn, boosted demand for architects, decorators, do-it-yourself stores and other building services.</p>
@@ -184,42 +240,42 @@ C 15 million tons</p>
 <p>China’s services sector, on this basis, is well-developed and roughly as large as those of Japan and South Korea were at a similar stage of development, notes the HSBC bank. In reality, it is bigger still, since the GDP revision cannot capture activities such as kerbside lending and tax-dodging cash transactions in property or entertainment–all of which Dong Tao, chief Asia economist at CSFB, another bank, reckons add another ＄220 billion to the economy. Even so, the 41% of GDP claimed by services in China remains below the 60-75% typical in developed countries. It is smaller even than India’s 52%.</p>
 <p>One reason for this is a bias towards manufacturing–“China’s ‘real-men-make-stuff’ attitude,” as Gordon Orr of McKinsey’s Shanghai office puts it. This has led to a plethora of ill-thought-through regulations for services, made worse by China’s continuing suspicion of private business, which is mostly concentrated in the services sector. The lack of a national trucking licence, for example, means hauliers must get approval from each province to move goods across the country and unload them on to different trucks at each border–delaying delivery and increasing spoilage and pilfering. In retailing, local governments often maintain inefficient supply chains, in part to protect local jobs. David Wei, head of B&Q in China, says his 48 do-it-yourself stores on the mainland are served by 1800 suppliers, compared with 600 suppliers in Britain for more than 300 stores.</p>
 <p>Worse, though China took an early decision to invite foreign direct investment into manufacturing, it has been reluctant to open up services. Diana Farrell, director of the McKinsey Global Institute, the consultancy’s think-tank, argues that allowing more foreign investment in services could bring not just capital and technology but a competitive dynamic. The presence of Carrefour and Wal-Mart has led to domestic copycats, creating innovation and productivity growth.</p>
-<p>Questions 27-30
+<p><strong>Questions 27-30</strong>
 For each question, only ONE of the choices is correct.</p>
 <p>27. “The world’s factory” refers to
-A the total mount of goods produced in the world.
-B China.
-C the United States.</p>
+<strong>A</strong> the total mount of goods produced in the world.
+<strong>B</strong> China.
+<strong>C</strong> the United States.</p>
 <p>28. It is not easy to measure the finances of
-A large state-owned companies.
-B foreign companies.
-C numerous small companies.</p>
+<strong>A</strong> large state-owned companies.
+<strong>B</strong> foreign companies.
+<strong>C</strong> numerous small companies.</p>
 <p>29. Real estate has helped increase the size of the service economy because
-A real estate is a service industry.
-B it involves a lot of investment from abroad.
-C developing real estate requires services.</p>
+<strong>A</strong> real estate is a service industry.
+<strong>B</strong> it involves a lot of investment from abroad.
+<strong>C</strong> developing real estate requires services.</p>
 <p>30. The largest portion of household spending in China goes towards
-A education.
-B accommodation.
-C travel.</p>
-<p>Questions 31-35
-Complete the following sentences using NO MORE THAN THREE WORDS from the text.</p>
+<strong>A</strong> education.
+<strong>B</strong> accommodation.
+<strong>C</strong> travel.</p>
+<p><strong>Questions 31-35</strong>
+Complete the following sentences using <strong>NO MORE THAN THREE WORDS</strong> from the text.</p>
 <p>China is not really a rival to India in the role of an (31)……………………..</p>
 <p>Most tourism in China is (32)……………………..</p>
 <p>Many transactions in the real estate and leisure industries are in cash and that leads to (33)………………….</p>
 <p>Most private business in China is (34)………………………in the service sector.</p>
 <p>China has brought far less (35)……………………….into services, slowing development of that sector.</p>
-<p>Questions 36-40
+<p><strong>Questions 36-40</strong>
 Do the following statements agree with the information given in Reading Passage 3?</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>36. Officially, the largest sector in China is the service sector.
 37. Some of the newly-discovered GDP comes from the education sector.
 38. Dalian is a successful outsourcing center for Japan and Korea.
 39. As visa restrictions are lowered, Chinese people are expected to spend more than＄300 billion on tourism.
 40. China’s services sector is about the same size as Japan’s and South Korea’s.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. D</p>
 <p>2. A</p>
 <p>3. B</p>
@@ -478,6 +534,29 @@ NOT GIVEN If there is no information on this</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -497,12 +576,23 @@ NOT GIVEN If there is no information on this</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -514,14 +604,6 @@ NOT GIVEN If there is no information on this</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

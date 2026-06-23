@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,96 +158,96 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_260</h1>
-            <p>IELTS Reading Practice - Test 260</p>
-<p>Can Scientists tell us: What happiness is?</p>
-<p>A Economists accept that if people describe themselves as happy, then they are happy. However, psychologists differentiate between levels of happiness. The most immediate type involves a feeling; pleasure or joy. But sometimes happiness is a judgment that life is satisfying, and does not imply an emotional state. Esteemed psychologist Martin Seligman has spearheaded an effort to study the science of happiness. The bad news is that we’re not wired to be happy. The good news is that we can do something about it. Since its origins in a Leipzig laboratory 130 years ago, psychology has had little to say about goodness and contentment. Mostly psychologists have concerned themselves with weakness and misery. There are libraries full of theories about why we get sad, worried, and angry. It hasn’t been respectable science to study what happens when lives go well. Positive experiences, such as joy, kindness, altruism and heroism, have mainly been ignored. For every 100 psychology papers dealing with anxiety or depression, only one concerns a positive trait.</p>
-<p>B A few pioneers in experimental psychology bucked the trend. Professor Alice Isen of Cornell University and colleagues have demonstrated how positive emotions make people think faster and more creatively. Showing how easy it is to give people an intellectual boost, Isen divided doctors making a tricky diagnosis into three groups: one received candy, one read humanistic statements about medicine, one was a control group. The doctors who had candy displayed the most creative thinking and worked more efficiently. Inspired by Isen and others, Seligman got stuck in. He raised millions of dollars of research money and funded 50 research groups involving 150 scientists across the world. Four positive psychology centres opened, decorated in cheerful colours and furnished with sofas and baby-sitters. There were get-togethers on Mexican beaches where psychologists would snorkel and eat fajitas, then form “pods” to discuss subjects such as wonder and awe. A thousand therapists were coached in the new science.</p>
-<p>C But critics are demanding answers to big questions. What is the point of defining levels of haziness and classifying the virtues? Aren’t these concepts vague and impossible to pin down? Can you justify spending funds to research positive states when there are problems such as famine, flood and epidemic depression to be solved? Seligman knows his work can be belittled alongside trite notions such as “the power of positive thinking”. His plan to stop the new science floating “on the waves of self- improvement fashion” is to make sure it is anchored to positive philosophy above, and to positive biology below.</p>
-<p>D And this takes us back to our evolutionary past Homo sapiens evolved during the Pleistocene era (1.8 m to 10,000 years ago), a time of hardship and turmoil. It was the Ice Age, and our ancestors endured long freezes as glaciers formed, then ferocious floods as the ice masses melted. We shared the planet with terrifying creatures such as mammoths, elephant-sized ground sloths and sabre-toothed cats. But by the end of the Pleistocene, all these animals were extinct. Humans, on the other hand, had evolved large brains and used their intelligence to make fire and sophisticated tools, to develop talk and social rituals. Survival in a time of adversity forged our brains into a persistent mould. Professor Seligman says: “Because our brain evolved during a time of ice, flood and famine, we have a catastrophic brain. The way the brain works is looking for what’s wrong. The problem is, that worked in the Pleistocene era. It favoured you, but it doesn’t work in the modem world”.</p>
-<p>E Although most people rate themselves as happy, there is a wealth of evidence to show that negative thinking is deeply ingrained in the human psyche. Experiments show that we remember failures more vividly than success. We dwell on what went badly, not what went well. Of the six universal emotions, four anger, fear, disgust and sadness are negative and only one, joy, is positive. (The sixth, surprise, is neutral). According to the psychologist Daniel Nettle, author of Happiness, and one of the Royal Institution lectures, the negative emotion each tells us “something bad has happened” and suggest a different course of action.</p>
-<p>F What is it about the structure of the brain that underlies our bias towards negative thinking? And is there a biology of joy? At Iowa University, neuroscientist studied what happens when people are shown pleasant and unpleasant pictures. When subjects see landscapes or dolphins playing, part of the frontal lobe of the brain becomes active. But when they are shown unpleasant images a bird covered in oil, or a dead soldier with part of his face missing the response comes from more primitive parts of the brain. The ability to feel negative emotions derives from an ancient danger-recognition system formed early in the brain’s evolution. The pre-frontal cortex, which registers happiness, is the part used for higher thinking, an area that evolved later in human history.</p>
-<p>G Our difficulty, according to Daniel Nettle, is that the brain systems for liking and wanting are separate. Wanting involves two ancient regions the amygdala and the nucleus accumbens that communicate using the chemical dopamine to form the brain’s reward system. They are involved in anticipating the pleasure of eating and in addiction to drugs. A rat will press a bar repeatedly， ignoring sexually available partners, to receive electrical stimulation of the “wanting” parts of the brain. But having received brain stimulation, the rat eats more but shows no sign of enjoying the food it craved. In humans, a drug like nicotine produces much craving but little pleasure.</p>
-<p>H In essence, what the biology lesson tells us is that negative emotions are fundamental to the human condition and it’s no wonder they are difficult to eradicate. At the same time, by a trick of nature, our brains are designed to crave but never really achieve lasting happiness.</p>
-<p>Questions 1-7
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 260</strong></h3>
+<h3 class="test-heading"><strong>Can Scientists tell us: What happiness is?</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Economists accept that if people describe themselves as happy, then they are happy. However, psychologists differentiate between levels of happiness. The most immediate type involves a feeling; pleasure or joy. But sometimes happiness is a judgment that life is satisfying, and does not imply an emotional state. Esteemed psychologist Martin Seligman has spearheaded an effort to study the science of happiness. The bad news is that we’re not wired to be happy. The good news is that we can do something about it. Since its origins in a Leipzig laboratory 130 years ago, psychology has had little to say about goodness and contentment. Mostly psychologists have concerned themselves with weakness and misery. There are libraries full of theories about why we get sad, worried, and angry. It hasn’t been respectable science to study what happens when lives go well. Positive experiences, such as joy, kindness, altruism and heroism, have mainly been ignored. For every 100 psychology papers dealing with anxiety or depression, only one concerns a positive trait.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> A few pioneers in experimental psychology bucked the trend. Professor Alice Isen of Cornell University and colleagues have demonstrated how positive emotions make people think faster and more creatively. Showing how easy it is to give people an intellectual boost, Isen divided doctors making a tricky diagnosis into three groups: one received candy, one read humanistic statements about medicine, one was a control group. The doctors who had candy displayed the most creative thinking and worked more efficiently. Inspired by Isen and others, Seligman got stuck in. He raised millions of dollars of research money and funded 50 research groups involving 150 scientists across the world. Four positive psychology centres opened, decorated in cheerful colours and furnished with sofas and baby-sitters. There were get-togethers on Mexican beaches where psychologists would snorkel and eat fajitas, then form “pods” to discuss subjects such as wonder and awe. A thousand therapists were coached in the new science.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> But critics are demanding answers to big questions. What is the point of defining levels of haziness and classifying the virtues? Aren’t these concepts vague and impossible to pin down? Can you justify spending funds to research positive states when there are problems such as famine, flood and epidemic depression to be solved? Seligman knows his work can be belittled alongside trite notions such as “the power of positive thinking”. His plan to stop the new science floating “on the waves of self- improvement fashion” is to make sure it is anchored to positive philosophy above, and to positive biology below.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> And this takes us back to our evolutionary past Homo sapiens evolved during the Pleistocene era (1.8 m to 10,000 years ago), a time of hardship and turmoil. It was the Ice Age, and our ancestors endured long freezes as glaciers formed, then ferocious floods as the ice masses melted. We shared the planet with terrifying creatures such as mammoths, elephant-sized ground sloths and sabre-toothed cats. But by the end of the Pleistocene, all these animals were extinct. Humans, on the other hand, had evolved large brains and used their intelligence to make fire and sophisticated tools, to develop talk and social rituals. Survival in a time of adversity forged our brains into a persistent mould. Professor Seligman says: “Because our brain evolved during a time of ice, flood and famine, we have a catastrophic brain. The way the brain works is looking for what’s wrong. The problem is, that worked in the Pleistocene era. It favoured you, but it doesn’t work in the modem world”.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> Although most people rate themselves as happy, there is a wealth of evidence to show that negative thinking is deeply ingrained in the human psyche. Experiments show that we remember failures more vividly than success. We dwell on what went badly, not what went well. Of the six universal emotions, four anger, fear, disgust and sadness are negative and only one, joy, is positive. (The sixth, surprise, is neutral). According to the psychologist Daniel Nettle, author of Happiness, and one of the Royal Institution lectures, the negative emotion each tells us “something bad has happened” and suggest a different course of action.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> What is it about the structure of the brain that underlies our bias towards negative thinking? And is there a biology of joy? At Iowa University, neuroscientist studied what happens when people are shown pleasant and unpleasant pictures. When subjects see landscapes or dolphins playing, part of the frontal lobe of the brain becomes active. But when they are shown unpleasant images a bird covered in oil, or a dead soldier with part of his face missing the response comes from more primitive parts of the brain. The ability to feel negative emotions derives from an ancient danger-recognition system formed early in the brain’s evolution. The pre-frontal cortex, which registers happiness, is the part used for higher thinking, an area that evolved later in human history.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> Our difficulty, according to Daniel Nettle, is that the brain systems for liking and wanting are separate. Wanting involves two ancient regions the amygdala and the nucleus accumbens that communicate using the chemical dopamine to form the brain’s reward system. They are involved in anticipating the pleasure of eating and in addiction to drugs. A rat will press a bar repeatedly， ignoring sexually available partners, to receive electrical stimulation of the “wanting” parts of the brain. But having received brain stimulation, the rat eats more but shows no sign of enjoying the food it craved. In humans, a drug like nicotine produces much craving but little pleasure.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>H</strong> In essence, what the biology lesson tells us is that negative emotions are fundamental to the human condition and it’s no wonder they are difficult to eradicate. At the same time, by a trick of nature, our brains are designed to crave but never really achieve lasting happiness.</p></div></div>
+<p><strong>Questions 1-7</strong>
 The reading passage has seven paragraphs A-H. Which paragraph contains the following information?</p>
-<p>Questions 8-12
-Complete the following summary of the paragraphs of reading passage. Using NO MORE THAN FOUR WORDS from the reading passage for each answer.</p>
+<p><strong>Questions 8-12</strong>
+Complete the following summary of the paragraphs of reading passage. Using <strong>NO MORE THAN FOUR WORDS</strong> from the reading passage for each answer.</p>
 <p>A few pioneers in experimental psychology study what happens when lives go well. Professor Alice divided doctors, making a tricky experiment, into three groups: besides the one control group, the other two either are asked to read humanistic statements about drugs or received (8)……………….. The latter displayed the most creative thinking and worked more efficiently. Since critics are questioning the significance of the (9)……………… for both levels of happiness and classification for the virtues. Professor Seligman countered in an evolutional theory: survival in a time of adversity forged our brains into the way of thinking for what’s wrong because we have a (10)………………..</p>
 <p>There is bountiful of evidence to show that negative thinking is deeply built in the human psyche. Later, at Iowa University, neuroscientists studied the active parts in brains to contrast when people are shown pleasant and unpleasant pictures. When positive images like (11)………………… are shown, part of the frontal lobe of the brain becomes active. But when they are shown unpleasant image, the response comes from (12)………………. of the brain.</p>
-<p>Question 13
+<p><strong>Question 13</strong>
 Choose the correct letter, A, B, C or D.</p>
 <p>13. According to Daniel Nettle in the last two paragraphs, what is true as the scientists can tell us about happiness
-A Brain systems always mix liking and wanting together.
-B Negative emotions can be easily rid of if we think positively.
-C Happiness is like nicotine we are craving for but get little pleasure.
-D The inner mechanism of human brains does not assist us to achieve durable happiness</p>
-<p>Tattoo on Tikopia</p>
-<p>A There are still debates about the origins of Polynesian culture, but one thing we can ensure is that Polynesia is not a single tribe but a complex one. Polynesians which include Marquesans, Samoans, Niueans, Tongans, Cook Islanders, Hawaiians, Tahitians, and Maori, are genetically linked to indigenous peoples of parts of Southeast Asia. It’s a sub-region of Oceania, comprising of a large grouping of over 1,000 islands scattered over the central and southern Pacific Ocean, within a triangle that has New Zealand, Hawaii and Easter Island as its corners.</p>
-<p>B Polynesian history has fascinated the western world since Pacific cultures were first contacted by European explorers in the late 18th century. The small island of Tikopia, for many people – even for many Solomon Islanders – is so far away that it seems like a mythical land; a place like Narnia, that magical land in C. S. Lewis’s classic, ‘The Chronicles of Narnia.’ Maybe because of it – Tikopia, its people, and their cultures have long fascinated scholars, travelers, and casual observers. Like the pioneers’ Peter Dillion, Dumont D’Urville and John Coleridge Patterson who visit and write about the island in the 1800s, Raymond Firth is one of those people captured by the alluring attraction of Tikopia. As a result, he had made a number of trips to the island since the 1920s and recorded his experiences, observations, and reflections on Tikopia, its people, cultures and the changes that have occurred.</p>
-<p>C While engaged in the study of the kinship and religious life of the people of Tikopia, Firth made a few observations on their tattooing. Brief though these notes are they may be worth putting on record as an indication of the sociological setting of the practice in this primitive Polynesian community. The origin of the English word tattoo’ actually comes from the Tikopia word ‘tatau’. The word for tattoo marks, in general, is tau, and the operation of tattooing is known as ta tau, ta being the generic term for the act of striking.</p>
-<p>D The technique of tattooing was similar through Polynesia. Traditional tattoo artists create their indelible tattoos using pigment made from the candlenut or kukui nut. First, they burn the nut inside a bowl made of half a coconut shell. They then scrape out the soot and use a pestle to mix it with liquid. Bluing is sometimes added to counteract the reddish hue of the carbon-based pigment. It also makes the outline of the inscribed designs bolder on the dark skin of tattooing subjects.</p>
-<p>E For the instruments used when tattooing, specialists used a range of chisels made from albatross wing bone which were hafted onto a handle which was made from the heart wood of the bush and struck with a mallet. The tattooer began by sketching with charcoal a design on the supine subject, whose skin at that location was stretched taut by one or more apprentices. The tattooer then dipped the appropriate points – eighter a single one or a whole comb – into the ink (usually contained in a coconut-shell cup) and tapped it into the subject’s skin, holding the blade handle in one hand and tapping it with the other. The blood that usually trickled from the punctures was wiped away either by the tattooer or his apprentice, the latter having also inevitably painful – a test of fortitude that tattooers sought to shorten by working as fas as possible. In fact, tattoos nearly always festered and often led to sickness – and in some cases death.</p>
-<p>F In ancient Polynesian society, nearly everyone was tattooed. It was an integral part of ancient culture and was much more than a body ornament. Tattooing indicated ones’ genealogy and/or rank in society. It was a sign of wealth, of strength and of the ability to endure pain. Those who went without them were seen as persons of lower social status. As such, chiefs and warriors generally had the most elaborate tattoos. Tattooing was generally begun at adolescence, and would often not be completed for a number of years. Receiving tattoos constituted an important milestone between childhood and adulthood, and was accompanied by many rites and rituals. Apart from signaling status and rank, another reason for the practice in traditional times was to make a person more attractive to the opposite sex.</p>
-<p>G The male facial tattoo is generally divided into eight sections of the face. The center of the forehead designated a person’s general rank. The area around the brows designated his position. The area around the eyes and the nose designated his hapu, or sub-tribe rank. The area around the temples served to details his signature. This signature was once memorized by tribal chief’s who used it when buying property, signing deeds, and officiating orders. The cheek area designated the nature of the person’s work. The chin area showed the person’s mana. Lastly, the jaw area designated a person’s birth status.</p>
-<p>H A person’s ancestry is indicated on each side of the face. The left side is generally the father’s side, and the right side was the mother’s. the manutahi design is worked on the men’s back. It consists of two vertical lines drawn down the spine, with short vertical lines between them. When a man had the manutahi on this back, he took pride in himself. At gatherings of the people he could stand forth in their midst and display his tattoo designs with songs. And rows of triangles design on the men’s chest indicate his bravery.</p>
-<p>I Tattoo was a way of delivering information about its owner. It’s also a traditional method to fetch spiritual power, protection and strength. The Polynesians use this as a sign of character, position and levels in a hierarchy. Polynesian people believe that a person’s mana, their spiritual power or life force, is displayed through their tattoo.</p>
-<p>Questions 14-17
+<strong>A</strong> Brain systems always mix liking and wanting together.
+<strong>B</strong> Negative emotions can be easily rid of if we think positively.
+<strong>C</strong> Happiness is like nicotine we are craving for but get little pleasure.
+<strong>D</strong> The inner mechanism of human brains does not assist us to achieve durable happiness</p>
+<p><strong>Tattoo on Tikopia</strong></p>
+<p><strong>A</strong> There are still debates about the origins of Polynesian culture, but one thing we can ensure is that Polynesia is not a single tribe but a complex one. Polynesians which include Marquesans, Samoans, Niueans, Tongans, Cook Islanders, Hawaiians, Tahitians, and Maori, are genetically linked to indigenous peoples of parts of Southeast Asia. It’s a sub-region of Oceania, comprising of a large grouping of over 1,000 islands scattered over the central and southern Pacific Ocean, within a triangle that has New Zealand, Hawaii and Easter Island as its corners.</p>
+<p><strong>B</strong> Polynesian history has fascinated the western world since Pacific cultures were first contacted by European explorers in the late 18th century. The small island of Tikopia, for many people – even for many Solomon Islanders – is so far away that it seems like a mythical land; a place like Narnia, that magical land in C. S. Lewis’s classic, ‘The Chronicles of Narnia.’ Maybe because of it – Tikopia, its people, and their cultures have long fascinated scholars, travelers, and casual observers. Like the pioneers’ Peter Dillion, Dumont D’Urville and John Coleridge Patterson who visit and write about the island in the 1800s, Raymond Firth is one of those people captured by the alluring attraction of Tikopia. As a result, he had made a number of trips to the island since the 1920s and recorded his experiences, observations, and reflections on Tikopia, its people, cultures and the changes that have occurred.</p>
+<p><strong>C</strong> While engaged in the study of the kinship and religious life of the people of Tikopia, Firth made a few observations on their tattooing. Brief though these notes are they may be worth putting on record as an indication of the sociological setting of the practice in this primitive Polynesian community. The origin of the English word tattoo’ actually comes from the Tikopia word ‘tatau’. The word for tattoo marks, in general, is tau, and the operation of tattooing is known as ta tau, ta being the generic term for the act of striking.</p>
+<p><strong>D</strong> The technique of tattooing was similar through Polynesia. Traditional tattoo artists create their indelible tattoos using pigment made from the candlenut or kukui nut. First, they burn the nut inside a bowl made of half a coconut shell. They then scrape out the soot and use a pestle to mix it with liquid. Bluing is sometimes added to counteract the reddish hue of the carbon-based pigment. It also makes the outline of the inscribed designs bolder on the dark skin of tattooing subjects.</p>
+<p><strong>E</strong> For the instruments used when tattooing, specialists used a range of chisels made from albatross wing bone which were hafted onto a handle which was made from the heart wood of the bush and struck with a mallet. The tattooer began by sketching with charcoal a design on the supine subject, whose skin at that location was stretched taut by one or more apprentices. The tattooer then dipped the appropriate points – eighter a single one or a whole comb – into the ink (usually contained in a coconut-shell cup) and tapped it into the subject’s skin, holding the blade handle in one hand and tapping it with the other. The blood that usually trickled from the punctures was wiped away either by the tattooer or his apprentice, the latter having also inevitably painful – a test of fortitude that tattooers sought to shorten by working as fas as possible. In fact, tattoos nearly always festered and often led to sickness – and in some cases death.</p>
+<p><strong>F</strong> In ancient Polynesian society, nearly everyone was tattooed. It was an integral part of ancient culture and was much more than a body ornament. Tattooing indicated ones’ genealogy and/or rank in society. It was a sign of wealth, of strength and of the ability to endure pain. Those who went without them were seen as persons of lower social status. As such, chiefs and warriors generally had the most elaborate tattoos. Tattooing was generally begun at adolescence, and would often not be completed for a number of years. Receiving tattoos constituted an important milestone between childhood and adulthood, and was accompanied by many rites and rituals. Apart from signaling status and rank, another reason for the practice in traditional times was to make a person more attractive to the opposite sex.</p>
+<p><strong>G</strong> The male facial tattoo is generally divided into eight sections of the face. The center of the forehead designated a person’s general rank. The area around the brows designated his position. The area around the eyes and the nose designated his hapu, or sub-tribe rank. The area around the temples served to details his signature. This signature was once memorized by tribal chief’s who used it when buying property, signing deeds, and officiating orders. The cheek area designated the nature of the person’s work. The chin area showed the person’s mana. Lastly, the jaw area designated a person’s birth status.</p>
+<p><strong>H</strong> A person’s ancestry is indicated on each side of the face. The left side is generally the father’s side, and the right side was the mother’s. the manutahi design is worked on the men’s back. It consists of two vertical lines drawn down the spine, with short vertical lines between them. When a man had the manutahi on this back, he took pride in himself. At gatherings of the people he could stand forth in their midst and display his tattoo designs with songs. And rows of triangles design on the men’s chest indicate his bravery.</p>
+<p><strong>I</strong> Tattoo was a way of delivering information about its owner. It’s also a traditional method to fetch spiritual power, protection and strength. The Polynesians use this as a sign of character, position and levels in a hierarchy. Polynesian people believe that a person’s mana, their spiritual power or life force, is displayed through their tattoo.</p>
+<p><strong>Questions 14-17</strong>
 Do the following statements agree with the information given in reading passage? In boxes 14-17 on your answer sheet, write</p>
-<p>YES                    if the statement agrees with the views of the writer
-NO                     if the statement contradicts the views of the writer
-NOT GIVEN        if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                    if the statement agrees with the views of the writer
+<strong>NO</strong>                     if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong>        if it is impossible to say what the writer thinks about this</p>
 <p>14. Scientists like to do research in Tikopia because this tiny place is of great remoteness.
 15. Firth was the first scholar to study on Tikopia.
 16. Firth studied the culture differences on Tikopia as well as on some other islands of Pacific.
 17. The English word ‘tattoo’ is evolved from the local language of the island.</p>
-<p>Questions 18-22
-Label the diagram below. Choose NO MORE THAN TWO WORDS from reading passage for each answer.</p>
-<p>Questions 23-27
-Complete the notes below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>Location on the body: Significance
+<p><strong>Questions 18-22</strong>
+Label the diagram below. Choose <strong>NO MORE THAN TWO WORDS</strong> from reading passage for each answer.</p>
+<p><strong>Questions 23-27</strong>
+Complete the notes below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>Location on the body: Significance</strong>
 (23)…………………….. of male face: general rank
 (24)…………………… of male face: prestige
 Female’s right side of the face: (25)………………..</p>
-<p>Location on the body: Geometric patterns
+<p><strong>Location on the body: Geometric patterns</strong>
 Male back: (26)………………
 Male chest: (27)………………</p>
-<p>Pollution In the Bay</p>
-<p>A Pouring water into the sea sounds harmless enough. But in Florida Bay, a large and shallow section of the Gulf of Mexico that lies between the southern end of the Everglades and the Florida Keys, it is proving highly controversial. That is because researchers are divided over whether it will help or hinder the plants and animals that live in the bay.</p>
-<p>B What is at risk is the future of the bay’s extensive beds of seagrasses. These grow on the bay’s muddy floor and act as nurseries for the larvae of shrimps, lobsters and fish – many of the important sport and commercial-fishing species. Also in danger is an impressive range of coral reefs that run the length of the Florida Keys and form the third-largest barrier reef in the world. Since the 1980s, coral cover has dropped by 40%, and a third of the coral species have gone. This has had a damaging effect on the animals that depend on the reef, such as crabs, turtles and nearly 600 species of fish.</p>
-<p>C What is causing such ecological change is a matter of much debate. And the answer is of no small consequence. This is because the American government is planning to devote $8 billion over the next 30 years to revitalise the Everglades. Seasonal freshwater flows into the Everglades are to be restored in order to improve the region’s health. But they will then run off into the bay.</p>
-<p>D Joseph Zieman, a marine ecologist at the University of Virginia, thinks this is a good idea. He believes that a lack of fresh water in the bay is its main problem. The blame, he says, lies with a century of drainage in the Everglades aimed at turning the marshes into farmland and areas for development. This has caused the flow of fresh water into Florida Bay to dwindle, making the water in the bay, overall, more saline. This, he argues, kills the seagrasses, and as these rots, nutrients are released that feed the microscopic plants and animals that live in the water. This, he says, is why the bay’s once crystal-clear waters often resemble pea soup. And in a vicious circle, these turbid blooms block out sunlight, causing more seagrasses to die and yet more turbidity.</p>
-<p>E Brian Lapointe, a marine scientist at the Harbour Branch Oceanographic Institution at Fort Pierce in Florida, disagrees. He thinks seagrasses can tolerate much higher levels of salinity than the bay actually displays. Furthermore, he notes that when freshwater flows through the Everglades were increased experimentally in the 1990s, it led to massive plankton blooms. Freshwater running off from well-fertilised farmlands, he says, caused a fivefold rise in nitrogen levels in the bay. This was like pouring fuel on a fire. The result was mass mortality of seagrasses because of increased turbidity from the plankton. Dr Lapointe adds that, because corals thrive only in waters where nutrient levels are low, restoring freshwater rich in nitrogen will do more damage to the reef.</p>
-<p>F It is a plausible theory. The water flowing off crops that are grown on the750,000 acres of heavily fertilised farmland on the northern edge of the Everglades is rich in nitrogen, half of which ends up in the bay. But Bill Kruczynski, of America’s Environmental Protection Agency, is convinced that nitrogen from farmlands is not the chief problem. Some coral reefs well away from any nitrogen pollution are dying and, curiously, a few are thriving. Dr Kruczynski thinks that increased nutrients arriving from local sewage discharges from the thousands of cesspits along the Florida Keys are part of the problem.</p>
-<p>G Such claims and counterclaims make the impact of the restoration plan difficult to predict. If increased salinity is the main problem, the bay’s ecology will benefit from the Everglades restoration project. If, however, nitrogen is the problem, increasing the flow of freshwater could mate matters much worse.</p>
-<p>H If this second hypothesis proves correct, the cure is to remove nitrogen from farmland or sewage discharges, or perhaps both. Neither will be easy. Man-made wetlands, at present, being built to reduce phosphate runoff into the bay—also from fertilisers—would need an algal culture (a sort of contained algal bloom) added to them to deal with discharges from farmlands. That would be costly. So too would be the replacement of cesspits with proper sewerage—one estimate puts the cost at $650m. Either way, it is clear that when, on December 1st, 3,000 square miles of sea around the reef are designated as a “protective zone” by the deputy secretary of commerce, Sam Bodman, this will do nothing to protect the reef from pollution.</p>
-<p>I Some argue, though, that there is a more fundamental flaw in the plans for the bay: the very idea of returning it to a Utopian ideal before man wrought his damage. Nobody knows what Florida Bay was like before the 1950s when engineers cut the largest canals in the Everglades and took most of the water away. Dr Kruczynski suspects it was more like an estuary. The bay that many people wish to re-create could have been nothing more than a changing phase in the bay’s history.</p>
-<p>J These arguments do not merely threaten to create ecological problems but economic ones as well. The economy of the Florida Keys depends on tourism—the local tourist industry has an annual turnover of $2.5 billion. People come for fishing-boat trips, for manatee watching, or for scuba diving and snorkeling to view the exotically coloured corals. If the plan to restore the Everglades makes problems in the bay and the reef worse, it could prove a very expensive mistake.</p>
-<p>Questions 28-31
+<p><strong>Pollution In the Bay</strong></p>
+<p><strong>A</strong> Pouring water into the sea sounds harmless enough. But in Florida Bay, a large and shallow section of the Gulf of Mexico that lies between the southern end of the Everglades and the Florida Keys, it is proving highly controversial. That is because researchers are divided over whether it will help or hinder the plants and animals that live in the bay.</p>
+<p><strong>B</strong> What is at risk is the future of the bay’s extensive beds of seagrasses. These grow on the bay’s muddy floor and act as nurseries for the larvae of shrimps, lobsters and fish – many of the important sport and commercial-fishing species. Also in danger is an impressive range of coral reefs that run the length of the Florida Keys and form the third-largest barrier reef in the world. Since the 1980s, coral cover has dropped by 40%, and a third of the coral species have gone. This has had a damaging effect on the animals that depend on the reef, such as crabs, turtles and nearly 600 species of fish.</p>
+<p><strong>C</strong> What is causing such ecological change is a matter of much debate. And the answer is of no small consequence. This is because the American government is planning to devote $8 billion over the next 30 years to revitalise the Everglades. Seasonal freshwater flows into the Everglades are to be restored in order to improve the region’s health. But they will then run off into the bay.</p>
+<p><strong>D</strong> Joseph Zieman, a marine ecologist at the University of Virginia, thinks this is a good idea. He believes that a lack of fresh water in the bay is its main problem. The blame, he says, lies with a century of drainage in the Everglades aimed at turning the marshes into farmland and areas for development. This has caused the flow of fresh water into Florida Bay to dwindle, making the water in the bay, overall, more saline. This, he argues, kills the seagrasses, and as these rots, nutrients are released that feed the microscopic plants and animals that live in the water. This, he says, is why the bay’s once crystal-clear waters often resemble pea soup. And in a vicious circle, these turbid blooms block out sunlight, causing more seagrasses to die and yet more turbidity.</p>
+<p><strong>E</strong> Brian Lapointe, a marine scientist at the Harbour Branch Oceanographic Institution at Fort Pierce in Florida, disagrees. He thinks seagrasses can tolerate much higher levels of salinity than the bay actually displays. Furthermore, he notes that when freshwater flows through the Everglades were increased experimentally in the 1990s, it led to massive plankton blooms. Freshwater running off from well-fertilised farmlands, he says, caused a fivefold rise in nitrogen levels in the bay. This was like pouring fuel on a fire. The result was mass mortality of seagrasses because of increased turbidity from the plankton. Dr Lapointe adds that, because corals thrive only in waters where nutrient levels are low, restoring freshwater rich in nitrogen will do more damage to the reef.</p>
+<p><strong>F</strong> It is a plausible theory. The water flowing off crops that are grown on the750,000 acres of heavily fertilised farmland on the northern edge of the Everglades is rich in nitrogen, half of which ends up in the bay. But Bill Kruczynski, of America’s Environmental Protection Agency, is convinced that nitrogen from farmlands is not the chief problem. Some coral reefs well away from any nitrogen pollution are dying and, curiously, a few are thriving. Dr Kruczynski thinks that increased nutrients arriving from local sewage discharges from the thousands of cesspits along the Florida Keys are part of the problem.</p>
+<p><strong>G</strong> Such claims and counterclaims make the impact of the restoration plan difficult to predict. If increased salinity is the main problem, the bay’s ecology will benefit from the Everglades restoration project. If, however, nitrogen is the problem, increasing the flow of freshwater could mate matters much worse.</p>
+<p><strong>H</strong> If this second hypothesis proves correct, the cure is to remove nitrogen from farmland or sewage discharges, or perhaps both. Neither will be easy. Man-made wetlands, at present, being built to reduce phosphate runoff into the bay—also from fertilisers—would need an algal culture (a sort of contained algal bloom) added to them to deal with discharges from farmlands. That would be costly. So too would be the replacement of cesspits with proper sewerage—one estimate puts the cost at $650m. Either way, it is clear that when, on December 1st, 3,000 square miles of sea around the reef are designated as a “protective zone” by the deputy secretary of commerce, Sam Bodman, this will do nothing to protect the reef from pollution.</p>
+<p><strong>I</strong> Some argue, though, that there is a more fundamental flaw in the plans for the bay: the very idea of returning it to a Utopian ideal before man wrought his damage. Nobody knows what Florida Bay was like before the 1950s when engineers cut the largest canals in the Everglades and took most of the water away. Dr Kruczynski suspects it was more like an estuary. The bay that many people wish to re-create could have been nothing more than a changing phase in the bay’s history.</p>
+<p><strong>J</strong> These arguments do not merely threaten to create ecological problems but economic ones as well. The economy of the Florida Keys depends on tourism—the local tourist industry has an annual turnover of $2.5 billion. People come for fishing-boat trips, for manatee watching, or for scuba diving and snorkeling to view the exotically coloured corals. If the plan to restore the Everglades makes problems in the bay and the reef worse, it could prove a very expensive mistake.</p>
+<p><strong>Questions 28-31</strong>
 The reading passage has seven paragraphs A-J. Which paragraph contains the following information?</p>
 <p>28. See grass turned to be more resistant to the saline water level in the Bay.
 29. Significance of finding a specific reason in controversy
 30. Expensive proposals raised to solve the nitrogen dilemma
 31. A statistic of ecological changes in both the coral area and species</p>
-<p>Questions 32-35
+<p><strong>Questions 32-35</strong>
 Use the information in the passage to match the people (listed A-C) with opinions or deeds below. Write the appropriate letters A-C in boxes 32-35 on your answer sheet.</p>
-<p>A Bill Kruczynski
-B Brian Lapointe
-C Joseph Zieman</p>
+<p><strong>A</strong> Bill Kruczynski
+<strong>B</strong> Brian Lapointe
+<strong>C</strong> Joseph Zieman</p>
 <p>32. Drainage system in everglades actually results in high salty water in the bay.
 33. Restoring water high in nitrogen level will make more ecological side effect
 34. High nitrogen levels may be caused by the nearby farmland.
 35. Released sewage rather than nutrients from agricultural area increase the level of Nitrogen.</p>
-<p>Questions 36-40
+<p><strong>Questions 36-40</strong>
 Do the following statements agree with the information given in reading passage? In boxes 36-40 on your answer sheet, write</p>
-<p>TRUE                         if the statement agrees with the views of the writer
-FALSE                         if the statement contradicts the views of the writer
-NOT GIVEN               if it is impossible to say what the writer thinks about this</p>
+<p><strong>TRUE</strong>                         if the statement agrees with the views of the writer
+<strong>FALSE</strong>                         if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong>               if it is impossible to say what the writer thinks about this</p>
 <p>36. Everyone agrees with “pouring water into the sea is harmless enough” even in the Florida Bay area.
 37. Nitrogen was poured in from different types of crops as water flows through.
 38. Everglade restoration project can be effective regardless of the cause of the pollution.
 39. Human has changed Florida Bay where old image before 1950s is unrecalled.
 40. Tourism contributes fundamentally to the Florida Bay area.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. B</p>
 <p>2. A</p>
 <p>3. F</p>
@@ -450,6 +506,29 @@ NOT GIVEN               if it is impossible to say what the writer think
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -469,12 +548,23 @@ NOT GIVEN               if it is impossible to say what the writer think
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -486,14 +576,6 @@ NOT GIVEN               if it is impossible to say what the writer think
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

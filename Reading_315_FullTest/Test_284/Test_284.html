@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,18 +158,18 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_284</h1>
-            <p>IELTS Reading Practice - Test 284</p>
-<p>Putting the brakes on climate change: Are hydrogen cars the answer?</p>
-<p>A It is tempting to think that the conservation of coral reefs and rainforests is a separate issue from traffic and air pollution. But it is not. Scientists are now confident that rapid changes in the Earth’s climate are already disrupting and altering many wildlife habitats. Pollution from vehicles is a big part of the problem.</p>
-<p>B The United Nation’s Climate Change Panel has estimated that the global average temperature rise expected by the year 2100 could be as much as 6°C, causing forest fires and dieback on land and coral bleaching in the ocean. Few species, if any, will be immune from the changes in temperature, rainfall and sea levels. The panel believes that if such catastrophic temperature rises are to be avoided, the quantity of greenhouse gases, especially carbon dioxide, being released into the atmosphere must be reduced. That will depend on slowing the rate of deforestation and, more crucially, finding alternatives to coal, oil and gas as our principal energy sources.</p>
-<p>C Technologies do exist to reduce or eliminate carbon dioxide as a waste product of our energy consumption. Wind power and solar power are both spreading fast, but what are we doing about traffic? Electric cars are one possible option, but their range and the time it takes to charge their batteries pose serious limitations. However, the technology that shows the most potential to make cars climate-friendly is fuel-cell technology. This was actually invented in the late nineteenth century, but because the world’s motor industry put its effort into developing the combustion engine, it was never refined for mass production. One of the first prototype fuel-cell-powered vehicles have been built by the Ford Motor Company. It is like a conventional car, only with better acceleration and a smoother ride. Ford engineers expect to be able to produce a virtually silent vehicle in the future.</p>
-<p>D So what’s the process involved – and is there a catch? Hydrogen goes into the fuel tank, producing electricity. The only emission from the exhaust pipe is water. The fuel-cell is, in some ways similar to a battery, but unlike a battery, it does not run down. As long as hydrogen and oxygen are supplied to the cell, it will keep on generating electricity. Some cells work off methane and a few use liquid fuels such as methanol, but fuel-ceils using hydrogen probably have the most potential. Furthermore, they need not be limited to transport. Fuel-cells can be made in a huge range of size, small enough for portable computers or large enough for power stations. They have no moving parts and therefore need no oil. They just need a supply of hydrogen. The big question, then, is where to get it from.</p>
-<p>E One source of hydrogen is water. But to exploit the abundant resource, electricity is needed, and if the electricity is produced by a coal-fired power station or other fossil fuel, then the overall carbon reduction benefit of the fuel-cell disappears. Renewable sources, such as wind and solar power, do not produce enough energy for it to be economically viable to use them in the ‘manufacture’ of hydrogen as a transport fuel. Another source of hydrogen is, however, available and could provide a supply pending the development of more efficient and cheaper renewable energy technologies. By splitting natural gas (methane) into its constituent parts, hydrogen and carbon dioxide are produced. One way round the problem of what to do with the carbon dioxide could be to store it back below ground – so-called geological sequestration. Oil companies, such as Norway’s Statoil, are experimenting with storing carbon dioxide below ground in oil and gas wells.</p>
-<p>F With freak weather conditions, arguably caused by global warming, frequently in the headlines, the urgent need to get fuel-cell vehicles will be available in most showrooms. Even now, fuel-cell buses are operating in the US, while in Germany a courier company is planning to take delivery of fuel-cell-powered vans in the near future. The fact that centrally-run fleets of buses and vans are the first fuel-cell vehicles identifies another challenge – fuel distribution. The refueling facilities necessary to top up hydrogen-powered vehicles are available only in a very few places at present. Public transport and delivery firms are logical places to start since their vehicles are operated from central depots.</p>
-<p>G Fuel-cell technology is being developed right across the automotive industry. This technology could have a major impact in slowing down climate change, but further investment is needed if the industry – and the world’s wildlife – is to have a long-term future.</p>
-<p>Questions 1-6
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 284</strong></h3>
+<h3 class="test-heading"><strong>Putting the brakes on climate change: Are hydrogen cars the answer?</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> It is tempting to think that the conservation of coral reefs and rainforests is a separate issue from traffic and air pollution. But it is not. Scientists are now confident that rapid changes in the Earth’s climate are already disrupting and altering many wildlife habitats. Pollution from vehicles is a big part of the problem.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> The United Nation’s Climate Change Panel has estimated that the global average temperature rise expected by the year 2100 could be as much as 6°C, causing forest fires and dieback on land and coral bleaching in the ocean. Few species, if any, will be immune from the changes in temperature, rainfall and sea levels. The panel believes that if such catastrophic temperature rises are to be avoided, the quantity of greenhouse gases, especially carbon dioxide, being released into the atmosphere must be reduced. That will depend on slowing the rate of deforestation and, more crucially, finding alternatives to coal, oil and gas as our principal energy sources.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> Technologies do exist to reduce or eliminate carbon dioxide as a waste product of our energy consumption. Wind power and solar power are both spreading fast, but what are we doing about traffic? Electric cars are one possible option, but their range and the time it takes to charge their batteries pose serious limitations. However, the technology that shows the most potential to make cars climate-friendly is fuel-cell technology. This was actually invented in the late nineteenth century, but because the world’s motor industry put its effort into developing the combustion engine, it was never refined for mass production. One of the first prototype fuel-cell-powered vehicles have been built by the Ford Motor Company. It is like a conventional car, only with better acceleration and a smoother ride. Ford engineers expect to be able to produce a virtually silent vehicle in the future.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> So what’s the process involved – and is there a catch? Hydrogen goes into the fuel tank, producing electricity. The only emission from the exhaust pipe is water. The fuel-cell is, in some ways similar to a battery, but unlike a battery, it does not run down. As long as hydrogen and oxygen are supplied to the cell, it will keep on generating electricity. Some cells work off methane and a few use liquid fuels such as methanol, but fuel-ceils using hydrogen probably have the most potential. Furthermore, they need not be limited to transport. Fuel-cells can be made in a huge range of size, small enough for portable computers or large enough for power stations. They have no moving parts and therefore need no oil. They just need a supply of hydrogen. The big question, then, is where to get it from.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> One source of hydrogen is water. But to exploit the abundant resource, electricity is needed, and if the electricity is produced by a coal-fired power station or other fossil fuel, then the overall carbon reduction benefit of the fuel-cell disappears. Renewable sources, such as wind and solar power, do not produce enough energy for it to be economically viable to use them in the ‘manufacture’ of hydrogen as a transport fuel. Another source of hydrogen is, however, available and could provide a supply pending the development of more efficient and cheaper renewable energy technologies. By splitting natural gas (methane) into its constituent parts, hydrogen and carbon dioxide are produced. One way round the problem of what to do with the carbon dioxide could be to store it back below ground – so-called geological sequestration. Oil companies, such as Norway’s Statoil, are experimenting with storing carbon dioxide below ground in oil and gas wells.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> With freak weather conditions, arguably caused by global warming, frequently in the headlines, the urgent need to get fuel-cell vehicles will be available in most showrooms. Even now, fuel-cell buses are operating in the US, while in Germany a courier company is planning to take delivery of fuel-cell-powered vans in the near future. The fact that centrally-run fleets of buses and vans are the first fuel-cell vehicles identifies another challenge – fuel distribution. The refueling facilities necessary to top up hydrogen-powered vehicles are available only in a very few places at present. Public transport and delivery firms are logical places to start since their vehicles are operated from central depots.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> Fuel-cell technology is being developed right across the automotive industry. This technology could have a major impact in slowing down climate change, but further investment is needed if the industry – and the world’s wildlife – is to have a long-term future.</p></div></div>
+<p><strong>Questions 1-6</strong>
 Reading passage has seven paragraphs, A-G. Choose the correct heading for paragraphs A-F from the list of headings below.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i. Action already taken by the United Nations
 ii. Marketing the hydrogen car
 iii. Making the new technology available worldwide
@@ -123,43 +179,43 @@ vi. The history of fuel-cell technology
 vii. A holistic view of climatic change
 viii. Locating the essential ingredient
 ix. Sustaining car manufacture</p>
-<p>Questions 7-10
-Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+<p><strong>Questions 7-10</strong>
+Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>7. In the late nineteenth century, the car industry invested in the development of the ………………… , rather than fuel-cell technology.
 8. Ford engineers predict that they will eventually design an almost ………………….. car.
 9. While a fuel-cell lasts longer, some aspects of it are comparable to a ……………….
 10. Fuel-cells can come in many sizes and can be used in power stations and in …………………… as well as in vehicles.</p>
-<p>Questions 11-14
+<p><strong>Questions 11-14</strong>
 Do the following statements agree, with the information given in reading passage? In boxes 11-14 on your answer sheet, write</p>
-<p>TRUE                                if the statement agrees with the information
-FALSE                              if the statement contradicts the information
-NOT GIVEN                  if there is no information on this</p>
+<p><strong>TRUE</strong>                                if the statement agrees with the information
+<strong>FALSE</strong>                              if the statement contradicts the information
+<strong>NOT GIVEN</strong>                  if there is no information on this</p>
 <p>11. Using electricity produced by burning fossil fuels to access sources of hydrogen may increase the positive effect of the fuel-cell.
 12. The oil company Statoil in Norway owns gas wells in other parts of the world.
 13. Public transport is leading the way in the application of fuel-cell technology.
 14. More funding is necessary to ensure the success of the fuel-cell vehicle industry.</p>
-<p>Warning: Mondays are bad for your heart</p>
-<p>A That ‘Monday morning feeling’ could be a crushing pain in the chest which leaves you sweating and gasping for breath. Recent research from Germany and Italy shows that heart attacks are more common on Monday morning and doctors blame the stress of returning to work after the weekend break.</p>
-<p>B The risk of having a heart attack on any given day should be one in seven, but a six-year study coordinated by researchers at the Free University of Berlin of more than 2,600 Germans revealed that the average person had a 20 per cent higher chance of having a heart attack on a Monday than on any other day.</p>
-<p>C Working Germans are particularly vulnerable, with a 33 per cent higher risk at the beginning of the working week. Non-workers, by comparison, appear to be no more at risk on a Monday than any other day.</p>
-<p>D A study of 11,000 Italians identified 8 am on a Monday morning as the most stressful time for the heart, and both studies showed that Sunday is the least stressful day, with fewer heart attacks in both countries.</p>
-<p>E The findings could lead to a better understanding of what triggers heart attacks, according to Dr. Stefan Willich of the Free University. ‘We know a lot about long-term risk factors such as smoking and cholesterol， but we don’t know what actually triggers heart attacks, so we can’t make specific recommendations about how to prevent them,’ he said.</p>
-<p>F Monday mornings have a double helping of stress for the working body as it makes a rapid transition from sleep to activity, and from the relaxing weekend to the pressures of work. ‘When people get up, their blood pressure and heart rate go up and there are hormonal changes in their bodies,’ Willich explained. ‘All these things can have an adverse effect in the blood system and increase the risk of a clot in the arteries which will cause a heart attack.’ ‘When people return to work after a weekend off, the pace of their life changes. They have a higher workload, more stress, more anger and more physical activity,’ said Willich. ‘We need to know how these events cause changes in the body before we can understand if they cause heart attacks.’</p>
-<p>G But although it is tempting to believe that returning to work increases the risk of a heart attack, both Willich and the Italian researchers admit that it is only a partial answer. Both studies showed that the over-65s are also vulnerable on a Monday morning even though most no longer work. The reason for this is not clear, but the Italian team at the Luigi Saddo Hospital in Milan speculate that social interactions—the thought of facing another week and all its pressures—may play a part.</p>
-<p>H What is clear, however, is that the Monday morning peak seems to be consistent from northern Germany to southern Italy in spite of the differences in diet and lifestyle.</p>
-<p>I Willich is reluctant at this stage to make specific recommendations, but he suggests that anyone who suffers from heart disease should take it easy on Monday mornings and leave potentially stressful meetings until midweek. ‘People should try to create a pleasant working environment,’ he added. ‘Maybe this risk applies only to those who see work as a burden, and people who enjoy their work are not so much at risk. We need to find out more.’</p>
-<p>Questions 15-18
+<p><strong>Warning: Mondays are bad for your heart</strong></p>
+<p><strong>A</strong> That ‘Monday morning feeling’ could be a crushing pain in the chest which leaves you sweating and gasping for breath. Recent research from Germany and Italy shows that heart attacks are more common on Monday morning and doctors blame the stress of returning to work after the weekend break.</p>
+<p><strong>B</strong> The risk of having a heart attack on any given day should be one in seven, but a six-year study coordinated by researchers at the Free University of Berlin of more than 2,600 Germans revealed that the average person had a 20 per cent higher chance of having a heart attack on a Monday than on any other day.</p>
+<p><strong>C</strong> Working Germans are particularly vulnerable, with a 33 per cent higher risk at the beginning of the working week. Non-workers, by comparison, appear to be no more at risk on a Monday than any other day.</p>
+<p><strong>D</strong> A study of 11,000 Italians identified 8 am on a Monday morning as the most stressful time for the heart, and both studies showed that Sunday is the least stressful day, with fewer heart attacks in both countries.</p>
+<p><strong>E</strong> The findings could lead to a better understanding of what triggers heart attacks, according to Dr. Stefan Willich of the Free University. ‘We know a lot about long-term risk factors such as smoking and cholesterol， but we don’t know what actually triggers heart attacks, so we can’t make specific recommendations about how to prevent them,’ he said.</p>
+<p><strong>F</strong> Monday mornings have a double helping of stress for the working body as it makes a rapid transition from sleep to activity, and from the relaxing weekend to the pressures of work. ‘When people get up, their blood pressure and heart rate go up and there are hormonal changes in their bodies,’ Willich explained. ‘All these things can have an adverse effect in the blood system and increase the risk of a clot in the arteries which will cause a heart attack.’ ‘When people return to work after a weekend off, the pace of their life changes. They have a higher workload, more stress, more anger and more physical activity,’ said Willich. ‘We need to know how these events cause changes in the body before we can understand if they cause heart attacks.’</p>
+<p><strong>G</strong> But although it is tempting to believe that returning to work increases the risk of a heart attack, both Willich and the Italian researchers admit that it is only a partial answer. Both studies showed that the over-65s are also vulnerable on a Monday morning even though most no longer work. The reason for this is not clear, but the Italian team at the Luigi Saddo Hospital in Milan speculate that social interactions—the thought of facing another week and all its pressures—may play a part.</p>
+<p><strong>H</strong> What is clear, however, is that the Monday morning peak seems to be consistent from northern Germany to southern Italy in spite of the differences in diet and lifestyle.</p>
+<p><strong>I</strong> Willich is reluctant at this stage to make specific recommendations, but he suggests that anyone who suffers from heart disease should take it easy on Monday mornings and leave potentially stressful meetings until midweek. ‘People should try to create a pleasant working environment,’ he added. ‘Maybe this risk applies only to those who see work as a burden, and people who enjoy their work are not so much at risk. We need to find out more.’</p>
+<p><strong>Questions 15-18</strong>
 Read the following statements 15-18. According to the reading passage, Write your answers in the spaces numbered 15-18 on the answer sheet.</p>
-<p>TRUE                            if the statement agrees with the information
-FALSE                           if the statement contradicts the information
-NOT GIVEN               if there is no information on this</p>
+<p><strong>TRUE</strong>                            if the statement agrees with the information
+<strong>FALSE</strong>                           if the statement contradicts the information
+<strong>NOT GIVEN</strong>               if there is no information on this</p>
 <p>15. Unemployed Germans have a higher risk of heart attack than employed Germans.
 16. Unemployed Italians have a lower risk of heart attack than unemployed Germans.
 17. Germans risk heart attack because of their high consumption of fatty food.
 18. Cholesterol and smoking cause heart attacks.</p>
-<p>Questions 19-27
+<p><strong>Questions 19-27</strong>
 Read reading passage and from the list of headings below, select the best heading for each paragraph A-I. Write the appropriate number i-ix, in the spaces numbered 6-14 on the answer sheet. Use each heading ONCE only.</p>
-<p>List of headings
+<p><strong>List of headings</strong>
 i. Exact cause of heart attacks
 ii. The safest day
 iii. Breathless, sweaty and crushed
@@ -178,7 +234,7 @@ ix. Bodily adaptations</p>
 25. Paragraph G
 26. Paragraph H
 27. Paragraph I</p>
-<p>Growing up in New Zealand</p>
+<p><strong>Growing up in New Zealand</strong></p>
 <p>It has long been known that the first one thousand days of life are the most critical in ensuring a person’s healthy future; precisely what happens during this period to any individual has been less well documented. To allocate resources appropriately, public health and education policies need to be based upon quantifiable data, so the New Zealand Ministry of Social Development began a longitudinal study of these early days, with the view to extending it for two decades. Born between March 2009 and May 20I0, the 6,846 babies recruited came from a densely populated area of New Zealand, and it is hoped they will be followed until they reach the age of 21.</p>
 <p>By 2014, fur reports, collectively known as Growing Up in New Zealand (GUiNZ), had been published, showing New Zealand to be a complex, changing country, with the participants and their families’ being markedly diﬀerent from those of previous generations.</p>
 <p>Of the 6,846 babies, the majority were identified as European New Zealanders, but one quarter was Maori (indigenous New Zealanders), 20% were Pacific (originating in islands in the Pacific), and one in six were Asian. Almost 50% of the children had more than one ethnicity.</p>
@@ -189,24 +245,24 @@ ix. Bodily adaptations</p>
 <p>The fourth report evaluates twelve environmental risk factors that increase the likelihood of poor developmental outcomes for children and draws on experiences in Western Europe, where the specific factors were collated. This, however, was the first time for their use in a New Zealand context. The factors include: being born to an adolescent mother; having one or both parents on income-tested benefits; and, living in cramped conditions.</p>
 <p>In addition to descriptive ones, future reports will focus on children who move in and out of vulnerability to see how these transitions aﬀect their later life.</p>
 <p>To date, GUiNZ has been highly successful with only a very small dropout rate for participants – even those living abroad, predominantly in Australia, have continued to provide information. The portrait GUiNZ paints of a country and its people are indeed revealing.</p>
-<p>Questions 28-33
+<p><strong>Questions 28-33</strong>
 Do the following statements agree with the information given in passage? In boxes 28-33on your answer sheet, write:</p>
-<p>TRUE                         if the statement agrees with the information
-FALSE                       if the statement contradicts the information
-NOT GIVEN            if there is no information on this</p>
+<p><strong>TRUE</strong>                         if the statement agrees with the information
+<strong>FALSE</strong>                       if the statement contradicts the information
+<strong>NOT GIVEN</strong>            if there is no information on this</p>
 <p>28. Findings from studies like GUiNZ will inform public policy.
 29. Exactly 6,846 babies formed the GUiNZ cohort.
 30. GUiNZ will probably end when the children reach ten.
 31. Eventually, there will be 21 reports in GUiNZ.
 32. So far, GUiNZ has shown New Zealanders today to be rather similar to those of 25 years ago.
 33. Parents who took part in GUiNZ believe New Zealand is a good place to raise children.</p>
-<p>Questions 34-40
+<p><strong>Questions 34-40</strong>
 Classify the following things that relate to:</p>
 <p>Write the correct letter A, B, C, or D, in boxes 34-40 on your answer sheet.</p>
-<p>A. Report 1
-B. Report 2
-C. Report 3
-D. Report 4</p>
+<p><strong>A</strong>. Report 1
+<strong>B</strong>. Report 2
+<strong>C</strong>. Report 3
+<strong>D</strong>. Report 4</p>
 <p>34. This is unique because it contains interviews with both parents.
 35. This looks at how children might be at risk.
 36. This suggests having a child may lead to financial hardship.
@@ -214,7 +270,7 @@ D. Report 4</p>
 38. This shows many children use electronic devices.
 39. This was modelled on criteria used in Western Europe.
 40. This suggests having a teenage mother could negatively aﬀect a child.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. vii</p>
 <p>2. iv</p>
 <p>3. vi</p>
@@ -473,6 +529,29 @@ D. Report 4</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -492,12 +571,23 @@ D. Report 4</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -509,14 +599,6 @@ D. Report 4</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,118 +158,118 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_200</h1>
-            <p>IELTS Listening Practice - Test 200</p>
-<p>Part 1: Questions 1-6
-Complete the notes below. Write ONE WORD AND/ OR A NUMBER ONLY for each answer.</p>
-<p>First day at work</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 200</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-6</strong>
+Complete the notes below. Write <strong>ONE WORD AND/ OR A NUMBER ONLY</strong> for each answer.</p>
+<h3 class="test-heading"><strong>First day at work</strong></h3>
 <p>Name of supervisor: (1)  _______ 
 Where to leave coat and bag: use (2)  _______ in staffroom
 See Tiffany in HR: to give (3)  _______  number
 to collect (4)  _______ 
 Location of HR office: on (5)  _______  floor
 Supervisor’s mobile number: (6)  _______</p>
-<p>Questions 7-10
-Complete the table below. Write ONE WORD ONLY for each answer.</p>
-<p>Part 2: Questions 11 and 12
-Choose TWO letters, A-E.</p>
-<p>Which TWO problems with some training programmes for new runners does Liz mention?</p>
-<p>[ ] A There is a risk of serious injury.
-[ ] B They are unsuitable for certain age groups.
-[ ] C They are unsuitable for people with health issues.
-[ ] D It is difficult to stay motivated.
-[ ] E There is a lack of individual support.</p>
-<p>Questions 13 and 14
-Choose TWO letters, A-E.</p>
-<p>Which TWO tips does Liz recommend for new runners?</p>
-<p>[ ] A doing two runs a week
-[ ] B running in the evening
-[ ] C going on runs with a friend
-[ ] D listening to music during runs
-[ ] E running very slowly</p>
-<p>Questions 15-18
+<p><strong>Questions 7-10</strong>
+Complete the table below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+<p><strong>Part 2: Questions 11 and 12</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>Which <strong>TWO</strong> problems with some training programmes for new runners does Liz mention?</p>
+<p>[ ] <strong>A</strong> There is a risk of serious injury.
+[ ] <strong>B</strong> They are unsuitable for certain age groups.
+[ ] <strong>C</strong> They are unsuitable for people with health issues.
+[ ] <strong>D</strong> It is difficult to stay motivated.
+[ ] <strong>E</strong> There is a lack of individual support.</p>
+<p><strong>Questions 13 and 14</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>Which <strong>TWO</strong> tips does Liz recommend for new runners?</p>
+<p>[ ] <strong>A</strong> doing two runs a week
+[ ] <strong>B</strong> running in the evening
+[ ] <strong>C</strong> going on runs with a friend
+[ ] <strong>D</strong> listening to music during runs
+[ ] <strong>E</strong> running very slowly</p>
+<p><strong>Questions 15-18</strong>
 What reason prevented each of the following members of the Compton Park Runners Club from joining until recently? Write the correct letter, A, B, or C next to Questions 15-18.</p>
-<p>Reasons
-A a lack of confidence
-B a dislike of running
-C a lack of time</p>
-<p>Club members
+<p><strong>Reasons</strong>
+<strong>A</strong> a lack of confidence
+<strong>B</strong> a dislike of running
+<strong>C</strong> a lack of time</p>
+<p><strong>Club members</strong>
 15. Ceri  _______ 
 16. James  _______ 
 17. Leo  _______ 
 18. Mark  _______</p>
-<p>Questions 19 and 20
+<p><strong>Questions 19 and 20</strong>
 Choose the correct letter, A, B or C.</p>
 <p>19. What does Liz say about running her first marathon?
-[ ] A It had always been her ambition.
-[ ] B Her husband persuaded her to do it.
-[ ] C She nearly gave up before the end.</p>
+[ ] <strong>A</strong> It had always been her ambition.
+[ ] <strong>B</strong> Her husband persuaded her to do it.
+[ ] <strong>C</strong> She nearly gave up before the end.</p>
 <p>20. Liz says new runners should sign up for a race
-[ ] A every six months.
-[ ] B within a few weeks of taking up running.
-[ ] C after completing several practice runs.</p>
-<p>Questions 21-25
+[ ] <strong>A</strong> every six months.
+[ ] <strong>B</strong> within a few weeks of taking up running.
+[ ] <strong>C</strong> after completing several practice runs.</p>
+<p><strong>Questions 21-25</strong>
 Choose the correct letter, A, B or C.</p>
 <p>21. Kieran thinks the packing advice given by Jane’s grandfather is
-[ ] A common sense.
-[ ] B hard to follow.
-[ ] C over-protective.</p>
+[ ] <strong>A</strong> common sense.
+[ ] <strong>B</strong> hard to follow.
+[ ] <strong>C</strong> over-protective.</p>
 <p>22. How does Jane feel about the books her grandfather has given her?
-[ ] A They are not worth keeping.
-[ ] B They should go to a collector.
-[ ] C They have sentimental value for her,</p>
+[ ] <strong>A</strong> They are not worth keeping.
+[ ] <strong>B</strong> They should go to a collector.
+[ ] <strong>C</strong> They have sentimental value for her,</p>
 <p>23. Jane and Kieran agree that hardback books should be
-[ ] A put out on display.
-[ ] B given as gifts to visitors.
-[ ] C more attractively designed.</p>
+[ ] <strong>A</strong> put out on display.
+[ ] <strong>B</strong> given as gifts to visitors.
+[ ] <strong>C</strong> more attractively designed.</p>
 <p>24. While talking about taking a book from a shelf, Jane
-[ ] A describes the mistakes other people make doing it.
-[ ] B reflects on a significant childhood experience.
-[ ] C explains why some books are easier to remove than others.</p>
+[ ] <strong>A</strong> describes the mistakes other people make doing it.
+[ ] <strong>B</strong> reflects on a significant childhood experience.
+[ ] <strong>C</strong> explains why some books are easier to remove than others.</p>
 <p>25. What do Jane and Kieran suggest about new books?
-[ ] A Their parents liked buying them as presents.
-[ ] B They would like to buy more of them.
-[ ] C Not everyone can afford them.</p>
-<p>Questions 26-30
+[ ] <strong>A</strong> Their parents liked buying them as presents.
+[ ] <strong>B</strong> They would like to buy more of them.
+[ ] <strong>C</strong> Not everyone can afford them.</p>
+<p><strong>Questions 26-30</strong>
 Where does Jane’s grandfather keep each of the following types of books in his shop?</p>
-<p>Choose FIVE answers from the box and write the correct letter, A-G, next to Questions 26-30.</p>
-<p>Location of books
-A near the entrance
-B in the attic
-C at the back of the shop
-D on a high shelf
-E near the stairs
-F in a specially designed space
-G within the cafe</p>
-<p>Types of books
+<p>Choose <strong>FIVE</strong> answers from the box and write the correct letter, A-G, next to Questions 26-30.</p>
+<p><strong>Location of books</strong>
+<strong>A</strong> near the entrance
+<strong>B</strong> in the attic
+<strong>C</strong> at the back of the shop
+<strong>D</strong> on a high shelf
+<strong>E</strong> near the stairs
+<strong>F</strong> in a specially designed space
+<strong>G</strong> within the cafe</p>
+<p><strong>Types of books</strong>
 26. rare books  _______ 
 27. children’s books  _______ 
 28. unwanted books  _______ 
 29. requested books  _______ 
 30. coursebooks  _______</p>
-<p>Questions 31-40
-Complete the notes below. Write ONE WORD ONLY for each answer.</p>
-<p>Tree planting</p>
-<p>Reforestation projects should:
+<p><strong>Questions 31-40</strong>
+Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+<p><strong>Tree planting</strong></p>
+<p><strong>Reforestation projects should:</strong>
 • include a range of tree species
 • not include invasive species because of possible (31)  _______  with native species
 • aim to capture carbon, protect the environment and provide sustainable sources of (32)  _______  for local people
 • use tree seeds with a high genetic diversity to increase resistance to (33)  _______  and climate change
 • plant trees on previously forested land which is in a bad condition, not select land which is being used for (34)  _______</p>
-<p>Large-scale reforestation projects
+<p><strong>Large-scale reforestation projects</strong>
 • Base planning decisions on information from accurate (35)  _______ 
 • Drones are useful for identifying areas in Brazil which are endangered by keeping (36)  _______  and illegal logging.</p>
-<p>Lampang Province, Northern Thailand
+<p><strong>Lampang Province, Northern Thailand</strong>
 • A forest was restored in an area damaged by mining.
 • A variety of native fig trees were planted, which are important for
 o supporting many wildlife species
 o increasing the (37)  _______  of recovery by attracting animals and birds, e.g., (38)  _______  were soon attracted to the area.</p>
-<p>Involving local communities
+<p><strong>Involving local communities</strong>
 • Destruction of mangrove forests in Madagascar made it difficult for people to make a living from (39)  _______ 
 • The mangrove reforestation project:
 o provided employment for local people
 o restored a healthy ecosystem
 o protects against the higher risk of (40)  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Kaeden</p>
 <p>2. Locker(s)</p>
 <p>3. Passport</p>
@@ -472,6 +528,29 @@ o protects against the higher risk of (40)  _______</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -491,12 +570,23 @@ o protects against the higher risk of (40)  _______</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -508,14 +598,6 @@ o protects against the higher risk of (40)  _______</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

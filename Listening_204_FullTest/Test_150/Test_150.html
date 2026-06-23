@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,114 +158,114 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_150</h1>
-            <p>IELTS Listening Practice - Test 150</p>
-<p>Part 1: Questions 1-3
-Complete the form below. Write NO MORE THAN THREE WORDS OR A NUMBER.</p>
-<p>TOTAL INSURANCE INCIDENT REPORT
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 150</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-3</strong>
+Complete the form below. Write <strong>NO MORE THAN THREE WORDS OR A NUMBER.</strong></p>
+<p><strong>TOTAL INSURANCE INCIDENT REPORT</strong>
 Name: Michael Alexander
-Address: 24 Mainly Street, (1)  _______  , Sydney
-Shipping agent: (2)  _______ 
+Address: 24 Mainly Street, <strong>(1)</strong>  _______  , Sydney
+Shipping agent: <strong>(2)</strong>  _______ 
 Place of origin: China
-Date of arrival: (3)  _______ 
+Date of arrival: <strong>(3)</strong>  _______ 
 Reference number: 601ACK</p>
-<p>Questions 4-10
-Complete the table below. Write ONE WORD OR A NUMBER.</p>
-<p>(4)    _______                  (5)  _______ 
-(6)    _______                  (7)  _______ 
-(8)    _______                  (9)  _______ 
-(10)  _______</p>
-<p>Part 2: Question 11
+<p><strong>Questions 4-10</strong>
+Complete the table below. Write <strong>ONE WORD OR A NUMBER.</strong></p>
+<p><strong>(4)</strong>    _______                  <strong>(5)</strong>  _______ 
+<strong>(6)</strong>    _______                  <strong>(7)</strong>  _______ 
+<strong>(8)</strong>    _______                  <strong>(9)</strong>  _______ 
+<strong>(10)</strong>  _______</p>
+<p><strong>Part 2: Question 11</strong>
 Choose the correct letter A, B or C.</p>
 <p>11. According to the speaker, the main purposes of the park are
-[ ]  A education and entertainment
-[ ]  B research and education
-[ ]  C research and entertainment</p>
-<p>Questions 12-14
-Label the plan below. Write NO MORE THAN WORDS.</p>
-<p>(12)  _______ 
-(13)  _______ 
-(14)  _______</p>
-<p>Questions 15-20
+<strong>[ ] </strong><strong> A</strong> education and entertainment
+<strong>[ ] </strong><strong> B</strong> research and education
+<strong>[ ] </strong><strong> C</strong> research and entertainment</p>
+<p><strong>Questions 12-14</strong>
+Label the plan below. Write <strong>NO MORE THAN WORDS.</strong></p>
+<p><strong>(12)</strong>  _______ 
+<strong>(13)</strong>  _______ 
+<strong>(14)</strong>  _______</p>
+<p><strong>Questions 15-20</strong>
 Choose the correct letter A, B or C.</p>
 <p>15. When are the experimental areas closed to the public?
-[ ]  A all the year round
-[ ]  B almost all the year
-[ ]  C a short time every year</p>
+<strong>[ ] </strong><strong> A</strong> all the year round
+<strong>[ ] </strong><strong> B</strong> almost all the year
+<strong>[ ] </strong><strong> C</strong> a short time every year</p>
 <p>16. How can you move around the park?
-[ ]  A by tram, walking or bicycle
-[ ]  B by solar car or bicycle
-[ ]  C by bicycle, walking or bus</p>
+<strong>[ ] </strong><strong> A</strong> by tram, walking or bicycle
+<strong>[ ] </strong><strong> B</strong> by solar car or bicycle
+<strong>[ ] </strong><strong> C</strong> by bicycle, walking or bus</p>
 <p>17. The rare breed animals kept in the park include
-[ ]  A hens and horses
-[ ]  B goats and cows
-[ ]  C goats and hens</p>
+<strong>[ ] </strong><strong> A</strong> hens and horses
+<strong>[ ] </strong><strong> B</strong> goats and cows
+<strong>[ ] </strong><strong> C</strong> goats and hens</p>
 <p>18. What is the main purpose of having the Rare Breeds Section?
-[ ]  A to save unusual animals
-[ ]  B to keep a variety of breeds
-[ ]  C to educate the public</p>
+<strong>[ ] </strong><strong> A</strong> to save unusual animals
+<strong>[ ] </strong><strong> B</strong> to keep a variety of breeds
+<strong>[ ] </strong><strong> C</strong> to educate the public</p>
 <p>19. What can you see in the park at the present time?
-[ ]  A the arrival of wild birds
-[ ]  B fruit tree blossom
-[ ]  C a demonstration of fishing</p>
+<strong>[ ] </strong><strong> A</strong> the arrival of wild birds
+<strong>[ ] </strong><strong> B</strong> fruit tree blossom
+<strong>[ ] </strong><strong> C</strong> a demonstration of fishing</p>
 <p>20. The shop contains books about
-[ ]  A animals
-[ ]  B local traditions
-[ ]  C the history of the park</p>
-<p>Part 3: Questions 21-24
+<strong>[ ] </strong><strong> A</strong> animals
+<strong>[ ] </strong><strong> B</strong> local traditions
+<strong>[ ] </strong><strong> C</strong> the history of the park</p>
+<p><strong>Part 3: Questions 21-24</strong>
 Choose the correct letter A, B or C.</p>
 <p>Honey Bees in Australia
 21. Where in Australia have Asian honey bees been found in the past?
-[ ]  A Queensland
-[ ]  B New South Wales
-[ ]  C several states</p>
+<strong>[ ] </strong><strong> A</strong> Queensland
+<strong>[ ] </strong><strong> B</strong> New South Wales
+<strong>[ ] </strong><strong> C</strong> several states</p>
 <p>22. A problem with Asian honey bees is that they
-[ ]  A attack native bees
-[ ]  B carry parasites
-[ ]  C damage crops</p>
+<strong>[ ] </strong><strong> A</strong> attack native bees
+<strong>[ ] </strong><strong> B</strong> carry parasites
+<strong>[ ] </strong><strong> C</strong> damage crops</p>
 <p>23. What point is made about Australian bees?
-[ ]  A Their honey varies in quality
-[ ]  B Their size stops them from pollinating some flowers
-[ ]  C They are sold to customers abroad</p>
+<strong>[ ] </strong><strong> A</strong> Their honey varies in quality
+<strong>[ ] </strong><strong> B</strong> Their size stops them from pollinating some flowers
+<strong>[ ] </strong><strong> C</strong> They are sold to customers abroad</p>
 <p>24. Grant Freeman says that if Asian honey bees got into Australia,
-[ ]  A the country’s economy would be affected
-[ ]  B they could be used in the study of allergies
-[ ]  C certain areas of agriculture would benefit</p>
-<p>Questions 25-30
-Complete the summary below. Write ONE WORD ONLY.</p>
-<p>LOOKING FOR ASIAN HONEY BEES
-Birds called Rainbow Bee Eaters eat only (25)  _______  and cough up small bits of skeleton and other products in a pellet.
-Researchers go to the locations the bee eaters like to use for (26)  _______ 
-They collect the pellets and take them to a (27)  _______  for analysis.
-Here (28)  _______  is used to soften them, and the researchers look for the (29)  _______  of Asian bees in the pellets.
-The benefit of this research is that the result is more (30)  _______  than searching for live Asian bees.</p>
-<p>Part 4: Questions 31-36
+<strong>[ ] </strong><strong> A</strong> the country’s economy would be affected
+<strong>[ ] </strong><strong> B</strong> they could be used in the study of allergies
+<strong>[ ] </strong><strong> C</strong> certain areas of agriculture would benefit</p>
+<p><strong>Questions 25-30</strong>
+Complete the summary below. Write <strong>ONE WORD ONLY.</strong></p>
+<p><strong>LOOKING FOR ASIAN HONEY BEES</strong>
+Birds called Rainbow Bee Eaters eat only <strong>(25)</strong>  _______  and cough up small bits of skeleton and other products in a pellet.
+Researchers go to the locations the bee eaters like to use for <strong>(26)</strong>  _______ 
+They collect the pellets and take them to a <strong>(27)</strong>  _______  for analysis.
+Here <strong>(28)</strong>  _______  is used to soften them, and the researchers look for the <strong>(29)</strong>  _______  of Asian bees in the pellets.
+The benefit of this research is that the result is more <strong>(30)</strong>  _______  than searching for live Asian bees.</p>
+<p><strong>Part 4: Questions 31-36</strong>
 Choose the correct letter A, B or C.</p>
 <p>Research on questions about doctors
 31. In order to set up her research programme, Shona got
-[ ]  A advice from personal friends in other countries
-[ ]  B help from students in- other countries
-[ ]  C information from her tutor’s contacts in other countries</p>
+<strong>[ ] </strong><strong> A</strong> advice from personal friends in other countries
+<strong>[ ] </strong><strong> B</strong> help from students in- other countries
+<strong>[ ] </strong><strong> C</strong> information from her tutor’s contacts in other countries</p>
 <p>32. What types of people were included in the research?
-[ ]  A young people in their first job
-[ ]  B men who were working
-[ ]  C women who were unemployed</p>
+<strong>[ ] </strong><strong> A</strong> young people in their first job
+<strong>[ ] </strong><strong> B</strong> men who were working
+<strong>[ ] </strong><strong> C</strong> women who were unemployed</p>
 <p>33. Shona says that in her questionnaire her aim was
-[ ]  A to get a wide range of data
-[ ]  B to limit people’s responses
-[ ]  C to guide people through interviews.</p>
+<strong>[ ] </strong><strong> A</strong> to get a wide range of data
+<strong>[ ] </strong><strong> B</strong> to limit people’s responses
+<strong>[ ] </strong><strong> C</strong> to guide people through interviews.</p>
 <p>34. What do Shona’s initial results show about medical services in Britain?
-[ ]  A Current concerns are misrepresented by the press
-[ ]  B Financial issues are critical to the government
-[ ]  C Reforms within hospitals have been unsuccessful</p>
+<strong>[ ] </strong><strong> A</strong> Current concerns are misrepresented by the press
+<strong>[ ] </strong><strong> B</strong> Financial issues are critical to the government
+<strong>[ ] </strong><strong> C</strong> Reforms within hospitals have been unsuccessful</p>
 <p>35. Shona needs to do further research in order to
-[ ]  A present the government with her findings
-[ ]  B decide the level of extra funding needed
-[ ]  C identify the preferences of the public</p>
+<strong>[ ] </strong><strong> A</strong> present the government with her findings
+<strong>[ ] </strong><strong> B</strong> decide the level of extra funding needed
+<strong>[ ] </strong><strong> C</strong> identify the preferences of the public</p>
 <p>36. Shona has learnt from the research project that
-[ ]  A it is important to plan projects carefully
-[ ]  B people do not like answering questions
-[ ]  C colleagues do not always agree</p>
-<p>Questions 37-40
+<strong>[ ] </strong><strong> A</strong> it is important to plan projects carefully
+<strong>[ ] </strong><strong> B</strong> people do not like answering questions
+<strong>[ ] </strong><strong> C</strong> colleagues do not always agree</p>
+<p><strong>Questions 37-40</strong>
 Which statement applies to each of the following people who were interviewed by Shona?</p>
 <p>Choose FOUR answers from the box and write the correct letter, A-F, next to questions 37-40.</p>
 <p>People interviewed by Shona</p>
@@ -217,9 +273,9 @@ Which statement applies to each of the following people who were interviewed by 
 <p>38. an undergraduate at the university…………..</p>
 <p>39. a colleague in her department…………..</p>
 <p>40. a tutor in a foreign university</p>
-<p>(37)  _______                  (38)  _______ 
-(39)  _______                  (40)  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>(37)</strong>  _______                  <strong>(38)</strong>  _______ 
+<strong>(39)</strong>  _______                  <strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. milperra</p>
 <p>2. first class movers</p>
 <p>3. 28 november</p>
@@ -478,6 +534,29 @@ Which statement applies to each of the following people who were interviewed by 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -497,12 +576,23 @@ Which statement applies to each of the following people who were interviewed by 
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -514,14 +604,6 @@ Which statement applies to each of the following people who were interviewed by 
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

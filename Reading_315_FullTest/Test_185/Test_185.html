@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,35 +158,35 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_185</h1>
-            <p>IELTS Reading Practice - Test 185</p>
-<p>walking with dinosaurs</p>
-<p>Peter L. Falkingham and his colleagues at Manchester University are developing techniques which look set to revolutionize our understanding of how dinosaurs and other extinct animals behaved.</p>
-<p>The media image of palaeontologists who study prehistoric life is often of field workers camped in the desert in the hot sun, carefully picking away at the rock surrounding a large dinosaur bone. But Peter Falkingham has done little of that for a while now. Instead, he devotes himself to his computer. Not because he has become inundated with paperwork, but because he is a new kind of palaeontologist: a computational palaeontologist.</p>
-<p>What few people may consider is that uncovering a skeleton, or discovering a new species, is where the research begins, not where it ends. What we really want to understand is how the extinct animals and plants behaved in their natural habitats. Drs Bill Sellers and Phil Manning from the University of Manchester use a ‘genetic algorithm’ – a kind of computer code that can change itself and ‘evolve’ – to explore how extinct animals like dinosaurs, and our own early ancestors, walked and stalked.</p>
-<p>The fossilized bones of a complete dinosaur skeleton can tell scientists a lot about the animal, but they do not make up the complete picture and the computer can try to fill the gap. The computer model is given a digitized skeleton, and the locations of known muscles. The model then randomly activates the muscles. This, perhaps unsurprisingly, results almost without fail in the animal falling on its face. So the computer alters the activation pattern and tries again … usually to similar effect. The modeled dinosaurs quickly ‘evolve’. If there is any improvement, the computer discards the old pattern and adopts the new one as the base for alteration. Eventually, the muscle activation pattern evolves a stable way of moving, the best possible solution is reached, and the dinosaur can walk, run, chase or graze. Assuming natural selection evolves the best possible solution too, the modeled animal should be moving in a manner similar to its now-extinct counterpart. And indeed, using the same method for living animals (humans, emu and ostriches) similar top speeds were achieved on the computer as in reality. By comparing their cyberspace results with real measurements of living species, the Manchester team of palaeontologists can be confident in the results computed showing how extinct prehistoric animals such as dinosaurs moved.</p>
-<p>The Manchester University team have used the computer simulations to produce a model of a giant meat-eating dinosaur. lt is called an acrocanthosaurus which literally means ‘high spined lizard’ because of the spines which run along its backbone. It is not really known why they are there but scientists have speculated they could have supported a hump that stored fat and water reserves. There are also those who believe that the spines acted as a support for a sail. Of these, one half think it was used as a display and could be flushed with blood and the other half think it was used as a temperature-regulating device. It may have been a mixture of the two. The skull seems out of proportion with its thick, heavy body because it is so narrow and the jaws are delicate and fine. The feet are also worthy of note as they look surprisingly small in contrast to the animal as a whole. It has a deep broad tail and powerful leg muscles to aid locomotion. It walked on its back legs and its front legs were much shorter with powerful claws.</p>
-<p>Falkingham himself is investigating fossilized tracks, or footprints, using computer simulations to help analyze how extinct animals moved. Modern-day trackers who study the habitats of wild animals can tell you what animal made a track, whether that animal was walking or running, sometimes even the sex of the animal. But a fossil track poses a more considerable challenge to interpret in the same way. A crucial consideration is knowing what the environment including the mud, or sediment, upon which the animal walked was like millions of years ago when the track was made. Experiments can answer these questions but the number of variables is staggering. To physically recreate each scenario with a box of mud is extremely time-consuming and difficult to repeat accurately. This is where computer simulation comes in.</p>
-<p>Falkingham uses computational techniques to model a volume of mud and control the moisture content, consistency, and other conditions to simulate the mud of prehistoric times. A footprint is then made in the digital mud by a virtual foot. This footprint can be chopped up and viewed from any angle and stress values can be extracted and calculated from inside it. By running hundreds of these simulations simultaneously on supercomputers, Falkingham can start to understand what types of footprint would be expected if an animal moved in a certain way over a given kind of ground. Looking at the variation in the virtual tracks, researchers can make sense of fossil tracks with greater confidence. The application of computational techniques in palaeontology is becoming more prevalent every year. As computer power continues to increase, the range of problems that can be tackled and questions that can be answered will only expand.</p>
-<p>Questions 1-6
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 185</strong></h3>
+<h3 class="test-heading"><strong>walking with dinosaurs</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>Peter L. Falkingham and his colleagues at Manchester University are developing techniques which look set to revolutionize our understanding of how dinosaurs and other extinct animals behaved.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>The media image of palaeontologists who study prehistoric life is often of field workers camped in the desert in the hot sun, carefully picking away at the rock surrounding a large dinosaur bone. But Peter Falkingham has done little of that for a while now. Instead, he devotes himself to his computer. Not because he has become inundated with paperwork, but because he is a new kind of palaeontologist: a computational palaeontologist.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>What few people may consider is that uncovering a skeleton, or discovering a new species, is where the research begins, not where it ends. What we really want to understand is how the extinct animals and plants behaved in their natural habitats. Drs Bill Sellers and Phil Manning from the University of Manchester use a ‘genetic algorithm’ – a kind of computer code that can change itself and ‘evolve’ – to explore how extinct animals like dinosaurs, and our own early ancestors, walked and stalked.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>The fossilized bones of a complete dinosaur skeleton can tell scientists a lot about the animal, but they do not make up the complete picture and the computer can try to fill the gap. The computer model is given a digitized skeleton, and the locations of known muscles. The model then randomly activates the muscles. This, perhaps unsurprisingly, results almost without fail in the animal falling on its face. So the computer alters the activation pattern and tries again … usually to similar effect. The modeled dinosaurs quickly ‘evolve’. If there is any improvement, the computer discards the old pattern and adopts the new one as the base for alteration. Eventually, the muscle activation pattern evolves a stable way of moving, the best possible solution is reached, and the dinosaur can walk, run, chase or graze. Assuming natural selection evolves the best possible solution too, the modeled animal should be moving in a manner similar to its now-extinct counterpart. And indeed, using the same method for living animals (humans, emu and ostriches) similar top speeds were achieved on the computer as in reality. By comparing their cyberspace results with real measurements of living species, the Manchester team of palaeontologists can be confident in the results computed showing how extinct prehistoric animals such as dinosaurs moved.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>The Manchester University team have used the computer simulations to produce a model of a giant meat-eating dinosaur. lt is called an acrocanthosaurus which literally means ‘high spined lizard’ because of the spines which run along its backbone. It is not really known why they are there but scientists have speculated they could have supported a hump that stored fat and water reserves. There are also those who believe that the spines acted as a support for a sail. Of these, one half think it was used as a display and could be flushed with blood and the other half think it was used as a temperature-regulating device. It may have been a mixture of the two. The skull seems out of proportion with its thick, heavy body because it is so narrow and the jaws are delicate and fine. The feet are also worthy of note as they look surprisingly small in contrast to the animal as a whole. It has a deep broad tail and powerful leg muscles to aid locomotion. It walked on its back legs and its front legs were much shorter with powerful claws.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Falkingham himself is investigating fossilized tracks, or footprints, using computer simulations to help analyze how extinct animals moved. Modern-day trackers who study the habitats of wild animals can tell you what animal made a track, whether that animal was walking or running, sometimes even the sex of the animal. But a fossil track poses a more considerable challenge to interpret in the same way. A crucial consideration is knowing what the environment including the mud, or sediment, upon which the animal walked was like millions of years ago when the track was made. Experiments can answer these questions but the number of variables is staggering. To physically recreate each scenario with a box of mud is extremely time-consuming and difficult to repeat accurately. This is where computer simulation comes in.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>Falkingham uses computational techniques to model a volume of mud and control the moisture content, consistency, and other conditions to simulate the mud of prehistoric times. A footprint is then made in the digital mud by a virtual foot. This footprint can be chopped up and viewed from any angle and stress values can be extracted and calculated from inside it. By running hundreds of these simulations simultaneously on supercomputers, Falkingham can start to understand what types of footprint would be expected if an animal moved in a certain way over a given kind of ground. Looking at the variation in the virtual tracks, researchers can make sense of fossil tracks with greater confidence. The application of computational techniques in palaeontology is becoming more prevalent every year. As computer power continues to increase, the range of problems that can be tackled and questions that can be answered will only expand.</p></div></div>
+<p><strong>Questions 1-6</strong>
 Do the following statements agree with the information given in Reading Passage 1? In boxes 1-6 on your answer sheet, write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
-<p>Questions 7-9
-Label the diagram below. Choose NO MORE THAN ONE WORD from the passage for each answer. Write your answers in boxes 7-9 on your answer sheet.</p>
-<p>Questions 10-13
-Complete the flow-chart below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>the robots are coming</p>
-<p>A Can robots advance so far that they become the ultimate threat to our existence? Some scientists say no, and dismiss the very idea of Artificial Intelligence. The human brain, they argue, is the most complicated system ever created, and any machine designed to reproduce human thought is bound to fail. Physicist Roger Penrose of Oxford University and others believe that machines are physically incapable of human thought. Colin McGinn of Rutgers University backs this up when he says that Artificial Intelligence ‘is like sheep trying to do complicated psychoanalysis. They just don’t have the conceptual equipment they need in their limited brains’.</p>
-<p>B Artificial Intelligence, or Al, is different from most technologies in that scientists still understand very little about how intelligence works. Physicists have a good understanding of Newtonian mechanics and the quantum theory of atoms and molecules, whereas the basic laws of intelligence remain a mystery.</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
+<p><strong>Questions 7-9</strong>
+Label the diagram below. Choose <strong>NO MORE THAN ONE WORD</strong> from the passage for each answer. Write your answers in boxes 7-9 on your answer sheet.</p>
+<p><strong>Questions 10-13</strong>
+Complete the flow-chart below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>the robots are coming</strong></p>
+<p><strong>A</strong> Can robots advance so far that they become the ultimate threat to our existence? Some scientists say no, and dismiss the very idea of Artificial Intelligence. The human brain, they argue, is the most complicated system ever created, and any machine designed to reproduce human thought is bound to fail. Physicist Roger Penrose of Oxford University and others believe that machines are physically incapable of human thought. Colin McGinn of Rutgers University backs this up when he says that Artificial Intelligence ‘is like sheep trying to do complicated psychoanalysis. They just don’t have the conceptual equipment they need in their limited brains’.</p>
+<p><strong>B</strong> Artificial Intelligence, or Al, is different from most technologies in that scientists still understand very little about how intelligence works. Physicists have a good understanding of Newtonian mechanics and the quantum theory of atoms and molecules, whereas the basic laws of intelligence remain a mystery.</p>
 <p>But a sizable number of mathematicians and computer scientists, who are specialists in the area, are optimistic about the possibilities.</p>
 <p>To them it is only a matter of time before a thinking machine walks out of the laboratory. Over the years, various problems have impeded all efforts to create robots. To attack these difficulties, researchers tried to use the ‘top- down approach’, using a computer in an attempt to program all the essential rules onto a single disc. By inserting this into a machine, it would then become self-aware and attain human-like intelligence.</p>
-<p>C In the 1950s and 1960s great progress was made, but the shortcomings of these prototype robots soon became clear. They were huge and took hours to navigate across a room. Meanwhile, a fruit fly, with a brain containing only a fraction of the computing power, can effortlessly navigate in three dimensions.</p>
+<p><strong>C</strong> In the 1950s and 1960s great progress was made, but the shortcomings of these prototype robots soon became clear. They were huge and took hours to navigate across a room. Meanwhile, a fruit fly, with a brain containing only a fraction of the computing power, can effortlessly navigate in three dimensions.</p>
 <p>Our brains, like the fruit fly’s, unconsciously recognize what we see by performing countless calculations. This unconscious awareness of patterns is exactly what computers are missing. The second problem is robots’ lack of common sense. Humans know that water is wet and that mothers are older than their daughters. But there is no mathematics that can express these truths. Children learn the intuitive laws of biology and physics by interacting with the real world. Robots know only what has been programmed into them.</p>
-<p>D Because of the limitations of the top-down approach to Artificial Intelligence, attempts have been made to use a ‘bottom-up’ approach instead – that is, to try to imitate evolution and the way a baby learns. Rodney Brooks was the director of MIT’s Artificial Intelligence laboratory, famous for its lumbering ‘top- down’ walking robots. He changed the course of research when he explored the unorthodox idea of tiny ‘insectoid’ robots that learned to walk by bumping into things instead of computing mathematically the precise position of their feet. Today many of the descendants of Brooks’ insectoid robots are on Mars gathering data for NASA (The National Aeronautics and Space Administration), running across the dusty landscape of the planet. For all their successes in mimicking the behavior of insects, however, robots using neural networks have performed miserably when their programmers have tried to duplicate in them the behavior of higher organisms such as mammals. MIT’s Marvin Minsky summarises the problems of Al: ‘The history of Al is sort of funny because the first real accomplishments were beautiful things, like a machine that could do well in a maths course. But then we started to try to make machines that could answer questions about simple children’s stories. There’s no machine today that can do that.’</p>
-<p>E There are people who believe that eventually there will be a combination between the top- down and bottom-up, which may provide the key to Artificial Intelligence. As adults, we blend the two approaches. It has been suggested that our emotions represent the quality that most distinguishes us as human, that it is impossible for machines ever to have emotions. Computer expert Hans Moravec thinks that in the future robots will be programmed with emotions such as fear to protect themselves so that they can signal to humans when their batteries are running low, for example. Emotions are vital in decision-making. People who have suffered a certain kind of brain injury lose the ability to experience emotions and become unable to make decisions. Without emotions to guide them, they debate endlessly over their options. Moravec points out that as robots become more intelligent and are able to make choices, they could likewise become paralysed with indecision. To aid them, robots of the future might need to have emotions hardwired into their brains.</p>
-<p>F There is no universal consensus as to whether machines can be conscious, or even, in human terms, what consciousness means. Minsky suggests the thinking process in our brain is not localised but spread out, with different centres competing with one another at any given time. Consciousness may then be viewed as a sequence of thoughts and images issuing from these different, smaller ‘minds’, each one competing for our attention. Robots might eventually attain a ‘silicon consciousness’. Robots, in fact, might one day embody an architecture for thinking and processing information that is different from ours – but also indistinguishable. If that happens, the question of whether they really ‘understand’ becomes largely irrelevant. A robot that has perfect mastery of syntax, for all practical purposes, understands what is being said.</p>
-<p>Questions 14-20
+<p><strong>D</strong> Because of the limitations of the top-down approach to Artificial Intelligence, attempts have been made to use a ‘bottom-up’ approach instead – that is, to try to imitate evolution and the way a baby learns. Rodney Brooks was the director of MIT’s Artificial Intelligence laboratory, famous for its lumbering ‘top- down’ walking robots. He changed the course of research when he explored the unorthodox idea of tiny ‘insectoid’ robots that learned to walk by bumping into things instead of computing mathematically the precise position of their feet. Today many of the descendants of Brooks’ insectoid robots are on Mars gathering data for NASA (The National Aeronautics and Space Administration), running across the dusty landscape of the planet. For all their successes in mimicking the behavior of insects, however, robots using neural networks have performed miserably when their programmers have tried to duplicate in them the behavior of higher organisms such as mammals. MIT’s Marvin Minsky summarises the problems of Al: ‘The history of Al is sort of funny because the first real accomplishments were beautiful things, like a machine that could do well in a maths course. But then we started to try to make machines that could answer questions about simple children’s stories. There’s no machine today that can do that.’</p>
+<p><strong>E</strong> There are people who believe that eventually there will be a combination between the top- down and bottom-up, which may provide the key to Artificial Intelligence. As adults, we blend the two approaches. It has been suggested that our emotions represent the quality that most distinguishes us as human, that it is impossible for machines ever to have emotions. Computer expert Hans Moravec thinks that in the future robots will be programmed with emotions such as fear to protect themselves so that they can signal to humans when their batteries are running low, for example. Emotions are vital in decision-making. People who have suffered a certain kind of brain injury lose the ability to experience emotions and become unable to make decisions. Without emotions to guide them, they debate endlessly over their options. Moravec points out that as robots become more intelligent and are able to make choices, they could likewise become paralysed with indecision. To aid them, robots of the future might need to have emotions hardwired into their brains.</p>
+<p><strong>F</strong> There is no universal consensus as to whether machines can be conscious, or even, in human terms, what consciousness means. Minsky suggests the thinking process in our brain is not localised but spread out, with different centres competing with one another at any given time. Consciousness may then be viewed as a sequence of thoughts and images issuing from these different, smaller ‘minds’, each one competing for our attention. Robots might eventually attain a ‘silicon consciousness’. Robots, in fact, might one day embody an architecture for thinking and processing information that is different from ours – but also indistinguishable. If that happens, the question of whether they really ‘understand’ becomes largely irrelevant. A robot that has perfect mastery of syntax, for all practical purposes, understands what is being said.</p>
+<p><strong>Questions 14-20</strong>
 Reading Passage 2 has six paragraphs A-F. Which paragraph contains the following information? NB You may use any letter more than once.</p>
 <p>14. An insect that proves the superiority of natural intelligence over Artificial Intelligence
 15. Robots being able to benefit from their mistakes
@@ -139,21 +195,21 @@ Reading Passage 2 has six paragraphs A-F. Which paragraph contains the following
 18. The possibility of creating Artificial Intelligence being doubted by some academics
 19. No generally accepted agreement of what our brains do
 20. Robots not being able to extend the intelligence in the same way as humans</p>
-<p>Questions 21-23
+<p><strong>Questions 21-23</strong>
 Look at the following people (Questions 21-23) and the list of statements below. Match each person with the correct statement A-E</p>
 <p>21. Colin McGinn
 22. Marvin Minsky
 23. Hans Moravec</p>
-<p>A Artificial Intelligence may require something equivalent to feelings in order to succeed.
-B Different kinds of people use different parts of the brain.
-C Tests involving fiction have defeated Artificial Intelligence so far.
-D People have intellectual capacities which do not exist in computers.
-E People have no reason to be frightened of robots</p>
-<p>Questions 24-26
-Complete the summary below. Choose ONE WORD ONLY from the passage for each answer.</p>
-<p>When will we have a thinking machine?</p>
+<p><strong>A</strong> Artificial Intelligence may require something equivalent to feelings in order to succeed.
+<strong>B</strong> Different kinds of people use different parts of the brain.
+<strong>C</strong> Tests involving fiction have defeated Artificial Intelligence so far.
+<strong>D</strong> People have intellectual capacities which do not exist in computers.
+<strong>E</strong> People have no reason to be frightened of robots</p>
+<p><strong>Questions 24-26</strong>
+Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+<p><strong>When will we have a thinking machine?</strong></p>
 <p>Despite some advances, the early robots had certain weaknesses. They were given the information they needed on a (24)………………………..This was known as the ‘top-down’ approach and enabled them to do certain tasks but they were unable to recognise (25)……………………Nor did they have any intuition or ability to make decisions based on experience. Rodney Brooks tried a different approach. Robots similar to those invented by Brooks are to be found on (26)…………………where they are collecting information.</p>
-<p>endangered languages</p>
+<p><strong>endangered languages</strong></p>
 <p>‘Nevermind whales, save the languages’, says Peter Monaghan, graduate of the Australian National University</p>
 <p>Worried about the loss of rain forests and the ozone At linguistics meetings in the US, where the layer? Well, neither of those is doing any worse than endangered-language issue has of late been a large majority of the 6,000 to 7,000 languages that something of a flavour of the month, there is remain in use on Earth. One half of the survivors will growing evidence that not all approaches to the almost certainly be gone by 2050, while 40% more preservation of languages will be particularly will probably be well on their way out. In their place, helpful. Some linguists are boasting, for example, almost all humans will speak one of a handful of of more and more sophisticated means of capturing mega languages – Mandarin, English, Spanish.</p>
 <p>Linguists know what causes languages to disappear, but less often remarked is what happens on the way to disappearance: languages’ vocabularies, grammars and expressive potential all diminish as one language is replaced by another. ‘Say a community goes over from speaking a traditional Aboriginal language to speaking a creole*,’ says Australian Nick Evans, a leading authority on Aboriginal languages, ‘you leave behind a language where there’s very fine vocabulary for the landscape. All that is gone in a creole. You’ve just got a few words like ‘gum tree’ or whatever. As speakers become less able to express the wealth of knowledge that has filled ancestors’ lives with meaning over millennia, it’s no wonder that communities tend to become demoralised.’</p>
@@ -161,54 +217,54 @@ Complete the summary below. Choose ONE WORD ONLY from the passage for each answe
 <p>At linguistics meetings in the US, where the endangered-language issue has of late been something of a flavour of the month, there is growing evidence that not all approaches to the preservation of languages will be particularly helpful. Some linguists are boasting, for example, of more and more sophisticated means of capturing languages: digital recording and storage, and internet and mobile phone technologies. But these are encouraging the ‘quick dash’ style of recording trip: fly in, switch on digital recorder, fly home, download to hard drive, and store gathered material for future research. That’s not quite what some endangered-language specialists have been seeking for more than 30 years. Most loud and untiring has been Michael Krauss, of the University of Alaska. He has often complained that linguists are playing with non-essentials while most of their raw data is disappearing.</p>
 <p>Who is to blame? That prominent linguist Noam Chomsky, say Krauss and many others. Or, more precisely, they blame those linguists who have been obsessed with his approaches. Linguists who go out into communities to study, document and describe languages, argue that theoretical linguists, who draw conclusions about how languages work, have had so much influence that linguistics has largely ignored the continuing disappearance of languages. Chomsky, from his post at the Massachusetts Institute of Technology, has been the great man of theoretical linguistics for far longer than he has been known as a political commentator. His landmark work of 1957 argues that all languages exhibit certain universal grammatical features, encoded in the human mind. American linguists, in particular, have focused largely on theoretical concerns ever since, even while doubts have mounted about Chomsky’s universals.</p>
 <p>Austin and Co. are in no doubt that because languages are unique, even if they do tend to have common underlying features, creating dictionaries and grammars requires prolonged and dedicated work. This requires that documentary linguists observe not only languages’ structural subtleties, but also related social, historical and political factors. Such work calls for persistent funding of field scientists who may sometimes have to venture into harsh and even hazardous places. Once there, they may face difficulties such as community suspicion. As Nick Evans says, a community who speak an endangered language may have reasons to doubt or even oppose efforts to preserve it. They may have seen support and funding for such work come and go. They may have given up using the language with their children, believing they will benefit from speaking a more widely understood one. Plenty of students continue to be drawn to the intellectual thrill of linguistics field work. That’s all the more reason to clear away barriers, contend Evans, Austin and others. The highest barrier, they agree, is that the linguistics profession’s emphasis on theory gradually wears down the enthusiasm of linguists who work in communities. Chomsky disagrees. He has recently begun to speak in support of language preservation. But his linguistic, as opposed to humanitarian, argument is, let’s say, unsentimental: the loss of a language, he states, ‘is much more of a tragedy for linguists whose interests are mostly theoretical, like me, than for linguists who focus on describing specific languages, since it means the permanent loss of the most relevant data for general theoretical work’. At the moment, few institutions award doctorates for such work, and that’s the way it should be, he reasons. In linguistics, as in every other discipline, he believes that good descriptive work requires thorough theoretical understanding and should also contribute to building new theory. But that’s precisely what documentation does, objects Evans. The process of immersion in a language, to extract, analyse and sum it up, deserves a PhD because it is ‘the most demanding intellectual task a linguist can engage in’.</p>
-<p>Questions 27-32
+<p><strong>Questions 27-32</strong>
 Do the following statements agree with the views of the writer In Reading Passage 3? In boxes 27-32 on your answer sheet, write</p>
-<p>YES if the statement agrees with the views of the writer
-NO if the statement contradicts the views of the writer
-NOT GIVEN if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong> if the statement agrees with the views of the writer
+<strong>NO</strong> if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this</p>
 <p>27. By 2050 only a small number of languages will be flourishing.
 28. Australian academics’ efforts to record existing Aboriginal languages have been too limited.
 29. The use of technology in language research is proving unsatisfactory in some respects.
 30. Chomsky’s political views have overshadowed his academic work.
 31. Documentary linguistics studies require long-term financial support.
 32. Chomsky’s attitude to disappearing languages is too emotional.</p>
-<p>Questions 33-36
+<p><strong>Questions 33-36</strong>
 Choose the correct letter, A, B, C or D.</p>
 <p>33. The writer mentions rainforests and the ozone layer
-A because he believes anxiety about environmental issues is unfounded.
-B to demonstrate that academics in different disciplines share the same problems.
-C because they exemplify what is wrong with the attitudes of some academics.
-D to make the point that the public should be equally concerned about languages.</p>
+<strong>A</strong> because he believes anxiety about environmental issues is unfounded.
+<strong>B</strong> to demonstrate that academics in different disciplines share the same problems.
+<strong>C</strong> because they exemplify what is wrong with the attitudes of some academics.
+<strong>D</strong> to make the point that the public should be equally concerned about languages.</p>
 <p>34. What does Nick Evans say about speakers of a creole?
-A They lose the ability to express ideas which are part of their culture.
-B Older and younger members of the community have difficulty communicating.
-C They express their ideas more clearly and concisely than most people.
-D Accessing practical information causes problems for them.</p>
+<strong>A</strong> They lose the ability to express ideas which are part of their culture.
+<strong>B</strong> Older and younger members of the community have difficulty communicating.
+<strong>C</strong> They express their ideas more clearly and concisely than most people.
+<strong>D</strong> Accessing practical information causes problems for them.</p>
 <p>35. What is similar about West Africa and South America, from the linguist’s point of view?
-A The English language is widely used by academics and teachers.
-B The documentary linguists who work there were trained by Australians.
-C Local languages are disappearing rapidly in both places.
-D There are now only a few undocumented languages there.</p>
+<strong>A</strong> The English language is widely used by academics and teachers.
+<strong>B</strong> The documentary linguists who work there were trained by Australians.
+<strong>C</strong> Local languages are disappearing rapidly in both places.
+<strong>D</strong> There are now only a few undocumented languages there.</p>
 <p>36. Michael Krauss has frequently pointed out that
-A linguists are failing to record languages before they die out.
-B linguists have made poor use of improvements in technology.
-C linguistics has declined in popularity as an academic subject.
-D linguistics departments are underfunded in most universities.</p>
-<p>Questions 37-40
+<strong>A</strong> linguists are failing to record languages before they die out.
+<strong>B</strong> linguists have made poor use of improvements in technology.
+<strong>C</strong> linguistics has declined in popularity as an academic subject.
+<strong>D</strong> linguistics departments are underfunded in most universities.</p>
+<p><strong>Questions 37-40</strong>
 Complete each sentence with the correct ending A-G below. Write the correct letter A-G in boxes 37-40 on your answer sheet.</p>
 <p>37. Linguists like Peter Austin believe that every language is unique
 38. Nick Evans suggests a community may resist attempts to save its language
 39. Many young researchers are interested in doing practical research
 40. Chomsky supports work in descriptive linguistics</p>
-<p>A even though it is in danger of disappearing.
-B provided that it has a strong basis in theory.
-C although it may share certain universal characteristics
-D because there is a practical advantage to it
-E so long as the drawbacks are clearly understood.
-F in spite of the prevalence of theoretical linguistics.
-G until they realize what is involved</p>
+<p><strong>A</strong> even though it is in danger of disappearing.
+<strong>B</strong> provided that it has a strong basis in theory.
+<strong>C</strong> although it may share certain universal characteristics
+<strong>D</strong> because there is a practical advantage to it
+<strong>E</strong> so long as the drawbacks are clearly understood.
+<strong>F</strong> in spite of the prevalence of theoretical linguistics.
+<strong>G</strong> until they realize what is involved</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. True</p>
 <p>2. True</p>
 <p>3. False</p>
@@ -467,6 +523,29 @@ G until they realize what is involved</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -486,12 +565,23 @@ G until they realize what is involved</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -503,14 +593,6 @@ G until they realize what is involved</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

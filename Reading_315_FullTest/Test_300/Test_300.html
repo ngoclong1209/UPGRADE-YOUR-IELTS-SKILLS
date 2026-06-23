@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,64 +158,64 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_300</h1>
-            <p>IELTS Reading Practice - Test 300</p>
-<p>Wolves, dogs and humans</p>
-<p>There is no doubt that dogs are the oldest of all species tamed by humans and their domestication was based on a mutually beneficial relationship with man. The conventional view is that the domestication of wolves began between 10,000 and 20,000 years ago. However, a recent ground-breaking paper by a group of international geneticists has pushed this date back by a factor of 10. Led by Dr. Robert Wayne, at the University of California, Los Angeles, the team showed that all dog breeds had only one ancestor, the wolf. They did this by analysing the genetic history through the DNA of 162 wolves from around the world and 140 domestic dogs representing 67 breeds. The research also confirms, for the first time, that dogs are descended only from wolves and do not share DNA with coyotes or jackals. The fact that our companionship with dogs now appears to go back at least 100,000 years means that this partnership may have played an important part in the development of human hunting techniques that developed 70,000 to 90,000 years ago. It also may even have affected the brain development in both species.</p>
-<p>The Australian veterinarian David Paxton suggests that in that period of first contact, people did not so much domesticate wolves as wolves domesticated people. Wolves may have started living at the edge of human settlements as scavengers, eating scraps of food and waste. Some learned to live with human beings in a mutually helpful way and gradually evolved into dogs. At the very least, they would have protected human settlements, and given warnings by barking at anything approaching. The wolves that evolved into dogs have been enormously successful in evolutionary terms. They are found everywhere in the inhabited world, hundreds of millions of them. The descendants of the wolves that remained wolves are now sparsely distributed, often in endangered populations.</p>
-<p>In return for companionship and food, the early ancestor of the dog assisted humans in tracking, hunting, guarding and a variety of other activities. Eventually humans began to selectively breed these animals for specific traits. Physical characteristics changed and individual breeds began to take shape. As humans wandered across Asia and Europe, they took their dogs along, using them for additional tasks and further breeding them for selected qualities that would better enable them to perform specific duties.</p>
-<p>According to Dr. Colin Groves, of the Department of Archaeology and Anthropology at Australian National University, early humans came to rely on dogs’ keen ability to hear, smell and see – allowing certain areas of the human brain to shrink in size relative to other areas. ‘Dogs acted as human’s alarm systems, trackers and hunting aids, garbage disposal facilities, hot-water bottles and children’s guardians and playmates. Humans provided dogs with food and security. This symbiotic relationship was stable for over 100,000 years and intensified into mutual domestication,’ said Dr. Groves. In his opinion, humans domesticated dogs and dogs domesticated humans.</p>
-<p>Dr. Groves repealed an assertion made as early as 1914 that humans have some of the same physical characteristics as domesticated animals, the most notable being decreased brain size. The horse experienced a 16 percent reduction in brain size after domestication while pigs’ brains shrank by as much as 34 percent. The estimated brain-size reduction in domesticated dogs varies from 30 percent to 10 percent. Only in the last decade have archaeologists uncovered enough fossil evidence to establish that brain capacity in humans declined in Europe and Africa by at least 10 percent beginning about 10,000 years ago. Dr. Groves believes this reduction may have taken place as the relationship between humans and dogs intensified. The close interaction between the two species allowed for the diminishing of certain human brain functions like smell and hearing.</p>
-<p>Questions 1-5
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 300</strong></h3>
+<h3 class="test-heading"><strong>Wolves, dogs and humans</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>There is no doubt that dogs are the oldest of all species tamed by humans and their domestication was based on a mutually beneficial relationship with man. The conventional view is that the domestication of wolves began between 10,000 and 20,000 years ago. However, a recent ground-breaking paper by a group of international geneticists has pushed this date back by a factor of 10. Led by Dr. Robert Wayne, at the University of California, Los Angeles, the team showed that all dog breeds had only one ancestor, the wolf. They did this by analysing the genetic history through the DNA of 162 wolves from around the world and 140 domestic dogs representing 67 breeds. The research also confirms, for the first time, that dogs are descended only from wolves and do not share DNA with coyotes or jackals. The fact that our companionship with dogs now appears to go back at least 100,000 years means that this partnership may have played an important part in the development of human hunting techniques that developed 70,000 to 90,000 years ago. It also may even have affected the brain development in both species.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>The Australian veterinarian David Paxton suggests that in that period of first contact, people did not so much domesticate wolves as wolves domesticated people. Wolves may have started living at the edge of human settlements as scavengers, eating scraps of food and waste. Some learned to live with human beings in a mutually helpful way and gradually evolved into dogs. At the very least, they would have protected human settlements, and given warnings by barking at anything approaching. The wolves that evolved into dogs have been enormously successful in evolutionary terms. They are found everywhere in the inhabited world, hundreds of millions of them. The descendants of the wolves that remained wolves are now sparsely distributed, often in endangered populations.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>In return for companionship and food, the early ancestor of the dog assisted humans in tracking, hunting, guarding and a variety of other activities. Eventually humans began to selectively breed these animals for specific traits. Physical characteristics changed and individual breeds began to take shape. As humans wandered across Asia and Europe, they took their dogs along, using them for additional tasks and further breeding them for selected qualities that would better enable them to perform specific duties.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>According to Dr. Colin Groves, of the Department of Archaeology and Anthropology at Australian National University, early humans came to rely on dogs’ keen ability to hear, smell and see – allowing certain areas of the human brain to shrink in size relative to other areas. ‘Dogs acted as human’s alarm systems, trackers and hunting aids, garbage disposal facilities, hot-water bottles and children’s guardians and playmates. Humans provided dogs with food and security. This symbiotic relationship was stable for over 100,000 years and intensified into mutual domestication,’ said Dr. Groves. In his opinion, humans domesticated dogs and dogs domesticated humans.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>Dr. Groves repealed an assertion made as early as 1914 that humans have some of the same physical characteristics as domesticated animals, the most notable being decreased brain size. The horse experienced a 16 percent reduction in brain size after domestication while pigs’ brains shrank by as much as 34 percent. The estimated brain-size reduction in domesticated dogs varies from 30 percent to 10 percent. Only in the last decade have archaeologists uncovered enough fossil evidence to establish that brain capacity in humans declined in Europe and Africa by at least 10 percent beginning about 10,000 years ago. Dr. Groves believes this reduction may have taken place as the relationship between humans and dogs intensified. The close interaction between the two species allowed for the diminishing of certain human brain functions like smell and hearing.</p></div></div>
+<p><strong>Questions 1-5</strong>
 
 Do the following statements agree with the views of the writer of the passage? Write:</p>
-<p>YES                                if the statement agrees with the views of the writer
+<p><strong>YES</strong>                                if the statement agrees with the views of the writer
 
-NO                                  if the statement contradicts the views of the writer
+<strong>NO</strong>                                  if the statement contradicts the views of the writer
 
-NOT GIVEN               if it is impossible to say what the writer thinks about this</p>
-<p>Questions 6-8
+<strong>NOT GIVEN</strong>               if it is impossible to say what the writer thinks about this</p>
+<p><strong>Questions 6-8</strong>
 
 Choose the correct letter A-D.</p>
 <p>6. How do we know that dogs have been more successful in evolutionary terms than wolves?
 
-A Dogs can be trained more easily than wolves.
+<strong>A</strong> Dogs can be trained more easily than wolves.
 
-B Wolves are stronger than dogs.
+<strong>B</strong> Wolves are stronger than dogs.
 
-C Humans prefer dogs to wolves.
+<strong>C</strong> Humans prefer dogs to wolves.
 
-D There are more dogs than wolves today.</p>
+<strong>D</strong> There are more dogs than wolves today.</p>
 <p>7. As a result of domestication, the size of the human brain has …
 
-A increased.
+<strong>A</strong> increased.
 
-B decreased
+<strong>B</strong> decreased
 
-C stayed the same.
+<strong>C</strong> stayed the same.
 
-D become more complex.</p>
+<strong>D</strong> become more complex.</p>
 <p>8. What can we infer from the studies of brain size and domestication?
 
-A Domestic life is less demanding than surviving in the wild.
+<strong>A</strong> Domestic life is less demanding than surviving in the wild.
 
-B Animals like living with humans.
+<strong>B</strong> Animals like living with humans.
 
-C Domestication has made animals physically weaker.
+<strong>C</strong> Domestication has made animals physically weaker.
 
-D Pigs are less intelligent than dogs.</p>
-<p>Questions 9
+<strong>D</strong> Pigs are less intelligent than dogs.</p>
+<p><strong>Questions 9</strong>
 
-Choose TWO WORDS from the passage for the answer.</p>
+Choose <strong>TWO WORDS</strong> from the passage for the answer.</p>
 <p>There are many different types of dogs today, because, in early times humans began to (9) ……………… their animals for the characteristics they wanted.</p>
-<p>Questions 10-14
+<p><strong>Questions 10-14</strong>
 
 Match one of the researchers (A-C) to each of the findings (10-14) below.</p>
-<p>A Dr. Wayne
+<p><strong>A</strong> Dr. Wayne
 
-B Dr. Paxton
+<strong>B</strong> Dr. Paxton
 
-C Dr. Groves</p>
-<p>Example: found the common ancestor of the dog A</p>
+<strong>C</strong> Dr. Groves</p>
+<p>Example: found the common ancestor of the dog <strong>A</strong></p>
 <p>10. studied the brain size of domesticated animals
 
 11. claims that wolves chose to interact with humans
@@ -169,7 +225,7 @@ C Dr. Groves</p>
 13. believes that dogs and humans domesticated each other
 
 14. studied the DNA of wolves and dogs</p>
-<p>Crop circles</p>
+<p><strong>Crop circles</strong></p>
 <p>The crop circle phenomenon has puzzled and mystified humanity for many years. The designs just appear, placed carefully in fields of food grains. Some are larger than football fields and highly complex in design and construction. Others are smaller and more primitive. We call them crop circles, but many of them are not circular. Some are elongated abstract designs, a few resemble insects or other known forms, and some are mixtures of lines, circles, and other shapes melded into intricate patterns. Most become visible overnight, though it has been claimed that a few have appeared within a half-hour in broad daylight.</p>
 <p>Crop circles have appeared all over the world. About 10,000 instances from various countries have been reported in recent years. The first modern rash of crop circles appeared in Australia in December of 1973. A strange circular imprint appeared in a wheat field near Wokurna, a community southeast of Adelaide. Soon seven swirled circles up to 14 feet in diameter appeared in an oatfield nearby. In December of 1989, an amazing set of circles, ranging from a few inches to a few feet in diameter appeared in the wheat best west of Melbourne. As many as 90 crop circles were found. The best documented and largest modern spread of crop circles began in southern England during the summer of 1980. By the end of 1988, 112 new circles had been formed. At that time circles were being reported worldwide, 305 by the end of 1989. The total grew to an outstanding 1,000 newly-formed circles in 1990. In 1991, 200 to 300 circles were reported. Crop circles have been documented in over 30 countries, including Canada, the former Soviet Union Japan and the United States.</p>
 <p>Nine out of ten circles remained simple with broken stems flattened to the ground and swirled. The stalks around the circles remained completely erect. But over the years, crop circles have become much more geometrically intricate. Patterns involved multiple circles, bars, triangles, rings and spurs. Pictorial imagery also appeared. Reliable eyewitnesses have reported seeing unusual lights and hearing unidentifiable sounds while on an early-morning walk in the countryside where a crop circle showed later that day. High-pitched, warbling, noises have been recorded at the site of some crop circles. On several occasions a strange glow or a darker colouring has been seen in the sky over a crop circle. And in more than one instance, the electrical power of small planes flying overhead has been cut off abruptly. While the causal energies do not seem to harm animals, or even insects as far as we can tell, wild creatures tend to avoid the circles. Flocks of birds have been seen to split apart and fly around the perimeter to avoid going directly over a crop circle formation.</p>
@@ -177,14 +233,14 @@ C Dr. Groves</p>
 <p>Dr. W. C. Levengood of BLT Research in Cambridge, Massachusetts, has analyzed many grain samples and confirmed, time after time, significant changes at the cellular level of crop circle plants. The plants in front of the circles have elongated cells and blown-out growth nodes. Seeds front the circle plants often show accelerated growth rates when they are sown, and in some instances, quite different-looking plants result. In many instances it appears that a vortex-like energy causes the plants to swirl down, flattening the design into the land. Whatever this energy is, it does not generally inhibit the plants’ growth. They continue to show normal response to the sun, raising upward over several days following the appearance of the circle. Michael Chorost of Duke University found occasions of short-lived radionuclides in the top layer of soil in some of the formations. A British government laboratory found diminished nitrogen and decreased nematode populations as well as decreased water content in the soil of a formation. Researchers have discovered other anomalies as well, such as curious embedded magnetic particles and charred tissue. Some of the plant stalks within the circles show evidence of being exposed to rapid microwave heating.</p>
 <p>Scientists have attempted to explain crop circles as a result of natural processes. One popular theory accepted by many mainstream scientists and academics is known as ‘Plasma Vortex Theory’. Developed by Dr. Terence Mearden, it theorizes that electrified air (plasma), on the side of hills, becomes mini-tornadoes and screws down onto the ground, creating the circles. The theory also holds that the electrified air would cause a light to appear above the circle and therefore account for UFO sightings. Although this theory still has considerable support, it has come under fire because of the highly intricate and complex crop circle patterns that have appeared since 1991. Another theory is that the circles are all hoaxes or practical jokes. Major support came to this theory when, on September 9, 1991, two Englishmen claimed to have created approximately 250 crop circles. However, those circles were more rugged than others, and many were already suspect. It is irrational to believe that all crop circles are fake for publicity or other reasons. Many crop circles appeared long before the phenomenon pained large recognition from the public and press. Too many circles and patterns are formed each year in too many countries for them to have been hoaxes. Many crop circles show strange mathematical trails when analyzed.</p>
 <p>The crop circle phenomenon is an enigma. Many dollars have been spent by researchers and their associations in an attempt to find a solution to this intriguing puzzle which will continue to haunt humanity until an explanation is found.</p>
-<p>Questions 15-19
+<p><strong>Questions 15-19</strong>
 
 Do the following statements reflect the claims of the writer of this passage? Write:</p>
-<p>YES                              if the statement agrees with the views of the writer
+<p><strong>YES</strong>                              if the statement agrees with the views of the writer
 
-NO                                if the statement contradicts the views of the writer
+<strong>NO</strong>                                if the statement contradicts the views of the writer
 
-NOT GIVEN             if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>             if it is impossible to say what the writer thinks about this</p>
 <p>15. Crop circles only appear in wheat fields.
 
 16. Crop circles have never been documented in tropical countries.
@@ -194,19 +250,19 @@ NOT GIVEN             if it is impossible to say what the writer thinks a
 18. The patterns of crop circles have become increasingly complex over the years.
 
 19. All crop circles are hoaxes.</p>
-<p>Questions 20-23
+<p><strong>Questions 20-23</strong>
 
-Complete the summary below. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
+Complete the summary below. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
 <p>Since the early 1970s, over ten thousand crop circles have been reported around the world, the greatest number in (20) ………………, where in a single year, over one hundred circles appeared. Phenomena such as the appearance of strange lights and unusual (21) ………………. sometimes occur around the sites of crop circles. (22) ………………. are not affected but it has been observed that birds (23) ………………… flying over a formation.</p>
-<p>Questions 24-27
+<p><strong>Questions 24-27</strong>
 
 Use the information in the text to match one scientist (A-C) with each area of study (24-27) listed below.</p>
-<p>A Dr. Mearden
+<p><strong>A</strong> Dr. Mearden
 
-B Dr. Levengood
+<strong>B</strong> Dr. Levengood
 
-C Michael Chorost</p>
-<p>Example: observations of light in relation to crop circles A</p>
+<strong>C</strong> Michael Chorost</p>
+<p>Example: observations of light in relation to crop circles <strong>A</strong></p>
 <p>24. changes in the structure of soil within crop circles
 
 25. accelerated growth of seeds from crop circles
@@ -214,7 +270,7 @@ C Michael Chorost</p>
 26. electrical charges in the air around crop circles
 
 27. changes in cell structure of plants found in crop circles</p>
-<p>Are these two reporters on the same planet?</p>
+<p><strong>Are these two reporters on the same planet?</strong></p>
 <p>An essay by scientist, educator and environmentalist, Dr. David Suzuki</p>
 <p>A number of books, articles and television programs have disputed the reality of the claimed hazards of global warming, overpopulation, deforestation and ozone depletion. Two newspaper commentaries show the profound differences of opinion on critical issues affecting the planet.</p>
 <p>The first, by Robert Kaplan, has generated both fear and denial. Entitled The Coming Anarchy, the report paints a horrifying picture of the future for humanity. The author suggests that the terrible consequences of the conjunction between exploding human population and surrounding environmental degradation are already visible in Africa and parts of Southeast Asia. As society is destabilised by the AIDS epidemic, government control evaporates, national borders crumble beneath the pressure of environmental refugees and local populations revert to tribalism to settle old scores or defend against fleeing masses and bands of stateless nomads on the move.</p>
@@ -226,7 +282,7 @@ C Michael Chorost</p>
 <p>Gee’s outlook rests on a tiny minority of scientists who have faith in the boundless potential of science and technology to overcome the physical constraints of air, water and soil so that a much larger population can be sustained. His final proof? -the general rise in living standards along with population growth. But the relationship between changes in living standards and population is a correlation, not proof of causal connection. Gee is ignoring basic economic as well as scientific reality.</p>
 <p>If we inherit a bank account with a thousand dollars that earns 5% interest annually, we could withdraw fifty dollars or less each year forever. However, suppose we start to increase our withdrawals, say up to sixty dollars, then seventy dollars and more each year. For many years the account would yield cash. But it would be foolish to conclude that we could keep drawing more from the account indefinitely. Yet that is what Gee believes. As ocean fisheries around the world show, we are using up the ecological capital of the planet (biodiversity, air. water, soil) rather than living off the interest. It is a dangerous deception to believe that the human-created artifice called economies can keep the indicators rising as the life support systems of the planet continue to decline.</p>
 <p>The value system that dominates most of the popular media promotes the delusion that resources and the economy can continue to expand indefinitely. It also blinds the public to the urgency and credibility of warnings that an environmental crisis confronts us.</p>
-<p>Questions 28-33
+<p><strong>Questions 28-33</strong>
 
 Use the information in the passage to match the people (A-C) with the opinions (28-33) listed below. There may be more than one correct answer.</p>
 <p>28. Our patterns of consumption are using up the ecological capital of the planet.
@@ -240,73 +296,73 @@ Use the information in the passage to match the people (A-C) with the opinions (
 32. Earth’s life support systems are at critical risk.
 
 33. Environmental problems are not a threat to progress.</p>
-<p>A R. Kaplan, author of The Coming Anarchy
+<p><strong>A</strong> R. Kaplan, author of The Coming Anarchy
 
-B M. Gee, author of Apocalypse Deferred
+<strong>B</strong> M. Gee, author of Apocalypse Deferred
 
-C D. Suzuki, author of this passage</p>
-<p>Questions 34-36
+<strong>C</strong> D. Suzuki, author of this passage</p>
+<p><strong>Questions 34-36</strong>
 
-Choose ONE phrase pom the list below (A-G) to complete each of the following sentences. There are more phrases than questions so you will not use all of them.</p>
+Choose <strong>ONE</strong> phrase pom the list below (A-G) to complete each of the following sentences. There are more phrases than questions so you will not use all of them.</p>
 <p>34. The growth of world trade
 
 35. The relationship between population and standard of living
 
 36. Natural resources and the economy</p>
-<p>A have most benefited developing countries
+<p><strong>A</strong> have most benefited developing countries
 
-B has led to a drop in the standard of living generally
+<strong>B</strong> has led to a drop in the standard of living generally
 
-C cannot continue to expand indefinitely
+<strong>C</strong> cannot continue to expand indefinitely
 
-D have decreased third world debt
+<strong>D</strong> have decreased third world debt
 
-E shows a correlation, not cause and effect
+<strong>E</strong> shows a correlation, not cause and effect
 
-F pose a threat to human progress
+<strong>F</strong> pose a threat to human progress
 
-G has been accompanied by global economic growth</p>
-<p>Questions 37-40
+<strong>G</strong> has been accompanied by global economic growth</p>
+<p><strong>Questions 37-40</strong>
 
 Choose the correct letter A-D.</p>
 <p>37. Which of the following is NOT stated by Kaplan as a key contributing factor to potential global destabilisation?
 
-A political corruption
+<strong>A</strong> political corruption
 
-B collapse of ecosystems
+<strong>B</strong> collapse of ecosystems
 
-C population explosion
+<strong>C</strong> population explosion
 
-D diseases</p>
+<strong>D</strong> diseases</p>
 <p>38. What is the main source of Gee’s optimism?
 
-A scientific and technological advances
+<strong>A</strong> scientific and technological advances
 
-B decreasing Third World debt
+<strong>B</strong> decreasing Third World debt
 
-C the rise in the standard of living worldwide
+<strong>C</strong> the rise in the standard of living worldwide
 
-D economic growth</p>
+<strong>D</strong> economic growth</p>
 <p>39. Which of the following can we infer about the views of the author of this passage?
 
-A He disagrees with both Gee and Kaplan.
+<strong>A</strong> He disagrees with both Gee and Kaplan.
 
-B He supports the views of Gee.
+<strong>B</strong> He supports the views of Gee.
 
-C His views are closer to those of Kaplan.
+<strong>C</strong> His views are closer to those of Kaplan.
 
-D He thinks both Gee and Kaplan are right.</p>
+<strong>D</strong> He thinks both Gee and Kaplan are right.</p>
 <p>40. The main purpose of the author in this passage is …
 
-A to alert us to an environmental crisis.
+<strong>A</strong> to alert us to an environmental crisis.
 
-B to educate the media.
+<strong>B</strong> to educate the media.
 
-C to create uncertainty about the future.
+<strong>C</strong> to create uncertainty about the future.
 
-D to challenge current economic theory.</p>
+<strong>D</strong> to challenge current economic theory.</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. No</p>
 <p>2. No</p>
 <p>3. Yes</p>
@@ -565,6 +621,29 @@ D to challenge current economic theory.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -584,12 +663,23 @@ D to challenge current economic theory.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -601,14 +691,6 @@ D to challenge current economic theory.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

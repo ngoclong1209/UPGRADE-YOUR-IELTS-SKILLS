@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,103 +158,103 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_195</h1>
-            <p>IELTS Listening Practice - Test 195</p>
-<p>Part 1: Questions 1-5
-Complete the notes below. Write ONE WORD ONLY for each answer.</p>
-<p>Wayside Camera Club Membership Form</p>
-<p>Name: Dan Green
-Email address: dan1068@market.com
-Home address: 52 (1)  _______  Street, Peacetown
-Heard about us: from a (2)  _______ 
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 195</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-5</strong>
+Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+<h3 class="test-heading"><strong>Wayside Camera Club Membership Form</strong></h3>
+<p><strong>Name</strong>: Dan Green
+<strong>Email address</strong>: dan1068@market.com
+<strong>Home address</strong>: 52 (1)  _______  Street, Peacetown
+<strong>Heard about us</strong>: from a (2)  _______ 
 Reasons for joining: to enter competitions and to (3)  _______ 
 Type of membership: (4)  _______  membership (£ 30)</p>
-<p>Questions 5-10
-Complete the table below. Write NO MORE THAN TWO WORDS for each answer.</p>
+<p><strong>Questions 5-10</strong>
+Complete the table below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>(5)  _______ 
 (6)  _______ 
 (7)  _______ 
 (8)  _______ 
 (9)  _______ 
 (10)  _______</p>
-<p>Part 2: Questions 11 and 12
-Choose TWO letters, A-E. Which TWO warnings does Dan give about picking mushrooms?</p>
-<p>[ ] A Don’t pick more than one variety of mushroom at a time.
-[ ] B Don’t pick mushrooms near busy roads.
-[ ] C Don’t eat mushrooms given to you.
-[ ] D Don’t eat mushrooms while picking them.
-[ ] E Don’t pick old mushrooms.</p>
-<p>Questions 13 and 14
-Choose TWO letters, A-E. Which TWO ideas about wild mushrooms does Dan say are correct?</p>
-<p>[ ] A Mushrooms should always be peeled before eating.
-[ ] B Mushrooms eaten by animals may be unsafe.
-[ ] C Cooking destroys toxins in mushrooms.
-[ ] D Brightly coloured mushrooms can be edible.
-[ ] E All poisonous mushrooms have a bad smell.</p>
-<p>Questions 15-20
+<p><strong>Part 2: Questions 11 and 12</strong>
+Choose <strong>TWO</strong> letters, A-E. Which <strong>TWO</strong> warnings does Dan give about picking mushrooms?</p>
+<p>[ ] <strong>A</strong> Don’t pick more than one variety of mushroom at a time.
+[ ] <strong>B</strong> Don’t pick mushrooms near busy roads.
+[ ] <strong>C</strong> Don’t eat mushrooms given to you.
+[ ] <strong>D</strong> Don’t eat mushrooms while picking them.
+[ ] <strong>E</strong> Don’t pick old mushrooms.</p>
+<p><strong>Questions 13 and 14</strong>
+Choose <strong>TWO</strong> letters, A-E. Which <strong>TWO</strong> ideas about wild mushrooms does Dan say are correct?</p>
+<p>[ ] <strong>A</strong> Mushrooms should always be peeled before eating.
+[ ] <strong>B</strong> Mushrooms eaten by animals may be unsafe.
+[ ] <strong>C</strong> Cooking destroys toxins in mushrooms.
+[ ] <strong>D</strong> Brightly coloured mushrooms can be edible.
+[ ] <strong>E</strong> All poisonous mushrooms have a bad smell.</p>
+<p><strong>Questions 15-20</strong>
 Choose the correct letter, A, B or C.</p>
 <p>15. What advice does Dan give about picking mushrooms in parks?
-[ ] A Choose wooded areas.
-[ ] B Don’t disturb wildlife.
-[ ] C Get there early.</p>
+[ ] <strong>A</strong> Choose wooded areas.
+[ ] <strong>B</strong> Don’t disturb wildlife.
+[ ] <strong>C</strong> Get there early.</p>
 <p>16. Dan says it is a good idea for beginners to
-[ ] A use a mushroom app.
-[ ] B join a group.
-[ ] C take a reference book.</p>
+[ ] <strong>A</strong> use a mushroom app.
+[ ] <strong>B</strong> join a group.
+[ ] <strong>C</strong> take a reference book.</p>
 <p>17. What does Dan say is important for conservation?
-[ ] A selecting only fully grown mushrooms
-[ ] B picking a limited amount of mushrooms
-[ ] C avoiding areas where rare mushroom species grow</p>
+[ ] <strong>A</strong> selecting only fully grown mushrooms
+[ ] <strong>B</strong> picking a limited amount of mushrooms
+[ ] <strong>C</strong> avoiding areas where rare mushroom species grow</p>
 <p>18. According to Dan, some varieties of wild mushrooms are in decline because there is
-[ ] A a huge demand for them from restaurants.
-[ ] B a lack of rain in this part of the country.
-[ ] C a rise in building developments locally.</p>
+[ ] <strong>A</strong> a huge demand for them from restaurants.
+[ ] <strong>B</strong> a lack of rain in this part of the country.
+[ ] <strong>C</strong> a rise in building developments locally.</p>
 <p>19. Dan says that when storing mushrooms, people should
-[ ] A keep them in the fridge for no more than two days.
-[ ] B keep them in a brown bag in a dark room.
-[ ] C leave them for a period after washing them.</p>
+[ ] <strong>A</strong> keep them in the fridge for no more than two days.
+[ ] <strong>B</strong> keep them in a brown bag in a dark room.
+[ ] <strong>C</strong> leave them for a period after washing them.</p>
 <p>20. What does Dan say about trying new varieties of mushrooms?
-[ ] A Experiment with different recipes.
-[ ] B Expect some to have a strong taste.
-[ ] C Cook them for a long time.</p>
-<p>Part 3: Questions 21 and 22
-Choose TWO letters, A-E. Which TWO opinions about the Luddites do the students express?</p>
-<p>[ ] A Their actions were ineffective.
-[ ] B They are still influential today.
-[ ] C They have received unfair criticism.
-[ ] D They were proved right.
-[ ] E Their attitude is understandable.</p>
-<p>Questions 23 and 24
-Choose TWO letters, A-E. Which TWO predictions about the future of work are the students doubtful about?</p>
-<p>[ ] A Work will be more rewarding.
-[ ] B Unemployment will fall.
-[ ] C People will want to delay retiring.
-[ ] D Working hours will be shorter.
-[ ] E People will change jobs more frequently.</p>
-<p>Questions 25-30
+[ ] <strong>A</strong> Experiment with different recipes.
+[ ] <strong>B</strong> Expect some to have a strong taste.
+[ ] <strong>C</strong> Cook them for a long time.</p>
+<p><strong>Part 3: Questions 21 and 22</strong>
+Choose <strong>TWO</strong> letters, A-E. Which <strong>TWO</strong> opinions about the Luddites do the students express?</p>
+<p>[ ] <strong>A</strong> Their actions were ineffective.
+[ ] <strong>B</strong> They are still influential today.
+[ ] <strong>C</strong> They have received unfair criticism.
+[ ] <strong>D</strong> They were proved right.
+[ ] <strong>E</strong> Their attitude is understandable.</p>
+<p><strong>Questions 23 and 24</strong>
+Choose <strong>TWO</strong> letters, A-E. Which <strong>TWO</strong> predictions about the future of work are the students doubtful about?</p>
+<p>[ ] <strong>A</strong> Work will be more rewarding.
+[ ] <strong>B</strong> Unemployment will fall.
+[ ] <strong>C</strong> People will want to delay retiring.
+[ ] <strong>D</strong> Working hours will be shorter.
+[ ] <strong>E</strong> People will change jobs more frequently.</p>
+<p><strong>Questions 25-30</strong>
 What comment do the students make about each of the following jobs? Choose SIX answers from the box and write the correct letter, A—G, next to Questions 25-30.</p>
-<p>Comments
-A These jobs are likely to be at risk.
-B Their role has become more interesting in recent years.
-C The number of people working in this sector has fallen dramatically.
-D This job will require more qualifications.
-E Higher disposable income has led to a huge increase in jobs.
-F There is likely to be a significant rise in demand for this service.
-G Both employment and productivity have risen.</p>
-<p>Jobs
+<p><strong>Comments</strong>
+<strong>A</strong> These jobs are likely to be at risk.
+<strong>B</strong> Their role has become more interesting in recent years.
+<strong>C</strong> The number of people working in this sector has fallen dramatically.
+<strong>D</strong> This job will require more qualifications.
+<strong>E</strong> Higher disposable income has led to a huge increase in jobs.
+<strong>F</strong> There is likely to be a significant rise in demand for this service.
+<strong>G</strong> Both employment and productivity have risen.</p>
+<p><strong>Jobs</strong>
 25. Accountants  _______ 
 26. Hairdressers  _______ 
 27. Administrative staff  _______ 
 28. Agricultural workers  _______ 
 29. Care workers  _______ 
 30. Bank clerks  _______</p>
-<p>Part 4: Questions 31-40
-Complete the notes below. Write ONE WORD ONLY for each answer.</p>
-<p>Space Traffic Management</p>
-<p>A Space Traffic Management system
+<p><strong>Part 4: Questions 31-40</strong>
+Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+<p><strong>Space Traffic Management</strong></p>
+<p><strong>A Space Traffic Management system</strong>
 • is a concept similar to Air Traffic Control, but for satellites rather than planes.
 • would aim to set up legal and (31)  _______  ways of improving safety.
 • does not actually exist at present.</p>
-<p>Problems in developing effective Space Traffic Management
+<p><strong>Problems in developing effective Space Traffic Management</strong>
 • Satellites are now quite (32)  _______  and therefore more widespread (e.g. there are constellations made up of (33)  _______  of satellites).
 • At present, satellites are not required to transmit information to help with their (34)  _______ 
 • There are few systems for (35)  _______  satellites.
@@ -206,11 +262,11 @@ Complete the notes below. Write ONE WORD ONLY for each answer.</p>
 • Operators may be unwilling to share details of satellites used for (36)  _______  or commercial reasons.
 • It may be hard to collect details of the object’s (37)  _______  at a given time.
 • Scientists can only make a (38)  _______  about where the satellite will go.</p>
-<p>Solutions
+<p><strong>Solutions</strong>
 1. Common standards should be agreed on for the presentation of information.
 2. The information should be combined in one (39)  _______ 
 3. A coordinated system must be designed to create (40)  _______  in its users.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Marrowfield</p>
 <p>2. Relative</p>
 <p>3. Socialize/ socialize</p>
@@ -469,6 +525,29 @@ Complete the notes below. Write ONE WORD ONLY for each answer.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -488,12 +567,23 @@ Complete the notes below. Write ONE WORD ONLY for each answer.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -505,14 +595,6 @@ Complete the notes below. Write ONE WORD ONLY for each answer.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

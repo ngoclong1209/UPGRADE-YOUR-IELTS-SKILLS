@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,19 +158,19 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_72</h1>
-            <p>IELTS Reading Practice - Test 72</p>
-<p>The Grapes of Winter</p>
-<p>A Icewine, or Eiswein as the Germans call it, is the product of frozen grapes. A small portion of the vineyard is left unpicked during the fall harvest’ those grapes are left on the vine until the mercury drops to at least -7°C. At this temperature, the sugar-rich juice begins to freeze. If the grapes are picked in their frozen state and pressed while they are as hard as marbles, the small amount of juice recovered is intensely sweet and high in acidity. The amber dessert wine made from this juice is an ambrosia fit for Dionysus himself – very sweet, it combines savours of peach and apricot.</p>
-<p>B The discovery of icewine, like most epicurean breakthroughs was accidental. In 1794, wine producers in the German duchy of Franconia made virtue of necessity by pressing juice from frozen grapes. They were amazed by an abnormally high concentration of sugars and acids which until then had been achieved only by drying the grapes on straw mats before pressing or by the effects of Botrytis cinerea, a disease known as ‘root rot’. Botrytis cinerea afflicts grapes in autumn, usually in regions where there is early morning fog and humid, sunny afternoons. A mushroom-like fungus attaches itself to the berries, puncturing their skins and allowing the juice to evaporate. The world’s great dessert wines, such as Sauternes, Riesling and Tokay Aszy Essentia, are made from grapes afflicted by this benign disease.</p>
-<p>C It was not until the mid- 19th century in the Rheingau region of northwestern Germany that winegrowers made conscious efforts to produce icewine on a regular basis. But they found they could not make it every year since the subzero cold spell must last several days to ensure that the berries remain frozen solid during picking and the pressing process, which alone can take up to three days or longer. Grapes are 80 percent water; when this water is frozen and driven off under pressure and shards of ice, the resulting juice is wonderfully sweet. If the ice melts during a sudden thaw, the sugar in each berry is diluted.</p>
-<p>D To ensure the right temperature is maintained, in Germany the pickers must be out well before dawn to harvest the grapes. Not all grapes are suitable for icewine. Only the thick-skinned, late-maturing varieties such as Riesling and Vidal can resist such predators as grey rot, powdery mildew, unseasonable warmth, wind, rain and the variety of fauna craving a sweet meal. Leaving grapes on the vine once they have ripened is an enormous gamble. If birds and animals don’t get them, mildew and rot or a sudden storm might. So growers reserve only a small portion of their Vidal or Riesling grapes for icewine, a couple of hectares of views at most. A vineyard left for icewine is a sorry sight. The mesh-covered vines are denuded of leaves and the grapes are brown and shrivelled, dangling like tiny bats from the frozen canes. The stems of the grape clusters are dry and brittle. A strong wind or an ice storm could easily knock the fruit to the ground. A twist of the wrist is all that is needed to pick the grapes. But wine the wind howls through the vineyard, driving the snow before it and the wind chill factor can make a temperature of -10° seem like -40°, harvesting icewine grapes becomes a decidedly uncomfortable business. Pickers fortified with tea and brandy, brave the elements for two hours at a time before rushing back to the winery to warm up.</p>
-<p>E Once the tractor delivers the precious boxes of grapes to the winery, the really hard work begins. Since the berries must remain frozen, the pressing is done either outdoors or inside the winery with the doors left open. The presses have to be worked slowly otherwise the bunches will turn to a solid block of ice yielding nothing. Some producers throw rice husks into the press to pierce the skins of the grapes and create channels for the juice to flow through the mass of ice. Sometimes it takes two or three hours before the first drop of juice appears.</p>
-<p>F A kilogram of unfrozen grapes normally produces sufficient juice to ferment into one bottle of wine. The juice from a kilogram of icewine grapes produces one-fifth of that amount or less depending on the degree of dehydration caused by wind and winter sunshine. The longer the grapes hang on the vine, the less juice there is. So grapes harvested during a cold snap in December will yield more icewine than if they are picked in February. The oily juice, once extracted from the marble-hard berries, is allowed to settle for three or four days. It is then clarified of dust and debris by racking from one tank to another. A special yeast is added to activate fermentation in the stainless steel tanks since the colourless liquid is too cold to ferment on its own. Because of the high sugars, the fermentation is slow and can take months. But when the wine is finally bottled, it has the capacity to age for a decade or more.</p>
-<p>G While Germany may be recognised as the home of icewine, its winemakers cannot produce it every year. Canadian winemakers can and are slowly becoming known for this expensive rarity as the home-grown product garners medals at international wine competitions. Klaus Reif of the Reif Winery at Niagara-on-the-Lake has produced icewine in both countries. While studying oenology, the science of winemaking, he worked at a government winery in Neustadt in the West German state of Rheinland-Pfalz. In 1983 he made his first Canadian icewine from Riesling grapes. Four years later he made ice-wine from Vidal grapes grown in his uncle’s vineyard at Niagara-on-the-Lake. “The juice comes out like honey here” says Reif, “in Germany it drops like ordinary wine”.</p>
-<p>Questions 1-7
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 72</strong></h3>
+<h3 class="test-heading"><strong>The Grapes of Winter</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Icewine, or Eiswein as the Germans call it, is the product of frozen grapes. A small portion of the vineyard is left unpicked during the fall harvest’ those grapes are left on the vine until the mercury drops to at least -7°C. At this temperature, the sugar-rich juice begins to freeze. If the grapes are picked in their frozen state and pressed while they are as hard as marbles, the small amount of juice recovered is intensely sweet and high in acidity. The amber dessert wine made from this juice is an ambrosia fit for Dionysus himself – very sweet, it combines savours of peach and apricot.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> The discovery of icewine, like most epicurean breakthroughs was accidental. In 1794, wine producers in the German duchy of Franconia made virtue of necessity by pressing juice from frozen grapes. They were amazed by an abnormally high concentration of sugars and acids which until then had been achieved only by drying the grapes on straw mats before pressing or by the effects of Botrytis cinerea, a disease known as ‘root rot’. Botrytis cinerea afflicts grapes in autumn, usually in regions where there is early morning fog and humid, sunny afternoons. A mushroom-like fungus attaches itself to the berries, puncturing their skins and allowing the juice to evaporate. The world’s great dessert wines, such as Sauternes, Riesling and Tokay Aszy Essentia, are made from grapes afflicted by this benign disease.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> It was not until the mid- 19th century in the Rheingau region of northwestern Germany that winegrowers made conscious efforts to produce icewine on a regular basis. But they found they could not make it every year since the subzero cold spell must last several days to ensure that the berries remain frozen solid during picking and the pressing process, which alone can take up to three days or longer. Grapes are 80 percent water; when this water is frozen and driven off under pressure and shards of ice, the resulting juice is wonderfully sweet. If the ice melts during a sudden thaw, the sugar in each berry is diluted.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> To ensure the right temperature is maintained, in Germany the pickers must be out well before dawn to harvest the grapes. Not all grapes are suitable for icewine. Only the thick-skinned, late-maturing varieties such as Riesling and Vidal can resist such predators as grey rot, powdery mildew, unseasonable warmth, wind, rain and the variety of fauna craving a sweet meal. Leaving grapes on the vine once they have ripened is an enormous gamble. If birds and animals don’t get them, mildew and rot or a sudden storm might. So growers reserve only a small portion of their Vidal or Riesling grapes for icewine, a couple of hectares of views at most. A vineyard left for icewine is a sorry sight. The mesh-covered vines are denuded of leaves and the grapes are brown and shrivelled, dangling like tiny bats from the frozen canes. The stems of the grape clusters are dry and brittle. A strong wind or an ice storm could easily knock the fruit to the ground. A twist of the wrist is all that is needed to pick the grapes. But wine the wind howls through the vineyard, driving the snow before it and the wind chill factor can make a temperature of -10° seem like -40°, harvesting icewine grapes becomes a decidedly uncomfortable business. Pickers fortified with tea and brandy, brave the elements for two hours at a time before rushing back to the winery to warm up.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> Once the tractor delivers the precious boxes of grapes to the winery, the really hard work begins. Since the berries must remain frozen, the pressing is done either outdoors or inside the winery with the doors left open. The presses have to be worked slowly otherwise the bunches will turn to a solid block of ice yielding nothing. Some producers throw rice husks into the press to pierce the skins of the grapes and create channels for the juice to flow through the mass of ice. Sometimes it takes two or three hours before the first drop of juice appears.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> A kilogram of unfrozen grapes normally produces sufficient juice to ferment into one bottle of wine. The juice from a kilogram of icewine grapes produces one-fifth of that amount or less depending on the degree of dehydration caused by wind and winter sunshine. The longer the grapes hang on the vine, the less juice there is. So grapes harvested during a cold snap in December will yield more icewine than if they are picked in February. The oily juice, once extracted from the marble-hard berries, is allowed to settle for three or four days. It is then clarified of dust and debris by racking from one tank to another. A special yeast is added to activate fermentation in the stainless steel tanks since the colourless liquid is too cold to ferment on its own. Because of the high sugars, the fermentation is slow and can take months. But when the wine is finally bottled, it has the capacity to age for a decade or more.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> While Germany may be recognised as the home of icewine, its winemakers cannot produce it every year. Canadian winemakers can and are slowly becoming known for this expensive rarity as the home-grown product garners medals at international wine competitions. Klaus Reif of the Reif Winery at Niagara-on-the-Lake has produced icewine in both countries. While studying oenology, the science of winemaking, he worked at a government winery in Neustadt in the West German state of Rheinland-Pfalz. In 1983 he made his first Canadian icewine from Riesling grapes. Four years later he made ice-wine from Vidal grapes grown in his uncle’s vineyard at Niagara-on-the-Lake. “The juice comes out like honey here” says Reif, “in Germany it drops like ordinary wine”.</p></div></div>
+<p><strong>Questions 1-7</strong>
 
 From the list of headings below, choose the most suitable heading for each paragraph.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 
 i. Award-winning wine
 
@@ -148,37 +204,37 @@ x. Obstacles to production</p>
 6 Paragraph F
 
 7 Paragraph G</p>
-<p>Questions 8-10
+<p><strong>Questions 8-10</strong>
 
 Choose the correct letter, A, B, C or D.</p>
 <p>8 Growers set aside only a small area for icewine grapes because
 
-A not all grapes are suitable
+<strong>A</strong> not all grapes are suitable
 
-B nature attacks them in various ways
+<strong>B</strong> nature attacks them in various ways
 
-C not many grapes are needed
+<strong>C</strong> not many grapes are needed
 
-D the area set aside makes the vineyard look extremely untidy</p>
+<strong>D</strong> the area set aside makes the vineyard look extremely untidy</p>
 <p>9 Rice husks are used because they
 
-A stop the grapes from becoming ice blocks
+<strong>A</strong> stop the grapes from becoming ice blocks
 
-B help the berries to remain frozen
+<strong>B</strong> help the berries to remain frozen
 
-C create holes in the grapes
+<strong>C</strong> create holes in the grapes
 
-D help producers create different tastes</p>
+<strong>D</strong> help producers create different tastes</p>
 <p>10 According to Klaus Reif, Canadian icewine
 
-A flows more slowly than German wine
+<strong>A</strong> flows more slowly than German wine
 
-B tastes a lot like German icewine
+<strong>B</strong> tastes a lot like German icewine
 
-C is better than German icewine
+<strong>C</strong> is better than German icewine
 
-D is sweeter than German icewine</p>
-<p>Questions 11-14
+<strong>D</strong> is sweeter than German icewine</p>
+<p><strong>Questions 11-14</strong>
 
 Complete each of the following statements (questions 11-14) with the best ending A-G from the box below.</p>
 <p>11 Franconia icewine makers
@@ -188,19 +244,19 @@ Complete each of the following statements (questions 11-14) with the best ending
 13 Icewine grape pickers in Germany
 
 14 Canadian icewine makers</p>
-<p>A use diseased grapes to produce their wine.
+<p><strong>A</strong> use diseased grapes to produce their wine.
 
-B enjoy working in cool climates.
+<strong>B</strong> enjoy working in cool climates.
 
-C can produce icewine every year.
+<strong>C</strong> can produce icewine every year.
 
-D were surprised by the high sugar content in frozen grapes.
+<strong>D</strong> were surprised by the high sugar content in frozen grapes.
 
-E made a conscious effort to produce ice wine.
+<strong>E</strong> made a conscious effort to produce ice wine.
 
-F drink tea and brandy during their work.</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>Islands That Float</p>
+<strong>F</strong> drink tea and brandy during their work.</p>
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>Islands That Float</strong></p>
 <p>Islands are not known for their mobility but, occasionally it occurs. Natural floating islands have been recorded in many parts of the world (Burns et al 1985). Longevity studies in lakes have been carried out by Hesser, and in rivers and the open sea by Boughey (Smithsonian Institute 1970). They can form in two common ways: landslides of (usually vegetated) peaty soils into lakes or seawater or as a flotation of peat soils (usually bound by roots of woody vegetation) after storm surges, river floods or lake level risings.</p>
 <p>The capacity of the living part of a floating island to maintain its equilibrium in the face of destructive forces, such as fire, wave attack or hogging and sagging while riding sea or swell waves is a major obstacle. In general, ocean-going floating islands are most likely to be short-lived; wave wash-over gradually eliminates enough of the island’s store of fresh water to deplete soil air and kill vegetation around the edges which, in turn, causes erosion and diminishes buoyancy and horizontal mobility.</p>
 <p>The forces acting on a floating island determine the speed and direction of movement and are very similar to those acting on floating mobile ice chunks during the partially open-water season (Peterson 1965). In contrast to such ice rafts, many floating islands carry vegetation, perhaps including trees which act as sails. Burns et al examined the forces acting and concluded that comparatively low wind velocities are required to mobilise free-floating islands with vegetation standing two meters or more tall.</p>
@@ -209,16 +265,16 @@ F drink tea and brandy during their work.</p>
 <p>The transformation from swamp to lake was dramatic, occurring over the winter of 1952 when rainfall of around 250mm was well above average. Peat is very buoyant and the central raised section which had been isolated by the fire, broke away from the rocky, basalt floor as the water level rose in winter. The main island then broke up into several smaller islands which drifted slowly for up to 200 meters within the confines of the lake and ranged in size from 2 to 30 meters in diameter. The years immediately following experienced average or above average rainfall and the water level was maintained. Re-alignment of the highway in 1963 completely blocked the former southern outlet of the depression, further enhancing its ability to retain water. The road surface also provided an additional source of runoff to the depression.</p>
 <p>Anecdotal evidence indicates that the islands floated uninterrupted for 30 years following their formation. They generally moved between the NW and NE sides of the lake in response to the prevailing winds. In 1980, the Rural Water Commission issued a nearby motel a domestic licence to remove water from the lake and occasionally water is taken for the purpose of firefighting. The most significant amount taken for firefighting was during severe fires in February 1983. Since then, the Pirron Yallock islands have ceased to float, and this is thought to be related to a drop in the water level of approximately 600 mm over the past 10-15 years. The islands have either run aground on the bed or the lagoon or vegetation has attached them to the bed.</p>
 <p>Floating islands have attracted attention because they are uncommon and their behaviour has provided not only explanations for events in myth and legend but also great scope for discussion and speculation amongst scientific and other observers.</p>
-<p>Questions 15-19
+<p><strong>Questions 15-19</strong>
 
 Do the following statements agree with the information given in Reading Passage 2?
 
 In boxes 15-19 on your answer sheet write</p>
-<p>TRUE                        if the statement agrees with the information
+<p><strong>TRUE</strong>                        if the statement agrees with the information
 
-FALSE                      if the statement contradicts the information
+<strong>FALSE</strong>                      if the statement contradicts the information
 
-NOT GIVEN           if there is no information on this</p>
+<strong>NOT GIVEN</strong>           if there is no information on this</p>
 <p>15 Natural floating islands occur mostly in lakes.
 
 16 Floating Islands occur after a heavy storm or landslide.
@@ -228,7 +284,7 @@ NOT GIVEN           if there is no information on this</p>
 18 Floating islands at sea sink because the plants on them eventually die.
 
 19 Scientists and local residents agree on how the Pirron Yallock Islands were formed.</p>
-<p>Questions 20-23
+<p><strong>Questions 20-23</strong>
 
 Look at the following people (questions 20-23) and the list of statements below. Match each person to the correct statement. Write the correct letter A-G in boxes 1-4 on your answer sheet.</p>
 <p>20 Burns
@@ -238,30 +294,30 @@ Look at the following people (questions 20-23) and the list of statements below.
 22 McWhirter
 
 23 Hesser</p>
-<p>A compared floating islands to floating blocks of ice
+<p><strong>A</strong> compared floating islands to floating blocks of ice
 
-B documented the break up of a sea-going island
+<strong>B</strong> documented the break up of a sea-going island
 
-C floating islands last longer when confined to a limited area
+<strong>C</strong> floating islands last longer when confined to a limited area
 
-D studied the effect of rivers on floating islands
+<strong>D</strong> studied the effect of rivers on floating islands
 
-E like floating islands, floating mobile ice chunks carry vegetation
+<strong>E</strong> like floating islands, floating mobile ice chunks carry vegetation
 
-F even comparatively light winds can create a floating island
+<strong>F</strong> even comparatively light winds can create a floating island
 
-G recorded the appearance of a sea-going floating island
+<strong>G</strong> recorded the appearance of a sea-going floating island
 
-H tall trees increase floating island mobility</p>
-<p>Ocean Plant life in decline</p>
-<p>A Scientists have discovered plant life covering the surface of the world’s oceans is disappearing at a dangerous rate. This plant life called phytoplankton is a vital resource that helps absorb the worst of the ‘greenhouse gases’ involved in global warming. Satellites and ships at sea have confirmed the diminishing productivity of the microscopic plants, which oceanographers say is most striking in the waters of the North Pacific – ranging as far up as the high Arctic. “Whether the lost productivity of the phytoplankton is directly due to increased ocean temperatures that have been recorded for at least the past 20 years remains part of an extremely complex puzzle”, says Watson W. Gregg, a NASA biologist at the Goddard Space Flight Center in the USA, but it surely offers a fresh clue to the controversy over climate change. According to Gregg, the greatest loss of phytoplankton has occurred where ocean temperatures have risen most significantly between the early 1980s and the late 1990s. In the North Atlantic summertime, sea surface temperatures rose about 1.3 degrees Fahrenheit during that period, while in the North Pacific the ocean’s surface temperatures rose about .07 of a degree.</p>
-<p>B While the link between ocean temperatures and the productivity of plankton is striking, other factors can also affect the health of the plants. They need iron as nourishment, for example, and much of it reaches them in powerful winds that sweep iron-containing dust across the oceans from continental deserts. When those winds diminish or fail, plankton can suffer. According to Gregg and his colleagues, there have been small but measurable decreases in the amount of iron deposited over the oceans in recent years.</p>
-<p>C The significant decline in plankton productivity has a direct effect on the world’s carbon cycle. Normally, the ocean plants take up about half of all the carbon dioxide in the world’s environment because they use the carbon, along with sunlight, for growth, and release oxygen into the atmosphere in a process known as photosynthesis. Primary production of plankton in the North Pacific has decreased by more than 9 percent during the past 20 years, and by nearly 7 percent in the North Atlantic, Gregg and his colleagues determined from their satellite observations and shipboard surveys. Studies combining all the major ocean basins of the world, has revealed the decline in plankton productivity to be more than 6 percent.</p>
-<p>D The plankton of the seas are a major way in which the extra carbon dioxide emitted in the combustion of fossil fuels is eliminated. Whether caused by currently rising global temperatures or not, the loss of natural plankton productivity in the oceans also means the loss of an important factor in removing much of the principal greenhouse gas that has caused the world’s climate to warm for the past century or more. “Our combined research shows that ocean primary productivity is declining, and it may be the result of climate changes such as increased temperatures and decreased iron deposits into parts of the oceans. This has major implications for the global carbon cycle” said Gregg.</p>
-<p>E At the same time, Stanford University scientists using two other NASA satellites and one flown by the Defense Department have observed dramatic new changes in the vast ice sheets along the west coast of Antarctica. These changes, in turn, are having a major impact on phytoplankton there. They report that a monster chunk of the Ross Ice Shelf – an iceberg almost 20 miles wide and 124 miles long – has broken off the west face of the shelf and is burying a vast ocean area of phytoplankton that is the base of the food web in an area exceptionally rich in plant and animal marine life.</p>
-<p>F Although sea surface temperatures around Western Antarctica are remaining stable, the loss of plankton is proving catastrophic to all the higher life forms that depend on the plant masses, say Stanford biological oceanographers Arrigo and van Dijken. Icebergs in Antarctica are designated by letters and numbers for aerial surveys across millions of square miles of the southern ocean, and this berg is known as C-19. “We estimate from satellite observations that C-19 in the Ross Sea has covered 90 percent of all the phytoplankton there” said Arrigo.</p>
-<p>G Huge as it is, the C-19 iceberg is only the second-largest recorded in the Ross Sea region. An even larger one, dubbed B-15, broke off, or ‘calved’ in 2001. Although it also blotted out a large area of floating phytoplankton on the sea surface, it only wiped out about 40 percent of the microscopic plants. Approximately 25 percent of the world’s populations of emperor penguins and 30 percent of the Adelie penguins nest in colonies in this area. This amounts to hundreds of thousands of Adelie and emperor penguins all endangered by the huge iceberg, which has been stuck against the coast ever since it broke off from the Ross Ice Shelf last year. Whales, seals and the millions of shrimp-like sea creatures called krill are also threatened by the loss of many square miles of phytoplankton.</p>
-<p>Questions 28-32
+<strong>H</strong> tall trees increase floating island mobility</p>
+<p><strong>Ocean Plant life in decline</strong></p>
+<p><strong>A</strong> Scientists have discovered plant life covering the surface of the world’s oceans is disappearing at a dangerous rate. This plant life called phytoplankton is a vital resource that helps absorb the worst of the ‘greenhouse gases’ involved in global warming. Satellites and ships at sea have confirmed the diminishing productivity of the microscopic plants, which oceanographers say is most striking in the waters of the North Pacific – ranging as far up as the high Arctic. “Whether the lost productivity of the phytoplankton is directly due to increased ocean temperatures that have been recorded for at least the past 20 years remains part of an extremely complex puzzle”, says Watson W. Gregg, a NASA biologist at the Goddard Space Flight Center in the USA, but it surely offers a fresh clue to the controversy over climate change. According to Gregg, the greatest loss of phytoplankton has occurred where ocean temperatures have risen most significantly between the early 1980s and the late 1990s. In the North Atlantic summertime, sea surface temperatures rose about 1.3 degrees Fahrenheit during that period, while in the North Pacific the ocean’s surface temperatures rose about .07 of a degree.</p>
+<p><strong>B</strong> While the link between ocean temperatures and the productivity of plankton is striking, other factors can also affect the health of the plants. They need iron as nourishment, for example, and much of it reaches them in powerful winds that sweep iron-containing dust across the oceans from continental deserts. When those winds diminish or fail, plankton can suffer. According to Gregg and his colleagues, there have been small but measurable decreases in the amount of iron deposited over the oceans in recent years.</p>
+<p><strong>C</strong> The significant decline in plankton productivity has a direct effect on the world’s carbon cycle. Normally, the ocean plants take up about half of all the carbon dioxide in the world’s environment because they use the carbon, along with sunlight, for growth, and release oxygen into the atmosphere in a process known as photosynthesis. Primary production of plankton in the North Pacific has decreased by more than 9 percent during the past 20 years, and by nearly 7 percent in the North Atlantic, Gregg and his colleagues determined from their satellite observations and shipboard surveys. Studies combining all the major ocean basins of the world, has revealed the decline in plankton productivity to be more than 6 percent.</p>
+<p><strong>D</strong> The plankton of the seas are a major way in which the extra carbon dioxide emitted in the combustion of fossil fuels is eliminated. Whether caused by currently rising global temperatures or not, the loss of natural plankton productivity in the oceans also means the loss of an important factor in removing much of the principal greenhouse gas that has caused the world’s climate to warm for the past century or more. “Our combined research shows that ocean primary productivity is declining, and it may be the result of climate changes such as increased temperatures and decreased iron deposits into parts of the oceans. This has major implications for the global carbon cycle” said Gregg.</p>
+<p><strong>E</strong> At the same time, Stanford University scientists using two other NASA satellites and one flown by the Defense Department have observed dramatic new changes in the vast ice sheets along the west coast of Antarctica. These changes, in turn, are having a major impact on phytoplankton there. They report that a monster chunk of the Ross Ice Shelf – an iceberg almost 20 miles wide and 124 miles long – has broken off the west face of the shelf and is burying a vast ocean area of phytoplankton that is the base of the food web in an area exceptionally rich in plant and animal marine life.</p>
+<p><strong>F</strong> Although sea surface temperatures around Western Antarctica are remaining stable, the loss of plankton is proving catastrophic to all the higher life forms that depend on the plant masses, say Stanford biological oceanographers Arrigo and van Dijken. Icebergs in Antarctica are designated by letters and numbers for aerial surveys across millions of square miles of the southern ocean, and this berg is known as C-19. “We estimate from satellite observations that C-19 in the Ross Sea has covered 90 percent of all the phytoplankton there” said Arrigo.</p>
+<p><strong>G</strong> Huge as it is, the C-19 iceberg is only the second-largest recorded in the Ross Sea region. An even larger one, dubbed B-15, broke off, or ‘calved’ in 2001. Although it also blotted out a large area of floating phytoplankton on the sea surface, it only wiped out about 40 percent of the microscopic plants. Approximately 25 percent of the world’s populations of emperor penguins and 30 percent of the Adelie penguins nest in colonies in this area. This amounts to hundreds of thousands of Adelie and emperor penguins all endangered by the huge iceberg, which has been stuck against the coast ever since it broke off from the Ross Ice Shelf last year. Whales, seals and the millions of shrimp-like sea creatures called krill are also threatened by the loss of many square miles of phytoplankton.</p>
+<p><strong>Questions 28-32</strong>
 
 The passage has seven paragraphs labelled A-G. Which paragraph contains the following information?
 
@@ -275,9 +331,9 @@ Write the correct letter A-G in boxes 28-32 on your answer sheet. NB: You may us
 31 the system used in naming icebergs
 
 32 the importance of phytoplankton in the food chain</p>
-<p>Questions 33-36
+<p><strong>Questions 33-36</strong>
 
-Complete the sentences below with words taken from Reading Passage 3. Use NO MORE THAN TWO WORDS for each answer.</p>
+Complete the sentences below with words taken from Reading Passage 3. Use <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>33 Much needed iron for plant life is transported to the ocean by………………..
 
 34 An increase in greenhouse gasses is due to a decrease in…………………..
@@ -285,12 +341,12 @@ Complete the sentences below with words taken from Reading Passage 3. Use NO MOR
 35 Phytoplankton forms the………………………………of the food web.
 
 36 The technical term used when a piece of ice detached from the main block is…………………..</p>
-<p>Questions 37-40
+<p><strong>Questions 37-40</strong>
 
-Complete the summary of paragraphs A-C below. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
+Complete the summary of paragraphs A-C below. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
 <p>A decline in the plant life located in the world’s oceans has been validated by (37)………………………………..The most obvious decline in plant life has been in the North Pacific. A rise in ocean temperatures in the early 1980s and late 1990s led to a decline in (38)………………………………… In addition to higher ocean temperatures, deficiencies in (39)………………………. can also lead to a decline in plankton numbers. This, in turn, impacts upon the world’s (40)………………………</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. ix</p>
 <p>2. viii</p>
 <p>3. ii</p>
@@ -550,6 +606,29 @@ Complete the summary of paragraphs A-C below. Choose NO MORE THAN THREE WORDS fr
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -569,12 +648,23 @@ Complete the summary of paragraphs A-C below. Choose NO MORE THAN THREE WORDS fr
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -586,14 +676,6 @@ Complete the summary of paragraphs A-C below. Choose NO MORE THAN THREE WORDS fr
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

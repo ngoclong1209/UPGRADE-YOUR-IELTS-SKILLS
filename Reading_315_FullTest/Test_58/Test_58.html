@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,34 +158,34 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_58</h1>
-            <p>IELTS Reading Practice - Test 58</p>
-<p>Passage 1</p>
-<p>The people of ancient Egypt emerged as one of the first Western civilisations. Sustained by the River Nile and protected by vast deserts, the Egyptians lived in comparative security, prosperity and peace for thousands of years. When such conditions exist, the civilisation and its arts usually flourish. To this day, many of the Egyptian artistic creations display the wealth, splendour and talent of this great civilisation.</p>
-<p>Ancient Egypt has been called a land of temples and tombs. For centuries people have been filled with wonder at the ingenuity of the Egyptians, whose impressive works have withstood the ravages of time so well. Had it not been for the long-lasting nature of their monuments and carved inscriptions in the form of hieroglyphics’, much evidence of their activities would have vanished from all historical records. In about 3000 BC, Upper and Lower Egypt were united under the first pharaoh, and generally from that time until the invasion by Alexander the Great in 332 BC, Egypt prospered as a nation of skilful craftsmen and artists.</p>
-<p>The Egyptians were an industrious, highly civilised and deeply religious people, who obediently accepted the supreme authority of their pharaohs. The people were content to serve and work for the state in return for a secure livelihood. They considered this earthly life to be a segment in a great cycle, at the end of which everything would be returned to its original form. The richer and more important the person, the more careful and elaborate would be his or her burial, and the stronger and safer the tomb in which they would be buried.</p>
-<p>The burial of the dead in the ground was not considered sufficiently safe for kings, queens and court officials, so sunken, sealed tombs were ingeniously constructed to protect personal treasures, food and instructions for the safe conduct of the soul after death. The design of these tombs developed into the stepped pyramid, and finally into the square pyramid that we know today.</p>
-<p>There are about 80 ancient pyramids in Egypt. The Great Pyramid at Giza, which King Cheops built as his tomb 5000 years ago, holds most interest. It stands with two other pyramids on a slight rise overlooking the River Nile. At the centre of the pyramid is the King’s Chamber and leading down from there is a long narrow area known as the Grand Gallery. The pyramid covers 13 acres and contains 2,300,000 blocks of limestone, each weighing an average of 1.5 tons. Its pyramidal form has a perfectly square base with sides of 756 feet and a height of 481 feet. Situated directly below the King’s Chamber is the Queen’s Chamber and there are two air channels leading upwards from the centre of the pyramid to the outside.</p>
-<p>Originally the exterior was covered in highly polished limestone slabs, all of which have been stolen over the years. It is estimated that a total of 100,000 men laboured for 20 years to build this gigantic structure, and although architecturally unimportant in design, it has aroused the curiosity of millions of people because of the uncanny accuracy of its measurements and proportions. It reveals the remarkable ingenuity and the great organising ability of the ancient Egyptians.</p>
-<p>Near these pyramids stands the Great Sphinx, the origin and purpose of which constitutes one of the world’s most famous puzzles. Shaped from an outcrop of stone in the form of a humanheaded lion, the face is possibly a portrait of King Khafra, the son of Cheops, who was buried in the second largest pyramid. The Sphinx is one of the biggest statues ever made.</p>
-<p>The Egyptian people showed reverence towards natural objects such as the lotus flower, the scarab beetle, the falcon, the lion, the sun and the River Nile. All these subjects and many more were used symbolically and conventionally as motifs in low-relief carving and painting. It was the custom of the Egyptians to depict the various parts of the human figure, usually in the most characteristic positions. The head was shown in profile except for the eye, which was represented from the front, the shoulders and a portion of the arms were portrayed from the front, while the hips and legs were side views. Wall decoration showed little or no attempt to indicate depth or perspective, except by placing distant objects above near things. It was essentially two-dimensional, and relative size indicated the status of the person, so the pharaoh was the largest figure in the composition.</p>
-<p>Egyptian art is characterised by a passion for permanence, a desire to impress by size, and a determination to make each item serve its function without much regard for the whole. It is obvious that art among these people reached a very high level and the strong influence of Egyptian art can be seen in the work of nearby civilisations.</p>
-<p>The fortunate discovery and subsequent deciphering in 1822 of the Rosetta Stone, which showed the same laws inscribed both in Egyptian hieroglyphics and the Egyptian demotic, or popular version of their language, as well as the Greek language, eventually gave the key to the meaning of Egyptian inscriptions, and therefore the significance of much Egyptian art.</p>
-<p>Questions 1-3</p>
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 58</strong></h3>
+<h3 class="test-heading"><strong>Passage 1</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>The people of ancient Egypt emerged as one of the first Western civilisations. Sustained by the River Nile and protected by vast deserts, the Egyptians lived in comparative security, prosperity and peace for thousands of years. When such conditions exist, the civilisation and its arts usually flourish. To this day, many of the Egyptian artistic creations display the wealth, splendour and talent of this great civilisation.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>Ancient Egypt has been called a land of temples and tombs. For centuries people have been filled with wonder at the ingenuity of the Egyptians, whose impressive works have withstood the ravages of time so well. Had it not been for the long-lasting nature of their monuments and carved inscriptions in the form of hieroglyphics’, much evidence of their activities would have vanished from all historical records. In about 3000 BC, Upper and Lower Egypt were united under the first pharaoh, and generally from that time until the invasion by Alexander the Great in 332 BC, Egypt prospered as a nation of skilful craftsmen and artists.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>The Egyptians were an industrious, highly civilised and deeply religious people, who obediently accepted the supreme authority of their pharaohs. The people were content to serve and work for the state in return for a secure livelihood. They considered this earthly life to be a segment in a great cycle, at the end of which everything would be returned to its original form. The richer and more important the person, the more careful and elaborate would be his or her burial, and the stronger and safer the tomb in which they would be buried.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>The burial of the dead in the ground was not considered sufficiently safe for kings, queens and court officials, so sunken, sealed tombs were ingeniously constructed to protect personal treasures, food and instructions for the safe conduct of the soul after death. The design of these tombs developed into the stepped pyramid, and finally into the square pyramid that we know today.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>There are about 80 ancient pyramids in Egypt. The Great Pyramid at Giza, which King Cheops built as his tomb 5000 years ago, holds most interest. It stands with two other pyramids on a slight rise overlooking the River Nile. At the centre of the pyramid is the King’s Chamber and leading down from there is a long narrow area known as the Grand Gallery. The pyramid covers 13 acres and contains 2,300,000 blocks of limestone, each weighing an average of 1.5 tons. Its pyramidal form has a perfectly square base with sides of 756 feet and a height of 481 feet. Situated directly below the King’s Chamber is the Queen’s Chamber and there are two air channels leading upwards from the centre of the pyramid to the outside.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Originally the exterior was covered in highly polished limestone slabs, all of which have been stolen over the years. It is estimated that a total of 100,000 men laboured for 20 years to build this gigantic structure, and although architecturally unimportant in design, it has aroused the curiosity of millions of people because of the uncanny accuracy of its measurements and proportions. It reveals the remarkable ingenuity and the great organising ability of the ancient Egyptians.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>Near these pyramids stands the Great Sphinx, the origin and purpose of which constitutes one of the world’s most famous puzzles. Shaped from an outcrop of stone in the form of a humanheaded lion, the face is possibly a portrait of King Khafra, the son of Cheops, who was buried in the second largest pyramid. The Sphinx is one of the biggest statues ever made.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>The Egyptian people showed reverence towards natural objects such as the lotus flower, the scarab beetle, the falcon, the lion, the sun and the River Nile. All these subjects and many more were used symbolically and conventionally as motifs in low-relief carving and painting. It was the custom of the Egyptians to depict the various parts of the human figure, usually in the most characteristic positions. The head was shown in profile except for the eye, which was represented from the front, the shoulders and a portion of the arms were portrayed from the front, while the hips and legs were side views. Wall decoration showed little or no attempt to indicate depth or perspective, except by placing distant objects above near things. It was essentially two-dimensional, and relative size indicated the status of the person, so the pharaoh was the largest figure in the composition.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>Egyptian art is characterised by a passion for permanence, a desire to impress by size, and a determination to make each item serve its function without much regard for the whole. It is obvious that art among these people reached a very high level and the strong influence of Egyptian art can be seen in the work of nearby civilisations.</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p>The fortunate discovery and subsequent deciphering in 1822 of the Rosetta Stone, which showed the same laws inscribed both in Egyptian hieroglyphics and the Egyptian demotic, or popular version of their language, as well as the Greek language, eventually gave the key to the meaning of Egyptian inscriptions, and therefore the significance of much Egyptian art.</p></div></div>
+<p><strong>Questions 1-3</strong></p>
 <p>You should spend about 20 minutes on questions 1-13, which are based on Reading Passage 1.
 
-Complete the sentences below. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
+Complete the sentences below. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
 <p>1 Security and peace are two ……………….. that are necessary for a civilisation to be successful.
 
 2 Ancient Egyptians worked as both ……………….. .
 
 3 Ordinary Egyptians expected to receive ……………….. for their hard work.</p>
-<p>Questions 8-12</p>
+<p><strong>Questions 8-12</strong></p>
 <p>Do the following statements agree with the information given in the Reading Passage 1. In boxes 8-12 on your answer sheet, write</p>
-<p>TRUE                        if the statement agrees with the information
+<p><strong>TRUE</strong>                        if the statement agrees with the information
 
-FALSE                      if the statement contradicts the information
+<strong>FALSE</strong>                      if the statement contradicts the information
 
-NOT GIVEN          if there is no information on this</p>
+<strong>NOT GIVEN</strong>          if there is no information on this</p>
 <p>8 The surface of the Great Pyramid is covered in polished limestone slabs.
 
 9 King Khafra died before King Cheops.
@@ -139,30 +195,30 @@ NOT GIVEN          if there is no information on this</p>
 11 Important characters in Egyptian carvings were bigger than less important characters.
 
 12 Egyptian art was greatly influenced by the art of neighbouring cultures.</p>
-<p>Question 13
+<p><strong>Question 13</strong>
 
 Choose the correct letter A, B, C or D. Write the correct letter in box 13 on your answer sheet.</p>
 <p>The writer’s aim in this passage is to</p>
-<p>A describe the construction methods of the pyramids.
+<p><strong>A</strong> describe the construction methods of the pyramids.
 
-B explain the beliefs of the ancient Egyptians.
+<strong>B</strong> explain the beliefs of the ancient Egyptians.
 
-C offer an interpretation of Egyptian art and sculpture.
+<strong>C</strong> offer an interpretation of Egyptian art and sculpture.
 
-D provide an overview of early Egyptian society.</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>Sticking Power</p>
-<p>A If Kellar Autumn, an expert in Biomechanics at Clark College in Portland, Oregon, has his way, the first footprints on Mars won’t be human. They’ll belong to a gecko. Gecko toes have legendary sticking power – and the Clark College scientist would like to see the next generation of Martian robots walking about on gecko-style feet. A gecko can whiz up the smoothest wall and hang from the ceiling by one foot, with no fear of falling.</p>
-<p>B Autumn is one of a long line of researchers who have puzzled over the gecko’s gravity-defying footwork. Earlier this year, he and his colleagues discovered that the gecko’s toes don’t just stick, they bond to the surface beneath them. Engineers are already trying to copy the gecko’s technique – but reptilian feet are not the only ones they are interested in.</p>
-<p>C Some of the most persistent ‘hanging’ creatures are insects. They can defy not just gravity, but gusts of wind, raindrops and a predator’s attempt to prize them loose. Recent discoveries about how they achieve this could lead to the development of quick-release adhesives and miniature grippers, ideal for manipulating microscopic components or holding tiny bits of tissue together during surgery. ‘There are lots of ways to make two surfaces stick together, but there are very few which provide precise and reversible attachment,’ says Stas Gorb, a biologist in Tübingen, Germany, working on the problem.</p>
-<p>D Geckos and insects have both perfected ways of doing this, and engineers and scientists would dearly love to know how. Friction certainly plays a part in assisting horizontal movement, but when the animal is running up a slope, climbing vertically or travelling upside down, it needs a more powerful adhesive. Just what that adhesive is has been hotly debated for years. Some people suggested that insects had micro-suckers. Some reckoned they relied on electrostatic forces. Others thought that intermolecular forces between pad and leaf might provide a firm foothold.</p>
-<p>E Most of the evidence suggests that insects rely on ‘wet adhesion’, hanging on with the help of a thin film of fluid on the bottom of the pad. Insects often leave tiny trails of oily footprints. Some clearly secrete a fluid onto the ‘soles’ of their feet. And they tend to lose their footing when they have their feet cleaned or dried.</p>
-<p>F This year, Walter Federle, an entomologist at the University of Würzburg, showed experimentally that an insect’s sticking power depends on a thin film of liquid under its feet. He placed an ant on a polished turntable inside the rotor of a centrifuge, and switched it on. At slow speeds, the ant carried on walking unperturbed. But as the scientist slowly increased the speed, the pulling forces grew stronger and the ant stopped dead, legs spread out and all six feet planted firmly on the ground. At higher speeds still, the ant’s feet began to slide. ‘This can only be explained by the presence of a liquid,’ says Federle. ‘If the ant relied on some form of dry adhesion, its feet would pop abruptly off the surface once the pull got too strong.’</p>
-<p>G But the liquid isn’t the whole story. What engineers really find exciting about insect feet is the way they make almost perfect contact with the surface beneath. ‘Sticking to a perfectly smooth surface is no big deal,’ says Gorb. But in nature, even the smoothest-looking surfaces have microscopic lumps and bumps. For a footpad to make good contact, it must follow the contours of the landscape beneath it. Flies, beetles and earwigs have solved the problem with hairy footpads, with hairs that bend like the bristles of a toothbrush to accommodate the troughs below.</p>
-<p>H Gorb has tested dozens of species with this sort of pad to see which had the best stick. Flies resist a pull of three or four times their body weight – perfectly adequate for crossing the ceiling. But beetles can do better and the champion is a small, blue beetle with oversized yellow feet, found in the south-eastern parts of the US.</p>
-<p>I Tom Eisner, a chemical ecologist at Cornell University in New York, has been fascinated by this beetle for years. Almost 30 years ago, he suggested that the beetle clung on tight to avoid being picked off by predators – ants in particular. When Eisner measured the beetle’s sticking power earlier this year, he found that it can withstand pulling forces of around 80 times its own weight for about two minutes and an astonishing 200 times its own weight for shorter periods. ‘The ants give up because the beetle holds on longer than they can be bothered to attack it,’ he says.</p>
-<p>J Whatever liquid insects rely on, the gecko seems able to manage without it. No one knows quite why the gecko needs so much sticking power. ‘It seems overbuilt for the job,’ says Autumn. But whatever the gecko’s needs are, its skills are in demand by humans. Autumn and his colleagues in Oregon have already helped to create a robot that walks like a gecko. Mecho-Gecko, a robot built by iRobot of Massachusetts, walks like a lizard – rolling its toes down and peeling them up again. At the moment, though, it has to make do with balls of glue to give it stick. The next step is to try to reproduce the hairs on a gecko’s toes and create a robot with the full set of gecko skills. Then we could build robots with feet that stick without glue, clean themselves and work just as well underwater as in the vacuum of space, or crawling over the dusty landscape of Mars.</p>
-<p>Questions 14-18</p>
+<strong>D</strong> provide an overview of early Egyptian society.</p>
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>Sticking Power</strong></p>
+<p><strong>A</strong> If Kellar Autumn, an expert in Biomechanics at Clark College in Portland, Oregon, has his way, the first footprints on Mars won’t be human. They’ll belong to a gecko. Gecko toes have legendary sticking power – and the Clark College scientist would like to see the next generation of Martian robots walking about on gecko-style feet. A gecko can whiz up the smoothest wall and hang from the ceiling by one foot, with no fear of falling.</p>
+<p><strong>B</strong> Autumn is one of a long line of researchers who have puzzled over the gecko’s gravity-defying footwork. Earlier this year, he and his colleagues discovered that the gecko’s toes don’t just stick, they bond to the surface beneath them. Engineers are already trying to copy the gecko’s technique – but reptilian feet are not the only ones they are interested in.</p>
+<p><strong>C</strong> Some of the most persistent ‘hanging’ creatures are insects. They can defy not just gravity, but gusts of wind, raindrops and a predator’s attempt to prize them loose. Recent discoveries about how they achieve this could lead to the development of quick-release adhesives and miniature grippers, ideal for manipulating microscopic components or holding tiny bits of tissue together during surgery. ‘There are lots of ways to make two surfaces stick together, but there are very few which provide precise and reversible attachment,’ says Stas Gorb, a biologist in Tübingen, Germany, working on the problem.</p>
+<p><strong>D</strong> Geckos and insects have both perfected ways of doing this, and engineers and scientists would dearly love to know how. Friction certainly plays a part in assisting horizontal movement, but when the animal is running up a slope, climbing vertically or travelling upside down, it needs a more powerful adhesive. Just what that adhesive is has been hotly debated for years. Some people suggested that insects had micro-suckers. Some reckoned they relied on electrostatic forces. Others thought that intermolecular forces between pad and leaf might provide a firm foothold.</p>
+<p><strong>E</strong> Most of the evidence suggests that insects rely on ‘wet adhesion’, hanging on with the help of a thin film of fluid on the bottom of the pad. Insects often leave tiny trails of oily footprints. Some clearly secrete a fluid onto the ‘soles’ of their feet. And they tend to lose their footing when they have their feet cleaned or dried.</p>
+<p><strong>F</strong> This year, Walter Federle, an entomologist at the University of Würzburg, showed experimentally that an insect’s sticking power depends on a thin film of liquid under its feet. He placed an ant on a polished turntable inside the rotor of a centrifuge, and switched it on. At slow speeds, the ant carried on walking unperturbed. But as the scientist slowly increased the speed, the pulling forces grew stronger and the ant stopped dead, legs spread out and all six feet planted firmly on the ground. At higher speeds still, the ant’s feet began to slide. ‘This can only be explained by the presence of a liquid,’ says Federle. ‘If the ant relied on some form of dry adhesion, its feet would pop abruptly off the surface once the pull got too strong.’</p>
+<p><strong>G</strong> But the liquid isn’t the whole story. What engineers really find exciting about insect feet is the way they make almost perfect contact with the surface beneath. ‘Sticking to a perfectly smooth surface is no big deal,’ says Gorb. But in nature, even the smoothest-looking surfaces have microscopic lumps and bumps. For a footpad to make good contact, it must follow the contours of the landscape beneath it. Flies, beetles and earwigs have solved the problem with hairy footpads, with hairs that bend like the bristles of a toothbrush to accommodate the troughs below.</p>
+<p><strong>H</strong> Gorb has tested dozens of species with this sort of pad to see which had the best stick. Flies resist a pull of three or four times their body weight – perfectly adequate for crossing the ceiling. But beetles can do better and the champion is a small, blue beetle with oversized yellow feet, found in the south-eastern parts of the US.</p>
+<p><strong>I</strong> Tom Eisner, a chemical ecologist at Cornell University in New York, has been fascinated by this beetle for years. Almost 30 years ago, he suggested that the beetle clung on tight to avoid being picked off by predators – ants in particular. When Eisner measured the beetle’s sticking power earlier this year, he found that it can withstand pulling forces of around 80 times its own weight for about two minutes and an astonishing 200 times its own weight for shorter periods. ‘The ants give up because the beetle holds on longer than they can be bothered to attack it,’ he says.</p>
+<p><strong>J</strong> Whatever liquid insects rely on, the gecko seems able to manage without it. No one knows quite why the gecko needs so much sticking power. ‘It seems overbuilt for the job,’ says Autumn. But whatever the gecko’s needs are, its skills are in demand by humans. Autumn and his colleagues in Oregon have already helped to create a robot that walks like a gecko. Mecho-Gecko, a robot built by iRobot of Massachusetts, walks like a lizard – rolling its toes down and peeling them up again. At the moment, though, it has to make do with balls of glue to give it stick. The next step is to try to reproduce the hairs on a gecko’s toes and create a robot with the full set of gecko skills. Then we could build robots with feet that stick without glue, clean themselves and work just as well underwater as in the vacuum of space, or crawling over the dusty landscape of Mars.</p>
+<p><strong>Questions 14-18</strong></p>
 <p>You should spend about 20 minutes on questions 14-26, which are based on Reading Passage 2.
 
 Look at the following statements (Questions 14-18) and the list of scientists below.
@@ -170,15 +226,15 @@ Look at the following statements (Questions 14-18) and the list of scientists be
 Match each statement with the correct scientist A, B, C or D.
 
 Write the correct letter A, B, C or D in boxes 14-18 on your answer sheet.</p>
-<p>List of Scientists
+<p><strong>List of Scientists</strong>
 
-A Kellar Autumn
+<strong>A</strong> Kellar Autumn
 
-B Stas Gorb
+<strong>B</strong> Stas Gorb
 
-C Walter Federte
+<strong>C</strong> Walter Federte
 
-D Tom Eisher</p>
+<strong>D</strong> Tom Eisher</p>
 <p>14 Some insects use their ability to stick to surfaces as a way of defending themselves.
 
 15 What makes sticky insect feet special is the fact that they can also detach themselves easily from a surface.
@@ -188,7 +244,7 @@ D Tom Eisher</p>
 17 A robot with gecko-style feet would be ideal for exploring other planets.
 
 18 Evidence shows that in order to stick, insect feet have to be wet.</p>
-<p>Questions 19-22</p>
+<p><strong>Questions 19-22</strong></p>
 <p>Reading Passage 2 has ten paragraphs A-J.
 
 Which paragraph contains the following information?
@@ -201,23 +257,23 @@ Write the correct letter A-J in boxes 19-22 on your answer sheet.</p>
 21 three different theories scientists have had about how insect feet stick
 
 22 examples of remarkable gecko movements</p>
-<p>Questions 23-26</p>
+<p><strong>Questions 23-26</strong></p>
 <p>Complete each sentence with the correct ending A-G below.
 
 Write the correct letter A-G in boxes 23-26 on your answer sheet.</p>
-<p>A stick to surfaces in and out of water.
+<p><strong>A</strong> stick to surfaces in and out of water.
 
-B curl up and down.
+<strong>B</strong> curl up and down.
 
-C are washed and dried.
+<strong>C</strong> are washed and dried.
 
-D resist a pull of three times their body weight.
+<strong>D</strong> resist a pull of three times their body weight.
 
-E start to slip across the surface.
+<strong>E</strong> start to slip across the surface.
 
-F leave yellow footprints.
+<strong>F</strong> leave yellow footprints.
 
-G have hairy footpads.</p>
+<strong>G</strong> have hairy footpads.</p>
 <p>23 Insect feet lose their sticking power when they
 
 24 If you put ants on a rapidly rotating object, their feet
@@ -225,22 +281,22 @@ G have hairy footpads.</p>
 25 Beetles can stick to uneven surfaces because they
 
 26 The toes on robots like Mecho-Gecko</p>
-<p>TRY IT AND SEE</p>
-<p>A In the scientific pecking order, social scientists are usually looked down on by their peers in the natural sciences. Natural scientists do experiments to test their theories or, if they cannot, they try to look for natural phenomena that can act in lieu of experiments. Social scientists, it is widely thought, do not subject their own hypotheses to any such rigorous treatment. Worse, they peddle their untested hypotheses to governments and try to get them turned into policies.</p>
-<p>B Governments require sellers of new medicines to demonstrate their safety and effectiveness. The accepted gold standard of evidence is a randomised control trial, in which a new drug is compared with the best existing therapy (or with a placebo, if no treatment is available). Patients are assigned to one arm or the other of such a study at random, ensuring that the only difference between the two groups is the new treatment. The best studies also ensure that neither patient nor physician knows which patient is allocated to which therapy. Drug trials must also include enough patients to make it unlikely that chance alone may determine the result.</p>
-<p>C But few education programmes or social initiatives are evaluated in carefully conducted studies prior to their introduction. A case in point is the ‘whole-language’ approach to reading, which swept much of the English-speaking world in the 1970s and 1980s. The whole-language theory holds that children learn to read best by absorbing contextual clues from texts, not by breaking individual words into their component parts and reassembling them (a method known as phonics). Unfortunately, the educational theorists who pushed the whole-language notion so successfully did not wait for evidence from controlled randomised trials before advancing their claims. Had they done so, they might have concluded, as did an analysis of 52 randomised studies carried out by the US National Reading Panel in 2000, that effective reading instruction requires phonics.</p>
-<p>D To avoid the widespread adoption of misguided ideas, the sensible thing is to experiment first and make policy later. This is the idea behind a trial of restorative justice which is taking place in the English courts. The experiment will include criminals who plead guilty to robbery. Those who agree to participate will be assigned randomly either to sentencing as normal or to participation in a conference in which the offender comes face-to-face with his victim and discusses how he may make emotional and material restitution. The purpose of the trial is to assess whether such restorative justice limits re-offending. If it does, it might be adopted more widely.</p>
-<p>E The idea of experimental evidence is not quite as new to the social sciences as sneering natural scientists might believe. In fact, randomised trials and systematic reviews of evidence were introduced into the social sciences long before they became common in medicine. An apparent example of random allocation is a study carried out in 1927 of how to persuade people to vote in elections. And randomised trials in social work were begun in the 1930s and 1940s. But enthusiasm later waned. This loss of interest can be attributed, at least in part, to the fact that early experiments produced little evidence of positive outcomes. Others suggest that much of the opposition to experimental evaluation stems from a common philosophical malaise among social scientists, who doubt the validity of the natural sciences, and therefore reject the potential of knowledge derived from controlled experiments. A more pragmatic factor limiting the growth of evidence-based education and social services may be limitations on the funds available for research.</p>
-<p>F Nevertheless, some 11,000 experimental studies are known in the social sciences (compared with over 250,000 in the medical literature). Randomised trials have been used to evaluate the effectiveness of driver-education programmes, job training schemes, classroom size, psychological counselling for post-traumatic stress disorder and increased investment in public housing. And where they are carried out, they seem to have a healthy dampening effect on otherwise rosy interpretations of the observations.</p>
-<p>G The problem for policymakers is often not too few data, but what to make of multiple and conflicting studies. This is where a body called the Campbell Collaboration comes into its own. This independent non-profit organisation is designed to evaluate existing studies, in a process known as a systematic review. This means attempting to identify every relevant trial of a given question (including studies that have never been published), choosing the best ones using clearly defined criteria for quality, and combining the results in a statistically valid way. An equivalent body, the Cochrane Collaboration, has produced more than 1,004 such reviews in medical fields. The hope is that rigorous review standards will allow Campbell, like Cochrane, to become a trusted and authoritative source of information.</p>
-<p>Questions 27-32
+<p><strong>TRY IT AND SEE</strong></p>
+<p><strong>A</strong> In the scientific pecking order, social scientists are usually looked down on by their peers in the natural sciences. Natural scientists do experiments to test their theories or, if they cannot, they try to look for natural phenomena that can act in lieu of experiments. Social scientists, it is widely thought, do not subject their own hypotheses to any such rigorous treatment. Worse, they peddle their untested hypotheses to governments and try to get them turned into policies.</p>
+<p><strong>B</strong> Governments require sellers of new medicines to demonstrate their safety and effectiveness. The accepted gold standard of evidence is a randomised control trial, in which a new drug is compared with the best existing therapy (or with a placebo, if no treatment is available). Patients are assigned to one arm or the other of such a study at random, ensuring that the only difference between the two groups is the new treatment. The best studies also ensure that neither patient nor physician knows which patient is allocated to which therapy. Drug trials must also include enough patients to make it unlikely that chance alone may determine the result.</p>
+<p><strong>C</strong> But few education programmes or social initiatives are evaluated in carefully conducted studies prior to their introduction. A case in point is the ‘whole-language’ approach to reading, which swept much of the English-speaking world in the 1970s and 1980s. The whole-language theory holds that children learn to read best by absorbing contextual clues from texts, not by breaking individual words into their component parts and reassembling them (a method known as phonics). Unfortunately, the educational theorists who pushed the whole-language notion so successfully did not wait for evidence from controlled randomised trials before advancing their claims. Had they done so, they might have concluded, as did an analysis of 52 randomised studies carried out by the US National Reading Panel in 2000, that effective reading instruction requires phonics.</p>
+<p><strong>D</strong> To avoid the widespread adoption of misguided ideas, the sensible thing is to experiment first and make policy later. This is the idea behind a trial of restorative justice which is taking place in the English courts. The experiment will include criminals who plead guilty to robbery. Those who agree to participate will be assigned randomly either to sentencing as normal or to participation in a conference in which the offender comes face-to-face with his victim and discusses how he may make emotional and material restitution. The purpose of the trial is to assess whether such restorative justice limits re-offending. If it does, it might be adopted more widely.</p>
+<p><strong>E</strong> The idea of experimental evidence is not quite as new to the social sciences as sneering natural scientists might believe. In fact, randomised trials and systematic reviews of evidence were introduced into the social sciences long before they became common in medicine. An apparent example of random allocation is a study carried out in 1927 of how to persuade people to vote in elections. And randomised trials in social work were begun in the 1930s and 1940s. But enthusiasm later waned. This loss of interest can be attributed, at least in part, to the fact that early experiments produced little evidence of positive outcomes. Others suggest that much of the opposition to experimental evaluation stems from a common philosophical malaise among social scientists, who doubt the validity of the natural sciences, and therefore reject the potential of knowledge derived from controlled experiments. A more pragmatic factor limiting the growth of evidence-based education and social services may be limitations on the funds available for research.</p>
+<p><strong>F</strong> Nevertheless, some 11,000 experimental studies are known in the social sciences (compared with over 250,000 in the medical literature). Randomised trials have been used to evaluate the effectiveness of driver-education programmes, job training schemes, classroom size, psychological counselling for post-traumatic stress disorder and increased investment in public housing. And where they are carried out, they seem to have a healthy dampening effect on otherwise rosy interpretations of the observations.</p>
+<p><strong>G</strong> The problem for policymakers is often not too few data, but what to make of multiple and conflicting studies. This is where a body called the Campbell Collaboration comes into its own. This independent non-profit organisation is designed to evaluate existing studies, in a process known as a systematic review. This means attempting to identify every relevant trial of a given question (including studies that have never been published), choosing the best ones using clearly defined criteria for quality, and combining the results in a statistically valid way. An equivalent body, the Cochrane Collaboration, has produced more than 1,004 such reviews in medical fields. The hope is that rigorous review standards will allow Campbell, like Cochrane, to become a trusted and authoritative source of information.</p>
+<p><strong>Questions 27-32</strong>
 
 Reading Passage 3 has seven paragraphs A-G.
 
 Choose the correct heading for paragraphs B-G from the list of headings below.
 
 Write the correct number i-x in boxes 27-32 on your answer sheet.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 
 i Why some early social science methods lost popularity
 
@@ -273,20 +329,20 @@ x Why some scientists’ theories are considered second-rate</p>
 31 Paragraph F
 
 32 Paragraph G</p>
-<p>Questions 33-36
+<p><strong>Questions 33-36</strong>
 
-Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>Fighting Crime</p>
+Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>Fighting Crime</strong></p>
 <p>Some criminals in England are agreeing to take part in a trial designed to help reduce their chances of (33)……………….. . The idea is that while one group of randomly selected criminals undergoes the usual (34)……………….. , the other group will discuss the possibility of making some repayment for the crime by meeting the (35) ……………….. . It is yet to be seen whether this system, known as (36) ……………….. , will work.</p>
-<p>Questions 37-40</p>
+<p><strong>Questions 37-40</strong></p>
 <p>Classify the following characteristics as relating to</p>
-<p>A Social Science
+<p><strong>A</strong> Social Science
 
-B Medical Science
+<strong>B</strong> Medical Science
 
-C Both Social Science and Medical Science
+<strong>C</strong> Both Social Science and Medical Science
 
-D Neither Social Science nor Medical Science</p>
+<strong>D</strong> Neither Social Science nor Medical Science</p>
 <p>Write the correct letter A, B, C or D in boxes 37-40 on your answer sheet.</p>
 <p>37 a tendency for negative results in early trials
 
@@ -296,7 +352,7 @@ D Neither Social Science nor Medical Science</p>
 
 40 the widespread use of studies that investigate the quality of new products</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. conditions</p>
 <p>2. craftsmen and artists</p>
 <p>3. secure livelihood</p>
@@ -555,6 +611,29 @@ D Neither Social Science nor Medical Science</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -574,12 +653,23 @@ D Neither Social Science nor Medical Science</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -591,14 +681,6 @@ D Neither Social Science nor Medical Science</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

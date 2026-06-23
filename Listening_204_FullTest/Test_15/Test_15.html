@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,109 +158,109 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_15</h1>
-            <p>IELTS Listening Practice - Test 15</p>
-<p>Part 1: Questions 1-5
-Complete the notes below. Write NO MORE THAN THREE WORDS OR A NUMBER.</p>
-<p>Sunshine tours</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 15</strong></h3>
+<p><u><strong>Part</strong></u><strong> 1: Questions 1-5</strong>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS OR A NUMBER.</strong></p>
+<h3 class="test-heading"><strong>Sunshine tours</strong></h3>
 <p>Type of holiday:      Cruise</p>
 <p>Customers’ names: Keith Waters       Age: 32</p>
-<p>(1)  _______  Waters                  Age: (2)  _______</p>
-<p>Interests and hobbies:    travelling, swimming, jogging, (3)  _______  history, reading</p>
-<p>Budget: $7000 – $(4)  _______</p>
+<h3 class="test-heading"><strong>(1)</strong>  _______  Waters                  Age: <strong>(2)</strong>  _______</h3>
+<h3 class="test-heading">Interests and hobbies:    travelling, swimming, jogging, <strong>(3)</strong>  _______  history, reading</h3>
+<h3 class="test-heading">Budget: $7000 – $<strong>(4)</strong>  _______</h3>
 <p>Dates: 1st July – 16th July</p>
-<p>Cruise duration: at least (5)  _______</p>
-<p>Questions 6-10
-Complete the notes below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Maria Cristina
+<h3 class="test-heading">Cruise duration: at least <strong>(5)</strong>  _______</h3>
+<p><strong>Questions 6-10</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>Maria Cristina</strong>
 • Spanish boat
 • Starts in Barcelona
-• Cost – $10,500 (not including (6)  _______ )
+• Cost – $10,500 (not including <strong>(6)</strong>  _______ )
 • All foods and drinks included
 • Inside cabin (upgrade to sea view for $800)
 • On board cinema (different films every night)
-• (7)  _______ on destinations
+• <strong>(7)</strong>  _______ on destinations
 • Classes (ie. Painting, cooking, art appreciation and others)
-• (8)  _______ included</p>
-<p>Sea Queen
+• <strong>(8)</strong>  _______ included</p>
+<p><strong>Sea Queen</strong>
 • Spanish boat
 • Starts in Marseille
 • Length – 2.5 week cruise
-• Cost – $(9)  _______  (including flights)
+• Cost – $<strong>(9)</strong>  _______  (including flights)
 • Sea view cabin
 • Food included but not drinks
 • Cinema
-• (10)  _______  + gym</p>
-<p>Part 2: Questions 11-15
-Complete the sentences below. Write NO MORE THAN TWO WORDS AND OR A NUMBER for each answer.</p>
+• <strong>(10)</strong>  _______  + gym</p>
+<p><u><strong>Part</strong></u><strong> 2: Questions 11-15</strong>
+Complete the sentences below. Write <strong>NO MORE THAN TWO WORDS AND OR A NUMBER</strong> for each answer.</p>
 <p>11. The Read for All charity especially targets  _______  parents.
 12. The Read for All charity mainly tries to contact parents at  _______ 
 13. Parents who want help with finding books can go to the Read for All charity’s centre or visit their  _______ 
 14. The Read for All charity’s app costs  _______  to download to a smartphone.
 15.  _______  families can also benefit the Read for All charity in terms of improving English for the whole family.</p>
-<p>Questions 16-18
+<p><strong>Questions 16-18</strong>
 Choose the correct letter A, B or C.</p>
 <p>16. The Read for All charity gets most of its operating funds from
-[ ]  A the government
-[ ]  B one individual
-[ ]  C the general public</p>
+<strong>[ ] </strong><strong> A</strong> the government
+<strong>[ ] </strong><strong> B</strong> one individual
+<strong>[ ] </strong><strong> C</strong> the general public</p>
 <p>17. Jake suggests radio listeners can make a donation to the Read for All charity
-[ ]  A online
-[ ]  B by dropping into one of the charity’s centres
-[ ]  C by post</p>
+<strong>[ ] </strong><strong> A</strong> online
+<strong>[ ] </strong><strong> B</strong> by dropping into one of the charity’s centres
+<strong>[ ] </strong><strong> C</strong> by post</p>
 <p>18. The Read for All charity can sometimes pay
-[ ]  A a modest hourly rate for people who work for them
-[ ]  B for some overnight accommodation if volunteers live far from a centre
-[ ]  C for workers’ expenses if they provide a receipt</p>
-<p>Questions 19 and 20
+<strong>[ ] </strong><strong> A</strong> a modest hourly rate for people who work for them
+<strong>[ ] </strong><strong> B</strong> for some overnight accommodation if volunteers live far from a centre
+<strong>[ ] </strong><strong> C</strong> for workers’ expenses if they provide a receipt</p>
+<p><strong>Questions 19 and 20</strong>
 Below is a basic map used to show where the Read for All charity’s offices are. The map has 12 locations marked A-L. Match the locations in questions 19-20 with the correct locations on the map.</p>
 <p>19. Cinema  _______ 
 20. Main town post office  _______</p>
-<p>Part 3: Questions 21-25
-Complete the table below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>(21)  _______                  (22)  _______ 
-(23)  _______                  (24)  _______ 
-(25)  _______</p>
-<p>Questions 26-30
+<p><u><strong>Part</strong></u><strong> 3: Questions 21-25</strong>
+Complete the table below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>(21)</strong>  _______                  <strong>(22)</strong>  _______ 
+<strong>(23)</strong>  _______                  <strong>(24)</strong>  _______ 
+<strong>(25)</strong>  _______</p>
+<p><strong>Questions 26-30</strong>
 Choose the correct letter A, B or C.</p>
 <p>26. Why was Anna delayed starting her essay this month?
-[ ]  A she was sick
-[ ]  B she had other work to prepare
-[ ]  C her parents were visiting</p>
+<strong>[ ] </strong><strong> A</strong> she was sick
+<strong>[ ] </strong><strong> B</strong> she had other work to prepare
+<strong>[ ] </strong><strong> C</strong> her parents were visiting</p>
 <p>27. Where does Mr. Stevenson recommend that Anna study?
-[ ]  A library
-[ ]  B Mr. Stevenson’s dedicated study periods
-[ ]  C quietly at home</p>
+<strong>[ ] </strong><strong> A</strong> library
+<strong>[ ] </strong><strong> B</strong> Mr. Stevenson’s dedicated study periods
+<strong>[ ] </strong><strong> C</strong> quietly at home</p>
 <p>28. What does Mr. Stevenson ask Anna to provide him with for an extension?
-[ ]  A a copy of the department rules
-[ ]  B a paper from her doctor
-[ ]  C an application form for the extension</p>
+<strong>[ ] </strong><strong> A</strong> a copy of the department rules
+<strong>[ ] </strong><strong> B</strong> a paper from her doctor
+<strong>[ ] </strong><strong> C</strong> an application form for the extension</p>
 <p>29. What was Anna’s first possible topic to write about?
-[ ]  A foreign investment helped by reduces tax deals offered by the Australian government
-[ ]  B Australian taxes invested in overseas investment
-[ ]  C how foreign governments’ tax deals help Australian business investment overseas</p>
+<strong>[ ] </strong><strong> A</strong> foreign investment helped by reduces tax deals offered by the Australian government
+<strong>[ ] </strong><strong> B</strong> Australian taxes invested in overseas investment
+<strong>[ ] </strong><strong> C</strong> how foreign governments’ tax deals help Australian business investment overseas</p>
 <p>30. What was Anna’s second possible topic to write about?
-[ ]  A the travel business in Australia and New Zealand
-[ ]  B taxation issues between Australia and New Zealand
-[ ]  C a history of trade between Australia and New Zealand</p>
-<p>Part 4: Questions 31-35
+<strong>[ ] </strong><strong> A</strong> the travel business in Australia and New Zealand
+<strong>[ ] </strong><strong> B</strong> taxation issues between Australia and New Zealand
+<strong>[ ] </strong><strong> C</strong> a history of trade between Australia and New Zealand</p>
+<p><u><strong>Part</strong></u><strong> 4: Questions 31-35</strong>
 Match the person with their actions (A-G).</p>
 <p>31. The Sumerians  _______ 
 32. The Roman Emperor Valentinian  _______ 
 33. Camilo Baldi  _______ 
 34. Jean Michon  _______ 
 35. Wilheim Preyer  _______</p>
-<p>A stressed the importance of the link between handwriting and brain functions
-B was the first paid for his autograph
-C wrote the first signature in handwriting that we still have
-D used seals to identify ownership
-E started a social graphology
-F first wrote about the science that was to be called graphology
-G interpreted handwriting for police</p>
-<p>Questions 36-40
-Complete the summary below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>The development of e-signature</p>
-<p>E-signatures have made the hand-writing signature (36)  _______  Technologies such as fax and internet created a need for contracts and agreements to be signed without the presence of the signer. E-signatures did not satisfy previous basic law requirements for handwritten signatures as they did not create a (37)  _______  The UN created a (38)  _______  in 1996 that set out rules that allowed electronic business to go ahead as e-contracts and paper contracts would meet with (39)  _______  in law. Although online businesses can use click-to-agree there is still demand for an electronic hand written signature as it can help (40)  _______  in law and create human touch. This kind of hand written signature is available on software used to create electronic signatures.</p>
-<p>ANSWER KEY</p>
+<p><strong>A</strong> stressed the importance of the link between handwriting and brain functions
+<strong>B</strong> was the first paid for his autograph
+<strong>C</strong> wrote the first signature in handwriting that we still have
+<strong>D</strong> used seals to identify ownership
+<strong>E</strong> started a social graphology
+<strong>F</strong> first wrote about the science that was to be called graphology
+<strong>G</strong> interpreted handwriting for police</p>
+<p><strong>Questions 36-40</strong>
+Complete the summary below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>The development of e-signature</strong></p>
+<p>E-signatures have made the hand-writing signature <strong>(36)</strong>  _______  Technologies such as fax and internet created a need for contracts and agreements to be signed without the presence of the signer. E-signatures did not satisfy previous basic law requirements for handwritten signatures as they did not create a <strong>(37)</strong>  _______  The UN created a <strong>(38)</strong>  _______  in 1996 that set out rules that allowed electronic business to go ahead as e-contracts and paper contracts would meet with <strong>(39)</strong>  _______  in law. Although online businesses can use click-to-agree there is still demand for an electronic hand written signature as it can help <strong>(40)</strong>  _______  in law and create human touch. This kind of hand written signature is available on software used to create electronic signatures.</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Melissa 2. 30 3. cinema 4. 11,000 5. 14 nights 6. flights 7. lectures 8. (travel) insurance 9. 9,000 10. (swimming) pool 11. low income 12. hospitals 13. website 14. a dollar 15. immigrant 16. B 17. A 18. C 19. D 20. G 21. oil prices 22. citations 23. (guidance) sheet 24. immigration 25. revision 26. A 27. B 28. B 29. A 30. C 31. D 32. C 33. F 34. E 35. A 36. obsolete 37. (physical) mark 38. framework 39. equal treatment 40. (legal) verification</p>
 
         </div>
@@ -419,11 +475,34 @@ Complete the summary below. Write NO MORE THAN TWO WORDS for each answer.</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_15.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_15.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -443,12 +522,23 @@ Complete the summary below. Write NO MORE THAN TWO WORDS for each answer.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -460,14 +550,6 @@ Complete the summary below. Write NO MORE THAN TWO WORDS for each answer.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

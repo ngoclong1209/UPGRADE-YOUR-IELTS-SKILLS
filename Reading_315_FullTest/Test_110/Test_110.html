@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,21 +158,21 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_110</h1>
-            <p>IELTS Reading Practice - Test 110</p>
-<p>Dirty river but clean water</p>
-<p>Floods can occur in rivers when the flow rate exceeds the capacity of the river channel, particularly at bends or meanders in the waterway. Floods often cause damage to homes and businesses if they are in the natural flood plains of rivers. While riverine flood damage can be eliminated by moving away from rivers and other bodies of water, people have traditionally lived and worked by rivers because the land is usually flat and fertile and because rivers provide easy travel and access to commerce and industry.</p>
-<p>A Fire and flood are two of humanity’s worst nightmares. People have, therefore, always sought to control them. Forest fires are snuffed out quickly. The flow of rivers is regulated by weirs and dams. At least, that is how it used to be. But foresters have learned that forests need fires to clear out the brash and even to get seeds to germinate. And a similar revelation is now – dawning on hydrologists. Rivers – and the ecosystems they support – need floods. That is why a man-made torrent has been surging down the Grand Canyon. By Thursday March 6th it was running at full throttle, which was expected to be sustained for 60 hours.</p>
-<p>B Floods once raged through the canyon every year. Spring Snow from as far away as Wyoming would melt and swell the Colorado river to a flow that averaged around 1,500 cubic metres (50,000 cubic feet) a second. Every eight years or so, that figure rose to almost 3,000 cubic metres. These floods infused the river with sediment, carved its beaches and built its sandbars.</p>
-<p>C However, in the four decades since the building of the Glen Canyon dam, just upstream of the Grand Canyon, the only sediment that it has collected has come from tiny, undammed tributaries. Even that has not been much use as those tributaries are not powerful enough to distribute the sediment in an ecologically valuable way.</p>
-<p>D This lack of flooding has harmed local wildlife. The humpback chub, for example, thrived in the rust-redwaters of the Colorado. Recently, though, its population has crashed. At first sight, it looked as if the reason was that the chub were being eaten by trout introduced for sport fishing in the mid-20th century. But trout and chub co-existed until the Glen Canyon dam was built, so something else is going on. Steve Gloss, of the United States’ Geological Survey (USGS), reckons that the chub’s decline is the result of their losing their most valuable natural defense, the Colorado’s rusty sediment. The chub were well adapted to the poor visibility created by the thick, red water which gave the river its name,and depended on it to hide from predators. Without the cloudy water the chub became vulnerable.</p>
-<p>E And the chub are not alone. In the years since the Glen Canyon dam was built, several species have vanished altogether. These include the Colorado pike-minnow, the razorback sucker and the round-tail chub. Meanwhile, aliens including fathead minnows, channel catfish and common carp, which would have been hard, put to survive in the savage waters of the undammed canyon, have move din.</p>
-<p>F So flooding is the obvious answer. Unfortunately, it is easier said than done. Floods were sent down the Grand Canyon in 1996 and 2004 and the results were mixed. In 1996 the flood was allowed to go on too long. To start with,all seemed well. The floodwaters built up sandbanks and infused the river with sediment. Eventually, however, the continued flow washed most of the sediment out of the canyon. This problem was avoided in 2004, but unfortunately, on that occasion, the volume of sand available behind the dam was too low to rebuild the sandbanks. This time, the USGS is convinced that things will be better. The amount of sediment available is three times greater than it was in 2004. So if a flood is going to do some good, this is the time to unleash one.</p>
-<p>G Even so, it may turn out to be an empty gesture. At less than 1,200 cubic metres a second, this flood is smaller than even an average spring flood, let alone one of the mightier deluges of the past. Those glorious inundations moved massive quantities of sediment through the Grand Canyon,wiping the slate dirty, and making a muddy mess of silt and muck that would make modern river rafters cringe.</p>
-<p>Questions 1-7
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 110</strong></h3>
+<h3 class="test-heading"><strong>Dirty river but clean water</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>Floods can occur in rivers when the flow rate exceeds the capacity of the river channel, particularly at bends or meanders in the waterway. Floods often cause damage to homes and businesses if they are in the natural flood plains of rivers. While riverine flood damage can be eliminated by moving away from rivers and other bodies of water, people have traditionally lived and worked by rivers because the land is usually flat and fertile and because rivers provide easy travel and access to commerce and industry.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>A</strong> Fire and flood are two of humanity’s worst nightmares. People have, therefore, always sought to control them. Forest fires are snuffed out quickly. The flow of rivers is regulated by weirs and dams. At least, that is how it used to be. But foresters have learned that forests need fires to clear out the brash and even to get seeds to germinate. And a similar revelation is now – dawning on hydrologists. Rivers – and the ecosystems they support – need floods. That is why a man-made torrent has been surging down the Grand Canyon. By Thursday March 6th it was running at full throttle, which was expected to be sustained for 60 hours.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>B</strong> Floods once raged through the canyon every year. Spring Snow from as far away as Wyoming would melt and swell the Colorado river to a flow that averaged around 1,500 cubic metres (50,000 cubic feet) a second. Every eight years or so, that figure rose to almost 3,000 cubic metres. These floods infused the river with sediment, carved its beaches and built its sandbars.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>C</strong> However, in the four decades since the building of the Glen Canyon dam, just upstream of the Grand Canyon, the only sediment that it has collected has come from tiny, undammed tributaries. Even that has not been much use as those tributaries are not powerful enough to distribute the sediment in an ecologically valuable way.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>D</strong> This lack of flooding has harmed local wildlife. The humpback chub, for example, thrived in the rust-redwaters of the Colorado. Recently, though, its population has crashed. At first sight, it looked as if the reason was that the chub were being eaten by trout introduced for sport fishing in the mid-20th century. But trout and chub co-existed until the Glen Canyon dam was built, so something else is going on. Steve Gloss, of the United States’ Geological Survey (USGS), reckons that the chub’s decline is the result of their losing their most valuable natural defense, the Colorado’s rusty sediment. The chub were well adapted to the poor visibility created by the thick, red water which gave the river its name,and depended on it to hide from predators. Without the cloudy water the chub became vulnerable.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>E</strong> And the chub are not alone. In the years since the Glen Canyon dam was built, several species have vanished altogether. These include the Colorado pike-minnow, the razorback sucker and the round-tail chub. Meanwhile, aliens including fathead minnows, channel catfish and common carp, which would have been hard, put to survive in the savage waters of the undammed canyon, have move din.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>F</strong> So flooding is the obvious answer. Unfortunately, it is easier said than done. Floods were sent down the Grand Canyon in 1996 and 2004 and the results were mixed. In 1996 the flood was allowed to go on too long. To start with,all seemed well. The floodwaters built up sandbanks and infused the river with sediment. Eventually, however, the continued flow washed most of the sediment out of the canyon. This problem was avoided in 2004, but unfortunately, on that occasion, the volume of sand available behind the dam was too low to rebuild the sandbanks. This time, the USGS is convinced that things will be better. The amount of sediment available is three times greater than it was in 2004. So if a flood is going to do some good, this is the time to unleash one.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>G</strong> Even so, it may turn out to be an empty gesture. At less than 1,200 cubic metres a second, this flood is smaller than even an average spring flood, let alone one of the mightier deluges of the past. Those glorious inundations moved massive quantities of sediment through the Grand Canyon,wiping the slate dirty, and making a muddy mess of silt and muck that would make modern river rafters cringe.</p></div></div>
+<p><strong>Questions 1-7</strong>
 Do the following statements agree with the information given in Reading Passage?</p>
-<p>TRUE                         if the statement agrees with the information
-FALSE                       if the statement contradicts the information
-NOT GIVEN           if there is no information on this</p>
+<p><strong>TRUE</strong>                         if the statement agrees with the information
+<strong>FALSE</strong>                       if the statement contradicts the information
+<strong>NOT GIVEN</strong>           if there is no information on this</p>
 <p>1 Damage caused by fire is worse than that caused by flood.
 2 The flood peaks at almost 1500 cubic meters every eight years.
 3 Contribution of sediments delivered by tributaries has little impact.
@@ -124,29 +180,29 @@ NOT GIVEN           if there is no information on this</p>
 5 It seemed that the artificial flood in 1996 had achieved success partly at the very beginning.
 6 In fact, the yield of artificial flood water is smaller than an average natural flood at present.
 7 Mighty floods drove fast moving flows with clean and high quality water.</p>
-<p>Questions 8-13
-Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>The eco-impact of the Canyon Dam</p>
+<p><strong>Questions 8-13</strong>
+Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>The eco-impact of the Canyon Dam</strong></p>
 <p>Floods are people’s nightmare. In the past, canyon was raged by flood every year. The snow from far Wyoming would melt in the season of (8)…………………… and caused a flood flow peak in Colorado river. In the four decades after people built the Glen Canyon dam, it only could gather (9)…………………… together from tiny, undammed tributaries.</p>
-<p>Humpback chub population on reduced, why?</p>
+<p><strong>Humpback chub population on reduced, why?</strong></p>
 <p>Then, several species disappeared including Colorado pike-minnow, (10)…………………… and the round-tail chub. Meanwhile, some moved in such as fathead minnows, channel catfish and (11)…………………… . The non-stopped flow leaded to the washing away of the sediment out of the canyon, which poses great threat to the chubs because it has poor (12)…………………… away from predators. In addition, the volume of (13)…………………… available behind the dam was too low to rebuild the bars and flooding became more serious.</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>Going Bananas</p>
-<p>A The world’s favourite fruit could disappear forever in 10 years’ time. The banana is among the world’s oldest crops. Agricultural scientists believe that the first edible banana was discovered around ten thousand years ago. It has been at an evolutionary standstill ever since it was first propagated in the jungles of South-East Asia at the end of the last ice age. Normally the wild banana, a giant jungle herb called Musa acuminata, contains a mass of hard seeds that make the fruit virtually inedible. But now and then, hunter-gatherers must have discovered rare mutant plants that produced seedless, edible fruits. Geneticists now know that the vast majority of these soft-fruited plants resulted from genetic accidents that gave their cells three copies of each chromosome instead of the usual two. This imbalance prevents seeds and pollen from developing normally, rendering the mutant plants sterile. And that is why some scientists believe the world’s most popular fruit could be doomed. It lacks the genetic diversity to fight off pests and diseases that are invading the banana plantations of Central America and the small-holdings of Africa and Asia alike.</p>
-<p>B In some ways, the banana today resembles the potato before blight brought famine to Ireland a century and a half ago. But “it holds a lesson for other crops, too”, says Emile Frison, top banana at the International Network for the Improvement of Banana and Plantain in Montpellier, France. “The state of the banana”, Frison warns, “can teach a broader lesson: the increasing standardisation of food crops round the world is threatening their ability to adapt and survive.”</p>
-<p>C The first Stone Age plant breeders cultivated these sterile freaks by replanting cuttings from their stems. And the descendants of those original cuttings are the bananas we still eat today. Each is a virtual clone, almost devoid of genetic diversity. And that uniformity makes it ripe for disease like no other crop on Earth. Traditional varieties of sexually reproducing crops have always had a much broader genetic base, and the genes will recombine in new arrangements in each generation. This gives them much greater flexibility in evolving responses to disease – and far more genetic resources to draw on in the face of an attack. But that advantage is fading fast, as growers increasingly plant the same few, high-yielding varieties. Plant breeders work feverishly to maintain resistance in these standardized crops. Should these efforts falter, yields of even the most productive crop could swiftly crash. “When some pest or disease comes along, severe epidemics can occur,” says Geoff Hawtin, director of the Rome-based International Plant Genetic Resources Institute.</p>
-<p>D The banana is an excellent case in point. Until the 1950s, one variety, the Gros Michel, dominated the world’s commercial banana business. Found by French botanists in Asian the 1820s, the Gros Michel was by all accounts a fine banana, richer and sweeter than today’s standard banana and without the latte’s bitter aftertaste when green. But it was vulnerable to a soil fungus that produced a wilt known as Panama disease. “Once the fungus gets into the soil it remains there for many years. There is nothing farmers can do. Even chemical spraying won’t get rid of it,” says Rodomiro Ortiz, director of the Inter-national Institute for Tropical Agriculture in Ibadan, Nigeria. So plantation owners played a running game, abandoning infested fields and moving to “clean” land – until they ran out of clean land in the 1950s and had to abandon the Gros Michel. Its successor, and still the reigning commercial king, is the Cavendish banana, a 19th-century British discovery from southern China. The Cavendish is resistant to Panama disease and, as a result, it literally saved the international banana industry. During the 1960s, it replaced the Gros Michel on supermarket shelves. If you buy a banana today, it is almost certainly a Cavendish. But even so, it is a minority in the world’s banana crop.</p>
-<p>E Half a billion people in Asia and Africa depend on bananas. Bananas provide the largest source of calories and are eaten daily. Its name is synonymous with food. But the day of reckoning may be coming for the Cavendish and its indigenous kin. Another fungal disease, black Sigatoka, has become a global epidemic since its first appearance in Fiji in 1963. Left to itself, black Sigatoka which causes brown wounds on leaves and premature fruit ripening – cuts fruit yields by 50 to 70 per cent and reduces the productive lifetime of banana plants from 30 years to as little as 2 or 3. Commercial growers keep Sigatoka at bay by a massive chemical assault. Forty sprayings of fungicide a year is typical. But despite the fungicides, diseases such as black Sigatoka are getting more and more difficult to control. “As soon as you bring in a new fungicide, they develop resistance,” says Frison. “One thing we can be sure of is that the Sigatoka won’t lose in this battle.” Poor farmers, who cannot afford chemicals, have it even worse. They can do little more than watch their plants die. “Most of the banana fields in Amazonia have already been destroyed by the disease,” says Luadir Gasparotto, Brazil’s leading banana pathologist with the government research agency EMBRAPA. Production is likely to fall by 70 percent as the disease spreads, he predicts. The only option will be to find a new variety.</p>
-<p>F But how? Almost all edible varieties are susceptible to the diseases, so growers cannot simply change to a different banana. With most crops, such a threat would unleash an army of breeders, scouring the world for resistant relatives whose traits they can breed into commercial varieties. Not so with the banana. Because all edible varieties are sterile, bringing in new genetic traits to help cope with pests and diseases is nearly impossible. Nearly, but not totally. Very rarely, a sterile banana will experience a genetic accident that allows an almost normal seed to develop, giving breeders a tiny window for improvement. Breeders at the Honduran Foundation of Agricultural Research have tried to exploit this to create disease-resistant varieties. Further backcrossing with wild bananas yielded a new seedless banana resistant to both black Sigatoka and Panama disease.</p>
-<p>G Neither Western supermarket consumers nor peasant growers like the new hybrid. Some accuse it of tasting more like an apple than a banana. Not surprisingly, the majority of plant breeders have till now turned their backs on the banana and got to work on easier plants. And commercial banana companies are now washing their hands of the whole breeding effort, preferring to fund a search for new fungicides instead. “We supported a breeding programme for 40 years, but it wasn’t able to develop an alternative to Cavendish. It was very expensive and we got nothing back,” says Ronald Romero, head of research at Chiquita, one of the Big Three companies that dominate the international banana trade.</p>
-<p>H Last year, a global consortium of scientists led by Frison announced plans to sequence the banana genome within five years. It would be the first edible fruit to be sequenced. Well, almost edible. The group will actually be sequencing inedible wild bananas from East Asia because many of these are resistant to black Sigatoka. If they can pinpoint the genes that help these wild varieties to resist black Sigatoka, the protective genes could be introduced into laboratory tissue cultures of cells from edible varieties. These could then be propagated into new, resistant plants and passed on to farmers.</p>
-<p>I It sounds promising, but the big banana companies have, until now, refused to get involved in GM research for fear of alienating their customers. “Biotechnology is extremely expensive and there are serious questions about consumer acceptance,” says David McLaughlin, Chiquita’s senior director for environmental affairs. With scant funding from the companies, the banana genome researchers are focusing on the other end of the spectrum. Even if they can identify the crucial genes, they will be a long way from developing new varieties that smallholders will find suitable and affordable. But whatever biotechnology’s academic interest, it is the only hope for the banana. Without banana production worldwide will head into a tailspin. We may even see the extinction of the banana as both a lifesaver for hungry and impoverished Africans and as the most popular product on the world’s supermarket shelves.</p>
-<p>Question 14-16
-Complete the sentences below with NO MORE THAN THREE WORDS from the passage.</p>
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>Going Bananas</strong></p>
+<p><strong>A</strong> The world’s favourite fruit could disappear forever in 10 years’ time. The banana is among the world’s oldest crops. Agricultural scientists believe that the first edible banana was discovered around ten thousand years ago. It has been at an evolutionary standstill ever since it was first propagated in the jungles of South-East Asia at the end of the last ice age. Normally the wild banana, a giant jungle herb called Musa acuminata, contains a mass of hard seeds that make the fruit virtually inedible. But now and then, hunter-gatherers must have discovered rare mutant plants that produced seedless, edible fruits. Geneticists now know that the vast majority of these soft-fruited plants resulted from genetic accidents that gave their cells three copies of each chromosome instead of the usual two. This imbalance prevents seeds and pollen from developing normally, rendering the mutant plants sterile. And that is why some scientists believe the world’s most popular fruit could be doomed. It lacks the genetic diversity to fight off pests and diseases that are invading the banana plantations of Central America and the small-holdings of Africa and Asia alike.</p>
+<p><strong>B</strong> In some ways, the banana today resembles the potato before blight brought famine to Ireland a century and a half ago. But “it holds a lesson for other crops, too”, says Emile Frison, top banana at the International Network for the Improvement of Banana and Plantain in Montpellier, France. “The state of the banana”, Frison warns, “can teach a broader lesson: the increasing standardisation of food crops round the world is threatening their ability to adapt and survive.”</p>
+<p><strong>C</strong> The first Stone Age plant breeders cultivated these sterile freaks by replanting cuttings from their stems. And the descendants of those original cuttings are the bananas we still eat today. Each is a virtual clone, almost devoid of genetic diversity. And that uniformity makes it ripe for disease like no other crop on Earth. Traditional varieties of sexually reproducing crops have always had a much broader genetic base, and the genes will recombine in new arrangements in each generation. This gives them much greater flexibility in evolving responses to disease – and far more genetic resources to draw on in the face of an attack. But that advantage is fading fast, as growers increasingly plant the same few, high-yielding varieties. Plant breeders work feverishly to maintain resistance in these standardized crops. Should these efforts falter, yields of even the most productive crop could swiftly crash. “When some pest or disease comes along, severe epidemics can occur,” says Geoff Hawtin, director of the Rome-based International Plant Genetic Resources Institute.</p>
+<p><strong>D</strong> The banana is an excellent case in point. Until the 1950s, one variety, the Gros Michel, dominated the world’s commercial banana business. Found by French botanists in Asian the 1820s, the Gros Michel was by all accounts a fine banana, richer and sweeter than today’s standard banana and without the latte’s bitter aftertaste when green. But it was vulnerable to a soil fungus that produced a wilt known as Panama disease. “Once the fungus gets into the soil it remains there for many years. There is nothing farmers can do. Even chemical spraying won’t get rid of it,” says Rodomiro Ortiz, director of the Inter-national Institute for Tropical Agriculture in Ibadan, Nigeria. So plantation owners played a running game, abandoning infested fields and moving to “clean” land – until they ran out of clean land in the 1950s and had to abandon the Gros Michel. Its successor, and still the reigning commercial king, is the Cavendish banana, a 19th-century British discovery from southern China. The Cavendish is resistant to Panama disease and, as a result, it literally saved the international banana industry. During the 1960s, it replaced the Gros Michel on supermarket shelves. If you buy a banana today, it is almost certainly a Cavendish. But even so, it is a minority in the world’s banana crop.</p>
+<p><strong>E</strong> Half a billion people in Asia and Africa depend on bananas. Bananas provide the largest source of calories and are eaten daily. Its name is synonymous with food. But the day of reckoning may be coming for the Cavendish and its indigenous kin. Another fungal disease, black Sigatoka, has become a global epidemic since its first appearance in Fiji in 1963. Left to itself, black Sigatoka which causes brown wounds on leaves and premature fruit ripening – cuts fruit yields by 50 to 70 per cent and reduces the productive lifetime of banana plants from 30 years to as little as 2 or 3. Commercial growers keep Sigatoka at bay by a massive chemical assault. Forty sprayings of fungicide a year is typical. But despite the fungicides, diseases such as black Sigatoka are getting more and more difficult to control. “As soon as you bring in a new fungicide, they develop resistance,” says Frison. “One thing we can be sure of is that the Sigatoka won’t lose in this battle.” Poor farmers, who cannot afford chemicals, have it even worse. They can do little more than watch their plants die. “Most of the banana fields in Amazonia have already been destroyed by the disease,” says Luadir Gasparotto, Brazil’s leading banana pathologist with the government research agency EMBRAPA. Production is likely to fall by 70 percent as the disease spreads, he predicts. The only option will be to find a new variety.</p>
+<p><strong>F</strong> But how? Almost all edible varieties are susceptible to the diseases, so growers cannot simply change to a different banana. With most crops, such a threat would unleash an army of breeders, scouring the world for resistant relatives whose traits they can breed into commercial varieties. Not so with the banana. Because all edible varieties are sterile, bringing in new genetic traits to help cope with pests and diseases is nearly impossible. Nearly, but not totally. Very rarely, a sterile banana will experience a genetic accident that allows an almost normal seed to develop, giving breeders a tiny window for improvement. Breeders at the Honduran Foundation of Agricultural Research have tried to exploit this to create disease-resistant varieties. Further backcrossing with wild bananas yielded a new seedless banana resistant to both black Sigatoka and Panama disease.</p>
+<p><strong>G</strong> Neither Western supermarket consumers nor peasant growers like the new hybrid. Some accuse it of tasting more like an apple than a banana. Not surprisingly, the majority of plant breeders have till now turned their backs on the banana and got to work on easier plants. And commercial banana companies are now washing their hands of the whole breeding effort, preferring to fund a search for new fungicides instead. “We supported a breeding programme for 40 years, but it wasn’t able to develop an alternative to Cavendish. It was very expensive and we got nothing back,” says Ronald Romero, head of research at Chiquita, one of the Big Three companies that dominate the international banana trade.</p>
+<p><strong>H</strong> Last year, a global consortium of scientists led by Frison announced plans to sequence the banana genome within five years. It would be the first edible fruit to be sequenced. Well, almost edible. The group will actually be sequencing inedible wild bananas from East Asia because many of these are resistant to black Sigatoka. If they can pinpoint the genes that help these wild varieties to resist black Sigatoka, the protective genes could be introduced into laboratory tissue cultures of cells from edible varieties. These could then be propagated into new, resistant plants and passed on to farmers.</p>
+<p><strong>I</strong> It sounds promising, but the big banana companies have, until now, refused to get involved in GM research for fear of alienating their customers. “Biotechnology is extremely expensive and there are serious questions about consumer acceptance,” says David McLaughlin, Chiquita’s senior director for environmental affairs. With scant funding from the companies, the banana genome researchers are focusing on the other end of the spectrum. Even if they can identify the crucial genes, they will be a long way from developing new varieties that smallholders will find suitable and affordable. But whatever biotechnology’s academic interest, it is the only hope for the banana. Without banana production worldwide will head into a tailspin. We may even see the extinction of the banana as both a lifesaver for hungry and impoverished Africans and as the most popular product on the world’s supermarket shelves.</p>
+<p><strong>Question 14-16</strong>
+Complete the sentences below with <strong>NO MORE THAN THREE WORDS</strong> from the passage.</p>
 <p>• Banana was first eaten as a fruit by humans almost (14)…………………… years ago.
 • Banana was first planted in (15)…………………… .
 • Wild banana’s taste is adversely affected by its (16)……………………</p>
-<p>Question 17-23
+<p><strong>Question 17-23</strong>
 Look at the following statements (Questions 17-23) and the list of people below. Match each statement with the correct person, A-F. NB You may use any letter more than once.</p>
 <p>17 A Pest invasion may seriously damage banana industry.
 18 The effect of fungal infection in soil is often long-lasting.
@@ -155,32 +211,32 @@ Look at the following statements (Questions 17-23) and the list of people below.
 21 A banana disease has destroyed a large number of banana plantations.
 22 Consumers would not accept genetically altered crop.
 23 Lessons can be learned from bananas for other crops.</p>
-<p>List of people
-A Rodomiro
-B David Mclaughlin
-C Emile Frison
-D Ronald Romero
-E Luadir Gasparotto
-F Geoff Hawtin</p>
-<p>Question 24-26
+<p><strong>List of people</strong>
+<strong>A</strong> Rodomiro
+<strong>B</strong> David Mclaughlin
+<strong>C</strong> Emile Frison
+<strong>D</strong> Ronald Romero
+<strong>E</strong> Luadir Gasparotto
+<strong>F</strong> Geoff Hawtin</p>
+<p><strong>Question 24-26</strong>
 Do the following statements agree with the information given in Reading Passage? In boxes 24-26 on your answer sheet, write</p>
-<p>TRUE                           if the statement agrees with the information
-FALSE                         if the statement contradicts the information
-NOT GIVEN             if there is no information on this</p>
+<p><strong>TRUE</strong>                           if the statement agrees with the information
+<strong>FALSE</strong>                         if the statement contradicts the information
+<strong>NOT GIVEN</strong>             if there is no information on this</p>
 <p>24 Banana is the oldest known fruit.
 25 Gros Michel is still being used as a commercial product.
 26 Banana is a main food in some countries.</p>
-<p>Blue-footed Boobies 2</p>
-<p>A Boobies are a small group of seabirds native to tropical and subtropical oceans throughout the world. Their diet consists mainly of fish. They are specialized fish eaters feeding on small school fish like sardines, anchovies, mackerel, and flying fish. When their prey is in sight, they fold their long wings back around their streamlined bodies and plunge into the water from as high as 80 feet, so streamlined they barely make a splash. They travel in parties of about 12 to areas of water with large schools of small fish. When the lead bird sees a fish shoal in the water, it will signal the rest of the group and they will all dive together. Surprisingly, individuals do not eat with the hunting group, preferring to eat on their own, usually in the early morning or late afternoon.</p>
-<p>B There are three varieties on the Galapagos: the blue-footed, red-footed, and masked boobies. They are all members of the same family, and are not only different in appearance but also in behaviours. The blue-footed and red-footed boobies mate throughout the year, while the masked boobies have an annual mating cycle that differs from island to island. All catch fish in a similar manner, but in different areas: the blue-footed booby does its fishing close to shore, while the masked booby goes slightly farther out, and the red-footed booby fishes at the farthest distances from shore.</p>
-<p>C Although it is unknown where the name “Booby” emanates from, some conjecture it may come from the Spanish word for clown, “bobo”, meaning “stupid”. Its name was probably inspired by the bird’s clumsiness on land and apparently unwarranted bravery. The blue footed booby is extremely vulnerable to human visitors because it does not appear to fear them. Therefore these birds received such name for their clumsiness on land in which they were easily, captured, killed, and eaten by humans.</p>
-<p>D The blue-footed booby’s characteristic feet play a significant part in their famous courtship ceremony, the ‘booby dance’. The male walks around the female, raising his bright blue feet straight up in the air, while bringing his ‘shoulders’ towards the ground and crossing the bottom tips of his wings high above the ground. Plus he’ll raise his bill up towards the sky to try to win his mate over. The female may also partake in these activities – lifting her feet, sky pointing, and of course squawking at her mate. After mating, another ritual occurs – the nest-building which ironically is never used because they nest on the bare ground. When the female is ready to lay her eggs, they scrape the existing nest away so she can nest on exposed ground. Sun-baked islands form the booby’s breeding grounds. When ready the female Blue Footed Booby lays one to three eggs.</p>
-<p>E After mating, two or three eggs are laid in a shallow depression on flat or gently sloping ground. Both male and female take turns incubating the eggs. Unlike most birds, booby doesn’t develop brood patches (areas of bare skin on the breast) to warm the eggs during incubation. Instead, it uses its broad webbed feet, which have large numbers of prominent blood vessels, to transmit heat essential for incubation. The eggs are thick-shelled so they can withstand the full weight of an incubating bird.</p>
-<p>F After hatching, the male plays a major role in bringing fish home. He can bring back a constant supply of small fish for the chicks, which must be fed continuously. The reason is that the male has a longer tail than the female in relation to his body size, which makes him able to execute shallower dives and to feed closer to shore. Then the female takes a greater part as time proceeds. Sooner or later, the need to feed the young becomes greater than the need to protect them and both adults must fish to provide enough.</p>
-<p>G When times are good, the parents may successfully fledge all three chicks, but, in harder times, they may still lay as many eggs yet only obtain enough food to raise one. The problem is usually solved by the somewhat callous-sounding system of “opportunistic sibling murder.” The first-born chick is larger and stronger than its nest mate(s) as a result of hatching a few days earlier and also because the parents feed the larger chick. If food is scarce, the first born will get more food than its nest mate(s) and will outcompete them, causing them to starve. The above system optimizes the reproductive capacity of the blue-foot in an unpredictable environment. The system ensures that, if possible, at least one chick will survive a period of shortage rather than all three dying of starvation under a more ‘humane’ system.</p>
-<p>Questions 27-32
+<p><strong>Blue-footed Boobies 2</strong></p>
+<p><strong>A</strong> Boobies are a small group of seabirds native to tropical and subtropical oceans throughout the world. Their diet consists mainly of fish. They are specialized fish eaters feeding on small school fish like sardines, anchovies, mackerel, and flying fish. When their prey is in sight, they fold their long wings back around their streamlined bodies and plunge into the water from as high as 80 feet, so streamlined they barely make a splash. They travel in parties of about 12 to areas of water with large schools of small fish. When the lead bird sees a fish shoal in the water, it will signal the rest of the group and they will all dive together. Surprisingly, individuals do not eat with the hunting group, preferring to eat on their own, usually in the early morning or late afternoon.</p>
+<p><strong>B</strong> There are three varieties on the Galapagos: the blue-footed, red-footed, and masked boobies. They are all members of the same family, and are not only different in appearance but also in behaviours. The blue-footed and red-footed boobies mate throughout the year, while the masked boobies have an annual mating cycle that differs from island to island. All catch fish in a similar manner, but in different areas: the blue-footed booby does its fishing close to shore, while the masked booby goes slightly farther out, and the red-footed booby fishes at the farthest distances from shore.</p>
+<p><strong>C</strong> Although it is unknown where the name “Booby” emanates from, some conjecture it may come from the Spanish word for clown, “bobo”, meaning “stupid”. Its name was probably inspired by the bird’s clumsiness on land and apparently unwarranted bravery. The blue footed booby is extremely vulnerable to human visitors because it does not appear to fear them. Therefore these birds received such name for their clumsiness on land in which they were easily, captured, killed, and eaten by humans.</p>
+<p><strong>D</strong> The blue-footed booby’s characteristic feet play a significant part in their famous courtship ceremony, the ‘booby dance’. The male walks around the female, raising his bright blue feet straight up in the air, while bringing his ‘shoulders’ towards the ground and crossing the bottom tips of his wings high above the ground. Plus he’ll raise his bill up towards the sky to try to win his mate over. The female may also partake in these activities – lifting her feet, sky pointing, and of course squawking at her mate. After mating, another ritual occurs – the nest-building which ironically is never used because they nest on the bare ground. When the female is ready to lay her eggs, they scrape the existing nest away so she can nest on exposed ground. Sun-baked islands form the booby’s breeding grounds. When ready the female Blue Footed Booby lays one to three eggs.</p>
+<p><strong>E</strong> After mating, two or three eggs are laid in a shallow depression on flat or gently sloping ground. Both male and female take turns incubating the eggs. Unlike most birds, booby doesn’t develop brood patches (areas of bare skin on the breast) to warm the eggs during incubation. Instead, it uses its broad webbed feet, which have large numbers of prominent blood vessels, to transmit heat essential for incubation. The eggs are thick-shelled so they can withstand the full weight of an incubating bird.</p>
+<p><strong>F</strong> After hatching, the male plays a major role in bringing fish home. He can bring back a constant supply of small fish for the chicks, which must be fed continuously. The reason is that the male has a longer tail than the female in relation to his body size, which makes him able to execute shallower dives and to feed closer to shore. Then the female takes a greater part as time proceeds. Sooner or later, the need to feed the young becomes greater than the need to protect them and both adults must fish to provide enough.</p>
+<p><strong>G</strong> When times are good, the parents may successfully fledge all three chicks, but, in harder times, they may still lay as many eggs yet only obtain enough food to raise one. The problem is usually solved by the somewhat callous-sounding system of “opportunistic sibling murder.” The first-born chick is larger and stronger than its nest mate(s) as a result of hatching a few days earlier and also because the parents feed the larger chick. If food is scarce, the first born will get more food than its nest mate(s) and will outcompete them, causing them to starve. The above system optimizes the reproductive capacity of the blue-foot in an unpredictable environment. The system ensures that, if possible, at least one chick will survive a period of shortage rather than all three dying of starvation under a more ‘humane’ system.</p>
+<p><strong>Questions 27-32</strong>
 The reading passage has seven paragraphs, A–G. Choose the correct heading for paragraphs A–G from the list below. Write the correct number, i–ix, in boxes 27-32 on your answer sheet.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i Unusual way of hatching the chicks
 ii Feeding habit of the red-footed booby
 iii Folding wings for purpose
@@ -197,19 +253,19 @@ ix Origin of the booby’s name</p>
 30 Paragraph E
 31 Paragraph F
 32 Paragraph G</p>
-<p>Questions 33-35
+<p><strong>Questions 33-35</strong>
 Do the following statements agree with the information given in Reading Passage? In boxes 33 – 35 on your answer sheet, write</p>
-<p>TRUE                         if the statement agrees with the information
-FALSE                       if the statement contradicts the information
-NOT GIVEN            if there is no information on this</p>
+<p><strong>TRUE</strong>                         if the statement agrees with the information
+<strong>FALSE</strong>                       if the statement contradicts the information
+<strong>NOT GIVEN</strong>            if there is no information on this</p>
 <p>33 Boobies are afraid of human approaching.
 34 Female boobies eat more than the male ones.
 35 When there is not sufficient food, the larger chicks will be fed at the expense of the survival of its smaller mates.</p>
-<p>Questions 36 – 39
-Complete the summary below, using NO MORE THAN TWO WORDS from the Reading Passage for each answer.</p>
+<p><strong>Questions 36 – 39</strong>
+Complete the summary below, using <strong>NO MORE THAN TWO WORDS</strong> from the Reading Passage for each answer.</p>
 <p>The courtship of the Blue-footed Booby consists of the male flaunting his blue feet and dancing to impress the female. During the dance, the male will spread his wings and stamp his feet on the ground with his bills (36)…………………… . After mating, the booby’s unusual demeanor continues with ritual (37) …………………… that really serves no purpose. When the female Booby lays eggs, the parental boobies incubate the eggs beneath their (38) …………………… which contain (39) …………………… to transmit the heat, because of the lack of brood patches.</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. not given</p>
 <p>2. false</p>
 <p>3. not given</p>
@@ -467,6 +523,29 @@ Complete the summary below, using NO MORE THAN TWO WORDS from the Reading Passag
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -486,12 +565,23 @@ Complete the summary below, using NO MORE THAN TWO WORDS from the Reading Passag
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -503,14 +593,6 @@ Complete the summary below, using NO MORE THAN TWO WORDS from the Reading Passag
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

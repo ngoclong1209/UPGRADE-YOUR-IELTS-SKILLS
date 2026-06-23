@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,52 +158,52 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_314</h1>
-            <p>IELTS Reading Practice - Test 314</p>
-<p>Caral: an ancient South American city</p>
-<p>Huge earth and rock mounds rise out of the desert of the Supe Valley near the coast of Peru in South America. These immense mounds appear simply to be part of the geographical landscape in this arid region squeezed between the Pacific Ocean and the Andes mountains. But, looks deceive. These are actually human-made pyramids strong evidence indicates they are the remains of a city known as Caral that flourished nearly 5,000 years ago. It true, it would be the oldest known urban center in the America and among the most ancient in the world.</p>
-<p>Research undertaken by Peruvian archaeologist Ruth Shady suggests that the 150-acre plex of pyramids, plazas and residential buildings was a thriving metropolis when Egypt’s great pyramids were still being built. Though discovered in 1905, for years Caral attracted little attention, largely because archaeologists believed the structures were rainy recent. But the monumental scale of the pyramids had long interested Shady, who began excavations at the site in 1996, about 22 kilometers from the coast and 190 kilometers north of Peru’s capital city of Lima.</p>
-<p>Shady and her crew searched for broken remains of the pots and containers that most such sites contain. Not finding any only made her more excited: it meant Caral could be what archaeologists term pre-ceramic, that is, existing before the advent in the area of pot-firing techniques. Shady’s team undertook the task of excavating Piramide Mayor, the largest of the pyramids. After carefully clearing away many hundreds of years’ worth of rubble and sand, they identified staircases, walls covered with remnants of colored plaster, and brickwork. In the foundations, they found the remains of grass-like reeds woven into bags. The original workers, she surmised, must have filled these bags with stones from a nearby quarry and laid them atop one another inside retaining walls, gradually giving rise to the pyramid’s immense structure. Shady had samples of the reeds subjected to radiocarbon dating and found that the reeds were 4,600 years old. This evidence indicated that Caral was, in fact, more than 1,000 years older than what had previously been thought to be the oldest urban center in the Americas.</p>
-<p>What amazed archaeologists was not just the age, but the complexity and scope of Caral. Piramide Mayor alone covers an area nearly the size of four football fields and is 18 meters tall. A nine-meter-wide staircase rises from a circular plaza at the foot of the pyramid, passing over three terraced levels until it reaches the top. Thousands of manual laborers would have been needed to build such a project, not counting the many architects, craftsmen, and managers. Shady’s team found the remains of a large amphitheatre, containing almost 70 musical instruments made of bird and deer bones Clearly music played an important role in Caral’s society. Around the perimeter of Caral are a series of smaller mounds and various buildings. These indicate a hierarchy of living arrangements: large, well-kept rooms atop pyramids for the elite, ground-level quarters for shabbier outlying dwellings for workers</p>
-<p>But why had Caral been built in the first place? Her excavations convinced Shady that Caral once served as a trade center for the region, which extends from the rainforests of the Amazon to the high forests of the Andes. Shady found evidence of a rich trading environment, including seeds of the cocoa bush and necklaces of shells, neither of which was native to the immediate Caral area. This environment gave rise to people who did not take part in the production of food, allowing them to become priests and planners, builders and designers. Thus occupational specialization, elemental to an urban society, emerged.</p>
-<p>But what sustained such a trading center and drew travelers to it? Was it food? Shady and her team found the bones of small edible fish, which must have come from the Pacific coast to the west, in the excavations. But they also found evidence of squash, sweet potatoes and beans having been grown locally. Shady theorized that Caral’s early farmers diverted the area’s rivers into canals, which still cross the Supe Valley today, to irrigate their fields. But, because she found no traces of maize, which can be traded or stored and used in times of crop failure, she concluded that Caral’s trade leverage was not based on stockpiling food supplies.</p>
-<p>It was evidence of another crop in the excavations that gave Shady the best clue to Caral’s success. In nearly every excavated building, her team discovered evidence of cotton – seeds, fibers and textiles. Her theory fell into place when a large fishing net made of those fibers, unearthed in an unrelated dig on Peru’s coast, turned out to be as old as Caral. ‘The farmers of Caral grew the cotton that the fishermen needed to make their nets, Shady speculates. And the fishermen gave them shellfish and dried fish in exchange for these nets.’ In essence, the people of Caral enabled fishermen to work with larger and more effective nets, which made the resources of the sea more readily available, and the fishermen probably used dried squash grown by the Caral people as flotation devices for their nets.</p>
-<p>Questions 1-6
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 314</strong></h3>
+<h3 class="test-heading"><strong>Caral: an ancient South American city</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>Huge earth and rock mounds rise out of the desert of the Supe Valley near the coast of Peru in South America. These immense mounds appear simply to be part of the geographical landscape in this arid region squeezed between the Pacific Ocean and the Andes mountains. But, looks deceive. These are actually human-made pyramids strong evidence indicates they are the remains of a city known as Caral that flourished nearly 5,000 years ago. It true, it would be the oldest known urban center in the America and among the most ancient in the world.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>Research undertaken by Peruvian archaeologist Ruth Shady suggests that the 150-acre plex of pyramids, plazas and residential buildings was a thriving metropolis when Egypt’s great pyramids were still being built. Though discovered in 1905, for years Caral attracted little attention, largely because archaeologists believed the structures were rainy recent. But the monumental scale of the pyramids had long interested Shady, who began excavations at the site in 1996, about 22 kilometers from the coast and 190 kilometers north of Peru’s capital city of Lima.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Shady and her crew searched for broken remains of the pots and containers that most such sites contain. Not finding any only made her more excited: it meant Caral could be what archaeologists term pre-ceramic, that is, existing before the advent in the area of pot-firing techniques. Shady’s team undertook the task of excavating Piramide Mayor, the largest of the pyramids. After carefully clearing away many hundreds of years’ worth of rubble and sand, they identified staircases, walls covered with remnants of colored plaster, and brickwork. In the foundations, they found the remains of grass-like reeds woven into bags. The original workers, she surmised, must have filled these bags with stones from a nearby quarry and laid them atop one another inside retaining walls, gradually giving rise to the pyramid’s immense structure. Shady had samples of the reeds subjected to radiocarbon dating and found that the reeds were 4,600 years old. This evidence indicated that Caral was, in fact, more than 1,000 years older than what had previously been thought to be the oldest urban center in the Americas.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>What amazed archaeologists was not just the age, but the complexity and scope of Caral. Piramide Mayor alone covers an area nearly the size of four football fields and is 18 meters tall. A nine-meter-wide staircase rises from a circular plaza at the foot of the pyramid, passing over three terraced levels until it reaches the top. Thousands of manual laborers would have been needed to build such a project, not counting the many architects, craftsmen, and managers. Shady’s team found the remains of a large amphitheatre, containing almost 70 musical instruments made of bird and deer bones Clearly music played an important role in Caral’s society. Around the perimeter of Caral are a series of smaller mounds and various buildings. These indicate a hierarchy of living arrangements: large, well-kept rooms atop pyramids for the elite, ground-level quarters for shabbier outlying dwellings for workers</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>But why had Caral been built in the first place? Her excavations convinced Shady that Caral once served as a trade center for the region, which extends from the rainforests of the Amazon to the high forests of the Andes. Shady found evidence of a rich trading environment, including seeds of the cocoa bush and necklaces of shells, neither of which was native to the immediate Caral area. This environment gave rise to people who did not take part in the production of food, allowing them to become priests and planners, builders and designers. Thus occupational specialization, elemental to an urban society, emerged.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>But what sustained such a trading center and drew travelers to it? Was it food? Shady and her team found the bones of small edible fish, which must have come from the Pacific coast to the west, in the excavations. But they also found evidence of squash, sweet potatoes and beans having been grown locally. Shady theorized that Caral’s early farmers diverted the area’s rivers into canals, which still cross the Supe Valley today, to irrigate their fields. But, because she found no traces of maize, which can be traded or stored and used in times of crop failure, she concluded that Caral’s trade leverage was not based on stockpiling food supplies.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>It was evidence of another crop in the excavations that gave Shady the best clue to Caral’s success. In nearly every excavated building, her team discovered evidence of cotton – seeds, fibers and textiles. Her theory fell into place when a large fishing net made of those fibers, unearthed in an unrelated dig on Peru’s coast, turned out to be as old as Caral. ‘The farmers of Caral grew the cotton that the fishermen needed to make their nets, Shady speculates. And the fishermen gave them shellfish and dried fish in exchange for these nets.’ In essence, the people of Caral enabled fishermen to work with larger and more effective nets, which made the resources of the sea more readily available, and the fishermen probably used dried squash grown by the Caral people as flotation devices for their nets.</p></div></div>
+<p><strong>Questions 1-6</strong>
 
 On the following statements agree with the information given in reading passage? In boxes 1-6 below, choose:</p>
-<p>TRUE                         if the statement agrees with the information
+<p><strong>TRUE</strong>                         if the statement agrees with the information
 
-FALSE                        if the statement contradicts the information
+<strong>FALSE </strong>                       if the statement contradicts the information
 
-NOT GIVEN             if there is no information on this</p>
-<p>Questions 7-13
+<strong>NOT GIVEN</strong>             if there is no information on this</p>
+<p><strong>Questions 7-13</strong>
 
-Complete the notes below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 7-13 below.</p>
-<p>Caral as a trading centre</p>
+Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer. Write your answers in boxes 7-13 below.</p>
+<p><strong>Caral as a trading centre</strong></p>
 <p>Items discovered at Caral but not naturally occurring in the area</p>
 <p>• the (7) ……………… of a certain plant
 
 • (8) ………………… used to make jewellery
 
 • the remains of certain food such as (9) ………………</p>
-<p>Clues to farming around Caral</p>
+<p><strong>Clues to farming around Caral</strong></p>
 <p>• (10) …………………. still in existence today indicate water diverted from rivers
 
 • no evidence that (11) …………………. was grown</p>
-<p>Evidence of relationship with fishing communities</p>
+<p><strong>Evidence of relationship with fishing communities</strong></p>
 <p>• the excavation findings and fishing nets found on the coast suggest Caral farmers traded (12) …………
 
 • dried squash may have been used to aid (13) …………………</p>
-<p>Should space be explored by robots or by humans?</p>
-<p>A The advisability of humans participating directly in space travel continues to cause many debates. There is no doubt that the presence of people on board a space vehicle makes its design much more complex and challenging, and produces a large increase in costs, since safety requirements are greatly increased, and the technology providing necessities for human passengers such as oxygen, food water must be guaranteed. Moreover, the systems required are bulky and costly, and their complexity increases for long-duration missions. Meanwhile, advances in electronics and computer science allow increasingly complex tasks to be entrusted to robots, and unmanned space probes are becoming lighter, smaller and more convenient.</p>
-<p>B However, experience has shown that the idea of humans in space is popular with the public. Humans can also be useful; there are many cases when only direct intervention by an astronaut or cosmonaut can correct the malfunction of an automatic device. Astronauts and cosmonauts have proved that they can adapt to conditions of weightlessness and work in space without encountering too many problems, as was seen in the operations to repair and to upgrade the Hubble Space Telescope. One human characteristic which is particularly precious in space missions, and which so far is lacking in robots, is the ability to perform a great variety of tasks. In addition, robots are not good at reacting to situations they have not been specifically prepared for. This is especially important in the case of deep space missions. While, in the case of the Moon, it is possible for someone on Earth to ‘tele-operate’ a robotic device such as a probe, as the two-way link time is only a couple of seconds, on Mars the two- way link time is several minutes, so sending instructions from Earth is more difficult.</p>
-<p>C Many of the promises of artificial intelligence are still far from being fulfilled. The construction of machines simulating human logical reasoning moves towards ever more distant dates. The more the performance of computers improves, the more we realise how difficult it is to build machines which display logical abilities. In the past it was confidently predicted that we would soon have fully automated factories in which all operations were performed without any human intervention, and forecasts of the complete substitution of workers by robots in many production areas were made. Today, these perspectives are being revised. It seems that all machines, even the smartest ones, must cooperate with humans. Rather than replacing humans, the present need appears to be for an intelligent machine capable of helping a human operator without replacing him or her. The word ‘cobot’, from ‘collaborative robot’, has been invented to designate this type.</p>
-<p>D A similar trend is also apparent in the field of space exploration. Tasks which were in the past entrusted only to machines are now performed by human beings, sometimes with the aim of using simpler and less costly devices, sometimes to obtain better performance. In many cases, to involve a person in the control loop is a welcome simplification which may lower the cost of a mission without compromising safety. Many operations originally designed to be performed under completely automatic control can be performed more efficiently by astronauts, perhaps helped by their ‘cobots’. The human-machine relationship must evolve towards a closer collaboration.</p>
-<p>E One way this could happen is by adopting the Mars Outposts approach, proposed by the Planetary Society. This would involve sending a number of robotic research stations to Mars, equipped with permanent communications and navigational systems. They would perform research, and establish the infrastructure needed to prepare future landing sites for the exploration of Mars by humans. It has also been suggested that in the most difficult environments, as on Venus or Jupiter, robots could be controlled by human beings located in spaceships which remain in orbit around the planet. In this case the link time for communication between humans and robots would be far less than it would be from Earth.</p>
-<p>F But if space is to be more than a place to build automatic laboratories or set up industrial enterprises in the vicinity of our planet, the presence of humans is essential. They must learn how to voyage through space towards destinations which will be not only scientific bases but also places to live. If space is a frontier, that frontier must see the presence of people. So the aim for humankind in the future will be not just the exploration of space, but its colonisation. The result of exploring and living in space may be a deep change in the views which humankind has of itself. And this process is already under way. The images of Earth taken from the Moon in the Apollo programme have given humankind a new consciousness of its fragility, its smallness, and its unity. These impressions have triggered a realisation of the need to protect and preserve it, for it is the place in the solar system most suitable for US and above all it is the only place we have, at least for now.</p>
-<p>Questions 14-19
+<p><strong>Should space be explored by robots or by humans?</strong></p>
+<p><strong>A</strong> The advisability of humans participating directly in space travel continues to cause many debates. There is no doubt that the presence of people on board a space vehicle makes its design much more complex and challenging, and produces a large increase in costs, since safety requirements are greatly increased, and the technology providing necessities for human passengers such as oxygen, food water must be guaranteed. Moreover, the systems required are bulky and costly, and their complexity increases for long-duration missions. Meanwhile, advances in electronics and computer science allow increasingly complex tasks to be entrusted to robots, and unmanned space probes are becoming lighter, smaller and more convenient.</p>
+<p><strong>B</strong> However, experience has shown that the idea of humans in space is popular with the public. Humans can also be useful; there are many cases when only direct intervention by an astronaut or cosmonaut can correct the malfunction of an automatic device. Astronauts and cosmonauts have proved that they can adapt to conditions of weightlessness and work in space without encountering too many problems, as was seen in the operations to repair and to upgrade the Hubble Space Telescope. One human characteristic which is particularly precious in space missions, and which so far is lacking in robots, is the ability to perform a great variety of tasks. In addition, robots are not good at reacting to situations they have not been specifically prepared for. This is especially important in the case of deep space missions. While, in the case of the Moon, it is possible for someone on Earth to ‘tele-operate’ a robotic device such as a probe, as the two-way link time is only a couple of seconds, on Mars the two- way link time is several minutes, so sending instructions from Earth is more difficult.</p>
+<p><strong>C</strong> Many of the promises of artificial intelligence are still far from being fulfilled. The construction of machines simulating human logical reasoning moves towards ever more distant dates. The more the performance of computers improves, the more we realise how difficult it is to build machines which display logical abilities. In the past it was confidently predicted that we would soon have fully automated factories in which all operations were performed without any human intervention, and forecasts of the complete substitution of workers by robots in many production areas were made. Today, these perspectives are being revised. It seems that all machines, even the smartest ones, must cooperate with humans. Rather than replacing humans, the present need appears to be for an intelligent machine capable of helping a human operator without replacing him or her. The word ‘cobot’, from ‘collaborative robot’, has been invented to designate this type.</p>
+<p><strong>D</strong> A similar trend is also apparent in the field of space exploration. Tasks which were in the past entrusted only to machines are now performed by human beings, sometimes with the aim of using simpler and less costly devices, sometimes to obtain better performance. In many cases, to involve a person in the control loop is a welcome simplification which may lower the cost of a mission without compromising safety. Many operations originally designed to be performed under completely automatic control can be performed more efficiently by astronauts, perhaps helped by their ‘cobots’. The human-machine relationship must evolve towards a closer collaboration.</p>
+<p><strong>E</strong> One way this could happen is by adopting the Mars Outposts approach, proposed by the Planetary Society. This would involve sending a number of robotic research stations to Mars, equipped with permanent communications and navigational systems. They would perform research, and establish the infrastructure needed to prepare future landing sites for the exploration of Mars by humans. It has also been suggested that in the most difficult environments, as on Venus or Jupiter, robots could be controlled by human beings located in spaceships which remain in orbit around the planet. In this case the link time for communication between humans and robots would be far less than it would be from Earth.</p>
+<p><strong>F</strong> But if space is to be more than a place to build automatic laboratories or set up industrial enterprises in the vicinity of our planet, the presence of humans is essential. They must learn how to voyage through space towards destinations which will be not only scientific bases but also places to live. If space is a frontier, that frontier must see the presence of people. So the aim for humankind in the future will be not just the exploration of space, but its colonisation. The result of exploring and living in space may be a deep change in the views which humankind has of itself. And this process is already under way. The images of Earth taken from the Moon in the Apollo programme have given humankind a new consciousness of its fragility, its smallness, and its unity. These impressions have triggered a realisation of the need to protect and preserve it, for it is the place in the solar system most suitable for US and above all it is the only place we have, at least for now.</p>
+<p><strong>Questions 14-19</strong>
 
 Reading passage has six paragraphs, A-F. Choose the correct heading for each paragraph from the list of headings below. Choose the correct number, i-ix. in boxes 14-19 below.</p>
-<p>List of Headings</p>
+<p><strong>List of Headings</strong></p>
 <p>i. Robots on Earth – a re-evaluation
 
 ii. The barriers to cooperation in space exploration
@@ -176,25 +232,25 @@ ix. Possible examples of cooperation in space</p>
 18. Paragraph E
 
 19. Paragraph F</p>
-<p>Questions 20-21
+<p><strong>Questions 20-21</strong>
 
-Choose TWO letters, A-E. Choose the correct letters in boxes 20-21 below.</p>
-<p>According to the writer, which TWO predictions about artificial intelligence have not yet been fulfilled?</p>
-<p>A Robots will work independently of humans.
+Choose <strong>TWO</strong> letters, A-E. Choose the correct letters in boxes 20-21 below.</p>
+<p>According to the writer, which <strong>TWO</strong> predictions about artificial intelligence have not yet been fulfilled?</p>
+<p><strong>A</strong> Robots will work independently of humans.
 
-B Robots will begin to oppose human interests,
+<strong>B</strong> Robots will begin to oppose human interests,
 
-C Robots will be used to help humans perform tasks more efficiently.
+<strong>C</strong> Robots will be used to help humans perform tasks more efficiently.
 
-D Robots will think in the same way as humans.
+<strong>D</strong> Robots will think in the same way as humans.
 
-E Robots will become too costly to use on space missions.</p>
-<p>Questions 22-26
+<strong>E</strong> Robots will become too costly to use on space missions.</p>
+<p><strong>Questions 22-26</strong>
 
-Complete the summary below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 22-26 below.</p>
-<p>Humans in space – the Mars Outposts approach and its implications</p>
+Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer. Write your answers in boxes 22-26 below.</p>
+<p><strong>Humans in space – the Mars Outposts approach and its implications</strong></p>
 <p>One way of exploring space would be through collaboration between humans and robots. For example, when exploring the planet Mars, robots could be used to set up (22) ………………… and do initial research before humans arrive. In other cases, humans could stay in orbiting (23) …………………… and give orders to robots working on the surface of the planet. This would increase the speed of (24) ……………………. with the robots. In such ways, robots might be used to work in space in commercial enterprises or (25) ………………… However, the final aim of humankind may be the (26) ……………………. of space and this could in turn change people’s attitudes towards Earth.</p>
-<p>The dark side of the technological boom
+<p><strong>The dark side of the technological boom</strong>
 
 What are the effects on the individual of working in modern technological workplaces?</p>
 <p>Changes in the way we work and how our offices are structured come at US faster and faster. Waves of state-of-the-art information technology and instant telecommunications let us reach anyone, anywhere, and speed is the key. Most of US are too busy struggling to keep pace with ongoing innovations to question the implications of our new electronic authority figures. According to a number of psychologists, however, the need to stay on top of the information flow and the vent degree to which we remain in touch with our offices exact a profound toll on US as individuals.</p>
@@ -207,24 +263,24 @@ What are the effects on the individual of working in modern technological workpl
 <p>.”I think people are going to feel an increased fragmentation of self. They won’t be able to hold the pieces together,’ human resources consultant Philip Nicholson says. “How do you keep a coherent space if you’re going in and out of spaces that don’t exist?’ He likens the psychic numbing of electronic information overload to symptoms of post- traumatic stress syndrome (a mental disorder following a horrific event). In office ‘wars’, people become overwhelmed by the sheer amount of information available, internalize the diversity of the world outside, and fear losing com own lives.</p>
 <p>If we are to survive the challenges of information-driven, hardwired offices, says Nicholson, we need to provide psychological support systems. As no one has yet measured the social cost of the workplace revolution, some psychologists are mobilizing efforts to pool information as it is derived. Nicholson started the Technostress International Information Network in Massachusetts to foster an exchange of data and ideas on the effects of computerization and information technology Meanwhile, Brod wants to examine the parallels between electronic work environments and sealed- cabin ecologies’ like space capsules or submarines, both totally automated artificial worlds in which people live in highly confined circumstances surrounded by technology that dictates the tenor of their days as well as their survival. He is petitioning other psychologists to convince the American Psychological Association to form a specialized study group.</p>
 <p>In addition, Brod suggests that we re-examine our value systems and that we make greater allowances for privacy in order to circumvent potential revolts against technology. We need to coevolve with technology,’ he says. “These are wonderful tools, but if we exploit them without imposing appropriate values on their use, they become alienating and dangerous.’</p>
-<p>Questions 27-29
+<p><strong>Questions 27-29</strong>
 
 Complete each sentence with the correct ending, A-E, below. Choose the correct letter, A-E, in boxes 27-29 below.</p>
-<p>A requires more detailed study by psychologists.
+<p><strong>A</strong> requires more detailed study by psychologists.
 
-B means people have no time to challenge the significance of the new technology.
+<strong>B</strong> means people have no time to challenge the significance of the new technology.
 
-C may reduce inventiveness and innovation.
+<strong>C</strong> may reduce inventiveness and innovation.
 
-D suggests computers will take over the workplace.
+<strong>D</strong> suggests computers will take over the workplace.
 
-E results from increased electronic supervision.</p>
+<strong>E</strong> results from increased electronic supervision.</p>
 <p>27. The speed of technological changes
 
 28. A dependency on technology and computers
 
 29. A deterioration in personal service</p>
-<p>Questions 30-35
+<p><strong>Questions 30-35</strong>
 
 Look at the following statements (Questions 30-35) and the list of people below. Match each statement with the correct person or people, A, B, C, or D. Choose the correct letter, A, B, C, or D, in boxes 30-35 below. NB: You may use any letter more than once.</p>
 <p>30. Technology has placed greater expectations on workers not to make mistakes.
@@ -238,21 +294,21 @@ Look at the following statements (Questions 30-35) and the list of people below.
 34. Technology will ultimately increase unemployment for more highly qualified personnel.
 
 35. More counselling is required to help people cope with the demands of the modern workplace.</p>
-<p>A Daniel Dennett
+<p><strong>A</strong> Daniel Dennett
 
-B Craig Brod
+<strong>B</strong> Craig Brod
 
-C Henry Conn
+<strong>C</strong> Henry Conn
 
-D Phil Nicholson</p>
-<p>Questions 36-40
+<strong>D</strong> Phil Nicholson</p>
+<p><strong>Questions 36-40</strong>
 
 Do the following statements agree with the information given in reading passage? In boxes 36-40 below, choose:</p>
-<p>TRUE                         if the statement agrees with the information
+<p><strong>TRUE</strong>                         if the statement agrees with the information
 
-FALSE                        if the statement contradicts the information
+<strong>FALSE</strong>                        if the statement contradicts the information
 
-NOT GIVEN              if there is no information on this</p>
+<strong>NOT GIVEN</strong>              if there is no information on this</p>
 <p>36. Our knowledge of the effects of technology on workers is still limited.
 
 37. An early indicator of technological anxiety is a tendency to adopt machine-like thinking.
@@ -302,7 +358,7 @@ NOT GIVEN              if there is no information on this</p>
 <p>True</p>
 <p>Not given</p>
 <p>Not given</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. False</p>
 <p>2. True</p>
 <p>3. False</p>
@@ -561,6 +617,29 @@ NOT GIVEN              if there is no information on this</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -580,12 +659,23 @@ NOT GIVEN              if there is no information on this</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -597,14 +687,6 @@ NOT GIVEN              if there is no information on this</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

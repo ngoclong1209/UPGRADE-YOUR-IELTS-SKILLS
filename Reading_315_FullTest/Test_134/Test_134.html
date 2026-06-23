@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,21 +158,21 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_134</h1>
-            <p>IELTS Reading Practice - Test 134</p>
-<p>Man or Machine</p>
-<p>A During July 2003, the Museum of Science in Cambridge, Massachusetts exhibited what Honda calls ‘the world’s most advanced humanoid robot’, ASIMO (the Advanced Step in Innovative Mobility). Honda’s brainchild is on tour in North America and delighting audiences wherever it goes. After 17 years in the making, ASIMO stands at four feet tall, weighs around 115 pounds and bob like a child in an astronaut’s suit. Though it is difficult to see ASIMO’s face at a distance, on closer inspection it has a smile and two large ‘eyes’ that conceal cameras. The robot cannot work autonomously — its actions are ‘remote controlled’ by scientists through the computer in its backpack. Yet watching ASMIO perform at a show in Massachusetts it seemed uncannily human. The audience cheered as ASIMO walked forwards and backwards, side to side and up and downstairs. It can even dance to the Hawaiian Hula.</p>
-<p>B While the Japanese have made huge strides in solving some of the engineering problems of human kinetics and bipedal movements, for the past 10 years scientists at MIT’s former Artificial Intelligence (Al) lab (recently renamed the Computer Science and Artificial Intelligence Laboratory, CSAIL) have been making robots that can behave like humans and interact with humans. One of MIT’s robots, Kismet, is an anthropomorphic head and has two eyes (complete with eyelids), ears, a mouth, and eyebrows. It has several facial expressions, including happy, sad, frightened and disgusted. Human interlocutors are able to read some of the robot’s facial expressions, and often change their behaviour towards the machine as a result – for example, playing with it when it appears ‘sad’. Kismet is now in MIT’s museum, but the ideas developed here continue to be explored in new robots.</p>
-<p>C Cog (short for Cognition) is another pioneering project from MIT’s former Al lab. Cog has a head, eyes, two arms, hands and a torso — and its proportions were originally measured from the body of a researcher in the lab. The work on Cog has been used to test theories of embodiment and developmental robotics, particularly getting a robot to develop intelligence by responding to its environment via sensors, and to learn through these types of interactions. This approach to Al was thought up and developed by a team of students and researchers led by the head of MIT’s former Al lab, Rodney Brooks (now head of CSAIL), and represented a completely new development.</p>
-<p>D This work at MIT is getting furthest down the road to creating human-like and interactive robots. Some scientists argue that ASIMO is a great engineering feat but not an intelligent machine — because it is unable to interact autonomously with unpredictabilities in its environment in meaningful ways, and learn from experience. Robots like Cog and Kismet and new robots at MIT’s CSAIL and media lab, however, are beginning to do this.</p>
-<p>E These are exciting developments. Creating a machine that can walk, make gestures and learn from its environment is an amazing achievement. And watch this space: these achievements are likely rapidly to be improved upon. Humanoid robots could have a plethora of uses in society, helping to free people from everyday tasks. In Japan, for example, there is an aim to create robots that can do the tasks similar to an average human, and also act in more sophisticated situations as firefighters, astronauts or medical assistants to the elderly in the workplace and in homes — partly in order to counterbalance the effects of an ageing population.</p>
-<p>F So in addition to these potentially creative plans there lies a certain dehumanisation. The idea that companions can be replaced with machines, for example, suggests a mechanical and degraded notion of human relationships. On one hand, these developments express human creativity — our ability to invent, experiment, and to extend our control over the world. On the other hand, the aim to create a robot like a human being is spurred on by dehumanised ideas — by the sense that human companionship can be substituted by machines; that humans lose their humanity when they interact with technology; or that we are little more than surface and ritual behaviours, that can be simulated with metal and electrical circuits.</p>
-<p>G The tension between the dehumanised and creative aspects of robots has long been explored in culture. In Karel Capek’s Rossum’s Universal Robots, a 19 2 1 play in which the term ‘robot’ was first coined, although Capek’s robots had human-like appearance and behaviour, the dramatist never thought these robots were human. For Capek, being human was about much more than appearing to be human. In part, it was about challenging a dehumanising system, and struggling to become recognised and given the dignity of more than a machine. A similar spirit would guide us well through twenty-first century experiments in robotics.</p>
-<p>Questions 1-7
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 134</strong></h3>
+<h3 class="test-heading"><strong>Man or Machine</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> During July 2003, the Museum of Science in Cambridge, Massachusetts exhibited what Honda calls ‘the world’s most advanced humanoid robot’, ASIMO (the Advanced Step in Innovative Mobility). Honda’s brainchild is on tour in North America and delighting audiences wherever it goes. After 17 years in the making, ASIMO stands at four feet tall, weighs around 115 pounds and bob like a child in an astronaut’s suit. Though it is difficult to see ASIMO’s face at a distance, on closer inspection it has a smile and two large ‘eyes’ that conceal cameras. The robot cannot work autonomously — its actions are ‘remote controlled’ by scientists through the computer in its backpack. Yet watching ASMIO perform at a show in Massachusetts it seemed uncannily human. The audience cheered as ASIMO walked forwards and backwards, side to side and up and downstairs. It can even dance to the Hawaiian Hula.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> While the Japanese have made huge strides in solving some of the engineering problems of human kinetics and bipedal movements, for the past 10 years scientists at MIT’s former Artificial Intelligence (Al) lab (recently renamed the Computer Science and Artificial Intelligence Laboratory, CSAIL) have been making robots that can behave like humans and interact with humans. One of MIT’s robots, Kismet, is an anthropomorphic head and has two eyes (complete with eyelids), ears, a mouth, and eyebrows. It has several facial expressions, including happy, sad, frightened and disgusted. Human interlocutors are able to read some of the robot’s facial expressions, and often change their behaviour towards the machine as a result – for example, playing with it when it appears ‘sad’. Kismet is now in MIT’s museum, but the ideas developed here continue to be explored in new robots.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> Cog (short for Cognition) is another pioneering project from MIT’s former Al lab. Cog has a head, eyes, two arms, hands and a torso — and its proportions were originally measured from the body of a researcher in the lab. The work on Cog has been used to test theories of embodiment and developmental robotics, particularly getting a robot to develop intelligence by responding to its environment via sensors, and to learn through these types of interactions. This approach to Al was thought up and developed by a team of students and researchers led by the head of MIT’s former Al lab, Rodney Brooks (now head of CSAIL), and represented a completely new development.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> This work at MIT is getting furthest down the road to creating human-like and interactive robots. Some scientists argue that ASIMO is a great engineering feat but not an intelligent machine — because it is unable to interact autonomously with unpredictabilities in its environment in meaningful ways, and learn from experience. Robots like Cog and Kismet and new robots at MIT’s CSAIL and media lab, however, are beginning to do this.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> These are exciting developments. Creating a machine that can walk, make gestures and learn from its environment is an amazing achievement. And watch this space: these achievements are likely rapidly to be improved upon. Humanoid robots could have a plethora of uses in society, helping to free people from everyday tasks. In Japan, for example, there is an aim to create robots that can do the tasks similar to an average human, and also act in more sophisticated situations as firefighters, astronauts or medical assistants to the elderly in the workplace and in homes — partly in order to counterbalance the effects of an ageing population.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> So in addition to these potentially creative plans there lies a certain dehumanisation. The idea that companions can be replaced with machines, for example, suggests a mechanical and degraded notion of human relationships. On one hand, these developments express human creativity — our ability to invent, experiment, and to extend our control over the world. On the other hand, the aim to create a robot like a human being is spurred on by dehumanised ideas — by the sense that human companionship can be substituted by machines; that humans lose their humanity when they interact with technology; or that we are little more than surface and ritual behaviours, that can be simulated with metal and electrical circuits.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> The tension between the dehumanised and creative aspects of robots has long been explored in culture. In Karel Capek’s Rossum’s Universal Robots, a 19 2 1 play in which the term ‘robot’ was first coined, although Capek’s robots had human-like appearance and behaviour, the dramatist never thought these robots were human. For Capek, being human was about much more than appearing to be human. In part, it was about challenging a dehumanising system, and struggling to become recognised and given the dignity of more than a machine. A similar spirit would guide us well through twenty-first century experiments in robotics.</p></div></div>
+<p><strong>Questions 1-7</strong>
 Reading Passage 1 has seven paragraphs, A-G. Which paragraph contains the following information? Write the correct letter, A-G, in boxes 1-7 on your answer sheet.</p>
-<p>Questions 8-13
-Complete the summary below using NO MORE THAN TWO WORDS from the passage. Write your answers in boxes 8-13 on your answer sheet.</p>
+<p><strong>Questions 8-13</strong>
+Complete the summary below using <strong>NO MORE THAN TWO WORDS</strong> from the passage. Write your answers in boxes 8-13 on your answer sheet.</p>
 <p>It took Honda (8)………………..years to make ASIMO, a human-looking robot that attracted broad interests from audiences. Unlike ASIMO, which has to be controls through a computer installed in the (9)……………, MIT’s scientists aimed to make robot that can imitate human behavior and (10)……………with humans. One of such particular inventions can express its own feelings through (11)…………….. Another innovative project is a robot called (12)…………… which is expected to learn from its environment to gain some (13)………..</p>
-<p>California’s Age of Megafires</p>
+<p><strong>California’s Age of Megafires</strong></p>
 <p>There’s a reason fire squads now battling more than a dozen blazes in southern California are having such difficulty containing the flames, despite better preparedness than ever and decades of experience fighting fires fanned by the notorious Santa Ana winds. The wildfires themselves, experts say, generally are hotter, move faster, and spread more erratically than in the past.</p>
 <p>Megafires, also called “siege fires,” are the increasingly frequent blazes that burn 500,000 acres or more — 10 times the size of the average forest fire of 20 years ago. One of the current wildfires is the sixth biggest in California ever, in terms of acreage burned, according to state figures and news reports.</p>
 <p>The short-term explanation is that the region, which usually has dry summers, has had nine inches less rainfall than normal this year. Longer term, climate change across the West is leading to hotter days on average and longer fire seasons. The trend to more superhot fires, experts say, has been driven by a century-long policy of the US Forest Service to stop wildfires as quickly as possible. The unintentional consequence was to halt the natural eradication of underbrush, now the primary fuel for megafires.</p>
@@ -128,37 +184,37 @@ Complete the summary below using NO MORE THAN TWO WORDS from the passage. Write 
 <p>Besides ordering the California National Guard on Monday to make 1,500 guardsmen available for firefighting efforts, Gov. Arnold Schwarzenegger asked the Pentagon to send all available Modular Airborne Fighting Systems to the area. The military Lockheed C-130 cargo/utility aircraft carry a pressurized 3,000-gallon tank that can eject fire retardant or water in fewer than five seconds through two tubes at the rear of the plane. This load can cover an area 1/4-mile long and 60 feet wide to create a fire barrier. Governor Schwarzenegger also directed 2,300 inmate firefighters and 170 custody staff from the California Department of Corrections and Rehabilitation to work hand in hand with state and local firefighters.</p>
 <p>Residents and government officials alike are noting the improvements with gratitude, even amid the loss of homes, churches, businesses, and farms. Despite such losses there is a sense that the speed, dedication, and coordination of firefighters from several states and jurisdictions are resulting in greater efficiency than in past “siege situations.</p>
 <p>“I am extraordinarily impressed by the improvements we have witnessed between last big fire and this,” says Ross Simmons, a San Diego-based lawyer who ha evacuate both his home and business on Monday, taking up residence at a Hampton Inn 30 miles south of his home in Rancho Bernardo. After fires consumed 172,000 acres there in 2003, the San Diego region turned community wide soul-searching into improved building codes, evacuation procedures, and procurement of new technology. Mr. Simmons and neighbors began receiving automated phone calls at 3:30 a.m. Monday morning telling them to evacuate. “Notwithstanding all the damage that will be caused by this, we will not come close to the loss of life because of what we have … put in place since then,” he says.</p>
-<p>Questions 14-18
-Complete the summary below using NO MORE THAN TWO WORDS from the passage. Write your answers in boxes 14-18 on your answer sheet.</p>
+<p><strong>Questions 14-18</strong>
+Complete the summary below using <strong>NO MORE THAN TWO WORDS</strong> from the passage. Write your answers in boxes 14-18 on your answer sheet.</p>
 <p>Fighting Californian wildfires is still not an easy task because the fires the fire-fighters now face (14)………………in more unpredictable manner in addition to the raging heat and faster speed than ever. Megafires, as they are called, are often (15)…………….bigger than average forest fire. The reasons for this include (16)…………….below the average and the extended (17)………………due to climate change. And according to experts, the government policy has also contributed to this by accidentally making the underbrush the (18)……………….for megafires.</p>
 <p>Questions 19-23
 Do the following statements agree with the information given in Reading Passage 2? Write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN if there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> if there is no information on this</p>
 <p>19. Open space has been disappearing in the past 10 years.
 20. The equipment firefighters use today is better than before.
 21. The state recruited new firefighters.
 22. In the early years, no other states wished to help California to fight the fire.
 23. The 2004 blue-ribbon commission did not make any achievements.</p>
-<p>Questions 24-26
+<p><strong>Questions 24-26</strong>
 Choose the correct letter. A, B, C or D. Write your answers in boxes 24-26 on your answer sheet.</p>
 <p>24. Why does the author mention Governor Schwarzenegger, California National Guard, Pentagon and the California Department of Corrections and Rehabilitation?
-A. To show the active involvement of the Schwarzenegger’s administration
-B. To illustrate the cross-state and cross-jurisdiction cooperation in fire¬fighting
-C. To demonstrate how the military is more effective at fighting fire than others
-D. To give an example of how resources should be mobilised to fight fires</p>
+<strong>A</strong>. To show the active involvement of the Schwarzenegger’s administration
+<strong>B</strong>. To illustrate the cross-state and cross-jurisdiction cooperation in fire¬fighting
+<strong>C</strong>. To demonstrate how the military is more effective at fighting fire than others
+<strong>D</strong>. To give an example of how resources should be mobilised to fight fires</p>
 <p>25. How do the locals feel about the improvements made by the state government?
-A. glad
-B. unsatisfied
-C. unconcerned
-D. bitter</p>
+<strong>A</strong>. glad
+<strong>B</strong>. unsatisfied
+<strong>C</strong>. unconcerned
+<strong>D</strong>. bitter</p>
 <p>26. According to Ross Simmons, which of the following statements is true?
-A. It’s harder to evacuate people in daytime.
-B. People refuse to improve their house in fire resisting ability.
-C. People can hardly believe the magnitude of damage today.
-D. People are less likely to die in fires now</p>
-<p>Alfred Nobel</p>
+<strong>A</strong>. It’s harder to evacuate people in daytime.
+<strong>B</strong>. People refuse to improve their house in fire resisting ability.
+<strong>C</strong>. People can hardly believe the magnitude of damage today.
+<strong>D</strong>. People are less likely to die in fires now</p>
+<p><strong>Alfred Nobel</strong></p>
 <p>Since 1901, the Nobel Prize has been honoring men and women from all corners of the globe for outstanding achievements in physics, chemistry, medicine, literature, and for work in peace. The foundations for the prize were laid in 1895 when Alfred Nobel wrote his last will, leaving much of his wealth to the establishment of the Nobel Prize.</p>
 <p>Alfred Nobel was born in Stockholm on October 21, 1833. His father Immanuel Nobel was an engineer and inventor who built bridges and buildings in Stockholm. In connection with his construction work Immanuel Nobel also experimented with different techniques for blasting rocks. Successful in his industrial and business ventures, Immanuel Nobel was able, in 1842, to bring his family to St. Petersburg. There, his sons were given a first class education by private teachers. The train included natural sciences, languages and literature. By the age of 17 Alfred Nobel was fluent in Swedish, Russian, French, English and German. His primary interests were in English literature and poetry as well as in chemistry and physics. Alfred’s father, who wanted his sons to join his enterprise as engineers, disliked Alfred’s interest in poetry and found his son rather introverted.</p>
 <p>In order to widen Alfred’s horizons his father sent him abroad for further training in chemical engineering. During a two year period Alfred Nobel visited Sweden, Germany, France and the United States. In Paris, the city he came to like best, he worked in the private laboratory of Professor T. J. Pclouze, a famous chemist. There he met the young Italian chemist Ascanio Sobrero who, three years earlier, had invented nitroglycerine, a highly explosive liquid. But it was considered too dangerous to be of any practical use. Although its explosive power greatly exceeded that of gunpowder, the liquid would explode in a very unpredictable manner if subjected to heat and pressure. Alfred Nobel became very interested in nitroglycerine and how it could be put to practical use in construction work. He also realized that the safety problems had to be solved and a method had to be developed for the controlled detonation of nitroglycerine.</p>
@@ -167,24 +223,24 @@ D. People are less likely to die in fires now</p>
 <p>Intensive work and travel did not leave much time for a private life. At the age of 43 he was feeling like an old man. At this time he advertised in a newspaper “wealthy, highly-educated elderly gentleman seeks lady of mature age, versed in languages, as secretary and supervisor of household.” The most qualified applicant turned out to be an Austrian woman, Countess Bertha Kinsky. After working a very short time for Nobel she decided to return to Austria to marry Count Arthur von Suttner. In spite of this Alfred Nobel and Bertha von Suttner remained friends and kept writing letters to each other for decades. Over the years Bertha von Suttner became increasingly critical of the arms race. She wrote a famous book, Lay Down Your Arms and became a prominent figure in the peace movement. No doubt this influenced Alfred Nobel when he wrote his final will which was to include a Prize for persons or organizations who promoted peace. Several years after the death of Alfred Nobel, the Norwegian Storting (Parliament) decided to award the 1905 Nobel Peace Prize to Bertha von Suttner.</p>
 <p>Alfred Nobel died in San Remo, Italy, on December 10, 1896. When his will was opened it came as a surprise that his fortune was to be used for Prizes in Physics, Chemistry, Physiology or Medicine, Literature and Peace. The executors of his will were two young engineers, Ragnar Sohlman and Rudolf Lilljequist. They set about forming the Nobel Foundation as an organization to take care of the financial assets left by Nobel for this purpose and to coordinate the work of the Prize-Awarding Institutions. This was not without its difficulties since the will was contested by relatives and questioned by authorities in various countries.</p>
 <p>Alfred Nobel’s greatness lay in his ability to combine the penetrating mind of the scientist and inventor with the forward-looking dynamism of the industrialist. Nobel was very interested in social and peace-related issues and held what were considered radical views in his era. He had a great interest in literature and wrote his own poetry and dramatic works. The Nobel Prizes became an extension and a fulfillment of his lifetime interests.</p>
-<p>Questions 27-32
+<p><strong>Questions 27-32</strong>
 Do the following statements agree with the information given in Reading Passage 1? Write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN if there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> if there is no information on this</p>
 <p>27. The first Nobel Prize was awarded in 1895.
 28. Nobel’s father wanted his son to have better education than what he had had.
 29. Nobel was an unsuccessful businessman.
 30. Bertha von Suttner was selected by Nobel himself for the first peace prize.
 31. The Nobel Foundation was established after the death of Nobel
 32. Nobel’s social involvement was uncommon in the 1800’s.</p>
-<p>Questions 33-39
-Complete the notes below using NO MORE THAN TWO WORDS from the passage. Write your answers in boxes 7-13 on your answer sheet.</p>
-<p>Education:
+<p><strong>Questions 33-39</strong>
+Complete the notes below using <strong>NO MORE THAN TWO WORDS</strong> from the passage. Write your answers in boxes 7-13 on your answer sheet.</p>
+<p><strong>Education:</strong>
 Having accumulated a great fortune in his business, Nobel’s father determined to give his son the best education and sent him abroad to be trained in (33)……………during Nobel’s study in Paris, he worked in a private laboratory, where he came in contact with a young engineer (34)……………..and his invention nitroglycerine, a more powerful explosive than (35)……………..</p>
-<p>Benefits in construction works:
+<p><strong>Benefits in construction works:</strong>
 Nobel became really interested in this new explosive and experimented on it. But nitroglycerine was too dangerous and was banned for experiments within the city of (36)…………….. So Nobel had to move his experiments to a lake. To make nitroglycerine easily usable, Nobel invented dynamite along with (37)………….while in the meantime (38)……………….became popular, all of which dramatically lowered the (39)…………..of construction works.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. E</p>
 <p>2. A</p>
 <p>3. C</p>
@@ -442,6 +498,29 @@ Nobel became really interested in this new explosive and experimented on it. But
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -461,12 +540,23 @@ Nobel became really interested in this new explosive and experimented on it. But
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -478,14 +568,6 @@ Nobel became really interested in this new explosive and experimented on it. But
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

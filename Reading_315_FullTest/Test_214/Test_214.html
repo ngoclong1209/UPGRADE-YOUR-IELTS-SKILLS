@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,60 +158,60 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_214</h1>
-            <p>IELTS Reading Practice - Test 214</p>
-<p>Trends in the Indian fashion and textile industries</p>
-<p>During the 1950s, the Indian fashion scene was exciting, stylish and very graceful. There were no celebrity designers or models, nor were there any labels that were widely recognised. The value of a garment was judged by its style and fabric rather than by who made it. It was regarded as perfectly acceptable, even for high-society women, to approach an unknown tailor who could make a garment for a few rupees, providing the perfect fit, finish and style. They were proud of getting a bargain, and of giving their own name to the end result.</p>
-<p>The 1960s was an era full of mischievousness and celebration in the arts, music and cinema. The period was characterised by freedom from restrictions and, in the fashion world, an acceptance of innovative types of material such as plastic and coated polyester. Tight-fitting kurtas and churidars and high coiffures were a trend among women.</p>
-<p>The following decade witnessed an increase in the export of traditional materials, and the arrival in India of international fashion. Synthetics became trendy, and the disco culture affected the fashion scene.</p>
-<p>It was in the early 80s when the first fashion store ‘Ravissant’ opened in Mumbai. At that time garments were retailed for a four-figure price tag. American designers like Calvin Klein became popular. In India too, contours became more masculine, and even the salwar kameez was designed with shoulder pads.</p>
-<p>With the evolution of designer stores came the culture of designer fashion, along with its hefty price tags. Whatever a garment was like, consumers were convinced that a higher price tag signified elegant designer fashion, so garments were sold at unbelievable prices. Meanwhile, designers decided to get themselves noticed by making showy outfits and associating with the right celebrities. Soon, fashion shows became competitive, each designer attempting to out-do the other in theme, guest list and media coverage.</p>
-<p>In the last decade of the millennium, the market shrank and ethnic wear made a comeback. During the recession, there was a push to sell at any cost. With fierce competition the inevitable occurred: the once hefty price tags began their downward journey, and the fashion-show industry followed suit. However, the liveliness of the Indian fashion scene had not ended – it had merely reached a stable level.</p>
-<p>At the beginning of the 21st century, with new designers and models, and more sensible designs, the fashion industry accelerated once again. As far as the global fashion industry is concerned, Indian ethnic designs and materials are currently in demand from fashion houses and garment manufacturers. India is the third largest producer of cotton, the second largest producer of silk, and the fifth largest producer of man-made fibres in the world.</p>
-<p>The Indian garment and fabric industries have many fundamental advantages, in terms of a cheaper, skilled work force, cost-effective production, raw materials, flexibility, and a wide range of designs with sequins, beadwork, and embroidery. In addition, that India provides garments to international fashion houses at competitive prices, with a shorter lead time, and an effective monopoly on certain designs, is accepted the whole world over. India has always been regarded as the default source in the embroidered garments segment, but changes in the rate of exchange between the rupee and the dollar has further depressed prices, thereby attracting more buyers. So the international fashion houses walk away with customised goods, and craftwork is sold at very low rates.</p>
-<p>As far as the fabric market is concerned, the range available in India can attract as well as confuse the buyer. Much of the production takes place in the small town of Chapa in the eastern state of Bihar, a name one might never have heard of. Here fabric-making is a family industry; the range and quality of raw silks churned out here belie the crude production methods and equipment. Surat in Gujarat, is the supplier of an amazing set of jacquards, moss crepes and georgette sheers – all fabrics in high demand. Another Indian fabric design that has been adopted by the fashion industry is the ‘Madras check’, originally utilised for the universal lungi, a simple lower-body wrap worn in southern India. This design has now found its way on to bandannas, blouses, home furnishings and almost anything one can think of. Ethnic Indian designs with batik and hand-embroidered motifs have also become popular across the world. Decorative bead work is another product in demand in the international market. Beads are used to prepare accessory items like belts and bags, and beadwork is now available for haute couture evening wear too.</p>
-<p>Questions 1-7
-Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.</p>
-<p>Indian fashion: 1950-2000</p>
-<p>1950s
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 214</strong></h3>
+<h3 class="test-heading"><strong>Trends in the Indian fashion and textile industries</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>During the 1950s, the Indian fashion scene was exciting, stylish and very graceful. There were no celebrity designers or models, nor were there any labels that were widely recognised. The value of a garment was judged by its style and fabric rather than by who made it. It was regarded as perfectly acceptable, even for high-society women, to approach an unknown tailor who could make a garment for a few rupees, providing the perfect fit, finish and style. They were proud of getting a bargain, and of giving their own name to the end result.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>The 1960s was an era full of mischievousness and celebration in the arts, music and cinema. The period was characterised by freedom from restrictions and, in the fashion world, an acceptance of innovative types of material such as plastic and coated polyester. Tight-fitting kurtas and churidars and high coiffures were a trend among women.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>The following decade witnessed an increase in the export of traditional materials, and the arrival in India of international fashion. Synthetics became trendy, and the disco culture affected the fashion scene.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>It was in the early 80s when the first fashion store ‘Ravissant’ opened in Mumbai. At that time garments were retailed for a four-figure price tag. American designers like Calvin Klein became popular. In India too, contours became more masculine, and even the salwar kameez was designed with shoulder pads.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>With the evolution of designer stores came the culture of designer fashion, along with its hefty price tags. Whatever a garment was like, consumers were convinced that a higher price tag signified elegant designer fashion, so garments were sold at unbelievable prices. Meanwhile, designers decided to get themselves noticed by making showy outfits and associating with the right celebrities. Soon, fashion shows became competitive, each designer attempting to out-do the other in theme, guest list and media coverage.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>In the last decade of the millennium, the market shrank and ethnic wear made a comeback. During the recession, there was a push to sell at any cost. With fierce competition the inevitable occurred: the once hefty price tags began their downward journey, and the fashion-show industry followed suit. However, the liveliness of the Indian fashion scene had not ended – it had merely reached a stable level.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>At the beginning of the 21st century, with new designers and models, and more sensible designs, the fashion industry accelerated once again. As far as the global fashion industry is concerned, Indian ethnic designs and materials are currently in demand from fashion houses and garment manufacturers. India is the third largest producer of cotton, the second largest producer of silk, and the fifth largest producer of man-made fibres in the world.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>The Indian garment and fabric industries have many fundamental advantages, in terms of a cheaper, skilled work force, cost-effective production, raw materials, flexibility, and a wide range of designs with sequins, beadwork, and embroidery. In addition, that India provides garments to international fashion houses at competitive prices, with a shorter lead time, and an effective monopoly on certain designs, is accepted the whole world over. India has always been regarded as the default source in the embroidered garments segment, but changes in the rate of exchange between the rupee and the dollar has further depressed prices, thereby attracting more buyers. So the international fashion houses walk away with customised goods, and craftwork is sold at very low rates.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>As far as the fabric market is concerned, the range available in India can attract as well as confuse the buyer. Much of the production takes place in the small town of Chapa in the eastern state of Bihar, a name one might never have heard of. Here fabric-making is a family industry; the range and quality of raw silks churned out here belie the crude production methods and equipment. Surat in Gujarat, is the supplier of an amazing set of jacquards, moss crepes and georgette sheers – all fabrics in high demand. Another Indian fabric design that has been adopted by the fashion industry is the ‘Madras check’, originally utilised for the universal lungi, a simple lower-body wrap worn in southern India. This design has now found its way on to bandannas, blouses, home furnishings and almost anything one can think of. Ethnic Indian designs with batik and hand-embroidered motifs have also become popular across the world. Decorative bead work is another product in demand in the international market. Beads are used to prepare accessory items like belts and bags, and beadwork is now available for haute couture evening wear too.</p></div></div>
+<p><strong>Questions 1-7</strong>
+Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+<p><strong>Indian fashion: 1950-2000</strong></p>
+<p><strong>1950s</strong>
 • No well-known designers, models or (1)……………….
 • Elegant clothing cost little
 • Women were pleased to get clothes for a (2)………………price</p>
-<p>1960s
+<p><strong>1960s</strong>
 • New materials, e.g. (3)………………..and polyester
 • Fitted clothing and tall hairstyles</p>
-<p>1970s
+<p><strong>1970s</strong>
 • Overseas sales of (4)………………….fabrics rose
 • Influence of international fashion</p>
-<p>1980s
+<p><strong>1980s</strong>
 • Opening of fashion store in Mumbai
 • Popularity of American designers
 • Clothing had a (5)………………..shape
 • Designers tried to attract attention by presenting (6)……………….clothes and mixing with stars</p>
-<p>1990s
+<p><strong>1990s</strong>
 • Fall in demand for expensive fashion wear
 • Return to (7)…………………….clothing</p>
-<p>Questions 8-13
+<p><strong>Questions 8-13</strong>
 Do the following statements agree with the information given in Reading Passage 1? Write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>8. At the start of the 21st century, key elements in the Indian fashion industry changed.
 9. India now exports more than half of the cotton it produces.
 10. Conditions in India are generally well suited to the manufacture of clothing.
 11. Indian clothing exports have suffered from changes in the value of its currency.
 12. Modern machinery accounts for the high quality of Chapa’s silk.
 13. Some types of Indian craftwork which are internationally popular had humble origins.</p>
-<p>Sustainable growth at Didcot The outline of a report by South Oxfordshire District Council</p>
-<p>A The UK Government’s South East Plan proposes additional housing growth in the town of Didcot, which has been a designated growth area since 1979. We in South Oxfordshire District Council consider that, although Didcot does have potential for further growth, such development should be sustainable, well-planned, and supported by adequate infrastructure and community services.</p>
-<p>B Recent experience in Didcot has demonstrated that large greenfield [1] developments cannot resource all the necessary infrastructure and low-cost housing requirements. The ensuing compromises create a legacy of local transport, infrastructure and community services deficits, with no obvious means of correction. We wish to ensure that there is greater recognition of the cost attached to housing growth, and that a means is found to resource the establishment of sustainable communities in growth areas.</p>
-<p>C Until the 1950s, the development of job opportunities in the railway industry, and in a large, military ordnance depot, was the spur to Didcot’s expansion. Development at that time was geared to providing homes for the railway and depot workers, with limited investment in shopping and other services for the local population. Didcot failed to develop Broadway as a compact town centre, and achieved only a strip of shops along one side of the main street hemmed in by low density housing and service trade uses.</p>
-<p>D From the 1970s, strategic planning policies directed significant new housing development to Didcot. Planners recognised Didcot’s potential, with rapid growth in local job opportunities and good rail connections for those choosing to work farther afield. However, the town is bisected by the east-west railway, and people living in Ladygrove, the urban extension to the north which has been built since the 1980s, felt, and still feel, cut off from the town and its community.</p>
-<p>E Population growth in the new housing areas failed to spark adequate private-sector investment in town centre uses, and the limited investment which did take place – Didcot Market Place development in 1982, for instance – did not succeed in delivering the number and range of town centre uses needed by the growing population. In 1990, public-sector finance was used to buy the land required for the Orchard Centre development, comprising a superstore, parking and a new street of stores running parallel to Broadway. The development took 13 years to complete.</p>
-<p>F The idea that, by obliging developers of new housing to contribute to the cost of infrastructure and service requirements, all the necessary finance could be raised, has proved unachievable. Substantial public finance was still needed to deliver major projects such as the new link road to the A34 on the outskirts of the town at Milton, the improved railway crossing at Marsh Bridge and new schools. Such projects were delayed due to difficulties in securing public finance. The same problem also held back expansion of health and social services in the town.</p>
-<p>G In recent years, government policy, in particular the requirement for developers that forty percent of the units in a new housing development should be low cost homes, has had a major impact on the economics of such development, as it has limited the developers’ contribution to the costs of infrastructure. The planning authorities are facing difficult choices in prioritising the items of infrastructure which must be funded by development, and this, in turn, means that from now on public finance will need to provide a greater proportion of infrastructure project costs.</p>
-<p>H The Government’s Sustainable Communities Plan seeks a holistic approach to new urban development in which housing, employment, services and infrastructure of all kinds are carefully planned and delivered in a way which avoids the infrastructure deficits that have occurred in places like Didcot in the past. This report, therefore, is structured around the individual components of a sustainable community, and shows the baseline position for each component.</p>
-<p>I Didcot has been identified as one of the towns with which the Government is working to evaluate whether additional growth will strengthen the economic potential of the town, deliver the necessary infrastructure and improve environmental standards. A programme of work, including discussions with the local community about their aspirations for the town as well as other stakeholders, will be undertaken over the coming months, and will lead to the development of a strategic master plan. The challenge will be in optimising scarce resources to achieve maximum benefits for the town.</p>
-<p>Questions 14-19
+<p><strong>Sustainable growth at Didcot The outline of a report by South Oxfordshire District Council</strong></p>
+<p><strong>A</strong> The UK Government’s South East Plan proposes additional housing growth in the town of Didcot, which has been a designated growth area since 1979. We in South Oxfordshire District Council consider that, although Didcot does have potential for further growth, such development should be sustainable, well-planned, and supported by adequate infrastructure and community services.</p>
+<p><strong>B</strong> Recent experience in Didcot has demonstrated that large greenfield [1] developments cannot resource all the necessary infrastructure and low-cost housing requirements. The ensuing compromises create a legacy of local transport, infrastructure and community services deficits, with no obvious means of correction. We wish to ensure that there is greater recognition of the cost attached to housing growth, and that a means is found to resource the establishment of sustainable communities in growth areas.</p>
+<p><strong>C</strong> Until the 1950s, the development of job opportunities in the railway industry, and in a large, military ordnance depot, was the spur to Didcot’s expansion. Development at that time was geared to providing homes for the railway and depot workers, with limited investment in shopping and other services for the local population. Didcot failed to develop Broadway as a compact town centre, and achieved only a strip of shops along one side of the main street hemmed in by low density housing and service trade uses.</p>
+<p><strong>D</strong> From the 1970s, strategic planning policies directed significant new housing development to Didcot. Planners recognised Didcot’s potential, with rapid growth in local job opportunities and good rail connections for those choosing to work farther afield. However, the town is bisected by the east-west railway, and people living in Ladygrove, the urban extension to the north which has been built since the 1980s, felt, and still feel, cut off from the town and its community.</p>
+<p><strong>E</strong> Population growth in the new housing areas failed to spark adequate private-sector investment in town centre uses, and the limited investment which did take place – Didcot Market Place development in 1982, for instance – did not succeed in delivering the number and range of town centre uses needed by the growing population. In 1990, public-sector finance was used to buy the land required for the Orchard Centre development, comprising a superstore, parking and a new street of stores running parallel to Broadway. The development took 13 years to complete.</p>
+<p><strong>F</strong> The idea that, by obliging developers of new housing to contribute to the cost of infrastructure and service requirements, all the necessary finance could be raised, has proved unachievable. Substantial public finance was still needed to deliver major projects such as the new link road to the A34 on the outskirts of the town at Milton, the improved railway crossing at Marsh Bridge and new schools. Such projects were delayed due to difficulties in securing public finance. The same problem also held back expansion of health and social services in the town.</p>
+<p><strong>G</strong> In recent years, government policy, in particular the requirement for developers that forty percent of the units in a new housing development should be low cost homes, has had a major impact on the economics of such development, as it has limited the developers’ contribution to the costs of infrastructure. The planning authorities are facing difficult choices in prioritising the items of infrastructure which must be funded by development, and this, in turn, means that from now on public finance will need to provide a greater proportion of infrastructure project costs.</p>
+<p><strong>H</strong> The Government’s Sustainable Communities Plan seeks a holistic approach to new urban development in which housing, employment, services and infrastructure of all kinds are carefully planned and delivered in a way which avoids the infrastructure deficits that have occurred in places like Didcot in the past. This report, therefore, is structured around the individual components of a sustainable community, and shows the baseline position for each component.</p>
+<p><strong>I</strong> Didcot has been identified as one of the towns with which the Government is working to evaluate whether additional growth will strengthen the economic potential of the town, deliver the necessary infrastructure and improve environmental standards. A programme of work, including discussions with the local community about their aspirations for the town as well as other stakeholders, will be undertaken over the coming months, and will lead to the development of a strategic master plan. The challenge will be in optimising scarce resources to achieve maximum benefits for the town.</p>
+<p><strong>Questions 14-19</strong>
 Reading Passage 2 has 9 paragraphs, A-l. Which paragraph contains the following information?</p>
 <p>14. reference to the way the council’s report is organised
 15. the reason why inhabitants in one part of Didcot are isolated
@@ -163,25 +219,25 @@ Reading Passage 2 has 9 paragraphs, A-l. Which paragraph contains the following 
 17. the identification of two major employers at Didcot
 18. reference to groups who will be consulted about a new development plan
 19. an account of how additional town centre facilities were previously funded</p>
-<p>Questions 20-23
+<p><strong>Questions 20-23</strong>
 Look at the following places and the list of statements below. Match each place with the correct statement, A-F.</p>
 <p>20. Broadway
 21. Market Place
 22. Orchard Centre
 23. Marsh Bridge</p>
-<p>List of statements
-A It provided extra facilities for shopping and cars.
-B Its location took a long time to agree
-C Its layout was unsuitable.
-D Its construction was held up due to funding problems.
-E It was privately funded.
-F It failed to get Council approval at first.</p>
-<p>Questions 24-26
-Complete the sentences below. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
+<p><strong>List of statements</strong>
+<strong>A</strong> It provided extra facilities for shopping and cars.
+<strong>B</strong> Its location took a long time to agree
+<strong>C</strong> Its layout was unsuitable.
+<strong>D</strong> Its construction was held up due to funding problems.
+<strong>E</strong> It was privately funded.
+<strong>F</strong> It failed to get Council approval at first.</p>
+<p><strong>Questions 24-26</strong>
+Complete the sentences below. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
 <p>A certain proportion of houses in any new development now have to be of the (24)…………………type.</p>
 <p>The government is keen to ensure that adequate (25)………………..will be provided for future housing developments.</p>
 <p>The views of Didcot’s inhabitants and others will form the basis of a (26)…………………for the town.</p>
-<p>Language diversity</p>
+<p><strong>Language diversity</strong></p>
 <p>One of the most influential ideas in the study of languages is that of universal grammar (UG). Put forward by Noam Chomsky in the 1960s, it is widely interpreted as meaning that all languages are basically the same, and that the human brain is born language-ready, with an in-built programme that is able to interpret the common rules underlying any mother tongue. For five decades this idea prevailed, and influenced work in linguistics, psychology and cognitive science. To understand language, it implied, you must sweep aside the huge diversity of languages, and find their common human core.</p>
 <p>Since the theory of UG was proposed, linguists have identified many universal language rules. However, there are almost always exceptions. It was once believed, for example, that if a language had syllables that begin with a vowel and end with a consonant (VC), it would also have syllables that begin with a consonant and end with a vowel (CV). This universal lasted until 1999, when linguists showed that Arrernte, spoken by Indigenous Australians from the area around Alice Springs in the Northern Territory, has VC syllables but no CV syllables.</p>
 <p>Other non-universal universals describe the basic rules of putting words together. Take the rule that every language contains four basic word classes: nouns, verbs, adjectives and adverbs. Work in the past two decades has shown that several languages lack an open adverb class, which means that new adverbs cannot be readily formed, unlike in English where you can turn any adjective into an adverb, for example ‘soft’ into ‘softly’. Others, such as Lao, spoken in Laos, have no adjectives at all. More controversially, some linguists argue that a few languages, such as Straits Salish, spoken by indigenous people from north-western regions of North America, do not even have distinct nouns or verbs. Instead, they have a single class of words to include events, objects and qualities.</p>
@@ -191,56 +247,56 @@ Complete the sentences below. Choose NO MORE THAN THREE WORDS from the passage f
 <p>According to the two linguists, the strong tendencies explain why many languages display common patterns. A variety of factors tend to push language in a similar direction, such as the structure of the brain, the biology of speech, and the efficiencies of communication. Widely shared linguistic elements may also be ones that build on a particularly human kind of reasoning. For example, the fact that before we learn to speak we perceive the world as a place full of things causing actions (agents) and things having actions done to them (patients) explains why most languages deploy these grammatical categories.</p>
 <p>Weak tendencies, in contrast, are explained by the idiosyncrasies of different languages. Evans and Levinson argue that many aspects of the particular natural history of a population may affect its language. For instance, Andy Butcher at Flinders University in Adelaide, South Australia, has observed that indigenous Australian children have by far the highest incidence of chronic middle-ear infection of any population on the planet, and that most indigenous Australian languages lack many sounds that are common in other languages, but which are hard to hear with a middle-ear infection. Whether this condition has shaped the sound systems of these languages is unknown, says Evans, but it is important to consider the idea.</p>
 <p>Levinson and Evans are not the first to question the theory of universal grammar, but no one has summarised these ideas quite as persuasively, and given them as much reach. As a result, their arguments have generated widespread enthusiasm, particularly among those linguists who are tired of trying to squeeze their findings into the straitjacket of ‘absolute universals’. To some, it is the final nail in UG’s coffin. Michael Tomasello, co-director of the Max Planck Institute for Evolutionary Anthropology in Leipzig, Germany, has been a long-standing critic of the idea that all languages conform to a set of rules. ‘Universal grammar is dead,’ he says.</p>
-<p>Questions 27-32
+<p><strong>Questions 27-32</strong>
 Do the following statements agree with the views of the writer in Reading Passage 3? Write</p>
-<p>YES if the statement agrees with the views of the writer
-NO if the statement contradicts the views of the writer
-NOT GIVEN if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong> if the statement agrees with the views of the writer
+<strong>NO</strong> if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this</p>
 <p>27. In the final decades of the twentieth century, a single theory of language learning was dominant.
 28. The majority of UG rules proposed by linguists do apply to all human languages.
 29. There is disagreement amongst linguists about an aspect of Straits Salish grammar.
 30. The search for new universal language rules has largely ended.
 31. If Evans and Levinson are right, people develop in the same way no matter what language they speak.
 32. The loss of any single language might have implications for the human race.</p>
-<p>Questions 33-37
+<p><strong>Questions 33-37</strong>
 Choose the correct letter, A, B, C or D.</p>
 <p>33. Which of the following views about language are held by Evans and Levinson?
-A Each of the world’s languages develops independently.
-B The differences between languages outweigh the similarities.
-C Only a few language features are universal.
-D Each language is influenced by the characteristics of other languages.</p>
+<strong>A</strong> Each of the world’s languages develops independently.
+<strong>B</strong> The differences between languages outweigh the similarities.
+<strong>C</strong> Only a few language features are universal.
+<strong>D</strong> Each language is influenced by the characteristics of other languages.</p>
 <p>34. According to Evans and Levinson, apparent similarities between languages could be due to
-A close social contact.
-B faulty analysis.
-C shared modes of perception.
-D narrow descriptive systems.</p>
+<strong>A</strong> close social contact.
+<strong>B</strong> faulty analysis.
+<strong>C</strong> shared modes of perception.
+<strong>D</strong> narrow descriptive systems.</p>
 <p>35. In the eighth paragraph, what does the reference to a middle-ear infection serve as?
-A A justification for something.
-B A contrast with something.
-C The possible cause of something.
-D The likely result of something.</p>
+<strong>A</strong> A justification for something.
+<strong>B</strong> A contrast with something.
+<strong>C</strong> The possible cause of something.
+<strong>D</strong> The likely result of something.</p>
 <p>36. What does the writer suggest about Evans’ and Levinson’s theory of language development?
-A It had not been previously considered.
-B It is presented in a convincing way.
-C It has been largely rejected by other linguists.
-D It is not supported by the evidence.</p>
+<strong>A</strong> It had not been previously considered.
+<strong>B</strong> It is presented in a convincing way.
+<strong>C</strong> It has been largely rejected by other linguists.
+<strong>D</strong> It is not supported by the evidence.</p>
 <p>37. Which of the following best describes the writer’s purpose?
-A To describe progress in the field of cognitive science.
-B To defend a long-held view of language learning.
-C To identify the similarities between particular languages.
-D To outline opposing views concerning the nature of language.</p>
-<p>Questions 38-40
+<strong>A</strong> To describe progress in the field of cognitive science.
+<strong>B</strong> To defend a long-held view of language learning.
+<strong>C</strong> To identify the similarities between particular languages.
+<strong>D</strong> To outline opposing views concerning the nature of language.</p>
+<p><strong>Questions 38-40</strong>
 Complete each sentence with the correct ending, A-E, below.</p>
 <p>38. The Arrernte language breaks a ‘rule’ concerning
 39. The Lao language has been identified as lacking
 40. It has now been suggested that Amazonia Piraha does not have</p>
-<p>A words of a certain grammatical type.
-B a sequence of sounds predicted by UG.
-C words which can have more than one meaning.
-D the language feature regarded as the most basic.
-E sentences beyond a specified length.</p>
+<p><strong>A</strong> words of a certain grammatical type.
+<strong>B</strong> a sequence of sounds predicted by UG.
+<strong>C</strong> words which can have more than one meaning.
+<strong>D</strong> the language feature regarded as the most basic.
+<strong>E</strong> sentences beyond a specified length.</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Labels</p>
 <p>2. Bargain</p>
 <p>3. Plastic</p>
@@ -499,6 +555,29 @@ E sentences beyond a specified length.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -518,12 +597,23 @@ E sentences beyond a specified length.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -535,14 +625,6 @@ E sentences beyond a specified length.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,37 +158,37 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_147</h1>
-            <p>IELTS Reading Practice - Test 147</p>
-<p>The Pearl</p>
-<p>A The pearl has always had a special status in the rich and powerful all through the history. For instance, women from ancient Rome went to bed with pearls on them, so that they could remind themselves how wealthy they were after waking up. Pearls used to have more commercial value than diamonds until jewellers learnt to cut gems. In the eastern countries like Persia, ground pearl powders could be used as a medicine to cure anything including heart diseases and epilepsy.</p>
-<p>B Pearls can generally be divided into three categories: natural, cultured and imitation. When an irritant (such as a grain of sand) gets. inside a certain type of oyster, mussel, or clam, the mollusc will secrete a fluid as a means of defence to coat the irritant. Gradually, layers are accumulated around the irritant until a lustrous natural pearl is formed.</p>
-<p>C A cultured pearl undergoes the same process. There is only one difference between cultured pearls and natural ones: in cultured pearls, the irritant is a head called ‘mother of pearl’ and is placed in the oyster through surgical implantation. This results in much larger cores in cultivated pearls than those in natural pearls. As long as there are enough layers of nacre (the secreted fluid covering the irritant) to create a gorgeous, gem-quality pearl; the size of the nucleus wouldn’t make a difference to beauty or durability.</p>
-<p>D Pearls can come from both salt and freshwater sources. Typically, pearls from salt water usually have high quality, although several freshwater pearls are considered high in quality, too. In addition, freshwater pearls often have irregular shapes, with a puffed rice appearance. Nevertheless, it is the individual merits that determine the pearl’s value more than the sources of pearls. Saltwater pearl oysters are usually cultivated in protected lagoons or volcanic atolls, while most freshwater cultured pearls sold today come from China. There are a number of options for producing cultured pearls: use fresh water or sea water shells, transplant the graft into the mantle or into the gonad, add a spherical bead or do it nonbeaded.</p>
-<p>E No matter which method is used to get pearls, the process usually takes several years. Mussels must reach a mature age, which may take up almost three years, and then be transplanted an irritant. When the irritant is put in place, it takes approximately another three years for a pearl to reach its full size. Sometimes, the irritant may be rejected. As a result, the pearl may be seriously deformed, or the oyster may directly die from such numerous complications as diseases. At the end of a 5- to 10-year circle, only half of the oysters may have made it through. Among the pearls that are actually produced in the end, only about 5% of them will be high-quality enough for the jewellery makers.</p>
-<p>F Imitation pearls are of another different story. The Island of Mallorca in Spain is renowned for its imitation pearl industry. In most cases, a bead is dipped into a solution made from fish scales. But this coating is quite thin and often wears off. One way to distinguish the imitation pearls is to have a bite on it. Fake pearls glide through your teeth, while the layers of nacre on the real pearls feel gritty.</p>
-<p>G Several factors are taken into account to evaluate a pearl: size, shape, Colour, the quality of surface and luster. Generally, the three types of pearls come in such order (with the value decreasing): natural pearls, cultured pearls and imitation pearls (which basically are worthless). For jewellers, one way to tell whether a pearl is natural or cultured is to send it to a gem lab and perform an X-ray on it. High-quality natural pearls are extremely rare. Japan’s Akoya pearls are one of the glossiest pearls out there, while the’ south sea water of Australia is a cradle to bigger pearls.</p>
-<p>H Historically, the pearls with the highest quality around the globe are found in the Persian Gulf, particularly around Bahrain. These pearls have to be hand-harvested by divers with no advanced equipment. Unfortunately, when the large reserve of oil was discovered in the early 1930s, Persian Gulf’s natural pearl industry came to a sudden end because the contaminated water destroyed the once pristine pearls. In the present days, India probably has the largest stock of natural pearls. However, it is quite an irony that a large part of India’s slock of natural pearls are originally from Bahrain.</p>
-<p>Questions 1-4
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 147</strong></h3>
+<h3 class="test-heading"><strong>The Pearl</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> The pearl has always had a special status in the rich and powerful all through the history. For instance, women from ancient Rome went to bed with pearls on them, so that they could remind themselves how wealthy they were after waking up. Pearls used to have more commercial value than diamonds until jewellers learnt to cut gems. In the eastern countries like Persia, ground pearl powders could be used as a medicine to cure anything including heart diseases and epilepsy.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> Pearls can generally be divided into three categories: natural, cultured and imitation. When an irritant (such as a grain of sand) gets. inside a certain type of oyster, mussel, or clam, the mollusc will secrete a fluid as a means of defence to coat the irritant. Gradually, layers are accumulated around the irritant until a lustrous natural pearl is formed.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> A cultured pearl undergoes the same process. There is only one difference between cultured pearls and natural ones: in cultured pearls, the irritant is a head called ‘mother of pearl’ and is placed in the oyster through surgical implantation. This results in much larger cores in cultivated pearls than those in natural pearls. As long as there are enough layers of nacre (the secreted fluid covering the irritant) to create a gorgeous, gem-quality pearl; the size of the nucleus wouldn’t make a difference to beauty or durability.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> Pearls can come from both salt and freshwater sources. Typically, pearls from salt water usually have high quality, although several freshwater pearls are considered high in quality, too. In addition, freshwater pearls often have irregular shapes, with a puffed rice appearance. Nevertheless, it is the individual merits that determine the pearl’s value more than the sources of pearls. Saltwater pearl oysters are usually cultivated in protected lagoons or volcanic atolls, while most freshwater cultured pearls sold today come from China. There are a number of options for producing cultured pearls: use fresh water or sea water shells, transplant the graft into the mantle or into the gonad, add a spherical bead or do it nonbeaded.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> No matter which method is used to get pearls, the process usually takes several years. Mussels must reach a mature age, which may take up almost three years, and then be transplanted an irritant. When the irritant is put in place, it takes approximately another three years for a pearl to reach its full size. Sometimes, the irritant may be rejected. As a result, the pearl may be seriously deformed, or the oyster may directly die from such numerous complications as diseases. At the end of a 5- to 10-year circle, only half of the oysters may have made it through. Among the pearls that are actually produced in the end, only about 5% of them will be high-quality enough for the jewellery makers.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> Imitation pearls are of another different story. The Island of Mallorca in Spain is renowned for its imitation pearl industry. In most cases, a bead is dipped into a solution made from fish scales. But this coating is quite thin and often wears off. One way to distinguish the imitation pearls is to have a bite on it. Fake pearls glide through your teeth, while the layers of nacre on the real pearls feel gritty.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> Several factors are taken into account to evaluate a pearl: size, shape, Colour, the quality of surface and luster. Generally, the three types of pearls come in such order (with the value decreasing): natural pearls, cultured pearls and imitation pearls (which basically are worthless). For jewellers, one way to tell whether a pearl is natural or cultured is to send it to a gem lab and perform an X-ray on it. High-quality natural pearls are extremely rare. Japan’s Akoya pearls are one of the glossiest pearls out there, while the’ south sea water of Australia is a cradle to bigger pearls.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>H</strong> Historically, the pearls with the highest quality around the globe are found in the Persian Gulf, particularly around Bahrain. These pearls have to be hand-harvested by divers with no advanced equipment. Unfortunately, when the large reserve of oil was discovered in the early 1930s, Persian Gulf’s natural pearl industry came to a sudden end because the contaminated water destroyed the once pristine pearls. In the present days, India probably has the largest stock of natural pearls. However, it is quite an irony that a large part of India’s slock of natural pearls are originally from Bahrain.</p></div></div>
+<p><strong>Questions 1-4</strong>
 
 Reading Passage 1 has eight paragraphs, A-H. Which paragraph contains the following information?</p>
-<p>Questions 5-10
+<p><strong>Questions 5-10</strong>
 
-Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>In history, pearls have had great importance within the men of wealth and power, which were treated as gems for women in (5)……………………..Also, pearls were even used as a medicine for people in (6)……………………… There are essentially three types of pearls: natural, cultured and imitation. Most freshwater cultured pearls sold today come from China while (7)……………………….Island is famous for its imitation pearl industry. Good-quality natural pearls are exceedingly unusual. (8)……………………….often manufactures some of the glitteriest pearls while (9)………………………produces larger size ones due to the favourable environment along the coastline. In the past, (10)…………………………in Persian Gulf produced the world’s best pearls. Nowadays, the major remaining suppliers of natural pearls belong to India.</p>
-<p>Questions 11-13
+<p><strong>Questions 11-13</strong>
 
 Do the following statements agree with the information given in Reading Passage 1? In boxes 11-13 on your answer sheet, write</p>
-<p>TRUE if the statement agrees with the information
+<p><strong>TRUE</strong> if the statement agrees with the information
 
-FALSE if the statement contradicts the information
+<strong>FALSE</strong> if the statement contradicts the information
 
-NOT GIVEN If there is no information on this</p>
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>11. Generally speaking, the centre of cultured pearl is significantly larger than that of a natural pearl.
 
 12. Sometimes, fake pearls can be more expensive.
 
 13. The size of the pearls produced in Japan is usually smaller than those in Australia.</p>
-<p>Reading Passage 2</p>
+<p><strong>Reading Passage 2</strong></p>
 <p>The start of the automobile’s history went all the way back to 1769 when automobiles running on the steam engine were invented as carriers for human transport. In 1806, the first batch of cars powered by an internal combustion engine came into being, which pioneered the introduction of the widespread modem petrol-fueled internal combustion engine in 1885.</p>
 <p>It is generally acknowledged that the first practical automobiles equipped with petrol/gasoline-powered internal combustion engines were invented almost at the same time by different German inventors who were Working on their own. Karl Benz first built the automobile in 1885 in Mannheim. Benz attained a patent for his invention on 29 January 1886, and in 1888, he started to produce automobiles in a company that later became the renowned Mercedes-Benz.</p>
 <p>As this century began, the automobile industry marched into the transportation market for the wealth. Drivers at that time were an adventurous bunch; they would go out regardless of the weather condition even if they weren’t even protected by an enclosed body or a convertible top. Everybody in the community knew who owned what car, and cars immediately became a symbol of identity and status. Later, cars became more popular among the public since it allowed people to travel whenever and wherever they wanted. Thus, the price of automobiles in Europe and North America kept dropping, and more people from the middle class could afford them. This was especially attributed to Henry Ford who did two crucial things. First, he set the price as reasonable as possible for his cars; second, he paid his employees enough salaries so that they could afford the cars made by their very own hands.</p>
@@ -142,24 +198,24 @@ NOT GIVEN If there is no information on this</p>
 <p>In the US, car performance dominated marketing, justified by the typical cases of pony cars and muscle cars. However, in the 1970s, everything changed as the American automobile industry suffered from the 1973 oil crisis, competition with Japanese and European imports, automobile emission-control regulations* and moribund innovation. The irony in all this was that full-size sedans such as Cadillac and Lincoln scored a huge comeback between the years of economic crisis.</p>
 <p>In terms of technology, the most mentionable developments that postwar era had seen were the widespread use of independent suspensions, broader application of fuel injection, and a growing emphasis on safety in automobile design. Mazda achieved many triumphs with its engine firstly installed in the fore-wheel, though it gained itself a reputation as a gas-guzzler.</p>
 <p>The modem era also has witnessed a sharp elevation of fuel power in the modem engine management system with the. help of the computer. Nowadays, most automobiles in use are powered by an internal combustion engine, fueled by gasoline or diesel. Toxic gas from both fuels is known to pollute the air and is responsible for climate change as well as global warming.</p>
-<p>Questions 14-19
+<p><strong>Questions 14-19</strong>
 
 Look at the following descriptions (Questions 14-19) and the list of automobile brands below. Match each description with the correct automobile brand, A-G.</p>
-<p>List of Automobile Brands
+<p><strong>List of Automobile Brands</strong>
 
-A Ford
+<strong>A</strong> Ford
 
-B the BMC Mini
+<strong>B</strong> the BMC Mini
 
-C Cadillac and Lincoln
+<strong>C</strong> Cadillac and Lincoln
 
-D Mercedes Benz
+<strong>D</strong> Mercedes Benz
 
-E Mazda
+<strong>E</strong> Mazda
 
-F Jeep
+<strong>F</strong> Jeep
 
-G Maserati, Ferrari, and Lancia</p>
+<strong>G</strong> Maserati, Ferrari, and Lancia</p>
 <p>14. began producing the first automobiles
 
 15. produced the industrialised cars that common consumers could afford
@@ -171,9 +227,9 @@ G Maserati, Ferrari, and Lancia</p>
 18. maintained leading growth even during an economic recession
 
 19. installed its engine on the front wheel for the first time</p>
-<p>Questions 20-26
+<p><strong>Questions 20-26</strong>
 
-Answer the questions below. Choose NO MORE THAN THREE WORDS AND/OR A NUMBER from the passage for each answer.</p>
+Answer the questions below. Choose <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> from the passage for each answer.</p>
 <p>20. What is the important feature owned by the modem engine since the 19th century?
 
 21. What did a car symbolise to the rich at the very beginning of this century?
@@ -187,19 +243,19 @@ Answer the questions below. Choose NO MORE THAN THREE WORDS AND/OR A NUMBER from
 25. What has greatly increased with the computerised engine management systems in modem society?
 
 26. What factor is blamed for contributing to pollution, climate change and global warming?</p>
-<p>Question 27
+<p><strong>Question 27</strong>
 
 Choose the correct letter, A, B, C or D. Write the correct letter in box 27 on your answer sheet.</p>
 <p>27. What is the main idea of the passage?
 
-A The influence of the cars on the environment
+<strong>A</strong> The influence of the cars on the environment
 
-B The historical development and innovation in car designs
+<strong>B</strong> The historical development and innovation in car designs
 
-C The beginning of the modem designed gasoline engines
+<strong>C</strong> The beginning of the modem designed gasoline engines
 
-D The history of human and the Auto industry</p>
-<p>Elephant Communication</p>
+<strong>D</strong> The history of human and the Auto industry</p>
+<p><strong>Elephant Communication</strong></p>
 <p>O’ Connell-Rodwell, a postdoctoral fellow at Stanford University, has travelled to Namibia’s first-ever wildlife reserve to explore the mystical and complicated realm of elephant communication. She, along with her colleagues, is part of a scientific revolution that started almost 20 years ago. This revolution has made a stunning revelation: elephants are capable of communicating with each other over long distances with low-frequency sounds, also known as infrasounds, which are too deep for humans to hear.</p>
 <p>As might be expected, African elephants able to detect seismic sound may have something to do with their ears. The hammer bone in an elephant’s inner ear is proportionally huge for a mammal, but it is rather normal for animals that use vibrational signals. Thus, it may be a sign that suggests elephants can use seismic sounds to communicate.</p>
 <p>Other aspects of elephant anatomy also support that ability. First, their massive bodies, which enable them to give out low-frequency sounds almost as powerful as the sound a jet makes during takeoff, serve as ideal frames for receiving ground vibrations and transmitting them to the inner ear. Second, the elephant’s toe bones are set on a fatty pad, which might be of help when focusing vibrations from the ground into the bone. Finally, the elephant has an enormous brain that sits in the cranial cavity behind the eyes in line with the auditory canal. The front of the skull is riddled with sinus cavities, which might function as resonating chambers for ground vibrations.</p>
@@ -208,36 +264,36 @@ D The history of human and the Auto industry</p>
 <p>Scientists have confirmed that an elephant’s capacity to communicate over long distance is essential for survival, especially in places like Etosha, where more than 2,400 savanna elephants range over a land bigger than New Jersey. It is already difficult for an elephant to find a mate in such a vast wild land, and the elephant reproductive biology only complicates it. Breeding herds also adopt low-frequency sounds to send alerts regarding predators. Even though grown-up elephants have no enemies else than human beings, baby elephants are vulnerable and are susceptible to lions and hyenas attack. At the sight of a predator, older ones in the herd will clump together to form protection before running away.</p>
 <p>We now know that elephants can respond to warning calls in the air, but can they detect signals transmitted solely through the ground? To look into that matter, the research team designed an experiment in 2002, which used electronic devices that enabled them to give out signals through the ground at Mushara. ‘The outcomes of our 2002 study revealed that elephants could indeed sense warning signals through the ground,’ O’Connell-Rodwell observes.</p>
 <p>Last year, an experiment was set up in the hope of solving that problem. It used three different recordings—the 1994 warning call from Mushara, an anti-predator call recorded by scientist Joyce Poole in Kenya and a made-up warble tone. ‘The data I’ve observed to this point implies that the elephants were responding the way I always expected. However, the fascinating finding is that the anti-predator call from Kenya, which is unfamiliar to them, caused them to gather around, tense up and rumble aggressively as well—but they didn’t always flee. I didn’t expect the results to be that clear-cut.’</p>
-<p>Questions 28-31
+<p><strong>Questions 28-31</strong>
 
-Label the diagram below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>Questions 32-38
+Label the diagram below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>Questions 32-38</strong>
 
-Complete the summary below. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
+Complete the summary below. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
 <p>How the elephants sense these sound vibrations is still unknown, but O’Connell-Rodwell, a postdoctoral researcher at Stanford University, proposes that elephants are ‘listening’ with their (32)………………………by two kinds of nerve endings that respond to vibrations with both (33)……………………….frequency and slightly higher frequencies. O’Connell-Rodwell’s work is at the combination of geophysics, neurophysiology and (34)………………………..It was known that seismic communication existed extensively within small animals, but O’Connell-Rodwell was the first person to indicate that a large land animal would send and receive (35)……………………too. Also, he noticed the freezing behaviour by putting a male planthopper on a stem and play back a female call, which might prove the existence of other communicative approaches besides (36)…………………… Scientists have determined that an elephant’s ability to communicate over long distances is essential, especially, when elephant herds are finding a (37)………………., or are warning of predators. Finally, the results of our 2002 study showed us that elephants could detect warning calls through the (38)………………</p>
-<p>Questions 39-40
+<p><strong>Questions 39-40</strong>
 
 Choose the correct letter, A, B, C or D. Write the correct letter in boxes 39-40 on your answer sheet.</p>
 <p>39. According to the passage, it is determined that an elephant needs to communicate over long distances for its survival
 
-A when a threatening predator appears.
+<strong>A</strong> when a threatening predator appears.
 
-B when young elephants meet humans.
+<strong>B</strong> when young elephants meet humans.
 
-C when older members of the herd want to flee from the group.
+<strong>C</strong> when older members of the herd want to flee from the group.
 
-D when a male elephant is in estrus.</p>
+<strong>D</strong> when a male elephant is in estrus.</p>
 <p>40. What is the author’s attitude toward the experiment by using three different recordings in the last paragraph?
 
-A The outcome is definitely out of the original expectation.
+<strong>A</strong> The outcome is definitely out of the original expectation.
 
-B The data cannot be very clearly obtained.
+<strong>B</strong> The data cannot be very clearly obtained.
 
-C The result can be somewhat undecided or inaccurate.
+<strong>C</strong> The result can be somewhat undecided or inaccurate.
 
-D The result can be unfamiliar to the public.</p>
+<strong>D</strong> The result can be unfamiliar to the public.</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. A</p>
 <p>2. E</p>
 <p>3. G</p>
@@ -496,6 +552,29 @@ D The result can be unfamiliar to the public.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -515,12 +594,23 @@ D The result can be unfamiliar to the public.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -532,14 +622,6 @@ D The result can be unfamiliar to the public.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

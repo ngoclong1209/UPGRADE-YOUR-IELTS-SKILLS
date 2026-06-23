@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,105 +158,105 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_135</h1>
-            <p>IELTS Listening Practice - Test 135</p>
-<p>Part 1: Questions 1-10
-Complete the notes below. Write NO MORE THAN THREE WORDS OR A NUMBER.</p>
-<p>Midbury Drama Club</p>
-<p>Background
-Club started in 1957</p>
-<p>• Prize recently won by (1)  _______  section
-• Usually problems (2)  _______  plays</p>
-<p>Meetings
-• Next auditions will be on Tuesday, (3)  _______ 
-• Help is needed with (4)  _______  and  _______ 
-• Rehearsals take place in the (5)  _______  hall
-• Nearest car park for rehearsals is in Ashburton Road opposite the (6)  _______</p>
-<p>Costs
-• Annual membership fee is (7) £  _______ 
-• Extra payment for (8)  _______</p>
-<p>Contact
-• Secretary’s name is Sarah (9)  _______ 
-• Secretary’s phone number is (10)  _______</p>
-<p>Part 2: Questions 11-15
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 135</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-10</strong>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS OR A NUMBER.</strong></p>
+<h3 class="test-heading"><strong>Midbury Drama Club</strong></h3>
+<h3 class="test-heading"><strong>Background</strong>
+Club started in 1957</h3>
+<h3 class="test-heading">• Prize recently won by <strong>(1)</strong>  _______  section
+• Usually problems <strong>(2)</strong>  _______  plays</h3>
+<p><strong>Meetings</strong>
+• Next auditions will be on Tuesday, <strong>(3)</strong>  _______ 
+• Help is needed with <strong>(4)</strong>  _______  and  _______ 
+• Rehearsals take place in the <strong>(5)</strong>  _______  hall
+• Nearest car park for rehearsals is in Ashburton Road opposite the <strong>(6)</strong>  _______</p>
+<h3 class="test-heading"><strong>Costs</strong>
+• Annual membership fee is <strong>(7)</strong> £  _______ 
+• Extra payment for <strong>(8)</strong>  _______</h3>
+<h3 class="test-heading"><strong>Contact</strong>
+• Secretary’s name is Sarah <strong>(9)</strong>  _______ 
+• Secretary’s phone number is <strong>(10)</strong>  _______</h3>
+<p><strong>Part 2: Questions 11-15</strong>
 Choose the correct letter A, B or C.</p>
 <p>11. What does the charity Forward thinking do?
-[ ]  A it funds art exhibitions in hospitals
-[ ]  B it produces affordable materials for art therapy
-[ ]  C it encourages the use of arts projects in healthcare</p>
+<strong>[ ] </strong><strong> A</strong> it funds art exhibitions in hospitals
+<strong>[ ] </strong><strong> B</strong> it produces affordable materials for art therapy
+<strong>[ ] </strong><strong> C</strong> it encourages the use of arts projects in healthcare</p>
 <p>12. What benefit of Forward thinking’s work does Jasmine mention?
-[ ]  A people avoid going to hospital
-[ ]  B patients require fewer drugs
-[ ]  C medical students do better in tests</p>
+<strong>[ ] </strong><strong> A</strong> people avoid going to hospital
+<strong>[ ] </strong><strong> B</strong> patients require fewer drugs
+<strong>[ ] </strong><strong> C</strong> medical students do better in tests</p>
 <p>13. When did the organization become known as Forward thinking?
-[ ]  A 1986
-[ ]  B in the 1990s
-[ ]  C 2005</p>
+<strong>[ ] </strong><strong> A</strong> 1986
+<strong>[ ] </strong><strong> B</strong> in the 1990s
+<strong>[ ] </strong><strong> C</strong> 2005</p>
 <p>14. Where does Forward thinking operate?
-[ ]  A within Clifton city
-[ ]  B in all parts of London
-[ ]  C in several towns and villages near Clifton</p>
+<strong>[ ] </strong><strong> A</strong> within Clifton city
+<strong>[ ] </strong><strong> B</strong> in all parts of London
+<strong>[ ] </strong><strong> C</strong> in several towns and villages near Clifton</p>
 <p>15. Jasmine explains that the Colville Centre is
-[ ]  A a school for people with health problems
-[ ]  B a venue for a range of different activities
-[ ]  C a building which needs repairing</p>
-<p>Questions 16-20
+<strong>[ ] </strong><strong> A</strong> a school for people with health problems
+<strong>[ ] </strong><strong> B</strong> a venue for a range of different activities
+<strong>[ ] </strong><strong> C</strong> a building which needs repairing</p>
+<p><strong>Questions 16-20</strong>
 Who can take part in each of the classes?</p>
 <p>Write the correct letter A, B or C next to questions 16-20.</p>
-<p>Class participants
-A children and teenagers
-B adults
-C all ages</p>
+<p><strong>Class participants</strong>
+<strong>A</strong> children and teenagers
+<strong>B</strong> adults
+<strong>C</strong> all ages</p>
 <p>16. Learn Salsa  _______ 
 17. Smooth Movers  _______ 
 18. Art of the Forest  _______ 
 19. The Money Maze  _______ 
 20. Make a Play  _______</p>
-<p>Part 3: Questions 21-26
-Complete the flow chart below. Choose SIX answers from the list and write the correct letter A-I next to questions 21-26.</p>
-<p>A air quality
-B journey times
-C land use
-D leisure facilities
-E means of transport
-F parking facilities
-G number of pedestrians
-H place of employment
-I traffic flow</p>
-<p>(21)  _______                  (22)  _______ 
-(23)  _______                 (24)  _______ 
-(25)  _______                 (26)  _______</p>
-<p>Questions 27-30
+<p><strong>Part 3: Questions 21-26</strong>
+Complete the flow chart below. Choose <strong>SIX</strong> answers from the list and write the correct letter A-I next to questions 21-26.</p>
+<p><strong>A</strong> air quality
+<strong>B</strong> journey times
+<strong>C</strong> land use
+<strong>D</strong> leisure facilities
+<strong>E</strong> means of transport
+<strong>F</strong> parking facilities
+<strong>G</strong> number of pedestrians
+<strong>H</strong> place of employment
+<strong>I</strong> traffic flow</p>
+<p><strong>(21)</strong>  _______                  <strong>(22)</strong>  _______ 
+<strong>(23)</strong>  _______                 <strong>(24)</strong>  _______ 
+<strong>(25)</strong>  _______                 <strong>(26)</strong>  _______</p>
+<p><strong>Questions 27-30</strong>
 Who will be responsible for each task?</p>
-<p>A Stefan
-B Lauren
-C both Stefan and Lauren</p>
+<p><strong>A</strong> Stefan
+<strong>B</strong> Lauren
+<strong>C</strong> both Stefan and Lauren</p>
 <p>Write the correct letter next to questions 27-30.</p>
 <p>27. draw graphs and maps  _______ 
 28. choose photographs  _______ 
 29. write report  _______ 
 30. do presentation  _______</p>
-<p>Part 4: Questions 31-35
-Complete the sentences below. Write ONE WORD only for each answer.</p>
-<p>Manufacturing in the English Midlands</p>
+<p><strong>Part 4: Questions 31-35</strong>
+Complete the sentences below. Write <strong>ONE WORD</strong> only for each answer.</p>
+<p><strong>Manufacturing in the English Midlands</strong></p>
 <p>31. In the eighteenth century, the  _______  still determined how most people made a living.</p>
 <p>32. In the ground were minerals which supported the many  _______  of the region.</p>
 <p>33. Since the late sixteenth century the French settlers had made  _______</p>
 <p>34. In Cheshire  _______  was mined and transported on the river Mersey.</p>
 <p>35. Potters worked in a few  _______  situated on the small hills of North Staffordshire.</p>
-<p>Questions 36-40
-Complete the notes below. Write ONE WORD only for each answer.</p>
-<p>Pottery Notes
-Earthware</p>
-<p>Advantages
-• Potters used (36)  _______  day
-• Saved money on (37)  _______</p>
-<p>Disadvantages
-• Needed two things in the kiln to be (38)  _______ 
-• Fragility led to high (39)  _______  during manufacturing</p>
-<p>Stoneware
+<p><strong>Questions 36-40</strong>
+Complete the notes below. Write <strong>ONE WORD</strong> only for each answer.</p>
+<p><strong>Pottery Notes</strong>
+<strong>Earthware</strong></p>
+<p><strong>Advantages</strong>
+• Potters used <strong>(36)</strong>  _______  day
+• Saved money on <strong>(37)</strong>  _______</p>
+<p><strong>Disadvantages</strong>
+• Needed two things in the kiln to be <strong>(38)</strong>  _______ 
+• Fragility led to high <strong>(39)</strong>  _______  during manufacturing</p>
+<p><strong>Stoneware</strong>
 • More expensive but better
-• Made from a (40)  _______  of clay and flint</p>
-<p>ANSWER KEY</p>
+• Made from a <strong>(40)</strong>  _______  of clay and flint</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. youth</p>
 <p>2. comedy</p>
 <p>3. 12 March</p>
@@ -459,6 +515,29 @@ Earthware</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -478,12 +557,23 @@ Earthware</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -495,14 +585,6 @@ Earthware</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

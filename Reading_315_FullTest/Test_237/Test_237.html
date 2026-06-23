@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,42 +158,42 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_237</h1>
-            <p>IELTS Reading Practice - Test 237</p>
-<p>Maori Fish Hooks</p>
-<p>A. Maori fish hooks, made from wood, bone, stone and flax, are intended to have the best possible design and function. The hooks are designed to target specific species with precision. In the industry of commercial long-line fishing, there are some Maori hook designs which are making a splash.</p>
-<p>B. When Polynesians first came New Zealand sometime within the years 1100-1300 AD, they didn’t have the technology necessary to heat and manipulate metal out of rocks. Meanwhile, fish was the settlers’ main food source at the time, so fishermen made their hooks and fishing gear out of wood, bone, stone and shells. Other plants native to the island of New Zealand, like as flax (harakeke), cabbage tree (ti) and astelia (kiekie) gave the necessary fibrous material to make fishing lines and nets of greater or equal strength to the jute, which was being used by the Europeans at the time. However, as a material, metal is more malleable, and can be changed into any shape, while natural materials are limited in the shapes they can take on. The Maori fish hooks needed to be more innovative in the ways that they dealt with these limitations.</p>
-<p>C. Early accounts of Europeans who settled and explored New Zealand claimed that Maori hooks, known as matau, were “odd”, “of doubtful efficacy”, “very clumsy affairs” or “impossible looking.” Archaeologists from more recent times have also mentioned the round hook appearing as odd, with comments such as, “shaped in a manner which makes it very difficult to imagine could ever be effective in catching a fish.” William Anderson, who was aboard the Resolution during Cook’s third voyage in 1777 as the ship’s surgeon, commented that the Maori “live chiefly by fishing, making use…of wooden fish hooks pointed with bone, but so oddly made that a stranger is at a loss to know how they can answer such a purpose.”</p>
-<p>D. The Museum of New Zealand Te Papa Tongarewa did their own recent study on Maori fish hooks two hundred and thirty years later, and were able to demonstrate that the unique hook design was a matter of function. The hook’s design allowed it to catch fish by spinning away from the direction of the point and catching their jaws, instead of poking a hole through the fish or by being used as a lever, which some archaeologists also suggested. It seems that the design of the Maori fish hook is, perhaps, the world’s most efficiently and masterfully designed fish hook, likely superior to any modern metal fish hook of today.</p>
-<p>E. To make larger hooks, Maori used shanks made of strong wood, with stout points made of bone or shell. They tied tree branches and saplings together to grow them into the ideal shapes for building, then harvested the plants when they grew to the appropriate size. They hardened wood by carefully drying it and burying underground with fires lit above it. Human bone was often used for bone points, which they lashed securely to a groove at the end of the shank with pre-made flax materials (muka). When they wanted to catch larger species like sharks, groper and ling, they used composite hook. However, average the traditional hook was usually not longer than a three finger breadth (128 mm length).</p>
-<p>F. To capture seabirds for food and feathers, like albatross, the islanders used slender hooks which can be differentiated from other hooks intended to catch fish by their lighter build and lack of an inturned point. Many of these hooks were collected by early explorers, suggesting that the taking of seabirds with hook and line was an important source of food and feathers for Maori. (105 mm length). Slender hooks with wide gapes were used to capture albatross and other seabirds for food and feathers, and can be distinguished from hooks intended to catch fish by the lighter construction and lack of an inturned point. Early explorers collected many of these hooks which could indicated that catching seabirds with a hook and line provided significant amounts of food and feathers for the Maori. (105 mm length)</p>
-<p>G. Maori adopted new materials quickly once they became available with European explorers, sealers and whalers who began to arrive towards the end of the 1700s. At this point, the Maori were still making their fish hooks, but now using metals and imported materials. Wooden and flax parts of old, abandoned fish hooks decomposed quickly as traditional hooks were cast away in favor of new ones. Tools made of luxury materials such as ivory or greenstone may have been kept around as decorations items, with stylized Maori fish hooks seen today as a symbol of cultural revitalization.</p>
-<p>H. The Maori kept recreating traditional designs even as new materials poured in, preferring hook shapes which were introduced by Pakeha into the 1800s. By following the tradition of the rotating hook design, they remained connected with a part of their traditional culture. In the end, though, it was only a matter of time before the amount of mass-produced metal European hooks finally overwhelmed the area, highlighting the difficulty of making hooks from nails, horseshoes and other metal objects, and finally the use of the traditional designs fell out of favor.</p>
-<p>I. By the end of the 19th and beginning of the 20th century, tourists and collectors’ demands for Maori artifacts had grown, leading manufacturers to produce large quantities of forged hooks. These replicas were then traded with both Maoris and Europeans to use as forgeries of the real thing, sometimes directly commissioned by artifact dealers themselves. Fake hooks can be spotted by their cheap construction, inconsistent materials, rudimentary lashings, odd or over-elaborate decorative carvings, and finally, by the lack of in-turned points or angled grooves used to actually attach the fishing line.</p>
-<p>J. The ways that matau have changed throughout their history is somewhat symbolic of how Maori have adapted to use European tools, materials and technology to their purposes over time, as well as the ways that European influence and technology contributed to, rather overtook, generally compatible Maori skills, and traditional materials were replaced or complemented by metals and, more recently, artificial materials. Commercial longline fishermen everywhere have begun using the circle hook design today, one that is nearly the same as the traditional matau in both its appearance and functionality. It seems that the advantages and improved catch rates of this Maori technology have been recognized once more.</p>
-<p>Questions 1-8
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 237</strong></h3>
+<h3 class="test-heading"><strong>Maori Fish Hooks</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong>. Maori fish hooks, made from wood, bone, stone and flax, are intended to have the best possible design and function. The hooks are designed to target specific species with precision. In the industry of commercial long-line fishing, there are some Maori hook designs which are making a splash.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong>. When Polynesians first came New Zealand sometime within the years 1100-1300 AD, they didn’t have the technology necessary to heat and manipulate metal out of rocks. Meanwhile, fish was the settlers’ main food source at the time, so fishermen made their hooks and fishing gear out of wood, bone, stone and shells. Other plants native to the island of New Zealand, like as flax (harakeke), cabbage tree (ti) and astelia (kiekie) gave the necessary fibrous material to make fishing lines and nets of greater or equal strength to the jute, which was being used by the Europeans at the time. However, as a material, metal is more malleable, and can be changed into any shape, while natural materials are limited in the shapes they can take on. The Maori fish hooks needed to be more innovative in the ways that they dealt with these limitations.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong>. Early accounts of Europeans who settled and explored New Zealand claimed that Maori hooks, known as matau, were “odd”, “of doubtful efficacy”, “very clumsy affairs” or “impossible looking.” Archaeologists from more recent times have also mentioned the round hook appearing as odd, with comments such as, “shaped in a manner which makes it very difficult to imagine could ever be effective in catching a fish.” William Anderson, who was aboard the Resolution during Cook’s third voyage in 1777 as the ship’s surgeon, commented that the Maori “live chiefly by fishing, making use…of wooden fish hooks pointed with bone, but so oddly made that a stranger is at a loss to know how they can answer such a purpose.”</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong>. The Museum of New Zealand Te Papa Tongarewa did their own recent study on Maori fish hooks two hundred and thirty years later, and were able to demonstrate that the unique hook design was a matter of function. The hook’s design allowed it to catch fish by spinning away from the direction of the point and catching their jaws, instead of poking a hole through the fish or by being used as a lever, which some archaeologists also suggested. It seems that the design of the Maori fish hook is, perhaps, the world’s most efficiently and masterfully designed fish hook, likely superior to any modern metal fish hook of today.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong>. To make larger hooks, Maori used shanks made of strong wood, with stout points made of bone or shell. They tied tree branches and saplings together to grow them into the ideal shapes for building, then harvested the plants when they grew to the appropriate size. They hardened wood by carefully drying it and burying underground with fires lit above it. Human bone was often used for bone points, which they lashed securely to a groove at the end of the shank with pre-made flax materials (muka). When they wanted to catch larger species like sharks, groper and ling, they used composite hook. However, average the traditional hook was usually not longer than a three finger breadth (128 mm length).</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong>. To capture seabirds for food and feathers, like albatross, the islanders used slender hooks which can be differentiated from other hooks intended to catch fish by their lighter build and lack of an inturned point. Many of these hooks were collected by early explorers, suggesting that the taking of seabirds with hook and line was an important source of food and feathers for Maori. (105 mm length). Slender hooks with wide gapes were used to capture albatross and other seabirds for food and feathers, and can be distinguished from hooks intended to catch fish by the lighter construction and lack of an inturned point. Early explorers collected many of these hooks which could indicated that catching seabirds with a hook and line provided significant amounts of food and feathers for the Maori. (105 mm length)</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong>. Maori adopted new materials quickly once they became available with European explorers, sealers and whalers who began to arrive towards the end of the 1700s. At this point, the Maori were still making their fish hooks, but now using metals and imported materials. Wooden and flax parts of old, abandoned fish hooks decomposed quickly as traditional hooks were cast away in favor of new ones. Tools made of luxury materials such as ivory or greenstone may have been kept around as decorations items, with stylized Maori fish hooks seen today as a symbol of cultural revitalization.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>H</strong>. The Maori kept recreating traditional designs even as new materials poured in, preferring hook shapes which were introduced by Pakeha into the 1800s. By following the tradition of the rotating hook design, they remained connected with a part of their traditional culture. In the end, though, it was only a matter of time before the amount of mass-produced metal European hooks finally overwhelmed the area, highlighting the difficulty of making hooks from nails, horseshoes and other metal objects, and finally the use of the traditional designs fell out of favor.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p><strong>I</strong>. By the end of the 19th and beginning of the 20th century, tourists and collectors’ demands for Maori artifacts had grown, leading manufacturers to produce large quantities of forged hooks. These replicas were then traded with both Maoris and Europeans to use as forgeries of the real thing, sometimes directly commissioned by artifact dealers themselves. Fake hooks can be spotted by their cheap construction, inconsistent materials, rudimentary lashings, odd or over-elaborate decorative carvings, and finally, by the lack of in-turned points or angled grooves used to actually attach the fishing line.</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p><strong>J</strong>. The ways that matau have changed throughout their history is somewhat symbolic of how Maori have adapted to use European tools, materials and technology to their purposes over time, as well as the ways that European influence and technology contributed to, rather overtook, generally compatible Maori skills, and traditional materials were replaced or complemented by metals and, more recently, artificial materials. Commercial longline fishermen everywhere have begun using the circle hook design today, one that is nearly the same as the traditional matau in both its appearance and functionality. It seems that the advantages and improved catch rates of this Maori technology have been recognized once more.</p></div></div>
+<p><strong>Questions 1-8</strong>
 The reading passage has ten paragraphs labelled A-J. Which paragraph contains the following information? Write the correct letter A-J in boxes 1-8 on your answer sheet. NB You may use any letter more than once.</p>
-<p>Questions 9-13
+<p><strong>Questions 9-13</strong>
 Do the following statements agree with the information given in the reading passage? In boxes 9-13 on your answer sheet, write</p>
-<p>YES                     if the statement agrees with the views of the writer
-NO                      if the statement contradicts the views of the writer
-NOT GIVEN   if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                     if the statement agrees with the views of the writer
+<strong>NO</strong>                      if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong>   if it is impossible to say what the writer thinks about this</p>
 <p>9. The early European settlers quickly understood how the Maori fish hook worked
 10. The hook works by making a hole and embedding itself in the mouth of the fish
 11. The Maoris catch seabirds by their feet
 12. There used to be a demand for Maori fish hooks and many counterfeit ones were produced
 13. Today European style hooks have completely replaced the traditional styles used by the Maoris</p>
-<p>Fossil Files “The Paleobiology Database”</p>
-<p>A. Are we now living through the sixth extinction as our own activities destroy ecosystems and wipe out diversity? That’s the doomsday scenario painted by many ecologists, and they may well be right. The trouble is we don’t know for sure because we don’t have a clear picture of how life changes between extinction events or what has happened in previous episodes. We don’t even know how many species are alive today, let alone the rate at which they are becoming extinct. A new project aims to fill some of the gaps. The Paleobiology Database aspires to be an online repository of information about every fossil ever dug up. It is a huge undertaking that has been described as biodiversity’s equivalent of the Human Genome Project. Its organizers hope that by recording the history of biodiversity they will gain an insight into how environmental changes have shaped life on Earth in the past and how they might do so in the future. The database may even indicate whether life can rebound no matter what we throw at it, or whether a human induced extinction could be without parallel, changing the rules that have applied throughout the rest of the planet’s history.</p>
-<p>B. But already the project is attracting harsh criticism. Some experts believe it to be seriously flawed. They point out that a database is only as good as the data fed into it, and that even if all the current fossil finds were catalogued, they would provide an incomplete inventory of life because we are far from discovering every fossilised species. They say that researchers should get up from their computers and get back into the dirt to dig up new fossils. Others are more sceptical still, arguing that we can never get the full picture because the fossil record is riddled with holes and biases.</p>
-<p>C. Fans of the Paleobiology Database acknowledge that the fossil record will always be incomplete. But they see value in looking for global patterns that show relative changes in biodiversity. “The fossil record is the best tool we have for understanding how diversity and extinction work in normal times,” says John Alroy from the National Center for Ecological Analysis and Synthesis in Santa Barbara. “Having a background extinction estimate gives US a benchmark for understanding the mass extinction that’s currently under way. It allows us to say just how bad it is in relative terms.”</p>
-<p>D. To this end, the Paleobiology Database aims to be the most thorough attempt yet to come up with good global diversity curves. Every day between 10 and 15 scientists around the world add information about fossil finds to the database. Since it got up and running in 1998, scientists have entered almost 340,000 specimens, ranging from plants to whales to insects to dinosaurs to sea urchins. Overall totals are updated hourly at www.paleodb.org. Anyone can download data from the public part of the site and play with the numbers to their heart’s content. Already, the database has thrown up some surprising results. Looking at the big picture, Alroy and his colleagues believe they have found evidence that biodiversity reached a plateau long ago, contrary to the received wisdom that species numbers have increased continuously between extinction events. “The traditional view is that diversity has gone up and up and up,” he says. “Our research is showing that diversity limits were approached many tens of millions of years before the dinosaurs evolved, much less suffered extinction.” This suggests that only a certain number of species can live on Earth at a time, filling a prescribed number of niches like spaces in a multi-storey car park. Once it’s full, no more new species can squeeze in, until extinctions free up new spaces or something rare and catastrophic adds a new floor to the car park.</p>
-<p>E. Alroy has also used the database to reassess the accuracy of species names. His findings suggest that irregularities in classification inflate the overall number of species in the fossil record by between 32 and 44 per cent. Single species often end up with several names, he says, due to misidentification or poor communication between taxonomists in different countries. Repetition like this can distort diversity curves. “If you have really bad taxonomy in one short interval, it will look like a diversity spike—a big diversification followed by a big extinction-when all that has happened is a change in the quality of names,” says Alroy. For example, his statistical analysis indicates that of the 4861 North American fossil mammal species catalogued in the database, between 24 and 31 per cent will eventually prove to be duplicates.</p>
-<p>F. Of course, the fossil record is undeniably patchy. Some places and times have left behind more fossil-filled rocks than others. Some have been sampled more thoroughly. And certain kinds of creatures—those with hard parts that lived in oceans, for example–are more likely to leave a record behind, while others, like jellyfish, will always remain a mystery. Alroy has also tried to account for this. He estimates, for example, that only 41 per cent of North American mammals that have ever lived are known from fossils, and he suspects that a similar proportion of fossils are missing from other groups, such as fungi and insects.</p>
-<p>G. Not everyone is impressed with such mathematical wizardry. Jonathan Adrain from the University of Iowa in Iowa City points out that statistical wrangling has been known to create mass extinctions where none occurred. It is easy to misinterpret data. For example, changes in sea level or inconsistent sampling methods can mimic major changes in biodiversity. Indeed, a recent and thorough examination of the literature on marine bivalve fossils has convinced David Jablonsky from the University of Chicago and his colleagues that their diversity has increased steadily over the past 5 million years.</p>
-<p>H. With an inventory of all living species, ecologists could start to put the current biodiversity crisis in historical perspective. Although creating such a list would be a task to rival even the Palaeobiology Database, it is exactly what the San Francisco-based ALL Species Foundation hopes to achieve in the next 25 years. The effort is essential, says Harvard biologist Edward o. Wilson, who is alarmed by current rates of extinction. “There is a crisis. We’ve begun to measure it, and it’s very high,” Wilson says. “We need this kind of information in much more detail to protect all of biodiversity, not just the ones we know well.” Let the counting continue.</p>
-<p>Questions 14-19
+<p><strong>Fossil Files “The Paleobiology Database”</strong></p>
+<p><strong>A</strong>. Are we now living through the sixth extinction as our own activities destroy ecosystems and wipe out diversity? That’s the doomsday scenario painted by many ecologists, and they may well be right. The trouble is we don’t know for sure because we don’t have a clear picture of how life changes between extinction events or what has happened in previous episodes. We don’t even know how many species are alive today, let alone the rate at which they are becoming extinct. A new project aims to fill some of the gaps. The Paleobiology Database aspires to be an online repository of information about every fossil ever dug up. It is a huge undertaking that has been described as biodiversity’s equivalent of the Human Genome Project. Its organizers hope that by recording the history of biodiversity they will gain an insight into how environmental changes have shaped life on Earth in the past and how they might do so in the future. The database may even indicate whether life can rebound no matter what we throw at it, or whether a human induced extinction could be without parallel, changing the rules that have applied throughout the rest of the planet’s history.</p>
+<p><strong>B</strong>. But already the project is attracting harsh criticism. Some experts believe it to be seriously flawed. They point out that a database is only as good as the data fed into it, and that even if all the current fossil finds were catalogued, they would provide an incomplete inventory of life because we are far from discovering every fossilised species. They say that researchers should get up from their computers and get back into the dirt to dig up new fossils. Others are more sceptical still, arguing that we can never get the full picture because the fossil record is riddled with holes and biases.</p>
+<p><strong>C</strong>. Fans of the Paleobiology Database acknowledge that the fossil record will always be incomplete. But they see value in looking for global patterns that show relative changes in biodiversity. “The fossil record is the best tool we have for understanding how diversity and extinction work in normal times,” says John Alroy from the National Center for Ecological Analysis and Synthesis in Santa Barbara. “Having a background extinction estimate gives US a benchmark for understanding the mass extinction that’s currently under way. It allows us to say just how bad it is in relative terms.”</p>
+<p><strong>D</strong>. To this end, the Paleobiology Database aims to be the most thorough attempt yet to come up with good global diversity curves. Every day between 10 and 15 scientists around the world add information about fossil finds to the database. Since it got up and running in 1998, scientists have entered almost 340,000 specimens, ranging from plants to whales to insects to dinosaurs to sea urchins. Overall totals are updated hourly at www.paleodb.org. Anyone can download data from the public part of the site and play with the numbers to their heart’s content. Already, the database has thrown up some surprising results. Looking at the big picture, Alroy and his colleagues believe they have found evidence that biodiversity reached a plateau long ago, contrary to the received wisdom that species numbers have increased continuously between extinction events. “The traditional view is that diversity has gone up and up and up,” he says. “Our research is showing that diversity limits were approached many tens of millions of years before the dinosaurs evolved, much less suffered extinction.” This suggests that only a certain number of species can live on Earth at a time, filling a prescribed number of niches like spaces in a multi-storey car park. Once it’s full, no more new species can squeeze in, until extinctions free up new spaces or something rare and catastrophic adds a new floor to the car park.</p>
+<p><strong>E</strong>. Alroy has also used the database to reassess the accuracy of species names. His findings suggest that irregularities in classification inflate the overall number of species in the fossil record by between 32 and 44 per cent. Single species often end up with several names, he says, due to misidentification or poor communication between taxonomists in different countries. Repetition like this can distort diversity curves. “If you have really bad taxonomy in one short interval, it will look like a diversity spike—a big diversification followed by a big extinction-when all that has happened is a change in the quality of names,” says Alroy. For example, his statistical analysis indicates that of the 4861 North American fossil mammal species catalogued in the database, between 24 and 31 per cent will eventually prove to be duplicates.</p>
+<p><strong>F</strong>. Of course, the fossil record is undeniably patchy. Some places and times have left behind more fossil-filled rocks than others. Some have been sampled more thoroughly. And certain kinds of creatures—those with hard parts that lived in oceans, for example–are more likely to leave a record behind, while others, like jellyfish, will always remain a mystery. Alroy has also tried to account for this. He estimates, for example, that only 41 per cent of North American mammals that have ever lived are known from fossils, and he suspects that a similar proportion of fossils are missing from other groups, such as fungi and insects.</p>
+<p><strong>G</strong>. Not everyone is impressed with such mathematical wizardry. Jonathan Adrain from the University of Iowa in Iowa City points out that statistical wrangling has been known to create mass extinctions where none occurred. It is easy to misinterpret data. For example, changes in sea level or inconsistent sampling methods can mimic major changes in biodiversity. Indeed, a recent and thorough examination of the literature on marine bivalve fossils has convinced David Jablonsky from the University of Chicago and his colleagues that their diversity has increased steadily over the past 5 million years.</p>
+<p><strong>H</strong>. With an inventory of all living species, ecologists could start to put the current biodiversity crisis in historical perspective. Although creating such a list would be a task to rival even the Palaeobiology Database, it is exactly what the San Francisco-based ALL Species Foundation hopes to achieve in the next 25 years. The effort is essential, says Harvard biologist Edward o. Wilson, who is alarmed by current rates of extinction. “There is a crisis. We’ve begun to measure it, and it’s very high,” Wilson says. “We need this kind of information in much more detail to protect all of biodiversity, not just the ones we know well.” Let the counting continue.</p>
+<p><strong>Questions 14-19</strong>
 The reading passage has seven paragraphs, A-F. Choose the correct heading for paragraphs A-F from the list below. Write the correct number, i-xi, in boxes 14-19 on your answer sheet.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i Potential error exists in the database
 ii Supporter of database recleared its value
 iii The purpose of this paleobiology data
@@ -151,99 +207,99 @@ vii Criticism on the project which is waste of fund</p>
 17. Paragraph D
 18. Paragraph E
 19. Paragraph F</p>
-<p>Questions 20-22
+<p><strong>Questions 20-22</strong>
 Use the information in the passage to match the people (listed A-D) with opinions or deeds below. Write the appropriate letters A-D in boxes 20-22 on your answer sheet.</p>
-<p>A Jonathan Adrain
-B John Alroy
-C David Jablonsky
-D Edward O. Wilson</p>
+<p><strong>A</strong> Jonathan Adrain
+<strong>B</strong> John Alroy
+<strong>C</strong> David Jablonsky
+<strong>D</strong> Edward O. Wilson</p>
 <p>20. Creating the Database would help scientist to identify connections of all species
 21. Believed in contribution of detailed statistics should cover beyond the known species
 22. Reached a contradictory finding to the tremendous species die-out</p>
-<p>Questions 23-24
-Choose the TWO correct letter following. Write your answers in boxes 10-11 on your answer sheet.</p>
-<p>Please choose TWO CORRECT descriptions about the The Paleobiology Database in this passage:</p>
-<p>A almost all the experts welcome this project
-B intrigues both positive and negative opinions from various experts
-C all different creature in the database have unique name
-D aims to embrace all fossil information globally
-E get more information from record rather than the field</p>
-<p>Question 25-26
+<p><strong>Questions 23-24</strong>
+Choose the <strong>TWO</strong> correct letter following. Write your answers in boxes 10-11 on your answer sheet.</p>
+<p>Please choose <strong>TWO CORRECT</strong> descriptions about the The Paleobiology Database in this passage:</p>
+<p><strong>A</strong> almost all the experts welcome this project
+<strong>B</strong> intrigues both positive and negative opinions from various experts
+<strong>C</strong> all different creature in the database have unique name
+<strong>D</strong> aims to embrace all fossil information globally
+<strong>E</strong> get more information from record rather than the field</p>
+<p><strong>Question 25-26</strong>
 Choose the correct letter, A, B, C or D. Write your answers in boxes 25-26 on your answer sheet.</p>
 <p>25.According to the passage, jellyfish belongs to which category of The Paleobiology Database?
-A repetition breed
-B untraceable species
-C specifically detailed species
-D currently living creature</p>
+<strong>A</strong> repetition breed
+<strong>B</strong> untraceable species
+<strong>C</strong> specifically detailed species
+<strong>D</strong> currently living creature</p>
 <p>26. What is the author’s suggestion according to the end of passage?
-A continue to complete counting the number of species in the Paleobiology Database
-B stop contributing The Paleobiology Database
-C try to create a database of living creature
-D study more in the field rather than in the book</p>
-<p>Decision, Decision !</p>
+<strong>A</strong> continue to complete counting the number of species in the Paleobiology Database
+<strong>B</strong> stop contributing The Paleobiology Database
+<strong>C</strong> try to create a database of living creature
+<strong>D</strong> study more in the field rather than in the book</p>
+<p><strong>Decision, Decision !</strong></p>
 <p>Research explores when we can make a vital decision quickly and we need to proceed more deliberately</p>
-<p>A A widely recognised legend tells us that in Gordium (in what is now Turkey) in the fourth century BC an oxcart was roped to a pole with a complex knot. It was said that the first person to untie it would become the king of Asia. Unfortunately, the knot proved impossible to untie. The story continues that when confronted with this problem, rather than deliberating on how to untie the Gordian knot. Alexander, the famous ruler of the Greeks in the ancient world, simply took out his sword and cut it in two – then went on to conquer Asia. Ever since the notion of a ‘Gordian solution’ has referred to the attractiveness of a simple answer to an otherwise intractable problem.</p>
-<p>B Among researchers in the psychology of decision making, however, such solutions have traditionally held little appeal. In particular, the ‘conflict model’ of decision making proposed by psychologists Irving Janis and Leon Mann in their 1977 book, Decision Making, argued that a complex decision-making process is essential for guarding individuals and groups from the peril of ‘group-think’. Decisions made without thorough canvassing, surveying, weighing, examining and reexamining relevant information and options would be suboptimal and often disastrous. One foreign affair decision made by a well-known US political leader in the 1960s is typically held us as an example of the perils of inadequate thought, whereas his successful handling of a water crisis is cited as an example of the advantages of careful deliberation. However, examination of these historical events by Peter Suedfield, a psychologist at the University of British Columbia, and Roderick Kramer, a psychologist at the Stanford Graduate School of Business, found little difference in the two decision-making processes; both crises required and received complex consideration by the political administration, but later only the second one was deemed to be the effective.</p>
-<p>C In general, however, organizational and political science offers little evidence that complex decisions fare better than simpler ones. In fact, a growing body of work suggests that in many situations simply ‘snap’ decisions with being routinely superior to more complex ones – an idea that gained widespread public appeal with Malcolm Gladwell’s best-selling book Blink (2005).</p>
-<p>D An article by Ap Dijksterhuis of the University of Amsterdam and his colleagues, Making the Right Choice: the Deliberation-without-attention Effect’, runs very much in the spirit of Gladwell’s influential text. Its core argument is that to be effective, conscious (deliberative) decision making requires cognitive resources. Because increasingly complex decisions place increasing strain on those resources, the quality of our decisions declines as their complexity increases. In short, complex decisions overrun our cognitive powers. On the other hand, unconscious decision making (what the author refer to as ‘deliberation without attention’) requires no cognitive resources, so task complexity does not Effectiveness. The seemingly counterintuitive conclusion is that although conscious thought enhances simple decisions, the opposite holds true for more complex decisions.</p>
-<p>E Dijksterhuis reports four Simple but elegant studies supporting this argument. In one, participants assessed the quality of four hypothetical cars by considering either four attributes (a simple task) or 12 attributes (a complex task). Among participants who considered four attributes, those who were allowed to engage in undistracted deliberative thought did better at discriminating between the best and worst cars. Those who were distracted and thus unable to deliberate had to rely on their unconscious thinking and did less well. The opposite pattern emerged when people considered 12 criteria. In this case, conscious deliberation led to inferior discrimination and poor decisions.</p>
-<p>F In other studies, Dijksterhuis surveyed people shopping for clothes (‘simple’ products) and furniture (‘complex’ products). Compared with those who said they had deliberated long and hard, shoppers who bought with little conscious deliberation felt less happy with their simple clothing purchase but happier with the complex furniture purchases. Deliberation without attention actually produced better results as the decisions became more complex.</p>
-<p>G From there, however, the researchers take a big leap. They write: There is no reason to assume that the deliberation-without-attention effect does not generalize to other types of choices – political, managerial or otherwise. In such cases, it should benefit the individual to think consciously about simple matters and to delegate thinking about more complicated matters to the unconscious.</p>
-<p>H This radical inference contradicts standard political and managerial theory but doubtless comforts those in politics and management who always find the simple solution to the complex problem an attractive proposition. Indeed, one suspects many of our political leaders already embrace this wisdom.</p>
-<p>I Still, it is there, in the realms of society and its governance, that the more problematic implications of deliberation without attention begin to surface. Variables that can be neatly circumscribed in decisions about shopping lose clarity in a world of group dynamics, social interaction, history and politics. Two pertinent questions arise. First, what counts as a complex decision? And second, what counts as a good outcome?</p>
-<p>J As social psychologist Kurt Lewin (1890 – 1947) noted, a ‘good’ decision that nobody respects is actually bad, his classic studies of decision making showed that participating in deliberative processes makes people more likely to abide by the results. The issue here is that when political decision-makers make mistakes, it is their politics, or the relationship between their politics and our own, rather than psychology which is at fault.</p>
-<p>K Gladwell’s book and Dijksterhuis’s paper are invaluable in pointing out the limitations of the conventional wisdom that decision quality rises with decision-making complexity. But this work still tempts us to believe that decision making is simply a matter of psychology, rather than also a question of politics, ideology and group membership. Avoiding social considerations in a search for general appeal rather than toward it.</p>
-<p>Questions 27-31
+<p><strong>A</strong> A widely recognised legend tells us that in Gordium (in what is now Turkey) in the fourth century BC an oxcart was roped to a pole with a complex knot. It was said that the first person to untie it would become the king of Asia. Unfortunately, the knot proved impossible to untie. The story continues that when confronted with this problem, rather than deliberating on how to untie the Gordian knot. Alexander, the famous ruler of the Greeks in the ancient world, simply took out his sword and cut it in two – then went on to conquer Asia. Ever since the notion of a ‘Gordian solution’ has referred to the attractiveness of a simple answer to an otherwise intractable problem.</p>
+<p><strong>B</strong> Among researchers in the psychology of decision making, however, such solutions have traditionally held little appeal. In particular, the ‘conflict model’ of decision making proposed by psychologists Irving Janis and Leon Mann in their 1977 book, Decision Making, argued that a complex decision-making process is essential for guarding individuals and groups from the peril of ‘group-think’. Decisions made without thorough canvassing, surveying, weighing, examining and reexamining relevant information and options would be suboptimal and often disastrous. One foreign affair decision made by a well-known US political leader in the 1960s is typically held us as an example of the perils of inadequate thought, whereas his successful handling of a water crisis is cited as an example of the advantages of careful deliberation. However, examination of these historical events by Peter Suedfield, a psychologist at the University of British Columbia, and Roderick Kramer, a psychologist at the Stanford Graduate School of Business, found little difference in the two decision-making processes; both crises required and received complex consideration by the political administration, but later only the second one was deemed to be the effective.</p>
+<p><strong>C</strong> In general, however, organizational and political science offers little evidence that complex decisions fare better than simpler ones. In fact, a growing body of work suggests that in many situations simply ‘snap’ decisions with being routinely superior to more complex ones – an idea that gained widespread public appeal with Malcolm Gladwell’s best-selling book Blink (2005).</p>
+<p><strong>D</strong> An article by Ap Dijksterhuis of the University of Amsterdam and his colleagues, Making the Right Choice: the Deliberation-without-attention Effect’, runs very much in the spirit of Gladwell’s influential text. Its core argument is that to be effective, conscious (deliberative) decision making requires cognitive resources. Because increasingly complex decisions place increasing strain on those resources, the quality of our decisions declines as their complexity increases. In short, complex decisions overrun our cognitive powers. On the other hand, unconscious decision making (what the author refer to as ‘deliberation without attention’) requires no cognitive resources, so task complexity does not Effectiveness. The seemingly counterintuitive conclusion is that although conscious thought enhances simple decisions, the opposite holds true for more complex decisions.</p>
+<p><strong>E</strong> Dijksterhuis reports four Simple but elegant studies supporting this argument. In one, participants assessed the quality of four hypothetical cars by considering either four attributes (a simple task) or 12 attributes (a complex task). Among participants who considered four attributes, those who were allowed to engage in undistracted deliberative thought did better at discriminating between the best and worst cars. Those who were distracted and thus unable to deliberate had to rely on their unconscious thinking and did less well. The opposite pattern emerged when people considered 12 criteria. In this case, conscious deliberation led to inferior discrimination and poor decisions.</p>
+<p><strong>F</strong> In other studies, Dijksterhuis surveyed people shopping for clothes (‘simple’ products) and furniture (‘complex’ products). Compared with those who said they had deliberated long and hard, shoppers who bought with little conscious deliberation felt less happy with their simple clothing purchase but happier with the complex furniture purchases. Deliberation without attention actually produced better results as the decisions became more complex.</p>
+<p><strong>G</strong> From there, however, the researchers take a big leap. They write: There is no reason to assume that the deliberation-without-attention effect does not generalize to other types of choices – political, managerial or otherwise. In such cases, it should benefit the individual to think consciously about simple matters and to delegate thinking about more complicated matters to the unconscious.</p>
+<p><strong>H</strong> This radical inference contradicts standard political and managerial theory but doubtless comforts those in politics and management who always find the simple solution to the complex problem an attractive proposition. Indeed, one suspects many of our political leaders already embrace this wisdom.</p>
+<p><strong>I</strong> Still, it is there, in the realms of society and its governance, that the more problematic implications of deliberation without attention begin to surface. Variables that can be neatly circumscribed in decisions about shopping lose clarity in a world of group dynamics, social interaction, history and politics. Two pertinent questions arise. First, what counts as a complex decision? And second, what counts as a good outcome?</p>
+<p><strong>J</strong> As social psychologist Kurt Lewin (1890 – 1947) noted, a ‘good’ decision that nobody respects is actually bad, his classic studies of decision making showed that participating in deliberative processes makes people more likely to abide by the results. The issue here is that when political decision-makers make mistakes, it is their politics, or the relationship between their politics and our own, rather than psychology which is at fault.</p>
+<p><strong>K</strong> Gladwell’s book and Dijksterhuis’s paper are invaluable in pointing out the limitations of the conventional wisdom that decision quality rises with decision-making complexity. But this work still tempts us to believe that decision making is simply a matter of psychology, rather than also a question of politics, ideology and group membership. Avoiding social considerations in a search for general appeal rather than toward it.</p>
+<p><strong>Questions 27-31</strong>
 Choose the correct letter, A, B, C or D.</p>
 <p>27. The legend of the Gordian knot is used to illustrate the idea that
-A anyone can solve a difficult problem
-B difficult problems can have easy solutions
-C the solution to any problem requires a lot of thought
-D people who can solve complex problems make good leaders</p>
+<strong>A</strong> anyone can solve a difficult problem
+<strong>B</strong> difficult problems can have easy solutions
+<strong>C</strong> the solution to any problem requires a lot of thought
+<strong>D</strong> people who can solve complex problems make good leaders</p>
 <p>28. The ‘conflict model’ of decision making proposed by Janis and Mann requires that
-A opposing political parties be involved
-B all-important facts be considered
-C people be encouraged to have different ideas
-D previous similar situations be thoroughly examined</p>
+<strong>A</strong> opposing political parties be involved
+<strong>B</strong> all-important facts be considered
+<strong>C</strong> people be encouraged to have different ideas
+<strong>D</strong> previous similar situations be thoroughly examined</p>
 <p>29. According to recent thinking reinforced by Malcolm Gladwell, the best decisions
-A involve consultation
-B involve complex thought
-C are made very quickly
-D are the most attractive option</p>
+<strong>A</strong> involve consultation
+<strong>B</strong> involve complex thought
+<strong>C</strong> are made very quickly
+<strong>D</strong> are the most attractive option</p>
 <p>30. Dijksterhuis and his colleagues claim in their article that
-A our cognitive resources improve as tasks become more complex
-B conscious decision making is negatively affected by task complexity
-C unconscious decision making is a popular approach
-D deliberation without attention defines the way we make decisions</p>
+<strong>A</strong> our cognitive resources improve as tasks become more complex
+<strong>B</strong> conscious decision making is negatively affected by task complexity
+<strong>C</strong> unconscious decision making is a popular approach
+<strong>D</strong> deliberation without attention defines the way we make decisions</p>
 <p>31. Dijksterhuis’s car study found that, in simple tasks, participants
-A were involved in lengthy discussions
-B found it impossible to make decisions quickly
-C were unable to differentiate between the options
-D could make a better choice when allowed to concentrate</p>
-<p>Questions 32-35
+<strong>A</strong> were involved in lengthy discussions
+<strong>B</strong> found it impossible to make decisions quickly
+<strong>C</strong> were unable to differentiate between the options
+<strong>D</strong> could make a better choice when allowed to concentrate</p>
+<p><strong>Questions 32-35</strong>
 Complete the summary using the list of words A-I below. Write the correct letter, A-I, in boxes 32-35 on your answer sheet.</p>
-<p>Dijksterhuis’s shopping study and its conclusions</p>
+<p><strong>Dijksterhuis’s shopping study and its conclusions</strong></p>
 <p>Using clothing and furniture as examples of different types of purchases, Dijksterhuis questioned shoppers on their satisfaction with what they had bought. People who spent (32) …………… time buying simple clothing items were more satisfied than those who had not. However, when buying furniture, shoppers made (33) …………….. purchasing decisions if they didn’t think too hard. From this, the researchers concluded that in other choices, perhaps more important than shopping. (34) ………………… decisions are best made by the unconscious. The writer comments that Dijksterhuis’s finding is apparently (35) ……………….. but nonetheless true.</p>
-<p>A more
-B counterintuitive
-C simple
-D better
-E conscious
-F obvious
-G complex
-H less
-I worse</p>
-<p>Questions 36-40
+<p><strong>A</strong> more
+<strong>B</strong> counterintuitive
+<strong>C</strong> simple
+<strong>D</strong> better
+<strong>E</strong> conscious
+<strong>F</strong> obvious
+<strong>G</strong> complex
+<strong>H</strong> less
+<strong>I</strong> worse</p>
+<p><strong>Questions 36-40</strong>
 Do the following statements agree with the views of the writer in Reading Passage? In boxes 10-14 on your answer sheet, write</p>
-<p>YES                         if the statement agrees with the views of the writer
-NO                           if the statement contradicts the views of the writer
-NOT GIVEN       if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                         if the statement agrees with the views of the writer
+<strong>NO</strong>                           if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong>       if it is impossible to say what the writer thinks about this</p>
 <p>36. Dijksterhuis’s findings agree with existing political and management theories.
 37. Some political leaders seem to use deliberation without attention when making complex decisions.
 38. All political decisions are complex ones.
 39. We judge political errors according to our own political beliefs.
 40. Social considerations must be taken into account for any examination of decision making to prove useful.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. I</p>
 <p>2. F</p>
 <p>3. J</p>
@@ -502,6 +558,29 @@ NOT GIVEN       if it is impossible to say what the writer thinks about this
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -521,12 +600,23 @@ NOT GIVEN       if it is impossible to say what the writer thinks about this
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -538,14 +628,6 @@ NOT GIVEN       if it is impossible to say what the writer thinks about this
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

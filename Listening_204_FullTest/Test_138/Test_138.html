@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,36 +158,36 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_138</h1>
-            <p>IELTS Listening Practice - Test 138</p>
-<p>Part 1: Questions 1-8
-Complete the form below. Write NO MORE THAN THREE WORDS OR A NUMBER for each answer.</p>
-<p>Five Star Caterers – Customer Booking Form</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 138</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-8</strong>
+Complete the form below. Write <strong>NO MORE THAN THREE WORDS OR A NUMBER</strong> for each answer.</p>
+<h3 class="test-heading"><strong>Five Star Caterers – Customer Booking Form</strong></h3>
 <p>Event: Party</p>
-<p>Customer name: Mr. (1)  _______ 
-Daytime telephone number: (2)  _______ 
-Telephone number after 5 pm: As above (if no one answers, (3)  _______  )
-Number of guests: (4)  _______ 
-Date: (5)  _______</p>
-<p>Seating
-Shape: (6)  _______ 
-Size: (7)  _______ 
-Number of tables: (8)  _______</p>
-<p>Questions 9 and 10
+<p>Customer name: Mr. <strong>(1)</strong>  _______ 
+Daytime telephone number: <strong>(2)</strong>  _______ 
+Telephone number after 5 pm: As above (if no one answers, <strong>(3)</strong>  _______  )
+Number of guests: <strong>(4)</strong>  _______ 
+Date: <strong>(5)</strong>  _______</p>
+<h3 class="test-heading">Seating
+Shape: <strong>(6)</strong>  _______ 
+Size: <strong>(7)</strong>  _______ 
+Number of tables: <strong>(8)</strong>  _______</h3>
+<p><strong>Questions 9 and 10</strong>
 Choose the correct letter A, B or C.</p>
 <p>9. The man decided to book
-[ ]  A a three course meal
-[ ]  B a buffet
-[ ]  C a banquet</p>
+<strong>[ ] </strong><strong> A</strong> a three course meal
+<strong>[ ] </strong><strong> B</strong> a buffet
+<strong>[ ] </strong><strong> C</strong> a banquet</p>
 <p>10. The man will have to pay
-[ ]  A £750 tomorrow
-[ ]  B £100 per head
-[ ]  C £1500 on the day of the party</p>
-<p>Part 2: Questions 11-17
+<strong>[ ] </strong><strong> A</strong> £750 tomorrow
+<strong>[ ] </strong><strong> B</strong> £100 per head
+<strong>[ ] </strong><strong> C</strong> £1500 on the day of the party</p>
+<p><strong>Part 2: Questions 11-17</strong>
 According to the speaker, when did the following happen?</p>
 <p>Write the correct letter A, B or C next to questions 11-17.</p>
-<p>A before 1837
-B between 1837 and 1900
-C after 1900</p>
+<p><strong>A</strong> before 1837
+<strong>B</strong> between 1837 and 1900
+<strong>C</strong> after 1900</p>
 <p>11. The East Front was added to the building  _______</p>
 <p>12. The last big structural change was made  _______</p>
 <p>13. The building was bombed  _______</p>
@@ -139,68 +195,68 @@ C after 1900</p>
 <p>15. The building was known as The Queen’s House  _______</p>
 <p>16. The Houses of Parliament were destroyed by fire  _______</p>
 <p>17. The Marble Arch was moved  _______</p>
-<p>Questions 18-20
-Complete the sentences below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each answer.</p>
+<p><strong>Questions 18-20</strong>
+Complete the sentences below. Write <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER</strong> for each answer.</p>
 <p>18. Up to  _______  people attend garden parties at the palace each year.</p>
 <p>19. The garden contains more than  _______  species of wild flower.</p>
 <p>20. The public can visit the nineteen  _______  in August or September</p>
-<p>Part 3: Questions 21-24
-Answer the questions below. Write NO MORE THAN THREE WORDS for each answer.</p>
+<p><strong>Part 3: Questions 21-24</strong>
+Answer the questions below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
 <p>21. What aspect of history is it important to learn something from?  _______</p>
 <p>22. What do we also need to know about our ancestors?  _______</p>
 <p>23. Where are transferable skills useful?  _______</p>
 <p>24. What kind of approach to learning does social science use?  _______</p>
-<p>Questions 25-30
+<p><strong>Questions 25-30</strong>
 What is said each of these subjects studied on a social studies course?</p>
 <p>Choose your answers from the list below and write the letters A-H next to questions 25-30.</p>
-<p>A This will focus on how each generation learns about its own culture
-B This necessarily includes a study of physics and chemistry
-C This is studied from the point of view of human behavior
-D This will only be covered in terms of its theory
-E This also covers the distribution of wealth
-F This includes the study of archaeology
-G This has received criticism for not being scientific enough
-H This includes some work on urban planning</p>
+<p><strong>A</strong> This will focus on how each generation learns about its own culture
+<strong>B</strong> This necessarily includes a study of physics and chemistry
+<strong>C</strong> This is studied from the point of view of human behavior
+<strong>D</strong> This will only be covered in terms of its theory
+<strong>E</strong> This also covers the distribution of wealth
+<strong>F</strong> This includes the study of archaeology
+<strong>G</strong> This has received criticism for not being scientific enough
+<strong>H</strong> This includes some work on urban planning</p>
 <p>25. Anthropology  _______ 
 26. Economics  _______ 
 27. Education  _______ 
 28. Geography  _______ 
 29. Law  _______ 
 30. Sociology and social work  _______</p>
-<p>Part 4: Questions 31-37
+<p><strong>Part 4: Questions 31-37</strong>
 Choose the correct letter A, B or C.</p>
 <p>31. Students should complete their work on the 1950s
-[ ]  A if they want to be allowed to continue attending lectures
-[ ]  B because they will appreciate the information about the 1960s more
-[ ]  C otherwise they face the possibility of being failed for their coursework</p>
+<strong>[ ] </strong><strong> A</strong> if they want to be allowed to continue attending lectures
+<strong>[ ] </strong><strong> B</strong> because they will appreciate the information about the 1960s more
+<strong>[ ] </strong><strong> C</strong> otherwise they face the possibility of being failed for their coursework</p>
 <p>32. According to the lecturer, the ‘baby boom’ happened
-[ ]  A because of relaxed attitudes in the sixties
-[ ]  B during a time of war
-[ ]  C because people felt more secure</p>
+<strong>[ ] </strong><strong> A</strong> because of relaxed attitudes in the sixties
+<strong>[ ] </strong><strong> B</strong> during a time of war
+<strong>[ ] </strong><strong> C</strong> because people felt more secure</p>
 <p>33. In the sixties the USA had 70 million
-[ ]  A teenagers
-[ ]  B babies
-[ ]  C adults</p>
+<strong>[ ] </strong><strong> A</strong> teenagers
+<strong>[ ] </strong><strong> B</strong> babies
+<strong>[ ] </strong><strong> C</strong> adults</p>
 <p>34. According to the lecturer, compared to the 1950s, the 1960s were
-[ ]  A less conservative
-[ ]  B more conservative
-[ ]  C just as conservative</p>
+<strong>[ ] </strong><strong> A</strong> less conservative
+<strong>[ ] </strong><strong> B</strong> more conservative
+<strong>[ ] </strong><strong> C</strong> just as conservative</p>
 <p>35. According to the lecturer, literature changed the way women
-[ ]  A over 40 were treated by society
-[ ]  B viewed issues of race in society
-[ ]  C felt about their roles in society</p>
+<strong>[ ] </strong><strong> A</strong> over 40 were treated by society
+<strong>[ ] </strong><strong> B</strong> viewed issues of race in society
+<strong>[ ] </strong><strong> C</strong> felt about their roles in society</p>
 <p>36. The rate of crime in the sixties
-[ ]  A rose 9% during the decade
-[ ]  B was 9 times higher than in the fifties
-[ ]  C was 9 times lower than in the fifties</p>
+<strong>[ ] </strong><strong> A</strong> rose 9% during the decade
+<strong>[ ] </strong><strong> B</strong> was 9 times higher than in the fifties
+<strong>[ ] </strong><strong> C</strong> was 9 times lower than in the fifties</p>
 <p>37. What happened at the start of the 1960s?
-[ ]  A the first heart transplant
-[ ]  B the introduction of the internet
-[ ]  C the invention of lasers</p>
-<p>Questions 38-40
-Complete the summary below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>In October, 1962, US President Kennedy met advisers to discuss (38)  _______  which proved that the Cubans were installing nuclear missiles, presumably to use against the US. Kennedy was faced with three choices: to try to resolve the crisis diplomatically; to block the delivery of further weapons into Cuba; or to attack Cuba. Kennedy chose (39)  _______  option, which prevented the build up of more missiles and led to the withdrawal of the existing ones. Most are agreed that a (40)  _______  was narrowly avoided by Kennedy’s decision.</p>
-<p>ANSWER KEY</p>
+<strong>[ ] </strong><strong> A</strong> the first heart transplant
+<strong>[ ] </strong><strong> B</strong> the introduction of the internet
+<strong>[ ] </strong><strong> C</strong> the invention of lasers</p>
+<p><strong>Questions 38-40</strong>
+Complete the summary below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p>In October, 1962, US President Kennedy met advisers to discuss <strong>(38)</strong>  _______  which proved that the Cubans were installing nuclear missiles, presumably to use against the US. Kennedy was faced with three choices: to try to resolve the crisis diplomatically; to block the delivery of further weapons into Cuba; or to attack Cuba. Kennedy chose <strong>(39)</strong>  _______  option, which prevented the build up of more missiles and led to the withdrawal of the existing ones. Most are agreed that a <strong>(40)</strong>  _______  was narrowly avoided by Kennedy’s decision.</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Sanders</p>
 <p>2. 4456786</p>
 <p>3. leave a message</p>
@@ -459,6 +515,29 @@ Complete the summary below. Write NO MORE THAN TWO WORDS for each answer.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -478,12 +557,23 @@ Complete the summary below. Write NO MORE THAN TWO WORDS for each answer.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -495,14 +585,6 @@ Complete the summary below. Write NO MORE THAN TWO WORDS for each answer.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

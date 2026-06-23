@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,39 +158,39 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_115</h1>
-            <p>IELTS Listening Practice - Test 115</p>
-<p>Part 1: Questions 1-6
-Complete the notes below using NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.</p>
-<p>Dominic’s summer sport camp</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 115</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-6</strong>
+Complete the notes below using <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer.</p>
+<h3 class="test-heading"><strong>Dominic’s summer sport camp</strong></h3>
 <p>Dominic can join a group for children between 11 and 13 years. This won’t have children too old for him.</p>
-<p>The sports coaching is done by sports science students, who are supervised by (1)  _______  with more experience. All staff have an enhanced police check and company training. They are also trained in (2)  _______  and there is a hospital nearby.</p>
-<p>Dominic will need warm clothing and changes of clothing in case of bad weather. If weather is bad, everyone will move into the (3)  _______  of Wentmount School.</p>
+<p>The sports coaching is done by sports science students, who are supervised by <strong>(1)</strong>  _______  with more experience. All staff have an enhanced police check and company training. They are also trained in <strong>(2)</strong>  _______  and there is a hospital nearby.</p>
+<p>Dominic will need warm clothing and changes of clothing in case of bad weather. If weather is bad, everyone will move into the <strong>(3)</strong>  _______  of Wentmount School.</p>
 <p>Sessions – Morning, afternoon or both. Dominic can do both and make some new friends.</p>
 <p>Food – Give Dominic a packed lunch or he can join the group lunches.</p>
-<p>Group lunches – Basic starter, hot main course, (4)  _______  to finish with.</p>
-<p>Dominic will need his sports equipment that he wants to bring and some (5)  _______  for between meals.</p>
+<p>Group lunches – Basic starter, hot main course, <strong>(4)</strong>  _______  to finish with.</p>
+<p>Dominic will need his sports equipment that he wants to bring and some <strong>(5)</strong>  _______  for between meals.</p>
 <p>Timings – Morning session – 9.30 am – 12 midday
-Afternoon session – 1.30 pm – (6)  _______ 
+Afternoon session – 1.30 pm – <strong>(6)</strong>  _______ 
 Children must be picked up by 5 pm</p>
-<p>Questions 7-10
+<p><strong>Questions 7-10</strong>
 Choose the correct letter A, B or C.</p>
 <p>7. Dominic’s favorite sport is
-[ ]  A cricket
-[ ]  B swimming
-[ ]  C football</p>
+<strong>[ ] </strong><strong> A</strong> cricket
+<strong>[ ] </strong><strong> B</strong> swimming
+<strong>[ ] </strong><strong> C</strong> football</p>
 <p>8. Mrs. Davis says that the instructors should know that
-[ ]  A Dominic’s legs are weak
-[ ]  B Dominic will have to go to hospital at the start of the summer
-[ ]  C Dominic broke his arm during the winter</p>
+<strong>[ ] </strong><strong> A</strong> Dominic’s legs are weak
+<strong>[ ] </strong><strong> B</strong> Dominic will have to go to hospital at the start of the summer
+<strong>[ ] </strong><strong> C</strong> Dominic broke his arm during the winter</p>
 <p>9. The first week of the camp, Dominic will
-[ ]  A be picked up by his mother
-[ ]  B go home by bus
-[ ]  C walk home with friends</p>
+<strong>[ ] </strong><strong> A</strong> be picked up by his mother
+<strong>[ ] </strong><strong> B</strong> go home by bus
+<strong>[ ] </strong><strong> C</strong> walk home with friends</p>
 <p>10. To keep Dominic’s reserved place on the sport camp, Mrs. Davis has to return the form
-[ ]  A within two weeks
-[ ]  B the next day
-[ ]  C within a week</p>
-<p>Part 2: Questions 11-15
+<strong>[ ] </strong><strong> A</strong> within two weeks
+<strong>[ ] </strong><strong> B</strong> the next day
+<strong>[ ] </strong><strong> C</strong> within a week</p>
+<p><strong>Part 2: Questions 11-15</strong>
 Which situation matches each advice?</p>
 <p>Choose your answer from the list below and write correct letter A-I next to questions 11-15.</p>
 <p>11. Your bicycle has been stolen  _______ 
@@ -142,46 +198,46 @@ Which situation matches each advice?</p>
 13. You have bought a car  _______ 
 14. Your house is broken into, but your bank cards are not taken  _______ 
 15. You need to throw away some documents that have sensitive information  _______</p>
-<p>A Cancel your bank cards
-B Establish a security routine
-C Find a secure storage place for your bank cards
-D Go to a nearby shop and explain what has happened
-E Make sure a photo and description goes to the police
-F Hide behind a nearby car
-G Burn them
-H Buy a paper shredder
-I Search the nearby area</p>
-<p>Questions 16-20
-Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.</p>
+<p><strong>A</strong> Cancel your bank cards
+<strong>B</strong> Establish a security routine
+<strong>C</strong> Find a secure storage place for your bank cards
+<strong>D</strong> Go to a nearby shop and explain what has happened
+<strong>E</strong> Make sure a photo and description goes to the police
+<strong>F</strong> Hide behind a nearby car
+<strong>G</strong> Burn them
+<strong>H</strong> Buy a paper shredder
+<strong>I</strong> Search the nearby area</p>
+<p><strong>Questions 16-20</strong>
+Complete the sentences below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>16.  _______  is what allows cell phone thieves to succeed.</p>
 <p>17. Pickpockets like stealing in busy  _______  so be extra aware in these places.</p>
 <p>18. People leaving subway stations often have their cell phones stolen when they look to see if they have a  _______</p>
 <p>19. People should consult their  _______  to find out how to switch on the security features available on their cell phones.</p>
 <p>20. If your cell phone is stolen, the police have to know more than its  _______  and color if they are to get it back to you.</p>
-<p>Part 3: Questions 21-25
-Complete the notes below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>The Kenyan Flower Industry</p>
-<p>The Kenyan flower industry is Kenya’s largest after (21)  _______  and tea has increased by 31% over the last 5 years. Originally started to contribute to British East Africa’s (22)  _______  it continued to flourish after independence due to its geographical position and variety of climate conditions.</p>
-<p>Economic advantages, such as beneficial (23)  _______  have kept costs low and good logistics have been set up to service world flower markets. Labour and energy costs are also low and there is no (24)  _______  on European exports from Kenya.</p>
-<p>Floriculture is Kenya’s 2nd highest foreign exchange earner and it generates plenty of (25)  _______  for Kenya’s public economy – 50,000 to 70,000 people are employed directly and 1.5 million people indirectly.</p>
-<p>Questions 26-30
-Complete the notes below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>Problems and criticisms</p>
-<p>(26)  _______                    (27)  _______ 
-(28)  _______                    (29)  _______ 
-(30)  _______</p>
-<p>Part 4: Questions 31-37
-Complete the flow chart below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>(31)  _______                      (32)  _______ 
-(33)  _______                     (34)  _______ 
-(35)  _______                     (36)  _______ 
-(37)  _______</p>
-<p>Questions 38-40
-Label the diagram below. Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>(38)  _______ 
-(39)  _______ 
-(40)  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>Part 3: Questions 21-25</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>The Kenyan Flower Industry</strong></p>
+<p>The Kenyan flower industry is Kenya’s largest after <strong>(21)</strong>  _______  and tea has increased by 31% over the last 5 years. Originally started to contribute to British East Africa’s <strong>(22)</strong>  _______  it continued to flourish after independence due to its geographical position and variety of climate conditions.</p>
+<p>Economic advantages, such as beneficial <strong>(23)</strong>  _______  have kept costs low and good logistics have been set up to service world flower markets. Labour and energy costs are also low and there is no <strong>(24)</strong>  _______  on European exports from Kenya.</p>
+<p>Floriculture is Kenya’s 2nd highest foreign exchange earner and it generates plenty of <strong>(25)</strong>  _______  for Kenya’s public economy – 50,000 to 70,000 people are employed directly and 1.5 million people indirectly.</p>
+<p><strong>Questions 26-30</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>Problems and criticisms</strong></p>
+<p><strong>(26)</strong>  _______                    <strong>(27)</strong>  _______ 
+<strong>(28)</strong>  _______                    <strong>(29)</strong>  _______ 
+<strong>(30)</strong>  _______</p>
+<p><strong>Part 4: Questions 31-37</strong>
+Complete the flow chart below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>(31)</strong>  _______                      <strong>(32)</strong>  _______ 
+<strong>(33)</strong>  _______                     <strong>(34)</strong>  _______ 
+<strong>(35)</strong>  _______                     <strong>(36)</strong>  _______ 
+<strong>(37)</strong>  _______</p>
+<p><strong>Questions 38-40</strong>
+Label the diagram below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p><strong>(38)</strong>  _______ 
+<strong>(39)</strong>  _______ 
+<strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. coaches</p>
 <p>2. first aid</p>
 <p>3. sports complex</p>
@@ -440,6 +496,29 @@ Label the diagram below. Write NO MORE THAN THREE WORDS for each answer.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -459,12 +538,23 @@ Label the diagram below. Write NO MORE THAN THREE WORDS for each answer.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -476,14 +566,6 @@ Label the diagram below. Write NO MORE THAN THREE WORDS for each answer.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,47 +158,47 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_202</h1>
-            <p>IELTS Reading Practice - Test 202</p>
-<p>Twist in the Tale</p>
-<p>A Less than three years ago, doom merchants were predicting that the growth in video games and the rise of the Internet would sound the death knell for children’s literature. But contrary to popular myth, children are reading more books than ever. A recent survey by Books Marketing found that children up to the age of 11 read on average for four hours a week, particularly girls.</p>
-<p>B Moreover, the children’s book market, which traditionally was seen as a poor cousin to the more lucrative and successful adult market, has come into its own. Publishing houses are now making considerable profits on the back of new children’s books and children’s authors can now command significant advances. ‘Children’s books are going through an incredibly fertile period,’ says Wendy Cooling, a children’s literature consultant. ‘There’s a real buzz around them. Book clubs are happening, sales are good, and people are much more willing to listen to children’s authors.’</p>
-<p>C The main growth area has been the market for eight to fourteen-year-olds, and there is little doubt that the boom has been fuelled by the bespectacled apprentice, Harry Potter. So influential has J. K. Rowling’s series of books been that they have helped to make reading fashionable for pre-teens. ‘Harry made it OK to be seen on a bus reading a book,’ says Cooling. ‘To a child, that is important.’ The current buzz around the publication of the fourth Harry Potter beats anything in the world of adult literature.</p>
-<p>D ‘People still tell me, “Children don’t read nowadays”,’ says David Almond, the award-winning author of children’s books such as Skellig. The truth is that they are skilled, creative readers. When 1 do classroom visits, they ask me very sophisticated questions about use of language, story structure, chapters and dialogue.’ No one is denying that books are competing with other forms of entertainment for children’s attention but it seems as though children find a special kind of mental nourishment within the printed page.</p>
-<p>E ‘A few years ago, publishers lost confidence and wanted to make books more like television, the medium that frightened them most,’ says children’s book critic Julia Eccleshare. ‘But books aren’t TV, and you will find that children always say that the good thing about books is that you can see them in your head. Children are demanding readers,’ she says. ‘If they don’t get it in two pages, they’ll drop it.’</p>
-<p>F No more are children’s authors considered mere sentimentalists or failed adult writers. ‘Some feted adult writers would kill for the sales,’ says Almond, who sold 42,392 copies of Skellig in 1999 alone. And advances seem to be growing too: UK publishing outfit Orion recently negotiated a six-figure sum from US company Scholastic for The Seeing Stone, a children’s novel by Kevin Crossley-Holland, the majority of which will go to the author.</p>
-<p>G It helps that once smitten, children are loyal and even fanatical consumers. Author Jacqueline Wilson says that children spread news of her books like a bushfire. ‘My average reader is a girl of ten,’ she explains. ‘They’re sociable and acquisitive. They collect. They have parties – where books are a good present. If they like something, they have to pass it on.’ After Rowling, Wilson is currently the best-selling children’s writer, and her sales have boomed over the past three years. She has sold more than three million books, but remains virtually invisible to adults, although most ten- year-old girls know about her.</p>
-<p>H Children’s books are surprisingly relevant to contemporary life. Provided they are handled with care, few topics are considered off-limits for children. One senses that children’s writers relish the chance to discuss the whole area of topics and language. But Anne Fine, author of many award ­winning children’s books is concerned that the British literati still ignore children’s culture. ‘It’s considered worthy but boring,’ she says.</p>
-<p>I T think there’s still a way to go,’ says Almond, who wishes that children’s books were taken more seriously as literature. Nonetheless, he derives great satisfaction from his child readers. ‘They have a powerful literary culture,’ he says. ‘It feels as if you’re able to step into the store of mythology and ancient stories that run through all societies and encounter the great themes: love and loss and death and redemption.’</p>
-<p>J At the moment, the race is on to find the next Harry Potter. The bidding for new books at Bologna this year – the children’s equivalent of the Frankfurt Book Fair – was as fierce as anything anyone has ever seen. All of which bodes well for the long-term future of the market – and for children’s authors, who have traditionally suffered the lowest profile in literature, despite the responsibility of their role.</p>
-<p>Questions 1-7
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 202</strong></h3>
+<h3 class="test-heading"><strong>Twist in the Tale</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Less than three years ago, doom merchants were predicting that the growth in video games and the rise of the Internet would sound the death knell for children’s literature. But contrary to popular myth, children are reading more books than ever. A recent survey by Books Marketing found that children up to the age of 11 read on average for four hours a week, particularly girls.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> Moreover, the children’s book market, which traditionally was seen as a poor cousin to the more lucrative and successful adult market, has come into its own. Publishing houses are now making considerable profits on the back of new children’s books and children’s authors can now command significant advances. ‘Children’s books are going through an incredibly fertile period,’ says Wendy Cooling, a children’s literature consultant. ‘There’s a real buzz around them. Book clubs are happening, sales are good, and people are much more willing to listen to children’s authors.’</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> The main growth area has been the market for eight to fourteen-year-olds, and there is little doubt that the boom has been fuelled by the bespectacled apprentice, Harry Potter. So influential has J. K. Rowling’s series of books been that they have helped to make reading fashionable for pre-teens. ‘Harry made it OK to be seen on a bus reading a book,’ says Cooling. ‘To a child, that is important.’ The current buzz around the publication of the fourth Harry Potter beats anything in the world of adult literature.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> ‘People still tell me, “Children don’t read nowadays”,’ says David Almond, the award-winning author of children’s books such as Skellig. The truth is that they are skilled, creative readers. When 1 do classroom visits, they ask me very sophisticated questions about use of language, story structure, chapters and dialogue.’ No one is denying that books are competing with other forms of entertainment for children’s attention but it seems as though children find a special kind of mental nourishment within the printed page.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> ‘A few years ago, publishers lost confidence and wanted to make books more like television, the medium that frightened them most,’ says children’s book critic Julia Eccleshare. ‘But books aren’t TV, and you will find that children always say that the good thing about books is that you can see them in your head. Children are demanding readers,’ she says. ‘If they don’t get it in two pages, they’ll drop it.’</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> No more are children’s authors considered mere sentimentalists or failed adult writers. ‘Some feted adult writers would kill for the sales,’ says Almond, who sold 42,392 copies of Skellig in 1999 alone. And advances seem to be growing too: UK publishing outfit Orion recently negotiated a six-figure sum from US company Scholastic for The Seeing Stone, a children’s novel by Kevin Crossley-Holland, the majority of which will go to the author.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> It helps that once smitten, children are loyal and even fanatical consumers. Author Jacqueline Wilson says that children spread news of her books like a bushfire. ‘My average reader is a girl of ten,’ she explains. ‘They’re sociable and acquisitive. They collect. They have parties – where books are a good present. If they like something, they have to pass it on.’ After Rowling, Wilson is currently the best-selling children’s writer, and her sales have boomed over the past three years. She has sold more than three million books, but remains virtually invisible to adults, although most ten- year-old girls know about her.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>H</strong> Children’s books are surprisingly relevant to contemporary life. Provided they are handled with care, few topics are considered off-limits for children. One senses that children’s writers relish the chance to discuss the whole area of topics and language. But Anne Fine, author of many award ­winning children’s books is concerned that the British literati still ignore children’s culture. ‘It’s considered worthy but boring,’ she says.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p><strong>I</strong> T think there’s still a way to go,’ says Almond, who wishes that children’s books were taken more seriously as literature. Nonetheless, he derives great satisfaction from his child readers. ‘They have a powerful literary culture,’ he says. ‘It feels as if you’re able to step into the store of mythology and ancient stories that run through all societies and encounter the great themes: love and loss and death and redemption.’</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p><strong>J</strong> At the moment, the race is on to find the next Harry Potter. The bidding for new books at Bologna this year – the children’s equivalent of the Frankfurt Book Fair – was as fierce as anything anyone has ever seen. All of which bodes well for the long-term future of the market – and for children’s authors, who have traditionally suffered the lowest profile in literature, despite the responsibility of their role.</p></div></div>
+<p><strong>Questions 1-7</strong>
 Look at the following list of people A-E and the list of statements (Questions 1-7). Match each statement with one of the people listed.</p>
-<p>A Wendy Cooling
-B David Almond
-C Julia Eccleshare
-D Jacqueline Wilson
-E Anne Fine</p>
-<p>Questions 8-10
-Using NO MORE THAN THREE WORDS taken from the reading passage, answer the following questions.</p>
+<p><strong>A</strong> Wendy Cooling
+<strong>B</strong> David Almond
+<strong>C</strong> Julia Eccleshare
+<strong>D</strong> Jacqueline Wilson
+<strong>E</strong> Anne Fine</p>
+<p><strong>Questions 8-10</strong>
+Using <strong>NO MORE THAN THREE WORDS</strong> taken from the reading passage, answer the following questions.</p>
 <p>8. For which age group have sales of books risen the most?
 9. Which company has just invested heavily in an unpublished children’s book?
 10. Who is currently the best-selling children’s writer?</p>
-<p>Questions 11-14
+<p><strong>Questions 11-14</strong>
 Reading Passage 1 has ten paragraphs A-J. Which paragraph mentions the following (Questions 11-14)?</p>
 <p>11. the fact that children are able to identify and discuss the important elements of fiction
 12. the undervaluing of children’s society
 13. the impact of a particular fictional character on the sales of children’s books
 14. an inaccurate forecast regarding the reading habits of children</p>
-<p>Fun for the Masses</p>
-<p>A Are you better off than you used to be? Even after six years of sustained economic growth, Americans worry about that question. Economists who plumb government income statistics agree that Americans’ incomes, as measured in inflation-adjusted dollars, have risen more slowly in the past two decades than in earlier times, and that some workers’ real incomes have actually fallen. They also agree that by almost any measure, income is distributed less equally than it used to be. Neither of those claims, however, sheds much light on whether living standards are rising or falling. This is because ‘living standard’ is a highly amorphous concept. Measuring how much people earn is relatively easy, at least compared with measuring how well they live.</p>
-<p>B A recent paper by Dora Costa, an economist at the Massachusetts Institute of Technology, looks at the living-standards debate from an unusual direction. Rather than worrying about cash incomes, Ms Costa investigates Americans’ recreational habits over the past century. She finds that people of all income levels have steadily increased the amount of time and money they devote to having fun. The distribution of dollar incomes may have become more skewed in recent years, but leisure is more evenly spread than ever.</p>
-<p>C Ms Costa bases her research on consumption surveys dating back as far as 1888. The industrial workers surveyed in that year spent, on average, three-quarters of their incomes on food, shelter and clothing. Less than 2% of the average family’s income was spent on leisure but that average hid large disparities. The share of a family’s budget that was spent on having fun rose sharply with its income: the lowest-income families in this working-class sample spent barely 1% of their budgets on recreation, while higher earners spent more than 3%. Only the latter group could afford such extravagances as theatre and concert performances, which were relatively much more expensive than they are today.</p>
-<p>D Since those days, leisure has steadily become less of a luxury. By 1991, the average household needed to devote only 38% of its income to the basic necessities, and was able to spend 6% on recreation. Moreover, Ms Costa finds that the share of the family budget spent on leisure now rises much less sharply with income than it used to. At the beginning of this century a family’s recreational spending tended to rise by 20% for every 10% rise in income. By 1972-73, a 10% income gain led to roughly a 15% rise in recreational spending, and the increase fell to only 13% in 1991. What this implies is that Americans of all income levels are now able to spend much more of their money on having fun.</p>
-<p>E One obvious cause is that real income overall has risen. If Americans in general are richer, their consumption of entertainment goods is less likely to be affected by changes in their income. But Ms Costa reckons that rising incomes are responsible for, at most, half of the changing structure of leisure spending. Much of the rest may be due to the fact that poorer Americans have more time off than they used to. In earlier years, low-wage workers faced extremely long hours and enjoyed few days off. But since the 1940s, the less skilled (and lower paid) have worked ever-fewer hours, giving them more time to enjoy leisure pursuits.</p>
-<p>F Conveniently, Americans have had an increasing number of recreational possibilities to choose from. Public investment in sports complexes, parks and golf courses has made leisure cheaper and more accessible. So too has technological innovation. Where listening to music used to imply paying for concert tickets or owning a piano, the invention of the radio made music accessible to everyone and virtually free. Compact discs, videos and other paraphernalia have widened the choice even further.</p>
-<p>G At a time when many economists are pointing accusing fingers at technology for causing a widening inequality in the wages of skilled and unskilled workers, Ms Costa’s research gives it a much more egalitarian face. High earners have always been able to afford amusement. By lowering the price of entertainment, technology has improved the standard of living of those in the lower end of the income distribution. The implication of her results is that once recreation is taken into account, the differences in Americans’ living standards may not have widened so much after all.</p>
-<p>H These findings are not water-tight. Ms Costa’s results depend heavily upon what exactly is classed as a recreational expenditure. Reading is an example. This was the most popular leisure activity for working men in 1888, accounting for one-quarter of all recreational spending. In 1991, reading took only 16% of the entertainment dollar. But the American Department of Labour’s expenditure surveys do not distinguish between the purchase of a mathematics tome and that of a best-selling novel. Both are classified as recreational expenses. If more money is being spent on textbooks and professional books now than in earlier years, this could make ‘recreational’ spending appear stronger than it really is.</p>
-<p>I Although Ms Costa tries to address this problem by showing that her results still hold even when tricky categories, such as books, are removed from the sample, the difficulty is not entirely eliminated. Nonetheless, her broad conclusion seems fair. Recreation is more available to all and less dependent on income. On this measure at least, inequality of living standards has fallen.</p>
-<p>Questions 15-21
+<p><strong>Fun for the Masses</strong></p>
+<p><strong>A</strong> Are you better off than you used to be? Even after six years of sustained economic growth, Americans worry about that question. Economists who plumb government income statistics agree that Americans’ incomes, as measured in inflation-adjusted dollars, have risen more slowly in the past two decades than in earlier times, and that some workers’ real incomes have actually fallen. They also agree that by almost any measure, income is distributed less equally than it used to be. Neither of those claims, however, sheds much light on whether living standards are rising or falling. This is because ‘living standard’ is a highly amorphous concept. Measuring how much people earn is relatively easy, at least compared with measuring how well they live.</p>
+<p><strong>B</strong> A recent paper by Dora Costa, an economist at the Massachusetts Institute of Technology, looks at the living-standards debate from an unusual direction. Rather than worrying about cash incomes, Ms Costa investigates Americans’ recreational habits over the past century. She finds that people of all income levels have steadily increased the amount of time and money they devote to having fun. The distribution of dollar incomes may have become more skewed in recent years, but leisure is more evenly spread than ever.</p>
+<p><strong>C</strong> Ms Costa bases her research on consumption surveys dating back as far as 1888. The industrial workers surveyed in that year spent, on average, three-quarters of their incomes on food, shelter and clothing. Less than 2% of the average family’s income was spent on leisure but that average hid large disparities. The share of a family’s budget that was spent on having fun rose sharply with its income: the lowest-income families in this working-class sample spent barely 1% of their budgets on recreation, while higher earners spent more than 3%. Only the latter group could afford such extravagances as theatre and concert performances, which were relatively much more expensive than they are today.</p>
+<p><strong>D</strong> Since those days, leisure has steadily become less of a luxury. By 1991, the average household needed to devote only 38% of its income to the basic necessities, and was able to spend 6% on recreation. Moreover, Ms Costa finds that the share of the family budget spent on leisure now rises much less sharply with income than it used to. At the beginning of this century a family’s recreational spending tended to rise by 20% for every 10% rise in income. By 1972-73, a 10% income gain led to roughly a 15% rise in recreational spending, and the increase fell to only 13% in 1991. What this implies is that Americans of all income levels are now able to spend much more of their money on having fun.</p>
+<p><strong>E</strong> One obvious cause is that real income overall has risen. If Americans in general are richer, their consumption of entertainment goods is less likely to be affected by changes in their income. But Ms Costa reckons that rising incomes are responsible for, at most, half of the changing structure of leisure spending. Much of the rest may be due to the fact that poorer Americans have more time off than they used to. In earlier years, low-wage workers faced extremely long hours and enjoyed few days off. But since the 1940s, the less skilled (and lower paid) have worked ever-fewer hours, giving them more time to enjoy leisure pursuits.</p>
+<p><strong>F</strong> Conveniently, Americans have had an increasing number of recreational possibilities to choose from. Public investment in sports complexes, parks and golf courses has made leisure cheaper and more accessible. So too has technological innovation. Where listening to music used to imply paying for concert tickets or owning a piano, the invention of the radio made music accessible to everyone and virtually free. Compact discs, videos and other paraphernalia have widened the choice even further.</p>
+<p><strong>G</strong> At a time when many economists are pointing accusing fingers at technology for causing a widening inequality in the wages of skilled and unskilled workers, Ms Costa’s research gives it a much more egalitarian face. High earners have always been able to afford amusement. By lowering the price of entertainment, technology has improved the standard of living of those in the lower end of the income distribution. The implication of her results is that once recreation is taken into account, the differences in Americans’ living standards may not have widened so much after all.</p>
+<p><strong>H</strong> These findings are not water-tight. Ms Costa’s results depend heavily upon what exactly is classed as a recreational expenditure. Reading is an example. This was the most popular leisure activity for working men in 1888, accounting for one-quarter of all recreational spending. In 1991, reading took only 16% of the entertainment dollar. But the American Department of Labour’s expenditure surveys do not distinguish between the purchase of a mathematics tome and that of a best-selling novel. Both are classified as recreational expenses. If more money is being spent on textbooks and professional books now than in earlier years, this could make ‘recreational’ spending appear stronger than it really is.</p>
+<p><strong>I</strong> Although Ms Costa tries to address this problem by showing that her results still hold even when tricky categories, such as books, are removed from the sample, the difficulty is not entirely eliminated. Nonetheless, her broad conclusion seems fair. Recreation is more available to all and less dependent on income. On this measure at least, inequality of living standards has fallen.</p>
+<p><strong>Questions 15-21</strong>
 Reading Passage 2 has nine paragraphs A-I. From the list of headings below choose the most suitable heading for each paragraph. Write the appropriate numbers (i-xi) in boxes 15-21 on your answer sheet.</p>
 <p>15. Paragraph A
 16. Paragraph B
@@ -151,7 +207,7 @@ Reading Passage 2 has nine paragraphs A-I. From the list of headings below choos
 19. Paragraph F
 20. Paragraph G
 21. Paragraph H</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i Wide differences in leisure activities according to income
 ii Possible inconsistencies in Ms Costa’s data
 iii More personal income and time influence leisure activities
@@ -163,9 +219,9 @@ viii The gap between income and leisure spending closes
 ix Two factors have led to a broader range of options for all
 x Have people’s lifestyles improved?
 xi High earners spend less on leisure</p>
-<p>Questions 22-26
+<p><strong>Questions 22-26</strong>
 Complete each of the following statements (Questions 22-26) using words from the box.</p>
-<p>List of words
+<p><strong>List of words</strong>
 holiday time
 recreational activities
 income levels
@@ -177,14 +233,14 @@ cash incomes</p>
 <p>According to Ms Costa, how much Americans spend on leisure has been directly affected by salaries and (24)………………..</p>
 <p>The writer notes both positive and negative influences of (25)…………………….</p>
 <p>According to the writer, the way Ms Costa defined (26)……………………..may have been misleading.</p>
-<p>Question 27
+<p><strong>Question 27</strong>
 Choose the appropriate letter A-D and write it in box 27 on your answer sheet.</p>
 <p>27. The writer thinks that Ms Costa
-A provides strong evidence to support her theory.
-B displays serious flaws in her research methods.
-C attempts to answer too many questions.
-D has a useful overall point to make</p>
-<p>THE ART OF HEALING</p>
+<strong>A</strong> provides strong evidence to support her theory.
+<strong>B</strong> displays serious flaws in her research methods.
+<strong>C</strong> attempts to answer too many questions.
+<strong>D</strong> has a useful overall point to make</p>
+<p><strong>THE ART OF HEALING</strong></p>
 <p>As with so much, the medicine of the Tang dynasty left its European counterpart in the shade. It boasted its own ‘national health service’, and left behind the teachings of the incomparable Sun Simiao.</p>
 <p>If no further evidence was available of the sophistication of China in the Tang era, then a look at Chinese medicine would be sufficient. At the Western end of the Eurasian continent the Roman empire had vanished, and there was nowhere new to claim the status of the cultural and political centre of the world. In fact, for a few centuries, this centre happened to be the capital of the Tang empire, and Chinese medicine under the Tang was far ahead of its European counterpart. The organisational context of health and healing was structured to a degree that had no precedence in Chinese history and found no parallel elsewhere.</p>
 <p>An Imperial Medical Office had been inherited from previous dynasties: it was immediately restructured and staffed with directors and deputy directors, chief and assistant medical directors, pharmacists and curators of medicinal herb gardens and further personnel. Within the first two decades after consolidating its rule, the Tang administration set up one central and several provincial medical colleges with professors, lecturers, clinical practitioners and pharmacists to train students in one or all of the four departments of medicine, acupuncture, physical therapy and exorcism.</p>
@@ -196,28 +252,28 @@ D has a useful overall point to make</p>
 <p>Sun Simiao was the most eminent physician and author not only of the Tang dynasty, but of the entire first millennium AD. He was a broadly educated intellectual and physician; his world view integrated notions of all three of the major currents competing at his time – Confucianism, Daoism and Buddhism. Sun Simiao gained fame during his lifetime as a clinician (he was summoned to the imperial court at least once) and as author of the Prescriptions Worth Thousands in Gold (Qianjinfang) and its sequel. In contrast to developments in the 12th century, physicians relied on prescriptions and single substances to treat their patients’ illnesses. The theories of systematic correspondences, characteristic of the acupuncture tradition, had not been extended to cover pharmacology yet.</p>
 <p>Sun Simiao rose to the pantheon of Chinese popular Buddhism in about the 13th century. He was revered as paramount Medicine God. He gained this extraordinary position in Chinese collective memory not only because he was an outstanding clinician and writer, but also for his ethical concerns. Sun Simiao was the first Chinese author known to compose an elaborate medical ethical code. Even though based on Buddhist and Confucian values, his deontology is comparable to the Hippocratic Oath. It initiated a debate on the task of medicine, its professional obligations, social position and moral justification that continued until the arrival of Western medicine in the 19th century.</p>
 <p>Despite or – more likely – because of its long- lasting affluence and political stability, the Tang dynasty did not add any significantly new ideas to the interpretation of illness, health and healing. Medical thought reflects human anxieties; changes in medical thought always occur in the context of new existential fears or of fundamentally changed social circumstances. Nevertheless, medicine was a most fascinating ingredient of Tang civilisation and it left a rich legacy to subsequent centuries.</p>
-<p>Questions 28-30
+<p><strong>Questions 28-30</strong>
 Choose the appropriate letters A-D and write them in boxes 28-30 on your answer sheet.</p>
 <p>28. In the first paragraph, the writer draws particular attention to
-A the lack of medical knowledge in China prior to the Tang era.
-B the Western interest in Chinese medicine during the Tang era.
-C the systematic approach taken to medical issues during the Tang era.
-D the rivalry between Chinese and Western cultures during the Tang era.</p>
+<strong>A</strong> the lack of medical knowledge in China prior to the Tang era.
+<strong>B</strong> the Western interest in Chinese medicine during the Tang era.
+<strong>C</strong> the systematic approach taken to medical issues during the Tang era.
+<strong>D</strong> the rivalry between Chinese and Western cultures during the Tang era.</p>
 <p>29. During the Tang era, a government doctor’s annual salary depended upon
-A the effectiveness of his treatment.
-B the extent of his medical experience.
-C the number of people he had successfully trained.
-D the breadth of his medical expertise.</p>
+<strong>A</strong> the effectiveness of his treatment.
+<strong>B</strong> the extent of his medical experience.
+<strong>C</strong> the number of people he had successfully trained.
+<strong>D</strong> the breadth of his medical expertise.</p>
 <p>30. Which of the following contravened the law during the Tang era?
-A a qualified doctor’s refusal to practise
-B the use of unorthodox medical practices
-C patient dying under medical treatment
-D the receipt of money for medical treatment</p>
-<p>Questions 31-37
+<strong>A</strong> a qualified doctor’s refusal to practise
+<strong>B</strong> the use of unorthodox medical practices
+<strong>C</strong> patient dying under medical treatment
+<strong>D</strong> the receipt of money for medical treatment</p>
+<p><strong>Questions 31-37</strong>
 Do the following statements agree with the information given in Reading Passage 3? In boxes 31-37 on your answer sheet write</p>
-<p>YES if the statement agrees with the views of the writer
-NO if the statement contradicts the views of the writer
-NOT GIVEN if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong> if the statement agrees with the views of the writer
+<strong>NO</strong> if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this</p>
 <p>31. Academic staff sometimes taught a range of medical subjects during the Tang era.
 32. The medical knowledge available during the Tang era only benefited the wealthy.
 33. Tang citizens were encouraged to lead a healthy lifestyle.
@@ -225,12 +281,12 @@ NOT GIVEN if it is impossible to say what the writer thinks about this</p>
 35. Medical reference books published during the Tang era covered practical and academic issues.
 36. Waitai miyao contained medical data from the Tang era.
 37. Chinese medical authors are known to have influenced Indian writing.</p>
-<p>Questions 38-40
-Complete the sentences below with words taken from Reading Passage 3. Use NO MORE THAN THREE WORDS for each answer.</p>
+<p><strong>Questions 38-40</strong>
+Complete the sentences below with words taken from Reading Passage 3. Use <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
 <p>The first known medical writing in China dates back to the (38)………………………</p>
 <p>During the Tang era, doctors depended most on (39)……………………and single substances to treat their patients.</p>
 <p>(40)………………………..is famous for producing a set of medical rules for Chinese physicians.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. D</p>
 <p>2. A</p>
 <p>3. B</p>
@@ -489,6 +545,29 @@ Complete the sentences below with words taken from Reading Passage 3. Use NO MOR
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -508,12 +587,23 @@ Complete the sentences below with words taken from Reading Passage 3. Use NO MOR
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -525,14 +615,6 @@ Complete the sentences below with words taken from Reading Passage 3. Use NO MOR
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

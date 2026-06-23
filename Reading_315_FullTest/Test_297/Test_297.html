@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,38 +158,38 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_297</h1>
-            <p>IELTS Reading Practice - Test 297</p>
-<p>Please hold the line</p>
-<p>Nearly all of us know what it’s like to be put on ‘musical hold’. Call almost any customer service number, and you can expect to hear at least a few bars of boring elevator music before an operator picks up. The question is: do you hang up or do you keep holding? That may depend on your gender and what type of music is playing, according to research reported by University of Cincinnati Associate Professor of Marketing, James Kellaris.</p>
-<p>Kellaris, who has studied the effects of music on consumers for more than 12 years, teamed with Sigma Research Management Group to evaluate the effects of ‘hold music’ for a company that operates a customer service line.</p>
-<p>The researchers tested four types of ‘on-hold’ music with 71 of the company’s clients, 30 of them women. Light jazz, classical, rock and the company’s current format of adult alternative (a mix of contemporary styles) were all tested. The sample included individual consumers, small business and large business segments. Participants were asked to imagine calling a customer assistance line and being placed on hold. They were then exposed to ‘on-hold’ music via headsets and asked to estimate how long it played. Their reactions and comments were also solicited and quantified by the researchers.</p>
-<p>Service providers, of course don’t want you to have to wait on hold, but if you do, they want it to be a pleasant experience for you. But Kellaris’ conclusions may hold some distressing news for companies. No matter what music was played, the time spent ‘on hold’ was generally overestimated. The actual wait in the study was 6 minutes, but the average estimate was 7 minutes and 6 seconds.</p>
-<p>He did find some good news for the client who hired him. The kind of music they’re playing now, alternative, is probably their best choice. Two things made it a good choice. First, it did not produce significantly more positive or negative reactions in people. Second, males and females were less polarised in their reactions to this type of music.</p>
-<p>Kellaris’ other findings, however, make the state of musical hold a little less firm: time spent ‘on hold’ seemed slightly shorter when light jazz was played, but the effect of music format differed for men and women. Among the males, the wait seemed shortest when classical music was played. Among the females, the wait seemed longest when classical music was played. This may be related to differences in attention levels and musical preferences.</p>
-<p>In general, classical music evoked the most positive reactions among males; light jazz evoked the most positive reactions (and shortest waiting time estimates) among females. Rock was the least preferred across both gender groups and produced the longest waiting time estimates. ‘The rock music’s driving beat kind of aggravates people calling customer assistance with a problem,’ said Kellaris. ‘The more positive the reaction to the music, the shorter the waiting time seemed to be. So maybe time does tend to fly when you’re having fun, even if you’re on musical hold,’ Kellaris joked.</p>
-<p>But unfortunately for companies operating on-hold lines, men and women have different ideas about what music is ‘fun’. ‘The possible solution,’ Kellaris joked, ‘might be for the recorded message to say: if you’re a male, please press one; if you’re a female, please press two. If you are in a bad mood, please hang up and try later.’</p>
-<p>Questions 1-2
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 297</strong></h3>
+<h3 class="test-heading"><strong>Please hold the line</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>Nearly all of us know what it’s like to be put on ‘musical hold’. Call almost any customer service number, and you can expect to hear at least a few bars of boring elevator music before an operator picks up. The question is: do you hang up or do you keep holding? That may depend on your gender and what type of music is playing, according to research reported by University of Cincinnati Associate Professor of Marketing, James Kellaris.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>Kellaris, who has studied the effects of music on consumers for more than 12 years, teamed with Sigma Research Management Group to evaluate the effects of ‘hold music’ for a company that operates a customer service line.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>The researchers tested four types of ‘on-hold’ music with 71 of the company’s clients, 30 of them women. Light jazz, classical, rock and the company’s current format of adult alternative (a mix of contemporary styles) were all tested. The sample included individual consumers, small business and large business segments. Participants were asked to imagine calling a customer assistance line and being placed on hold. They were then exposed to ‘on-hold’ music via headsets and asked to estimate how long it played. Their reactions and comments were also solicited and quantified by the researchers.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Service providers, of course don’t want you to have to wait on hold, but if you do, they want it to be a pleasant experience for you. But Kellaris’ conclusions may hold some distressing news for companies. No matter what music was played, the time spent ‘on hold’ was generally overestimated. The actual wait in the study was 6 minutes, but the average estimate was 7 minutes and 6 seconds.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>He did find some good news for the client who hired him. The kind of music they’re playing now, alternative, is probably their best choice. Two things made it a good choice. First, it did not produce significantly more positive or negative reactions in people. Second, males and females were less polarised in their reactions to this type of music.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Kellaris’ other findings, however, make the state of musical hold a little less firm: time spent ‘on hold’ seemed slightly shorter when light jazz was played, but the effect of music format differed for men and women. Among the males, the wait seemed shortest when classical music was played. Among the females, the wait seemed longest when classical music was played. This may be related to differences in attention levels and musical preferences.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>In general, classical music evoked the most positive reactions among males; light jazz evoked the most positive reactions (and shortest waiting time estimates) among females. Rock was the least preferred across both gender groups and produced the longest waiting time estimates. ‘The rock music’s driving beat kind of aggravates people calling customer assistance with a problem,’ said Kellaris. ‘The more positive the reaction to the music, the shorter the waiting time seemed to be. So maybe time does tend to fly when you’re having fun, even if you’re on musical hold,’ Kellaris joked.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>But unfortunately for companies operating on-hold lines, men and women have different ideas about what music is ‘fun’. ‘The possible solution,’ Kellaris joked, ‘might be for the recorded message to say: if you’re a male, please press one; if you’re a female, please press two. If you are in a bad mood, please hang up and try later.’</p></div></div>
+<p><strong>Questions 1-2</strong>
 
 Choose the correct letter A-D.</p>
 <p>1. The researchers concluded that
 
-A subjects underestimated the time spent ’on hold’.
+<strong>A</strong> subjects underestimated the time spent ’on hold’.
 
-B it is better for companies not to use any ‘on-hold’ music.
+<strong>B</strong> it is better for companies not to use any ‘on-hold’ music.
 
-C light jazz was the most acceptable music overall.
+<strong>C</strong> light jazz was the most acceptable music overall.
 
-D both gender and type of music influence callers’ reaction.</p>
+<strong>D</strong> both gender and type of music influence callers’ reaction.</p>
 <p>2. The researchers recommended that
 
-A their client continue to play alternative music.
+<strong>A</strong> their client continue to play alternative music.
 
-B four types of music should be offered to people ‘on hold’.
+<strong>B</strong> four types of music should be offered to people ‘on hold’.
 
-C advertising is preferable to music.
+<strong>C</strong> advertising is preferable to music.
 
-D women can be kept waiting for longer than men.</p>
-<p>Questions 3-7
+<strong>D</strong> women can be kept waiting for longer than men.</p>
+<p><strong>Questions 3-7</strong>
 
 Choose the type of music from the list A-D below which corresponds to the findings of the study.</p>
 <p>A. light jazz
@@ -152,14 +208,14 @@ D. rock</p>
 6. music to use if clients are mostly women
 
 7. best choice of ‘on-hold’ music overall</p>
-<p>Questions 8-13
+<p><strong>Questions 8-13</strong>
 
 Do the following statements agree with the claims of the writer? Write</p>
-<p>YES                                 if the statement agrees with the views of the writer
+<p><strong>YES</strong>                                 if the statement agrees with the views of the writer
 
-NO                                    if the statement contradicts the views of the writer
+<strong>NO</strong>                                    if the statement contradicts the views of the writer
 
-NOT GIVEN                 if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>                 if it is impossible to say what the writer thinks about this</p>
 <p>8. Businesses want to minimise the time spent ‘on hold’.
 
 9. The research sample consisted of real clients of a company.
@@ -171,16 +227,16 @@ NOT GIVEN                 if it is impossible to say what the writer th
 12. The consumer service company surveyed was playing classical music.
 
 13. Researchers asked subjects only to estimate the length of time they waited ‘on hold’.</p>
-<p>Did tea and beer bring about industrialisation?</p>
-<p>A. Alan Macfarlane thinks he could rewrite history. The professor of anthropological science at King’s College, Cambridge has, like other historians, spent decades trying to understand the enigma of the Industrial Revolution. Why did this particular important event – the world-changing birth of industry – happen in Britain? And why did it happen at the end of the 18th century?</p>
-<p>B. Macfarlane compares the question to a puzzle. He claims that there were about 20 different factors and all of them needed to be present before the revolution could happen. The chief conditions are to be found in history textbooks. For industry to ‘take off, there needed to be the technology and power to drive factories, large urban populations to provide cheap labour, easy transport to move goods around, an affluent middle-class willing to buy mass-produced objects, a market-driven economy, and a political system that allowed this to happen. While this was the case for England, other nations, such as Japan, Holland and France also met some of these criteria. All these factors must have been necessary but not sufficient to cause the revolution. Holland had everything except coal, while China also had many of these factors. Most historians, however, are convinced that one or two missing factors are needed to solve the puzzle.</p>
-<p>C. The missing factors, he proposes, are to be found in every kitchen cupboard. Tea and beer, two of the nation’s favourite drinks, drove the revolution. Tannin, the active ingredient in tea, and hops, used in making beer, both contain antiseptic properties. This, plus the fact that both are made with boiled water, helped prevent epidemics of waterborne diseases, such as dysentery, in densely populated urban areas.</p>
-<p>D. Historians had noticed one interesting factor around the mid-18th century that required explanation. Between about 1650 and 1740, the population was static. But then there was a burst in population. The infant mortality rate halved in the space of 20 years, and this happened in both rural areas and cities, and across all classes. Four possible causes have been suggested. There could have been a sudden change in the viruses and bacteria present at that time, but this is unlikely. Was there a revolution in medical science? But this was a century before Lister introduced antiseptic surgery. Was there a change in environmental conditions? There were improvements in agriculture that wiped out malaria, but these were small gains. Sanitation did not become widespread until the 19th century. The only option left was food. But the height and weight statistics show a decline. So the food got worse. Efforts to explain this sudden reduction in child deaths appeared to draw a blank.</p>
-<p>E. This population burst seemed to happen at just the right time to provide labour for the Industrial Revolution. But why? When the Industrial Revolution started, it was economically efficient to have people crowded together forming towns and cities. But with crowded living conditions comes disease, particularly from human waste. Some research in the historical records revealed that there was a change in the incidence of waterborne disease at that time, especially dysentery. Macfarlane deduced that whatever the British were drinking must have been important in controlling disease. They drank beer and ale. For a long time, the English were protected by the strong antibacterial agent in hops, which were added to make beer last. But in the late 17th century a tax was introduced on malt. The poor turned to water and gin, and in the 1720s the mortality rate began to rise again. Then it suddenly dropped again. What was the cause?</p>
-<p>F. Macfarlane looked to Japan, which was also developing large cities about the same time, and also had no sanitation. Waterborne diseases in the Japanese population were far fewer than those in Britain. Could it be the prevalence of tea in their culture? That was when Macfarlane thought about the role of tea in Britain. The history of tea in Britain provided an extraordinary coincidence of dates. Tea was relatively expensive until Britain started direct trade with China in the early 18th century. By the 1740s, about the time that infant mortality was falling, the drink was common. Macfarlane guesses that the fact that water had to be boiled, together with the stomach-purifying properties of tea so eloquently described in Buddhist texts, meant that the breast milk provided by mothers was healthier than it had ever been. No other European nation drank tea so often as the British, which, by Macfarlane’s logic, pushed the other nations out of the race for the Industrial Revolution.</p>
-<p>G. But, if tea is a factor in the puzzle, why didn’t this cause an industrial revolution in Japan? Macfarlane notes that in the 17th century, Japan had large cities, high literacy rates and even a futures market. However, Japan decided against a work-based revolution, by giving up labour-saving devices, even animals, to avoid putting people out of work. Astonishingly, the nation that we now think of as one of the most technologically advanced, entered the 19th century having almost abandoned the wheel. While Britain was undergoing the Industrial Revolution, Macfarlane notes wryly, Japan was undergoing an industrious one.</p>
-<p>H. The Cambridge academic considers the mystery solved. He adds that he thinks the UN should encourage aid agencies to take tea to the world’s troublespots, along with rehydration sachets and food rations.</p>
-<p>Questions 14-18
+<p><strong>Did tea and beer bring about industrialisation?</strong></p>
+<p><strong>A</strong>. Alan Macfarlane thinks he could rewrite history. The professor of anthropological science at King’s College, Cambridge has, like other historians, spent decades trying to understand the enigma of the Industrial Revolution. Why did this particular important event – the world-changing birth of industry – happen in Britain? And why did it happen at the end of the 18th century?</p>
+<p><strong>B</strong>. Macfarlane compares the question to a puzzle. He claims that there were about 20 different factors and all of them needed to be present before the revolution could happen. The chief conditions are to be found in history textbooks. For industry to ‘take off, there needed to be the technology and power to drive factories, large urban populations to provide cheap labour, easy transport to move goods around, an affluent middle-class willing to buy mass-produced objects, a market-driven economy, and a political system that allowed this to happen. While this was the case for England, other nations, such as Japan, Holland and France also met some of these criteria. All these factors must have been necessary but not sufficient to cause the revolution. Holland had everything except coal, while China also had many of these factors. Most historians, however, are convinced that one or two missing factors are needed to solve the puzzle.</p>
+<p><strong>C</strong>. The missing factors, he proposes, are to be found in every kitchen cupboard. Tea and beer, two of the nation’s favourite drinks, drove the revolution. Tannin, the active ingredient in tea, and hops, used in making beer, both contain antiseptic properties. This, plus the fact that both are made with boiled water, helped prevent epidemics of waterborne diseases, such as dysentery, in densely populated urban areas.</p>
+<p><strong>D</strong>. Historians had noticed one interesting factor around the mid-18th century that required explanation. Between about 1650 and 1740, the population was static. But then there was a burst in population. The infant mortality rate halved in the space of 20 years, and this happened in both rural areas and cities, and across all classes. Four possible causes have been suggested. There could have been a sudden change in the viruses and bacteria present at that time, but this is unlikely. Was there a revolution in medical science? But this was a century before Lister introduced antiseptic surgery. Was there a change in environmental conditions? There were improvements in agriculture that wiped out malaria, but these were small gains. Sanitation did not become widespread until the 19th century. The only option left was food. But the height and weight statistics show a decline. So the food got worse. Efforts to explain this sudden reduction in child deaths appeared to draw a blank.</p>
+<p><strong>E</strong>. This population burst seemed to happen at just the right time to provide labour for the Industrial Revolution. But why? When the Industrial Revolution started, it was economically efficient to have people crowded together forming towns and cities. But with crowded living conditions comes disease, particularly from human waste. Some research in the historical records revealed that there was a change in the incidence of waterborne disease at that time, especially dysentery. Macfarlane deduced that whatever the British were drinking must have been important in controlling disease. They drank beer and ale. For a long time, the English were protected by the strong antibacterial agent in hops, which were added to make beer last. But in the late 17th century a tax was introduced on malt. The poor turned to water and gin, and in the 1720s the mortality rate began to rise again. Then it suddenly dropped again. What was the cause?</p>
+<p><strong>F</strong>. Macfarlane looked to Japan, which was also developing large cities about the same time, and also had no sanitation. Waterborne diseases in the Japanese population were far fewer than those in Britain. Could it be the prevalence of tea in their culture? That was when Macfarlane thought about the role of tea in Britain. The history of tea in Britain provided an extraordinary coincidence of dates. Tea was relatively expensive until Britain started direct trade with China in the early 18th century. By the 1740s, about the time that infant mortality was falling, the drink was common. Macfarlane guesses that the fact that water had to be boiled, together with the stomach-purifying properties of tea so eloquently described in Buddhist texts, meant that the breast milk provided by mothers was healthier than it had ever been. No other European nation drank tea so often as the British, which, by Macfarlane’s logic, pushed the other nations out of the race for the Industrial Revolution.</p>
+<p><strong>G</strong>. But, if tea is a factor in the puzzle, why didn’t this cause an industrial revolution in Japan? Macfarlane notes that in the 17th century, Japan had large cities, high literacy rates and even a futures market. However, Japan decided against a work-based revolution, by giving up labour-saving devices, even animals, to avoid putting people out of work. Astonishingly, the nation that we now think of as one of the most technologically advanced, entered the 19th century having almost abandoned the wheel. While Britain was undergoing the Industrial Revolution, Macfarlane notes wryly, Japan was undergoing an industrious one.</p>
+<p><strong>H</strong>. The Cambridge academic considers the mystery solved. He adds that he thinks the UN should encourage aid agencies to take tea to the world’s troublespots, along with rehydration sachets and food rations.</p>
+<p><strong>Questions 14-18</strong>
 
 The passage has 8 sections A-H. Choose the most suitable headings for paragraphs B-F from the list of headings below. Write the appropriate numbers (i-x).</p>
 <p>There are more headings than sections so you will not use all of them.</p>
@@ -212,40 +268,40 @@ x. Introduction</p>
 17. Section E
 
 18. Section F</p>
-<p>Questions 19-22
+<p><strong>Questions 19-22</strong>
 
-Complete the table using NO MORE THAN THREE WORDS from the passage.</p>
-<p>Questions 23-25
+Complete the table using <strong>NO MORE THAN THREE WORD</strong>S from the passage.</p>
+<p><strong>Questions 23-25</strong>
 
 Choose the correct letter A-D.</p>
 <p>23. In 1740 there was a population explosion in Britain because
 
-A large numbers of people moved to live in cities.
+<strong>A</strong> large numbers of people moved to live in cities.
 
-B larger quantities of beer were drunk.
+<strong>B</strong> larger quantities of beer were drunk.
 
-C of the health protecting qualities of beer and tea.
+<strong>C</strong> of the health protecting qualities of beer and tea.
 
-D of the Industrial Revolution.</p>
+<strong>D</strong> of the Industrial Revolution.</p>
 <p>24. According to the author, the Japanese did not industrialise because they didn’t
 
-A like drinking beer.
+<strong>A</strong> like drinking beer.
 
-B It want animals to work.
+<strong>B</strong> It want animals to work.
 
-C Iike using wheels.
+<strong>C</strong> Iike using wheels.
 
-D want unemployment.</p>
+<strong>D</strong> want unemployment.</p>
 <p>25. Macfarlane thinks he has discovered why
 
-A the British drink beer and tea
+<strong>A</strong> the British drink beer and tea
 
-B industrialisation happened in Britain when if did.
+<strong>B</strong> industrialisation happened in Britain when if did.
 
-C the Japanese did not drink beet.
+<strong>C</strong> the Japanese did not drink beet.
 
-D sanitation wasn’t widespread until the 19th century.</p>
-<p>Team based learning</p>
+<strong>D</strong> sanitation wasn’t widespread until the 19th century.</p>
+<p><strong>Team based learning</strong></p>
 <p>With the globalisation of information technology (IT) and worldwide access to the Internet, people from all areas of learning are finding themselves using some form of information technology in the workplace. The corporate world has seen a boom in the use of IT tools, but conversely, not enough people with IT skills that can enter the workplace and be productive with minimal on-the-job training.</p>
 <p>A recent issue of the New York Times reports that many companies are looking for smart students who may have a budding interest in IT. Some companies, trying to encourage students to attend interviews, provide good salary packages and challenging work environments. For example, one American IT consulting company offers high salaries, annual bonuses, and immediate stock options to potential recruits. It also brings in 25 to 40 prospective applicants at a time for a two-day visit to the company. This time includes interviews, team exercises and social events. The idea behind the team exercises is that the applicants get to see that they will be working with other smart people doing really interesting things, rather than sitting alone writing code.</p>
 <p>In the past 10 years, employers have seen marked benefits from collaborative projects in product development. Apart from the work environment, there is also a similar body of research indicating that small team-based instruction can lead to different kinds of desirable educational results. In order to prepare IT graduates to meet these workplace requirements, colleges and universities are also beginning to include team-based educational models.</p>
@@ -256,19 +312,19 @@ D sanitation wasn’t widespread until the 19th century.</p>
 <p>Team members must also study assigned material individually to ensure their preparation for classes. There are individual assessment tests to measure if students have not only read the assigned material, but also understand the concepts of the module, and can apply them to given problems. Additional team assessment tests present a problem for discussion and require consensus, helping students learn critical communication skills. This also enables them to deal with conflicts between members before they escalate to crises. Team presentations (written or verbal) allow the team to focus and build cohesion, with team members sharing the responsibility for presenting and persuading the audience to accept their viewpoint. Feedback on how the team is functioning with task management, team dynamics and overall work is given by the facilitator. Team exercises that are application-oriented help students experience the practical application of concepts and learn from other students’ perspectives.</p>
 <p>Team-based classrooms are especially beneficial in colleges with international students. Since this type of learning encourages people to listen and communicate with others, share problems, resolve personal conflicts, and manage their time and resources, it is a great environment for students who are in a new social situation. Since social interaction plays an important role during teamwork, team learning has an added advantage for students who are not comfortable in traditional classroom settings. It allows students from different cultures to understand their differences and use them productively. This type of learning environment also allows students to express themselves freely in a team context, rather than feeling singled out as when answering questions in a traditional classroom.</p>
 <p>This learning model was designed to better prepare students for today’s global workplace. Students are encouraged to explore ideas together, to build communication skills and achieve superior results. It is likely that employers will increasingly seek out students with these skills as we move into the future.</p>
-<p>Questions 26-32
+<p><strong>Questions 26-32</strong>
 
 Complete the summary below. Choose your answers from the box below the summary.</p>
 <p>Although IT is one of the leading career choice made by graduates today, the industry’s demand for qualified applicants (26) …………….. the supply of skilled IT personnel. Despite the (27) …………….. widespread use of computer technology in all areas of life, (28) …………….. face difficulties recruiting people whose education has equipped them to commence working productively without further training. Several business organisations now offer income and other (29) ……………… inducements to potential employees. They also include group (30) ……………… in their selection procedures, often inviting up to forty (31) ……………. to their company for the two-day visit. In this way the company can demonstrate the reality of the working (32) ……… which is more likely to involve challenging co-operative projects than individualised tasks.</p>
-<p>List of words</p>
-<p>Questions 33-37
+<p><strong>List of words</strong></p>
+<p><strong>Questions 33-37</strong>
 
 Do the following statements reflect the views of the writer of the passage? Write</p>
-<p>YES                              if the statement agrees with the views of the writer
+<p><strong>YES</strong>                              if the statement agrees with the views of the writer
 
-NO                                if the statement contradicts the views of the writer
+<strong>NO</strong>                                if the statement contradicts the views of the writer
 
-NOT GIVEN             if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>             if it is impossible to say what the writer thinks about this</p>
 <p>33. The American Intercontinental University includes team-based learning in all its courses on all its campuses.
 
 34. The composition of teams is changed regularly.
@@ -278,7 +334,7 @@ NOT GIVEN             if it is impossible to say what the writer thinks a
 36. The team members participate in assessment of other team members.
 
 37. International students prefer traditional classroom learning to team-based learning.</p>
-<p>Questions 38-40
+<p><strong>Questions 38-40</strong>
 
 Choose one phrase from the list of phrases A-H below to complete each of the following sentences.</p>
 <p>38. Students’ work is assessed
@@ -341,7 +397,7 @@ H. in getting to know new friends and colleagues.</p>
 <p>D</p>
 <p>F</p>
 <p>E</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. D</p>
 <p>2. A</p>
 <p>3. C</p>
@@ -600,6 +656,29 @@ H. in getting to know new friends and colleagues.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -619,12 +698,23 @@ H. in getting to know new friends and colleagues.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -636,14 +726,6 @@ H. in getting to know new friends and colleagues.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,102 +158,102 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_245</h1>
-            <p>IELTS Reading Practice - Test 245</p>
-<p>finches on islands</p>
-<p>A Today, the quest continues. On Daphne Major-one of the most desolate of the Galápagos Islands, an uninhabited volcanic cone where cacti and shrubs seldom grow higher than a researcher’s knee-Peter and Rosemary Grant have spent more than three decades watching Darwin’s finch respond to the challenges of storms, drought and competition for food Biologists at Princeton University, the Grants know and recognize many of the individual birds on the island and can trace the birds’ lineages hack through time. They have witnessed Darwin’s principle in action again and again, over many generations of finches.</p>
-<p>B The Grants’ most dramatic insights have come from watching the evolving bill of the medium ground finch. The plumage of this sparrow-sized bird ranges from dull brown to jet black. At first glance, it may not seem particularly striking, but among scientists who study evolutionary biology, the medium ground finch is a superstar. Its bill is a middling example in the array of shapes and sizes found among Galápagos finches: heftier than that of the small ground finch, which specializes in eating small, soft seeds, but petite compared to that of the large ground finch, an expert at cracking and devouring big, hard seeds.</p>
-<p>C When the Grants began their study in the 1970s, only two species of finch lived on Daphne Major, the medium ground finch and the cactus finch. The island is so small that the researchers were able to count and catalogue every bird. When a severe drought hit in 1977, the birds soon devoured the last of the small, easily eaten seeds. Smaller members of the medium ground finch population, lacking the bill strength to crack large seeds, died out.</p>
-<p>D Bill and body size are inherited traits, and the next generation had a high proportion of big-billed individuals. The Grants had documented natural selection at work-the same process that, over many millennia, directed the evolution of the Galápagos’ 14 unique finch species, all descended from a common ancestor that reached the islands a few million years ago.</p>
-<p>E Eight years later, heavy rains brought by an El Nino transformed the normally meager vegetation on Daphne Major. Vines and other plants that in most years struggle for survival suddenly flourished, choking out the plants that provide large seeds to the finches. Small seeds came to dominate the food supply, and big birds with big bills died out at a higher rate than smaller ones. ‘Natural selection is observable,’ Rosemary Grant says. ‘It happens when the environment changes. When local conditions reverse themselves, so does the direction of adaptation.</p>
-<p>F Recently, the Grants witnessed another form of natural selection acting on the medium ground finch: competition from bigger, stronger cousins. In 1982, a third finch, the large ground finch, came to live on Daphne Major. The stout bills of these birds resemble the business end of a crescent wrench. Their arrival was the first such colonization recorded on the Galápagos in nearly a century of scientific observation. ‘We realized,’ Peter Grant says, ‘we had a very unusual and potentially important event to follow.’ For 20 years, the large ground finch coexisted with the medium ground finch, which shared the supply of large seeds with its bigger-billed relative. Then, in 2002 and 2003, another drought struck. None of the birds nested that year, and many died out. Medium ground finches with large bills, crowded out of feeding areas by the more powerful large ground finches, were hit particularly hard.</p>
-<p>G When wetter weather returned in 2004, and the finches nested again, the new generation of the medium ground finch was dominated by smaller birds with smaller bills, able to survive on smaller seeds. This situation, says Peter Grant, marked the first time that biologists have been able to follow the complete process of an evolutionary change due to competition between species and the strongest response to natural selection that he had seen in 33 years of tracking Galápagos finches.</p>
-<p>H On the inhabited island of Santa Cruz, just south of Daphne Major, Andrew Hendry of McGill University and Jeffrey Podos of the University of Massachusetts at Amherst have discovered a new, man-made twist in finch evolution. Their study focused on birds living near the Academy Bay research station, on the fringe of the town of Puerto Ayora. The human population of the area has been growing fast-from 900 people in 1974 to 9,582 in 2001. Today Puerto Ayora is full of hotels and mai tai bars,’ Hendry says. ‘People have taken this extremely arid place and tried to turn it into a Caribbean resort.’</p>
-<p>I Academy Bay records dating back to the early 1960s show that medium ground finches captured there had either small or large bills. Very few of the birds had mid-size bills. The finches appeared to be in the early stages of a new adaptive radiation: If the trend continued, the medium ground finch on Santa Cruz could split into two distinct subspecies, specializing in different types of seeds. But in the late 1960s and early 70s, medium ground finches with medium-sized bills began to thrive at Academy Bay along with small and large-billed birds. The booming human population had introduced new food sources, including exotic plants and bird feeding stations stocked with rice. Billsize, once critical to the finches’ survival, no longer made any difference. ‘Now an intermediate bill can do fine,’ Hendry says.</p>
-<p>J At a control site distant from Puerto Ayora, and relatively untouched by humans, the medium ground finch population remains split between large- and small-billed birds. On undisturbed parts of Santa Cruz, there is no ecological niche for a middling medium ground finch, and the birds continue to diversify. In town, though there are still many finches, once-distinct populations are merging.</p>
-<p>K The finches of Santa Cruz demonstrate a subtle process in which human meddling can stop evolution in its tracks, ending the formation of new species. In a time when global biodiversity continues its downhill slide, Darwin’s finches have yet another unexpected lesson to teach. ‘If we hope to regain some of the diversity that’s already been lost/ Hendry says, ‘we need to protect not just existing creatures, but also the processes that drive the origin of new species.</p>
-<p>Questions 1-4
-Complete the table now. Choose NO MORE THAN TWO WORDS from Reading Passage 1 for each answer. Write your answers in boxes 1-4 on your answer sheet.</p>
-<p>Questions 5-8
-Complete the following summary of the paragraphs of Reading Passage. Using NO MORE THAN TWO WORDS from the Reading Passage for each answer. Write your answers in boxes 5-8 on your answer sheet.</p>
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 245</strong></h3>
+<h3 class="test-heading"><strong>finches on islands</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Today, the quest continues. On Daphne Major-one of the most desolate of the Galápagos Islands, an uninhabited volcanic cone where cacti and shrubs seldom grow higher than a researcher’s knee-Peter and Rosemary Grant have spent more than three decades watching Darwin’s finch respond to the challenges of storms, drought and competition for food Biologists at Princeton University, the Grants know and recognize many of the individual birds on the island and can trace the birds’ lineages hack through time. They have witnessed Darwin’s principle in action again and again, over many generations of finches.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> The Grants’ most dramatic insights have come from watching the evolving bill of the medium ground finch. The plumage of this sparrow-sized bird ranges from dull brown to jet black. At first glance, it may not seem particularly striking, but among scientists who study evolutionary biology, the medium ground finch is a superstar. Its bill is a middling example in the array of shapes and sizes found among Galápagos finches: heftier than that of the small ground finch, which specializes in eating small, soft seeds, but petite compared to that of the large ground finch, an expert at cracking and devouring big, hard seeds.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> When the Grants began their study in the 1970s, only two species of finch lived on Daphne Major, the medium ground finch and the cactus finch. The island is so small that the researchers were able to count and catalogue every bird. When a severe drought hit in 1977, the birds soon devoured the last of the small, easily eaten seeds. Smaller members of the medium ground finch population, lacking the bill strength to crack large seeds, died out.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> Bill and body size are inherited traits, and the next generation had a high proportion of big-billed individuals. The Grants had documented natural selection at work-the same process that, over many millennia, directed the evolution of the Galápagos’ 14 unique finch species, all descended from a common ancestor that reached the islands a few million years ago.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> Eight years later, heavy rains brought by an El Nino transformed the normally meager vegetation on Daphne Major. Vines and other plants that in most years struggle for survival suddenly flourished, choking out the plants that provide large seeds to the finches. Small seeds came to dominate the food supply, and big birds with big bills died out at a higher rate than smaller ones. ‘Natural selection is observable,’ Rosemary Grant says. ‘It happens when the environment changes. When local conditions reverse themselves, so does the direction of adaptation.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> Recently, the Grants witnessed another form of natural selection acting on the medium ground finch: competition from bigger, stronger cousins. In 1982, a third finch, the large ground finch, came to live on Daphne Major. The stout bills of these birds resemble the business end of a crescent wrench. Their arrival was the first such colonization recorded on the Galápagos in nearly a century of scientific observation. ‘We realized,’ Peter Grant says, ‘we had a very unusual and potentially important event to follow.’ For 20 years, the large ground finch coexisted with the medium ground finch, which shared the supply of large seeds with its bigger-billed relative. Then, in 2002 and 2003, another drought struck. None of the birds nested that year, and many died out. Medium ground finches with large bills, crowded out of feeding areas by the more powerful large ground finches, were hit particularly hard.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> When wetter weather returned in 2004, and the finches nested again, the new generation of the medium ground finch was dominated by smaller birds with smaller bills, able to survive on smaller seeds. This situation, says Peter Grant, marked the first time that biologists have been able to follow the complete process of an evolutionary change due to competition between species and the strongest response to natural selection that he had seen in 33 years of tracking Galápagos finches.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>H</strong> On the inhabited island of Santa Cruz, just south of Daphne Major, Andrew Hendry of McGill University and Jeffrey Podos of the University of Massachusetts at Amherst have discovered a new, man-made twist in finch evolution. Their study focused on birds living near the Academy Bay research station, on the fringe of the town of Puerto Ayora. The human population of the area has been growing fast-from 900 people in 1974 to 9,582 in 2001. Today Puerto Ayora is full of hotels and mai tai bars,’ Hendry says. ‘People have taken this extremely arid place and tried to turn it into a Caribbean resort.’</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p><strong>I</strong> Academy Bay records dating back to the early 1960s show that medium ground finches captured there had either small or large bills. Very few of the birds had mid-size bills. The finches appeared to be in the early stages of a new adaptive radiation: If the trend continued, the medium ground finch on Santa Cruz could split into two distinct subspecies, specializing in different types of seeds. But in the late 1960s and early 70s, medium ground finches with medium-sized bills began to thrive at Academy Bay along with small and large-billed birds. The booming human population had introduced new food sources, including exotic plants and bird feeding stations stocked with rice. Billsize, once critical to the finches’ survival, no longer made any difference. ‘Now an intermediate bill can do fine,’ Hendry says.</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p><strong>J</strong> At a control site distant from Puerto Ayora, and relatively untouched by humans, the medium ground finch population remains split between large- and small-billed birds. On undisturbed parts of Santa Cruz, there is no ecological niche for a middling medium ground finch, and the birds continue to diversify. In town, though there are still many finches, once-distinct populations are merging.</p></div></div>
+<div class="para-row"><div class="para-label">K</div><div class="para-text"><p><strong>K</strong> The finches of Santa Cruz demonstrate a subtle process in which human meddling can stop evolution in its tracks, ending the formation of new species. In a time when global biodiversity continues its downhill slide, Darwin’s finches have yet another unexpected lesson to teach. ‘If we hope to regain some of the diversity that’s already been lost/ Hendry says, ‘we need to protect not just existing creatures, but also the processes that drive the origin of new species.</p></div></div>
+<p><strong>Questions 1-4</strong>
+Complete the table now. Choose <strong>NO MORE THAN TWO WORDS</strong> from Reading Passage 1 for each answer. Write your answers in boxes 1-4 on your answer sheet.</p>
+<p><strong>Questions 5-8</strong>
+Complete the following summary of the paragraphs of Reading Passage. Using <strong>NO MORE THAN TWO WORDS</strong> from the Reading Passage for each answer. Write your answers in boxes 5-8 on your answer sheet.</p>
 <p>On the remote island of Santa Cruz, Andrew Hendry and Jeffrey Podos conducted a study on reversal (5)……………… due to human activity. In the early 1960s medium ground finches were found to have a larger or smaller beak. But in the late 1960s and early 70s, finches with (6)……………… flourished. The study speculates that it is due to the growing (7)…………………who brought in alien plants with intermediate-size seeds into the area and the birds ate (8)……………….. sometimes.</p>
-<p>Questions 9-13
+<p><strong>Questions 9-13</strong>
 Do the following statements agree with the claims of the writer in Reading Passage? In boxes 9-13 on your answer sheet, write:</p>
-<p>TRUE                   if the statement agrees with the information
-FALSE                  if the statement contradicts the information
-NOT GIVEN         if there is no information on this</p>
+<p><strong>TRUE</strong>                   if the statement agrees with the information
+<strong>FALSE                 </strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong>         if there is no information on this</p>
 <p>9. Grants’ discovery has questioned Darwin’s theory.
 10. The cactus finches are less affected by food than the medium ground finch.
 11. In 2002 and 2003, all the birds were affected by the drought.
 12. The discovery of Andrew Hendry and Jeffrey Podos was the same as that of the previous studies.
 13. It is shown that the revolution in finches on Santa Cruz is likely a response to human intervention.</p>
-<p>flight from reality</p>
+<p><strong>flight from reality</strong></p>
 <p>Mobiles are barred, but passengers can lap away on their laptops to their hearts’ content. Is one really safer than the other? In the US, a Congressional subcommittee grilled airline representatives and regulators about the issue last month. But the committee heard that using cellphones in planes may indeed pose a risk albeit a slight one. This would seem to vindicate the treatment of Manchester oil worker Neil Whitehouse, who was sentenced last summer to a year in jail by a British court for refusing to turn off his mobile phone on a flight home from Madrid. Although he was only typing a message to be sent on landing not actually making a call, the court decided that hems putting the flight at risk.</p>
-<p>A The potential for problems is certainly there. Modern airliners are packed with electronic devices that control the plane and handle navigation and communications. Each has to meet stringent safeguards to make sure it doesn’t emit radiation that would interfere with other devices in the plane-standards that passengers’ personal electronic devices don’t necessarily meet. Emissions from inside the plane could also interfere with sensitive antennae on the fixed exterior.</p>
-<p>B But despite running a number of studies, Boeing, Airbus and various government agencies haven’t been able to find clear evidence of problems caused by personal electronic devices, including mobile phones. “We’ve done our own studies. We’ve found cellphones actually have no impact on the navigation system,” says Maryanne Greczyn, a spokeswoman for Airbus Industries of North America in Herndon, Virginia, Not do they affect other critical systems, she says The only impact Airbus found? “Sometimes when a passenger is starting or finishing a phone call, the pilot hears a wry slight beep in the headset,” she says.</p>
-<p>C The best evidence yet of a problem comes from a report released this year by Britain’s Civil Aviation Authority. Its researchers generated simulated cellphone transmissions inside two Boeing aircraft. They concluded that the transmissions could create signals at a power and frequency that would not affect the latest equipment, but exceeded the safety threshold established in 1984 and might, therefore, affect some of the older equipment on board. This doesn’t mean “mission critical” equipment such as the navigation system and flight controls. But the devices that could be affected, such as smoke detectors and fuel level indicators, could still create serious problems for the flight crew if they malfunction.</p>
-<p>D Many planes still use equipment certified to the older standards, says Dan Hawkes, head of avionics at the CAA’s Safely Regulation Croup. The CAA study doesn’t prove the equipment will actually fail when subjected to the signals but does show there’s a danger. “We’ve taken some of the uncertainty out of these beliefs,” he says Another study later this year will see if the cellphone signals actually cause devices to fail.</p>
-<p>E In 1996, RTCA, a consultant hired by the Federal Aviation Administration in the US to conduct tests, determined that potential problems from personal electronic devices were “low”. Nevertheless, it recommended a ban on their use during “critical” periods of flight, such as take-off and landing. RTCA didn’t actually test cellphones, but nevertheless recommended their wholesale ban on flights, But if “better safe than sorry” is the current policy, it’s applied inconsistently, according to Marshall Cross, the chairman of Mega Wave Corporation, based in Boylston, Massachusetts. Why are cellphones outlawed when no one considers a ban on laptops? “It’s like most things in life. The reason is a little bit technical, a little bit economic and a little bit political,” says Cross.</p>
-<p>F The company wrote a report for the FAA in 1998 saying it is possible to build an on-board system that can detect dangerous signals from electronic devices. But Cross’s personal conclusion is that mobile phones aren’t the real threat. “You’d have to stretch things pretty far to figure out how a cellphone could interfere with a plane’s systems,” he says. Cellphones transmit in ranges of around 400, 800 or 1800 megahertz. Since no important piece of aircraft equipment operates at those frequencies, the possibility of interference is very low, Cross says. The use of Computers and electronic game systems is much more worrying, lie says. They can generate very strong signals at frequencies that could interfere with plane electronics, especially if a mouse is attached {the wire operates as an antenna or if their built-in shielding is somehow damaged. Some airlines are even planning to put sockets for laptops in seatbacks.</p>
-<p>G There’s fairly convincing anecdotal evidence that some personal electronic devices have interfered with systems. Aircrew on one flight found that the autopilot was being disconnected, and narrowed the problem down to a passenger’s portable computer. They could actually watch the autopilot disconnect when they switched the computer on. Boeing bought the computer, took it to the airline’s labs and even tested it on an empty flight. But as with every other reported instance of interference, technicians were unable to replicate the problem.</p>
-<p>H Some engineers, however, such as Bruce Donham of Boeing, say that common sense suggests phones are more risky than laptops. “A device capable of producing a strong emission is not as safe as a device which does not have any intentional emission,” lie says. Nevertheless, many experts think it’s illogical that cellphones are prohibited when computers aren’t. Besides, the problem is more complicated than simply looking at power and frequency. In the air, the plane operates in a soup of electronic emissions, created by its own electronics and by ground-based radiation. Electronic devices in the cabin-especially those emitting a strong signal-can behave unpredictably, reinforcing other signals, for instance, or creating unforeseen harmonics that disrupt systems.</p>
-<p>I Despite the Congressional subcommittee hearings last month, no one seems to be working seriously on a technical solution that would allow passengers to use their phones. That’s mostly because no one -besides cellphone users themselves-stands to gain a lot if the phones are allowed in the air. Even the cellphone companies don’t want it. They are concerned that airborne signals could cause problems by flooding a number of the networks’ base stations at once with the same signal This effect, called bigfooting, happens because airborne cellphone signals tend to go to many base stations at once, unlike land calls which usually go to just one or two stations. In the US, even if FAA regulations didn’t prohibit cellphones in the air, Federal Communications Commission regulations would.</p>
-<p>J Possible solutions might be to enhance airliners’ electronic insulation or to fit detectors which warned flight staff when passenger devices were emitting dangerous signals. But Cross complains that neither the FAA, the airlines nor the manufacturers are showing much interest in developing these. So despite Congressional suspicions and the occasional irritated (or jailed) mobile user, the industry’s “better safe than sorry” policy on mobile phones seems likely to continue. In the absence of firm evidence that the international airline industry is engaged in a vast conspiracy to overcharge its customers, a delayed phone call seems a small price to pay for even the tiniest reduction in the chances of a Plane Crash. But you’ll still be allowed to use your personal computer during a flight. And while that remains the case, airlines can hardly claim that logic has prevailed.</p>
-<p>Questions 14-17
-Complete the following summary of the paragraphs of Reading Passage using NO MORE THAN THREE WORDS from the Reading Passage for each answer. Write your answers in boxes 14-17 on your answer sheet.</p>
+<p><strong>A</strong> The potential for problems is certainly there. Modern airliners are packed with electronic devices that control the plane and handle navigation and communications. Each has to meet stringent safeguards to make sure it doesn’t emit radiation that would interfere with other devices in the plane-standards that passengers’ personal electronic devices don’t necessarily meet. Emissions from inside the plane could also interfere with sensitive antennae on the fixed exterior.</p>
+<p><strong>B</strong> But despite running a number of studies, Boeing, Airbus and various government agencies haven’t been able to find clear evidence of problems caused by personal electronic devices, including mobile phones. “We’ve done our own studies. We’ve found cellphones actually have no impact on the navigation system,” says Maryanne Greczyn, a spokeswoman for Airbus Industries of North America in Herndon, Virginia, Not do they affect other critical systems, she says The only impact Airbus found? “Sometimes when a passenger is starting or finishing a phone call, the pilot hears a wry slight beep in the headset,” she says.</p>
+<p><strong>C</strong> The best evidence yet of a problem comes from a report released this year by Britain’s Civil Aviation Authority. Its researchers generated simulated cellphone transmissions inside two Boeing aircraft. They concluded that the transmissions could create signals at a power and frequency that would not affect the latest equipment, but exceeded the safety threshold established in 1984 and might, therefore, affect some of the older equipment on board. This doesn’t mean “mission critical” equipment such as the navigation system and flight controls. But the devices that could be affected, such as smoke detectors and fuel level indicators, could still create serious problems for the flight crew if they malfunction.</p>
+<p><strong>D</strong> Many planes still use equipment certified to the older standards, says Dan Hawkes, head of avionics at the CAA’s Safely Regulation Croup. The CAA study doesn’t prove the equipment will actually fail when subjected to the signals but does show there’s a danger. “We’ve taken some of the uncertainty out of these beliefs,” he says Another study later this year will see if the cellphone signals actually cause devices to fail.</p>
+<p><strong>E</strong> In 1996, RTCA, a consultant hired by the Federal Aviation Administration in the US to conduct tests, determined that potential problems from personal electronic devices were “low”. Nevertheless, it recommended a ban on their use during “critical” periods of flight, such as take-off and landing. RTCA didn’t actually test cellphones, but nevertheless recommended their wholesale ban on flights, But if “better safe than sorry” is the current policy, it’s applied inconsistently, according to Marshall Cross, the chairman of Mega Wave Corporation, based in Boylston, Massachusetts. Why are cellphones outlawed when no one considers a ban on laptops? “It’s like most things in life. The reason is a little bit technical, a little bit economic and a little bit political,” says Cross.</p>
+<p><strong>F</strong> The company wrote a report for the FAA in 1998 saying it is possible to build an on-board system that can detect dangerous signals from electronic devices. But Cross’s personal conclusion is that mobile phones aren’t the real threat. “You’d have to stretch things pretty far to figure out how a cellphone could interfere with a plane’s systems,” he says. Cellphones transmit in ranges of around 400, 800 or 1800 megahertz. Since no important piece of aircraft equipment operates at those frequencies, the possibility of interference is very low, Cross says. The use of Computers and electronic game systems is much more worrying, lie says. They can generate very strong signals at frequencies that could interfere with plane electronics, especially if a mouse is attached {the wire operates as an antenna or if their built-in shielding is somehow damaged. Some airlines are even planning to put sockets for laptops in seatbacks.</p>
+<p><strong>G</strong> There’s fairly convincing anecdotal evidence that some personal electronic devices have interfered with systems. Aircrew on one flight found that the autopilot was being disconnected, and narrowed the problem down to a passenger’s portable computer. They could actually watch the autopilot disconnect when they switched the computer on. Boeing bought the computer, took it to the airline’s labs and even tested it on an empty flight. But as with every other reported instance of interference, technicians were unable to replicate the problem.</p>
+<p><strong>H</strong> Some engineers, however, such as Bruce Donham of Boeing, say that common sense suggests phones are more risky than laptops. “A device capable of producing a strong emission is not as safe as a device which does not have any intentional emission,” lie says. Nevertheless, many experts think it’s illogical that cellphones are prohibited when computers aren’t. Besides, the problem is more complicated than simply looking at power and frequency. In the air, the plane operates in a soup of electronic emissions, created by its own electronics and by ground-based radiation. Electronic devices in the cabin-especially those emitting a strong signal-can behave unpredictably, reinforcing other signals, for instance, or creating unforeseen harmonics that disrupt systems.</p>
+<p><strong>I</strong> Despite the Congressional subcommittee hearings last month, no one seems to be working seriously on a technical solution that would allow passengers to use their phones. That’s mostly because no one -besides cellphone users themselves-stands to gain a lot if the phones are allowed in the air. Even the cellphone companies don’t want it. They are concerned that airborne signals could cause problems by flooding a number of the networks’ base stations at once with the same signal This effect, called bigfooting, happens because airborne cellphone signals tend to go to many base stations at once, unlike land calls which usually go to just one or two stations. In the US, even if FAA regulations didn’t prohibit cellphones in the air, Federal Communications Commission regulations would.</p>
+<p><strong>J</strong> Possible solutions might be to enhance airliners’ electronic insulation or to fit detectors which warned flight staff when passenger devices were emitting dangerous signals. But Cross complains that neither the FAA, the airlines nor the manufacturers are showing much interest in developing these. So despite Congressional suspicions and the occasional irritated (or jailed) mobile user, the industry’s “better safe than sorry” policy on mobile phones seems likely to continue. In the absence of firm evidence that the international airline industry is engaged in a vast conspiracy to overcharge its customers, a delayed phone call seems a small price to pay for even the tiniest reduction in the chances of a Plane Crash. But you’ll still be allowed to use your personal computer during a flight. And while that remains the case, airlines can hardly claim that logic has prevailed.</p>
+<p><strong>Questions 14-17</strong>
+Complete the following summary of the paragraphs of Reading Passage using <strong>NO MORE THAN THREE WORDS</strong> from the Reading Passage for each answer. Write your answers in boxes 14-17 on your answer sheet.</p>
 <p>The would-be risk surely exists, since the avionic systems on modern aircraft are used to manage flight and deal with (14)………………. Those devices are designed to meet the safety criteria which should be free from interrupting (15)………………… or interior emission. The personal use of a mobile phone may cause the sophisticated (16)…………………. outside of the plane to dysfunction. Though definite interference in piloting devices has not been scientifically testified, the devices such as those which detect (17)……………….. or indicate fuel load could be affected.</p>
-<p>Questions 18-22
+<p><strong>Questions 18-22</strong>
 Use the information in the passage to match the Organization (listed A-E) with opinions or deeds below. Write the appropriate letters A-E in boxes 18-22 on your answer sheet.</p>
-<p>A British Civil Aviation Authority
-B Maryanne Greczyn
-C RTCA
-D Marshall Cross
-E Boeing company</p>
+<p><strong>A</strong> British Civil Aviation Authority
+<strong>B</strong> Maryanne Greczyn
+<strong>C</strong> RTCA
+<strong>D</strong> Marshall Cross
+<strong>E</strong> Boeing company</p>
 <p>18. Mobile usages should be forbidden in specific fame.
 19. Computers are more dangerous than cell phones.
 20. Finding that the mobile phones pose little risk on flight’s navigation devices.
 21. The disruption of laptops is not as dangerous as cellphones.
 22. The mobile signal may have an impact on earlier devices.</p>
-<p>Questions 23-26
+<p><strong>Questions 23-26</strong>
 Do the following statements agree with the information given in Reading Passage? In boxes 23-26 on your answer sheet, write:</p>
-<p>TRUE                   if the statement agrees with the information
-FALSE                  if the statement contradicts the information
-NOT GIVEN         if there is no information on this</p>
+<p><strong>TRUE</strong>                   if the statement agrees with the information
+<strong>FALSE</strong>                  if the statement contradicts the information
+<strong>NOT GIVEN</strong>         if there is no information on this</p>
 <p>23. Almost all scientists accept that cellphones have higher emission than that of personal computers.
 24. Some people believe that radio emission will interrupt the equipment on the plane.
 25. The signal interference-detecting device has not yet been developed because they are in priority for neither administrative department nor offer an economic incentive.
 26. FAA initialed open debate with Federal Communications Commission.</p>
-<p>human remain in green sahara</p>
-<p>A On October 13,2,000, a small team of paleontologists led by Paul Sereno of the University of Chicago clambered out of three battered Land Rovers, filled their water bottles, and scattered on foot across the toffee-colored sands of the Tenere desert in northern Niger. The Tenere , on the southern flank of the Sahara, easily ranks among the most desolate landscapes on Earth. The Tuareg , turbaned nomads who for centuries have ruled this barren realm, refer to it as a “desert within a desert”-a California-size ocean of sand and rock, where a single massive dune might stretch a hundred miles, and the combination of 120-degree heat and inexorable winds can wick the water from a human body in less than a day. The harsh conditions, combined with intermittent conflict between the Tuareg and the Niger government, have kept the region largely unexplored.</p>
-<p>B Mike Hettwer, a photographer accompanying the team, headed off by himself toward a trio of small dunes. He crested the first slope and stared in amazement. The dunes were spilling over with bones. He took a few shots with his digital camera and hurried back to the Land Rovers. “I found some bones:’ Hettwer said, when the team had regrouped. “But they’re not dinosaurs. They’re human.”</p>
-<p>C In the spring of 2005 Sereno contacted Elena Garcea, an archaeologist at the University of Cassino, in Italy, inviting her to accompany him on a return to the site. Garcea had spent three decades working digs along the Nile in Sudan and in the mountains of the Libyan Desert, and was well acquainted with the ancient peoples of the Sahara. But she had never heard of Paul Sereno. His claim to have found so many skeletons in one place seemed far fetched, given that no other Neolithic cemetery contained more than a dozen or so. Some archaeologists would later be skeptical; one sniped that he was just a “moonlighting paleontologist.” But Garcea was too intrigued to dismiss him as an interloper. She agreed to join him.</p>
-<p>D Garcea explained that the Kiffian were a fishing-based culture and lived during the earliest wet period, between 8,000 and 10,000 years ago. She held a Kiffian sherd next to a Tenerian one. “What is so amazing is that the people who made these two pots lived more than a thousand years apart.”</p>
-<p>E Over the next three weeks, Sereno and Garcea-along with five American excavators, five Tuareg guides, and five soldiers from Nigeria’s army, sent to protect the camp from bandits—made a detailed map of the site, which they dubbed Gobero, after the Tuareg name for the area. They exhumed eight burials and collected scores of artifacts from both cultures. In a dry lake bed adjacent to the dunes, they found dozens of fishhooks and harpoons carved from animal bone Apparently the Kiffian fishermen weren’t just going after small fry: Scattered near the dunes were the remains of Nile perch, a beast of a fish that can weigh nearly 300 pounds, as well as crocodile and hippo bones.</p>
-<p>F Sereno flew home with the most important skeletons and artifacts and immediately began planning for the next field season. In the meantime, he carefully removed one tooth from each of four skulls and sent them to a lab for radiocarbon dating. The results pegged the age of the tightly bundled burials at roughly 9,000 years old, the heart of the Kiffian era. The smaller “sleeping” skeletons turned out to be about 6,000 years old, well within the Tenerian period. At least now the scientists knew who was who.</p>
-<p>G In the fall of 2006 they returned to Gobero, accompanied by a larger dig crew and six additional scientists. Garcea hoped to excavate some 80 burials, and the team began digging. As the skeletons began to emerge from the dunes, each presented a fresh riddle, especially the Tenerian. A male skeleton had been buried with a finger in his mouth.</p>
-<p>H Even at the site, Arizona State University bio archaeologist Chris Stojanowski could begin to piece together some clues. Judging by the bones, the Kiffian appeared to be a peaceful, hard working people. “The lack of head and forearm injuries suggests they weren’t doing much fighting,” he told me. “And these guys were strong.” He pointed to a long, narrow ridge running along a femur. “That’s the muscle attachment,” he said. “This individual had huge leg muscles, which means he was eating a lot of protein and had a strenuous lifestyle — both consistent with a fishing way of life.” For contrast, he showed me the femur of a Tenerian male. The ridge was barely perceptible. “This guy had a much less strenuous lifestyle,” he said, “which you might expect of a herder.”</p>
-<p>I Stojanowski’s assessment that the Tenerian were herders fits the prevailing view among scholars of life in the Sahara 6,000 years ago, when drier conditions favored herding over hunting. But if the Tenerian were herders, Sereno pointed out, where were the herds? Among the hundreds of animal bones that had turned up at the site, none belonged to goats or sheep, and only three came from a cow species. “It’s not unusual for a herding culture not to slaughter their cattle, particularly in a cemetery, M Garcea responded, noting that even modern pastoralists, such as Niger’s Wodaabe, are loath to butcher even one animal in their herd. Perhaps, Sereno reasoned, the Tenerian at Gobero were a transitional group that had not fully adopted herding and still relied heavily on hunting and fishing.</p>
-<p>J Back in Arizona, Stojanowski continues to analyze the Gobero bones for clues to the Green Saharans’ health and diet. Other scientists are trying to derive DNA from the teeth, which could reveal the genetic origins of the Kiffian and Tenerian- and possibly link them to descendants living today. Sereno and Garcea estimate a hundred burials remain to be excavated. But as the harsh Tenere winds continue to erode the dunes, time is running out. “Every archaeological site has a life cycle,” Garcea said. “It begins when people begin to use the place, followed by disuse, then nature takes over, and finally it is gone. Gobero is at the end of its life.”</p>
-<p>Questions 27-29
+<p><strong>human remain in green sahara</strong></p>
+<p><strong>A</strong> On October 13,2,000, a small team of paleontologists led by Paul Sereno of the University of Chicago clambered out of three battered Land Rovers, filled their water bottles, and scattered on foot across the toffee-colored sands of the Tenere desert in northern Niger. The Tenere , on the southern flank of the Sahara, easily ranks among the most desolate landscapes on Earth. The Tuareg , turbaned nomads who for centuries have ruled this barren realm, refer to it as a “desert within a desert”-a California-size ocean of sand and rock, where a single massive dune might stretch a hundred miles, and the combination of 120-degree heat and inexorable winds can wick the water from a human body in less than a day. The harsh conditions, combined with intermittent conflict between the Tuareg and the Niger government, have kept the region largely unexplored.</p>
+<p><strong>B</strong> Mike Hettwer, a photographer accompanying the team, headed off by himself toward a trio of small dunes. He crested the first slope and stared in amazement. The dunes were spilling over with bones. He took a few shots with his digital camera and hurried back to the Land Rovers. “I found some bones:’ Hettwer said, when the team had regrouped. “But they’re not dinosaurs. They’re human.”</p>
+<p><strong>C</strong> In the spring of 2005 Sereno contacted Elena Garcea, an archaeologist at the University of Cassino, in Italy, inviting her to accompany him on a return to the site. Garcea had spent three decades working digs along the Nile in Sudan and in the mountains of the Libyan Desert, and was well acquainted with the ancient peoples of the Sahara. But she had never heard of Paul Sereno. His claim to have found so many skeletons in one place seemed far fetched, given that no other Neolithic cemetery contained more than a dozen or so. Some archaeologists would later be skeptical; one sniped that he was just a “moonlighting paleontologist.” But Garcea was too intrigued to dismiss him as an interloper. She agreed to join him.</p>
+<p><strong>D</strong> Garcea explained that the Kiffian were a fishing-based culture and lived during the earliest wet period, between 8,000 and 10,000 years ago. She held a Kiffian sherd next to a Tenerian one. “What is so amazing is that the people who made these two pots lived more than a thousand years apart.”</p>
+<p><strong>E</strong> Over the next three weeks, Sereno and Garcea-along with five American excavators, five Tuareg guides, and five soldiers from Nigeria’s army, sent to protect the camp from bandits—made a detailed map of the site, which they dubbed Gobero, after the Tuareg name for the area. They exhumed eight burials and collected scores of artifacts from both cultures. In a dry lake bed adjacent to the dunes, they found dozens of fishhooks and harpoons carved from animal bone Apparently the Kiffian fishermen weren’t just going after small fry: Scattered near the dunes were the remains of Nile perch, a beast of a fish that can weigh nearly 300 pounds, as well as crocodile and hippo bones.</p>
+<p><strong>F</strong> Sereno flew home with the most important skeletons and artifacts and immediately began planning for the next field season. In the meantime, he carefully removed one tooth from each of four skulls and sent them to a lab for radiocarbon dating. The results pegged the age of the tightly bundled burials at roughly 9,000 years old, the heart of the Kiffian era. The smaller “sleeping” skeletons turned out to be about 6,000 years old, well within the Tenerian period. At least now the scientists knew who was who.</p>
+<p><strong>G</strong> In the fall of 2006 they returned to Gobero, accompanied by a larger dig crew and six additional scientists. Garcea hoped to excavate some 80 burials, and the team began digging. As the skeletons began to emerge from the dunes, each presented a fresh riddle, especially the Tenerian. A male skeleton had been buried with a finger in his mouth.</p>
+<p><strong>H</strong> Even at the site, Arizona State University bio archaeologist Chris Stojanowski could begin to piece together some clues. Judging by the bones, the Kiffian appeared to be a peaceful, hard working people. “The lack of head and forearm injuries suggests they weren’t doing much fighting,” he told me. “And these guys were strong.” He pointed to a long, narrow ridge running along a femur. “That’s the muscle attachment,” he said. “This individual had huge leg muscles, which means he was eating a lot of protein and had a strenuous lifestyle — both consistent with a fishing way of life.” For contrast, he showed me the femur of a Tenerian male. The ridge was barely perceptible. “This guy had a much less strenuous lifestyle,” he said, “which you might expect of a herder.”</p>
+<p><strong>I</strong> Stojanowski’s assessment that the Tenerian were herders fits the prevailing view among scholars of life in the Sahara 6,000 years ago, when drier conditions favored herding over hunting. But if the Tenerian were herders, Sereno pointed out, where were the herds? Among the hundreds of animal bones that had turned up at the site, none belonged to goats or sheep, and only three came from a cow species. “It’s not unusual for a herding culture not to slaughter their cattle, particularly in a cemetery, M Garcea responded, noting that even modern pastoralists, such as Niger’s Wodaabe, are loath to butcher even one animal in their herd. Perhaps, Sereno reasoned, the Tenerian at Gobero were a transitional group that had not fully adopted herding and still relied heavily on hunting and fishing.</p>
+<p><strong>J</strong> Back in Arizona, Stojanowski continues to analyze the Gobero bones for clues to the Green Saharans’ health and diet. Other scientists are trying to derive DNA from the teeth, which could reveal the genetic origins of the Kiffian and Tenerian- and possibly link them to descendants living today. Sereno and Garcea estimate a hundred burials remain to be excavated. But as the harsh Tenere winds continue to erode the dunes, time is running out. “Every archaeological site has a life cycle,” Garcea said. “It begins when people begin to use the place, followed by disuse, then nature takes over, and finally it is gone. Gobero is at the end of its life.”</p>
+<p><strong>Questions 27-29</strong>
 Do the following statements agree with the information given in the Reading Passage? In boxes 27-29 on your answer sheet, write:</p>
-<p>TRUE                 if the statement agrees with the information
-FALSE                if the statement contradicts the information
-NOT GIVEN       if there is no information on this</p>
+<p><strong>TRUE</strong>                 if the statement agrees with the information
+<strong>FALSE</strong>                if the statement contradicts the information
+<strong>NOT GIVEN</strong>       if there is no information on this</p>
 <p>27. Hettwer accidentally found human remains in the desert.
 28. Sereno and Garcea have cooperated in some archaeological activities before.
 29. The pictures of rock engravings found in Green Sahara is similar to other places.</p>
-<p>Questions 30-33
-Answer the questions below. Choose NO MORE THAN THREE WORDS AND/OR A NUMBER from the passage for each answer.</p>
+<p><strong>Questions 30-33</strong>
+Answer the questions below. Choose <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> from the passage for each answer.</p>
 <p>30. What did Sereno and Garcea produce in the initial weeks before digging work?
 31. For what purpose did Sereno send one tooth from each of four skulls to the laboratory?
 32. How old are the bigger tightly bundled burials being identified?
 33. What part of the body remains did the scientists send for inspection to find out the genetic origins of the Kiffian and Tenerian?</p>
-<p>Questions 34-40
-Summary Complete the following summary of the paragraphs of Reading Passage, using NO MORE THAN TWO WORDS from the Reading Passage for each answer. Write your answers in boxes 34-40 on your answer sheet.</p>
+<p><strong>Questions 34-40</strong>
+Summary Complete the following summary of the paragraphs of Reading Passage, using <strong>NO MORE THAN TWO WORDS</strong> from the Reading Passage for each answer. Write your answers in boxes 34-40 on your answer sheet.</p>
 <p>On the basis of bone judgment, kiffican seemed to be (34)…………………hardworking people, because we did not find (35)…………………..on head and forearm.</p>
 <p>Through observation of the huge leg muscles, it can be inferred that their diet had plenty of (36)……………….and their lifestyle was (37)…………….. All evidence pointed to compliance with a fishing way of life.</p>
 <p>On the other hand, Stojanowski presumed that Tenerian preferred to live on herding over (38)……………..,but only some animal bones such as (39)………………….were found, which Sereno supposed that Tenerian at Gobero lived in a (40)…………………..group at that time.</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Drought</p>
 <p>2. Large seeds</p>
 <p>3. Heavy rains</p>
@@ -456,6 +512,29 @@ Summary Complete the following summary of the paragraphs of Reading Passage, usi
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -475,12 +554,23 @@ Summary Complete the following summary of the paragraphs of Reading Passage, usi
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -492,14 +582,6 @@ Summary Complete the following summary of the paragraphs of Reading Passage, usi
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

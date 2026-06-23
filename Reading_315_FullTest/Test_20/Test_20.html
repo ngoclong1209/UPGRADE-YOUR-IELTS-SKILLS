@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,24 +158,24 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_20</h1>
-            <p>IELTS Reading Practice - Test 20</p>
-<p>Advantages of public transport</p>
-<p>A new study conducted for the World Bank by Murdoch University’s Institute for Science and Technology Policy (ISTP) has demonstrated that public transport is more efficient than cars. The study compared the proportion of wealth poured into transport by thirty-seven cities around the world. This included both the public and private costs of building, maintaining and using a transport system.</p>
-<p>The study found that the Western Australian city of Perth is a good example of a city with minimal public transport. As a result, 17% of its wealth went into transport costs. Some European and Asian cities, on the other hand, spent as little as 5%. Professor Peter Newman, ISTP Director, pointed out that these more efficient cities were able to put the difference into attracting industry and jobs or creating a better place to live.</p>
-<p>According to Professor Newman, the larger Australian city of Melbourne is a rather unusual city in this sort of comparison. He describes it as two cities: ‘A European city surrounded by a car-dependent one’. Melbourne’s large tram network has made car use in the inner city much lower, but the outer suburbs have the same car-based structure as most other Australian cities. The explosion in demand for accommodation in the inner suburbs of Melbourne suggests a recent change in many people’s preferences as to where they live.</p>
-<p>Newman says this is a new, broader way of considering public transport issues. In the past, the case for public transport has been made on the basis of environmental and social justice considerations rather than economics. Newman, however, believes the study demonstrates that ‘the auto-dependent city model is inefficient and grossly inadequate in economic as well as environmental terms’.</p>
-<p>Bicycle use was not included in the study but Newman noted that the two most ‘bicycle friendly’ cities considered – Amsterdam and Copenhagen – were very efficient, even though their public transport systems were ‘reasonable but not special’.</p>
-<p>It is common for supporters of road networks to reject the models of cities with good public transport by arguing that such systems would not work in their particular city. One objection is climate. Some people say their city could not make more use of public transport because it is either too hot or too cold. Newman rejects this, pointing out that public transport has been successful in both Toronto and Singapore and, in fact, he has checked the use of cars against climate and found ‘zero correlation’.</p>
-<p>When it comes to other physical features, road lobbies are on stronger ground. For example, Newman accepts it would be hard for a city as hilly as Auckland to develop a really good rail network. However, he points out that both Hong Kong and Zürich have managed to make a success of their rail systems, heavy and light respectively, though there are few cities in the world as hilly.</p>
-<p>A In fact, Newman believes the main reason for adopting one sort of transport over another is politics: ‘The more democratic the process, the more public transport is favoured.’ He considers Portland, Oregon, a perfect example of this. Some years ago, federal money was granted to build a new road. However, local pressure groups forced a referendum over whether to spend the money on light rail instead. The rail proposal won and the railway worked spectacularly well. In the years that have followed, more and more rail systems have been put in, dramatically changing the nature of the city. Newman notes that Portland has about the same population as Perth and had a similar population density at the time.</p>
-<p>B In the UK, travel times to work had been stable for at least six centuries, with people avoiding situations that required them to spend more than half an hour travelling to work. Trains and cars initially allowed people to live at greater distances without taking longer to reach their destination. However, public infrastructure did not keep pace with urban sprawl, causing massive congestion problems which now make commuting times far higher.</p>
-<p>C There is a widespread belief that increasing wealth encourages people to live farther out where cars are the only viable transport. The example of European cities refutes that. They are often wealthier than their American counterparts but have not generated the same level of car use. In Stockholm, car use has actually fallen in recent years as the city has become larger and wealthier. A new study makes this point even more starkly. Developing cities in Asia, such as Jakarta and Bangkok, make more use of the car than wealthy Asian cities such as Tokyo and Singapore. In cities that developed later, the World Bank and Asian Development Bank discouraged the building of public transport and people have been forced to rely on cars – creating the massive traffic jams that characterize those cities.</p>
-<p>D Newman believes one of the best studies on how cities built for cars might be converted to rail use is The Urban Village report, which used Melbourne as an example. It found that pushing everyone into the city centre was not the best approach. Instead, the proposal advocated the creation of urban villages at hundreds of sites, mostly around railway stations.</p>
-<p>E It was once assumed that improvements in telecommunications would lead to more dispersal in the population as people were no longer forced into cities. However, the ISTP team’s research demonstrates that the population and job density of cities rose or remained constant in the 1980s after decades of decline. The explanation for this seems to be that it is valuable to place people working in related fields together. ‘The new world will largely depend on human creativity, and creativity flourishes where people come together face-to-face.’</p>
-<p>Questions 1-5
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 20</strong></h3>
+<h3 class="test-heading"><strong>Advantages of public transport</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>A new study conducted for the World Bank by Murdoch University’s Institute for Science and Technology Policy (ISTP) has demonstrated that public transport is more efficient than cars. The study compared the proportion of wealth poured into transport by thirty-seven cities around the world. This included both the public and private costs of building, maintaining and using a transport system.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>The study found that the Western Australian city of Perth is a good example of a city with minimal public transport. As a result, 17% of its wealth went into transport costs. Some European and Asian cities, on the other hand, spent as little as 5%. Professor Peter Newman, ISTP Director, pointed out that these more efficient cities were able to put the difference into attracting industry and jobs or creating a better place to live.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>According to Professor Newman, the larger Australian city of Melbourne is a rather unusual city in this sort of comparison. He describes it as two cities: ‘A European city surrounded by a car-dependent one’. Melbourne’s large tram network has made car use in the inner city much lower, but the outer suburbs have the same car-based structure as most other Australian cities. The explosion in demand for accommodation in the inner suburbs of Melbourne suggests a recent change in many people’s preferences as to where they live.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Newman says this is a new, broader way of considering public transport issues. In the past, the case for public transport has been made on the basis of environmental and social justice considerations rather than economics. Newman, however, believes the study demonstrates that ‘the auto-dependent city model is inefficient and grossly inadequate in economic as well as environmental terms’.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>Bicycle use was not included in the study but Newman noted that the two most ‘bicycle friendly’ cities considered – Amsterdam and Copenhagen – were very efficient, even though their public transport systems were ‘reasonable but not special’.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>It is common for supporters of road networks to reject the models of cities with good public transport by arguing that such systems would not work in their particular city. One objection is climate. Some people say their city could not make more use of public transport because it is either too hot or too cold. Newman rejects this, pointing out that public transport has been successful in both Toronto and Singapore and, in fact, he has checked the use of cars against climate and found ‘zero correlation’.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>When it comes to other physical features, road lobbies are on stronger ground. For example, Newman accepts it would be hard for a city as hilly as Auckland to develop a really good rail network. However, he points out that both Hong Kong and Zürich have managed to make a success of their rail systems, heavy and light respectively, though there are few cities in the world as hilly.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>A</strong> In fact, Newman believes the main reason for adopting one sort of transport over another is politics: ‘The more democratic the process, the more public transport is favoured.’ He considers Portland, Oregon, a perfect example of this. Some years ago, federal money was granted to build a new road. However, local pressure groups forced a referendum over whether to spend the money on light rail instead. The rail proposal won and the railway worked spectacularly well. In the years that have followed, more and more rail systems have been put in, dramatically changing the nature of the city. Newman notes that Portland has about the same population as Perth and had a similar population density at the time.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p><strong>B</strong> In the UK, travel times to work had been stable for at least six centuries, with people avoiding situations that required them to spend more than half an hour travelling to work. Trains and cars initially allowed people to live at greater distances without taking longer to reach their destination. However, public infrastructure did not keep pace with urban sprawl, causing massive congestion problems which now make commuting times far higher.</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p><strong>C</strong> There is a widespread belief that increasing wealth encourages people to live farther out where cars are the only viable transport. The example of European cities refutes that. They are often wealthier than their American counterparts but have not generated the same level of car use. In Stockholm, car use has actually fallen in recent years as the city has become larger and wealthier. A new study makes this point even more starkly. Developing cities in Asia, such as Jakarta and Bangkok, make more use of the car than wealthy Asian cities such as Tokyo and Singapore. In cities that developed later, the World Bank and Asian Development Bank discouraged the building of public transport and people have been forced to rely on cars – creating the massive traffic jams that characterize those cities.</p></div></div>
+<div class="para-row"><div class="para-label">K</div><div class="para-text"><p><strong>D</strong> Newman believes one of the best studies on how cities built for cars might be converted to rail use is The Urban Village report, which used Melbourne as an example. It found that pushing everyone into the city centre was not the best approach. Instead, the proposal advocated the creation of urban villages at hundreds of sites, mostly around railway stations.</p></div></div>
+<div class="para-row"><div class="para-label">L</div><div class="para-text"><p><strong>E</strong> It was once assumed that improvements in telecommunications would lead to more dispersal in the population as people were no longer forced into cities. However, the ISTP team’s research demonstrates that the population and job density of cities rose or remained constant in the 1980s after decades of decline. The explanation for this seems to be that it is valuable to place people working in related fields together. ‘The new world will largely depend on human creativity, and creativity flourishes where people come together face-to-face.’</p></div></div>
+<p><strong>Questions 1-5</strong>
 
 Reading Passage 1 has five paragraphs, A-E. Choose the correct heading for each paragraph from the list of headings below. Write the correct number i-viii, in boxes 1-5 on your answer sheet.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 
 i Avoiding an overcrowded centre
 
@@ -145,15 +201,15 @@ viii Responding to arguments against public transport</p>
 4 Paragraph D
 
 5 Paragraph E</p>
-<p>Questions 6-10</p>
+<p><strong>Questions 6-10</strong></p>
 <p>Do the following statements agree with the information given in Reading Passage 1?
 
 In boxes 6-10 on your answer sheet, write</p>
-<p>TRUE                         if the statement agrees with the information
+<p><strong>TRUE</strong>                         if the statement agrees with the information
 
-FALSE                       if the statement contradicts the information
+<strong>FALSE</strong>                       if the statement contradicts the information
 
-NOT GIVEN            if there is no information on this</p>
+<strong>NOT GIVEN</strong>            if there is no information on this</p>
 <p>6 The ISTP study examined public and private systems in every city of the world.
 
 7 Efficient cities can improve the quality of life for their inhabitants.
@@ -163,7 +219,7 @@ NOT GIVEN            if there is no information on this</p>
 9 In Melbourne, people prefer to live in the outer suburbs.
 
 10 Cities with high levels of bicycle usage can be efficient even when public transport is only averagely good.</p>
-<p>Questions 11-13</p>
+<p><strong>Questions 11-13</strong></p>
 <p>Look at the following cities (Questions 11-13) and the list of descriptions below.
 
 Match each city with the correct description, A-F.</p>
@@ -173,21 +229,21 @@ Match each city with the correct description, A-F.</p>
 12 Auckland
 
 13 Portland</p>
-<p>List of Descriptions
+<p><strong>List of Descriptions</strong>
 
-A successfully uses a light rail transport system in hilly environment
+<strong>A</strong> successfully uses a light rail transport system in hilly environment
 
-B successful public transport system despite cold winters
+<strong>B</strong> successful public transport system despite cold winters
 
-C profitably moved from road to light rail transport system
+<strong>C</strong> profitably moved from road to light rail transport system
 
-D hilly and inappropriate for rail transport system
+<strong>D</strong> hilly and inappropriate for rail transport system
 
-E heavily dependent on cars despite widespread poverty
+<strong>E</strong> heavily dependent on cars despite widespread poverty
 
-F inefficient due to a limited public transport system</p>
+<strong>F</strong> inefficient due to a limited public transport system</p>
 <p>Cambridge IELTS Test 1 to 17</p>
-<p>GREYING POPULATION STAYS IN THE PINK</p>
+<p><strong>GREYING POPULATION STAYS IN THE PINK</strong></p>
 <p>Elderly people are growing healthier, happier and more independent, say American scientists. The results of a 14-year study to be announced later this month reveal that the diseases associated with old age are afflicting fewer and fewer people and when they do strike, it is much later in life.</p>
 <p>In the last 14 years, the National Long-term Health Care Survey has gathered data on the health and lifestyles of more than 20,000 men and women over 65. Researchers, now analysing the results of data gathered in 1994, say arthritis, high blood pressure and circulation problems -the major medical complaints in this age group – are troubling a smaller proportion every year. And the data confirms that the rate at which these diseases are declining continues to accelerate. Other diseases of old age – dementia, stroke, arteriosclerosis and emphysema – are also troubling fewer and fewer people.</p>
 <p>‘It really raises the question of what should be considered normal ageing,’ says Kenneth Manton, a demographer from Duke University in North Carolina. He says the problems doctors accepted as normal in a 65-year-old in 1982 are often not appearing until people are 70 or 75.</p>
@@ -200,17 +256,17 @@ F inefficient due to a limited public transport system</p>
 <p>As part of the same study, Teresa Seeman, a social epidemiologist at the University of Southern California in Los Angeles, found a connection between self-esteem and stress in people over 70. In laboratory simulations of challenging activities such as driving, those who felt in control of their lives pumped out lower levels of stress hormones such as cortisol. Chronically high levels of these hormones have been linked to heart disease.</p>
 <p>But independence can have drawbacks. Seeman found that elderly people who felt emotionally isolated maintained higher levels of stress hormones even when asleep. The research suggests that older people fare best when they feel independent but know they can get help when they need it.</p>
 <p>‘Like much research into ageing, these results support common sense,’ says Seeman. They also show that we may be underestimating the impact of these simple factors. ‘The sort of thing that your grandmother always told you turns out to be right on target,’ she says.</p>
-<p>Questions 14-22</p>
+<p><strong>Questions 14-22</strong></p>
 <p>Complete the summary using the list of words, A-Q, below. Write the correct letter, A-Q, in boxes 14-22 on your answer sheet.</p>
 <p>Research carried out by scientists in the United States has shown that the proportion of people over 65 suffering from the most common age-related medical problems is (14) ……………….. and that the speed of this change is (15)……………………… . It also seems that these diseases are affecting people (16) ……………….. in life than they did in the past, This is largely due to developments in (17) ……………….. , but other factors such as improved (18)………………….. may also be playing a part. Increases in some other illnesses may be due to changes in personal habits and to (19) ……………….. The research establishes a link between levels of (20) ……………….. and life expectancy. It also shows the there has been a considerable reduction in the number of elderly people who are (21)……………….. , which means that the (22) ……………….. involved in supporting this section of the population may be less than previously predicted.</p>
-<p>A cost             B falling              C technology               D undernourished             E earlier
+<p><strong>A</strong> cost             <strong>B</strong> falling              <strong>C</strong> technology               <strong>D</strong> undernourished             <strong>E</strong> earlier
 
-F later             G disabled          H more                        I increasing                        J nutrition
+<strong>F</strong> later             <strong>G</strong> disabled          <strong>H</strong> more                        <strong>I</strong> increasing                        <strong>J</strong> nutrition
 
-K education   L constant          M medicine                  N pollution                        O environmental
+<strong>K</strong> education   <strong>L</strong> constant          <strong>M</strong> medicine                  <strong>N</strong> pollution                        <strong>O</strong> environmental
 
-P health        Q independent</p>
-<p>Questions 23-26</p>
+<strong>P</strong> health        <strong>Q</strong> independent</p>
+<p><strong>Questions 23-26</strong></p>
 <p>Look at the following Questions 23-26 and the list of descriptions below.
 
 Match each question with the correct description, A-H.
@@ -223,24 +279,24 @@ Write the correct letter, A-H, in boxes 11-13 on your answer sheet.</p>
 25 Feelings of control over life
 
 26 Feelings of loneliness</p>
-<p>List of Descriptions
+<p><strong>List of Descriptions</strong>
 
-A may cause heart disease.
+<strong>A</strong> may cause heart disease.
 
-B can be helped by hormone treatment.
+<strong>B</strong> can be helped by hormone treatment.
 
-C may cause rises in levels of stress hormones.
+<strong>C</strong> may cause rises in levels of stress hormones.
 
-D have cost the United States government more than $200 billion.
+<strong>D</strong> have cost the United States government more than $200 billion.
 
-E may help prevent mental decline.
+<strong>E</strong> may help prevent mental decline.
 
-F may get stronger at night.
+<strong>F</strong> may get stronger at night.
 
-G allow old people to be more independent.
+<strong>G</strong> allow old people to be more independent.
 
-H can reduce stress in difficult situations.</p>
-<p>Numeration</p>
+<strong>H</strong> can reduce stress in difficult situations.</p>
+<p><strong>Numeration</strong></p>
 <p>One of the first great intellectual feats of a young child is learning how to talk, closely followed by learning how to count. From earliest childhood we are so bound up with our system of numeration that it is a feat of imagination to consider the problems faced by early humans who had not yet developed this facility. Careful consideration of our system of numeration leads to the conviction that, rather than being a facility that comes naturally to a person, it is one of the great and remarkable achievements of the human race.</p>
 <p>It is impossible to learn the sequence of events that led to our developing the concept of number. Even the earliest of tribes had a system of numeration that, if not advanced, was sufficient for the tasks that they had to perform. Our ancestors had little use for actual numbers; instead their considerations would have been more of the kind Is this enough? Rather than how many? When they were engaged in food gathering, for example. However, when early humans first began to reflect on the nature of things around them, they discovered that they needed an idea of number simply to keep their thoughts in order. As they began to settle, grow plants and herd animals, the need for a sophisticated number system became paramount. It will never be known how and when this numeration ability developed, but it is certain that numeration was well developed by the time humans had formed even semi-permanent settlements.</p>
 <p>Evidence of early stages of arithmetic and numeration can be readily found. The indigenous peoples of Tasmania were only able to count one, two, many; those of South Africa counted one, two, two and one, two twos, two twos and one, and so on. But in real situations the number and words are often accompanied by gestures to help resolve any confusion. For example, when using the one, two, many type of system, the word many would mean, Look at my hands and see how many fingers I am showing you. This basic approach is limited in the range of numbers that it can express, but this range will generally suffice when dealing with the simpler aspects of human existence.</p>
@@ -248,7 +304,7 @@ H can reduce stress in difficult situations.</p>
 <p>Perhaps the most fundamental step in developing a sense of number is not the ability to count, but rather to see that a number is really an abstract idea instead of a simple attachment to a group of particular objects. It must have been within the grasp of the earliest humans to conceive that four birds are distinct from two birds; however, it is not an elementary step to associate the number 4, as connected with four birds, to the number 4, as connected with four rocks. Associating a number as one of the qualities of a specific object is a great hindrance to the development of a true number sense. When the number 4 can be registered in the mind as a specific word, independent of the object being referenced, the individual is ready to take the first step toward the development of a notational system for numbers and, from there, to arithmetic.</p>
 <p>Traces of the very first stages in the development of numeration can be seen in several living languages today. The numeration system of the Tsimshian language in British Columbia contains seven distinct sets of words for numbers according to the class of the item being counted: for counting flat objects and animals, for round objects and time, for people, for long objects and trees, for canoes, for measures, and for counting when no particular object is being numerated. It seems that the last is a later development while the first six groups show the relics of an older system. This diversity of number names can also be found in some widely used languages such as Japanese.</p>
 <p>Intermixed with the development of a number sense is the development of an ability to count. Counting is not directly related to the formation of a number concept because it is possible to count by matching the items being counted against a group of pebbles, grains of corn, or the counter’s fingers. These aids would have been indispensable to very early people who would have found the process impossible without some form of mechanical aid. Such aids, while different, are still used even by the most educated in today’s society due to their convenience. All counting ultimately involves reference to something other than the things being counted. At first it may have been grains or pebbles but now it is a memorised sequence of words that happen to be the names of the numbers.</p>
-<p>Questions 27-31</p>
+<p><strong>Questions 27-31</strong></p>
 <p>Complete each sentence with the correct ending, A-G, below.
 
 Write the correct letter, A-G, in boxes 27-31 on your answer sheet.</p>
@@ -261,28 +317,28 @@ Write the correct letter, A-G, in boxes 27-31 on your answer sheet.</p>
 30 Thinking about numbers as concepts separate from physical objects
 
 31 Expressing number differently according to class of item</p>
-<p>A was necessary in order to fulfil a civic role.
+<p><strong>A</strong> was necessary in order to fulfil a civic role.
 
-B was necessary when people began farming.
+<strong>B</strong> was necessary when people began farming.
 
-C was necessary for the development of arithmetic.
+<strong>C</strong> was necessary for the development of arithmetic.
 
-D persists in all societies.
+<strong>D</strong> persists in all societies.
 
-E was used when the range of number words was restricted.
+<strong>E</strong> was used when the range of number words was restricted.
 
-F can be traced back to early European languages.
+<strong>F</strong> can be traced back to early European languages.
 
-G was a characteristic of early numeration systems.</p>
-<p>Questions 32-40</p>
+<strong>G</strong> was a characteristic of early numeration systems.</p>
+<p><strong>Questions 32-40</strong></p>
 <p>Do the following statements agree with the information given in Reading Passage 3?
 
 In boxes 32-40 on your answer sheet, write</p>
-<p>TRUE                         if the statement is true according to the passage
+<p><strong>TRUE</strong>                         if the statement is true according to the passage
 
-FALSE                       if the statement is false according to the passage
+<strong>FALSE</strong>                       if the statement is false according to the passage
 
-NOT GIVEN            if the information is not given in the passage</p>
+<strong>NOT GIVEN</strong>            if the information is not given in the passage</p>
 <p>32 For the earliest tribes, the concept of sufficiency was more important than the concept of quantity.
 
 33 Indigenous Tasmanians used only four terms to indicate numbers of objects.
@@ -301,7 +357,7 @@ NOT GIVEN            if the information is not given in the passage</p>
 
 40 Early peoples found it easier to count by using their fingers rather than a group of pebbles.</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. ii</p>
 <p>2. vii</p>
 <p>3. iv</p>
@@ -560,6 +616,29 @@ NOT GIVEN            if the information is not given in the passage</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -579,12 +658,23 @@ NOT GIVEN            if the information is not given in the passage</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -596,14 +686,6 @@ NOT GIVEN            if the information is not given in the passage</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

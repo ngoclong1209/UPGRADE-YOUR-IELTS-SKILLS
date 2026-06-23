@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,112 +158,112 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_240</h1>
-            <p>IELTS Reading Practice - Test 240</p>
-<p>TV Addiction</p>
-<p>A The amount of time people spend watching television is astonishing. On average, individuals in the industrialized world devote three hours a day to the pursuit – fully half of their leisure time, and more than on any single activity save work and sleep. At this rate, someone who lives to 75 would spend nine years in front of the tube. To some commentators, this devotion means simply that people enjoy TV and make a conscious decision to watch it. But if that is the whole story, why do so many people experience misgivings about how much they view? In Gallup polls in 1992 and 1999, two out of five adult respondents and seven out of 10 teenagers said they spent too much time watching TV. Other surveys have consistently shown that roughly 10 percent of adults calls themselves TV addicts.</p>
-<p>B To study people’s reactions to TV, researches have undertaken laboratory experiments in which they have monitored the brain waves (using an electroencephalograph, or EEG) to track behavior and emotion in the normal course of life, as opposed to the artificial conditions of the lab. Participants carried a beeper, and we signaled them six to eight times a day, at random, over the period of a week; whenever they heard the beep, they wrote down what they were doing and how they were feeling using a standardized scorecard.</p>
-<p>C As one might expect, people who were watching TV when we beeped them reported feeling relaxed and passive. The EEG studies similarly show less mental stimulation, as measured by alpha brain-wave production, during viewing than during reading. What is more surprising is that the sense of relaxation ends when the set is turned off, but the feelings of passivity and lowered alertness continue. Survey participants say they have more difficulty concentrating after viewing than before. In contrast, they rarely indicate such difficulty after reading. After playing sports or engaging in hobbies, people report improvements in mood. After watching TV, people’s moods are about the same or worse than before. That may be because of viewers’ vague learned sense that they will feel less relaxed if they stop viewing. So they tend not to turn the set-off. Viewing begets more viewing which is the same as the experience of habit-forming drugs. Thus, the irony of TV: people watch a great deal longer than they plan to, even though prolonged viewing is less rewarding. In our ESM studies the longer people sat in front of the set, the less satisfaction they said they derived from it. For some, a twinge of unease or guilt that they aren’t doing something more productive may also accompany and depreciate the enjoyment of prolonged viewing. Researchers in Japan, the U.K. and the U.S. have found that this guilt occurs much more among middle-class viewers than among less affluent ones.</p>
-<p>D What is it about TV that has such a hold on us? In part, the attraction seems to spring from our biological ‘orienting response.’ First described by Ivan Pavlov in 1927, the orienting response is our instinctive visual or auditory reaction to any sudden or novel stimulus. It is part of our evolutionary heritage, a built-in sensitivity to movement and potential predatory threats. In 1986 Byron Reeves of Stanford University, Esther Thorson of the University of Missouri and their colleagues began to study whether the simple formal features of television – cuts, edits, zooms, pans, sudden noises – activate the orienting response, thereby keeping attention on the screen. By watching how brain waves were affected by formal features, the researchers concluded that these stylistic tricks can indeed trigger involuntary responses and ‘derive their attentional value through the evolutionary significance of detecting movement… It is the form, not the content, of television that is unique.’</p>
-<p>E The natural attraction to television’s sound and the light starts very early in life. Dafna Lemish of Tel Aviv University has described babies at six to eight weeks attending to television. We have observed slightly older infants who, when lying on their backs on the floor, crane their necks around 180 degrees to catch what light through yonder window breaks. This inclination suggests how deeply rooted the orienting response is.</p>
-<p>F The Experience Sampling Method permitted us to look closely at most every domain of everyday life: working, eating, reading, talking to friends, playing a sport, and so on. We found that heavy viewers report feeling significantly more anxious and less happy than light viewers do in unstructured situations, such as doing nothing, daydreaming or waiting in line. The difference widens when the viewer is alone. Subsequently, Robert D. McIlwraith of the University of Manitoba extensively studies those who called themselves TV addicts on surveys. On a measure called the Short Imaginal Processes Inventory (SIPI), he found that the self-described addicts are more easily bored and distracted and have poorer attentional control than the non-addicts. The addicts said they used TV to distract themselves from unpleasant thoughts and to fill time. Other studies over the years have shown that heavy viewers are less likely to participate in community activities and sports and are more likely to be obese than moderate viewers or non-viewers.</p>
-<p>G More than 25 years ago psychologist Tannis M. MacBeth Williams of the University of British Columbia studied a mountain community that had no television until cable finally arrived. Over time, both adults and children in the town became less creative in problem-solving, less able to persevere at tasks, and less tolerant of unstructured time.</p>
-<p>H Nearly 40 years ago Gary A. Steiner of the University of Chicago collected fascinating individual accounts of families whose set had broken. In experiments, families have volunteered or been paid to stop viewing, typically for a week or a month. Some fought, verbally and physically. In a review of these could-turkey studies, Charles Winick of the City University of New York concluded: ‘The first three or four days for most persons were the worst, even in many homes where the viewing was minimal and where there were other ongoing activities. In over half of all the households, during these first few days of loss, the regular routines were disrupted, family members had difficulties in dealing with the newly available time, anxiety and aggressions were expressed…. By the second week, a move toward adaptation to the situation was common.’ Unfortunately, researchers have yet to flesh out these anecdotes; no one has systematically gathered statistics on the prevalence of these withdrawal symptoms.</p>
-<p>I Even though TV does seem to meet the criteria for substance dependence, not all researchers would go so far as to call TV addictive. McIlwraith said in 1988 that ‘displacement of other activities by television may be socially significant but still fall short of the clinical requirement of significant impairment.’ He argued that a new category of ‘TV addiction’ may not be necessary if heavy viewing stems from conditions such as depression and social phobia. Nevertheless, whether or not we formally diagnose someone as TV-dependent, millions of people sense that they cannot readily control the amount of television they watch.</p>
-<p>Questions 1-5
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 240</strong></h3>
+<h3 class="test-heading"><strong>TV Addiction</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> The amount of time people spend watching television is astonishing. On average, individuals in the industrialized world devote three hours a day to the pursuit – fully half of their leisure time, and more than on any single activity save work and sleep. At this rate, someone who lives to 75 would spend nine years in front of the tube. To some commentators, this devotion means simply that people enjoy TV and make a conscious decision to watch it. But if that is the whole story, why do so many people experience misgivings about how much they view? In Gallup polls in 1992 and 1999, two out of five adult respondents and seven out of 10 teenagers said they spent too much time watching TV. Other surveys have consistently shown that roughly 10 percent of adults calls themselves TV addicts.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> To study people’s reactions to TV, researches have undertaken laboratory experiments in which they have monitored the brain waves (using an electroencephalograph, or EEG) to track behavior and emotion in the normal course of life, as opposed to the artificial conditions of the lab. Participants carried a beeper, and we signaled them six to eight times a day, at random, over the period of a week; whenever they heard the beep, they wrote down what they were doing and how they were feeling using a standardized scorecard.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> As one might expect, people who were watching TV when we beeped them reported feeling relaxed and passive. The EEG studies similarly show less mental stimulation, as measured by alpha brain-wave production, during viewing than during reading. What is more surprising is that the sense of relaxation ends when the set is turned off, but the feelings of passivity and lowered alertness continue. Survey participants say they have more difficulty concentrating after viewing than before. In contrast, they rarely indicate such difficulty after reading. After playing sports or engaging in hobbies, people report improvements in mood. After watching TV, people’s moods are about the same or worse than before. That may be because of viewers’ vague learned sense that they will feel less relaxed if they stop viewing. So they tend not to turn the set-off. Viewing begets more viewing which is the same as the experience of habit-forming drugs. Thus, the irony of TV: people watch a great deal longer than they plan to, even though prolonged viewing is less rewarding. In our ESM studies the longer people sat in front of the set, the less satisfaction they said they derived from it. For some, a twinge of unease or guilt that they aren’t doing something more productive may also accompany and depreciate the enjoyment of prolonged viewing. Researchers in Japan, the U.K. and the U.S. have found that this guilt occurs much more among middle-class viewers than among less affluent ones.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> What is it about TV that has such a hold on us? In part, the attraction seems to spring from our biological ‘orienting response.’ First described by Ivan Pavlov in 1927, the orienting response is our instinctive visual or auditory reaction to any sudden or novel stimulus. It is part of our evolutionary heritage, a built-in sensitivity to movement and potential predatory threats. In 1986 Byron Reeves of Stanford University, Esther Thorson of the University of Missouri and their colleagues began to study whether the simple formal features of television – cuts, edits, zooms, pans, sudden noises – activate the orienting response, thereby keeping attention on the screen. By watching how brain waves were affected by formal features, the researchers concluded that these stylistic tricks can indeed trigger involuntary responses and ‘derive their attentional value through the evolutionary significance of detecting movement… It is the form, not the content, of television that is unique.’</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> The natural attraction to television’s sound and the light starts very early in life. Dafna Lemish of Tel Aviv University has described babies at six to eight weeks attending to television. We have observed slightly older infants who, when lying on their backs on the floor, crane their necks around 180 degrees to catch what light through yonder window breaks. This inclination suggests how deeply rooted the orienting response is.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> The Experience Sampling Method permitted us to look closely at most every domain of everyday life: working, eating, reading, talking to friends, playing a sport, and so on. We found that heavy viewers report feeling significantly more anxious and less happy than light viewers do in unstructured situations, such as doing nothing, daydreaming or waiting in line. The difference widens when the viewer is alone. Subsequently, Robert D. McIlwraith of the University of Manitoba extensively studies those who called themselves TV addicts on surveys. On a measure called the Short Imaginal Processes Inventory (SIPI), he found that the self-described addicts are more easily bored and distracted and have poorer attentional control than the non-addicts. The addicts said they used TV to distract themselves from unpleasant thoughts and to fill time. Other studies over the years have shown that heavy viewers are less likely to participate in community activities and sports and are more likely to be obese than moderate viewers or non-viewers.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> More than 25 years ago psychologist Tannis M. MacBeth Williams of the University of British Columbia studied a mountain community that had no television until cable finally arrived. Over time, both adults and children in the town became less creative in problem-solving, less able to persevere at tasks, and less tolerant of unstructured time.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>H</strong> Nearly 40 years ago Gary A. Steiner of the University of Chicago collected fascinating individual accounts of families whose set had broken. In experiments, families have volunteered or been paid to stop viewing, typically for a week or a month. Some fought, verbally and physically. In a review of these could-turkey studies, Charles Winick of the City University of New York concluded: ‘The first three or four days for most persons were the worst, even in many homes where the viewing was minimal and where there were other ongoing activities. In over half of all the households, during these first few days of loss, the regular routines were disrupted, family members had difficulties in dealing with the newly available time, anxiety and aggressions were expressed…. By the second week, a move toward adaptation to the situation was common.’ Unfortunately, researchers have yet to flesh out these anecdotes; no one has systematically gathered statistics on the prevalence of these withdrawal symptoms.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p><strong>I</strong> Even though TV does seem to meet the criteria for substance dependence, not all researchers would go so far as to call TV addictive. McIlwraith said in 1988 that ‘displacement of other activities by television may be socially significant but still fall short of the clinical requirement of significant impairment.’ He argued that a new category of ‘TV addiction’ may not be necessary if heavy viewing stems from conditions such as depression and social phobia. Nevertheless, whether or not we formally diagnose someone as TV-dependent, millions of people sense that they cannot readily control the amount of television they watch.</p></div></div>
+<p><strong>Questions 1-5</strong>
 Do the following statements agree with the claims of the writer in Reading Passage? In boxes 1-5 on your answer sheet, write</p>
-<p>TRUE                           if the statement agrees with the information
-FALSE                         if the statement contradicts the information
-NOT GIVEN             if there is no information on this</p>
-<p>Questions 6-10
+<p><strong>TRUE</strong>                           if the statement agrees with the information
+<strong>FALSE</strong>                         if the statement contradicts the information
+<strong>NOT GIVEN</strong>             if there is no information on this</p>
+<p><strong>Questions 6-10</strong>
 Look at the following researchers (Questions 6-10) and the list of statements below. Match each researcher with the correct statements. Write the correct letter A-H in boxes 6-10 on your answer sheets.</p>
 <p>6. Byron Reeves and Esther Thorson
 7. Dafna Lemish
 8. Robert D. McIlwraith
 9. Tannis M. MacBeth Williams
 10. Charles Winick</p>
-<p>A Audiences would get hypnotized from viewing too much television.
-B People have been sensitive to the TV signals since a younger age.
-C People are less likely to accomplish their work with television.
-D A handful of studies have attempted to study other types of media addiction.
-E The addictive power of television could probably minimize the problems.
-F Various media formal characters stimulate people’s reaction on the screen.
-G People who believe themselves to be TV addicts are less likely to join in the group activities.
-H It is hard for people to accept life without a TV at the beginning.</p>
-<p>Questions 11-13
+<p><strong>A</strong> Audiences would get hypnotized from viewing too much television.
+<strong>B</strong> People have been sensitive to the TV signals since a younger age.
+<strong>C</strong> People are less likely to accomplish their work with television.
+<strong>D</strong> A handful of studies have attempted to study other types of media addiction.
+<strong>E</strong> The addictive power of television could probably minimize the problems.
+<strong>F</strong> Various media formal characters stimulate people’s reaction on the screen.
+<strong>G</strong> People who believe themselves to be TV addicts are less likely to join in the group activities.
+<strong>H</strong> It is hard for people to accept life without a TV at the beginning.</p>
+<p><strong>Questions 11-13</strong>
 Choose the correct letter A, B, C or D. Write the correct letter in boxes 11-13 on your answer sheet.</p>
 <p>11. People in the industrialized world
-A devote ten hours watching TV on average
-B spend more time on TV than other entertainment
-C call themselves TV addicts.
-D enjoy working best.</p>
+<strong>A</strong> devote ten hours watching TV on average
+<strong>B</strong> spend more time on TV than other entertainment
+<strong>C</strong> call themselves TV addicts.
+<strong>D</strong> enjoy working best.</p>
 <p>12. When compared with light viewers, heavy viewers
-A like playing sport more than reading.
-B feel relaxed after watching TV.
-C spend more time in daydreaming.
-D are more easily bored while waiting in line.</p>
+<strong>A</strong> like playing sport more than reading.
+<strong>B</strong> feel relaxed after watching TV.
+<strong>C</strong> spend more time in daydreaming.
+<strong>D</strong> are more easily bored while waiting in line.</p>
 <p>13. Which of the following statements is true about the family experiment?
-A Not all subjects participate in the experiment for free.
-B There has been complete gathered data.
-C People are prevented from other activities during the experiment.
-D People can not adapt to the situation until the end.</p>
-<p>Organic Farming and Chemical Fertilisers</p>
-<p>A The world’s population continues to climb. And despite the rise of high-tech agriculture, 800 million people don’t get enough to eat. Clearly, it’s time to rethink the food we eat and where it comes from. Feeding 9 billion people will take more than the same old farming practices, especially if we want to do it without felling rainforests and planting every last scrap of prairie. Finding food for all those people will tax farmers’ – and researchers’ – ingenuity to the limit. Yet already, precious aquifers that provide irrigation water for some of the world’s most productive farmlands are drying up or filling with seawater, and arable land in China is eroding to create vast dust storms that redden sunsets as far away as North America. “Agriculture must become the solution to environmental problems in 50 years. If we don’t have systems that make the environment better – not just hold the fort-then we’re in trouble,” says Kenneth Cassman, an agronomist at the University of Nebraska at Lincoln. That view was echoed in January by the Curry report, a government panel that surveyed the future of farming and food in Britain.</p>
-<p>B It’s easy to say agriculture has to do better, but what should this friendly farming of the future look like? Concerned consumers come up short at this point, facing what appears to be an ever-widening ideological divide. In one corner are the techno-optimists who put their faith in genetically modified crops, improved agrochemicals and computer-enhanced machinery; in the other are advocates of organic farming, who reject artificial chemicals and embrace back-to-nature techniques such as composting. Both sides cite plausible science to back their claims to the moral high ground, and both bring enough passion to the debate for many people to come away thinking we’re faced with a stark choice between two mutually incompatible options.</p>
-<p>C Not so. If you take off the ideological blinkers and simply ask how the world can produce the food it needs with the least environmental cost, a new middle way opens. The key is sustainability: whatever we do must not destroy the capital of soil and water we need to keep on producing. Like today’s organic farming, the intelligent farming of the future should pay much more attention to the health of its soil and the ecosystem it’s part of. But intelligent farming should also make shrewd and locally appropriate use of chemical fertilisers and pesticides. The most crucial ingredient in this new style of agriculture is not chemicals but information about what’s happening in each field and how to respond. Yet ironically, this key element may be the most neglected today.</p>
-<p>D Clearly, organic farming has all the warm, fuzzy sentiment on its side. An approach that eschews synthetic chemicals surely runs no risk of poisoning land and water. And its emphasis on building up natural ecosystems seems to be good for everyone. Perhaps these easy assumptions explain why sales of organic food across Europe are increasing by at least 50 per cent per year.</p>
-<p>E Going organic sounds idyllic – but it’s native, too. Organic agriculture has its own suite of environmental costs, which can be worse than those of conventional farming, especially if it were to become the world norm. But more fundamentally, the organic versus-chemical debate focuses on the wrong question. The issue isn’t what you put into a farm, but what you get out of it, both in terms of crop yields and pollutants, and what condition the farm is in when you’re done.</p>
-<p>F Take chemical fertilisers, which deliver nitrogen, an essential plant nutrient, to crops along with some phosphorus and potassium. It is a mantra of organic farming that these fertilisers are unwholesome, and plant nutrients must come from natural sources. But in fact, the main environmental damage done by chemical fertilisers as opposed to any other kind is through greenhouse gases-carbon dioxide from the fossil fuels used in their synthesis and nitrogen oxides released by their degradation. Excess nitrogen from chemical fertilisers can pollute groundwater, but so can excess nitrogen from organic manures.</p>
-<p>G On the other hand, relying solely on chemical fertilisers to provide soil nutrients without doing other things to build healthy soil is damaging. Organic farmers don’t use chemical fertilisers, so they are very good at building soil fertility by working crop residues and manure into the soil, rotating grain with legumes that fix atmospheric nitrogen, and other techniques.</p>
-<p>H This generates vital soil nutrients and also creates a soil that is richer in organic matter, so it retains better and is hospitable to the crop’s roots and creatures such as earthworms that help maintain soil fertility. Such soil also holds water better and therefore make more efficient use of both rainfall and irrigation water. And organic matter ties up CO2 in the soil, helping to offset emissions from burning fossil fuels and reduce global warming.</p>
-<p>I Advocates of organic farming like to point out that fields managed in this way can produce yields just as high as fields juiced up with synthetic fertilisers. For example, Bill Liebhardt, research manager at the Rodale Institute in Kutztown, Pennsylvania, recently compiled the results of such comparisons for corn, wheat, soybeans and tomatoes in the US and found that the organic fields averaged between 94 and 100 per cent of the yields of nearby conventional crops.</p>
-<p>J But this optimistic picture tells only half the story. Farmers can’t grow such crops every year if they want to maintain or build soil nutrients without synthetic fertilisers. They need to alternate with soil-building crops such as pasture grasses and legumes such as alfalfa. So in the long term, the yield of staple grains such as wheat, rice and corn must go down. This is the biggest cost of organic farming. Vaclav Smil of the University of Manitoba in Winnipeg, Canada, estimates that if farmers worldwide gave up the 80 million tonnes of synthetic fertiliser they now use each year, total grain production would fall by at least half. Either farmers would have to double the amount of land they cultivate – at catastrophic cost to natural habitats – or billions of people would starve.</p>
-<p>K That doesn’t mean farmers couldn’t get by with less fertiliser. Technologically advanced farmers in wealthy countries, for instance, can now monitor their yields hectare by hectare, or even more finely, throughout a huge field. They can then target their fertiliser to the parts of the field where it will do the most good, instead of responding to average conditions. This increases yield and decreases fertiliser use. Eventually, farmers may incorporate long-term weather forecasts into their planning as well, so that they can cut back on fertiliser use when the weather is likely to make harvests poor anyway, says Ron Olson, an agronomist with Cargill Fertilizer in Tampa, Florida.</p>
-<p>L Organic techniques certainly have their benefits, especially for poor farmers. But strict “organic agriculture”, which prohibits certain technologies and allows others, isn’t always better for the environment. Take herbicides, for example. These can leach into waterways and poison both wildlife and people. Just last month, researchers led by Tyrone Hayes at the University of California at Berkeley found that even low concentrations of atrazine, the most commonly used weedkiller in the US, can prevent frog tadpoles from developing properly.</p>
-<p>Questions 14-17
+<strong>A</strong> Not all subjects participate in the experiment for free.
+<strong>B</strong> There has been complete gathered data.
+<strong>C</strong> People are prevented from other activities during the experiment.
+<strong>D</strong> People can not adapt to the situation until the end.</p>
+<p><strong>Organic Farming and Chemical Fertilisers</strong></p>
+<p><strong>A</strong> The world’s population continues to climb. And despite the rise of high-tech agriculture, 800 million people don’t get enough to eat. Clearly, it’s time to rethink the food we eat and where it comes from. Feeding 9 billion people will take more than the same old farming practices, especially if we want to do it without felling rainforests and planting every last scrap of prairie. Finding food for all those people will tax farmers’ – and researchers’ – ingenuity to the limit. Yet already, precious aquifers that provide irrigation water for some of the world’s most productive farmlands are drying up or filling with seawater, and arable land in China is eroding to create vast dust storms that redden sunsets as far away as North America. “Agriculture must become the solution to environmental problems in 50 years. If we don’t have systems that make the environment better – not just hold the fort-then we’re in trouble,” says Kenneth Cassman, an agronomist at the University of Nebraska at Lincoln. That view was echoed in January by the Curry report, a government panel that surveyed the future of farming and food in Britain.</p>
+<p><strong>B</strong> It’s easy to say agriculture has to do better, but what should this friendly farming of the future look like? Concerned consumers come up short at this point, facing what appears to be an ever-widening ideological divide. In one corner are the techno-optimists who put their faith in genetically modified crops, improved agrochemicals and computer-enhanced machinery; in the other are advocates of organic farming, who reject artificial chemicals and embrace back-to-nature techniques such as composting. Both sides cite plausible science to back their claims to the moral high ground, and both bring enough passion to the debate for many people to come away thinking we’re faced with a stark choice between two mutually incompatible options.</p>
+<p><strong>C</strong> Not so. If you take off the ideological blinkers and simply ask how the world can produce the food it needs with the least environmental cost, a new middle way opens. The key is sustainability: whatever we do must not destroy the capital of soil and water we need to keep on producing. Like today’s organic farming, the intelligent farming of the future should pay much more attention to the health of its soil and the ecosystem it’s part of. But intelligent farming should also make shrewd and locally appropriate use of chemical fertilisers and pesticides. The most crucial ingredient in this new style of agriculture is not chemicals but information about what’s happening in each field and how to respond. Yet ironically, this key element may be the most neglected today.</p>
+<p><strong>D</strong> Clearly, organic farming has all the warm, fuzzy sentiment on its side. An approach that eschews synthetic chemicals surely runs no risk of poisoning land and water. And its emphasis on building up natural ecosystems seems to be good for everyone. Perhaps these easy assumptions explain why sales of organic food across Europe are increasing by at least 50 per cent per year.</p>
+<p><strong>E</strong> Going organic sounds idyllic – but it’s native, too. Organic agriculture has its own suite of environmental costs, which can be worse than those of conventional farming, especially if it were to become the world norm. But more fundamentally, the organic versus-chemical debate focuses on the wrong question. The issue isn’t what you put into a farm, but what you get out of it, both in terms of crop yields and pollutants, and what condition the farm is in when you’re done.</p>
+<p><strong>F</strong> Take chemical fertilisers, which deliver nitrogen, an essential plant nutrient, to crops along with some phosphorus and potassium. It is a mantra of organic farming that these fertilisers are unwholesome, and plant nutrients must come from natural sources. But in fact, the main environmental damage done by chemical fertilisers as opposed to any other kind is through greenhouse gases-carbon dioxide from the fossil fuels used in their synthesis and nitrogen oxides released by their degradation. Excess nitrogen from chemical fertilisers can pollute groundwater, but so can excess nitrogen from organic manures.</p>
+<p><strong>G</strong> On the other hand, relying solely on chemical fertilisers to provide soil nutrients without doing other things to build healthy soil is damaging. Organic farmers don’t use chemical fertilisers, so they are very good at building soil fertility by working crop residues and manure into the soil, rotating grain with legumes that fix atmospheric nitrogen, and other techniques.</p>
+<p><strong>H</strong> This generates vital soil nutrients and also creates a soil that is richer in organic matter, so it retains better and is hospitable to the crop’s roots and creatures such as earthworms that help maintain soil fertility. Such soil also holds water better and therefore make more efficient use of both rainfall and irrigation water. And organic matter ties up CO2 in the soil, helping to offset emissions from burning fossil fuels and reduce global warming.</p>
+<p><strong>I</strong> Advocates of organic farming like to point out that fields managed in this way can produce yields just as high as fields juiced up with synthetic fertilisers. For example, Bill Liebhardt, research manager at the Rodale Institute in Kutztown, Pennsylvania, recently compiled the results of such comparisons for corn, wheat, soybeans and tomatoes in the US and found that the organic fields averaged between 94 and 100 per cent of the yields of nearby conventional crops.</p>
+<p><strong>J</strong> But this optimistic picture tells only half the story. Farmers can’t grow such crops every year if they want to maintain or build soil nutrients without synthetic fertilisers. They need to alternate with soil-building crops such as pasture grasses and legumes such as alfalfa. So in the long term, the yield of staple grains such as wheat, rice and corn must go down. This is the biggest cost of organic farming. Vaclav Smil of the University of Manitoba in Winnipeg, Canada, estimates that if farmers worldwide gave up the 80 million tonnes of synthetic fertiliser they now use each year, total grain production would fall by at least half. Either farmers would have to double the amount of land they cultivate – at catastrophic cost to natural habitats – or billions of people would starve.</p>
+<p><strong>K</strong> That doesn’t mean farmers couldn’t get by with less fertiliser. Technologically advanced farmers in wealthy countries, for instance, can now monitor their yields hectare by hectare, or even more finely, throughout a huge field. They can then target their fertiliser to the parts of the field where it will do the most good, instead of responding to average conditions. This increases yield and decreases fertiliser use. Eventually, farmers may incorporate long-term weather forecasts into their planning as well, so that they can cut back on fertiliser use when the weather is likely to make harvests poor anyway, says Ron Olson, an agronomist with Cargill Fertilizer in Tampa, Florida.</p>
+<p><strong>L</strong> Organic techniques certainly have their benefits, especially for poor farmers. But strict “organic agriculture”, which prohibits certain technologies and allows others, isn’t always better for the environment. Take herbicides, for example. These can leach into waterways and poison both wildlife and people. Just last month, researchers led by Tyrone Hayes at the University of California at Berkeley found that even low concentrations of atrazine, the most commonly used weedkiller in the US, can prevent frog tadpoles from developing properly.</p>
+<p><strong>Questions 14-17</strong>
 Use the information in the passage to match the people (listed A-D) with opinions or deeds below. Write the appropriate letters A-D in boxes 14-17 on your answer sheet.</p>
-<p>A Vaclav Smil
-B Bill Liebhardt
-C Kenneth Cassman
-D Ron Olson</p>
+<p><strong>A</strong> Vaclav Smil
+<strong>B</strong> Bill Liebhardt
+<strong>C</strong> Kenneth Cassman
+<strong>D</strong> Ron Olson</p>
 <p>14. Use of chemical fertilizer can be optimised by combining weather information.
 15. Organic framing yield is nearly equal to traditional ones.
 16. Better agricultural setting is a significant key to solve environmental tough nut.
 17. Substantial production loss would happen in case all farmers shifted from using synthetic fertiliser.</p>
-<p>Questions 18-22
+<p><strong>Questions 18-22</strong>
 Do the following statements agree with the information given in Reading Passage? In boxes 18-22 on your answer sheet, write</p>
-<p>YES                         if the statement agrees with the views of the writer
-NO                           if the statement contradicts the views of the writer
-NOT GIVEN        if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                         if the statement agrees with the views of the writer
+<strong>NO</strong>                           if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong>        if it is impossible to say what the writer thinks about this</p>
 <p>18. Increasing population, draining irrigation, eroding farmland push agricultural industry to extremity.
 19. There are only two options for farmers; they use chemical fertiliser or natural approach.
 20. Chemical fertilizer currently is more expensive than the natural fertilisers.
 21. In order to keep nutrients in the soil, organic farmers need to rotate planting method.
 22. “organic agriculture” is the way that environment-damaging technologies are all strictly forbidden.</p>
-<p>Questions 23-26
-Complete the following summary of the paragraph of Reading Passage. Using NO MORE THAN TWO WORDS from the Reading Passage for each answer.</p>
+<p><strong>Questions 23-26</strong>
+Complete the following summary of the paragraph of Reading Passage. Using <strong>NO MORE THAN TWO WORDS</strong> from the Reading Passage for each answer.</p>
 <p>Several (23) ………………… approaches need to be applied in order that global population wouldn’t go starved. A team called (24) …………….. repeated the viewpoint of a scholar by a survey in British farming. More and more European farmers believe in (25) ……………….. farming these years. The argument of organic against (26) ……………… seems in an inaccurate direction.</p>
-<p>The History of Building Telegraph Lines</p>
-<p>A The idea of electrical communication seems to have begun as long ago as 1746 when about 200 monks at a monastery in Paris arranged themselves in a line over a mile long, each holding ends of 25 ft iron wires. The abbot, also a scientist, discharged a primitive electrical battery into the wire, giving all the monks a simultaneous electrical shock. “This all sounds very silly, but is in fact extremely important because, firstly, they all said ‘ow’ which showed that you were sending a signal right along the line; and, secondly, they all said ‘ow’ at the same time, and that meant that you were sending the signal very quickly, “explains Tom Standage, author of the Victorian Internet and technology editor at the Economist. Given a more humane detection system, this could be a way of signaling over long distances.</p>
-<p>B With wars in Europe and colonies beyond, such a signaling system was urgently needed. All sorts of electrical possibilities were proposed, some of them quite ridiculous. Two Englishmen, William Cooke and Charles Wheatstone came up with a system in which dials were made to point at different letters, but that involved five wires and would have been expensive to construct.</p>
-<p>C Much simpler was that of an American, Samuel Morse, whose system only required a single wire to send a code of dots and dashes. At first, it was imagined that only a few highly skilled encoders would be able to use it but it soon became clear that many people could become proficient in Morse code. A system of lines strung on telegraph poles began to spread in Europe and America.</p>
-<p>D The next problem was to cross the sea. Britain, as an island with an empire, led the way. Any such cable to be insulated and the first breakthrough came with the discovery that a rubber-like latex from a tropical tree on the Malay peninsula could do the trick. It was called gutta-percha. The first attempt at a cross channel cable came in 1850. With thin wire and thick installation, it floated and had to be weighed down with a lead pipe.</p>
-<p>E It never worked well as the effect of water on its electrical properties was not understood, and it is reputed that a French fisherman hooked out a section and took it home as a strange new form of seaweed. The cable was too big for a single boat so two had to start in the middle of the Atlantic, join their cables and sail in opposite directions. Amazingly, they succeeded in 1858, and this enabled Queen Victoria to send a telegraph message to President Buchanan. However, the 98-word message took more than 19 hours to send and a misguided attempt to increase the speed by increasing the voltage resulted in the failure of the line a week later.</p>
-<p>F By 1870, a submarine cable was heading towards Australia. It seemed likely that it would come ashore at the northern port of Darwin from where it might connect around the coast to Queensland and New South Wales. It was an undertaking more ambitious than spanning an ocean. Flocks of sheep had to be driven with the 400 workers to provide food. They needed horses and bullock carts and, for the parched interior, camels. In the north, tropical rains left the teams flooded. In the centre, it seemed that they would die of thirst. One critical section in the red heart of Australia involved finding a route through the McDonnell mountain range and the finding water on the other side.</p>
-<p>G The water was not only essential for the construction team. There had to be telegraph repeater stations every few hundred miles to boost the signal and the staff obviously had to have a supply of water. Just as one mapping team was about to give up and resort to drinking brackish water, some aboriginals took pity on them. Altogether, 40,000 telegraph poles were used in the Australian overland wire. Some were cut from trees. Where there were no trees, or where termites ate the wood, steel poles were imported.</p>
-<p>H On Thursday, August 22, 1872, the overland line was completed and the first messages could be sent across the continent; and within a few months, Australia was at last in direct contact with England via the submarine cable, too. The line remained in service to bring news of the Japanese attack on Darwin in 1942. It could cost several pounds to send a message and it might take several hours for it to reach its destination on the other side of the globe, but the world would never be the same again. Governments could be in touch with their colonies. Traders could send cargoes based on demand and the latest prices. Newspapers could publish news that had just happened and was not many months old.</p>
-<p>Questions 27-32
+<p><strong>The History of Building Telegraph Lines</strong></p>
+<p><strong>A</strong> The idea of electrical communication seems to have begun as long ago as 1746 when about 200 monks at a monastery in Paris arranged themselves in a line over a mile long, each holding ends of 25 ft iron wires. The abbot, also a scientist, discharged a primitive electrical battery into the wire, giving all the monks a simultaneous electrical shock. “This all sounds very silly, but is in fact extremely important because, firstly, they all said ‘ow’ which showed that you were sending a signal right along the line; and, secondly, they all said ‘ow’ at the same time, and that meant that you were sending the signal very quickly, “explains Tom Standage, author of the Victorian Internet and technology editor at the Economist. Given a more humane detection system, this could be a way of signaling over long distances.</p>
+<p><strong>B</strong> With wars in Europe and colonies beyond, such a signaling system was urgently needed. All sorts of electrical possibilities were proposed, some of them quite ridiculous. Two Englishmen, William Cooke and Charles Wheatstone came up with a system in which dials were made to point at different letters, but that involved five wires and would have been expensive to construct.</p>
+<p><strong>C</strong> Much simpler was that of an American, Samuel Morse, whose system only required a single wire to send a code of dots and dashes. At first, it was imagined that only a few highly skilled encoders would be able to use it but it soon became clear that many people could become proficient in Morse code. A system of lines strung on telegraph poles began to spread in Europe and America.</p>
+<p><strong>D</strong> The next problem was to cross the sea. Britain, as an island with an empire, led the way. Any such cable to be insulated and the first breakthrough came with the discovery that a rubber-like latex from a tropical tree on the Malay peninsula could do the trick. It was called gutta-percha. The first attempt at a cross channel cable came in 1850. With thin wire and thick installation, it floated and had to be weighed down with a lead pipe.</p>
+<p><strong>E</strong> It never worked well as the effect of water on its electrical properties was not understood, and it is reputed that a French fisherman hooked out a section and took it home as a strange new form of seaweed. The cable was too big for a single boat so two had to start in the middle of the Atlantic, join their cables and sail in opposite directions. Amazingly, they succeeded in 1858, and this enabled Queen Victoria to send a telegraph message to President Buchanan. However, the 98-word message took more than 19 hours to send and a misguided attempt to increase the speed by increasing the voltage resulted in the failure of the line a week later.</p>
+<p><strong>F</strong> By 1870, a submarine cable was heading towards Australia. It seemed likely that it would come ashore at the northern port of Darwin from where it might connect around the coast to Queensland and New South Wales. It was an undertaking more ambitious than spanning an ocean. Flocks of sheep had to be driven with the 400 workers to provide food. They needed horses and bullock carts and, for the parched interior, camels. In the north, tropical rains left the teams flooded. In the centre, it seemed that they would die of thirst. One critical section in the red heart of Australia involved finding a route through the McDonnell mountain range and the finding water on the other side.</p>
+<p><strong>G</strong> The water was not only essential for the construction team. There had to be telegraph repeater stations every few hundred miles to boost the signal and the staff obviously had to have a supply of water. Just as one mapping team was about to give up and resort to drinking brackish water, some aboriginals took pity on them. Altogether, 40,000 telegraph poles were used in the Australian overland wire. Some were cut from trees. Where there were no trees, or where termites ate the wood, steel poles were imported.</p>
+<p><strong>H</strong> On Thursday, August 22, 1872, the overland line was completed and the first messages could be sent across the continent; and within a few months, Australia was at last in direct contact with England via the submarine cable, too. The line remained in service to bring news of the Japanese attack on Darwin in 1942. It could cost several pounds to send a message and it might take several hours for it to reach its destination on the other side of the globe, but the world would never be the same again. Governments could be in touch with their colonies. Traders could send cargoes based on demand and the latest prices. Newspapers could publish news that had just happened and was not many months old.</p>
+<p><strong>Questions 27-32</strong>
 Do the following statements agree with the information given in Reading Passage? In boxes 27-32 on your answer sheet, write</p>
-<p>TRUE                     if the statement agrees with the information
-FALSE                   if the statement contradicts the information
-NOT GIVEN       if there is no information on this</p>
+<p><strong>TRUE</strong>                     if the statement agrees with the information
+<strong>FALSE</strong>                   if the statement contradicts the information
+<strong>NOT GIVEN</strong>       if there is no information on this</p>
 <p>27. In the research of French scientists, the metal lines were used to send a message.
 28. Abbots gave the monks an electrical shock at the same time, which constitutes the exploration of the long-distance signaling.
 29. Using Morse Code to send message need to simplify the message firstly.
 30. Morse was a famous inventor before he invented the code
 31. The water is significant to early telegraph repeater on the continent.
 32. US Government offered fund to the 1st overland line across the continent.</p>
-<p>Questions 33-40
-Answer the questions below. Choose NO MORE THAN TWO WORDS AND/ OR A NUMBER from the passage for each answer.</p>
+<p><strong>Questions 33-40</strong>
+Answer the questions below. Choose <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER</strong> from the passage for each answer.</p>
 <p>33. Why is the disadvantage for Charles Wheatstone’s telegraph system to fail in the beginning?
 34. What material was used for insulating cable across the sea?
 35. What was used by British pioneers to increase the weight of the cable in the sea?
@@ -216,7 +272,7 @@ Answer the questions below. Choose NO MORE THAN TWO WORDS AND/ OR A NUMBER from 
 38. What giant animals were used to carry the cable through the desert?
 39. What weather condition did it delay the construction in north Australia?’
 40. How long did it take to send a telegraph message from Australia to England?</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Not given</p>
 <p>2. False</p>
 <p>3. True</p>
@@ -475,6 +531,29 @@ Answer the questions below. Choose NO MORE THAN TWO WORDS AND/ OR A NUMBER from 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -494,12 +573,23 @@ Answer the questions below. Choose NO MORE THAN TWO WORDS AND/ OR A NUMBER from 
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -511,14 +601,6 @@ Answer the questions below. Choose NO MORE THAN TWO WORDS AND/ OR A NUMBER from 
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

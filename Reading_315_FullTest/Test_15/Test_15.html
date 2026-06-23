@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,37 +158,37 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_15</h1>
-            <p>IELTS Reading Practice - Test 15</p>
-<p>Reading Passage 1</p>
-<p>For the century before Johnson’s Dictionary was published in 1775, there had been concern about the state of the English language. There was no standard way of speaking or writing and no agreement as to the best way of bringing some order to the chaos of English spelling. Dr Johnson provided the solution.</p>
-<p>There had, of course, been dictionaries in the past, the first of these being a little book of some 120 pages, compiled by a certain Robert Cawdray, published in 1604 under the title A Table Alphabetical of hard usual English words. Like the various dictionaries that came after it during the seventeenth century, Cawdray’s tended to concentrate on ‘scholarly’ words; one function of the dictionary was to enable its student to convey an impression of fine learning.</p>
-<p>Beyond the practical need to make order out of chaos, the rise of dictionaries is associated with the rise of the English middle class, who were anxious to define and circumscribe the various worlds to conquer -lexical as well as social and commercial. It is highly appropriate that Dr Samuel Johnson, the very model of an eighteenth-century literary man, as famous in his own time as in ours, should have published his Dictionary at the very beginning of the heyday of the middle class.</p>
-<p>Johnson was a poet and critic who raised common sense to the heights of genius. His approach to the problems that had worried writers throughout the late seventeenth and early eighteenth centuries was intensely practical. Up until his time, the task of producing a dictionary on such a large scale had seemed impossible without the establishment of an academy to make decisions about right and wrong usage. Johnson decided he did not need an academy to settle arguments about language; he would write a dictionary himself; and he would do it single-handed. Johnson signed the contract for the Dictionary with the bookseller Robert Dosley at a breakfast held at the Golden Anchor Inn near Holborn Bar on 18 June 1764. He was to be paid £1,575 in instalments, and from this he took money to rent 17 Gough Square, in which he set up his ‘dictionary workshop’.</p>
-<p>James Boswell, his biographer described the garret where Johnson worked as ‘fitted up like a counting house’ with a long desk running down the middle at which the copying clerks would work standing up. Johnson himself was stationed on a rickety chair at an ‘old crazy deal table’ surrounded by a chaos of borrowed books. He was also helped by six assistants, two of whom died whilst the Dictionary was still in preparation.</p>
-<p>The work was immense; filing about eighty large notebooks (and without a library to hand), Johnson wrote the definitions of over 40,000 words, and illustrated their many meanings with some 114,000 quotations drawn from English writing on every subject, from the Elizabethans to his own time. He did not expel to achieve complete originality. Working to a deadline, he had to draw on the best of all previous dictionaries, and to make his work one of heroic synthesis. In fact, it was very much more. Unlike his predecessors, Johnson treated English very practically, as a living language, with many different shades of meaning. He adopted his definitions on the principle of English common law – according to precedent. After its publication, his Dictionary was not seriously rivalled for over a century.</p>
-<p>After many vicissitudes the Dictionary was finally published on 15 April 1775. It was instantly recognised as a landmark throughout Europe. ‘This very noble work;’ wrote the leading Italian lexicographer, will be a perpetual monument of Fame to the Author, an Honour to his own Country in particular, and a general Benefit to the republic of Letters throughout Europe. The fact that Johnson had taken on the Academies of Europe and matched them (everyone knew that forty French academics had taken forty years to produce the first French national dictionary) was cause for much English celebration.</p>
-<p>Johnson had worked for nine years, ‘with little assistance of the learned, and without any patronage of the great; not in the soft obscurities of retirement, or under the shelter of academic bowers, but amidst inconvenience and distraction, in sickness and in sorrow’. For all its faults and eccentricities his two-volume work is a masterpiece and a landmark, in his own words, ‘setting the orthography, displaying the analogy, regulating the structures, and ascertaining the significations of English words’. It is the cornerstone of Standard English, an achievement which, in James Boswell’s words, ‘conferred stability on the language of his country’.</p>
-<p>The Dictionary, together with his other writing, made Johnson famous and so well esteemed that his friends were able to prevail upon King George III to offer him a pension. From then on, he was to become the Johnson of folklore.</p>
-<p>Questions 1-3</p>
-<p>Choose THREE letters A-H. Write your answers in boxes 1-3 on your answer sheet.
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 15</strong></h3>
+<h3 class="test-heading"><strong>Reading Passage 1</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>For the century before Johnson’s Dictionary was published in 1775, there had been concern about the state of the English language. There was no standard way of speaking or writing and no agreement as to the best way of bringing some order to the chaos of English spelling. Dr Johnson provided the solution.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>There had, of course, been dictionaries in the past, the first of these being a little book of some 120 pages, compiled by a certain Robert Cawdray, published in 1604 under the title A Table Alphabetical of hard usual English words. Like the various dictionaries that came after it during the seventeenth century, Cawdray’s tended to concentrate on ‘scholarly’ words; one function of the dictionary was to enable its student to convey an impression of fine learning.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Beyond the practical need to make order out of chaos, the rise of dictionaries is associated with the rise of the English middle class, who were anxious to define and circumscribe the various worlds to conquer -lexical as well as social and commercial. It is highly appropriate that Dr Samuel Johnson, the very model of an eighteenth-century literary man, as famous in his own time as in ours, should have published his Dictionary at the very beginning of the heyday of the middle class.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Johnson was a poet and critic who raised common sense to the heights of genius. His approach to the problems that had worried writers throughout the late seventeenth and early eighteenth centuries was intensely practical. Up until his time, the task of producing a dictionary on such a large scale had seemed impossible without the establishment of an academy to make decisions about right and wrong usage. Johnson decided he did not need an academy to settle arguments about language; he would write a dictionary himself; and he would do it single-handed. Johnson signed the contract for the Dictionary with the bookseller Robert Dosley at a breakfast held at the Golden Anchor Inn near Holborn Bar on 18 June 1764. He was to be paid £1,575 in instalments, and from this he took money to rent 17 Gough Square, in which he set up his ‘dictionary workshop’.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>James Boswell, his biographer described the garret where Johnson worked as ‘fitted up like a counting house’ with a long desk running down the middle at which the copying clerks would work standing up. Johnson himself was stationed on a rickety chair at an ‘old crazy deal table’ surrounded by a chaos of borrowed books. He was also helped by six assistants, two of whom died whilst the Dictionary was still in preparation.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>The work was immense; filing about eighty large notebooks (and without a library to hand), Johnson wrote the definitions of over 40,000 words, and illustrated their many meanings with some 114,000 quotations drawn from English writing on every subject, from the Elizabethans to his own time. He did not expel to achieve complete originality. Working to a deadline, he had to draw on the best of all previous dictionaries, and to make his work one of heroic synthesis. In fact, it was very much more. Unlike his predecessors, Johnson treated English very practically, as a living language, with many different shades of meaning. He adopted his definitions on the principle of English common law – according to precedent. After its publication, his Dictionary was not seriously rivalled for over a century.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>After many vicissitudes the Dictionary was finally published on 15 April 1775. It was instantly recognised as a landmark throughout Europe. ‘This very noble work;’ wrote the leading Italian lexicographer, will be a perpetual monument of Fame to the Author, an Honour to his own Country in particular, and a general Benefit to the republic of Letters throughout Europe. The fact that Johnson had taken on the Academies of Europe and matched them (everyone knew that forty French academics had taken forty years to produce the first French national dictionary) was cause for much English celebration.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>Johnson had worked for nine years, ‘with little assistance of the learned, and without any patronage of the great; not in the soft obscurities of retirement, or under the shelter of academic bowers, but amidst inconvenience and distraction, in sickness and in sorrow’. For all its faults and eccentricities his two-volume work is a masterpiece and a landmark, in his own words, ‘setting the orthography, displaying the analogy, regulating the structures, and ascertaining the significations of English words’. It is the cornerstone of Standard English, an achievement which, in James Boswell’s words, ‘conferred stability on the language of his country’.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>The Dictionary, together with his other writing, made Johnson famous and so well esteemed that his friends were able to prevail upon King George III to offer him a pension. From then on, he was to become the Johnson of folklore.</p></div></div>
+<p><strong>Questions 1-3</strong></p>
+<p>Choose <strong>THREE</strong> letters A-H. Write your answers in boxes 1-3 on your answer sheet.
 NB Your answers may be given in any order.</p>
-<p>Which THREE of the following statements are true of Johnson’s Dictionary?
-A It avoided all scholarly words.
-B It was the only English dictionary in general use for 200 years.
-C It was famous because of the large number of people involved.
-D It focused mainly on language from contemporary texts.
-E There was a time limit for its completion.
-F It ignored work done by previous dictionary writers.
-G It took into account subtleties of meaning.
-H Its definitions were famous for their originality.</p>
-<p>Questions 4-7</p>
-<p>Complete the summary. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+<p>Which <strong>THREE</strong> of the following statements are true of Johnson’s Dictionary?
+<strong>A</strong> It avoided all scholarly words.
+<strong>B</strong> It was the only English dictionary in general use for 200 years.
+<strong>C</strong> It was famous because of the large number of people involved.
+<strong>D</strong> It focused mainly on language from contemporary texts.
+<strong>E</strong> There was a time limit for its completion.
+<strong>F</strong> It ignored work done by previous dictionary writers.
+<strong>G</strong> It took into account subtleties of meaning.
+<strong>H</strong> Its definitions were famous for their originality.</p>
+<p><strong>Questions 4-7</strong></p>
+<p>Complete the summary. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>In 1764 Dr Johnson accepted the contract to produce a dictionary. Having rented a garret, he took on a number of (4) ……………….. , who stood at a long central desk. Johnson did not have a (5) ……………….. available to him, but eventually produced definitions of in excess of 40,000 words written down in 80 large notebooks. On publication, the Dictionary was immediately hailed in many European countries as a landmark. According to his biographer, James Boswell, Johnson’s principal achievement was to bring (6) ……………….. to the English language. As a reward for his hard work, he was granted a (7) ……………….. by the king.</p>
-<p>Questions 8-13</p>
+<p><strong>Questions 8-13</strong></p>
 <p>Do the following statements agree with the information given in Reading Passage 1? In boxes 8-13 on your answer sheet, write</p>
-<p>TRUE                         if the statement is true according to the passage
-FALSE                       if the statement is false according to the passage
-NOT GIVEN           if the information is not given in the passage</p>
+<p><strong>TRUE</strong>                         if the statement is true according to the passage
+<strong>FALSE</strong>                       if the statement is false according to the passage
+<strong>NOT GIVEN</strong>           if the information is not given in the passage</p>
 <p>8) The growing importance of the middle classes led to an increased demand for dictionaries.
 9) Johnson has become more well known since his death.
 10) Johnson had been planning to write a dictionary for several years.
@@ -140,17 +196,17 @@ NOT GIVEN           if the information is not given in the passage</p>
 12) Johnson only received payment for his Dictionary on its completion.
 13) Not all of the assistants survived to see the publication of the Dictionary.</p>
 <p>Cambridge IELTS Test 1 to 17</p>
-<p>Nature or Nurture?</p>
-<p>A A few years ago, in one of the most fascinating and disturbing experiments in behavioural psychology, Stanley Milgram of Yale University tested 40 subjects from all walks of life for their willingness to obey instructions given by a ‘leader’ in a situation in which the subjects might feel a personal distaste for the actions they were called upon to perform. Specifically, Milgram told each volunteer ‘teacher-subject’ that the experiment was in the noble cause of education, and was designed to test whether or not punishing pupils for their mistakes would have a positive effect on the pupils’ ability to learn.</p>
-<p>B Milgram’s experimental set-up involved placing the teacher-subject before a panel of thirty switches with labels ranging from ’15 volts of electricity (slight shock)’ to ‘450 volts (danger – severe shock)’ in steps of 15 volts each. The teacher-subject was told that whenever the pupil gave the wrong answer to a question, a shock was to be administered, beginning at the lowest level and increasing in severity with each successive wrong answer. The supposed ‘pupil’ was in reality an actor hired by Milgram to simulate receiving the shocks by emitting a spectrum of groans, screams and writhings together with an assortment of statements and expletives denouncing both the experiment and the experimenter. Milgram told the teacher-subject to ignore the reactions of the pupil, and to administer whatever level of shock was called for, as per the rule governing the experimental situation of the moment.</p>
-<p>C As the experiment unfolded, the pupil would deliberately give the wrong answers to questions posed by the teacher, thereby bringing on various electrical punishments, even up to the danger level of 300 volts and beyond. Many of the teacher-subjects balked at administering the higher levels of punishment, and turned to Milgram with questioning looks and/or complaints about continuing the experiment. In these situations, Milgram calmly explained that the teacher-subject was to ignore the pupil’s cries for mercy and carry on with the experiment. If the subject was still reluctant to proceed, Milgram said that it was important for the sake of the experiment that the procedure be followed through to the end. His final argument was, ‘You have no other choice. You must go on.’ What Milgram was trying to discover was the number of teacher-subjects who would be willing to administer the highest levels of shock, even in the face of strong personal and moral revulsion against the rules and conditions of the experiment.</p>
-<p>D Prior to carrying out the experiment, Milgram explained his idea to a group of 39 psychiatrists and asked them to predict the average percentage of people in an ordinary population who would be willing to administer the highest shock level of 450 volts. The overwhelming consensus was that virtually all the out teacher-subjects would refuse to obey the experimenter. The psychiatrists felt that ‘most subjects would not go beyond 150 volts’ and they further anticipated that only four per cent would go up to 300 volts. Furthermore, they thought that only a lunatic fringe of about one in 1,000 would give the highest shock of 450 volts. Furthermore, they thought that only a lunatic cringe of about one in 1,000 would give the highest shock of 450 volts.</p>
-<p>E What were the actual results? Well, over 60 per cent of the teacher-subjects continued to obey Milgram up to the 450-volt limit! In repetitions of the experiment in other countries, the percentage of obedient teacher-subjects was even higher, reaching 85 per cent in one country. How can we possibly account for this vast discrepancy between what calm, rational, knowledgeable people predict in the comfort of their study and what pressured, flustered, but cooperative teachers’ actually do in the laboratory of real life?</p>
-<p>F One’s first inclination might be to argue that there must be some sort of built-in animal aggression instinct that was activated by the experiment, and that Milgram’s teacher-subjects were just following a genetic need to discharge this pent-up primal urge onto the pupil by administering the electrical shock. A modern hard-core sociobiologist might even go so far as to claim that this aggressive instinct evolved as an advantageous trait, having been of survival value to our ancestors in their struggle against the hardships of life on the plains and in the caves, ultimately finding its way into our genetic make-up as a remnant of our ancient animal ways.</p>
-<p>G An alternative to this notion of genetic programming is to see the teacher-subjects’ actions as a result of the social environment under which the experiment was carried out. As Milgram himself pointed out, ‘Most subjects in the experiment see their behaviour in a larger context that is benevolent and useful to society – the pursuit of scientific truth. The psychological laboratory has a strong claim to legitimacy and evokes trust and confidence in those who perform there. An action such as shocking a victim, which in isolation appears evil, acquires a completely different meaning when placed in this setting.’</p>
-<p>H Thus, in this explanation the subject merges his unique personality and personal and moral code with that of larger institutional structures, surrendering individual properties like loyalty, self-sacrifice and discipline to the service of malevolent systems of authority.</p>
-<p>I Here we have two radically different explanations for why so many teacher-subjects were willing to forgo their sense of personal responsibility for the sake of an institutional authority figure. The problem for biologists, psychologists and anthropologists is to sort which of these two polar explanations is more plausible. This, in essence, is the problem of modern sociobiology – to discover the degree to which hard-wired genetic programming dictates, or at least strongly biases, the interaction of animals and humans with their environment, that is, their behaviour. Put another way, sociobiology is concerned with elucidating the biological basis of all behaviour.</p>
-<p>Questions 14-19
+<p><strong>Nature or Nurture?</strong></p>
+<p><strong>A</strong> A few years ago, in one of the most fascinating and disturbing experiments in behavioural psychology, Stanley Milgram of Yale University tested 40 subjects from all walks of life for their willingness to obey instructions given by a ‘leader’ in a situation in which the subjects might feel a personal distaste for the actions they were called upon to perform. Specifically, Milgram told each volunteer ‘teacher-subject’ that the experiment was in the noble cause of education, and was designed to test whether or not punishing pupils for their mistakes would have a positive effect on the pupils’ ability to learn.</p>
+<p><strong>B</strong> Milgram’s experimental set-up involved placing the teacher-subject before a panel of thirty switches with labels ranging from ’15 volts of electricity (slight shock)’ to ‘450 volts (danger – severe shock)’ in steps of 15 volts each. The teacher-subject was told that whenever the pupil gave the wrong answer to a question, a shock was to be administered, beginning at the lowest level and increasing in severity with each successive wrong answer. The supposed ‘pupil’ was in reality an actor hired by Milgram to simulate receiving the shocks by emitting a spectrum of groans, screams and writhings together with an assortment of statements and expletives denouncing both the experiment and the experimenter. Milgram told the teacher-subject to ignore the reactions of the pupil, and to administer whatever level of shock was called for, as per the rule governing the experimental situation of the moment.</p>
+<p><strong>C</strong> As the experiment unfolded, the pupil would deliberately give the wrong answers to questions posed by the teacher, thereby bringing on various electrical punishments, even up to the danger level of 300 volts and beyond. Many of the teacher-subjects balked at administering the higher levels of punishment, and turned to Milgram with questioning looks and/or complaints about continuing the experiment. In these situations, Milgram calmly explained that the teacher-subject was to ignore the pupil’s cries for mercy and carry on with the experiment. If the subject was still reluctant to proceed, Milgram said that it was important for the sake of the experiment that the procedure be followed through to the end. His final argument was, ‘You have no other choice. You must go on.’ What Milgram was trying to discover was the number of teacher-subjects who would be willing to administer the highest levels of shock, even in the face of strong personal and moral revulsion against the rules and conditions of the experiment.</p>
+<p><strong>D</strong> Prior to carrying out the experiment, Milgram explained his idea to a group of 39 psychiatrists and asked them to predict the average percentage of people in an ordinary population who would be willing to administer the highest shock level of 450 volts. The overwhelming consensus was that virtually all the out teacher-subjects would refuse to obey the experimenter. The psychiatrists felt that ‘most subjects would not go beyond 150 volts’ and they further anticipated that only four per cent would go up to 300 volts. Furthermore, they thought that only a lunatic fringe of about one in 1,000 would give the highest shock of 450 volts. Furthermore, they thought that only a lunatic cringe of about one in 1,000 would give the highest shock of 450 volts.</p>
+<p><strong>E</strong> What were the actual results? Well, over 60 per cent of the teacher-subjects continued to obey Milgram up to the 450-volt limit! In repetitions of the experiment in other countries, the percentage of obedient teacher-subjects was even higher, reaching 85 per cent in one country. How can we possibly account for this vast discrepancy between what calm, rational, knowledgeable people predict in the comfort of their study and what pressured, flustered, but cooperative teachers’ actually do in the laboratory of real life?</p>
+<p><strong>F</strong> One’s first inclination might be to argue that there must be some sort of built-in animal aggression instinct that was activated by the experiment, and that Milgram’s teacher-subjects were just following a genetic need to discharge this pent-up primal urge onto the pupil by administering the electrical shock. A modern hard-core sociobiologist might even go so far as to claim that this aggressive instinct evolved as an advantageous trait, having been of survival value to our ancestors in their struggle against the hardships of life on the plains and in the caves, ultimately finding its way into our genetic make-up as a remnant of our ancient animal ways.</p>
+<p><strong>G</strong> An alternative to this notion of genetic programming is to see the teacher-subjects’ actions as a result of the social environment under which the experiment was carried out. As Milgram himself pointed out, ‘Most subjects in the experiment see their behaviour in a larger context that is benevolent and useful to society – the pursuit of scientific truth. The psychological laboratory has a strong claim to legitimacy and evokes trust and confidence in those who perform there. An action such as shocking a victim, which in isolation appears evil, acquires a completely different meaning when placed in this setting.’</p>
+<p><strong>H</strong> Thus, in this explanation the subject merges his unique personality and personal and moral code with that of larger institutional structures, surrendering individual properties like loyalty, self-sacrifice and discipline to the service of malevolent systems of authority.</p>
+<p><strong>I</strong> Here we have two radically different explanations for why so many teacher-subjects were willing to forgo their sense of personal responsibility for the sake of an institutional authority figure. The problem for biologists, psychologists and anthropologists is to sort which of these two polar explanations is more plausible. This, in essence, is the problem of modern sociobiology – to discover the degree to which hard-wired genetic programming dictates, or at least strongly biases, the interaction of animals and humans with their environment, that is, their behaviour. Put another way, sociobiology is concerned with elucidating the biological basis of all behaviour.</p>
+<p><strong>Questions 14-19</strong>
 Reading Passage 2 has nine paragraphs, A-I. Which paragraph contains the following information?</p>
 <p>Write the correct letter A-I in boxes 14-19 on your answer sheet.</p>
 <p>14 a biological explanation of the teacher-subjects’ behaviour
@@ -159,34 +215,34 @@ Reading Passage 2 has nine paragraphs, A-I. Which paragraph contains the followi
 17 the expected statistical outcome
 18 the general aim of sociobiological study
 19 the way Milgram persuaded the teacher-subjects to continue</p>
-<p>Questions 20-22
+<p><strong>Questions 20-22</strong>
 Choose the correct letter. A, B. C or D. Write your answers in boxes 20-22 on your answer sheet.</p>
 <p>20 The teacher-subjects were told that they were testing whether
-A a 450-volt shock was dangerous
-B punishment helps learning
-C the pupils were honest
-D they were suited to teaching</p>
+<strong>A</strong> a 450-volt shock was dangerous
+<strong>B</strong> punishment helps learning
+<strong>C</strong> the pupils were honest
+<strong>D</strong> they were suited to teaching</p>
 <p>21 The teacher-subjects were instructed to
-A stop when a pupil asked them to
-B denounce pupils who made mistakes
-C reduce the shock level after a correct answer
-D give punishment according to a rule</p>
+<strong>A</strong> stop when a pupil asked them to
+<strong>B</strong> denounce pupils who made mistakes
+<strong>C</strong> reduce the shock level after a correct answer
+<strong>D</strong> give punishment according to a rule</p>
 <p>22 Before the experiment took place the psychiatrists
-A believed that a shock of 150 volts was too dangerous
-B failed to agree on how the teacher-subjects would respond to instructions
-C underestimated the teacher-subjects’ willingness to comply with experimental procedure
-D thought that many of the teacher-subjects would administer a shock of 450 volts</p>
-<p>Questions 23-26
+<strong>A</strong> believed that a shock of 150 volts was too dangerous
+<strong>B</strong> failed to agree on how the teacher-subjects would respond to instructions
+<strong>C</strong> underestimated the teacher-subjects’ willingness to comply with experimental procedure
+<strong>D</strong> thought that many of the teacher-subjects would administer a shock of 450 volts</p>
+<p><strong>Questions 23-26</strong>
 Do the following statements agree with the information given in Reading Passage 2?
 In boxes 23-26 on your answer sheet, write</p>
-<p>TRUE                         if the statement agrees with the information
-FALSE                       if the statement contradicts the information
-NOT GIVEN            if there is no information on this</p>
+<p><strong>TRUE</strong>                         if the statement agrees with the information
+<strong>FALSE</strong>                       if the statement contradicts the information
+<strong>NOT GIVEN</strong>            if there is no information on this</p>
 <p>23 Several of the subjects were psychology students at Yale University.
 24 Some people may believe that the teacher-subjects’ behaviour could be explained as a positive survival mechanism.
 25 In a sociological explanation, personal values are more powerful than authority.
 26 Milgram’s experiment solves an important question in sociobiology.</p>
-<p>The Truth About the Environment</p>
+<p><strong>The Truth About the Environment</strong></p>
 <p>For many environmentalists, the world seems to be getting worse. They have developed a hit-list of our main fears: that natural resources are running out; that the population is ever growing, leaving less and less to eat; that species are becoming extinct in vast numbers, and that the planet’s air and water are becoming ever more polluted.</p>
 <p>But a quick look at the facts shows a different picture. First, energy and other natural resources have become more abundant, not less so, since the book ‘The limits to Growth’ was published in 1972 by a group of scientists. Second, more food is now produced per head of the world’s population than at any time in history. Fewer people are starving. Third, although species are indeed becoming extinct, only about 0.7% of them are expelled to disappear in the next 50 years, not 25-50%, as has so often been predicted. And finally, most forms of environmental pollution either appear to have been exaggerated, or are transient – associated with the early phases of industrialisation and therefore best cured not by restricting economic growth, but by accelerating it. One form of pollution – the release of greenhouse gases that causes global warming – does appear to be a phenomenon that is going to extend well into our future, but its total impact is unlikely to pose a devastating problem. A bigger problem may well turn out to be an inappropriate response to it.</p>
 <p>Yet opinion polls suggest that many people nurture the belief that environmental standards are declining and four factors seem to cause this disjunction between perception and reality.</p>
@@ -199,52 +255,52 @@ NOT GIVEN            if there is no information on this</p>
 <p>Despite the intuition that something drastic needs to be done about such a costly problem, economic analyses dearly show it will be far more expensive to cut carbon dioxide emissions radically than to pay the costs of adaptation to the increased temperatures. A model by one of the main authors of the United Nations Climate Change Panel shows how an expected temperature increase of 2.1 degrees in 2100 would only be diminished to an increase of 1.9 degrees. Or to put it another way, the temperature increase that the planet would have experienced in 2094 would be postponed to 2100.</p>
 <p>So this does not prevent global warming, but merely buys the world six years. Yet the cost of reducing carbon dioxide emissions, for the United States alone, will be higher than the cost of solving the world’s single, most pressing health problem: providing universal access to clean drinking water and sanitation. Such measures would avoid 2 million deaths every year, and prevent half a billion people from becoming seriously ill.</p>
 <p>It is crucial that we look at the facts if we want to make the best possible decisions for the future. It may be costly to be overly optimistic – but more costly still to be too pessimistic.</p>
-<p>Questions 27-32</p>
+<p><strong>Questions 27-32</strong></p>
 <p>Do the following statements agree with the information given in Reading Passage 3?
 In boxes 27-32 on your answer sheet, write</p>
-<p>YES                           if the statement agrees with the writer’s claims
-NO                             if the statement contradicts the writer’s claims
-NOT GIVEN          if there is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                           if the statement agrees with the writer’s claims
+<strong>NO</strong>                             if the statement contradicts the writer’s claims
+<strong>NOT GIVEN</strong>          if there is impossible to say what the writer thinks about this</p>
 <p>27 Environmentalists take a pessimistic view of the world for a number of reasons.
 28 Data on the Earth’s natural resources has only been collected since 1972.
 29 The number of starving people in the world has increased in recent years.
 30 Extinct species are being replaced by new species.
 31 Some pollution problems have been correctly linked to industrialisation.
 32 It would be best to attempt to slow down economic growth.</p>
-<p>Questions 33-37</p>
+<p><strong>Questions 33-37</strong></p>
 <p>Choose the correct letter, A, B, C or D. Write your answers in boxes 33-37 on your answer sheet.</p>
 <p>33 What aspect of scientific research does the writer express concern about in paragraph 4?
-A the need to produce results
-B the lack of financial support
-C the selection of areas to research
-D the desire to solve every research problem</p>
+<strong>A</strong> the need to produce results
+<strong>B</strong> the lack of financial support
+<strong>C</strong> the selection of areas to research
+<strong>D</strong> the desire to solve every research problem</p>
 <p>34 The writer quotes from the Worldwide Fund for Nature to illustrate how
-A influential the mass media can be
-B effective environmental groups can be
-C the mass media can help groups raise funds
-D environmental groups can exaggerate their claims</p>
+<strong>A</strong> influential the mass media can be
+<strong>B</strong> effective environmental groups can be
+<strong>C</strong> the mass media can help groups raise funds
+<strong>D</strong> environmental groups can exaggerate their claims</p>
 <p>35 What is the writer’s main point about lobby groups in paragraph 6?
-A Some are more active than others
-B Some are better organised than others
-C Some receive more criticism than others
-D Some support more important issues than others</p>
+<strong>A</strong> Some are more active than others
+<strong>B</strong> Some are better organised than others
+<strong>C</strong> Some receive more criticism than others
+<strong>D</strong> Some support more important issues than others</p>
 <p>36 The writer suggests that newspapers print items that are intended to
-A educate readers
-B meet their readers’ expectations
-C encourage feedback from readers
-D mislead readers</p>
+<strong>A</strong> educate readers
+<strong>B</strong> meet their readers’ expectations
+<strong>C</strong> encourage feedback from readers
+<strong>D</strong> mislead readers</p>
 <p>37 What does the writer say about America’s waste problem?
-A It will increase in line with population growth
-B It is not as important as we have been led to believe
-C It has been reduced through public awareness of the issues
-D It is only significant in certain areas of the country</p>
-<p>Questions 38-40</p>
+<strong>A</strong> It will increase in line with population growth
+<strong>B</strong> It is not as important as we have been led to believe
+<strong>C</strong> It has been reduced through public awareness of the issues
+<strong>D</strong> It is only significant in certain areas of the country</p>
+<p><strong>Questions 38-40</strong></p>
 <p>Complete the summary with the list of words A-I below. Write the correct letter A-I in boxes 38-40 on your answer sheet.</p>
-<p>GLOBAL WARMING
+<p><strong>GLOBAL WARMING</strong>
 The writer admits that global warming is a (38) ……………….. challenge, but says that it will not have a catastrophic impact on our future, if we deal with it in the (39) ……………….. way. If we try to reduce the levels of greenhouse gases, he believes that it would only have a minimal impact on rising temperatures. He feels it would be better to spend money on the more (40) ……………….. health problem of providing the world’s population with clean drinking water.</p>
-<p>A unrealistic               B agreed              C expensive                D right               E long-term
-F usual                       G surprising          H personal                 I urgent</p>
-<p>ANSWER KEY</p>
+<p><strong>A</strong> unrealistic               <strong>B</strong> agreed              <strong>C</strong> expensive                <strong>D</strong> right               <strong>E</strong> long-term
+<strong>F</strong> usual                       <strong>G</strong> surprising          <strong>H</strong> personal                 <strong>I</strong> urgent</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. D</p>
 <p>2. E</p>
 <p>3. G</p>
@@ -503,6 +559,29 @@ F usual                       G surprising          H personal�
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -522,12 +601,23 @@ F usual                       G surprising          H personal�
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -539,14 +629,6 @@ F usual                       G surprising          H personal�
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

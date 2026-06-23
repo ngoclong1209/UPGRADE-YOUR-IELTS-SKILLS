@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,131 +158,131 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_143</h1>
-            <p>IELTS Listening Practice - Test 143</p>
-<p>Part 1: Questions 1-10
-Complete the form below. Write ONE WORD OR A NUMBER.</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 143</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-10</strong>
+Complete the form below. Write <strong>ONE WORD OR A NUMBER.</strong></p>
 <p>Early Learning Children Centre Enrolment Form
 Parent or guardian: Carol Smith
 Personal details:
 Child’s name: Kate
-Age: (1)  _______ 
-Address: (2)  _______  Road, Woodside 4032
+Age: <strong>(1)</strong>  _______ 
+Address: <strong>(2)</strong>  _______  Road, Woodside 4032
 Phone: 33459865
 Childcare information
-Days enrolled for: Monday and (3)  _______ 
-Start time: (4)  _______  am
-Childcare group: the (5)  _______  group
-Which meals are required each day? (6)  _______ 
-Medical conditions: need (7)  _______ 
-Emergency contact: Jenny (8)  _______ 
-Relationship to child: (9)  _______ 
+Days enrolled for: Monday and <strong>(3)</strong>  _______ 
+Start time: <strong>(4)</strong>  _______  am
+Childcare group: the <strong>(5)</strong>  _______  group
+Which meals are required each day? <strong>(6)</strong>  _______ 
+Medical conditions: need <strong>(7)</strong>  _______ 
+Emergency contact: Jenny <strong>(8)</strong>  _______ 
+Relationship to child: <strong>(9)</strong>  _______ 
 Fees
-Will pay each (10)  _______</p>
-<p>Part 2: Questions 11 and 12
-Choose TWO letters, A-E.</p>
-<p>Which TWO things does Alice say about the Dolphin Conservation Trust?
-[ ]  A Children make up most of the membership
-[ ]  B It’s the country’s largest conservation organisation
-[ ]  C It helps finance campaigns for changes in fishing practices
-[ ]  D It employs several dolphin experts full-time
-[ ]  E Volunteers help in various ways</p>
-<p>Questions 13-15
+Will pay each <strong>(10)</strong>  _______</p>
+<p><strong>Part 2: Questions 11 and 12</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>Which <strong>TWO</strong> things does Alice say about the Dolphin Conservation Trust?
+<strong>[ ] </strong><strong> A</strong> Children make up most of the membership
+<strong>[ ] </strong><strong> B</strong> It’s the country’s largest conservation organisation
+<strong>[ ] </strong><strong> C</strong> It helps finance campaigns for changes in fishing practices
+<strong>[ ] </strong><strong> D</strong> It employs several dolphin experts full-time
+<strong>[ ] </strong><strong> E</strong> Volunteers help in various ways</p>
+<p><strong>Questions 13-15</strong>
 Choose the correct letter, A, B, or C.</p>
 <p>13. Why is Alice so pleased the Trust has won the Charity Commission award?
-[ ]  A It has brought in extra money
-[ ]  B It made the work of the trust better known
-[ ]  C It has attracted more members.</p>
+<strong>[ ] </strong><strong> A</strong> It has brought in extra money
+<strong>[ ] </strong><strong> B</strong> It made the work of the trust better known
+<strong>[ ] </strong><strong> C</strong> It has attracted more members.</p>
 <p>14. Alice says oil exploration causes problems to dolphins because of
-[ ]  A noise
-[ ]  B oil leaks
-[ ]  C movement of ships</p>
+<strong>[ ] </strong><strong> A</strong> noise
+<strong>[ ] </strong><strong> B</strong> oil leaks
+<strong>[ ] </strong><strong> C</strong> movement of ships</p>
 <p>15. Alice became interested in dolphins when
-[ ]  A she saw one swimming near her home
-[ ]  B she heard a speaker at her school
-[ ]  C she read a book about them</p>
-<p>Questions 16-20
+<strong>[ ] </strong><strong> A</strong> she saw one swimming near her home
+<strong>[ ] </strong><strong> B</strong> she heard a speaker at her school
+<strong>[ ] </strong><strong> C</strong> she read a book about them</p>
+<p><strong>Questions 16-20</strong>
 Which dolphin does Alice make each of the following comments about?</p>
-<p>Comments
+<p><strong>Comments</strong>
 16. It has not been seen this year  _______ 
 17. It is photographed more than the others  _______ 
 18. It is always very energetic  _______ 
 19. It is the newest one in the scheme  _______ 
 20. It has an unusual shape  _______</p>
-<p>Dolphins
-A Moondancer
-B Echo
-C Kiwi
-D Samson</p>
-<p>Part 3: Questions 21-25
+<p><strong>Dolphins</strong>
+<strong>A</strong> Moondancer
+<strong>B</strong> Echo
+<strong>C</strong> Kiwi
+<strong>D</strong> Samson</p>
+<p><strong>Part 3: Questions 21-25</strong>
 Choose the correct letter, A, B or C.</p>
-<p>Theatre Studies Course
+<p><strong>Theatre Studies Course</strong>
 21. What helped Rob to prepare to play the character of a doctor?
-[ ]  A the stories his grandfather told him
-[ ]  B the times when he watched his grandfather working
-[ ]  C the way he imagined his grandfather at work</p>
+<strong>[ ] </strong><strong> A</strong> the stories his grandfather told him
+<strong>[ ] </strong><strong> B</strong> the times when he watched his grandfather working
+<strong>[ ] </strong><strong> C</strong> the way he imagined his grandfather at work</p>
 <p>22. In the play’s first scene, the boredom of village life was suggested by
-[ ]  A repetition of words and phrases
-[ ]  B scenery painted in dull colours
-[ ]  C long pauses within conversations</p>
+<strong>[ ] </strong><strong> A</strong> repetition of words and phrases
+<strong>[ ] </strong><strong> B</strong> scenery painted in dull colours
+<strong>[ ] </strong><strong> C</strong> long pauses within conversations</p>
 <p>23. What has Rob learned about himself through working in a group?
-[ ]  A He likes to have clear guidelines
-[ ]  B He copes well with stress
-[ ]  C He thinks he is a good leader</p>
+<strong>[ ] </strong><strong> A</strong> He likes to have clear guidelines
+<strong>[ ] </strong><strong> B</strong> He copes well with stress
+<strong>[ ] </strong><strong> C</strong> He thinks he is a good leader</p>
 <p>24. To support the production, research material was used which described
-[ ]  A political developments
-[ ]  B changing social attitudes
-[ ]  C economic transformations</p>
+<strong>[ ] </strong><strong> A</strong> political developments
+<strong>[ ] </strong><strong> B</strong> changing social attitudes
+<strong>[ ] </strong><strong> C</strong> economic transformations</p>
 <p>25. What problem did the students overcome in the final rehearsal?
-[ ]  A one person forgetting their words
-[ ]  B an equipment failure
-[ ]  C the injury of one character</p>
-<p>Questions 26-30
+<strong>[ ] </strong><strong> A</strong> one person forgetting their words
+<strong>[ ] </strong><strong> B</strong> an equipment failure
+<strong>[ ] </strong><strong> C</strong> the injury of one character</p>
+<p><strong>Questions 26-30</strong>
 What action is needed for the following stages in doing the ‘year abroad’ option?</p>
-<p>Choose FIVE answers from the box given below.</p>
+<p>Choose <strong>FIVE</strong> answers from the box given below.</p>
 <p>Stages in doing the ‘year abroad’ option
 26. in the second year of the course  _______ 
 27. when first choosing where to go  _______ 
 28. when sending in your choice  _______ 
 29. when writing your personal statement  _______ 
 30. when doing the year abroad  _______</p>
-<p>Action
-A be on time
-B get a letter of recommendation
-C plan for the final year
-D make sure the institution’s focus is relevant
-E show ability in Theatre Studies
-F make travel arrangements and bookings
-G ask for help</p>
-<p>Part 4: Questions 31-40
-Complete the notes below. Write ONE WORD ONLY.</p>
+<p><strong>Action</strong>
+<strong>A</strong> be on time
+<strong>B</strong> get a letter of recommendation
+<strong>C</strong> plan for the final year
+<strong>D</strong> make sure the institution’s focus is relevant
+<strong>E</strong> show ability in Theatre Studies
+<strong>F</strong> make travel arrangements and bookings
+<strong>G</strong> ask for help</p>
+<p><strong>Part 4: Questions 31-40</strong>
+Complete the notes below. Write <strong>ONE WORD ONLY.</strong></p>
 <p>‘Self-regulatory focus theory’ and leadership
 Self-regulatory focus theory
 People’s focus is to approach pleasure or avoid pain
-Promotion goals focus on (31)  _______ 
+Promotion goals focus on <strong>(31)</strong>  _______ 
 Prevention goals emphasise avoiding punishment</p>
-<p>Factors that affect people’s focus
+<p><strong>Factors that affect people’s focus</strong>
 The Chronic Factor
-• comes from one’s (32)  _______ 
-The (33)  _______  Factor
-• we are more likely to focus on promotion goals when with a (34)  _______ 
+• comes from one’s <strong>(32)</strong>  _______ 
+The <strong>(33)</strong>  _______  Factor
+• we are more likely to focus on promotion goals when with a <strong>(34)</strong>  _______ 
 • we are more likely to focus on prevention goals with our boss</p>
-<p>How people’s focus affects them
-Promotion Focus: People think about an ideal version of themselves, their (35)  _______  and their gains.
+<p><strong>How people’s focus affects them</strong>
+Promotion Focus: People think about an ideal version of themselves, their <strong>(35)</strong>  _______  and their gains.
 Prevention Focus: People think about their ‘ought’ self and their obligations</p>
-<p>Leaders
-Leadership behaviour and (36)  _______  affects people’s focus
+<p><strong>Leaders</strong>
+Leadership behaviour and <strong>(36)</strong>  _______  affects people’s focus
 Transformational Leaders:
-• pay special attention to the (37)  _______  of their followers
-• passionately communicate a clear (38)  _______ 
+• pay special attention to the <strong>(37)</strong>  _______  of their followers
+• passionately communicate a clear <strong>(38)</strong>  _______ 
 • inspire promotion focus in followers
 Transactional Leaders:
-• create (39)  _______  to make expectations clear
+• create <strong>(39)</strong>  _______  to make expectations clear
 • emphasise the results of a mistake
 • inspire prevention focus in followers</p>
-<p>Conclusion
-Promotion Focus is good for jobs requiring (40)  _______ 
+<p><strong>Conclusion</strong>
+Promotion Focus is good for jobs requiring <strong>(40)</strong>  _______ 
 Prevention Focus is good for work such as a surgeon Leaders’ actions affect which focus people use.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. 4</p>
 <p>2. 46 wombat</p>
 <p>3. thursday</p>
@@ -485,6 +541,29 @@ Prevention Focus is good for work such as a surgeon Leaders’ actions affect wh
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -504,12 +583,23 @@ Prevention Focus is good for work such as a surgeon Leaders’ actions affect wh
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -521,14 +611,6 @@ Prevention Focus is good for work such as a surgeon Leaders’ actions affect wh
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

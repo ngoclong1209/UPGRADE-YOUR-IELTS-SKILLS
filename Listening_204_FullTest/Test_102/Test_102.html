@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,81 +158,81 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_102</h1>
-            <p>IELTS Listening Practice - Test 102</p>
-<p>Part 1: Questions 1-3
-Complete the table below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
-<p>(1)  _______ 
-(2)  _______ 
-(3)  _______</p>
-<p>Questions 4 and 5
-Complete the flowchart below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Beetles’ effect on sugar cane</p>
-<p>Step 1: Beetle lay eggs</p>
-<p>Step 2: Eggs become rugs</p>
-<p>Step 3: Grubs eat the (4)…………</p>
-<p>Step 4: Sugar cane (5)…………</p>
-<p>(4)  _______ 
-(5)  _______</p>
-<p>Questions 6-10
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 102</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-3</strong>
+Complete the table below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<h3 class="test-heading"><strong>(1)</strong>  _______ 
+<strong>(2)</strong>  _______ 
+<strong>(3)</strong>  _______</h3>
+<p><strong>Questions 4 and 5</strong>
+Complete the flowchart below. Write <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>Beetles’ effect on sugar cane</strong></p>
+<p><strong>Step 1</strong>: Beetle lay eggs</p>
+<p><strong>Step 2</strong>: Eggs become rugs</p>
+<p><strong>Step 3</strong>: Grubs eat the (4)…………</p>
+<p><strong>Step 4</strong>: Sugar cane (5)…………</p>
+<p><strong>(4)</strong>  _______ 
+<strong>(5)</strong>  _______</p>
+<p><strong>Questions 6-10</strong>
 Choose the correct letter A, B or C.</p>
 <p>6. The cane toad originated in
-[ ]  A Central America
-[ ]  B Hawaii
-[ ]  C Australia</p>
+<strong>[ ] </strong><strong> A</strong> Central America
+<strong>[ ] </strong><strong> B</strong> Hawaii
+<strong>[ ] </strong><strong> C</strong> Australia</p>
 <p>7. In Australia, the toads
-[ ]  A grew extremely large
-[ ]  B multiplied in number
-[ ]  C ate the cane beetles</p>
+<strong>[ ] </strong><strong> A</strong> grew extremely large
+<strong>[ ] </strong><strong> B</strong> multiplied in number
+<strong>[ ] </strong><strong> C</strong> ate the cane beetles</p>
 <p>8. The farmers’ plan failed because
-[ ]  A there were too many beetles
-[ ]  B their own research was faulty
-[ ]  C they believed the reports they read</p>
+<strong>[ ] </strong><strong> A</strong> there were too many beetles
+<strong>[ ] </strong><strong> B</strong> their own research was faulty
+<strong>[ ] </strong><strong> C</strong> they believed the reports they read</p>
 <p>9. The sugar cane industry
-[ ]  A thrives today
-[ ]  B has died out in some areas
-[ ]  C survives alongside the beetle</p>
+<strong>[ ] </strong><strong> A</strong> thrives today
+<strong>[ ] </strong><strong> B</strong> has died out in some areas
+<strong>[ ] </strong><strong> C</strong> survives alongside the beetle</p>
 <p>10. The second lesson to be learned from this story is that
-[ ]  A the environment is constantly at risk
-[ ]  B first hand research is not always necessary
-[ ]  C caution is necessary when dealing with nature</p>
-<p>Part 2: Questions 11-20
-Complete the time table below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Park Arts Centre</p>
-<p>(11)  _______                         (12)  _______ 
-(13)  _______                        (14)  _______ 
-(15)  _______                         (16)  _______ 
-(17)  _______                         (18)  _______ 
-(19)  _______                        (20)  _______</p>
-<p>Part 3: Questions 21-25</p>
+<strong>[ ] </strong><strong> A</strong> the environment is constantly at risk
+<strong>[ ] </strong><strong> B</strong> first hand research is not always necessary
+<strong>[ ] </strong><strong> C</strong> caution is necessary when dealing with nature</p>
+<p><strong>Part 2: Questions 11-20</strong>
+Complete the time table below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>Park Arts Centre</strong></p>
+<p><strong>(11)</strong>  _______                         <strong>(12)</strong>  _______ 
+<strong>(13)</strong>  _______                        <strong>(14)</strong>  _______ 
+<strong>(15)</strong>  _______                         <strong>(16)</strong>  _______ 
+<strong>(17)</strong>  _______                         <strong>(18)</strong>  _______ 
+<strong>(19)</strong>  _______                        <strong>(20)</strong>  _______</p>
+<p><strong>Part 3: Questions 21-25</strong></p>
 <p>What opinion is expressed about each dissertation?</p>
 <p>Choose your answers from the list below and write the letters A-I next to questions 21-25.</p>
-<p>A it has an inadequate index
-B it contains unusual illustrations
-C it is too detailed in places
-D it presents clear arguments
-E it contains diagrams which are not clear
-F it omits important historical facts
-G it is poorly translated
-H it contains useful background information
-I it is not suitable for new students</p>
+<p><strong>A</strong> it has an inadequate index
+<strong>B</strong> it contains unusual illustrations
+<strong>C</strong> it is too detailed in places
+<strong>D</strong> it presents clear arguments
+<strong>E</strong> it contains diagrams which are not clear
+<strong>F</strong> it omits important historical facts
+<strong>G</strong> it is poorly translated
+<strong>H</strong> it contains useful background information
+<strong>I</strong> it is not suitable for new students</p>
 <p>21. Twentieth Century Architecture  _______</p>
 <p>22. Modern Construction  _______</p>
 <p>23. Steel, Glass and Concrete  _______</p>
 <p>24. The Space We Make  _______</p>
 <p>25. Change and Tradition  _______</p>
-<p>Questions 26-30
-Complete the flow chart below. Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>Ben’s Programme</p>
-<p>Step 1: Look at drawings of (26)…………….</p>
-<p>Step 2: Get images of (27)…………….from internet</p>
-<p>Step 3: Find books about (28)………………of the period</p>
-<p>Step 4: Show (29)………………….to Dr. Forbes</p>
-<p>Step 5: Ask Dr. Gray for more (30)…………</p>
-<p>(26)  _______                  (27)  _______ 
-(28)  _______                  (29)  _______ 
-(30)  _______</p>
-<p>Part 4: Questions 31-40
-Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.</p>
+<p><strong>Questions 26-30</strong>
+Complete the flow chart below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p><strong>Ben’s Programme</strong></p>
+<p><strong>Step 1</strong>: Look at drawings of (26)…………….</p>
+<p><strong>Step 2</strong>: Get images of (27)…………….from internet</p>
+<p><strong>Step 3</strong>: Find books about (28)………………of the period</p>
+<p><strong>Step 4</strong>: Show (29)………………….to Dr. Forbes</p>
+<p><strong>Step 5</strong>: Ask Dr. Gray for more (30)…………</p>
+<p><strong>(26)</strong>  _______                  <strong>(27)</strong>  _______ 
+<strong>(28)</strong>  _______                  <strong>(29)</strong>  _______ 
+<strong>(30)</strong>  _______</p>
+<p><strong>Part 4: Questions 31-40</strong>
+Complete the sentences below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>31. Rival cameras were claimed to  _______  less than the Cinematographe.
 32. In Russia, on one occasion, the Cinematographe was suspected of being a  _______ 
 33. Early filming in Russia led to the creation of a new approach to  _______ 
@@ -187,7 +243,7 @@ Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.</p>
 38. The popularity of  _______  films led to increased numbers of shots.
 39. When filming  _______  the screen might be divided.
 40. As films became more complex  _______  became an important part of film-making.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. rabbit</p>
 <p>2. (fox) hunting</p>
 <p>3. cane farmers</p>
@@ -446,6 +502,29 @@ Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -465,12 +544,23 @@ Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -482,14 +572,6 @@ Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,21 +158,21 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_12</h1>
-            <p>IELTS Reading Practice - Test 12</p>
-<p>Lost for Words</p>
-<p>In the Native American Navajo nation, which sprawls across four states in the American south-west, the native language is dying. Most of its speakers are middle-aged or elderly. Although many students take classes in Navajo, the schools are run in English. Street signs’, supermarket goods and even their own newspaper are all in English, Not surprisingly, linguists doubt that any native speakers of Navajo will remain in a hundred years’ time.</p>
-<p>Navajo is far from alone. Half the world’s 6,800 languages are likely to vanish within two generations – that’s one language lost every ten days. Never before has the planet’s linguistic diversity shrunk at such a pace. ‘At the moment, we are heading for about three or four languages dominating the world,’ says Mark Pagel, an evolutionary biologist at the University of Reading. ‘It’s a mass extinction, and whether we will ever rebound from the loss is difficult to know.’</p>
-<p>Isolation breeds linguistic diversity: as a result, the world is peppered with languages spoken by only a few people. Only 250 languages have more than a million speakers, and at least 3,000 have fewer than 2,500. It is not necessarily these small languages that are about to disappear. Navajo is considered endangered despite having 150,000 speakers. What makes a language endangered is not just the number of speakers, but how old they are. If it is spoken by children it is relatively safe. The critically endangered languages are those that are only spoken by the elderly, according to Michael Krauss, director of the Alassk Native Language Center, in Fairbanks.</p>
-<p>Why do people reject the language of their parents? It begins with a crisis of confidence, when a small community finds itself alongside a larger, wealthier society, says Nicholas Ostler, of Britain’s Foundation for Endangered Languages, in Bath. ‘People lose faith in their culture,’ he says. ‘When the next generation reaches their teens, they might not want to be induced into the old traditions.’</p>
-<p>The change is not always voluntary quite often, governments try to kill off a minority language by banning its use in public or discouraging its use in schools, all to promote national unity. The former US policy of running Indian reservation schools in English, for example, effectively put languages such as Navajo on the danger list. But Salikoko Mufwene, who chairs the Linguistics department at the University of Chicago, argues that the deadliest weapon is not government policy but economic globalisation. ‘Native Americans have not lost pride in their language, but they have had to adapt to socio-economic pressures,’ he says. ‘They cannot refuse to speak English if most commercial activity is in English.’ But are languages worth saving? At the very least, there is a loss of data for the study of languages and their evolution, which relies on comparisons between languages, both living and dead. When an unwritten and unrecorded language disappears, it is lost to science.</p>
-<p>Language is also intimately bound up with culture, so it may be difficult to preserve one without the other. ‘If a person shifts from Navajo to English, they lose something,’ Mufwene says. ‘Moreover, the loss of diversity may also deprive us of different ways of looking at the world,’ says Pagel. There is mounting evidence that learning a language produces physiological changes in the brain. ‘Your brain and mine are different from the brain of someone who speaks French, for instance,’ Pagel says, and this could affect our thoughts and perceptions. ‘The patterns and connections we make among various concepts may be structured by the linguistic habits of our community.’</p>
-<p>So despite linguists’ best efforts, many languages will disappear over the next century. But a growing interest in cultural identity may prevent the direst predictions from coming true. ‘The key to fostering diversity is for people to learn their ancestral tongue, as well as the dominant language,’ says Doug Whalen, founder and president of the Endangered Language Fund in New Haven, Connecticut. ‘Most of these languages will not survive without a large degree of bilingualism,’ he says. In New Zealand, classes for children have slowed the erosion of Maori and rekindled interest in the language. A similar approach in Hawaii has produced about 8,000 new speakers of Polynesian languages in the past few years. In California, ‘apprentice’ programmes have provided life support to several indigenous languages. Volunteer ‘apprentices’ pair up with one of the last living speakers of a Native American tongue to learn a traditional skill such as basket weaving, with instruction exclusively in the endangered language. After about 300 hours of training they are generally sufficiently fluent to transmit the language to the next generation. But Mufwene says that preventing a language dying out is not the same as giving it new life by using it every day. ‘Preserving a language is more like preserving fruits in a jar’ he says.</p>
-<p>However, preservation can bring a language back from the dead. There are examples of languages that have survived in written form and then been revived by later generations. But a written form is essential for this, so the mere possibility of revival has led many speakers of endangered languages to develop systems of writing where none existed before.</p>
-<p>Questions 1-4
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 12</strong></h3>
+<h3 class="test-heading"><strong>Lost for Words</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>In the Native American Navajo nation, which sprawls across four states in the American south-west, the native language is dying. Most of its speakers are middle-aged or elderly. Although many students take classes in Navajo, the schools are run in English. Street signs’, supermarket goods and even their own newspaper are all in English, Not surprisingly, linguists doubt that any native speakers of Navajo will remain in a hundred years’ time.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>Navajo is far from alone. Half the world’s 6,800 languages are likely to vanish within two generations – that’s one language lost every ten days. Never before has the planet’s linguistic diversity shrunk at such a pace. ‘At the moment, we are heading for about three or four languages dominating the world,’ says Mark Pagel, an evolutionary biologist at the University of Reading. ‘It’s a mass extinction, and whether we will ever rebound from the loss is difficult to know.’</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Isolation breeds linguistic diversity: as a result, the world is peppered with languages spoken by only a few people. Only 250 languages have more than a million speakers, and at least 3,000 have fewer than 2,500. It is not necessarily these small languages that are about to disappear. Navajo is considered endangered despite having 150,000 speakers. What makes a language endangered is not just the number of speakers, but how old they are. If it is spoken by children it is relatively safe. The critically endangered languages are those that are only spoken by the elderly, according to Michael Krauss, director of the Alassk Native Language Center, in Fairbanks.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Why do people reject the language of their parents? It begins with a crisis of confidence, when a small community finds itself alongside a larger, wealthier society, says Nicholas Ostler, of Britain’s Foundation for Endangered Languages, in Bath. ‘People lose faith in their culture,’ he says. ‘When the next generation reaches their teens, they might not want to be induced into the old traditions.’</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>The change is not always voluntary quite often, governments try to kill off a minority language by banning its use in public or discouraging its use in schools, all to promote national unity. The former US policy of running Indian reservation schools in English, for example, effectively put languages such as Navajo on the danger list. But Salikoko Mufwene, who chairs the Linguistics department at the University of Chicago, argues that the deadliest weapon is not government policy but economic globalisation. ‘Native Americans have not lost pride in their language, but they have had to adapt to socio-economic pressures,’ he says. ‘They cannot refuse to speak English if most commercial activity is in English.’ But are languages worth saving? At the very least, there is a loss of data for the study of languages and their evolution, which relies on comparisons between languages, both living and dead. When an unwritten and unrecorded language disappears, it is lost to science.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Language is also intimately bound up with culture, so it may be difficult to preserve one without the other. ‘If a person shifts from Navajo to English, they lose something,’ Mufwene says. ‘Moreover, the loss of diversity may also deprive us of different ways of looking at the world,’ says Pagel. There is mounting evidence that learning a language produces physiological changes in the brain. ‘Your brain and mine are different from the brain of someone who speaks French, for instance,’ Pagel says, and this could affect our thoughts and perceptions. ‘The patterns and connections we make among various concepts may be structured by the linguistic habits of our community.’</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>So despite linguists’ best efforts, many languages will disappear over the next century. But a growing interest in cultural identity may prevent the direst predictions from coming true. ‘The key to fostering diversity is for people to learn their ancestral tongue, as well as the dominant language,’ says Doug Whalen, founder and president of the Endangered Language Fund in New Haven, Connecticut. ‘Most of these languages will not survive without a large degree of bilingualism,’ he says. In New Zealand, classes for children have slowed the erosion of Maori and rekindled interest in the language. A similar approach in Hawaii has produced about 8,000 new speakers of Polynesian languages in the past few years. In California, ‘apprentice’ programmes have provided life support to several indigenous languages. Volunteer ‘apprentices’ pair up with one of the last living speakers of a Native American tongue to learn a traditional skill such as basket weaving, with instruction exclusively in the endangered language. After about 300 hours of training they are generally sufficiently fluent to transmit the language to the next generation. But Mufwene says that preventing a language dying out is not the same as giving it new life by using it every day. ‘Preserving a language is more like preserving fruits in a jar’ he says.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>However, preservation can bring a language back from the dead. There are examples of languages that have survived in written form and then been revived by later generations. But a written form is essential for this, so the mere possibility of revival has led many speakers of endangered languages to develop systems of writing where none existed before.</p></div></div>
+<p><strong>Questions 1-4</strong>
 
-Choose NO MORE THAN TWO WORDS from the passage for each answer. Write your answers in boxes 1-4 on your answer sheet.</p>
+Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer. Write your answers in boxes 1-4 on your answer sheet.</p>
 <p>There are currently approximately 6,800 languages in the world. This great variety of languages came about largely as a result of geographical (1)……………………..But in today’s world, factors such as government initiatives and (2)…………………..are contributing to a huge decrease in the number of languages. One factor which may help to ensure that some endangered languages do not die out completely is people’s increasing appreciation of their (3)…………………….This has been encouraged through programmes of language classes for children and through ‘apprentice’ schemes, in which the endangered language is used as the medium of instruction to teach people a (4)…………………….Some speakers of endangered languages have even produced writing systems in order to help secure the survival of their mother tongue.</p>
-<p>Questions 5-9
+<p><strong>Questions 5-9</strong>
 
 Look at the following statements (Questions 5-9) and the list of people in the box below. Match each statement with the correct person A—E. Write the appropriate letter A-E in boxes 5-9 on your answer sheet.
 
@@ -130,15 +186,15 @@ NB You may use any letter more than once.</p>
 8 Young people often reject the established way of life in their community.
 
 9 A change of language may mean a loss of traditional culture</p>
-<p>A Michael Krauss                 B Salikoko Mufwene                      C Nicholas Ostler</p>
-<p>D Mark Pagel                       E Doug Whalen</p>
-<p>Questions 10-13</p>
+<p><strong>A</strong> Michael Krauss                 <strong>B</strong> Salikoko Mufwene                      <strong>C</strong> Nicholas Ostler</p>
+<p><strong>D</strong> Mark Pagel                       <strong>E</strong> Doug Whalen</p>
+<p><strong>Questions 10-13</strong></p>
 <p>Do the following statements agree with the views of the writer in the passage? In boxes 10-13 on your answer sheet write</p>
-<p>YES                 if the statement agrees with the view of the writer
+<p><strong>YES                 </strong>if the statement agrees with the view of the writer
 
-NO                 if the statement contradicts the view of the writer
+<strong>NO                 </strong>if the statement contradicts the view of the writer
 
-NOT GIVEN    if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN   </strong> if it is impossible to say what the writer thinks about this</p>
 <p>10. The Navajo language will die out because it currently has too few speakers.
 
 11. A large number of native speakers fails to guarantee the survival of a language.
@@ -147,7 +203,7 @@ NOT GIVEN    if it is impossible to say what the writer thinks about this</p>
 
 13. The loss of linguistic diversity is inevitable.</p>
 <p>Cambridge IELTS Test 1 to 17</p>
-<p>Alternative Medicine in Australia</p>
+<p><strong>Alternative Medicine in Australia</strong></p>
 <p>The first students to study alternative medicine at university level in Australia began their four-year, full-time course at the University of Technology, Sydney, in early 1994. Their course covered, among other therapies, acupuncture. The theory they learnt is based on the traditional Chinese explanation of this ancient healing art: that it can regulate the flow of ‘Qi’ or energy through pathways in the body. This course reflects how far some alternative therapies have come in their struggle for acceptance by the medical establishment.</p>
 <p>Australia has been unusual in the Western world in having a very conservative attitude to natural or alternative therapies, according to Dr Paul Laver, a lecturer in Public Health at the University of Sydney. ‘We’ve had a tradition of doctors being fairly powerful and I guess they are pretty loath to allow any pretenders to their position to come into it.’ In many other industrialized countries, orthodox and alternative medicines have worked ‘hand in glove’ for years. In Europe, only orthodox doctors can prescribe herbal medicine. In Germany, plant remedies account for 10% of the national turnover of pharmaceutical. Americans made more visits to alternative therapist than to orthodox doctors in 1990, and each year they spend about $US 12 billion on the therapies that have not been scientifically tested.</p>
 <p>Disenchantment with orthodox medicine has seen the popularity of alternative therapies in Australia climb steadily during the past 20 years. In a 1983 national health survey, 1.9% of people said they had contacted a chiropractor, naturopath, osteopath, acupuncturist or herbalist in the two weeks prior to the survey. By 1990, this figure had risen to 2.6% of the population. The 550,000 consultations with alternative therapists reported in the 1990 survey represented about an eighth of the total number of consultations with medically qualified personnel covered by the survey, according to Dr Laver and colleagues writing in the Australian Journal of Public Health in 1993. ‘A better educated and less accepting public has become disillusioned with the experts in general and increasingly skeptical about science and empirically based knowledge,’ they said. ‘The high standing of professionals, including doctors, has been eroded as a consequence.’</p>
@@ -155,35 +211,35 @@ NOT GIVEN    if it is impossible to say what the writer thinks about this</p>
 <p>In 1993, Dr Laver and his colleagues published a survey of 289 Sydney people who attended eight alternative therapists’ practices in Sydney. These practices offered a wide range of alternative therapies from 25 therapists. Those surveyed had experience chronic illnesses, for which orthodox medicine had been able to provide little relief. They commented that they liked the holistic approach of their alternative therapists and the friendly, concerned and detailed attention they had received. The cold, impersonal manner of orthodox doctors featured in the survey. An increasing exodus from their clinics, coupled with this and a number of other relevant surveys carried out in Australia, all pointing to orthodox doctors’ inadequacies, have led mainstream doctors themselves to begin to admit they could learn from the personal style of alternative therapists. Dr Patrick Store, President of the Royal College of General Practitioners, concurs that orthodox doctors could learn a lot about beside manner and advising patients on preventative health from alternative therapists.</p>
 <p>According to the Australian Journal of Public Health, 18% of patients visiting alternative therapists do so because they suffer from muscular-skeletal complaints; 12% suffer from digestive problems, which is only 1% more than those suffering from emotional problems. Those suffering from respiratory complaints represent 7% of their patients, and candida sufferers represent an equal percentage. Headache sufferers and those complaining of general ill health represent 6% and 5% of patients respectively, and a further 4% see therapists for general health maintenance.</p>
 <p>The survey suggested that complementary medicine is probably a better term than alternative medicine. Alternative medicine appears to be an adjunct, sought in times of disenchantment when conventional medicine seems not to offer the answer.</p>
-<p>Questions 14 and 15
+<p><strong>Questions 14 and 15</strong>
 
 Choose the correct letter, A, B, C or D.</p>
 <p>14 Traditionally, how have Australian doctors differed from doctors in many Western countries?
 
-A They have worked closely with pharmaceutical companies.
+<strong>A</strong> They have worked closely with pharmaceutical companies.
 
-B They have often worked alongside other therapists.
+<strong>B</strong> They have often worked alongside other therapists.
 
-C They have been reluctant to accept alternative therapists.
+<strong>C</strong> They have been reluctant to accept alternative therapists.
 
-D They have regularly prescribed alternative remedies.</p>
+<strong>D</strong> They have regularly prescribed alternative remedies.</p>
 <p>15 In 1990, Americans
 
-A were prescribed more herbal medicines than in previous years.
+<strong>A</strong> were prescribed more herbal medicines than in previous years.
 
-B consulted alternative therapists more often than doctors.
+<strong>B</strong> consulted alternative therapists more often than doctors.
 
-C spent more on natural therapies than orthodox medicines.
+<strong>C</strong> spent more on natural therapies than orthodox medicines.
 
-D made more complaints about doctors than in previous years.</p>
-<p>Questions 16-23
+<strong>D</strong> made more complaints about doctors than in previous years.</p>
+<p><strong>Questions 16-23</strong>
 
 Do the following statements agree with the views of the writer in Reading Passage 2?</p>
-<p>YES                           if the statement agrees with the views of the writer
+<p><strong>YES</strong>                           if the statement agrees with the views of the writer
 
-NO                             if the statement contradicts the views of the writer
+<strong>NO</strong>                             if the statement contradicts the views of the writer
 
-NOT GIVEN          if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>          if it is impossible to say what the writer thinks about this</p>
 <p>16 Australians have been turning to alternative therapies in increasing numbers over the past 20 years.
 
 17 Between 1983 and 1990 the numbers of patients visiting alternative therapists rose to include a further 8% of the population.
@@ -199,20 +255,20 @@ NOT GIVEN          if it is impossible to say what the writer thinks about 
 22 The 1993 Sydney survey involved 289 patients who visited alternative therapists for acupuncture treatment.
 
 23 All the patients in the 1993 Sydney survey had long-term medical complaints.</p>
-<p>Questions 24-26
+<p><strong>Questions 24-26</strong>
 
-Complete the vertical axis in the chart below. Write NO MORE THAN THREE WORDS.</p>
-<p>PLAY IS A SERIOUS BUSINESS</p>
-<p>A Playing is a serious business. Children engrossed in a make-believe world, fox cubs play-fighting or kittens teasing a ball of string aren’t just having fun. Play may look like a carefree and exuberant way to pass the time before the hard work of adulthood comes along, but there’s much more to it than that. For a start, play can even cost animals their lives. Eighty per cent of deaths among juvenile fur seals occur because playing pups fail to spot predators approaching. It is also extremely expensive in terms of energy. Playful young animals use around two or three per cent of their energy cavorting, and in children that figure can be closer to fifteen per cent. ‘Even wo or three per cent is huge,’ says John Byers of Idaho University. ‘You just don’t find animals wasting energy like that,’ he adds. There must be a reason.</p>
-<p>B But if play is not simply a developmental hiccup, as biologists once thought, why did it evolve? The latest idea suggests that play has evolved to build big brains. In other words, playing makes you intelligent. Playfulness, it seems, is common only among mammals, although a few of the larger-brained birds also indulge. Animals at play often use unique signs – tail- wagging in dogs, for example – to indicate that activity superficially resembling adult behavior is not really in earnest. A popular explanation of play has been that it helps juveniles develop the skills they will need to hunt, mate and socialise as adults. Another has been that it allows young animals to get in shape for adult life by improving their respiratory endurance. Both these ideas have been questioned in recent years.</p>
-<p>C Take the exercise theory. If play evolved to build muscle or as a kind of endurance training, then you would expect to see permanent benefits. But Byers points out that the benefits of increased exercise disappear rapidly after training stops, so any improvement in endurance resulting from juvenile play would be lost by adulthood. ‘If the function of play was to get into shape,’ says Byers, ‘the optimum time for playing would depend on when it was most advantageous for the young of a particular species to do so, But it doesn’t work like that.’ Across species, play tends to peak about halfway through the suckling stage and then decline.</p>
-<p>D Then there’s the skills-training hypothesis. At first glance, playing animals do appear to be practising die complex manoeuvres they will need in adulthood. But a closer inspection reveals this interpretation as too simplistic. In one study, behavioural ecologist Tim Caro, from the University of California, looked at the predatory play of kittens and their predatory behaviour when they reached adulthood. He found that the way the cats played had no significant effect on their hunting prowess in later life.</p>
-<p>E Earlier this year, Sergio Pellis of Lethbridge University, Canada, reported that there is a strong positive link between brain size and playfulness among mammals in general. Comparing measurements for fifteen orders of mammal, he and his team found larger brains (for a given body size) are linked to greater playfulness. The converse was also found to be true. Robert Barton of Durham University believes that, because large brains are more sensitive to developmental stimuli than smaller brains, they require more play to help mould them for adulthood. “I concluded it’s to do with learning, and with the importance of environmental data to the brain during development,” he says.</p>
-<p>F According to Byers, the timing of the playful stage in young animals provides an important clue to what’s going on. If you plot the amount of time a juvenile devotes to play each day over the course of its development, you discover a pattern typically associated with a ‘sensitive period’ – a brief development window during which the brain can actually be modified in ways that are not possible earlier or later in life. Think of the relative ease with which young children – but not infants or adults – absorb language. Other researchers have found that play in cats, rats and mice is at its most intense just as this ‘window of opportunity’ reaches its peak.</p>
-<p>G ‘People have not paid enough attention to the amount of the brain activated by play,’ says Marc Bekoff from Colorado University. Bekoff studied coyote pups at play and found that the kind of behaviour involved was markedly more variable and unpredictable than that of adults. Such behaviour activates many different parts of the brain, he reasons. Bekoff likens it to a behavioural kaleidoscope, with animals at play jumping rapidly between activities. ‘They use behaviour from a lot of different contexts – predation, aggression, reproduction/ he says. ‘Their developing brain is getting all sorts of stimulation.</p>
-<p>H Not only is more of the brain involved in play than was suspected, but it also seems to activate higher cognitive processes. ‘There’s enormous cognitive involvement in play’, says Bekoff. He points out that play often involves complex assessments of playmates, ideas of reciprocity and the use of specialised signals and rules. He believes that play creates a brain that has greater behavioural flexibility and improved potential for learning later in life. The idea is backed up by the work of Stephen Siviy of Gettysburg College. Siviy studied how bouts of play affected the brain’s levels of a particular chemical associated with the stimulation and growth of nerve cells. He was surprised by the extent of the activation. ‘Play just lights everything up/ he says. By allowing link-ups between brain areas that might not normally communicate with each other, play may enhance creativity.</p>
-<p>I What might further experimentation suggest about the way children are raised in many societies today? We already know that rat pups denied the chance to play grow smaller brain components and fail to develop the ability to apply social rules when they interact with their peers. With schooling beginning earlier and becoming increasingly exam-orientated, play is likely to get even less of a look-in. Who knows what the result of that will be?</p>
-<p>Questions 27-32
+Complete the vertical axis in the chart below. Write <strong>NO MORE THAN THREE WORDS</strong>.</p>
+<p><strong>PLAY IS A SERIOUS BUSINESS</strong></p>
+<p><strong>A</strong> Playing is a serious business. Children engrossed in a make-believe world, fox cubs play-fighting or kittens teasing a ball of string aren’t just having fun. Play may look like a carefree and exuberant way to pass the time before the hard work of adulthood comes along, but there’s much more to it than that. For a start, play can even cost animals their lives. Eighty per cent of deaths among juvenile fur seals occur because playing pups fail to spot predators approaching. It is also extremely expensive in terms of energy. Playful young animals use around two or three per cent of their energy cavorting, and in children that figure can be closer to fifteen per cent. ‘Even wo or three per cent is huge,’ says John Byers of Idaho University. ‘You just don’t find animals wasting energy like that,’ he adds. There must be a reason.</p>
+<p><strong>B</strong> But if play is not simply a developmental hiccup, as biologists once thought, why did it evolve? The latest idea suggests that play has evolved to build big brains. In other words, playing makes you intelligent. Playfulness, it seems, is common only among mammals, although a few of the larger-brained birds also indulge. Animals at play often use unique signs – tail- wagging in dogs, for example – to indicate that activity superficially resembling adult behavior is not really in earnest. A popular explanation of play has been that it helps juveniles develop the skills they will need to hunt, mate and socialise as adults. Another has been that it allows young animals to get in shape for adult life by improving their respiratory endurance. Both these ideas have been questioned in recent years.</p>
+<p><strong>C</strong> Take the exercise theory. If play evolved to build muscle or as a kind of endurance training, then you would expect to see permanent benefits. But Byers points out that the benefits of increased exercise disappear rapidly after training stops, so any improvement in endurance resulting from juvenile play would be lost by adulthood. ‘If the function of play was to get into shape,’ says Byers, ‘the optimum time for playing would depend on when it was most advantageous for the young of a particular species to do so, But it doesn’t work like that.’ Across species, play tends to peak about halfway through the suckling stage and then decline.</p>
+<p><strong>D</strong> Then there’s the skills-training hypothesis. At first glance, playing animals do appear to be practising die complex manoeuvres they will need in adulthood. But a closer inspection reveals this interpretation as too simplistic. In one study, behavioural ecologist Tim Caro, from the University of California, looked at the predatory play of kittens and their predatory behaviour when they reached adulthood. He found that the way the cats played had no significant effect on their hunting prowess in later life.</p>
+<p><strong>E</strong> Earlier this year, Sergio Pellis of Lethbridge University, Canada, reported that there is a strong positive link between brain size and playfulness among mammals in general. Comparing measurements for fifteen orders of mammal, he and his team found larger brains (for a given body size) are linked to greater playfulness. The converse was also found to be true. Robert Barton of Durham University believes that, because large brains are more sensitive to developmental stimuli than smaller brains, they require more play to help mould them for adulthood. “I concluded it’s to do with learning, and with the importance of environmental data to the brain during development,” he says.</p>
+<p><strong>F</strong> According to Byers, the timing of the playful stage in young animals provides an important clue to what’s going on. If you plot the amount of time a juvenile devotes to play each day over the course of its development, you discover a pattern typically associated with a ‘sensitive period’ – a brief development window during which the brain can actually be modified in ways that are not possible earlier or later in life. Think of the relative ease with which young children – but not infants or adults – absorb language. Other researchers have found that play in cats, rats and mice is at its most intense just as this ‘window of opportunity’ reaches its peak.</p>
+<p><strong>G</strong> ‘People have not paid enough attention to the amount of the brain activated by play,’ says Marc Bekoff from Colorado University. Bekoff studied coyote pups at play and found that the kind of behaviour involved was markedly more variable and unpredictable than that of adults. Such behaviour activates many different parts of the brain, he reasons. Bekoff likens it to a behavioural kaleidoscope, with animals at play jumping rapidly between activities. ‘They use behaviour from a lot of different contexts – predation, aggression, reproduction/ he says. ‘Their developing brain is getting all sorts of stimulation.</p>
+<p><strong>H</strong> Not only is more of the brain involved in play than was suspected, but it also seems to activate higher cognitive processes. ‘There’s enormous cognitive involvement in play’, says Bekoff. He points out that play often involves complex assessments of playmates, ideas of reciprocity and the use of specialised signals and rules. He believes that play creates a brain that has greater behavioural flexibility and improved potential for learning later in life. The idea is backed up by the work of Stephen Siviy of Gettysburg College. Siviy studied how bouts of play affected the brain’s levels of a particular chemical associated with the stimulation and growth of nerve cells. He was surprised by the extent of the activation. ‘Play just lights everything up/ he says. By allowing link-ups between brain areas that might not normally communicate with each other, play may enhance creativity.</p>
+<p><strong>I</strong> What might further experimentation suggest about the way children are raised in many societies today? We already know that rat pups denied the chance to play grow smaller brain components and fail to develop the ability to apply social rules when they interact with their peers. With schooling beginning earlier and becoming increasingly exam-orientated, play is likely to get even less of a look-in. Who knows what the result of that will be?</p>
+<p><strong>Questions 27-32</strong>
 
 Reading Passage 3 has nine paragraphs labelled A-I. Which paragraph contains the following information?
 
@@ -228,24 +284,24 @@ Write the correct letter A-I in boxes 27-32 on your answer sheet. NB You may use
 31 the possible effects that a reduction in play opportunities will have on humans
 
 32 the classes of animals for which play is important</p>
-<p>Questions 33-35
+<p><strong>Questions 33-35</strong>
 
-Choose THREE letters A-F. Write your answers in boxes 33-35 on your answer sheet.
+Choose <strong>THREE</strong> letters A-F. Write your answers in boxes 33-35 on your answer sheet.
 
 The list below gives some ways of regarding play.</p>
-<p>Which THREE ways are mentioned by the writer of the text?</p>
-<p>A a rehearsal for later adult activities
+<p>Which <strong>THREE</strong> ways are mentioned by the writer of the text?</p>
+<p><strong>A</strong> a rehearsal for later adult activities
 
-B a method animals use to prove themselves to their peer group
+<strong>B</strong> a method animals use to prove themselves to their peer group
 
-C an activity intended to build up strength for adulthoood
+<strong>C</strong> an activity intended to build up strength for adulthoood
 
-D a means of communicating feelings
+<strong>D</strong> a means of communicating feelings
 
-E a defensive strategy
+<strong>E</strong> a defensive strategy
 
-F an activity assisting organ growth</p>
-<p>Questions 36-40
+<strong>F</strong> an activity assisting organ growth</p>
+<p><strong>Questions 36-40</strong>
 
 Look at the following researchers (Questions 36-40) and the list of findings below. Match each researcher with the correct finding. Write the correct letter A-H in boxes 36-40 on your answer sheet.</p>
 <p>36 Robert Barton
@@ -257,25 +313,25 @@ Look at the following researchers (Questions 36-40) and the list of findings bel
 39 Sergio Pellis
 
 40 Stephen Siviy</p>
-<p>List of Findings
+<p><strong>List of Findings</strong>
 
-A There is a link between a specific substance in the brain and playing
+<strong>A</strong> There is a link between a specific substance in the brain and playing
 
-B Play provides input concerning physical surroundings
+<strong>B</strong> Play provides input concerning physical surroundings
 
-C Varieties of play can be matched to different stages of evolutionary history
+<strong>C</strong> Varieties of play can be matched to different stages of evolutionary history
 
-D There is a tendency for mammals with smaller brains to play less
+<strong>D</strong> There is a tendency for mammals with smaller brains to play less
 
-E Play is not a form of fitness training for the future
+<strong>E</strong> Play is not a form of fitness training for the future
 
-F Some species of larger brained birds engage in play
+<strong>F</strong> Some species of larger brained birds engage in play
 
-G A wide range of activities are combined during play
+<strong>G</strong> A wide range of activities are combined during play
 
-H Play is a method of teaching survival techniques</p>
+<strong>H</strong> Play is a method of teaching survival techniques</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. isolation</p>
 <p>2. economic globalization</p>
 <p>3. cultural identity</p>
@@ -534,6 +590,29 @@ H Play is a method of teaching survival techniques</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -553,12 +632,23 @@ H Play is a method of teaching survival techniques</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -570,14 +660,6 @@ H Play is a method of teaching survival techniques</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

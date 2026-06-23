@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,98 +158,98 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_113</h1>
-            <p>IELTS Listening Practice - Test 113</p>
-<p>Part 1: Questions 1-6
-Complete the form below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Recruitment Agency
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 113</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-6</strong>
+Complete the form below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<h3 class="test-heading"><strong>Recruitment Agency</strong>
 Employee record
-Surname: Thompson</p>
-<p>Email: (1)  _______  @haught.net
+Surname: Thompson</h3>
+<p>Email: <strong>(1)</strong>  _______  @haught.net
 Employer reference: Name: Jane Foot
-Job: (2)  _______  at Bermuda Girls’ School</p>
-<p>Character reference: Name: Monica Carmody
-Relationship: (3)  _______  since 1991</p>
-<p>Main occupation: (4)  _______</p>
-<p>Additional qualifications: diploma in (5)  _______</p>
-<p>Can also teach: (6)  _______  to GCSE level</p>
-<p>Questions 7-10
-Complete the form below. Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>Temporary teaching positions</p>
-<p>(7)  _______                    (8)   _______ 
-(9)  _______                   (10)  _______</p>
-<p>Part 2: Questions 11-15
+Job: <strong>(2)</strong>  _______  at Bermuda Girls’ School</p>
+<h3 class="test-heading">Character reference: Name: Monica Carmody
+Relationship: <strong>(3)</strong>  _______  since 1991</h3>
+<h3 class="test-heading">Main occupation: <strong>(4)</strong>  _______</h3>
+<h3 class="test-heading">Additional qualifications: diploma in <strong>(5)</strong>  _______</h3>
+<h3 class="test-heading">Can also teach: <strong>(6)</strong>  _______  to GCSE level</h3>
+<p><strong>Questions 7-10</strong>
+Complete the form below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p><strong>Temporary teaching positions</strong></p>
+<p><strong>(7)</strong>  _______                    <strong>(8) </strong>  _______ 
+<strong>(9)</strong>  _______                   <strong>(10)</strong>  _______</p>
+<p><strong>Part 2: Questions 11-15</strong>
 Label the map below. Write correct letter A-H next to questions 11-15.</p>
 <p>11. Christchurch  _______ 
 12. Collingwood  _______ 
 13. Bluff  _______ 
 14. Lewis  _______ 
 15. Kaikoura  _______</p>
-<p>Questions 16-20
+<p><strong>Questions 16-20</strong>
 Choose the correct letter A, B or C.</p>
 <p>16. From what time onwards will all roads out of Christchurch be closed?
-[ ]  A 7.30 am
-[ ]  B 8 am
-[ ]  C 1 pm</p>
+<strong>[ ] </strong><strong> A</strong> 7.30 am
+<strong>[ ] </strong><strong> B</strong> 8 am
+<strong>[ ] </strong><strong> C</strong> 1 pm</p>
 <p>17. What should passengers who have pre-arranged accommodation in Christchurch do when they disembark from their flight?
-[ ]  A go to the customer service desk
-[ ]  B evacuate to the shelters
-[ ]  C go directly to their hotel</p>
+<strong>[ ] </strong><strong> A</strong> go to the customer service desk
+<strong>[ ] </strong><strong> B</strong> evacuate to the shelters
+<strong>[ ] </strong><strong> C</strong> go directly to their hotel</p>
 <p>18. There will be period of calm weather
-[ ]  A until 7 pm
-[ ]  B between 4 and 4.30 pm
-[ ]  C after 9 pm</p>
+<strong>[ ] </strong><strong> A</strong> until 7 pm
+<strong>[ ] </strong><strong> B</strong> between 4 and 4.30 pm
+<strong>[ ] </strong><strong> C</strong> after 9 pm</p>
 <p>19. What are people traveling by car being advised to do?
-[ ]  A wait until 9 pm before using the roads
-[ ]  B drive only before 9 pm
-[ ]  C avoid travel if at all possible</p>
+<strong>[ ] </strong><strong> A</strong> wait until 9 pm before using the roads
+<strong>[ ] </strong><strong> B</strong> drive only before 9 pm
+<strong>[ ] </strong><strong> C</strong> avoid travel if at all possible</p>
 <p>20. Coastal towns on the storm-facing side of the island have been affected by
-[ ]  A strong tornadoes
-[ ]  B flash flooding
-[ ]  C power cuts</p>
-<p>Part 3: Questions 21-24
+<strong>[ ] </strong><strong> A</strong> strong tornadoes
+<strong>[ ] </strong><strong> B</strong> flash flooding
+<strong>[ ] </strong><strong> C</strong> power cuts</p>
+<p><strong>Part 3: Questions 21-24</strong>
 Write the correct letter A-E next to questions 21-24.</p>
-<p>Maslow’s hierarchy of needs
-A
-B
-C
-D
-E</p>
+<p><strong>Maslow’s hierarchy of needs</strong>
+<strong>A</strong>
+<strong>B</strong>
+<strong>C</strong>
+<strong>D</strong>
+<strong>E</strong></p>
 <p>21. Physiological needs  _______ 
 22. Self-actualisation needs  _______ 
 23. Love and belonging needs  _______ 
 24. Esteem needs  _______</p>
-<p>Questions 25-30
+<p><strong>Questions 25-30</strong>
 What need level in Maslow’s hierarchy is the person in each case study at?</p>
 <p>Write the correct letter A-E next to questions 25-30.</p>
-<p>A Physiological
-B Safety
-C Love and belonging
-D Esteem
-E Self-actualisation</p>
+<p><strong>A</strong> Physiological
+<strong>B</strong> Safety
+<strong>C</strong> Love and belonging
+<strong>D</strong> Esteem
+<strong>E</strong> Self-actualisation</p>
 <p>25. Case 1  _______ 
 26. Case 2  _______ 
 27. Case 3  _______ 
 28. Case 4  _______ 
 29. Case 5  _______ 
 30. Case 6  _______</p>
-<p>Part 4: Questions 31-36
-Label the diagram below. Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>(31)  _______                  (32)  _______ 
-(33)  _______                 (34)  _______ 
-(36)  _______</p>
-<p>Questions 37-40
-Complete the flow chart below. Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>The Fukushima Disaster: Sequence of events</p>
+<p><strong>Part 4: Questions 31-36</strong>
+Label the diagram below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p><strong>(31)</strong>  _______                  <strong>(32)</strong>  _______ 
+<strong>(33)</strong>  _______                 <strong>(34)</strong>  _______ 
+<strong>(36)</strong>  _______</p>
+<p><strong>Questions 37-40</strong>
+Complete the flow chart below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p><strong>The Fukushima Disaster: Sequence of events</strong></p>
 <p>Earthquake strikes</p>
-<p>Reactors (37)  _______  (new source of power now needed for coolant system)</p>
+<p>Reactors <strong>(37)</strong>  _______  (new source of power now needed for coolant system)</p>
 <p>Diesel generators powered on</p>
-<p>Tsunami hits after 50 minutes, (38)  _______  sea-wall defences</p>
+<p>Tsunami hits after 50 minutes, <strong>(38)</strong>  _______  sea-wall defences</p>
 <p>Turbine halls become flooded</p>
-<p>(39)  _______  are disabled</p>
+<p><strong>(39)</strong>  _______  are disabled</p>
 <p>Back up battery power in Reactor 1 partially fails</p>
 <p>Core temperature and pressure inside containment building rise</p>
-<p>Explosion next day leaves containment building’s roof collapsed; meltdown is (40)  _______</p>
-<p>ANSWER KEY</p>
+<p>Explosion next day leaves containment building’s roof collapsed; meltdown is <strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. jannthompson</p>
 <p>2. head of english</p>
 <p>3. best friends</p>
@@ -452,6 +508,29 @@ Complete the flow chart below. Write NO MORE THAN THREE WORDS for each answer.</
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -471,12 +550,23 @@ Complete the flow chart below. Write NO MORE THAN THREE WORDS for each answer.</
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -488,14 +578,6 @@ Complete the flow chart below. Write NO MORE THAN THREE WORDS for each answer.</
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

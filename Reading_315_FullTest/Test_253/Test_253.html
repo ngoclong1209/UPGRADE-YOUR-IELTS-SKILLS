@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,37 +158,37 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_253</h1>
-            <p>IELTS Reading Practice - Test 253</p>
-<p>Reclaiming the future of aral sea</p>
-<p>A The Aral Sea gets almost all its water from the Amu and Syr rivers. Over millennium the Amu’s course has drifted away from the sea, causing it to shrink. But the lake always rebounded as the Amu shifted back again. Today heavy irrigation for crops such as cotton and rice siphons off much of the two rivers, severely cutting flow into their deltas and thus into the sea. Evaporation vastly outpaces any rainfall, snowmelt or groundwater supply, reducing water volume and raising salinity. The Soviet Union hid the sea’s demise for decades until 1985, when leader Mikhail Gorbachev revealed the great environmental and human tragedy. By the late 1980s the sea’s level had dropped so much that the water had separated into two distinct bodies: the Small Aral (north) and the Large Aral (south). By 2007 the south had split into a deep western basin, a shallow eastern basin and a small, isolated gulf. The Large Aral’s volume had dropped from 708 to only 75 cubic kilometers (km3), and salinity had risen from 14 to more than 100 grams per liter (g/1). The 1991 dissolution of the Soviet Union divided the lake between newly formed Kazakhstan and Uzbekistan, ending a grand Soviet plan to channel in water from distant Siberian rivers and establishing competition for the dwindling resource.</p>
-<p>B Desiccation of the Aral Sea has wrought severe consequences. Greatly reduced river flows ended the spring floods that sustained wetlands with freshwater and enriched sediment. Fish species in the lakes dropped from 32 to 6 because of rising salinity and loss of spawning and feeding grounds (most survived in the river deltas). Commercial fisheries, which caught 40,000 metric tons of fish in 1960, were gone by the mid-1980s; more than 60,000 related jobs were lost. The most common remaining lake occupant was the Black Sea flounder, a saltwater fish introduced in the 1970s, but by 2003 it had disappeared from the southern lakes because salinity was more than 70 g/1, double that of a typical ocean. Shipping on the Aral also ceased because the water receded many kilometers from the major ports of Aralsk to the north and Moynak in the south; keeping increasingly long channels open to the cities became too costly. Groundwater levels dropped with falling lake levels, intensifying desertification.</p>
-<p>C The receding sea has exposed and dried 54,000 square kilometers of seabed, which is choked with salt and in some places laced with pesticides and other agricultural chemicals deposited by runoff from area farming. Strong windstorms blow salt, dust and contaminants as far as 500 km. Winds from the north and northeast drive the most severe storms, seriously impacting the Amu delta to the south—the most densely settled and most economically and ecologically important area in the region. Afrbome sodium bicarbonate, sodium chloride and sodium sulfate kill or retard the growth of natural vegetation and crops—a cruel irony given that irrigating those crops starves the sea. Health experts say the local population suffers from high levels of respiratory illnesses, throat and esophageal cancer, and digestive disorders caused by breathing and ingesting salt-laden air and water. Liver and kidney ailments, as well as eye problems, are common. The loss of fish has also greatly reduced dietary variety, worsening malnutrition and anemia, particularly in pregnant women.</p>
-<p>D Returning the entire Aral Sea to its 1960s state is unrealistic. The annual inflow from the Syr and Amu rivers would have to be quadrupled from the recent average of 13 km3. The only means would be to curtail irrigation, which accounts for 92 percent of water withdrawals. Yet four of the five former Soviet republics in the Aral Sea basin (Kazakhstan is the exception) intend to expand irrigation, mainly to feed growing populations. Switching to less water- intensive crops, such as replacing cotton with winter wheat, could help, but the two primary irrigating nations, Uzbekistan and Turkmenistan, intend to keep cotton to earn foreign currency. The extensive irrigation canals could be greatly improved; many are simply cuts through sand, and they allow enormous quantities of water to seep away. Modernizing the entire system could save 12 km3 a year but would cost at least $16 billion. The basin states do not have the money or the political will. Kazakhstan has nonetheless tried to partially restore the northern Aral.</p>
-<p>E We expect salinities in the Small Aral to settle at three to 14 g/1, depending on location. At these levels many more indigenous species should return, although the saltwater kambala would disappear from most places. Further restoration is possible. For example, if irrigation improvements raised the average annual inflow from the Syr to 4.5 km3, which is entirely feasible, the lake’s level could stabilize at about 47 meters. This change would bring the shoreline to within eight kilometers of Aralsk, the former major port city, close enough to allow recovery of an earlier channel that connected the city to the receding waters. The channel would give large commercial fishing vessels access to the sea, and shipping could restart. Marshlands and fish populations would improve even more because of a further reduction in salinity. Outflow to the southern lakes could also increase, helping then restoration. Such a plan would require a much longer and higher dike, as well as reconstruction of the gate facility, and it is not clear that Kazakhstan has the means or desire to pursue it. The country is, however, now discussing more modest proposals to bring water closer to Aralsk.</p>
-<p>F The Large Aral faces a difficult future; it continues to shrink rapidly. Only a long, narrow channel connects the shallow eastern basin and the deeper western basin, and this could close altogether. If countries along the Amu make no changes, we estimate that at current rates of groundwater in and evaporation out, an isolated eastern basin would stabilize at an area of 4,300 square kilometers (km2). But it would average only 2.5 meters deep. Salinity would exceed 100 g/1, possibly reaching 200 g/1; the only creatures that could live in it would be brine shrimp and bacteria. The western basin’s fate depends on ground- water inflow, estimates for which are uncertain. Someone has noted numerous fresh- water springs on the western cliffs. The most reliable calculations indicate that the basin would settle at about 2,100 km2. The lake would still be relatively deep, reaching 37 meters in spots, but salinity would rise well above 100 g/1.</p>
-<p>Questions 1-6
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 253</strong></h3>
+<h3 class="test-heading"><strong>Reclaiming the future of aral sea</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> The Aral Sea gets almost all its water from the Amu and Syr rivers. Over millennium the Amu’s course has drifted away from the sea, causing it to shrink. But the lake always rebounded as the Amu shifted back again. Today heavy irrigation for crops such as cotton and rice siphons off much of the two rivers, severely cutting flow into their deltas and thus into the sea. Evaporation vastly outpaces any rainfall, snowmelt or groundwater supply, reducing water volume and raising salinity. The Soviet Union hid the sea’s demise for decades until 1985, when leader Mikhail Gorbachev revealed the great environmental and human tragedy. By the late 1980s the sea’s level had dropped so much that the water had separated into two distinct bodies: the Small Aral (north) and the Large Aral (south). By 2007 the south had split into a deep western basin, a shallow eastern basin and a small, isolated gulf. The Large Aral’s volume had dropped from 708 to only 75 cubic kilometers (km3), and salinity had risen from 14 to more than 100 grams per liter (g/1). The 1991 dissolution of the Soviet Union divided the lake between newly formed Kazakhstan and Uzbekistan, ending a grand Soviet plan to channel in water from distant Siberian rivers and establishing competition for the dwindling resource.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> Desiccation of the Aral Sea has wrought severe consequences. Greatly reduced river flows ended the spring floods that sustained wetlands with freshwater and enriched sediment. Fish species in the lakes dropped from 32 to 6 because of rising salinity and loss of spawning and feeding grounds (most survived in the river deltas). Commercial fisheries, which caught 40,000 metric tons of fish in 1960, were gone by the mid-1980s; more than 60,000 related jobs were lost. The most common remaining lake occupant was the Black Sea flounder, a saltwater fish introduced in the 1970s, but by 2003 it had disappeared from the southern lakes because salinity was more than 70 g/1, double that of a typical ocean. Shipping on the Aral also ceased because the water receded many kilometers from the major ports of Aralsk to the north and Moynak in the south; keeping increasingly long channels open to the cities became too costly. Groundwater levels dropped with falling lake levels, intensifying desertification.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> The receding sea has exposed and dried 54,000 square kilometers of seabed, which is choked with salt and in some places laced with pesticides and other agricultural chemicals deposited by runoff from area farming. Strong windstorms blow salt, dust and contaminants as far as 500 km. Winds from the north and northeast drive the most severe storms, seriously impacting the Amu delta to the south—the most densely settled and most economically and ecologically important area in the region. Afrbome sodium bicarbonate, sodium chloride and sodium sulfate kill or retard the growth of natural vegetation and crops—a cruel irony given that irrigating those crops starves the sea. Health experts say the local population suffers from high levels of respiratory illnesses, throat and esophageal cancer, and digestive disorders caused by breathing and ingesting salt-laden air and water. Liver and kidney ailments, as well as eye problems, are common. The loss of fish has also greatly reduced dietary variety, worsening malnutrition and anemia, particularly in pregnant women.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> Returning the entire Aral Sea to its 1960s state is unrealistic. The annual inflow from the Syr and Amu rivers would have to be quadrupled from the recent average of 13 km3. The only means would be to curtail irrigation, which accounts for 92 percent of water withdrawals. Yet four of the five former Soviet republics in the Aral Sea basin (Kazakhstan is the exception) intend to expand irrigation, mainly to feed growing populations. Switching to less water- intensive crops, such as replacing cotton with winter wheat, could help, but the two primary irrigating nations, Uzbekistan and Turkmenistan, intend to keep cotton to earn foreign currency. The extensive irrigation canals could be greatly improved; many are simply cuts through sand, and they allow enormous quantities of water to seep away. Modernizing the entire system could save 12 km3 a year but would cost at least $16 billion. The basin states do not have the money or the political will. Kazakhstan has nonetheless tried to partially restore the northern Aral.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> We expect salinities in the Small Aral to settle at three to 14 g/1, depending on location. At these levels many more indigenous species should return, although the saltwater kambala would disappear from most places. Further restoration is possible. For example, if irrigation improvements raised the average annual inflow from the Syr to 4.5 km3, which is entirely feasible, the lake’s level could stabilize at about 47 meters. This change would bring the shoreline to within eight kilometers of Aralsk, the former major port city, close enough to allow recovery of an earlier channel that connected the city to the receding waters. The channel would give large commercial fishing vessels access to the sea, and shipping could restart. Marshlands and fish populations would improve even more because of a further reduction in salinity. Outflow to the southern lakes could also increase, helping then restoration. Such a plan would require a much longer and higher dike, as well as reconstruction of the gate facility, and it is not clear that Kazakhstan has the means or desire to pursue it. The country is, however, now discussing more modest proposals to bring water closer to Aralsk.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> The Large Aral faces a difficult future; it continues to shrink rapidly. Only a long, narrow channel connects the shallow eastern basin and the deeper western basin, and this could close altogether. If countries along the Amu make no changes, we estimate that at current rates of groundwater in and evaporation out, an isolated eastern basin would stabilize at an area of 4,300 square kilometers (km2). But it would average only 2.5 meters deep. Salinity would exceed 100 g/1, possibly reaching 200 g/1; the only creatures that could live in it would be brine shrimp and bacteria. The western basin’s fate depends on ground- water inflow, estimates for which are uncertain. Someone has noted numerous fresh- water springs on the western cliffs. The most reliable calculations indicate that the basin would settle at about 2,100 km2. The lake would still be relatively deep, reaching 37 meters in spots, but salinity would rise well above 100 g/1.</p></div></div>
+<p><strong>Questions 1-6</strong>
 The reading Passage has seven paragraphs A-F. Which paragraph contains the following information? Write the correct letter A-F, in boxes 1-6 on your answer sheet. NB You may use any letter more than once.</p>
-<p>Questions 7-9
+<p><strong>Questions 7-9</strong>
 Do the following statements agree with the information given in reading passage? In boxes 7-9 on your answer sheet, write</p>
-<p>TRUE                       if the statement agrees with the information
-FALSE                      if the statement contradicts the information
-NOT GIVEN             if there is no information on this</p>
+<p><strong>TRUE</strong>                       if the statement agrees with the information
+<strong>FALSE</strong>                      if the statement contradicts the information
+<strong>NOT GIVEN</strong>             if there is no information on this</p>
 <p>7. In response to the increasingly growing number in the population, not all nations near the Aral Sea consider plans which will enhance the severity of the problems the Aral Sea is faced with.
 8. The willingness for Kazakhstan to take the restoration action to save the Small Aral Sea is somehow not certain.
 9. The western basin seems to have a destined future regardless of the influx of the groundwater.</p>
-<p>Questions 10-13
-Complete the following summary of the paragraphs of reading passage, using NO MORE THAN THREE WORDS from the reading passage for each answer.</p>
+<p><strong>Questions 10-13</strong>
+Complete the following summary of the paragraphs of reading passage, using <strong>NO MORE THAN THREE WORDS</strong> from the reading passage for each answer.</p>
 <p>The (10)……………….. produced by the floodwaters, which were ceased because of the decrease in (11)……………….. of the Aral Sea, are main sources to keep the survival of the wetlands. The types of fishes living in it experienced a devastating tragedy out of the increase in (12)……………… and decrease in spots for (13)……………. with a good example of the extinction of a specific fish. What is more, fisheries and shipping suffered greatly from these vast changes.</p>
-<p>Conflicting climatic phenomena co-existing on the Mars</p>
-<p>A On Mars, signs of wetness keep pouring in: deeply carved river valleys, vast deltas and widespread remnants of evaporating seas have convinced many experts that liquid water may have covered large parts of the Red Planet for a billion years or more. But most efforts to explain how Martian climate ever permitted such clement conditions come up dry. Bitterly cold and parched today, Mars needed a potent greenhouse atmosphere to sustain its watery past. A thick layer of heat-trapping carbon dioxide from volcanoes probably shrouded the young planet, but climate models indicate time and again that C02 alone could not have kept the surface above freezing.</p>
-<p>B Now, inspired by the surprising discovery that sulfur minerals are pervasive in the Martian soil, scientists are beginning to suspect that C02 had a warm-up partner: sulfur dioxide (S02). Like C02, S02 is a common gas emitted when volcanoes erupt, a frequent occurrence on Mars when it was still young. A hundredth or even a thousandth of a percent S02 in Mars’s early atmosphere could have provided the extra boost of greenhouse warming that the Red Planet needed to stay wet, explains geochemist Daniel p. Schrag of Harvard University.</p>
-<p>C That may not sound like much, but for many gases, even minuscule concentrations are hard to maintain. On our home planet, S02 provides no significant long-term warmth because it combines almost instantly with oxygen in the atmosphere to form sulfate, a type of salt. Early Mars would have been virtually free of atmospheric oxygen, though, so S02 would have stuck around much longer.</p>
-<p>D “When you take away oxygen, it’s a profound change, and the atmosphere works really differently,” Schrag remarks. According to Schrag and his colleagues, that difference also implies that S02 would have played a starring role in the Martian water cycle—thus resolving another climate conundrum, namely, a lack of certain rocks.</p>
-<p>E Schrag’s team contends that on early Mars, much of the S02 would have combined with airborne water droplets and fallen as sulfurous acid rain, rather than transforming into a salt as on Earth. The resulting acidity would have inhibited the formation of thick layers of limestone and other carbonate rocks. Researchers assumed Mars would be chock-full of carbonate rocks because their formation is such a fundamental consequence of the humid, C02-rich atmosphere. Over millions of years, this rock-forming process has sequestered enough of the carbon dioxide spewed from earthly volcanoes to limit the buildup of the gas in the atmosphere. stifling this C02-sequestration step on early Mars would have forced more of the gas to accumulate in the atmosphere—another way S02 could have boosted greenhouse warming, Schrag suggests.</p>
-<p>F Some scientists doubt that S02 was really up to these climatic tasks . Even in an oxygen-free atmosphere, S02 is still extremely fragile; the sun’s ultraviolet radiation splits apart S02 molecules quite readily, points out James F. Kasting, an atmospheric chemist at Pennsylvania state University. In Easting’s computer models of Earth’s early climate, which is often compared with that of early Mars, this photochemical destruction capped S02 concentrations at one thousandth as much as Schrag and his colleagues describe. “There may be ways to make this idea work,” Kasting says. “But it would take some detailed modeling to convince skeptics, including me, that it is actually feasible.”</p>
-<p>G Schrag admits that the details are uncertain, but he cites estimates by other researchers who suggest that early Martian volcanoes could have spewed enough S02 to keep pace with the S02 destroyed photochemically. Previous findings also indicate that a thick C02 atmosphere would have effectively scattered the most destructive wavelengths of ultraviolet radiation—yet another example of an apparently mutually beneficial partnership between C02 and S02 on early Mars.</p>
-<p>H Kasting maintains that an S02 climate feedback could not have made early Mars as warm as Earth, but he does allow for the possibility that S02 concentrations may have remained high enough to keep the planet partly defrosted, with perhaps enough rainfall to form river valleys. Over that point, Schrag does not quibble. “Our hypothesis doesn’t depend at all on whether there was a big ocean, a few lakes or just a few little puddles,” he says. ” Warm doesn’t mean warm like the Amazon. It could mean warm like Iceland— just warm enough to create those river valleys . ” with S02, it only takes a little. If sulfur dioxide warmed early Mars, as a new hypothesis suggests, minerals called sulfites would have formed in standing water at the surface. No sulfites have yet turned up, possibly because no one was looking for them. The next-generation rover, the Mars Science Laboratory, is well equipped for the search. Scheduled to launch in 2009, the rover (shown here in an artist’s conception) will be the first to carry an x-ray diffractometer, which can scan and identify the crystal structure of any mineral it encounters.</p>
-<p>Questions 14-19
+<p><strong>Conflicting climatic phenomena co-existing on the Mars</strong></p>
+<p><strong>A</strong> On Mars, signs of wetness keep pouring in: deeply carved river valleys, vast deltas and widespread remnants of evaporating seas have convinced many experts that liquid water may have covered large parts of the Red Planet for a billion years or more. But most efforts to explain how Martian climate ever permitted such clement conditions come up dry. Bitterly cold and parched today, Mars needed a potent greenhouse atmosphere to sustain its watery past. A thick layer of heat-trapping carbon dioxide from volcanoes probably shrouded the young planet, but climate models indicate time and again that C02 alone could not have kept the surface above freezing.</p>
+<p><strong>B</strong> Now, inspired by the surprising discovery that sulfur minerals are pervasive in the Martian soil, scientists are beginning to suspect that C02 had a warm-up partner: sulfur dioxide (S02). Like C02, S02 is a common gas emitted when volcanoes erupt, a frequent occurrence on Mars when it was still young. A hundredth or even a thousandth of a percent S02 in Mars’s early atmosphere could have provided the extra boost of greenhouse warming that the Red Planet needed to stay wet, explains geochemist Daniel p. Schrag of Harvard University.</p>
+<p><strong>C</strong> That may not sound like much, but for many gases, even minuscule concentrations are hard to maintain. On our home planet, S02 provides no significant long-term warmth because it combines almost instantly with oxygen in the atmosphere to form sulfate, a type of salt. Early Mars would have been virtually free of atmospheric oxygen, though, so S02 would have stuck around much longer.</p>
+<p><strong>D</strong> “When you take away oxygen, it’s a profound change, and the atmosphere works really differently,” Schrag remarks. According to Schrag and his colleagues, that difference also implies that S02 would have played a starring role in the Martian water cycle—thus resolving another climate conundrum, namely, a lack of certain rocks.</p>
+<p><strong>E</strong> Schrag’s team contends that on early Mars, much of the S02 would have combined with airborne water droplets and fallen as sulfurous acid rain, rather than transforming into a salt as on Earth. The resulting acidity would have inhibited the formation of thick layers of limestone and other carbonate rocks. Researchers assumed Mars would be chock-full of carbonate rocks because their formation is such a fundamental consequence of the humid, C02-rich atmosphere. Over millions of years, this rock-forming process has sequestered enough of the carbon dioxide spewed from earthly volcanoes to limit the buildup of the gas in the atmosphere. stifling this C02-sequestration step on early Mars would have forced more of the gas to accumulate in the atmosphere—another way S02 could have boosted greenhouse warming, Schrag suggests.</p>
+<p><strong>F</strong> Some scientists doubt that S02 was really up to these climatic tasks . Even in an oxygen-free atmosphere, S02 is still extremely fragile; the sun’s ultraviolet radiation splits apart S02 molecules quite readily, points out James F. Kasting, an atmospheric chemist at Pennsylvania state University. In Easting’s computer models of Earth’s early climate, which is often compared with that of early Mars, this photochemical destruction capped S02 concentrations at one thousandth as much as Schrag and his colleagues describe. “There may be ways to make this idea work,” Kasting says. “But it would take some detailed modeling to convince skeptics, including me, that it is actually feasible.”</p>
+<p><strong>G</strong> Schrag admits that the details are uncertain, but he cites estimates by other researchers who suggest that early Martian volcanoes could have spewed enough S02 to keep pace with the S02 destroyed photochemically. Previous findings also indicate that a thick C02 atmosphere would have effectively scattered the most destructive wavelengths of ultraviolet radiation—yet another example of an apparently mutually beneficial partnership between C02 and S02 on early Mars.</p>
+<p><strong>H</strong> Kasting maintains that an S02 climate feedback could not have made early Mars as warm as Earth, but he does allow for the possibility that S02 concentrations may have remained high enough to keep the planet partly defrosted, with perhaps enough rainfall to form river valleys. Over that point, Schrag does not quibble. “Our hypothesis doesn’t depend at all on whether there was a big ocean, a few lakes or just a few little puddles,” he says. ” Warm doesn’t mean warm like the Amazon. It could mean warm like Iceland— just warm enough to create those river valleys . ” with S02, it only takes a little. If sulfur dioxide warmed early Mars, as a new hypothesis suggests, minerals called sulfites would have formed in standing water at the surface. No sulfites have yet turned up, possibly because no one was looking for them. The next-generation rover, the Mars Science Laboratory, is well equipped for the search. Scheduled to launch in 2009, the rover (shown here in an artist’s conception) will be the first to carry an x-ray diffractometer, which can scan and identify the crystal structure of any mineral it encounters.</p>
+<p><strong>Questions 14-19</strong>
 The reading Passage has seven paragraphs A-H. Which paragraph contains the following information? Write the correct letter A-H, in boxes 14-19 on your answer sheet. NB You may use any letter more than once.</p>
 <p>14. A problem indirectly solved by SO2
 15. A device with an astounding ability for detection
@@ -140,18 +196,18 @@ The reading Passage has seven paragraphs A-H. Which paragraph contains the follo
 17. The destructive effect brought by the sunlight proposed by the opponents
 18. A specific condition on early Mars to guarantee the SO2 to maintain in the atmosphere for a long time
 19. Conflicting climatic phenomena co-existing on the Mars</p>
-<p>Questions 20-22
+<p><strong>Questions 20-22</strong>
 Do the following statements agree with the information given in reading passage? In boxes 20-22 on your answer sheet, write</p>
-<p>TRUE                   if the statement agrees with the information
-FALSE                  if the statement contradicts the information
-NOT GIVEN        if there is no information on this</p>
+<p><strong>TRUE</strong>                   if the statement agrees with the information
+<strong>FALSE</strong>                  if the statement contradicts the information
+<strong>NOT GIVEN</strong>        if there is no information on this</p>
 <p>20. Schrag has provided concrete proofs to fight against the skeptics for his view.
 21. More and more evidences show up to be in favor of the leading role SO2 has for the warming up the Mars.
 22. The sulfites have not been detected probably because of no concern for them.</p>
-<p>Questions 23-26
-Complete the following summary of the paragraphs of reading passage, using NO MORE THAN THREE WORDS from the reading passage for each answer. Write your answers in boxes 23-26 on your answer sheet.</p>
+<p><strong>Questions 23-26</strong>
+Complete the following summary of the paragraphs of reading passage, using <strong>NO MORE THAN THREE WORDS</strong> from the reading passage for each answer. Write your answers in boxes 23-26 on your answer sheet.</p>
 <p>An opinion held by Schrag’s team indicates that (23)…………….formed from the integration of SO2 with (24)……………….. would have stopped the built up of thick layers of limestone as well as certain carbonate rocks. Wetness and abundance in CO2 could directly result in the good production rocky layer of (25)…………….. As time went by, sufficient CO2 was emitted from the volcanoes and restricted the formation of the gas in the air. To stop this process made SO2 possible to accelerate (26)………………</p>
-<p>The Nagymaros Dam</p>
+<p><strong>The Nagymaros Dam</strong></p>
 <p>When Janos Vargha, a biologist from the Hungarian Academy of Sciences, began a new career as a writer with a small monthly nature magazine called Buvar, it was 9 years after the story behind the fall of the Berlin Wall had started to unfold. During his early research, he went to a beauty spot on the river Danube outside Budapest known as the Danube Bend to interview local officials about plans to build a small park on the site of an ancient Hungarian capital.</p>
 <p>One official mentioned that passing this tree-lined curve in the river, a popular tourism spot for Hungarians was monotonous. Also, it was to be submerged by a giant hydroelectric dam in secret by a much-feared state agency known simply as the Water Management.</p>
 <p>Vargha investigated and learned that the Nagymaros dam (pronounced “nosh-marosh”) would cause pollution, destroy underground water reserves, dry out wetlands and wreck the unique ecosystem of central Europe’s longest river. Unfortunately, nobody objected. “Of course, I wrote an article. But there was a director of the Water Management on the magazine’s editorial board. The last time, he went to the printers and stopped the presses, the article was never published. I was frustrated and angry, but I was ultimately interested in why they cared to ban my article,” he remembers today.</p>
@@ -162,40 +218,40 @@ Complete the following summary of the paragraphs of reading passage, using NO MO
 <p>The dam became a focus for opposition to the hated regime. Communists tried to hold back the waters in the Danube and resist the will of the people. Vargha says, “Opposing the state directly was still hard.” “Objecting to the dam was less of a hazard, but it was still considered a resistance to the state.”</p>
 <p>Under increasing pressure from the anti-dam movement, the Hungarian Communist Party was divided. Vargha says, “Reformists found that the dam was not very popular and economical. It would be cheaper to generate electricity by burning coal or nuclear power.” “But hardliners were standing for Stalinist ideas of large dams which mean symbols of progress.” Environmental issues seemed to be a weak point of east European communism in its final years. During the 1970s under the support of the Young Communist Leagues, a host of environmental groups had been founded. Party officials saw them as a harmless product of youthful idealism created by Boy Scouts and natural history societies.</p>
 <p>Green idealism steadily became a focal point for political opposition. In Czechoslovakia, the human rights of Charter 77 took up environmentalism. The green-minded people of both Poland and Estonia participated in the Friends of the Earth International to protest against air pollution. Bulgarian environmentalists built a resistance group, called Ecoglasnost, which held huge rallies in 1989. Big water engineering projects were potent symbols of the old Stalinism.</p>
-<p>Questions 27-34
+<p><strong>Questions 27-34</strong>
 Complete the summary, using the list of words and phrases, A-L, below. Write the correct letter, A-L, in boxes 27-34 on your answer sheet.</p>
-<p>A severe
-B discharged
-C constructing a park of small-scale
-D passed
-E reformist
-F swallowed up
-G separated
-H favourable
-I established
-J collision
-K combined
-L environmentalists</p>
+<p><strong>A</strong> severe
+<strong>B</strong> discharged
+<strong>C</strong> constructing a park of small-scale
+<strong>D</strong> passed
+<strong>E</strong> reformist
+<strong>F</strong> swallowed up
+<strong>G</strong> separated
+<strong>H</strong> favourable
+<strong>I</strong> established
+<strong>J</strong> collision
+<strong>K</strong> combined
+<strong>L</strong> environmentalists</p>
 <p>The story of the fall of the Berlin Wall had started to unfold 9 years earlier, Janos Vargha visited the river Danube out of Budapest to discuss a matter of (27)………………. with executives. However, unfortunately, the tree-lined curve in the river was (28)……………… by a colossal dam which caused a lot of fear. He noticed the negative impact of the Nagymaros dam would be (29)………………. on the ecosystem around the main river. Besides, the dam was engineering public works, generating hydroelectricity, irrigating farmlands and developing sailing trade which was (30)………………….. with a border of Czechoslovakia.</p>
 <p>After one public meeting, Vargha (31)…………….. the Danube Circle for showing the autonomy of the people in a democracy. Despite every effort, he who would eventually become the editor of the Hungarian edition was (32)……………… by the Politburo. Fortunately, with plenty of pressure from the anti-dam movement, east European communism’s final symbol was opposed by the (33)…………………. Overall, between political processing and environmentalists have been on a (34)……………….of views.</p>
-<p>Questions 35-39
+<p><strong>Questions 35-39</strong>
 Do the following statements reflect the claims of the writer in reading passage? In boxes 35-39 on your answer sheet, write</p>
-<p>TRUE                         if the statement agrees with the information
-FALSE                        if the statement contradicts the information
-NOT GIVEN               if there is no information on this</p>
+<p><strong>TRUE</strong>                         if the statement agrees with the information
+<strong>FALSE</strong>                        if the statement contradicts the information
+<strong>NOT GIVEN</strong>               if there is no information on this</p>
 <p>35. Janos Vargha predicted that the Nagymaros dam would wreck the natural atmosphere before it was built.
 36. The Nagymaros dam’s project was managed by the Russians only.
 37. The Danube Circle was an unauthorised group for opposing the dam.
 38. The Politburo accepted Vargha as editor of the Hungarian edition.
 39. The human rights Charter 77 in Czechoslovakia accepted green thoughts.</p>
-<p>Question 40
+<p><strong>Question 40</strong>
 Choose the correct letter, A, B, C or D.</p>
 <p>40. In this passage, the Nagymaros dam’s main purpose was
-A related to Russian Water Management.
-B to develop a source of electronic power, farming and sail.
-C to connect the Black Sea and the Danube.
-D to develop a beauty spot on the river Danube.</p>
-<p>ANSWER KEY</p>
+<strong>A</strong> related to Russian Water Management.
+<strong>B</strong> to develop a source of electronic power, farming and sail.
+<strong>C</strong> to connect the Black Sea and the Danube.
+<strong>D</strong> to develop a beauty spot on the river Danube.</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. D</p>
 <p>2. F</p>
 <p>3. A</p>
@@ -454,6 +510,29 @@ D to develop a beauty spot on the river Danube.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -473,12 +552,23 @@ D to develop a beauty spot on the river Danube.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -490,14 +580,6 @@ D to develop a beauty spot on the river Danube.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

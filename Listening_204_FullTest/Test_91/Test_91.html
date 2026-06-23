@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,116 +158,116 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_91</h1>
-            <p>IELTS Listening Practice - Test 91</p>
-<p>Part 1: Questions 1-10
-Complete the notes below. Write NO MORE THAN ONE WORD OR A NUMBER for each answer.</p>
-<p>Public Library
-The library re-opened last month</p>
-<p>The library now has
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 91</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-10</strong>
+Complete the notes below. Write <strong>NO MORE THAN ONE WORD OR A NUMBER</strong> for each answer.</p>
+<h3 class="test-heading"><strong>Public Library</strong>
+The library re-opened last month</h3>
+<h3 class="test-heading">The library now has
 • A seating area with magazines
-• An expanded section for books on (1)  _______</p>
+• An expanded section for books on <strong>(1)</strong>  _______</h3>
 <p>For younger children
-• The next Science club meeting: experiments using things from your (5)  _______ 
+• The next Science club meeting: experiments using things from your <strong>(5)</strong>  _______ 
 • Reading challenge: read six books during the holidays</p>
 <p>For adults
-• This Friday: a local author talks about a novel based on a real (6)  _______ 
-• IT support is available on Tuesday-no (7)  _______  is necessary
-• Free check of blood (8)  _______  and cholesterol levels</p>
+• This Friday: a local author talks about a novel based on a real <strong>(6)</strong>  _______ 
+• IT support is available on Tuesday-no <strong>(7)</strong>  _______  is necessary
+• Free check of blood <strong>(8)</strong>  _______  and cholesterol levels</p>
 <p>Other information
-• The library shop sells wall charts, cards and (9)  _______ 
-• Evenings and weekends: free (10)  _______  is available</p>
-<p>Part 2: Questions 11 and 12
-Choose TWO letters A-E.</p>
-<p>Which TWO age groups are taking increasing numbers of holidays with BC Travel?
-[ ]  A 16-30 years
-[ ]  B 31-42 years
-[ ]  C 43-54 years
-[ ]  D 55-64 years
-[ ]  E over 65 years</p>
-<p>Questions 13 and 14
-Choose TWO letters A-E.</p>
-<p>Which TWO are the main reasons given for the popularity of activity holidays?
-[ ]  A clients make new friends
-[ ]  B clients learn a useful skill
-[ ]  C clients learn about a different culture
-[ ]  D clients are excited by the risk involved
-[ ]  E clients find them good value for money</p>
-<p>Questions 15-17
+• The library shop sells wall charts, cards and <strong>(9)</strong>  _______ 
+• Evenings and weekends: free <strong>(10)</strong>  _______  is available</p>
+<p><strong>Part 2: Questions 11 and 12</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>Which <strong>TWO</strong> age groups are taking increasing numbers of holidays with BC Travel?
+<strong>[ ] </strong><strong> A</strong> 16-30 years
+<strong>[ ] </strong><strong> B</strong> 31-42 years
+<strong>[ ] </strong><strong> C</strong> 43-54 years
+<strong>[ ] </strong><strong> D</strong> 55-64 years
+<strong>[ ] </strong><strong> E</strong> over 65 years</p>
+<p><strong>Questions 13 and 14</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>Which <strong>TWO</strong> are the main reasons given for the popularity of activity holidays?
+<strong>[ ] </strong><strong> A</strong> clients make new friends
+<strong>[ ] </strong><strong> B</strong> clients learn a useful skill
+<strong>[ ] </strong><strong> C</strong> clients learn about a different culture
+<strong>[ ] </strong><strong> D</strong> clients are excited by the risk involved
+<strong>[ ] </strong><strong> E</strong> clients find them good value for money</p>
+<p><strong>Questions 15-17</strong>
 Choose the correct letter A, B or C.</p>
 <p>15. How does BC Travel plan to expand the painting holidays?
-[ ]  A. by adding to the number of locations
-[ ]  B. by increasing the range of levels
-[ ]  C. by employing more teachers</p>
+<strong>[ ] </strong><strong> A</strong>. by adding to the number of locations
+<strong>[ ] </strong><strong> B</strong>. by increasing the range of levels
+<strong>[ ] </strong><strong> C</strong>. by employing more teachers</p>
 <p>16. Why are BC Travel’s cooking holidays unusual?
-[ ]  A. they only use organic foods
-[ ]  B. they have an international focus
-[ ]  C. they mainly involve vegetarian dishes</p>
+<strong>[ ] </strong><strong> A</strong>. they only use organic foods
+<strong>[ ] </strong><strong> B</strong>. they have an international focus
+<strong>[ ] </strong><strong> C</strong>. they mainly involve vegetarian dishes</p>
 <p>17. What does the speaker say about the photography holidays?
-[ ]  A. clients receive individual tuition
-[ ]  B. the tutors are also trained guides
-[ ]  C. advice is given on selling photographs</p>
-<p>Questions 18-20
-Complete the table below. Write ONE WORD ONLY for each answer.</p>
-<p>Fitness Holiday</p>
-<p>(18)  _______ 
-(19)  _______ 
-(20)  _______ 
-Part 3: Questions 21-26</p>
-<p>Complete the flow chart below. Choose SIX answers from the options A-H given below.</p>
-<p>STAGES IN DOING A TOURISM CASE STUDY
-RESEARCH
-• Locate and read relevant articles, noting key information and also (21)  _______  identify a problem or need
-• Select interviewees – these may be site (22)  _______  , visitors for city (23)  _______ 
+<strong>[ ] </strong><strong> A</strong>. clients receive individual tuition
+<strong>[ ] </strong><strong> B</strong>. the tutors are also trained guides
+<strong>[ ] </strong><strong> C</strong>. advice is given on selling photographs</p>
+<p><strong>Questions 18-20</strong>
+Complete the table below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+<p><strong>Fitness Holiday</strong></p>
+<p><strong>(18)</strong>  _______ 
+<strong>(19)</strong>  _______ 
+<strong>(20)</strong>  _______ 
+<strong>Part 3: Questions 21-26</strong></p>
+<p>Complete the flow chart below. Choose <strong>SIX</strong> answers from the options A-H given below.</p>
+<p><strong>STAGES IN DOING A TOURISM CASE STUDY</strong>
+<strong>RESEARCH</strong>
+• Locate and read relevant articles, noting key information and also <strong>(21)</strong>  _______  identify a problem or need
+• Select interviewees – these may be site <strong>(22)</strong>  _______  , visitors for city <strong>(23)</strong>  _______ 
 • Prepare and carry out interview. If possible collect statistics.
-• Check whether (24)  _______  of interviewees can be used</p>
-<p>ANALYSIS
-• Select relevant information and try to identify (25)  _______ 
+• Check whether <strong>(24)</strong>  _______  of interviewees can be used</p>
+<p><strong>ANALYSIS</strong>
+• Select relevant information and try to identify <strong>(25)</strong>  _______ 
 • Decide on the best form of visuals</p>
-<p>WRITING THE CASE STUDY
+<p><strong>WRITING THE CASE STUDY</strong>
 • Give some background writing the main sections
-• Do not end with (26)  _______</p>
-<p>Questions 27-30
+• Do not end with <strong>(26)</strong>  _______</p>
+<p><strong>Questions 27-30</strong>
 Choose the correct letter A, B or C.</p>
-<p>The Horton Castle Site
+<p><strong>The Horton Castle Site</strong>
 27. Natalie and Dave agree one reason why so few people visit Horton Castle is that
-[ ]  A. the publicity is poor
-[ ]  B. it is difficult to get to
-[ ]  C. there is little there of interest</p>
+<strong>[ ] </strong><strong> A</strong>. the publicity is poor
+<strong>[ ] </strong><strong> B</strong>. it is difficult to get to
+<strong>[ ] </strong><strong> C</strong>. there is little there of interest</p>
 <p>28. Natalie and Dave agree that the greatest problem with a visitor centre could be
-[ ]  A. covering the investment costs
-[ ]  B. finding a big enough space for it
-[ ]  C. dealing with planning restrictions</p>
+<strong>[ ] </strong><strong> A</strong>. covering the investment costs
+<strong>[ ] </strong><strong> B</strong>. finding a big enough space for it
+<strong>[ ] </strong><strong> C</strong>. dealing with planning restrictions</p>
 <p>29. What does Dave say about conditions in the town of Horton?
-[ ]  A. there is a lot of unemployment
-[ ]  B. there are few people of working age
-[ ]  C. there are opportunities for skilled worker</p>
+<strong>[ ] </strong><strong> A</strong>. there is a lot of unemployment
+<strong>[ ] </strong><strong> B</strong>. there are few people of working age
+<strong>[ ] </strong><strong> C</strong>. there are opportunities for skilled worker</p>
 <p>30. According to Natalie, one way to prevent damage to the castle site would be to
-[ ]  A. insist visitors have a guide
-[ ]  B. make visitors keep to the paths
-[ ]  C. limit visitor numbers</p>
-<p>Part 4: Questions 31-40
-Complete the notes below. Write ONE WORD ONLY for each answer.</p>
-<p>The effects of environmental change on birds
+<strong>[ ] </strong><strong> A</strong>. insist visitors have a guide
+<strong>[ ] </strong><strong> B</strong>. make visitors keep to the paths
+<strong>[ ] </strong><strong> C</strong>. limit visitor numbers</p>
+<p><strong>Part 4: Questions 31-40</strong>
+Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+<p><strong>The effects of environmental change on birds</strong>
 Mercury (Hg)
 • Highly toxic
 • Released into the atmosphere from coal
 • In water it may be consumed by fish
-• It has also recently been found to affect birds which feed on (31)  _______</p>
-<p>Research on effects of mercury on birds
+• It has also recently been found to affect birds which feed on <strong>(31)</strong>  _______</p>
+<p><strong>Research on effects of mercury on birds</strong>
 • Claire Varian Ramos is investigating:
-o The effects on birds’ (32)  _______  or mental processes e.g. memory
-o The effects on bird song (usually learned from a bird’s (33)  _______  )
+o The effects on birds’ <strong>(32)</strong>  _______  or mental processes e.g. memory
+o The effects on bird song (usually learned from a bird’s <strong>(33)</strong>  _______  )
 • Findings:
-o Songs learned by birds exposed to mercury are less (34)  _______ 
-o This may have a negative effect on birds’ (35)  _______ 
+o Songs learned by birds exposed to mercury are less <strong>(34)</strong>  _______ 
+o This may have a negative effect on birds’ <strong>(35)</strong>  _______ 
 • Lab based studies:
-o Allow more (36)  _______  for the experimenter</p>
-<p>Implications for humans
-• Migrating birds such as (37)  _______  containing mercury may be eaten by humans
-• Mercury also causes problems in learning (38)  _______ 
-• Mercury in a mother’s body from (39)  _______  may affect the unborn child
-• New regulations for mercury emissions will affect everyone’s energy (40)  _______</p>
-<p>ANSWER KEY</p>
+o Allow more <strong>(36)</strong>  _______  for the experimenter</p>
+<p><strong>Implications for humans</strong>
+• Migrating birds such as <strong>(37)</strong>  _______  containing mercury may be eaten by humans
+• Mercury also causes problems in learning <strong>(38)</strong>  _______ 
+• Mercury in a mother’s body from <strong>(39)</strong>  _______  may affect the unborn child
+• New regulations for mercury emissions will affect everyone’s energy <strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. travel</p>
 <p>2. history</p>
 <p>3. study</p>
@@ -465,11 +521,34 @@ o Allow more (36)  _______  for the experimenter</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_91.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_91.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -489,12 +568,23 @@ o Allow more (36)  _______  for the experimenter</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -506,14 +596,6 @@ o Allow more (36)  _______  for the experimenter</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

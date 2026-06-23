@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,118 +158,118 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_151</h1>
-            <p>IELTS Listening Practice - Test 151</p>
-<p>Part 1: Questions 1-3
-Complete the form below. Write ONE WORD OR A NUMBER.</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 151</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-3</strong>
+Complete the form below. Write <strong>ONE WORD OR A NUMBER.</strong></p>
 <p>Rented Properties Customer’s Requirements
 Name: Steven Godfrey
 No. of bedrooms: 4
-Preferred location: in the (1)  _______  area of town
-Maximum monthly rent: (2) £  _______ 
-Length of let required: (3)  _______ 
+Preferred location: in the <strong>(1)</strong>  _______  area of town
+Maximum monthly rent: <strong>(2)</strong> £  _______ 
+Length of let required: <strong>(3)</strong>  _______ 
 Starting: September 1st</p>
-<p>Questions 4-8
-Complete the table below. Write ONE WORD OR A NUMBER.</p>
-<p>(4)  _______                   (5)  _______ 
-(6)  _______                   (7)  _______ 
-(8)  _______</p>
-<p>Questions 9 and 10
-Choose TWO letters, A-E.</p>
-<p>Which TWO facilities in the district of Devon Close are open to the public at the moment?
-[ ]  A museum
-[ ]  B concert hall
-[ ]  C cinema
-[ ]  D sports centre
-[ ]  E swimming pool</p>
-<p>Part 2: Questions 11-16
-Complete the notes below. Write NO MORE THAN TWO WORDS OR A NUMBER.</p>
-<p>THE NATIONAL ARTS CENTER
-Well known for: (11)  _______ 
+<p><strong>Questions 4-8</strong>
+Complete the table below. Write <strong>ONE WORD OR A NUMBER.</strong></p>
+<p><strong>(4)</strong>  _______                   <strong>(5)</strong>  _______ 
+<strong>(6)</strong>  _______                   <strong>(7)</strong>  _______ 
+<strong>(8)</strong>  _______</p>
+<p><strong>Questions 9 and 10</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>Which <strong>TWO</strong> facilities in the district of Devon Close are open to the public at the moment?
+<strong>[ ] </strong><strong> A</strong> museum
+<strong>[ ] </strong><strong> B</strong> concert hall
+<strong>[ ] </strong><strong> C</strong> cinema
+<strong>[ ] </strong><strong> D</strong> sports centre
+<strong>[ ] </strong><strong> E</strong> swimming pool</p>
+<p><strong>Part 2: Questions 11-16</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS OR A NUMBER.</strong></p>
+<p><strong>THE NATIONAL ARTS CENTER</strong>
+Well known for: <strong>(11)</strong>  _______ 
 Complex consists of: concert rooms, theatres, cinemas, art galleries, public library, restaurants and
-a (12)  _______ 
+a <strong>(12)</strong>  _______ 
 Historical background: 1940-area destroyed by bombs
-1960s-1970s – centre was (13)  _______  and built in (14)  _______  – opened to public
-Managed by: the (15)  _______ 
-Open: (16)  _______  days per year</p>
-<p>Questions 17-20
-Complete the table below. Write NO MORE THAN THREE WORDS OR A NUMBER.</p>
-<p>(17)  _______                 (18)  _______ 
-(19)  _______                (20)  _______</p>
-<p>Part 3: Questions 21-26
+1960s-1970s – centre was <strong>(13)</strong>  _______  and built in <strong>(14)</strong>  _______  – opened to public
+Managed by: the <strong>(15)</strong>  _______ 
+Open: <strong>(16)</strong>  _______  days per year</p>
+<p><strong>Questions 17-20</strong>
+Complete the table below. Write <strong>NO MORE THAN THREE WORDS OR A NUMBER.</strong></p>
+<p><strong>(17)</strong>  _______                 <strong>(18)</strong>  _______ 
+<strong>(19)</strong>  _______                <strong>(20)</strong>  _______</p>
+<p><strong>Part 3: Questions 21-26</strong>
 Choose the correct letter A, B or C.</p>
-<p>Latin American Studies
+<p><strong>Latin American Studies</strong>
 21. Paul decided to get work experience in South America because he wanted
-[ ]  A to teach English there
-[ ]  B to improve his Spanish
-[ ]  C to learn about Latin American life</p>
+<strong>[ ] </strong><strong> A</strong> to teach English there
+<strong>[ ] </strong><strong> B</strong> to improve his Spanish
+<strong>[ ] </strong><strong> C</strong> to learn about Latin American life</p>
 <p>22. What project work did Paul originally intend to get involved in?
-[ ]  A construction
-[ ]  B agriculture
-[ ]  C tourism</p>
+<strong>[ ] </strong><strong> A</strong> construction
+<strong>[ ] </strong><strong> B</strong> agriculture
+<strong>[ ] </strong><strong> C</strong> tourism</p>
 <p>23 Why did Paul change from one project to another?
-[ ]  A His first job was not well organized
-[ ]  B He found doing the routine work very boring
-[ ]  C The work was too physically demanding</p>
+<strong>[ ] </strong><strong> A</strong> His first job was not well organized
+<strong>[ ] </strong><strong> B</strong> He found doing the routine work very boring
+<strong>[ ] </strong><strong> C</strong> The work was too physically demanding</p>
 <p>24. In the village community, he learnt how important it was to
-[ ]  A respect family life
-[ ]  B develop trust
-[ ]  C use money wisely</p>
+<strong>[ ] </strong><strong> A</strong> respect family life
+<strong>[ ] </strong><strong> B</strong> develop trust
+<strong>[ ] </strong><strong> C</strong> use money wisely</p>
 <p>25. What does Paul say about his project manager?
-[ ]  A He let Paul do most of the work
-[ ]  B His plans were too ambitious
-[ ]  C He was very supportive of Paul</p>
+<strong>[ ] </strong><strong> A</strong> He let Paul do most of the work
+<strong>[ ] </strong><strong> B</strong> His plans were too ambitious
+<strong>[ ] </strong><strong> C</strong> He was very supportive of Paul</p>
 <p>26. Paul was surprised to be given
-[ ]  A a computer to use
-[ ]  B so little money to live on
-[ ]  C an extension to his contract</p>
-<p>Questions 27-30</p>
+<strong>[ ] </strong><strong> A</strong> a computer to use
+<strong>[ ] </strong><strong> B</strong> so little money to live on
+<strong>[ ] </strong><strong> C</strong> an extension to his contract</p>
+<p><strong>Questions 27-30</strong></p>
 <p>What does Paul decide about each of the following modules?</p>
 <p>Write the correct letter A, B or C next to questions 27-30.</p>
-<p>Module
+<p><strong>Module</strong>
 27. Gender studies in Latin America  _______ 
 28. Second language acquisition  _______ 
 29. Indigenous women’s lives  _______ 
 30. Portuguese language studies  _______</p>
-<p>A He will do this.
-B He might do this.
-C He won’t do this.</p>
-<p>Part 4: Questions 31-34
+<p><strong>A</strong> He will do this.
+<strong>B</strong> He might do this.
+<strong>C</strong> He won’t do this.</p>
+<p><strong>Part 4: Questions 31-34</strong>
 Choose the correct letter A, B or C.</p>
-<p>Trying to repeat success
+<p><strong>Trying to repeat success</strong>
 31. Compared to introducing new business processes, attempts to copy existing processes are
-[ ]  A more attractive
-[ ]  B more frequent
-[ ]  C more straightforward</p>
+<strong>[ ] </strong><strong> A</strong> more attractive
+<strong>[ ] </strong><strong> B</strong> more frequent
+<strong>[ ] </strong><strong> C</strong> more straightforward</p>
 <p>32. Most research into the repetition of success in business has
-[ ]  A been done outside the United States
-[ ]  B produced consistent findings
-[ ]  C related to only a few contexts</p>
+<strong>[ ] </strong><strong> A</strong> been done outside the United States
+<strong>[ ] </strong><strong> B</strong> produced consistent findings
+<strong>[ ] </strong><strong> C</strong> related to only a few contexts</p>
 <p>33. What does the speaker say about consulting experts?
-[ ]  A Too few managers ever do it
-[ ]  B It can be useful in certain circumstances
-[ ]  C Experts are sometimes unwilling to give advice</p>
+<strong>[ ] </strong><strong> A</strong> Too few managers ever do it
+<strong>[ ] </strong><strong> B</strong> It can be useful in certain circumstances
+<strong>[ ] </strong><strong> C</strong> Experts are sometimes unwilling to give advice</p>
 <p>34. An expert’s knowledge about a business system may be incomplete because
-[ ]  A some details are difficult for workers to explain
-[ ]  B workers choose not to mention certain details
-[ ]  C details are sometimes altered by workers</p>
-<p>Questions 35-40
-Complete the notes below. Write ONE WORD ONLY.</p>
+<strong>[ ] </strong><strong> A</strong> some details are difficult for workers to explain
+<strong>[ ] </strong><strong> B</strong> workers choose not to mention certain details
+<strong>[ ] </strong><strong> C</strong> details are sometimes altered by workers</p>
+<p><strong>Questions 35-40</strong>
+Complete the notes below. Write <strong>ONE WORD ONLY.</strong></p>
 <p>Setting up systems based on an existing process
 Two mistakes:
 Manager tries to:
 • Improve on the original process
-• Create an ideal (35)  _______  from the best parts of several processes</p>
-<p>Cause of problems
+• Create an ideal <strong>(35)</strong>  _______  from the best parts of several processes</p>
+<p><strong>Cause of problems</strong>
 • Information was inaccurate
 • Comparison between the business settings was invalid
-• Disadvantages were overlooked e.g. effect of changes on (36)  _______</p>
-<p>Solution
-• Change (37)  _______ 
-• Impose rigorous (38)  _______ 
+• Disadvantages were overlooked e.g. effect of changes on <strong>(36)</strong>  _______</p>
+<p><strong>Solution</strong>
+• Change <strong>(37)</strong>  _______ 
+• Impose rigorous <strong>(38)</strong>  _______ 
 • Copy original very closely:
-o Physical features of the (39)  _______ 
-o The (40)  _______  of original employees</p>
-<p>ANSWER KEY</p>
+o Physical features of the <strong>(39)</strong>  _______ 
+o The <strong>(40)</strong>  _______  of original employees</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. central</p>
 <p>2. 600</p>
 <p>3. 2 years</p>
@@ -472,6 +528,29 @@ o The (40)  _______  of original employees</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -491,12 +570,23 @@ o The (40)  _______  of original employees</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -508,14 +598,6 @@ o The (40)  _______  of original employees</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,36 +158,36 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_78</h1>
-            <p>IELTS Listening Practice - Test 78</p>
-<p>Part 1: Questions 1-10
-Complete the notes below. Write ONE WORD AND/OR A NUMBER.</p>
-<p>HIRING A PUBLIC ROOM</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 78</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-10</strong>
+Complete the notes below. Write <strong>ONE WORD AND/OR A NUMBER.</strong></p>
+<h3 class="test-heading"><strong>HIRING A PUBLIC ROOM</strong></h3>
 <p>• The main hall seats 200</p>
-<p>Room and cost
-• The (1)  _______</p>
+<h3 class="test-heading">Room and cost
+• The <strong>(1)</strong>  _______</h3>
 <p>Before the event
-• Will need a (5)  _______  licence
-• Need to contact caretaker (Mr Evans) in advance to arrange (6)  _______</p>
+• Will need a <strong>(5)</strong>  _______  licence
+• Need to contact caretaker (Mr Evans) in advance to arrange <strong>(6)</strong>  _______</p>
 <p>During the event
 • The building is no smoking
-• The band should use the (7)  _______  door at the back
+• The band should use the <strong>(7)</strong>  _______  door at the back
 • Don’t touch the system that controls the volume
 • For microphones, contact the caretaker</p>
 <p>After the event
-• Need to know the (8)  _______  for the cleaning cupboard
-• The (9)  _______  must be washed and rubbish placed in black bags
-• All (10)  _______  must be taken down
+• Need to know the <strong>(8)</strong>  _______  for the cleaning cupboard
+• The <strong>(9)</strong>  _______  must be washed and rubbish placed in black bags
+• All <strong>(10)</strong>  _______  must be taken down
 • Chairs and tables must be piled up</p>
-<p>Part 2: Questions 11-14
-Complete the notes below. Write ONE WORD for each answer.</p>
-<p>Fiddy Working Heritage Farm
-Advice about visiting the farm</p>
+<p><strong>Part 2: Questions 11-14</strong>
+Complete the notes below. Write <strong>ONE WORD</strong> for each answer.</p>
+<h3 class="test-heading"><strong>Fiddy Working Heritage Farm</strong>
+Advice about visiting the farm</h3>
 <p>Visitors should
-• Take care not to harm any (11)  _______ 
-• Not touch any (12)  _______ 
-• Wear (13)  _______ 
-• Not bring (14)  _______  into the farm, with certain exceptions</p>
-<p>Questions 15-20
+• Take care not to harm any <strong>(11)</strong>  _______ 
+• Not touch any <strong>(12)</strong>  _______ 
+• Wear <strong>(13)</strong>  _______ 
+• Not bring <strong>(14)</strong>  _______  into the farm, with certain exceptions</p>
+<p><strong>Questions 15-20</strong>
 Label the map below. Write the correct letter A-I, next to questions 15-20.</p>
 <p>15. Scarecrow  _______ 
 16. Maze  _______ 
@@ -139,81 +195,81 @@ Label the map below. Write the correct letter A-I, next to questions 15-20.</p>
 18. Black Barn  _______ 
 19. Covered picnic area  _______ 
 20. Fiddy house  _______</p>
-<p>Part 3: Questions 21-30
+<p><strong>Part 3: Questions 21-30</strong>
 Choose the correct letter A, B or C.</p>
-<p>Study on Gender in Physics</p>
+<p><strong>Study on Gender in Physics</strong></p>
 <p>21. The students in Akira Miyake’s study were all majoring in
-[ ]  A physics
-[ ]  B psychology or physics
-[ ]  C science, technology, engineering or mathematics</p>
+<strong>[ ] </strong><strong> A</strong> physics
+<strong>[ ] </strong><strong> B</strong> psychology or physics
+<strong>[ ] </strong><strong> C</strong> science, technology, engineering or mathematics</p>
 <p>22. The aim of Miyake’s study was to investigate
-[ ]  A what kind of women choose to study physics
-[ ]  B a way of improving women’s performance in physics
-[ ]  C whether fewer women than men study physics at college</p>
+<strong>[ ] </strong><strong> A</strong> what kind of women choose to study physics
+<strong>[ ] </strong><strong> B</strong> a way of improving women’s performance in physics
+<strong>[ ] </strong><strong> C</strong> whether fewer women than men study physics at college</p>
 <p>23. The female physics students were wrong to believe that
-[ ]  A the teachers marked them in an unfair way
-[ ]  B the male students expected them to do badly
-[ ]  C their test results were lower than the male students’</p>
+<strong>[ ] </strong><strong> A</strong> the teachers marked them in an unfair way
+<strong>[ ] </strong><strong> B</strong> the male students expected them to do badly
+<strong>[ ] </strong><strong> C</strong> their test results were lower than the male students’</p>
 <p>24. Miyake’s team asked the students to write about
-[ ]  A what they enjoyed about studying physics
-[ ]  B the successful experiences of other people
-[ ]  C something that was important to them personally</p>
+<strong>[ ] </strong><strong> A</strong> what they enjoyed about studying physics
+<strong>[ ] </strong><strong> B</strong> the successful experiences of other people
+<strong>[ ] </strong><strong> C</strong> something that was important to them personally</p>
 <p>25. What was the aim of the writing exercise done by the subjects?
-[ ]  A to reduce stress
-[ ]  B to strengthen verbal ability
-[ ]  C to encourage logical thinking</p>
+<strong>[ ] </strong><strong> A</strong> to reduce stress
+<strong>[ ] </strong><strong> B</strong> to strengthen verbal ability
+<strong>[ ] </strong><strong> C</strong> to encourage logical thinking</p>
 <p>26. What surprised the researchers about the study?
-[ ]  A how few students managed to get A grades
-[ ]  B the positive impact it had on physics results for women
-[ ]  C the difference between male and female performance</p>
+<strong>[ ] </strong><strong> A</strong> how few students managed to get A grades
+<strong>[ ] </strong><strong> B</strong> the positive impact it had on physics results for women
+<strong>[ ] </strong><strong> C</strong> the difference between male and female performance</p>
 <p>27. Greg and Lisa think Miyake’s results could have been affected by
-[ ]  A the length of the writing task
-[ ]  B the number of students who took part
-[ ]  C the information the students were given</p>
+<strong>[ ] </strong><strong> A</strong> the length of the writing task
+<strong>[ ] </strong><strong> B</strong> the number of students who took part
+<strong>[ ] </strong><strong> C</strong> the information the students were given</p>
 <p>28. Greg and Lisa decide that in their own project, they will compare the effects of
-[ ]  A two different writing tasks
-[ ]  B a writing task with an oral task
-[ ]  C two different oral tasks</p>
+<strong>[ ] </strong><strong> A</strong> two different writing tasks
+<strong>[ ] </strong><strong> B</strong> a writing task with an oral task
+<strong>[ ] </strong><strong> C</strong> two different oral tasks</p>
 <p>29. The main finding of Smolinsky’s research was that class teamwork activities
-[ ]  A were most effective when done by all-women groups
-[ ]  B had no effect on the performance of men or women
-[ ]  C improved the results of men more than of women</p>
+<strong>[ ] </strong><strong> A</strong> were most effective when done by all-women groups
+<strong>[ ] </strong><strong> B</strong> had no effect on the performance of men or women
+<strong>[ ] </strong><strong> C</strong> improved the results of men more than of women</p>
 <p>30. What will Lisa and Greg do next?
-[ ]  A talk to a professor
-[ ]  B observe a science class
-[ ]  C look at the science timetable</p>
-<p>Part 4: Questions 31-40
-Complete the notes below. Write ONE WORD ONLY.</p>
-<p>Ocean Biodiversity</p>
-<p>Biodiversity hotspots
+<strong>[ ] </strong><strong> A</strong> talk to a professor
+<strong>[ ] </strong><strong> B</strong> observe a science class
+<strong>[ ] </strong><strong> C</strong> look at the science timetable</p>
+<p><strong>Part 4: Questions 31-40</strong>
+Complete the notes below. Write <strong>ONE WORD ONLY.</strong></p>
+<p><strong>Ocean Biodiversity</strong></p>
+<p><strong>Biodiversity hotspots</strong>
 • areas containing many different species
-• important for locating targets for (31)  _______ 
+• important for locating targets for <strong>(31)</strong>  _______ 
 • at first only identified on land</p>
-<p>Boris Worm, 2005
+<p><strong>Boris Worm, 2005</strong>
 • identified hotspots for large ocean predators, e.g. sharks
 • found that ocean hotspots:
-– were not always rich in (32)  _______ 
-– had higher temperatures at the (33)  _______ 
-– had sufficient (34)  _______  in the water</p>
-<p>Lisa Ballance, 2007
-• looked for hotspots for marine (35)  _______ 
+– were not always rich in <strong>(32)</strong>  _______ 
+– had higher temperatures at the <strong>(33)</strong>  _______ 
+– had sufficient <strong>(34)</strong>  _______  in the water</p>
+<p><strong>Lisa Ballance, 2007</strong>
+• looked for hotspots for marine <strong>(35)</strong>  _______ 
 • found these were all located where ocean currents meet</p>
-<p>Census of Marine Life
+<p><strong>Census of Marine Life</strong>
 • found new ocean species living:
-– under the (36)  _______ 
+– under the <strong>(36)</strong>  _______ 
 – near volcanoes on the ocean floor</p>
-<p>Global Marine Species Assessment
+<p><strong>Global Marine Species Assessment</strong>
 • want to list endangered ocean species, considering:
 – population size
 – geographical distribution
-– rate of (37)  _______ 
-• Aim: to assess 20,000 species and make a distribution (38)  _______  for each one</p>
-<p>Recommendations to retain ocean biodiversity
+– rate of <strong>(37)</strong>  _______ 
+• Aim: to assess 20,000 species and make a distribution <strong>(38)</strong>  _______  for each one</p>
+<p><strong>Recommendations to retain ocean biodiversity</strong>
 • increase the number of ocean reserves
-• establish (39)  _______  corridors (e.g. for turtles)
+• establish <strong>(39)</strong>  _______  corridors (e.g. for turtles)
 • reduce fishing quotas
-• catch fish only for the purpose of (40)  _______</p>
-<p>ANSWER KEY</p>
+• catch fish only for the purpose of <strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Charlton</p>
 <p>2. £115</p>
 <p>3. cash</p>
@@ -467,11 +523,34 @@ Complete the notes below. Write ONE WORD ONLY.</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_78.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_78.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -491,12 +570,23 @@ Complete the notes below. Write ONE WORD ONLY.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -508,14 +598,6 @@ Complete the notes below. Write ONE WORD ONLY.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,121 +158,121 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_107</h1>
-            <p>IELTS Listening Practice - Test 107</p>
-<p>Part 1: Questions 1-10
-Complete the notes below. Write ONE WORD OR A NUMBER.</p>
-<p>Moving to Banford City</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 107</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-10</strong>
+Complete the notes below. Write <strong>ONE WORD OR A NUMBER.</strong></p>
+<h3 class="test-heading"><strong>Moving to Banford City</strong></h3>
 <p>Linda recommends living in suburb of: Dalton</p>
-<p>Accommodation
-• Average rent: (1) £  _______  a month</p>
+<h3 class="test-heading">Accommodation
+• Average rent: <strong>(1)</strong> £  _______  a month</h3>
 <p>Transport
-• Linda travels to work by (2)  _______ 
-• Limited (3)  _______  in city centre
-• Trains to London every (4)  _______  minutes
-• Poor train service at (5)  _______</p>
+• Linda travels to work by <strong>(2)</strong>  _______ 
+• Limited <strong>(3)</strong>  _______  in city centre
+• Trains to London every <strong>(4)</strong>  _______  minutes
+• Poor train service at <strong>(5)</strong>  _______</p>
 <p>Advantages of living in Banford
-• New (6)  _______  opened recently
-• (7)  _______  has excellent reputation
-• Good (8)  _______  on Bridge Street</p>
-<p>Meet Linda
-• Meet Linda on (9)  _______  after 5.30 pm
-• In the (10)  _______  opposite the station</p>
-<p>Part 2: Questions 11-16</p>
+• New <strong>(6)</strong>  _______  opened recently
+• <strong>(7)</strong>  _______  has excellent reputation
+• Good <strong>(8)</strong>  _______  on Bridge Street</p>
+<h3 class="test-heading">Meet Linda
+• Meet Linda on <strong>(9)</strong>  _______  after 5.30 pm
+• In the <strong>(10)</strong>  _______  opposite the station</h3>
+<h3 class="test-heading"><strong>Part 2: Questions 11-16</strong></h3>
 <p>What advantages does the speaker mention for each of the following physical activities?</p>
-<p>Choose SIX answers from the box and write the correct letter A-G next to questions 11-16</p>
-<p>Advantages
-A not dependent on season
-B enjoyable
-C low risk of injury
-D fitness level unimportant
-E sociable
-F fast results
-G motivating</p>
-<p>Physical Activities
+<h3 class="test-heading">Choose <strong>SIX</strong> answers from the box and write the correct letter A-G next to questions 11-16</h3>
+<p><strong>Advantages</strong>
+<strong>A</strong> not dependent on season
+<strong>B</strong> enjoyable
+<strong>C</strong> low risk of injury
+<strong>D</strong> fitness level unimportant
+<strong>E</strong> sociable
+<strong>F</strong> fast results
+<strong>G</strong> motivating</p>
+<p><strong>Physical Activities</strong>
 11. using a gym  _______ 
 12. running  _______ 
 13. swimming  _______ 
 14. cycling  _______ 
 15. doing yoga  _______ 
 16. training with a personal trainer  _______</p>
-<p>Questions 17 and 18</p>
-<p>Choose TWO letters A-E.</p>
-<p>For which TWO reasons does the speaker say people give up going to the gym?</p>
-<p>[ ]  A lack of time
-[ ]  B loss of confidence
-[ ]  C too much effort required
-[ ]  D high costs
-[ ]  E feeling less successful than others</p>
-<p>Questions 19 and 20
-Choose TWO letters A-E,</p>
-<p>Which TWO pieces of advice does the speaker give for setting goals?</p>
-<p>[ ]  A write goals down
-[ ]  B have achievable aims
-[ ]  C set a time limit
-[ ]  D give yourself rewards
-[ ]  E challenge yourself</p>
-<p>Part 3: Questions 21-24
+<p><strong>Questions 17 and 18</strong></p>
+<p>Choose <strong>TWO</strong> letters A-E.</p>
+<p>For which <strong>TWO</strong> reasons does the speaker say people give up going to the gym?</p>
+<p><strong>[ ] </strong><strong> A</strong> lack of time
+<strong>[ ] </strong><strong> B</strong> loss of confidence
+<strong>[ ] </strong><strong> C</strong> too much effort required
+<strong>[ ] </strong><strong> D</strong> high costs
+<strong>[ ] </strong><strong> E</strong> feeling less successful than others</p>
+<p><strong>Questions 19 and 20</strong>
+Choose <strong>TWO</strong> letters A-E,</p>
+<p>Which <strong>TWO</strong> pieces of advice does the speaker give for setting goals?</p>
+<p><strong>[ ] </strong><strong> A</strong> write goals down
+<strong>[ ] </strong><strong> B</strong> have achievable aims
+<strong>[ ] </strong><strong> C</strong> set a time limit
+<strong>[ ] </strong><strong> D</strong> give yourself rewards
+<strong>[ ] </strong><strong> E</strong> challenge yourself</p>
+<p><strong>Part 3: Questions 21-24</strong>
 Choose the correct letter A, B or C.</p>
-<p>Project on using natural dyes to colour fabrics</p>
+<p><strong>Project on using natural dyes to colour fabrics</strong></p>
 <p>21. What first inspired Jim to choose this project?
-[ ]  A textiles displayed in an exhibition
-[ ]  B a book about a botanic garden
-[ ]  C carpets he saw on holiday</p>
+<strong>[ ] </strong><strong> A</strong> textiles displayed in an exhibition
+<strong>[ ] </strong><strong> B</strong> a book about a botanic garden
+<strong>[ ] </strong><strong> C</strong> carpets he saw on holiday</p>
 <p>22. Jim eventually decided to do a practical investigation which involved
-[ ]  A using a range of dyes with different fibres
-[ ]  B applying different dyes to one type of fibre
-[ ]  C testing one dye and a range of fibres</p>
+<strong>[ ] </strong><strong> A</strong> using a range of dyes with different fibres
+<strong>[ ] </strong><strong> B</strong> applying different dyes to one type of fibre
+<strong>[ ] </strong><strong> C</strong> testing one dye and a range of fibres</p>
 <p>23. When doing his experiments Jim was surprised by
-[ ]  A how much natural material was needed to make the dye
-[ ]  B the fact that dyes were widely available on the internet
-[ ]  C the time that he had to leave the fabric in the dye</p>
+<strong>[ ] </strong><strong> A</strong> how much natural material was needed to make the dye
+<strong>[ ] </strong><strong> B</strong> the fact that dyes were widely available on the internet
+<strong>[ ] </strong><strong> C</strong> the time that he had to leave the fabric in the dye</p>
 <p>24. What problem did Jim have with using tartrazine as a fabric dye?
-[ ]  A it caused a slight allergic reaction
-[ ]  B it was not a permanent dye on cotton
-[ ]  C it was ineffective when used on nylon</p>
-<p>Questions 25-30</p>
+<strong>[ ] </strong><strong> A</strong> it caused a slight allergic reaction
+<strong>[ ] </strong><strong> B</strong> it was not a permanent dye on cotton
+<strong>[ ] </strong><strong> C</strong> it was ineffective when used on nylon</p>
+<p><strong>Questions 25-30</strong></p>
 <p>What problem is identified with each of the following natural dyes?</p>
-<p>Choose SIX answers from the options below and write correct letter A-H next to questions 25-30</p>
-<p>Problems
-A it is expensive
-B the color is too strong
-C the color is not long lasting
-D it is very poisonous
-E it can damage the fabric
-F the color may be unexpected
-G it is unsuitable for some fabrics
-H it is not generally available</p>
-<p>Natural dyes
+<p>Choose <strong>SIX</strong> answers from the options below and write correct letter A-H next to questions 25-30</p>
+<p><strong>Problems</strong>
+<strong>A</strong> it is expensive
+<strong>B</strong> the color is too strong
+<strong>C</strong> the color is not long lasting
+<strong>D</strong> it is very poisonous
+<strong>E</strong> it can damage the fabric
+<strong>F</strong> the color may be unexpected
+<strong>G</strong> it is unsuitable for some fabrics
+<strong>H</strong> it is not generally available</p>
+<p><strong>Natural dyes</strong>
 25. turmeric  _______ 
 26. Beetroot  _______ 
 27. Tyrian purple  _______ 
 28. Lowood  _______ 
 29. cochineal  _______ 
 30. metal oxide  _______</p>
-<p>Part 4: Questions 31-40
-Complete the notes below. Write ONE WORD ONLY for each answer.</p>
-<p>The sleepy lizard (tiliqua rugose)
-Description
+<p><strong>Part 4: Questions 31-40</strong>
+Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+<p><strong>The sleepy lizard (tiliqua rugose)</strong>
+<strong>Description</strong>
 • They are common in western and south Australia
-• They are brown but recongisable by their blue (31)  _______ 
+• They are brown but recongisable by their blue <strong>(31)</strong>  _______ 
 • They are relatively large
-• Their diet consists mainly of (32)  _______ 
-• Their main predators are large birds and (33)  _______</p>
-<p>Navigation study
-• One study found that lizards can use the (34)  _______  to help them navigate</p>
-<p>Observations in the wild
-• Observations show that these lizards keep the same (35)  _______  for several years</p>
-<p>What people want
+• Their diet consists mainly of <strong>(32)</strong>  _______ 
+• Their main predators are large birds and <strong>(33)</strong>  _______</p>
+<p><strong>Navigation study</strong>
+• One study found that lizards can use the <strong>(34)</strong>  _______  to help them navigate</p>
+<p><strong>Observations in the wild</strong>
+• Observations show that these lizards keep the same <strong>(35)</strong>  _______  for several years</p>
+<p><strong>What people want</strong>
 • Possible reasons:
-o To improve the survival of their young (but little (36)  _______  has been noted between parents and children)
-o To provide (37)  _______  for female lizards</p>
-<p>Tracking study
-• A study was carried out using GPS systems attached to the (38)  _______  of the lizards
+o To improve the survival of their young (but little <strong>(36)</strong>  _______  has been noted between parents and children)
+o To provide <strong>(37)</strong>  _______  for female lizards</p>
+<p><strong>Tracking study</strong>
+• A study was carried out using GPS systems attached to the <strong>(38)</strong>  _______  of the lizards
 • This provided information on the lizards’ location and even the number of 
-(39)  _______  taken
+<strong>(39)</strong>  _______  taken
 • It appeared that the lizards were trying to avoid one another
-• This may be in order to reduce chances of (40)  _______</p>
-<p>ANSWER KEY</p>
+• This may be in order to reduce chances of <strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. 850</p>
 <p>2. bike</p>
 <p>3. parking</p>
@@ -475,6 +531,29 @@ o To provide (37)  _______  for female lizards</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -494,12 +573,23 @@ o To provide (37)  _______  for female lizards</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -511,14 +601,6 @@ o To provide (37)  _______  for female lizards</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,122 +158,122 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_259</h1>
-            <p>IELTS Reading Practice - Test 259</p>
-<p>Design the mat and Foot health</p>
-<p>A Indoor types will appreciate the cobblestone walkway, a knobbly textured plastic mat that they can wobble along in the comfort of their own homes. And for the more adventurous, there are shoes designed to throw you off balance.</p>
-<p>B The technology may be cutting edge, but its origins are deep and exotic. Research into the idea that flat floors could be detrimental to our health was pioneered back in the late 1960s. While others in Long Beach, California, contemplated peace and love, podiatrist Charles Brantingham and physiologist Bruce Beekman were concerned with more pedestrian matters. They reckoned that the growing epidemic of high blood pressure, varicose veins and deep-vein thromboses might be linked to the uniformity of the surfaces that we tend to stand and walk on.</p>
-<p>C The trouble, as they saw it, was that walking continuously on flat floors, sidewalks and streets concentrate forces on just a few areas of the foot. As a result, these surfaces are likely to be far more conducive to chronic stress syndromes than natural ones, where the foot meets the ground in a wide variety of orientations. The anatomy of the foot parallels that of the human hand – each having 26 bones, 33 joints and more than 100 muscles, tendons and ligaments. Modem lifestyles waste all this flexibility in your socks. Brantingham and Beekman became convinced that damage was being done simply by people standing on even surfaces and that this could be rectified by introducing a wobble.</p>
-<p>D “In Beijing and Shanghai city dwellers take daily walks on cobbled paths to improve their health.” To test their ideas, they got 65 clerks and factory workers to try standing on a variable terrain floor – spongy mats with amounts of giving across the surface. This modest irregularity allowed the soles of the volunteers’ feet to deviate slightly from the horizontal each time they shifted position. As the researchers hoped, this simple intervention turned out to make a huge difference over just a few weeks. Just a slight wobble from the floor activated a host of muscles in people’s legs, which in turn helped to pump blood back to their hearts. The muscle action prevented the pooling of blood in their feet and legs, reducing the stress on the entire cardiovascular system. And two-thirds of the volunteers reported feeling much less tired. Yet decades later, the flooring of the world’s workplaces remains relentlessly smooth.</p>
-<p>E Earlier this year, however, the idea was given a new lease of life when researchers in Oregon announced findings from a similar experiment with people over 60. John Fisher and colleagues at the Oregon Research Institute in Eugene designed a mat intended to replicate the effect of walking on cobblestones. In tests funded by the National Institute of Aging, they got some 50 adults to walk on the mats in their stockinged feet for less than an hour three times a week. After 16 weeks, these people showed marked improvements in balance and mobility, and even a significant reduction in blood pressure. People in a control group who walked on ordinary floors also improved but not as dramatically.</p>
-<p>F The mats are now on sale at $35. “Our first 1000 cobblestone mats sold in three weeks,” Fisher says. Production is now being scaled up. Even so, demand could exceed supply if this foot-stimulating activity really is a “useful non-pharmacological approach for preventing or controlling hypertension of older adults”, as the researchers believe. They are not alone in extolling the revitalizing powers of cobblestones. Reflexologists have long advocated walking on textured surfaces to stimulate so-called “acupoints” on the soles of the feet. Practitioners of this unorthodox therapy believe that pressure applied to particular spots on the foot connects directly to corresponding organs and somehow enhances their function. In China, spas, hotels, apartment blocks and even factories promote their cobblestone paths as healthful amenities. Fisher admits he got the idea from regular visits to the country. In Beijing and Shanghai city dwellers take daily walks along cobbled paths to improve their health. “In the big cities, people take off their shoes and walk on these paths for 5 or 10 minutes, perhaps several times a day,” Fisher says.</p>
-<p>G The idea is now taking off in Europe too. People in Germany, Austria and Switzerland can visit “barefoot parks” and walk along “paths of the senses” – with mud, logs, stone and moss underfoot – to receive what’s known there as reflexzon-massage. And it is not difficult to construct your own “health pathway”. American reflexologists Barbara and Kevin Kunz, based in Albuquerque, New Mexico, advise that you cobble together a walkway using broom handles, bamboo poles, hosepipes, gravel, pebbles, dried peas, driftwood, fallen logs, sand, door mats and strips of turf.</p>
-<p>H If your enthusiasm for DIY doesn’t stretch to this, and Fisher’s cobblestone mats are all sold out, there is another option. A new shoe on the market claims to transform flat, hard, artificial surfaces into something like natural uneven ground. “These shoes have an unbelievable effect,” says Benno Nigg, an exercise scientist at the human performance laboratory of Calgary University in Canada, which has done contract research for the shoe’s manufacturers. “They are one of the best things to have happened to humankind for years.” Known as Masai Barefoot Technology, or MBTs, the shoes have rounded soles that cause you to rock slightly when you stand still, exercising the small muscles around the ankle that are responsible for fore-aft stability. Forces in the joint are reduced, putting less strain on the system, Nigg claims.</p>
-<p>Questions 1-5
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 259</strong></h3>
+<h3 class="test-heading"><strong>Design the mat and Foot health</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Indoor types will appreciate the cobblestone walkway, a knobbly textured plastic mat that they can wobble along in the comfort of their own homes. And for the more adventurous, there are shoes designed to throw you off balance.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> The technology may be cutting edge, but its origins are deep and exotic. Research into the idea that flat floors could be detrimental to our health was pioneered back in the late 1960s. While others in Long Beach, California, contemplated peace and love, podiatrist Charles Brantingham and physiologist Bruce Beekman were concerned with more pedestrian matters. They reckoned that the growing epidemic of high blood pressure, varicose veins and deep-vein thromboses might be linked to the uniformity of the surfaces that we tend to stand and walk on.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> The trouble, as they saw it, was that walking continuously on flat floors, sidewalks and streets concentrate forces on just a few areas of the foot. As a result, these surfaces are likely to be far more conducive to chronic stress syndromes than natural ones, where the foot meets the ground in a wide variety of orientations. The anatomy of the foot parallels that of the human hand – each having 26 bones, 33 joints and more than 100 muscles, tendons and ligaments. Modem lifestyles waste all this flexibility in your socks. Brantingham and Beekman became convinced that damage was being done simply by people standing on even surfaces and that this could be rectified by introducing a wobble.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> “In Beijing and Shanghai city dwellers take daily walks on cobbled paths to improve their health.” To test their ideas, they got 65 clerks and factory workers to try standing on a variable terrain floor – spongy mats with amounts of giving across the surface. This modest irregularity allowed the soles of the volunteers’ feet to deviate slightly from the horizontal each time they shifted position. As the researchers hoped, this simple intervention turned out to make a huge difference over just a few weeks. Just a slight wobble from the floor activated a host of muscles in people’s legs, which in turn helped to pump blood back to their hearts. The muscle action prevented the pooling of blood in their feet and legs, reducing the stress on the entire cardiovascular system. And two-thirds of the volunteers reported feeling much less tired. Yet decades later, the flooring of the world’s workplaces remains relentlessly smooth.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> Earlier this year, however, the idea was given a new lease of life when researchers in Oregon announced findings from a similar experiment with people over 60. John Fisher and colleagues at the Oregon Research Institute in Eugene designed a mat intended to replicate the effect of walking on cobblestones. In tests funded by the National Institute of Aging, they got some 50 adults to walk on the mats in their stockinged feet for less than an hour three times a week. After 16 weeks, these people showed marked improvements in balance and mobility, and even a significant reduction in blood pressure. People in a control group who walked on ordinary floors also improved but not as dramatically.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> The mats are now on sale at $35. “Our first 1000 cobblestone mats sold in three weeks,” Fisher says. Production is now being scaled up. Even so, demand could exceed supply if this foot-stimulating activity really is a “useful non-pharmacological approach for preventing or controlling hypertension of older adults”, as the researchers believe. They are not alone in extolling the revitalizing powers of cobblestones. Reflexologists have long advocated walking on textured surfaces to stimulate so-called “acupoints” on the soles of the feet. Practitioners of this unorthodox therapy believe that pressure applied to particular spots on the foot connects directly to corresponding organs and somehow enhances their function. In China, spas, hotels, apartment blocks and even factories promote their cobblestone paths as healthful amenities. Fisher admits he got the idea from regular visits to the country. In Beijing and Shanghai city dwellers take daily walks along cobbled paths to improve their health. “In the big cities, people take off their shoes and walk on these paths for 5 or 10 minutes, perhaps several times a day,” Fisher says.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> The idea is now taking off in Europe too. People in Germany, Austria and Switzerland can visit “barefoot parks” and walk along “paths of the senses” – with mud, logs, stone and moss underfoot – to receive what’s known there as reflexzon-massage. And it is not difficult to construct your own “health pathway”. American reflexologists Barbara and Kevin Kunz, based in Albuquerque, New Mexico, advise that you cobble together a walkway using broom handles, bamboo poles, hosepipes, gravel, pebbles, dried peas, driftwood, fallen logs, sand, door mats and strips of turf.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>H</strong> If your enthusiasm for DIY doesn’t stretch to this, and Fisher’s cobblestone mats are all sold out, there is another option. A new shoe on the market claims to transform flat, hard, artificial surfaces into something like natural uneven ground. “These shoes have an unbelievable effect,” says Benno Nigg, an exercise scientist at the human performance laboratory of Calgary University in Canada, which has done contract research for the shoe’s manufacturers. “They are one of the best things to have happened to humankind for years.” Known as Masai Barefoot Technology, or MBTs, the shoes have rounded soles that cause you to rock slightly when you stand still, exercising the small muscles around the ankle that are responsible for fore-aft stability. Forces in the joint are reduced, putting less strain on the system, Nigg claims.</p></div></div>
+<p><strong>Questions 1-5</strong>
 Do the following statements agree with the information given in reading passage? In boxes 1-5 on your answer sheet, write</p>
-<p>TRUE                   if the statement agrees with the information
-FALSE                  if the statement contradicts the information
-NOT GIVEN         if there is no information on this</p>
-<p>Questions 6-8
+<p><strong>TRUE</strong>                   if the statement agrees with the information
+<strong>FALSE</strong>                  if the statement contradicts the information
+<strong>NOT GIVEN</strong>         if there is no information on this</p>
+<p><strong>Questions 6-8</strong>
 Choose the correct letter, A, B, C or D.</p>
 <p>6. Which of the followings is true according to J Fisher’s experiment cobbled paths in paragraph D
-A Spongy mats make the volunteer feel unbalance.
-B Chinese special culture makes it only applicable in a certain area.
-C More than half of participants reported a positive response.
-D This method could cure cardiovascular disease unexpectedly.</p>
+<strong>A</strong> Spongy mats make the volunteer feel unbalance.
+<strong>B</strong> Chinese special culture makes it only applicable in a certain area.
+<strong>C</strong> More than half of participants reported a positive response.
+<strong>D</strong> This method could cure cardiovascular disease unexpectedly.</p>
 <p>7. John Fisher and colleagues from the Oregon Research Institute has found the followings:
-A People walk on special designed mat only have improvements in blood pressure.
-B Blood pressure of control group improves not as much as the other one.
-C Elder people improve more dramatically than youngsters.
-D Testing time of 16 weeks is a significant factor in this experiment.</p>
+<strong>A</strong> People walk on special designed mat only have improvements in blood pressure.
+<strong>B</strong> Blood pressure of control group improves not as much as the other one.
+<strong>C</strong> Elder people improve more dramatically than youngsters.
+<strong>D</strong> Testing time of 16 weeks is a significant factor in this experiment.</p>
 <p>8. Shoes from MBT are also beneficial for your health as which of the following reasons:
-A Special designed soles on the bottom make your feet stabled
-B Researcher has previous experience in this field.
-C African style shoes were very successful in store sales.
-D They can protect the ankle and muscles around feet.</p>
-<p>Questions 9-13
-Complete the following summary of the paragraphs of reading passage. Using NO MORE THAN TWO WORDS from the reading passage for each answer.</p>
+<strong>A</strong> Special designed soles on the bottom make your feet stabled
+<strong>B</strong> Researcher has previous experience in this field.
+<strong>C</strong> African style shoes were very successful in store sales.
+<strong>D</strong> They can protect the ankle and muscles around feet.</p>
+<p><strong>Questions 9-13</strong>
+Complete the following summary of the paragraphs of reading passage. Using <strong>NO MORE THAN TWO WORDS</strong> from the reading passage for each answer.</p>
 <p>The anatomy of human’s foot is complex; which (9)………………….. human hand. The experiment, conducted on employees, showed that body movement on surface of different condition can lower the (10)……………. on heart. Similarity was also found in another experiment conducted by a researcher from the Oregon Research Institute. The test also showed there was a substantial (11)………………… in hypertension. Reflexologists advise people to work on a road with resistance to stimulate certain points of body via standing on the (12)……………. In the end, the author of the passage also advocates that people can build their own health (13)……………… except for buying the special mats and shoes.</p>
-<p>Brunel: ‘The Practical Prophet’</p>
-<p>A In the frontispiece of his book on Brunel, Peter Hay quotes from Nicholson’s British Encyclopaedia of 1909 as follows: ‘Engineers are extremely necessary for these purposes; wherefore it is requisite that, besides being ingenious, they should be brave in proportion.’ His father, Sir Marc Isambard Brunel (1769-1849), was himself a famous engineer, of French parents. He eventually settled in Britain and married the Sophia Kingdom, an English woman whom he had known in France in earlier days. Their only son Isambard was born on 9 April 1806. He was sent to France at the age of 14 to study mathematics and science and was 16 when he returned to England to work with his father. Sir Marc was then building his famous tunnel under the River Thames. Isambard was recuperating near Bristol from injuries received in a tunnel cave-in when he became involved with his own first major project.</p>
-<p>The Suspension Bridge ion the Avon Gorge</p>
-<p>B The span of Brunel’s bridge was over 700ft, longer than any existing when it was designed, and the height above water about 245ft. The technical challenges of this engineering project were immense, and Brunel dealt with them with his usual, thoroughness and ingenuity. Two design competitions were held, and the great bridge designer Thomas Telford was the committee’s expert. Brunel presented four designs. He went beyond technicalities to include arguments based on, among other things, the grace of his tower design. Unfortunately, he only got so far as to put up the end piers in his lifetime. The Clifton Suspension Bridge was completed in his honor by his engineering friends in1864 and is still in use.</p>
-<p>The Great Western Railway</p>
-<p>C While Brunel was still in Bristol, and with the Avon Bridge project stopped or going slowly, he became aware that the civic authorities saw the need for a railway link to London. Railway location was controversial since private landowners and towns had to be dealt with. Mainly, the landed gentry did not want a messy, noisy railway anywhere near them. The Duke of Wellington (of Waterloo fame) was certainly against it. Again Brunel showed great skill in presenting his arguments to the various committees and individuals. BruneI built his railway with a broad gauge (7ft) instead of the standard 4ft 8½in, which had been used for lines already installed. There is no doubt that the broad gauge gave superior ride and stability, but it was fighting a standard.</p>
-<p>Atmospheric railway:</p>
-<p>D Brunel’s ready acceptance of new ideas overpowered good engineering judgment (at least in hindsight) when he advocated the installation of an atmospheric railway in South Devon. It had the great attraction of doing away with the locomotive and potentially could deal with steeper gradients. Since this connecting arm had to run along the slit, it had to be opened through a flap as the train progressed, but closed airtight behind it. Materials were not up to it, and this arrangement was troublesome and expensive to keep in repair. After a year of frustration, the system was abandoned. Brunel admitted his failure and took responsibility. He also took no fee for his work, setting a good professional example.</p>
-<p>Brunel’s ships:</p>
-<p>E The idea of using steam to power ships to cross the ocean appealed to Brunel. When his GWR company directors complained about the great length of their railway (it was only about 100 miles), Isambard jokingly suggested that they could even make it longer—why not go all the way to New York and call the link the Great Western. The “Great Western” was the first steamship to engage in transatlantic service. Brunel formed the Great Western Steamship Company and construction started on the ship in Bristol in 1836. Built of wood and 236ft long, the Great Western was launched in 1837 and powered by sail and paddlewheels. The first trip to New York took just 15 days, and 14 days to return. This was a great success, a one way trip under sail would take more than a month. The Great Western was the firsts steamship to engage in transatlantic service and made 74 crossings to New York.</p>
-<p>F Having done so well with the Great Western, Brunel immediately got to work on an even bigger ship. Great Britain was made of iron and also built-in Bristol, 322ft in length. The initial design was for the ship to be driven by paddle wheels, but Brunel had seen one of the first propeller-driven ships to arrive in Britain, and he abandoned his plans for paddlewheel propulsion. The ship was launched in 1843 and was the first screw-driven iron ship to cross the Atlantic. Great Britain ran aground early in its career but was repaired, sold, and sailed for years to Australia, and other parts of the world, setting the standard for ocean travel. In the early 1970s, the old ship was rescued from the Falklands and is now under restoration in Bristol.</p>
-<p>G Conventional wisdom in Brunel’s day was that steamships could not carry enough coal to make long ocean voyages. But he correctly figured out that this was a case where size mattered. He set out to design the biggest ship ever, five times larger than any ship built up to that time. Big enough to carry fuel to get to Australia without refueling, in addition, it would carry 4,000 passengers.</p>
+<p><strong>Brunel: ‘The Practical Prophet’</strong></p>
+<p><strong>A</strong> In the frontispiece of his book on Brunel, Peter Hay quotes from Nicholson’s British Encyclopaedia of 1909 as follows: ‘Engineers are extremely necessary for these purposes; wherefore it is requisite that, besides being ingenious, they should be brave in proportion.’ His father, Sir Marc Isambard Brunel (1769-1849), was himself a famous engineer, of French parents. He eventually settled in Britain and married the Sophia Kingdom, an English woman whom he had known in France in earlier days. Their only son Isambard was born on 9 April 1806. He was sent to France at the age of 14 to study mathematics and science and was 16 when he returned to England to work with his father. Sir Marc was then building his famous tunnel under the River Thames. Isambard was recuperating near Bristol from injuries received in a tunnel cave-in when he became involved with his own first major project.</p>
+<p><strong>The Suspension Bridge ion the Avon Gorge</strong></p>
+<p><strong>B</strong> The span of Brunel’s bridge was over 700ft, longer than any existing when it was designed, and the height above water about 245ft. The technical challenges of this engineering project were immense, and Brunel dealt with them with his usual, thoroughness and ingenuity. Two design competitions were held, and the great bridge designer Thomas Telford was the committee’s expert. Brunel presented four designs. He went beyond technicalities to include arguments based on, among other things, the grace of his tower design. Unfortunately, he only got so far as to put up the end piers in his lifetime. The Clifton Suspension Bridge was completed in his honor by his engineering friends in1864 and is still in use.</p>
+<p><strong>The Great Western Railway</strong></p>
+<p><strong>C</strong> While Brunel was still in Bristol, and with the Avon Bridge project stopped or going slowly, he became aware that the civic authorities saw the need for a railway link to London. Railway location was controversial since private landowners and towns had to be dealt with. Mainly, the landed gentry did not want a messy, noisy railway anywhere near them. The Duke of Wellington (of Waterloo fame) was certainly against it. Again Brunel showed great skill in presenting his arguments to the various committees and individuals. BruneI built his railway with a broad gauge (7ft) instead of the standard 4ft 8½in, which had been used for lines already installed. There is no doubt that the broad gauge gave superior ride and stability, but it was fighting a standard.</p>
+<p><strong>Atmospheric railway:</strong></p>
+<p><strong>D</strong> Brunel’s ready acceptance of new ideas overpowered good engineering judgment (at least in hindsight) when he advocated the installation of an atmospheric railway in South Devon. It had the great attraction of doing away with the locomotive and potentially could deal with steeper gradients. Since this connecting arm had to run along the slit, it had to be opened through a flap as the train progressed, but closed airtight behind it. Materials were not up to it, and this arrangement was troublesome and expensive to keep in repair. After a year of frustration, the system was abandoned. Brunel admitted his failure and took responsibility. He also took no fee for his work, setting a good professional example.</p>
+<p><strong>Brunel’s ships:</strong></p>
+<p><strong>E</strong> The idea of using steam to power ships to cross the ocean appealed to Brunel. When his GWR company directors complained about the great length of their railway (it was only about 100 miles), Isambard jokingly suggested that they could even make it longer—why not go all the way to New York and call the link the Great Western. The “Great Western” was the first steamship to engage in transatlantic service. Brunel formed the Great Western Steamship Company and construction started on the ship in Bristol in 1836. Built of wood and 236ft long, the Great Western was launched in 1837 and powered by sail and paddlewheels. The first trip to New York took just 15 days, and 14 days to return. This was a great success, a one way trip under sail would take more than a month. The Great Western was the firsts steamship to engage in transatlantic service and made 74 crossings to New York.</p>
+<p><strong>F</strong> Having done so well with the Great Western, Brunel immediately got to work on an even bigger ship. Great Britain was made of iron and also built-in Bristol, 322ft in length. The initial design was for the ship to be driven by paddle wheels, but Brunel had seen one of the first propeller-driven ships to arrive in Britain, and he abandoned his plans for paddlewheel propulsion. The ship was launched in 1843 and was the first screw-driven iron ship to cross the Atlantic. Great Britain ran aground early in its career but was repaired, sold, and sailed for years to Australia, and other parts of the world, setting the standard for ocean travel. In the early 1970s, the old ship was rescued from the Falklands and is now under restoration in Bristol.</p>
+<p><strong>G</strong> Conventional wisdom in Brunel’s day was that steamships could not carry enough coal to make long ocean voyages. But he correctly figured out that this was a case where size mattered. He set out to design the biggest ship ever, five times larger than any ship built up to that time. Big enough to carry fuel to get to Australia without refueling, in addition, it would carry 4,000 passengers.</p>
 <p>The Great Eastern was 692ft long, with a displacement of about 32,000 tons. Construction began in 1854 on the Thames at Millwall. Brunel had chosen John Scott Russell to build the ship. He was a well-established engineer and naval architect, but the contract did not go well. Among other things, Scott Russell was very low in his estimates and money was soon a problem. Construction came to a standstill in 1856 and Brunel himself had to take over the work. But Brunel was nothing if not determined and by September 1859, after a delayed and problem -ridden launch, the Great Eastern was ready for the maiden voyage, Brunei was too sick to go, but it was just as well because only a few hours out there was an explosion in the engine room which would have destroyed a lesser ship. Brunel died within a week or so of the accident. The great ship never carried 4,000 passengers (among other things, the Suez Canal came along) and although it made several transatlantic crossings, it was not a financial success. Shortly after the Great Eastern began working life, the American entrepreneur Cyrus Field and his backers were looking for a ship big enough to carry 5,000 tons of telegraphic cable, which was to be laid on the ocean floor from Ireland to Newfoundland. Although Brunel did not have it in mind, the Great Eastern was an excellent vessel for this work on July 27, 1866. It successfully completed the connection and a hundred years of transatlantic communication by cable began. The ship continued this career for several years, used for laying cables in many parts of the world.</p>
-<p>Questions 14-19
+<p><strong>Questions 14-19</strong>
 Use the information in the passage to match the project Brunel did (listed A-G) with opinions or deeds below. Write the appropriate letters A-G, in boxes 14-19 on your answer sheet.</p>
-<p>A River Thames Tunnel
-B Clifton Suspension Bridge
-C Atmospheric Railway
-D Great Britain
-E The Great Western
-F Great Western Railway
-G The Great Eastern</p>
+<p><strong>A</strong> River Thames Tunnel
+<strong>B</strong> Clifton Suspension Bridge
+<strong>C</strong> Atmospheric Railway
+<strong>D</strong> Great Britain
+<strong>E</strong> The Great Western
+<strong>F</strong> Great Western Railway
+<strong>G</strong> The Great Eastern</p>
 <p>14. The project of construction that I.K.Brunel was not responsible for.
 15. The project had stopped due to inconvenience and high maintaining cost.
 16. The project was honored to yet not completed by Brunel himself.
 17. The project had a budget problem although built by a famous engineer.
 18. Serious problem happened and delayed repeatedly.
 19. The first one to cross the Atlantic Ocean in mankind history.</p>
-<p>Questions 20-22
+<p><strong>Questions 20-22</strong>
 The reading Passage has seven paragraphs A-G. Which paragraph contains the following information? Write the correct letter A-G, in boxes 20-22 on your answer sheet. NB You may use any letter more than once.</p>
 <p>20. There was a great ship setting the criteria for the journey of the ocean.
 21. An ambitious project which seemed to be applied in an unplanned service later.
 22. Brunel showed his talent of inter-personal skills with landlords and finally, the project had been gone through.</p>
-<p>Questions 23-26
-Complete the following summary of the paragraphs of reading passage. Using NO MORE THAN TWO WORDS from the Reading Passage for each answer.</p>
+<p><strong>Questions 23-26</strong>
+Complete the following summary of the paragraphs of reading passage. Using <strong>NO MORE THAN TWO WORDS</strong> from the Reading Passage for each answer.</p>
 <p>The Great Eastern was specially designed with a (23)…………….. for carrying more fuels and was to take a long voyage to (24)………………; However due to physical condition, Brunel couldn’t be able to go with the maiden voyage. Actually, the Great Eastern was unprofitable and the great ship never crossed (25)………………… . But soon after there was an ironic opportunity for the Great Eastern which was used to carry and to lay huge (26)………………. in Atlantic Ocean floor.</p>
-<p>Movie of Metropolis</p>
-<p>A When German director Fritz Lang visited the United States in 1924, his first glimpse of the country was a night-time view of the New York skyline from the deck of an ocean liner. This, he later recalled, was the direct inspiration for what is still probably the most innovative and influential science-fiction film ever made – Metropolis.</p>
-<p>B Metropolis is a bleak vision of the early twenty-first century that is at once both chilling and exhilarating. This spectacular city of the future is a technological marvel of high-rise buildings connected by elevated railways and airships. It’s also a world of extreme inequality and social division. The workers live below ground and exist as machines working in an endless routine of mind-numbing 10-hour shifts while the city’s elite lead lives of luxury high above. Presiding over them all is the Master of Metropolis, John Fredersen, whose sole satisfaction seems to lie in the exercise of power.</p>
-<p>C Lang’s graphic depiction of the future is conceived in almost totally abstract terms. The function of the individual machines is never defined. Instead, this mass of dials, levers and gauges symbolically stands for all machines and all industry, with the workers as slave-live extensions of the equipment they have to operate. Lang emphasizes this idea in the famous shift-change sequence at the start of the movie when the workers walk in zombie-like geometric ranks, all dressed in the same dark overalls and all exhibiting the same bowed head and dead-eyed stare. An extraordinary fantasy sequence sees one machine transformed into a huge open-jawed statue which then literally swallows them up.</p>
-<p>D On one level the machines and the exploited workers simply provide the wealth and services which allow the elite to live their lives of leisure, but on a more profound level, the purpose of all this demented industry is to serve itself. Power, control and the continuance of the system from one 10-hour shift to the next is all that counts. The city consumes people and their labour and in the process becomes a perverse parody of a living being.</p>
-<p>E It is enlightening, I think, to relate the film to the modern global economy in which multinational corporations now routinely close their factories in one continent so that they can take advantage of cheap labour in another. Like the industry in Metropolis, these corporations’ goals of increased efficiency and profits have little to do with the welfare of the majority of their employees or that of the population at large. Instead, their aims are to sustain the momentum of their own growth and to increase the monetary rewards to a tiny elite – their executives and shareholders. Fredersen himself is the essence of the big company boss: Rupert Murdoch would probably feel perfectly at home in his huge skyscraper office with its panoramic view of the city below. And it is important that there is never any mention of government in Metropolis – the whole concept is by implication obsolete. The only people who have power are the supreme industrialist, Fredersen, and his magician/scientist cohort Rotwang.</p>
-<p>F So far so good: when the images are allowed to speak for themselves the film is impeccable both in its symbolism and in its cynicism. The problem with Metropolis is its sentimental story-line, which sees Freder, Fredersen’s son, instantly falling in love with the visionary Maria. Maria leads an underground pseudo-religious movement and preaches that the workers should not rebel but should await the arrival of a ‘Mediator’ between the ‘Head’ (capital) and the ‘Hands’ (labour). That mediator is the ‘Heart’ – love, as embodied, finally, by Freder’s love of Maria and his father’s love of him.</p>
-<p>G Lang wrote the screenplay in collaboration with his then-wife Thea von Harbou. In 1933 he fled from the Nazis (and continued a very successful career in Hollywood). She stayed in Germany and continued to make films under the Hitler regime. There is a constant tension within the film between the too-tidy platitudes of von Harbou’s script and the uncompromisingly caustic vigour of Lang’s imagery.</p>
-<p>H To my mind, both in Metropolis and in the real world, it’s not so much that the ‘Head’ and ‘Hands’ require a ‘Heart’ to mediate between them but that the ‘Hands’ need to develop their own ‘Head’, their own political consciousness, and act accordingly – through the ballot box, through buying power and through a sceptical resistance to the materialistic fantasies of the Fredersens.</p>
-<p>I All the same, Metropolis is probably more accurate now as a representation of industrial and social relations than it has been at any time since its original release. And Fredersen is certainly still the most potent movie symbol of the handful of elusive corporate figureheads who increasingly treat the world as a Metropolis-like global village.</p>
-<p>Questions 27-30
+<p><strong>Movie of Metropolis</strong></p>
+<p><strong>A</strong> When German director Fritz Lang visited the United States in 1924, his first glimpse of the country was a night-time view of the New York skyline from the deck of an ocean liner. This, he later recalled, was the direct inspiration for what is still probably the most innovative and influential science-fiction film ever made – Metropolis.</p>
+<p><strong>B</strong> Metropolis is a bleak vision of the early twenty-first century that is at once both chilling and exhilarating. This spectacular city of the future is a technological marvel of high-rise buildings connected by elevated railways and airships. It’s also a world of extreme inequality and social division. The workers live below ground and exist as machines working in an endless routine of mind-numbing 10-hour shifts while the city’s elite lead lives of luxury high above. Presiding over them all is the Master of Metropolis, John Fredersen, whose sole satisfaction seems to lie in the exercise of power.</p>
+<p><strong>C</strong> Lang’s graphic depiction of the future is conceived in almost totally abstract terms. The function of the individual machines is never defined. Instead, this mass of dials, levers and gauges symbolically stands for all machines and all industry, with the workers as slave-live extensions of the equipment they have to operate. Lang emphasizes this idea in the famous shift-change sequence at the start of the movie when the workers walk in zombie-like geometric ranks, all dressed in the same dark overalls and all exhibiting the same bowed head and dead-eyed stare. An extraordinary fantasy sequence sees one machine transformed into a huge open-jawed statue which then literally swallows them up.</p>
+<p><strong>D</strong> On one level the machines and the exploited workers simply provide the wealth and services which allow the elite to live their lives of leisure, but on a more profound level, the purpose of all this demented industry is to serve itself. Power, control and the continuance of the system from one 10-hour shift to the next is all that counts. The city consumes people and their labour and in the process becomes a perverse parody of a living being.</p>
+<p><strong>E</strong> It is enlightening, I think, to relate the film to the modern global economy in which multinational corporations now routinely close their factories in one continent so that they can take advantage of cheap labour in another. Like the industry in Metropolis, these corporations’ goals of increased efficiency and profits have little to do with the welfare of the majority of their employees or that of the population at large. Instead, their aims are to sustain the momentum of their own growth and to increase the monetary rewards to a tiny elite – their executives and shareholders. Fredersen himself is the essence of the big company boss: Rupert Murdoch would probably feel perfectly at home in his huge skyscraper office with its panoramic view of the city below. And it is important that there is never any mention of government in Metropolis – the whole concept is by implication obsolete. The only people who have power are the supreme industrialist, Fredersen, and his magician/scientist cohort Rotwang.</p>
+<p><strong>F</strong> So far so good: when the images are allowed to speak for themselves the film is impeccable both in its symbolism and in its cynicism. The problem with Metropolis is its sentimental story-line, which sees Freder, Fredersen’s son, instantly falling in love with the visionary Maria. Maria leads an underground pseudo-religious movement and preaches that the workers should not rebel but should await the arrival of a ‘Mediator’ between the ‘Head’ (capital) and the ‘Hands’ (labour). That mediator is the ‘Heart’ – love, as embodied, finally, by Freder’s love of Maria and his father’s love of him.</p>
+<p><strong>G</strong> Lang wrote the screenplay in collaboration with his then-wife Thea von Harbou. In 1933 he fled from the Nazis (and continued a very successful career in Hollywood). She stayed in Germany and continued to make films under the Hitler regime. There is a constant tension within the film between the too-tidy platitudes of von Harbou’s script and the uncompromisingly caustic vigour of Lang’s imagery.</p>
+<p><strong>H</strong> To my mind, both in Metropolis and in the real world, it’s not so much that the ‘Head’ and ‘Hands’ require a ‘Heart’ to mediate between them but that the ‘Hands’ need to develop their own ‘Head’, their own political consciousness, and act accordingly – through the ballot box, through buying power and through a sceptical resistance to the materialistic fantasies of the Fredersens.</p>
+<p><strong>I</strong> All the same, Metropolis is probably more accurate now as a representation of industrial and social relations than it has been at any time since its original release. And Fredersen is certainly still the most potent movie symbol of the handful of elusive corporate figureheads who increasingly treat the world as a Metropolis-like global village.</p>
+<p><strong>Questions 27-30</strong>
 Do the following statements agree with the claims of the writer in reading passage? In boxes 27-30 on your answer sheet, write</p>
-<p>YES                     if the statement agrees with the views of the writer
-NO                      if the statement contradicts the views of the writer
-NOT GIVEN        if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                     if the statement agrees with the views of the writer
+<strong>NO</strong>                      if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong>        if it is impossible to say what the writer thinks about this</p>
 <p>27. The inspiration of the movie-Metropolis-comes from the director’s visit in the USA in 1924.
 28. The Master of Metropolis, John Fredersen, is portrayed from an industrialist that the director met in the US.
 29. The start of the movie exhibits the workers working in full energy.
 30. The director and his wife got divorced because his wife decided to stay in Germany.</p>
-<p>Questions 31-36
-Complete the summary below. Using NO MORE THAN TWO WORDS from the Reading Passage for each answer.</p>
+<p><strong>Questions 31-36</strong>
+Complete the summary below. Using <strong>NO MORE THAN TWO WORDS</strong> from the Reading Passage for each answer.</p>
 <p>The director depicts a world of inequality and (31)………………… In the future, the mindless masses of workers living underground are treated as (32)………………… And the master of them is (33)………………, who is in charge of the whole city. The writer claims that the director, Fritz Lang, presents the movie in an (34)……………. term, where the (35)…………………. of the individual machines is not defined. Besides the writer compares the film to the modern global economy in which multinational corporations concern more about the growing (36)……………… and money.</p>
-<p>Questions 37-40
+<p><strong>Questions 37-40</strong>
 Choose the correct letter, A, B, C or D.</p>
 <p>37. The first sentence in paragraph B indicates
-A the author’s fear about technology
-B the inspiration of the director
-C the contradictory feelings towards future
-D the city elite’s well management of the workers</p>
+<strong>A</strong> the author’s fear about technology
+<strong>B</strong> the inspiration of the director
+<strong>C</strong> the contradictory feelings towards future
+<strong>D</strong> the city elite’s well management of the workers</p>
 <p>38. Why the function of the individual machines is not defined?
-A Because Lang sticks to theme in a symbolic way.
-B Because workers are more important to exploit.
-C Because the fantasy sequence is difficult to take.
-D Because the focus of the movie is not about machines.</p>
+<strong>A</strong> Because Lang sticks to theme in a symbolic way.
+<strong>B</strong> Because workers are more important to exploit.
+<strong>C</strong> Because the fantasy sequence is difficult to take.
+<strong>D</strong> Because the focus of the movie is not about machines.</p>
 <p>39. The writer’s purpose in paragraph five is to
-A emphasize the multinational corporations’ profit-oriented goal.
-B compare the movie with the reality in the modern global economy
-C exploit the difference between fantasy and reality
-D enlighten the undeveloped industry</p>
+<strong>A</strong> emphasize the multinational corporations’ profit-oriented goal.
+<strong>B</strong> compare the movie with the reality in the modern global economy
+<strong>C</strong> exploit the difference between fantasy and reality
+<strong>D</strong> enlighten the undeveloped industry</p>
 <p>40. What is the writer’s opinion about the movie?
-A The movie’s story-line is excellent.
-B The movie has a poor implication in symbolism.
-C The movie is perfect in all aspects.
-D The movie is good but could be better.</p>
-<p>ANSWER KEY</p>
+<strong>A</strong> The movie’s story-line is excellent.
+<strong>B</strong> The movie has a poor implication in symbolism.
+<strong>C</strong> The movie is perfect in all aspects.
+<strong>D</strong> The movie is good but could be better.</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. True</p>
 <p>2. False</p>
 <p>3. True</p>
@@ -476,6 +532,29 @@ D The movie is good but could be better.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -495,12 +574,23 @@ D The movie is good but could be better.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -512,14 +602,6 @@ D The movie is good but could be better.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

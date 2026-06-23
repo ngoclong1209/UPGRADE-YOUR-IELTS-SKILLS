@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,111 +158,111 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_82</h1>
-            <p>IELTS Listening Practice - Test 82</p>
-<p>Part 1: Questions 1-3
-Complete the form below. Write NO MORE THAN ONE WORD OR A NUMBER.</p>
-<p>University Accommodation Department
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 82</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-3</strong>
+Complete the form below. Write <strong>NO MORE THAN ONE WORD OR A NUMBER.</strong></p>
+<p><strong>University Accommodation Department</strong>
 Customer information
 The caller wants accommodation for international students.</p>
-<p>Student name: Maria Teresa (1)  _______</p>
-<p>Questions 4-7
-Complete the table below. Write ONE WORD OR A NUMBER for each answer.</p>
-<p>(4)  _______                      (5)  _______ 
-(6)  _______                      (7)  _______</p>
-<p>Questions 8-10
-Choose THREE letters A-E.</p>
-<p>Which THREE of the following are features of accommodation at the Cube?</p>
-<p>[ ]  A parking garage
-[ ]  B laundry room
-[ ]  C ensuite bathroom
-[ ]  D kitchen
-[ ]  E study bedroom</p>
-<p>Part 2: Questions 11-16
-Complete the notes below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Barker’s Country Safaris
-Established: (11)  _______  years ago by John and Nancy Barker</p>
-<p>As teens the Barkers enjoyed: Climbing, kayaking, white water rafting, pot-holing, (12)  _______</p>
-<p>At university they organized: motor trips, (13)  _______  tours</p>
-<p>5 years ago they (14)  _______  their regular jobs</p>
-<p>(15)  _______  years later they began running activity tours</p>
-<p>1 year ago they started activities for (16)  _______  groups</p>
-<p>Questions 17-20
-Complete the table below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Tour Options</p>
-<p>(17)  _______                      (18)  _______ 
-(19)  _______                     (20)  _______</p>
-<p>Part 3: Questions 21-27
+<h3 class="test-heading">Student name: Maria Teresa <strong>(1)</strong>  _______</h3>
+<p><strong>Questions 4-7</strong>
+Complete the table below. Write <strong>ONE WORD OR A NUMBER</strong> for each answer.</p>
+<p><strong>(4)</strong>  _______                      <strong>(5)</strong>  _______ 
+<strong>(6)</strong>  _______                      <strong>(7)</strong>  _______</p>
+<p><strong>Questions 8-10</strong>
+Choose <strong>THREE</strong> letters A-E.</p>
+<p>Which <strong>THREE</strong> of the following are features of accommodation at the Cube?</p>
+<p><strong>[ ] </strong><strong> A</strong> parking garage
+<strong>[ ] </strong><strong> B</strong> laundry room
+<strong>[ ] </strong><strong> C</strong> ensuite bathroom
+<strong>[ ] </strong><strong> D</strong> kitchen
+<strong>[ ] </strong><strong> E</strong> study bedroom</p>
+<p><strong>Part 2: Questions 11-16</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>Barker’s Country Safaris</strong>
+Established: <strong>(11)</strong>  _______  years ago by John and Nancy Barker</p>
+<p>As teens the Barkers enjoyed: Climbing, kayaking, white water rafting, pot-holing, <strong>(12)</strong>  _______</p>
+<p>At university they organized: motor trips, <strong>(13)</strong>  _______  tours</p>
+<p>5 years ago they <strong>(14)</strong>  _______  their regular jobs</p>
+<p><strong>(15)</strong>  _______  years later they began running activity tours</p>
+<p>1 year ago they started activities for <strong>(16)</strong>  _______  groups</p>
+<p><strong>Questions 17-20</strong>
+Complete the table below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>Tour Options</strong></p>
+<p><strong>(17)</strong>  _______                      <strong>(18)</strong>  _______ 
+<strong>(19)</strong>  _______                     <strong>(20)</strong>  _______</p>
+<p><strong>Part 3: Questions 21-27</strong>
 Choose the correct letter A, B or C.</p>
 <p>21. Jess wants to start the meeting by
-[ ]  A organizing his notes
-[ ]  B taking a photo
-[ ]  C reviewing the objectives for the project</p>
+<strong>[ ] </strong><strong> A</strong> organizing his notes
+<strong>[ ] </strong><strong> B</strong> taking a photo
+<strong>[ ] </strong><strong> C</strong> reviewing the objectives for the project</p>
 <p>22. What are Matt and Jess planning to study?
-[ ]  A different species of insects
-[ ]  B different species of plants
-[ ]  C old photos</p>
+<strong>[ ] </strong><strong> A</strong> different species of insects
+<strong>[ ] </strong><strong> B</strong> different species of plants
+<strong>[ ] </strong><strong> C</strong> old photos</p>
 <p>23. How far apart are the plots supposed to be?
-[ ]  A 12 feet
-[ ]  B 10 meters
-[ ]  C 10 miles</p>
+<strong>[ ] </strong><strong> A</strong> 12 feet
+<strong>[ ] </strong><strong> B</strong> 10 meters
+<strong>[ ] </strong><strong> C</strong> 10 miles</p>
 <p>24. Where can the bamboo sticks be purchased?
-[ ]  A department stores
-[ ]  B toy shops
-[ ]  C gardening centres</p>
+<strong>[ ] </strong><strong> A</strong> department stores
+<strong>[ ] </strong><strong> B</strong> toy shops
+<strong>[ ] </strong><strong> C</strong> gardening centres</p>
 <p>25. One person throws the frame and the other person
-[ ]  A turns on the spot
-[ ]  B smiles and waves
-[ ]  C marks out the squares</p>
+<strong>[ ] </strong><strong> A</strong> turns on the spot
+<strong>[ ] </strong><strong> B</strong> smiles and waves
+<strong>[ ] </strong><strong> C</strong> marks out the squares</p>
 <p>26. The instructions sound complicated because
-[ ]  A they are in writing
-[ ]  B there is so much turning around
-[ ]  C there are so many squares</p>
+<strong>[ ] </strong><strong> A</strong> they are in writing
+<strong>[ ] </strong><strong> B</strong> there is so much turning around
+<strong>[ ] </strong><strong> C</strong> there are so many squares</p>
 <p>27. Jess thinks Matt should do the throwing because
-[ ]  A he has more experience
-[ ]  B he has a stronger arm
-[ ]  C he is more accurate</p>
-<p>Questions 28-30
+<strong>[ ] </strong><strong> A</strong> he has more experience
+<strong>[ ] </strong><strong> B</strong> he has a stronger arm
+<strong>[ ] </strong><strong> C</strong> he is more accurate</p>
+<p><strong>Questions 28-30</strong>
 What do Matt and Jess decide about each of the possible locations?</p>
 <p>Write the correct letter A, B or C next to questions 28-30.</p>
-<p>A they will go there
-B they might go there
-C they will not go there</p>
-<p>Locations
+<p><strong>A</strong> they will go there
+<strong>B</strong> they might go there
+<strong>C</strong> they will not go there</p>
+<p><strong>Locations</strong>
 28. the lowland around the marsh  _______ 
 29. behind the beach  _______ 
 30. behind the headland near the bay  _______</p>
-<p>Part 4: Questions 31-34
+<p><strong>Part 4: Questions 31-34</strong>
 Choose the correct letter A, B or C.</p>
 <p>31. Compared to other industries, tourism has
-[ ]  A the most young customers
-[ ]  B the biggest impact on people
-[ ]  C only indirect impact</p>
+<strong>[ ] </strong><strong> A</strong> the most young customers
+<strong>[ ] </strong><strong> B</strong> the biggest impact on people
+<strong>[ ] </strong><strong> C</strong> only indirect impact</p>
 <p>32. In global tourism there is a
-[ ]  A 97% economic leakage
-[ ]  B a 9 in 10 chance of failure
-[ ]  C about 9% economic failure</p>
+<strong>[ ] </strong><strong> A</strong> 97% economic leakage
+<strong>[ ] </strong><strong> B</strong> a 9 in 10 chance of failure
+<strong>[ ] </strong><strong> C</strong> about 9% economic failure</p>
 <p>33. Some countries with high levels of tourism still have
-[ ]  A poor accommodation
-[ ]  B great poverty
-[ ]  C large national debt</p>
+<strong>[ ] </strong><strong> A</strong> poor accommodation
+<strong>[ ] </strong><strong> B</strong> great poverty
+<strong>[ ] </strong><strong> C</strong> large national debt</p>
 <p>34. Geo-tourism is all about
-[ ]  A reducing pollution from industry
-[ ]  B increasing numbers of travelers
-[ ]  C providing a fair reward for service</p>
-<p>Questions 35-40
-Complete the notes below. Write ONE WORD AND/ OR A NUMBER for each answer.</p>
-<p>Project with World Bank</p>
-<p>Developing technology platform
+<strong>[ ] </strong><strong> A</strong> reducing pollution from industry
+<strong>[ ] </strong><strong> B</strong> increasing numbers of travelers
+<strong>[ ] </strong><strong> C</strong> providing a fair reward for service</p>
+<p><strong>Questions 35-40</strong>
+Complete the notes below. Write <strong>ONE WORD AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>Project with World Bank</strong></p>
+<p><strong>Developing technology platform</strong>
 • Brings grassroots products to locals
-• Avoid (35)  _______  men</p>
-<p>Volunteering
-• Many teen schedule (36)  _______  year between school and university
-• Volunteering organisations charge up to £ (37)  _______</p>
-<p>Geo-tourism
-• Customers are looking for organisations that can suggest (38)  _______  projects
-• Organisers would charge flat (39)  _______ 
-• This would make for a good (40)  _______ for each customer</p>
-<p>ANSWER KEY</p>
+• Avoid <strong>(35)</strong>  _______  men</p>
+<p><strong>Volunteering</strong>
+• Many teen schedule <strong>(36)</strong>  _______  year between school and university
+• Volunteering organisations charge up to £ <strong>(37)</strong>  _______</p>
+<p><strong>Geo-tourism</strong>
+• Customers are looking for organisations that can suggest <strong>(38)</strong>  _______  projects
+• Organisers would charge flat <strong>(39)</strong>  _______ 
+• This would make for a good <strong>(40)</strong>  _______ for each customer</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. GONZALEZ</p>
 <p>2. SHU300715PG</p>
 <p>3. languages</p>
@@ -460,11 +516,34 @@ Complete the notes below. Write ONE WORD AND/ OR A NUMBER for each answer.</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_82.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_82.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -484,12 +563,23 @@ Complete the notes below. Write ONE WORD AND/ OR A NUMBER for each answer.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -501,14 +591,6 @@ Complete the notes below. Write ONE WORD AND/ OR A NUMBER for each answer.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

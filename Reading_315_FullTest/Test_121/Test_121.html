@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,70 +158,70 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_121</h1>
-            <p>IELTS Reading Practice - Test 121</p>
-<p>Experience versus speed</p>
-<p>Jake, aged 16, has a terrific relationship with his grandmother Rita, who is 70. They live close by, and they even take a Spanish class together twice a week at a local college. After class, they sometimes stop at a cafe for a snack. On one occasion, Rita tells Jake, ‘I think it’s great how fast you pick up new grammar. It takes me a lot longer.’ Jake replies, ‘Yeah, but you don’t seem to make as many silly mistakes on the quizzes as I do. How do you do that?’</p>
-<p>In that moment, Rita and Jake stumbled across an interesting set of differences between older and younger minds. Popular psychology says that as people age their brains ‘slow down’. The implication, of course, is that elderly men and women are not as mentally agile as middle-aged adults or even teenagers. However, although certain brain functions such as perception and reaction time do indeed take longer, that slowing down does not necessarily undermine mental sharpness. Indeed, evidence shows that older people are just as mentally fit as younger people because their brains compensate for some kinds of declines in creative ways that young minds do not exploit.</p>
-<p>Just as people’s bodies age at different rates, so do their minds. As adults advance in age, the perception of sights, sounds and smells takes a bit longer, and laying down new information into memory becomes more difficult. The ability to retrieve memories also quickly slides and it is sometimes harder to concentrate and maintain attention.</p>
-<p>On the other hand, the ageing brain can create significant benefits by tapping into its extensive hoard of accumulated knowledge and experience. The biggest trick that older brains employ is to use both hemispheres simultaneously to handle tasks for which younger brains rely predominantly on one side. Electronic images taken by cognitive scientists at the University of Michigan, for example, have demonstrated that even when doing basic recognition or memorization exercises, seniors exploit the left and right side of the brain more extensively than men and women who are decades younger. Drawing on both sides of the brain gives them a tactical edge, even if the speed of each hemisphere’s process is slower.</p>
-<p>In another experiment, Michael Falkenstein of the University of Dortmund in Germany found that when elders were presented with new computer exercises they paused longer before reacting and took longer to complete the tasks, yet they made 50% fewer errors, probably because of their more deliberate pace.</p>
-<p>One analogy for these results might be the question of who can type a paragraph ‘better’: a 16-year-old who glides along at 60 words per minute but has to double back to correct a number of mistakes or a 70-year-old who strikes keys at only 40 words per minute but spends less time fixing errors? In the end, if ‘better’ is defined as completing a clean paragraph. both people may end up taking the same amount of time.</p>
-<p>Computerized tests support the notion that accuracy can offset speed. In one so-called distraction exercise, subjects were told to look at a screen, wait for an arrow that pointed in a certain direction to appear, and then use a mouse to click on the arrow as soon as it appeared on the screen. Just before the correct symbol appeared, however, the computer displayed numerous other arrows aimed in various other directions. Although younger subjects cut through the confusion faster when the correct arrow suddenly popped up, they more frequently clicked on incorrect arrows in their haste.</p>
-<p>Older test takers are equally capable of other tasks that do not depend on speed, such as language comprehension and processing. In these cases, however. the elders utilize the brain’s available resources in a different way. Neurologists at Northwest University came to this conclusion after analyzing 50 people ranging from age 23 to 78. The subjects had to lie down in a magnetic resonance imaging (MRI) machine and concentrate on two different lists of printed words posted side by side in front of them. By looking at the lists, they were to find pairs of words that were similar in either meaning or spelling.</p>
-<p>The eldest participants did just as well on the tests as the youngest did, and yet the MRI scans indicated that in the elders’ brains, the areas which are responsible for language recognition and interpretation were much less active. The researchers did find that the older people had more activity in brain regions responsible for attentiveness. Darren Gleitman, who headed the study, concluded that older brains solved the problems just as effectively but by different means.</p>
-<p>Questions 1-3
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 121</strong></h3>
+<h3 class="test-heading"><strong>Experience versus speed</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>Jake, aged 16, has a terrific relationship with his grandmother Rita, who is 70. They live close by, and they even take a Spanish class together twice a week at a local college. After class, they sometimes stop at a cafe for a snack. On one occasion, Rita tells Jake, ‘I think it’s great how fast you pick up new grammar. It takes me a lot longer.’ Jake replies, ‘Yeah, but you don’t seem to make as many silly mistakes on the quizzes as I do. How do you do that?’</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>In that moment, Rita and Jake stumbled across an interesting set of differences between older and younger minds. Popular psychology says that as people age their brains ‘slow down’. The implication, of course, is that elderly men and women are not as mentally agile as middle-aged adults or even teenagers. However, although certain brain functions such as perception and reaction time do indeed take longer, that slowing down does not necessarily undermine mental sharpness. Indeed, evidence shows that older people are just as mentally fit as younger people because their brains compensate for some kinds of declines in creative ways that young minds do not exploit.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Just as people’s bodies age at different rates, so do their minds. As adults advance in age, the perception of sights, sounds and smells takes a bit longer, and laying down new information into memory becomes more difficult. The ability to retrieve memories also quickly slides and it is sometimes harder to concentrate and maintain attention.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>On the other hand, the ageing brain can create significant benefits by tapping into its extensive hoard of accumulated knowledge and experience. The biggest trick that older brains employ is to use both hemispheres simultaneously to handle tasks for which younger brains rely predominantly on one side. Electronic images taken by cognitive scientists at the University of Michigan, for example, have demonstrated that even when doing basic recognition or memorization exercises, seniors exploit the left and right side of the brain more extensively than men and women who are decades younger. Drawing on both sides of the brain gives them a tactical edge, even if the speed of each hemisphere’s process is slower.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>In another experiment, Michael Falkenstein of the University of Dortmund in Germany found that when elders were presented with new computer exercises they paused longer before reacting and took longer to complete the tasks, yet they made 50% fewer errors, probably because of their more deliberate pace.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>One analogy for these results might be the question of who can type a paragraph ‘better’: a 16-year-old who glides along at 60 words per minute but has to double back to correct a number of mistakes or a 70-year-old who strikes keys at only 40 words per minute but spends less time fixing errors? In the end, if ‘better’ is defined as completing a clean paragraph. both people may end up taking the same amount of time.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>Computerized tests support the notion that accuracy can offset speed. In one so-called distraction exercise, subjects were told to look at a screen, wait for an arrow that pointed in a certain direction to appear, and then use a mouse to click on the arrow as soon as it appeared on the screen. Just before the correct symbol appeared, however, the computer displayed numerous other arrows aimed in various other directions. Although younger subjects cut through the confusion faster when the correct arrow suddenly popped up, they more frequently clicked on incorrect arrows in their haste.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>Older test takers are equally capable of other tasks that do not depend on speed, such as language comprehension and processing. In these cases, however. the elders utilize the brain’s available resources in a different way. Neurologists at Northwest University came to this conclusion after analyzing 50 people ranging from age 23 to 78. The subjects had to lie down in a magnetic resonance imaging (MRI) machine and concentrate on two different lists of printed words posted side by side in front of them. By looking at the lists, they were to find pairs of words that were similar in either meaning or spelling.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>The eldest participants did just as well on the tests as the youngest did, and yet the MRI scans indicated that in the elders’ brains, the areas which are responsible for language recognition and interpretation were much less active. The researchers did find that the older people had more activity in brain regions responsible for attentiveness. Darren Gleitman, who headed the study, concluded that older brains solved the problems just as effectively but by different means.</p></div></div>
+<p><strong>Questions 1-3</strong>
 Choose the correct answer A, B, C or D and write them on your answer sheet from 1-3</p>
 <p>1 The conversation between Jake and Rita is used to give an example of
-A. the way we learn languages.
-B. the changes that occur in our brains over time.
-C. the fact that it is easier to learn a language at a young age.
-D. the importance of young and old people doing things together.</p>
+<strong>A</strong>. the way we learn languages.
+<strong>B</strong>. the changes that occur in our brains over time.
+<strong>C</strong>. the fact that it is easier to learn a language at a young age.
+<strong>D</strong>. the importance of young and old people doing things together.</p>
 <p>2 In paragraph six, what point is the analogy used to illustrate?
-A. Working faster is better than working slower.
-B. Accuracy is less important than speed.
-C. Accuracy can improve over time.
-D. Working faster does not always save time.</p>
+<strong>A</strong>. Working faster is better than working slower.
+<strong>B</strong>. Accuracy is less important than speed.
+<strong>C</strong>. Accuracy can improve over time.
+<strong>D</strong>. Working faster does not always save time.</p>
 <p>3 In the computerized distraction exercises, the subjects had to
-A. react to a particular symbol on the screen.
-B. type a text as quickly as possible.
-C. move an arrow in different directions around the screen.
-D. click on every arrow that appeared on the screen.</p>
-<p>Questions 4-7
+<strong>A</strong>. react to a particular symbol on the screen.
+<strong>B</strong>. type a text as quickly as possible.
+<strong>C</strong>. move an arrow in different directions around the screen.
+<strong>D</strong>. click on every arrow that appeared on the screen.</p>
+<p><strong>Questions 4-7</strong>
 Complete each sentence with the correct ending A-F.
 Write the correct letter A-F in boxes 4-7 on your answer sheet</p>
 <p>4 According to popular psychology
 5 Researchers at the University of Michigan showed that
 6 Michael Falkenstein discovered that
 7 Scientists at Northwest University concluded that</p>
-<p>A. the older we get the harder it is to concentrate for any length of time.
-B. seniors take longer to complete tasks but with greater accuracy.
-C. old people use both parts of their brain more than young people.
-D. older people use their brains differently but achieve the same result.
-E. the speed of our brain decreases with age.
-F. older people do not cope well with new technology.</p>
-<p>Questions 8-12
+<p><strong>A</strong>. the older we get the harder it is to concentrate for any length of time.
+<strong>B</strong>. seniors take longer to complete tasks but with greater accuracy.
+<strong>C</strong>. old people use both parts of their brain more than young people.
+<strong>D</strong>. older people use their brains differently but achieve the same result.
+<strong>E</strong>. the speed of our brain decreases with age.
+<strong>F</strong>. older people do not cope well with new technology.</p>
+<p><strong>Questions 8-12</strong>
 Complete the summary below.</p>
-<p>Choose NO MORE THAN ONE WORD from the passage for each answer.
+<p>Choose <strong>NO MORE THAN ONE WORD</strong> from the passage for each answer.
 Write your answers in spaces 8-12 of your answer sheet.</p>
 <p>People’s bodies and 8 __________ grow older at varying stages. As we age our senses take longer to process information and our aptitude for recalling 9 __________ also decreases. However, older people’s brains do have several advantages. Firstly, they can call upon both the 10 __________ and 11 __________ which is already stored in their brain. Secondly, although the 12__________ of each side of their brain is reduced, they are able to use both sides at once.</p>
-<p>Robotic approach to crop breeding</p>
-<p>A The Australian sunflower industry is the major source of polyunsaturated fatty acids found in margarines and spreads. Recognised as the type of fatty acid most able to protect against heart disease, it is in everybody’s best interest that Australia has a competitive and healthy sunflower industry, but in Australia, there is a constant struggle with the harsh climate. However, thanks to one special robot, farmers may be able to win the battle against drought.</p>
-<p>B Dr Chris Lambrides, a research fellow at the University of Queensland, is nearing the end of a project that aims to develop more drought tolerant sunflowers by selecting flowers that use water more efficiently. He’s done this with the help of a robot developed by the Australian National University’s Research School of Biological Sciences.</p>
-<p>C Plants undergo photosynthesis to produce energy in the form of sugar. This involves allowing carbon dioxide to enter the leaves through pores called stomata. Transpiration is the mechanism by which plants lose water through their leaves. This system is thought to facilitate the passage of minerals through the plant and is vital for healthy plants.</p>
-<p>D However, in conditions of drought, the plants that can use the available water efficiently and lose less to the environment will be more likely to thrive and, in a commercial sense become more profitable. These plants are classified as having a high transpiration efficiency. When plants transpire, the leaves become cooler due to evaporation. Therefore, by measuring the temperature of the leaves, scientists can determine how much water is being lost through transpiration.</p>
-<p>E When the project first began, the researchers used hand-held infrared thermometers to measure the temperature difference between leaves of different varieties of sunflowers in an experimental plot. Wind can affect leaf temperature, and the research team discovered that its initial approach did not cater for changes in wind speed, which could not be controlled as an experimental variable. The team, therefore, needed a technique to measure temperature continuously that would allow it to examine the effects of other variables such as humidity. They needed a robot.</p>
-<p>F They designed a robot with two infrared thermometers set at 1800 to each other. The robot runs on an oblong track around the experimental plot and the thermometers operate on each side of the track. In order to minimize any variables from the two thermometers, they are rotated 1800 at the beginning of each run and the results are averaged. The infrared thermometers can be rotated on an angle to examine different parts of the foliage.</p>
-<p>G The robot is also able to detect light intensity. It has a garage on the track, where it waits until the light intensity is high enough to give useful results. If the skies darken due to rain, heavy cloud cover or sunset, the robot makes its way back to the garage to wait.</p>
-<p>H The main difficulty faced by the research group was to find an agronomist who could grow the perfect crop of sunflowers. The sunflower canopy had to be complete, with no visible soil, 50 that the thermometers would only measure the temperature of the plants and not the surrounding environment. Eight varieties of sunflower were examined. The data collected by the robot has been used by the research team to determine which variety has the highest transpiration efficiency.</p>
-<p>I This is not the first time such methods have been used to determine drought-resistance in plants. The team and their robot have already made a major breakthrough in the Australian wheat industry with Drysdale Wheat, which signalled the arrival of a new technique for selecting drought-resistant species.</p>
-<p>Questions 13-16</p>
-<p>Complete the sentences with words taken from the passage. Use NO MORE THAN TWO WORDS for each answer.</p>
+<p><strong>Robotic approach to crop breeding</strong></p>
+<p><strong>A</strong> The Australian sunflower industry is the major source of polyunsaturated fatty acids found in margarines and spreads. Recognised as the type of fatty acid most able to protect against heart disease, it is in everybody’s best interest that Australia has a competitive and healthy sunflower industry, but in Australia, there is a constant struggle with the harsh climate. However, thanks to one special robot, farmers may be able to win the battle against drought.</p>
+<p><strong>B</strong> Dr Chris Lambrides, a research fellow at the University of Queensland, is nearing the end of a project that aims to develop more drought tolerant sunflowers by selecting flowers that use water more efficiently. He’s done this with the help of a robot developed by the Australian National University’s Research School of Biological Sciences.</p>
+<p><strong>C</strong> Plants undergo photosynthesis to produce energy in the form of sugar. This involves allowing carbon dioxide to enter the leaves through pores called stomata. Transpiration is the mechanism by which plants lose water through their leaves. This system is thought to facilitate the passage of minerals through the plant and is vital for healthy plants.</p>
+<p><strong>D</strong> However, in conditions of drought, the plants that can use the available water efficiently and lose less to the environment will be more likely to thrive and, in a commercial sense become more profitable. These plants are classified as having a high transpiration efficiency. When plants transpire, the leaves become cooler due to evaporation. Therefore, by measuring the temperature of the leaves, scientists can determine how much water is being lost through transpiration.</p>
+<p><strong>E</strong> When the project first began, the researchers used hand-held infrared thermometers to measure the temperature difference between leaves of different varieties of sunflowers in an experimental plot. Wind can affect leaf temperature, and the research team discovered that its initial approach did not cater for changes in wind speed, which could not be controlled as an experimental variable. The team, therefore, needed a technique to measure temperature continuously that would allow it to examine the effects of other variables such as humidity. They needed a robot.</p>
+<p><strong>F</strong> They designed a robot with two infrared thermometers set at 1800 to each other. The robot runs on an oblong track around the experimental plot and the thermometers operate on each side of the track. In order to minimize any variables from the two thermometers, they are rotated 1800 at the beginning of each run and the results are averaged. The infrared thermometers can be rotated on an angle to examine different parts of the foliage.</p>
+<p><strong>G</strong> The robot is also able to detect light intensity. It has a garage on the track, where it waits until the light intensity is high enough to give useful results. If the skies darken due to rain, heavy cloud cover or sunset, the robot makes its way back to the garage to wait.</p>
+<p><strong>H</strong> The main difficulty faced by the research group was to find an agronomist who could grow the perfect crop of sunflowers. The sunflower canopy had to be complete, with no visible soil, 50 that the thermometers would only measure the temperature of the plants and not the surrounding environment. Eight varieties of sunflower were examined. The data collected by the robot has been used by the research team to determine which variety has the highest transpiration efficiency.</p>
+<p><strong>I</strong> This is not the first time such methods have been used to determine drought-resistance in plants. The team and their robot have already made a major breakthrough in the Australian wheat industry with Drysdale Wheat, which signalled the arrival of a new technique for selecting drought-resistant species.</p>
+<p><strong>Questions 13-16</strong></p>
+<p>Complete the sentences with words taken from the passage. Use <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>Write your answers in boxes 1-4 on your answer sheet</p>
 <p>13 In terms of our health, sunflowers are important in defending humans against ……………………………………
 14 The research team wanted to find a sunflower that could cope well in conditions ……………………………………
 15 The name of the process which is believed to help keep plants in good condition is ……………………………………
 16 The research team had to rethink their initial approach when they realised they needed to measure the impact of external conditions such as……………………………………</p>
-<p>Questions 17-24
+<p><strong>Questions 17-24</strong>
 The reading passage has nine paragraphs labelled A-I.</p>
 <p>Which paragraph contains the following information?
 Write the correct letter A-I in boxes 5-12 on your answer sheet.</p>
@@ -177,54 +233,54 @@ Write the correct letter A-I in boxes 5-12 on your answer sheet.</p>
 22 the name of the group responsible for making the robot
 23 the number of different types of sunflower tested
 24 the purpose of taking the temperature of the plants</p>
-<p>How consumers decide</p>
-<p>Understanding consumers
+<p><strong>How consumers decide</strong></p>
+<p><strong>Understanding consumers</strong>
 Consumers are creatures of habit: they buy the same products time and time again, and such is their familiarity with big brands and the colours and logos that represent them, that they can register a brand they like with barely any conscious thought process. The packaging of consumer products is, therefore, a crucial vehicle for delivering the brand and the product into our shopping baskets.</p>
 <p>Having said this, understanding how consumers make decisions, and the crucial role of packaging in this process has been a neglected area of research so far. This is surprising given that organisations invest huge amounts of money in developing packaging that they believe is effective – especially at the retail level. Our Centre for Decision Research at Leeds University’s Business School, in collaboration with Faraday Packaging, is now undertaking work in this area. It has already led to some important findings that challenge the ways in which organisations think about consumer choice.</p>
 <p>The research has focused on two fundamental types of thinking. On the one hand, there’s ‘heuristic processing’, which involves very shallow thought and is based on very simple rules: 1) buy what you recognize, 2) choose what you did last time, or 3) choose what a trusted source suggests. This requires comparatively little effort, and involves looking at – and thinking about – only a small amount of the product information and packaging. One can do this with little or no conscious thought.</p>
 <p>On the other hand, ‘systematic processing’ involves much deeper levels of thought. When people choose goods in this way, they engage in quite detailed analytical thinking – taking account of the product information, including its price, its perceived quality and so on. This form of thinking, which is both analytical and conscious, involves much more mental effort.</p>
 <p>The role of packaging is likely to be very different for each of these types of decision making. Under heuristic processing, for example, consumers may simply need to be able to distinguish the pack from those of competitors since they are choosing on the basis of what they usually do. Under these circumstances, the simple perceptual features of the pack may be critical – so that we can quickly discriminate what we choose from the other products on offer. Under systematic processing, however, product-related information may be more important, so the pack has to provide this in an easily identifiable form.</p>
-<p>Comparing competition
+<p><strong>Comparing competition</strong>
 Consumers will want to be able to compare the product with its competitors, so that they can determine which option is better for them. A crucial role of packaging in this situation is to communicate the characteristics of the product, highlighting its advantages over possible competitors.</p>
 <p>So, when are people likely to use a particular type of thinking? First, we know that people are cognitive misers; in other words, they are economical with their thinking because it requires some effort from them. Essentially, people only engage in effort-demanding systematic processing when the situation justifies it, for example when they are not tired or distracted and when the purchase is important to them.</p>
 <p>Second, people have an upper limit to the amount of information they can absorb. If we present too much, therefore, they will become confused. This, in turn, is likely to lead them to disengage and choose something else.</p>
 <p>Third, people often lack the knowledge or experience needed, so will not be able to deal with things they do not already understand, such as the ingredients of food products, for example.</p>
 <p>And fourth, people vary in the extent to which they enjoy thinking. Our research has differentiated between people with a high need for thinking – who routinely engage in analytical thinking – and those low in the need for cognition, who prefer to use very simple forms of thinking.</p>
-<p>Effectiveness varies
+<p><strong>Effectiveness varies</strong>
 This work has an important impact on packaging in that what makes packaging effective is likely to vary according to the type of processing strategy that consumers use when choosing between products. You need to understand how consumers are selecting your products if you are to develop packaging that is relevant. Furthermore, testing the effectiveness of your packaging can be ineffective if the methods you are employing concern one form of thinking (e.g. a focus group involving analytical thinking) but your consumers are purchasing in the other mode (i.e. the heuristic, shallow form of thinking).</p>
 <p>For the packaging industry, it is important that retailers identify their key goals. Sustaining a consumer’s commitment to a product may involve packaging that is distinctive at the heuristic level (if the consumers can recognize the product they will buy it) but without encouraging consumers to engage in systematic processing (prompting deeper level thinking that would include making comparisons with other products).</p>
 <p>Conversely, getting consumers to change brands may involve developing packaging that includes information that does stimulate systematic processing and thus encourages consumers to challenge their usual choice of product. Our work is investigating these issues, and the implications they have for developing effective packaging.</p>
-<p>Questions 25-30
+<p><strong>Questions 25-30</strong>
 Do the following statements agree with the information given in the Reading Passage?
 Write answers in your answer sheet write:</p>
-<p>TRUE                         if the statement agrees with the information
-FALSE                       if the statement contradicts the information
-NOT GIVEN             if there is no information on this</p>
+<p><strong>TRUE                         </strong>if the statement agrees with the information
+<strong>FALSE                       </strong>if the statement contradicts the information
+<strong>NOT GIVEN             </strong>if there is no information on this</p>
 <p>25 Little research has been done on the link between packaging and consumers choosing a product.
 26 A person who buys what another person recommends is using heuristic thinking.
 27 Heuristic processing requires more energy than systematic processing.
 28 The concept of heuristic processing was thought up by Dr Maule’s team.
 29 A consumer who considers how mucha product costs, is using systematic processing.
 30 For heuristic processing, packaging must be similar to other products.</p>
-<p>Questions 31 and 32
+<p><strong>Questions 31 and 32</strong>
 Choose the correct answer A, B, C or D and write the answers in your answer sheet.</p>
 <p>31 When trying to determine how effective packaging is, testing can be made ‘ineffective’ if
-A. you rely upon a very narrow focus group.
-B. your consumers use only heuristic thinking.
-C. the chosen consumers use only shallow thinking.
-D. your tests do not match the consumers’ thinking type.</p>
+<strong>A</strong>. you rely upon a very narrow focus group.
+<strong>B</strong>. your consumers use only heuristic thinking.
+<strong>C</strong>. the chosen consumers use only shallow thinking.
+<strong>D</strong>. your tests do not match the consumers’ thinking type.</p>
 <p>32 If a retailer wants consumers to change brands their packaging needs to be
-A. informative.
-B. distinctive.
-C. familiar.
-D. colourful.</p>
-<p>Questions 33-37
-Complete the summary below. Write NO MORE THAN TWO WORDS for each answer.
+<strong>A</strong>. informative.
+<strong>B</strong>. distinctive.
+<strong>C</strong>. familiar.
+<strong>D</strong>. colourful.</p>
+<p><strong>Questions 33-37</strong>
+Complete the summary below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.
 Write your answers in boxes 33-37 on your answer sheet</p>
-<p>Comparing competition
+<p><strong>Comparing competition</strong>
 For consumers who want to compare products, it is important that your packaging stresses the 33 __________ of your product. We know that people only use systematic processing if the 34__________. makes it necessary or desirable. We also know that too much 35 __________ could make consumers choose another product. Furthermore, consumers may not fully understand details such as the 36__________ of a product. While some people like using systematic processing, others like to think in a 37 __________ way.</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. B</p>
 <p>2. D</p>
 <p>3. A</p>
@@ -480,6 +536,29 @@ For consumers who want to compare products, it is important that your packaging 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -499,12 +578,23 @@ For consumers who want to compare products, it is important that your packaging 
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -516,14 +606,6 @@ For consumers who want to compare products, it is important that your packaging 
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

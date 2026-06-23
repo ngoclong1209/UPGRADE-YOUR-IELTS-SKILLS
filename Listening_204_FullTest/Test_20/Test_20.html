@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,120 +158,120 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_20</h1>
-            <p>IELTS Listening Practice - Test 20</p>
-<p>Part 1: Question 1
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 20</strong></h3>
+<p><u><strong>Part</strong></u><strong> 1: Question 1</strong>
 Choose the correct letter A, B or C.</p>
-<p>1. Mr. Jones moved to Los Angeles
-[ ]  A two weeks ago
-[ ]  B three weeks ago
-[ ]  C two days ago</p>
-<p>Question 2
-Answer the question with NO MORE THAN TWO WORDS.</p>
+<h3 class="test-heading">1. Mr. Jones moved to Los Angeles
+<strong>[ ] </strong><strong> A</strong> two weeks ago
+<strong>[ ] </strong><strong> B</strong> three weeks ago
+<strong>[ ] </strong><strong> C</strong> two days ago</h3>
+<p><strong>Question 2</strong>
+Answer the question with <strong>NO MORE THAN TWO WORDS.</strong></p>
 <p>2. When does Mr. Jones have to go to his office?  _______</p>
-<p>Question 3
+<p><strong>Question 3</strong>
 Choose the correct letter A, B or C.</p>
 <p>3. Mr. Jones for a(n)
-[ ]  A insurance company
-[ ]  B medical company
-[ ]  C real estate company</p>
-<p>Questions 4 and 5
-Complete the following sentences with ONE WORD OR A NUMBER.</p>
-<p>Mr. Jones’ appointment with the doctor is at (4)  _______  am on 
-(5)  _______</p>
-<p>Question 6-8
-Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>List any THREE medical tests that the insurance company requires Mr. Jones to have
-(6)  _______ 
-(7)  _______ 
-(8)  _______</p>
-<p>Questions 9 and 10
-Answer the following questions. Write ONE WORD OR A NUMBER for each answer.</p>
+<strong>[ ] </strong><strong> A</strong> insurance company
+<strong>[ ] </strong><strong> B</strong> medical company
+<strong>[ ] </strong><strong> C</strong> real estate company</p>
+<p><strong>Questions 4 and 5</strong>
+Complete the following sentences with <strong>ONE WORD OR A NUMBER.</strong></p>
+<p>Mr. Jones’ appointment with the doctor is at <strong>(4)</strong>  _______  am on 
+<strong>(5)</strong>  _______</p>
+<p><strong>Question 6-8</strong>
+Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p>List any <strong>THREE</strong> medical tests that the insurance company requires Mr. Jones to have
+<strong>(6)</strong>  _______ 
+<strong>(7)</strong>  _______ 
+<strong>(8)</strong>  _______</p>
+<p><strong>Questions 9 and 10</strong>
+Answer the following questions. Write <strong>ONE WORD OR A NUMBER</strong> for each answer.</p>
 <p>9 What is Mr. Jones’ home telephone number including the area code?  _______ 
 10 What is secretary’s first name?  _______</p>
-<p>Part 2: Questions 11-13
-Complete the following sentences with NO MORE THAN THREE WORDS for each answer.</p>
+<p><u><strong>Part</strong></u><strong> 2: Questions 11-13</strong>
+Complete the following sentences with <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
 <p>11. Mr. Smith manages group tours to Australia, New Zealand and the  _______ 
 12. Morning Sun Travel did some  _______  and developed their new tour.
 13. From the Five Seasons Hotel Sydney, one can clearly see a harbor, a bridge and  _______</p>
-<p>Question 14
+<p><strong>Question 14</strong>
 Choose the correct letter A, B or C.</p>
 <p>14. Mr. Smith says that to get used to the time difference it is best to
-[ ]  A have a rest
-[ ]  B visit a harbor
-[ ]  C go outside</p>
-<p>Question 15
-Complete the following sentence WITH ONE WORD only.</p>
+<strong>[ ] </strong><strong> A</strong> have a rest
+<strong>[ ] </strong><strong> B</strong> visit a harbor
+<strong>[ ] </strong><strong> C</strong> go outside</p>
+<p><strong>Question 15</strong>
+Complete the following sentence <strong>WITH ONE WORD</strong> only.</p>
 <p>15. A wombat looks like a  _______  with two short legs.</p>
-<p>Question 16
+<p><strong>Question 16</strong>
 Choose the correct letter A, B or C.</p>
 <p>16. After the visit to the Sydney Olympic Site the tour group will return to downtown Sydney by
-[ ]  A bus
-[ ]  B boat
-[ ]  C seaplane</p>
-<p>Question 17
-Answer the question with ONE WORD OR A NUMBER only.</p>
+<strong>[ ] </strong><strong> A</strong> bus
+<strong>[ ] </strong><strong> B</strong> boat
+<strong>[ ] </strong><strong> C</strong> seaplane</p>
+<p><strong>Question 17</strong>
+Answer the question with <strong>ONE WORD OR A NUMBER</strong> only.</p>
 <p>17. How high will the seaplane fly over Bondi Beach?  _______</p>
-<p>Questions 18 and 19
-Complete the sentence below with ONE WORD only.</p>
+<p><strong>Questions 18 and 19</strong>
+Complete the sentence below with <strong>ONE WORD</strong> only.</p>
 <p>Mr. Smith says that in addition to Italian and Chinese food, in Australian cities one can find
-(18)  _______  and (19)  _______  cuisine.</p>
-<p>Question 20
-Answer the question with ONE WORD only.</p>
+<strong>(18)</strong>  _______  and <strong>(19)</strong>  _______  cuisine.</p>
+<p><strong>Question 20</strong>
+Answer the question with <strong>ONE WORD</strong> only.</p>
 <p>20. After Sydney, what is the destination on the tour itinerary?  _______</p>
-<p>Part 3: Questions 21-23
-Choose THREE letters from A-E.</p>
+<p><u><strong>Part</strong></u><strong> 3: Questions 21-23</strong>
+Choose <strong>THREE</strong> letters from A-E.</p>
 <p>Why is Ann late preparing her talk?
-[ ]  A her mother is ill
-[ ]  B the doctor says Ann should do all the cooking and cleaning for her mother
-[ ]  C Ann and her mother cannot pay for extra help
-[ ]  D the neighbours are all too busy to help her mother
-[ ]  E she spends too much time playing computer games</p>
-<p>Questions 24 and 25
-Complete the following sentences with NO MORE THAN TWO WORDS for each answer.</p>
-<p>When studying (24)  _______  in high school, Bill read about an experiment on how wearing a uniform can change people’s (25)  _______</p>
-<p>Questions 26 and 27
+<strong>[ ] </strong><strong> A</strong> her mother is ill
+<strong>[ ] </strong><strong> B</strong> the doctor says Ann should do all the cooking and cleaning for her mother
+<strong>[ ] </strong><strong> C</strong> Ann and her mother cannot pay for extra help
+<strong>[ ] </strong><strong> D</strong> the neighbours are all too busy to help her mother
+<strong>[ ] </strong><strong> E</strong> she spends too much time playing computer games</p>
+<p><strong>Questions 24 and 25</strong>
+Complete the following sentences with <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p>When studying <strong>(24)</strong>  _______  in high school, Bill read about an experiment on how wearing a uniform can change people’s <strong>(25)</strong>  _______</p>
+<p><strong>Questions 26 and 27</strong>
 Choose the correct letter A, B or C.</p>
 <p>26. Bill thinks that the professor is from
-[ ]  A University of America
-[ ]  B University of California
-[ ]  C University of Los Angeles</p>
+<strong>[ ] </strong><strong> A</strong> University of America
+<strong>[ ] </strong><strong> B</strong> University of California
+<strong>[ ] </strong><strong> C</strong> University of Los Angeles</p>
 <p>27. The police took the students to a
-[ ]  A school
-[ ]  B prison
-[ ]  C police station</p>
-<p>Questions 28 and 29
-Choose TWO letters from A-E.</p>
+<strong>[ ] </strong><strong> A</strong> school
+<strong>[ ] </strong><strong> B</strong> prison
+<strong>[ ] </strong><strong> C</strong> police station</p>
+<p><strong>Questions 28 and 29</strong>
+Choose <strong>TWO</strong> letters from A-E.</p>
 <p>Why does Bill say the arrested students did not know the other students?
-[ ]  A they had not been introduced
-[ ]  B they went to different schools
-[ ]  C to prevent them realizing they were there for the experiment they had signed up for
-[ ]  D the other students were in uniform
-[ ]  E the professor did not want them to know each other</p>
-<p>Question 30
-Complete the following sentence with NO MORE THAN TWO WORDS.</p>
+<strong>[ ] </strong><strong> A</strong> they had not been introduced
+<strong>[ ] </strong><strong> B</strong> they went to different schools
+<strong>[ ] </strong><strong> C</strong> to prevent them realizing they were there for the experiment they had signed up for
+<strong>[ ] </strong><strong> D</strong> the other students were in uniform
+<strong>[ ] </strong><strong> E</strong> the professor did not want them to know each other</p>
+<p><strong>Question 30</strong>
+Complete the following sentence with <strong>NO MORE THAN TWO WORDS.</strong></p>
 <p>30. Bill says the ‘prisons’ started having  _______</p>
-<p>Part 4: Questions 31 and 32
-Choose TWO letter from A-E.</p>
+<p><u><strong>Part</strong></u><strong> 4: Questions 31 and 32</strong>
+Choose <strong>TWO</strong> letter from A-E.</p>
 <p>The lecturer will talk about
-[ ]  A the media
-[ ]  B the internet
-[ ]  C types of message
-[ ]  D Yahoo
-[ ]  E advertising</p>
-<p>Questions 34 and 33
-Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>The speaker says effective advertising depends on the right (33)  _______  and the
-(34)  _______</p>
-<p>Question 35
+<strong>[ ] </strong><strong> A</strong> the media
+<strong>[ ] </strong><strong> B</strong> the internet
+<strong>[ ] </strong><strong> C</strong> types of message
+<strong>[ ] </strong><strong> D</strong> Yahoo
+<strong>[ ] </strong><strong> E</strong> advertising</p>
+<p><strong>Questions 34 and 33</strong>
+Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p>The speaker says effective advertising depends on the right <strong>(33)</strong>  _______  and the
+<strong>(34)</strong>  _______</p>
+<p><strong>Question 35</strong>
 Choose the correct letter A, B or C.</p>
 <p>35. Advertisers always want to change people’s
-[ ]  A buying habits
-[ ]  B life
-[ ]  C working habits</p>
-<p>Questions 36-40
-Complete the sentences with NO MORE THAN THREE WORDS for each answer.</p>
-<p>People usually buy (36)  _______  because they recognize the name of the manufacture. The speaker says that Shell has purchased a (37)  _______  and marketed a beer they called  (38)  _______  San Fran Video Store handed out cards with a (39)  _______  and a  (40)  _______  Of the store locations of them.</p>
-<p>ANSWER KEY</p>
+<strong>[ ] </strong><strong> A</strong> buying habits
+<strong>[ ] </strong><strong> B</strong> life
+<strong>[ ] </strong><strong> C</strong> working habits</p>
+<p><strong>Questions 36-40</strong>
+Complete the sentences with <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p>People usually buy <strong>(36)</strong>  _______  because they recognize the name of the manufacture. The speaker says that Shell has purchased a <strong>(37)</strong>  _______  and marketed a beer they called <strong> (38)</strong>  _______  San Fran Video Store handed out cards with a <strong>(39)</strong>  _______  and a <strong> (40)</strong>  _______  Of the store locations of them.</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. C</p>
 <p>2. next monday</p>
 <p>3. C</p>
@@ -469,11 +525,34 @@ Complete the sentences with NO MORE THAN THREE WORDS for each answer.</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_20.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_20.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -493,12 +572,23 @@ Complete the sentences with NO MORE THAN THREE WORDS for each answer.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -510,14 +600,6 @@ Complete the sentences with NO MORE THAN THREE WORDS for each answer.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

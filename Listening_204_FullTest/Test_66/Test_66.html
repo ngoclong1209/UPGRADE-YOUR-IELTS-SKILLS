@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,112 +158,112 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_66</h1>
-            <p>IELTS Listening Practice - Test 66</p>
-<p>Part 1: Questions 1-10
-Complete the notes below. Write ONE WORD OR A NUMBER.</p>
-<p>Things to do before we go
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 66</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-10</strong>
+Complete the notes below. Write <strong>ONE WORD OR A NUMBER.</strong></p>
+<h3 class="test-heading"><strong>Things to do before we go</strong>
 Collect the currency
-Cancel appointment with the (1)  _______</p>
-<p>Part 2: Questions 11-16
+Cancel appointment with the <strong>(1)</strong>  _______</h3>
+<p><strong>Part 2: Questions 11-16</strong>
 Choose the correct answer A, B or C.</p>
-<p>Adbourne Film Festival</p>
+<h3 class="test-heading"><strong>Adbourne Film Festival</strong></h3>
 <p>11. Why was the Film Festival started?
-[ ]  A To encourage local people to make films.
-[ ]  B To bring more tourists to the town.
-[ ]  C To use money released from another project.</p>
-<p>12. What is the price range for tickets?
-[ ]  A £1.00-£2.50
-[ ]  B 50p – £2.00
-[ ]  C £1.50-£2.50</p>
+<strong>[ ] </strong><strong> A</strong> To encourage local people to make films.
+<strong>[ ] </strong><strong> B</strong> To bring more tourists to the town.
+<strong>[ ] </strong><strong> C</strong> To use money released from another project.</p>
+<h3 class="test-heading">12. What is the price range for tickets?
+<strong>[ ] </strong><strong> A</strong> £1.00-£2.50
+<strong>[ ] </strong><strong> B</strong> 50p – £2.00
+[ ]  <strong>C</strong> £1.50-£2.50</h3>
 <p>13. As well as online, tickets for the films can be obtained
-[ ]  A from the local library.
-[ ]  B from several different shops.
-[ ]  C from the two festival cinemas.</p>
+<strong>[ ] </strong><strong> A</strong> from the local library.
+<strong>[ ] </strong><strong> B</strong> from several different shops.
+<strong>[ ] </strong><strong> C</strong> from the two festival cinemas.</p>
 <p>14. Last year’s winning film was about
-[ ]  A farms of the future.
-[ ]  B schools and the environment.
-[ ]  C green transport options.</p>
+<strong>[ ] </strong><strong> A</strong> farms of the future.
+<strong>[ ] </strong><strong> B</strong> schools and the environment.
+<strong>[ ] </strong><strong> C</strong> green transport options.</p>
 <p>15. This year the competition prize is
-[ ]  A a stay in a hotel.
-[ ]  B film-making equipment.
-[ ]  C a sum of money.</p>
+<strong>[ ] </strong><strong> A</strong> a stay in a hotel.
+<strong>[ ] </strong><strong> B</strong> film-making equipment.
+<strong>[ ] </strong><strong> C</strong> a sum of money.</p>
 <p>16. The deadline for entering a film in the competition is the end of
-[ ]  A May.
-[ ]  B June.
-[ ]  C July.</p>
-<p>Questions 17 and 18
-Choose TWO letters, A-E.</p>
-<p>What TWO main criteria are used to judge the film competition?</p>
-<p>[ ]  A Ability to persuade.
-[ ]  B Quality of the story.
-[ ]  C Memorable characters.
-[ ]  D Quality of photography.
-[ ]  E Originality.</p>
-<p>Questions 19 and 20
-Choose TWO letters, A-E.</p>
-<p>What TWO changes will be made to the competition next year?</p>
-<p>[ ]  A A new way of judging
-[ ]  B A different length of time
-[ ]  C An additional age category
-[ ]  D Different performance times
-[ ]  E New locations for performances</p>
-<p>Part 3: Questions 21-24
+<strong>[ ] </strong><strong> A</strong> May.
+<strong>[ ] </strong><strong> B</strong> June.
+<strong>[ ] </strong><strong> C</strong> July.</p>
+<p><strong>Questions 17 and 18</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>What <strong>TWO</strong> main criteria are used to judge the film competition?</p>
+<p><strong>[ ] </strong><strong> A</strong> Ability to persuade.
+<strong>[ ] </strong><strong> B</strong> Quality of the story.
+<strong>[ ] </strong><strong> C</strong> Memorable characters.
+<strong>[ ] </strong><strong> D</strong> Quality of photography.
+<strong>[ ] </strong><strong> E</strong> Originality.</p>
+<p><strong>Questions 19 and 20</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>What <strong>TWO</strong> changes will be made to the competition next year?</p>
+<p><strong>[ ] </strong><strong> A</strong> A new way of judging
+<strong>[ ] </strong><strong> B</strong> A different length of time
+<strong>[ ] </strong><strong> C</strong> An additional age category
+<strong>[ ] </strong><strong> D</strong> Different performance times
+<strong>[ ] </strong><strong> E</strong> New locations for performances</p>
+<p><strong>Part 3: Questions 21-24</strong>
 Choose the correct letter, A, B or C.</p>
-<p>Research on web-based crosswords</p>
+<p><strong>Research on web-based crosswords</strong></p>
 <p>21. Leela and Jake chose this article because
-[ ]  A it was on a topic familiar to most students.
-[ ]  B it covered both IT and education issues.
-[ ]  C it dealt with a very straightforward concept.</p>
+<strong>[ ] </strong><strong> A</strong> it was on a topic familiar to most students.
+<strong>[ ] </strong><strong> B</strong> it covered both IT and education issues.
+<strong>[ ] </strong><strong> C</strong> it dealt with a very straightforward concept.</p>
 <p>22. How did Leela and Jake persuade students to take part in their research?
-[ ]  A They convinced them they would enjoy the experience.
-[ ]  B They said it would help them do a particular test.
-[ ]  C They offered to help them with their own research later on.</p>
+<strong>[ ] </strong><strong> A</strong> They convinced them they would enjoy the experience.
+<strong>[ ] </strong><strong> B</strong> They said it would help them do a particular test.
+<strong>[ ] </strong><strong> C</strong> They offered to help them with their own research later on.</p>
 <p>23. Leela and Jake changed the design of the original questionnaire because
-[ ]  A it was too short for their purposes.
-[ ]  B it asked misleading questions.
-[ ]  C it contained out-of-date points.</p>
+<strong>[ ] </strong><strong> A</strong> it was too short for their purposes.
+<strong>[ ] </strong><strong> B</strong> it asked misleading questions.
+<strong>[ ] </strong><strong> C</strong> it contained out-of-date points.</p>
 <p>24. Leela was surprised by the fact that
-[ ]  A it is normal for questionnaire returns to be low.
-[ ]  B so many students sent back their questionnaires.
-[ ]  C the questionnaire responses were of such high quality.</p>
-<p>Questions 25-26
-Choose TWO letters, A-E.</p>
-<p>What TWO things did respondents say they liked most about doing the crossword?</p>
-<p>[ ]  A It helped them spell complex technical terms.
-[ ]  B It was an enjoyable experience.
-[ ]  C It helped them concentrate effectively.
-[ ]  D It increased their general motivation to study.
-[ ]  E It showed what they still needed to study.</p>
-<p>Questions 27-28
-Choose TWO letters, A-E.</p>
-<p>In which TWO areas did these research findings differ from those of the original study?</p>
-<p>[ ]  A Students’ interest in doing similar exercises.
-[ ]  B How much students liked doing the crossword.
-[ ]  C Time taken to do the crossword.
-[ ]  D Gender differences in appreciation.
-[ ]  E Opinions about using crosswords for formal assessment.</p>
-<p>Questions 29-30
-Choose TWO letters, A-E.</p>
-<p>What TWO skills did Leela and Jake agree they had learned from the project?</p>
-<p>[ ]  A How to manage their time effectively.
-[ ]  B How to process numerical data.
-[ ]  C How to design research tools.
-[ ]  D How to reference other people’s work.
-[ ]  E How to collaborate in research</p>
-<p>Part 4: Questions 31-40
-Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>Job satisfaction study
-Workers involved in the study were employed at a (31)  _______</p>
-<p>Despite some apparent differences between groups of workers, the survey results were statistically (32)  _______</p>
-<p>The speaker analysed the study’s (33)  _______  to identify any problems with it.</p>
-<p>The various sub-groups were (34)  _______  in size.</p>
-<p>Workers in the part-time group were mainly (35)  _______</p>
-<p>The (36)  _______  of workers who agreed to take part in the study was disappointing.</p>
-<p>Researchers were unable to (37)  _______  the circumstances in which workers filled out the questionnaire.</p>
-<p>In future, the overall size of the (38)  _______  should be increased.</p>
-<p>In future studies, workers should be prevented from having discussions with (39)  _______</p>
-<p>Workers should be reassured that their responses to questions are (40)  _______</p>
-<p>ANSWER KEY</p>
+<strong>[ ] </strong><strong> A</strong> it is normal for questionnaire returns to be low.
+<strong>[ ] </strong><strong> B</strong> so many students sent back their questionnaires.
+<strong>[ ] </strong><strong> C</strong> the questionnaire responses were of such high quality.</p>
+<p><strong>Questions 25-26</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>What <strong>TWO</strong> things did respondents say they liked most about doing the crossword?</p>
+<p><strong>[ ] </strong><strong> A</strong> It helped them spell complex technical terms.
+<strong>[ ] </strong><strong> B</strong> It was an enjoyable experience.
+<strong>[ ] </strong><strong> C</strong> It helped them concentrate effectively.
+<strong>[ ] </strong><strong> D</strong> It increased their general motivation to study.
+<strong>[ ] </strong><strong> E</strong> It showed what they still needed to study.</p>
+<p><strong>Questions 27-28</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>In which <strong>TWO</strong> areas did these research findings differ from those of the original study?</p>
+<p><strong>[ ] </strong><strong> A</strong> Students’ interest in doing similar exercises.
+<strong>[ ] </strong><strong> B</strong> How much students liked doing the crossword.
+<strong>[ ] </strong><strong> C</strong> Time taken to do the crossword.
+<strong>[ ] </strong><strong> D</strong> Gender differences in appreciation.
+<strong>[ ] </strong><strong> E</strong> Opinions about using crosswords for formal assessment.</p>
+<p><strong>Questions 29-30</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>What <strong>TWO</strong> skills did Leela and Jake agree they had learned from the project?</p>
+<p><strong>[ ] </strong><strong> A</strong> How to manage their time effectively.
+<strong>[ ] </strong><strong> B</strong> How to process numerical data.
+<strong>[ ] </strong><strong> C</strong> How to design research tools.
+<strong>[ ] </strong><strong> D</strong> How to reference other people’s work.
+<strong>[ ] </strong><strong> E</strong> How to collaborate in research</p>
+<p><strong>Part 4: Questions 31-40</strong>
+Complete the sentences below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>Job satisfaction study</strong>
+Workers involved in the study were employed at a <strong>(31)</strong>  _______</p>
+<p>Despite some apparent differences between groups of workers, the survey results were statistically <strong>(32)</strong>  _______</p>
+<p>The speaker analysed the study’s <strong>(33)</strong>  _______  to identify any problems with it.</p>
+<p>The various sub-groups were <strong>(34)</strong>  _______  in size.</p>
+<p>Workers in the part-time group were mainly <strong>(35)</strong>  _______</p>
+<p>The <strong>(36)</strong>  _______  of workers who agreed to take part in the study was disappointing.</p>
+<p>Researchers were unable to <strong>(37)</strong>  _______  the circumstances in which workers filled out the questionnaire.</p>
+<p>In future, the overall size of the <strong>(38)</strong>  _______  should be increased.</p>
+<p>In future studies, workers should be prevented from having discussions with <strong>(39)</strong>  _______</p>
+<p>Workers should be reassured that their responses to questions are <strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. hairdresser</p>
 <p>2. tablets</p>
 <p>3. sunglasses</p>
@@ -461,11 +517,34 @@ Workers involved in the study were employed at a (31)  _______</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_66.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_66.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -485,12 +564,23 @@ Workers involved in the study were employed at a (31)  _______</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -502,14 +592,6 @@ Workers involved in the study were employed at a (31)  _______</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

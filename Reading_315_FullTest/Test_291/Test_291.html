@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,41 +158,41 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_291</h1>
-            <p>IELTS Reading Practice - Test 291</p>
-<p>A new stage in the study and teaching of history</p>
-<p>For hundreds of years, historians have relied on written or printed documents to provide the bulk of their source materials, and they have largely communicated with students and the wider public by writing books and journal articles. Today, however, the printed word is being superseded by a diversity of forms of communication, above all moving images on video or film</p>
-<p>A The development of this new form of communication is leading to a growing gap between the practice of professional historians based in academia, and the practice of those aiming to popularise the study of history among the general public, and to encourage people to create their own records for the future. On the one hand, there are mainstream academics who continue to use only the written word as they examine more and more fields with an ever- increasing number of sophisticated methodologies. On the other hand, film and video, especially as broadcast on television, are probably the major influence on the public’s consciousness of history, as they see film of events of fifty or a hundred years ago, events they had previously only read about.</p>
-<p>B In a related development, a great many people now document local and family events in the form of videos; many schools, too, produce video yearbooks. All these visual records may well prove to be invaluable sources of information for future historians. The glaring contradiction is that the two approaches-the academic and what we might term the popular – have intersected very little: with a few notable exceptions, professional historians have tended to avoid involvement in television programmes about history, and have even less impact on what is being captured and preserved on video. And the potential of moving images has wielded negligible influence on the academic study of history.</p>
-<p>C This gulf can be seen as resulting from the willingness or otherwise of individual historians to accept the validity of new forms of communication in the study of history. This is not the first time that the question has arisen. The study of history, as conceived of today, began with the transition from oral to literate culture, leading to the earliest written records and the earliest historical studies. The next great shift came with the advent of printing, which transformed everything. Today, as the printed word loses its dominance, historians are faced with a variety of forms of communication, ranging from simple audiotape to the promising complexities of videodiscs linked with computers. As yet, however, the use of moving images to record current events for the benefit of future historians does not even have a commonly agreed name.</p>
-<p>D This does not mean that mainstream historians have totally rejected the use of moving images as sources: the majority seem intrigued by the idea, and valuable research has been carried out into the history and analysis of films with a broad circulation, using them as a source of information on the social and intellectual history of the twentieth century. Journals such as American History Review have played a significant role in this field.</p>
-<p>E Yet the number of historians using moving images in their research or teaching is very small. The barrier seems to be that the profession is structured around the medium of the written word, and is somewhat insulated in its academic setting. The use of moving images presents a substantial challenge to this setting and its assumptions. As a result, historians have rejected the training, the institutions, the motivations and the professional structures that would be needed in order to use moving images effectively. Above all, they have rejected the necessity to learn complicated new skills.</p>
-<p>F So why should historians make this change? clearly, films or videos of events and people can be used as solid evidence of the past, linked to the words of the narrator (whether a television presenter/historian or a university teacher giving a lecture) but carrying information in their own right. Film has reintroduced the oral form as a mode of research and communication for documenting historical events. Now, with moving images, people are reminded that oral communication is not limited to words: it also includes body language, expression and tone, and is embedded in a context. Little of this is evident in a written transcript. A further effect of video and film is that the narrator gives up some control and has less need to give explanations, while the viewer becomes involved in the process of interpreting and understanding history.</p>
-<p>G Film or videotape can also aid historians by simplifying the work of the interviewer. Instead of trying to carry on an interview while simultaneously making notes about setting and other unspoken data, this new kind of historian can concentrate on the interview itself, and study the film later. The many benefits of using moving images as historical evidence easily outweigh worries about cost, technical skills, or the effect of a camera on a person telling his or her story. Moving images enhance the quality of historical research, and suggest new directions for historians to explore.</p>
-<p>Questions 1-9
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 291</strong></h3>
+<h3 class="test-heading"><strong>A new stage in the study and teaching of history</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>For hundreds of years, historians have relied on written or printed documents to provide the bulk of their source materials, and they have largely communicated with students and the wider public by writing books and journal articles. Today, however, the printed word is being superseded by a diversity of forms of communication, above all moving images on video or film</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>A</strong> The development of this new form of communication is leading to a growing gap between the practice of professional historians based in academia, and the practice of those aiming to popularise the study of history among the general public, and to encourage people to create their own records for the future. On the one hand, there are mainstream academics who continue to use only the written word as they examine more and more fields with an ever- increasing number of sophisticated methodologies. On the other hand, film and video, especially as broadcast on television, are probably the major influence on the public’s consciousness of history, as they see film of events of fifty or a hundred years ago, events they had previously only read about.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>B</strong> In a related development, a great many people now document local and family events in the form of videos; many schools, too, produce video yearbooks. All these visual records may well prove to be invaluable sources of information for future historians. The glaring contradiction is that the two approaches-the academic and what we might term the popular – have intersected very little: with a few notable exceptions, professional historians have tended to avoid involvement in television programmes about history, and have even less impact on what is being captured and preserved on video. And the potential of moving images has wielded negligible influence on the academic study of history.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>C</strong> This gulf can be seen as resulting from the willingness or otherwise of individual historians to accept the validity of new forms of communication in the study of history. This is not the first time that the question has arisen. The study of history, as conceived of today, began with the transition from oral to literate culture, leading to the earliest written records and the earliest historical studies. The next great shift came with the advent of printing, which transformed everything. Today, as the printed word loses its dominance, historians are faced with a variety of forms of communication, ranging from simple audiotape to the promising complexities of videodiscs linked with computers. As yet, however, the use of moving images to record current events for the benefit of future historians does not even have a commonly agreed name.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>D</strong> This does not mean that mainstream historians have totally rejected the use of moving images as sources: the majority seem intrigued by the idea, and valuable research has been carried out into the history and analysis of films with a broad circulation, using them as a source of information on the social and intellectual history of the twentieth century. Journals such as American History Review have played a significant role in this field.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>E</strong> Yet the number of historians using moving images in their research or teaching is very small. The barrier seems to be that the profession is structured around the medium of the written word, and is somewhat insulated in its academic setting. The use of moving images presents a substantial challenge to this setting and its assumptions. As a result, historians have rejected the training, the institutions, the motivations and the professional structures that would be needed in order to use moving images effectively. Above all, they have rejected the necessity to learn complicated new skills.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>F</strong> So why should historians make this change? clearly, films or videos of events and people can be used as solid evidence of the past, linked to the words of the narrator (whether a television presenter/historian or a university teacher giving a lecture) but carrying information in their own right. Film has reintroduced the oral form as a mode of research and communication for documenting historical events. Now, with moving images, people are reminded that oral communication is not limited to words: it also includes body language, expression and tone, and is embedded in a context. Little of this is evident in a written transcript. A further effect of video and film is that the narrator gives up some control and has less need to give explanations, while the viewer becomes involved in the process of interpreting and understanding history.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>G</strong> Film or videotape can also aid historians by simplifying the work of the interviewer. Instead of trying to carry on an interview while simultaneously making notes about setting and other unspoken data, this new kind of historian can concentrate on the interview itself, and study the film later. The many benefits of using moving images as historical evidence easily outweigh worries about cost, technical skills, or the effect of a camera on a person telling his or her story. Moving images enhance the quality of historical research, and suggest new directions for historians to explore.</p></div></div>
+<p><strong>Questions 1-9</strong>
 Reading passage has seven paragraphs, A-G. Which paragraph contains the following information? NB You may use any letter more than once.</p>
-<p>Questions 10-14
+<p><strong>Questions 10-14</strong>
 Do the following statements agree with the claims of the writer in reading passage? In boxes 10-14 on your answer sheet, write</p>
-<p>YES                               if the statement agrees with the views of the writer
-NO                                 if the statement contradicts the views of the writer
-NOT GIVEN              if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                               if the statement agrees with the views of the writer
+<strong>NO</strong>                                 if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong>              if it is impossible to say what the writer thinks about this</p>
 <p>10. The needs of students in school have led to improvements in the teaching of history.
 11. Academic and popular historians have different attitudes towards the value of innovations in communication.
 12. It is common for historians to play a major role in creating historical documentaries for television.
 13. Articles in American History Review have explored aspects of modern history through popular films.
 14. Developments in technology are influencing a range of academic subjects.</p>
-<p>Answers Underground</p>
+<p><strong>Answers Underground</strong></p>
 <p>Burying greenhouse gases to slow global warming</p>
-<p>A One way to slow global warming is to take the greenhouse gases that cause it and bury them. That is the idea behind projects now under way to capture emissions from power plants and factories and force them underground or deep into the ocean. There, proponents argue, they could be trapped for thousands of years.</p>
-<p>B This concept, known as carbon sequestration, is already being used by oil companies to improve the efficiency of oil wells, and now engineers have begun exploring ways to capture carbon dioxide emissions from power plants to reduce their impact on the environment. At a recent conference, delegates from fourteen industrialised and developing countries agreed to engage in cooperative research into capturing and storing carbon dioxide.</p>
-<p>C The goal is to stabilise emissions of greenhouse gases that trap heat in the atmosphere. Over the past century, airborne carbon dioxide concentrations have risen by nearly a third, according to Scott Klara, sequestration manager at the US National Energy Technology Laboratory. Unless emissions are slashed by two thirds worldwide, the Intergovernmental Panel on Climate Change predicts that concentrations will rise to double the levels of the early 1700s, before the Industrial Revolution. These increased levels of carbon-based compounds in the atmosphere are believed to be the cause of rising temperatures and sea levels around the world. Ignoring the problem is therefore not an option.</p>
-<p>D Limiting emissions, however, is not an easy undertaking since increased energy consumption is a key to economic growth. Two thirds of the world’s power-generating capacity, expected to come into use by 2030, has not been constructed yet, according to the International Energy Agency. The developing world will be particularly important. China and India alone are expected to account for two thirds of the global increase in coal usage over the next fifteen years.</p>
-<p>E Solutions are being sought. Work is being undertaken with alternatives to fossil fuels such as wind and solar energy, but it will be a long time before these alternative sources play a major role in fulfilling the world’s energy needs. Geophysicist Klaus Lackner points out that around 85% of the world’s energy is derived from fossil fuels, the cheapest and most plentiful energy source available, and the developing world in particular is unlikely to give them up. That is why many scientists support sequestration</p>
-<p>F However, several problems must be resolved before sequestration plays a key role in a low-carbon future. One is the cost of capturing carbon dioxide. A second is storing the gas safely once it’s been captured. Today, it costs about $US50 to extract and store a tonne of carbon dioxide from a power plant, which raises the cost of producing electricity by 30-80%. Lackner argues that it is too expensive to adapt existing plants to capture carbon dioxide. Instead, he recommends that carbon- capturing capacity be built into future plants. Economic incentives are needed to encourage companies to identify low-cost carbon-sequestration solutions. A government-supported program in the US has enabled some factories to partially capture carbon emissions, which they then sell for various uses, including carbonating soft drinks. However, there are no power plants ready for full carbon capture.</p>
-<p>G Once the carbon has been captured it must be stored. Natural carbon sinks, such as forests and wetlands, can remove some carbon dioxide from the atmosphere, but not nearly enough. Carbon dioxide could be pumped to the bottom of the ocean, where the pressure would keep it pinned to the seabed in liquid form for decades, but that has serious long-term environmental risks. David Hawkins, from the Natural Resources Defense Council in Washington, warns that the carbon dioxide could radically alter the chemical balance in the ocean, with potentially harmful consequences for marine life. Others worry that the carbon dioxide could escape back into the atmosphere.</p>
-<p>H A few promising attempts at underground carbon sequestration are currently under way. In western Canada, an oil company is pumping liquefied carbon dioxide into oil wells to force more oil to the surface and boost recovery by 10-15%. The company gets the carbon dioxide via a pipeline from North Dakota in the US, where the gas is captured from a synthetic-fuel plant. In another instance in the North Sea, a Norwegian energy firm is injecting carbon dioxide waste from its natural-gas operations into a saline aquifer 1,000 metres beneath the ocean floor.</p>
-<p>I Clearly, storing large amounts of gas underground raises environmental fears. Environmentalists argue that more research is needed on potential storage sites, such as oil and gas reservoirs and coal seams unsuitable for mining, to ensure that they offer long-term solutions. The World Wide Fund for Nature Australia has argued that the primary risk of underground storage is that dangerously large volumes of carbon dioxide might escape and people become asphyxiated.</p>
-<p>J Little progress in slashing global greenhouse gases can be achieved without involving developing countries, but for now carbon sequestration is not their priority because of the increased costs this would add to energy production. Hawkins argues that, to encourage developing nations to use sequestration, developed nations will have to provide assistance. He suggests a multilateral initiative in which developed nations, perhaps by purchasing carbon credits from poorer countries, finance the difference between the cost of a regular coal-fired power plant and one that captures carbon emissions. That is, the rich – who will remain the world’s biggest polluters for years to come – would buy the right to emit carbon from the poor, who would use the proceeds to build better plants.</p>
-<p>Questions 15-20
+<p><strong>A</strong> One way to slow global warming is to take the greenhouse gases that cause it and bury them. That is the idea behind projects now under way to capture emissions from power plants and factories and force them underground or deep into the ocean. There, proponents argue, they could be trapped for thousands of years.</p>
+<p><strong>B</strong> This concept, known as carbon sequestration, is already being used by oil companies to improve the efficiency of oil wells, and now engineers have begun exploring ways to capture carbon dioxide emissions from power plants to reduce their impact on the environment. At a recent conference, delegates from fourteen industrialised and developing countries agreed to engage in cooperative research into capturing and storing carbon dioxide.</p>
+<p><strong>C</strong> The goal is to stabilise emissions of greenhouse gases that trap heat in the atmosphere. Over the past century, airborne carbon dioxide concentrations have risen by nearly a third, according to Scott Klara, sequestration manager at the US National Energy Technology Laboratory. Unless emissions are slashed by two thirds worldwide, the Intergovernmental Panel on Climate Change predicts that concentrations will rise to double the levels of the early 1700s, before the Industrial Revolution. These increased levels of carbon-based compounds in the atmosphere are believed to be the cause of rising temperatures and sea levels around the world. Ignoring the problem is therefore not an option.</p>
+<p><strong>D</strong> Limiting emissions, however, is not an easy undertaking since increased energy consumption is a key to economic growth. Two thirds of the world’s power-generating capacity, expected to come into use by 2030, has not been constructed yet, according to the International Energy Agency. The developing world will be particularly important. China and India alone are expected to account for two thirds of the global increase in coal usage over the next fifteen years.</p>
+<p><strong>E</strong> Solutions are being sought. Work is being undertaken with alternatives to fossil fuels such as wind and solar energy, but it will be a long time before these alternative sources play a major role in fulfilling the world’s energy needs. Geophysicist Klaus Lackner points out that around 85% of the world’s energy is derived from fossil fuels, the cheapest and most plentiful energy source available, and the developing world in particular is unlikely to give them up. That is why many scientists support sequestration</p>
+<p><strong>F</strong> However, several problems must be resolved before sequestration plays a key role in a low-carbon future. One is the cost of capturing carbon dioxide. A second is storing the gas safely once it’s been captured. Today, it costs about $US50 to extract and store a tonne of carbon dioxide from a power plant, which raises the cost of producing electricity by 30-80%. Lackner argues that it is too expensive to adapt existing plants to capture carbon dioxide. Instead, he recommends that carbon- capturing capacity be built into future plants. Economic incentives are needed to encourage companies to identify low-cost carbon-sequestration solutions. A government-supported program in the US has enabled some factories to partially capture carbon emissions, which they then sell for various uses, including carbonating soft drinks. However, there are no power plants ready for full carbon capture.</p>
+<p><strong>G</strong> Once the carbon has been captured it must be stored. Natural carbon sinks, such as forests and wetlands, can remove some carbon dioxide from the atmosphere, but not nearly enough. Carbon dioxide could be pumped to the bottom of the ocean, where the pressure would keep it pinned to the seabed in liquid form for decades, but that has serious long-term environmental risks. David Hawkins, from the Natural Resources Defense Council in Washington, warns that the carbon dioxide could radically alter the chemical balance in the ocean, with potentially harmful consequences for marine life. Others worry that the carbon dioxide could escape back into the atmosphere.</p>
+<p><strong>H</strong> A few promising attempts at underground carbon sequestration are currently under way. In western Canada, an oil company is pumping liquefied carbon dioxide into oil wells to force more oil to the surface and boost recovery by 10-15%. The company gets the carbon dioxide via a pipeline from North Dakota in the US, where the gas is captured from a synthetic-fuel plant. In another instance in the North Sea, a Norwegian energy firm is injecting carbon dioxide waste from its natural-gas operations into a saline aquifer 1,000 metres beneath the ocean floor.</p>
+<p><strong>I</strong> Clearly, storing large amounts of gas underground raises environmental fears. Environmentalists argue that more research is needed on potential storage sites, such as oil and gas reservoirs and coal seams unsuitable for mining, to ensure that they offer long-term solutions. The World Wide Fund for Nature Australia has argued that the primary risk of underground storage is that dangerously large volumes of carbon dioxide might escape and people become asphyxiated.</p>
+<p><strong>J</strong> Little progress in slashing global greenhouse gases can be achieved without involving developing countries, but for now carbon sequestration is not their priority because of the increased costs this would add to energy production. Hawkins argues that, to encourage developing nations to use sequestration, developed nations will have to provide assistance. He suggests a multilateral initiative in which developed nations, perhaps by purchasing carbon credits from poorer countries, finance the difference between the cost of a regular coal-fired power plant and one that captures carbon emissions. That is, the rich – who will remain the world’s biggest polluters for years to come – would buy the right to emit carbon from the poor, who would use the proceeds to build better plants.</p>
+<p><strong>Questions 15-20</strong>
 Look at the following issues (Questions 15-20) and the list of people and organisations below. Match each issue with the correct person or organization, A-F. NB You may use any letter more than once.</p>
 <p>15. The cost implications of fitting plants with the necessary equipment.
 16. The effects of sequestration could have on sea creatures.
@@ -144,40 +200,40 @@ Look at the following issues (Questions 15-20) and the list of people and organi
 18. The need for industrialised countries to give aid to less wealthy countries.
 19. The significant increase in carbon dioxide concentrations in the air over the last 100 years.
 20. The potential for sequestration to harm human life.</p>
-<p>List of People and organisations
-A. Scott Klara
-B. Intergovernmental Panel on Climate Change
-C. International Energy Agency
-D. Klaus Lackner
-E. David Hawkins
-F. World Wide Fund for Nature Australia</p>
-<p>Questions 21-23
+<p><strong>List of People and organisations</strong>
+<strong>A</strong>. Scott Klara
+<strong>B</strong>. Intergovernmental Panel on Climate Change
+<strong>C</strong>. International Energy Agency
+<strong>D</strong>. Klaus Lackner
+<strong>E</strong>. David Hawkins
+<strong>F</strong>. World Wide Fund for Nature Australia</p>
+<p><strong>Questions 21-23</strong>
 Reading passage has ten paragraphs, A-J. Which paragraph contains the following information?</p>
 <p>21. Examples of sequestration already in use in several parts of the world
 22. An example of putting carbon dioxide emissions to use in the food and beverage industry
 23. Current examples of the environmental harm attributed to carbon dioxide in the air</p>
-<p>Questions 24-27
+<p><strong>Questions 24-27</strong>
 Do the following statements agree with the information given in reading passage? In boxes 24-27 on your answer sheet, write</p>
-<p>TRUE                            if the statement agrees with the information
-FALSE                           if the statement contradicts the information
-NOT GIVEN               if there is no information on this</p>
+<p><strong>TRUE</strong>                            if the statement agrees with the information
+<strong>FALSE</strong>                           if the statement contradicts the information
+<strong>NOT GIVEN</strong>               if there is no information on this</p>
 <p>24. Both developing and developed nations have decided to investigate carbon dioxide sequestration.
 25. A growing economy will use more power.
 26. Capturing carbon dioxide has become financially attractive.
 27. More forests need to be planted to improve the atmosphere.</p>
-<p>Science and the Stradivarius: Uncovering the secret of quality</p>
-<p>A Violins made by long-dead Italian craftsmen from the Cremona region are beautiful works of art, coveted by collectors as well as players. Particularly outstanding violins have reputedly changed hands for over a million pounds. In contrast, fine modern instruments can be bought for under £100. Do such figures really reflect such large differences in quality? After more than a hundred years of vigorous debate, this question remains highly contentious, provoking strongly held but divergent views among musicians, violin makers and scientists alike.</p>
-<p>B Every violin, whether a Stradivarius or the cheapest factory- made copy, has a distinctive ‘voice’ of its 0. Just as any musician can immediately recognise the difference between Domingo and Pavarotti singing the same operatic aria, so a skilled violinist can distinguish between different qualities in the sound produced by individual Stradivari or Guarneri violins. Individual notes on a single instrument sound different each time they are played, which suggests that the perceived tone of a violin must be related to the overall design of the instrument, rather than the frequencies of particular resonances on it. But although various attempts have been made to analyse such global properties, it is extremely difficult to distinguish between a fine Stradivarius instrument and an indifferent modern copy on the basis of the measured response alone. The ear is a supreme detection device, and a system has yet to be developed which can match the brain’s sophisticated ability to assess complex sounds.</p>
-<p>C So how do skilled violinmakers optimise the tone of an instrument during the construction process? They begin by selecting a wood of the highest possible quality for the front and back plates (or parts of the violin), which they test by tapping with a hammer and judging how well it ‘rings’. The next important step is to skillfully carve the plates out of the solid wood, taking great care to get the right degree of arching and variations in thickness. Traditional makers optimise the thickness by testing the ‘feel’ of the plates when they are flexed, and by the sounds produced when they are tapped at different positions with the knuckles.</p>
-<p>D However, in the last 50 years or so a group of violin makers has emerged who have tried to take a more overtly scientific approach to violin making. One common practice they have adopted is to replace the traditional flexing and tapping of plates by controlled measurements. During the carving process, the thinned plates are sprinkled with flakes of glitter and suspended horizontally above a loudspeaker. The glitter forms a pattern each time the loudspeaker excites a resonance. The aim is to interactively ‘tune’ these first few free plate resonances to specified patterns.</p>
-<p>E Unfortunately, there are very few examples of such measurements for really fine Italian instruments because their owners are naturally reluctant to allow their violins to be taken apart for the sake of science. The few tests that have been performed suggest that the first Italian makers may have tuned the resonant modes of the individual plates – which they could identify as they tapped them – to exact musical intervals. This would be consistent with the prevailing Renaissance view of ’perfection1, which was measured in terms of numbers and exact ratios. However, there is no historical data to support this case.</p>
-<p>F Another factor that affects sound quality is the presence of moisture. To achieve the quality of “vibrancy” in a violin requires high-quality wood with low internal damping. By measuring the pattern of growth-rings in the wood of a Stradivarius, we know that the Italian violin makers sometimes used planks of wood that had only been seasoned for five years. However, such wood is now 300 years old, and the intrinsic internal damping will almost certainly have decreased with time. The age of the wood may therefore automatically contribute to the improved quality of older instruments. This may also explain why the quality of a modern instrument appears to improve in its first few years.</p>
-<p>G Another factor thought to account for sound quality is the nature of the varnish used to protect the instrument. One of the most popular theories for well over a century to account for the Stradivarius secret has been that the varnish had some sort of ‘magic’ composition. However, historical research has shown that it was very similar to the varnish used today. So apart from the possibility that the Italian varnish was contaminated with the wings of passing insects and debris from the workshop floor, there is no convincing evidence to support the idea of a secret formula.</p>
-<p>H Other researchers, meanwhile, have claimed that Stradivarius’s secret was to soak the timber in water, to leach out supposedly harmful chemicals, before it was seasoned. Although this would be consistent with the idea that the masts and cars of recently sunken Venetian war galleys might have been used to make violins, other scientific and historical evidence to support this view is unconvincing.</p>
-<p>I In conclusion, science has not provided any convincing evidence to set Cremonese instruments apart from the finest violins made by skilled craftsmen today. Indeed, some leading soloists do occasionally play on modern instruments. However, the foremost soloists – and, not surprisingly, violin dealers, who have a vested interest in maintaining the Cremonese legend of intrinsic superiority – remain utterly unconvinced.</p>
-<p>Questions 28-35
+<p><strong>Science and the Stradivarius: Uncovering the secret of quality</strong></p>
+<p><strong>A</strong> Violins made by long-dead Italian craftsmen from the Cremona region are beautiful works of art, coveted by collectors as well as players. Particularly outstanding violins have reputedly changed hands for over a million pounds. In contrast, fine modern instruments can be bought for under £100. Do such figures really reflect such large differences in quality? After more than a hundred years of vigorous debate, this question remains highly contentious, provoking strongly held but divergent views among musicians, violin makers and scientists alike.</p>
+<p><strong>B</strong> Every violin, whether a Stradivarius or the cheapest factory- made copy, has a distinctive ‘voice’ of its 0. Just as any musician can immediately recognise the difference between Domingo and Pavarotti singing the same operatic aria, so a skilled violinist can distinguish between different qualities in the sound produced by individual Stradivari or Guarneri violins. Individual notes on a single instrument sound different each time they are played, which suggests that the perceived tone of a violin must be related to the overall design of the instrument, rather than the frequencies of particular resonances on it. But although various attempts have been made to analyse such global properties, it is extremely difficult to distinguish between a fine Stradivarius instrument and an indifferent modern copy on the basis of the measured response alone. The ear is a supreme detection device, and a system has yet to be developed which can match the brain’s sophisticated ability to assess complex sounds.</p>
+<p><strong>C</strong> So how do skilled violinmakers optimise the tone of an instrument during the construction process? They begin by selecting a wood of the highest possible quality for the front and back plates (or parts of the violin), which they test by tapping with a hammer and judging how well it ‘rings’. The next important step is to skillfully carve the plates out of the solid wood, taking great care to get the right degree of arching and variations in thickness. Traditional makers optimise the thickness by testing the ‘feel’ of the plates when they are flexed, and by the sounds produced when they are tapped at different positions with the knuckles.</p>
+<p><strong>D</strong> However, in the last 50 years or so a group of violin makers has emerged who have tried to take a more overtly scientific approach to violin making. One common practice they have adopted is to replace the traditional flexing and tapping of plates by controlled measurements. During the carving process, the thinned plates are sprinkled with flakes of glitter and suspended horizontally above a loudspeaker. The glitter forms a pattern each time the loudspeaker excites a resonance. The aim is to interactively ‘tune’ these first few free plate resonances to specified patterns.</p>
+<p><strong>E</strong> Unfortunately, there are very few examples of such measurements for really fine Italian instruments because their owners are naturally reluctant to allow their violins to be taken apart for the sake of science. The few tests that have been performed suggest that the first Italian makers may have tuned the resonant modes of the individual plates – which they could identify as they tapped them – to exact musical intervals. This would be consistent with the prevailing Renaissance view of ’perfection1, which was measured in terms of numbers and exact ratios. However, there is no historical data to support this case.</p>
+<p><strong>F</strong> Another factor that affects sound quality is the presence of moisture. To achieve the quality of “vibrancy” in a violin requires high-quality wood with low internal damping. By measuring the pattern of growth-rings in the wood of a Stradivarius, we know that the Italian violin makers sometimes used planks of wood that had only been seasoned for five years. However, such wood is now 300 years old, and the intrinsic internal damping will almost certainly have decreased with time. The age of the wood may therefore automatically contribute to the improved quality of older instruments. This may also explain why the quality of a modern instrument appears to improve in its first few years.</p>
+<p><strong>G</strong> Another factor thought to account for sound quality is the nature of the varnish used to protect the instrument. One of the most popular theories for well over a century to account for the Stradivarius secret has been that the varnish had some sort of ‘magic’ composition. However, historical research has shown that it was very similar to the varnish used today. So apart from the possibility that the Italian varnish was contaminated with the wings of passing insects and debris from the workshop floor, there is no convincing evidence to support the idea of a secret formula.</p>
+<p><strong>H</strong> Other researchers, meanwhile, have claimed that Stradivarius’s secret was to soak the timber in water, to leach out supposedly harmful chemicals, before it was seasoned. Although this would be consistent with the idea that the masts and cars of recently sunken Venetian war galleys might have been used to make violins, other scientific and historical evidence to support this view is unconvincing.</p>
+<p><strong>I</strong> In conclusion, science has not provided any convincing evidence to set Cremonese instruments apart from the finest violins made by skilled craftsmen today. Indeed, some leading soloists do occasionally play on modern instruments. However, the foremost soloists – and, not surprisingly, violin dealers, who have a vested interest in maintaining the Cremonese legend of intrinsic superiority – remain utterly unconvinced.</p>
+<p><strong>Questions 28-35</strong>
 Reading passage has nine paragraphs, A-l. Choose the correct heading for paragraphs A and C-l from the list of headings below.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i. An analysis of protective coatings
 ii. Applying technology to violin production
 iii. Location – a key factor
@@ -198,17 +254,17 @@ xii. The challenge for scientists</p>
 33. Paragraph G
 34. Paragraph H
 35. Paragraph I</p>
-<p>Questions 36-40
+<p><strong>Questions 36-40</strong>
 Do the following statements agree with the information given in reading passage? In boxes 36-40 on your answer sheet, write</p>
-<p>TRUE                                if the statement agrees with the information
-FALSE                              if the statement contradicts the information
-NOT GIVEN                  if there is no information on this</p>
+<p><strong>TRUE</strong>                                if the statement agrees with the information
+<strong>FALSE</strong>                              if the statement contradicts the information
+<strong>NOT GIVEN</strong>                  if there is no information on this</p>
 <p>36. The quality of any particular note played on the same violin varies.
 37. Scientific instruments analyse complex sound more accurately than humans.
 38. The quality of handmade violins varies according to the musical ability of the craftsman.
 39. Modern violins seem to improve in their early years.
 40. Modern violins are gaining in popularity amongst the top violinists</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. C</p>
 <p>2. E</p>
 <p>3. F</p>
@@ -467,6 +523,29 @@ NOT GIVEN                  if there is no information on this</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -486,12 +565,23 @@ NOT GIVEN                  if there is no information on this</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -503,14 +593,6 @@ NOT GIVEN                  if there is no information on this</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

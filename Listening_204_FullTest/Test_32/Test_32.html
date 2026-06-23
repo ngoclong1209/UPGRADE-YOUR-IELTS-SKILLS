@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,104 +158,104 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_32</h1>
-            <p>IELTS Listening Practice - Test 32</p>
-<p>Part 1:Questions 1-4
-Complete the notes below. Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.</p>
-<p>Notes on course available
-Number of language courses per week 10</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 32</strong></h3>
+<p><strong>Part 1:</strong><strong>Questions 1-4</strong>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer.</p>
+<h3 class="test-heading"><strong>Notes on course available</strong>
+Number of language courses per week 10</h3>
 <p>Languages
 • Modern European Languages: French, Spanish, German, Dutch, Polish
-• Ancient Languages: Latin and (1)  _______</p>
-<p>Questions 5-10
-Complete the table below. Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.</p>
-<p>Monthly Computer Courses</p>
-<p>(5)    _______             (6)    _______ 
-(7)    _______             (8)    _______ 
-(9)    _______            (10)  _______</p>
-<p>Part 2: Questions 11-17
-Complete the summary of the welcoming speech. Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.</p>
+• Ancient Languages: Latin and <strong>(1)</strong>  _______</p>
+<p><strong>Questions 5-10</strong>
+Complete the table below. Write <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer.</p>
+<p><strong>Monthly Computer Courses</strong></p>
+<p><strong>(5) </strong>   _______             <strong>(6)</strong>    _______ 
+<strong>(7)</strong>    _______             <strong>(8)</strong>    _______ 
+<strong>(9)</strong>    _______            <strong>(10)</strong>  _______</p>
+<p><strong>Part 2: Questions 11-17</strong>
+Complete the summary of the welcoming speech. Write <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer.</p>
 <p>Dear Joe,</p>
-<p>You missed the welcome meeting. We were greeted by the Principal of Donleavy (11)  _______ who explained how the university has (12)  _______  campuses. He told us where all the important buildings on this campus are and also explained which subjects are studied on the other two. The Principal’s (13)  _______  is on our campus.</p>
-<p>We must carry our (14)  _______  to get into the campus. The university shop sells (15)  _______  and  _______  and is next to the cafeteria.</p>
-<p>You need to use your (16)  _______  when you buy things in both of them. There will be a lot of building work because they are building a (17)  _______  during this term.</p>
+<p>You missed the welcome meeting. We were greeted by the Principal of Donleavy <strong>(11)</strong>  _______ who explained how the university has <strong>(12)</strong>  _______  campuses. He told us where all the important buildings on this campus are and also explained which subjects are studied on the other two. The Principal’s <strong>(13)</strong>  _______  is on our campus.</p>
+<p>We must carry our <strong>(14)</strong>  _______  to get into the campus. The university shop sells <strong>(15)</strong>  _______  and  _______  and is next to the cafeteria.</p>
+<p>You need to use your <strong>(16)</strong>  _______  when you buy things in both of them. There will be a lot of building work because they are building a <strong>(17)</strong>  _______  during this term.</p>
 <p>Regards,
 Rebecca</p>
-<p>Questions 18-20
-Complete the labels on the buildings on the map below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
-<p>(18)  _______ 
-(19)  _______ 
-(20)  _______</p>
-<p>Part 3: Questions 21-30
+<p><strong>Questions 18-20</strong>
+Complete the labels on the buildings on the map below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>(18)</strong>  _______ 
+<strong>(19)</strong>  _______ 
+<strong>(20)</strong>  _______</p>
+<p><strong>Part 3: Questions 21-30</strong>
 Choose the correct letter A, B or C.</p>
 <p>21. Bill was ill. What was wrong?
-[ ]  A cold
-[ ]  B food allergy
-[ ]  C severe pain in his head</p>
+<strong>[ ] </strong><strong> A</strong> cold
+<strong>[ ] </strong><strong> B</strong> food allergy
+<strong>[ ] </strong><strong> C</strong> severe pain in his head</p>
 <p>22. Bill and Sarah
-[ ]  A live near each other
-[ ]  B have never worked on a project together
-[ ]  C have plans for later that evening</p>
+<strong>[ ] </strong><strong> A</strong> live near each other
+<strong>[ ] </strong><strong> B</strong> have never worked on a project together
+<strong>[ ] </strong><strong> C</strong> have plans for later that evening</p>
 <p>23. Bill and Sarah have to
-[ ]  A research and write a survey questionnaire
-[ ]  B ask shopkeepers questionnaire
-[ ]  C submit their project via the internet</p>
+<strong>[ ] </strong><strong> A</strong> research and write a survey questionnaire
+<strong>[ ] </strong><strong> B</strong> ask shopkeepers questionnaire
+<strong>[ ] </strong><strong> C</strong> submit their project via the internet</p>
 <p>24. What does Sarah want Bill to do?
-[ ]  A visit the library
-[ ]  B write a list of questions
-[ ]  C use a computer</p>
+<strong>[ ] </strong><strong> A</strong> visit the library
+<strong>[ ] </strong><strong> B</strong> write a list of questions
+<strong>[ ] </strong><strong> C</strong> use a computer</p>
 <p>25. Which of the following items will be included in Bill and Sarah’s research?
-[ ]  A deodorants and cosmetics
-[ ]  B electrical goods
-[ ]  C food and clothing</p>
+<strong>[ ] </strong><strong> A</strong> deodorants and cosmetics
+<strong>[ ] </strong><strong> B</strong> electrical goods
+<strong>[ ] </strong><strong> C</strong> food and clothing</p>
 <p>26. With what aspect of the project does Bill express concern?
-[ ]  A meeting the projects’ deadline
-[ ]  B invading people’s privacy
-[ ]  C finding enough reference material</p>
+<strong>[ ] </strong><strong> A</strong> meeting the projects’ deadline
+<strong>[ ] </strong><strong> B</strong> invading people’s privacy
+<strong>[ ] </strong><strong> C</strong> finding enough reference material</p>
 <p>27. What does Bill plan to do for the rest of the day?
-[ ]  A review the previous week’s classes
-[ ]  B prepare notes for his next meeting with Sarah
-[ ]  C find people to participate in the research</p>
+<strong>[ ] </strong><strong> A</strong> review the previous week’s classes
+<strong>[ ] </strong><strong> B</strong> prepare notes for his next meeting with Sarah
+<strong>[ ] </strong><strong> C</strong> find people to participate in the research</p>
 <p>28. What does Sarah do for Bill?
-[ ]  A helps him catch up on the notes
-[ ]  B gives him a copy of her notes
-[ ]  C promises to help him study</p>
+<strong>[ ] </strong><strong> A</strong> helps him catch up on the notes
+<strong>[ ] </strong><strong> B</strong> gives him a copy of her notes
+<strong>[ ] </strong><strong> C</strong> promises to help him study</p>
 <p>29. What does Sarah have to do at the library?
-[ ]  A research
-[ ]  B meet Bill
-[ ]  C collect some books</p>
+<strong>[ ] </strong><strong> A</strong> research
+<strong>[ ] </strong><strong> B</strong> meet Bill
+<strong>[ ] </strong><strong> C</strong> collect some books</p>
 <p>30. Where do Bill and Sarah agree to meet the next day?
-[ ]  A in the library
-[ ]  B in class
-[ ]  C in the laboratory</p>
-<p>Part 4: Questions 31 and 32
+<strong>[ ] </strong><strong> A</strong> in the library
+<strong>[ ] </strong><strong> B</strong> in class
+<strong>[ ] </strong><strong> C</strong> in the laboratory</p>
+<p><strong>Part 4: Questions 31 and 32</strong>
 Choose the correct letter A, B or C.</p>
 <p>31. Who is giving this talk?
-[ ]  A an artist
-[ ]  B an art critic
-[ ]  C a curator</p>
+<strong>[ ] </strong><strong> A</strong> an artist
+<strong>[ ] </strong><strong> B</strong> an art critic
+<strong>[ ] </strong><strong> C</strong> a curator</p>
 <p>32. Why did the speaker choose to speak about Joan Miro?
-[ ]  A because a new work by Miro was recently added to the gallery
-[ ]  B because he thought Miro would appeal to people with different tastes
-[ ]  C because he felt everyone would be familiar with Miro’s art</p>
-<p>Questions 33-35
-Which THREE features below are mentioned by the speaker as characteristics of Joan Miro’s art?</p>
-<p>Choose THREE from A-G.</p>
-<p>[ ]  A themes from Spanish history
-[ ]  B the use of primary colors
-[ ]  C influence of surrealism
-[ ]  D complex geometric forms
-[ ]  E large paintings
-[ ]  F equal number of sculptures and paintings
-[ ]  G birds and tress</p>
-<p>Questions 36-40
-Complete the table below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each answer.</p>
-<p>THREE OF MIRO’S GREAT WORKS</p>
-<p>(36)  _______ 
-(37)  _______ 
-(38)  _______ 
-(39)  _______ 
-(40)  _______</p>
-<p>ANSWER KEY</p>
+<strong>[ ] </strong><strong> A</strong> because a new work by Miro was recently added to the gallery
+<strong>[ ] </strong><strong> B</strong> because he thought Miro would appeal to people with different tastes
+<strong>[ ] </strong><strong> C</strong> because he felt everyone would be familiar with Miro’s art</p>
+<p><strong>Questions 33-35</strong>
+Which <strong>THREE</strong> features below are mentioned by the speaker as characteristics of Joan Miro’s art?</p>
+<p>Choose <strong>THREE</strong> from A-G.</p>
+<p><strong>[ ] </strong><strong> A</strong> themes from Spanish history
+<strong>[ ] </strong><strong> B</strong> the use of primary colors
+<strong>[ ] </strong><strong> C</strong> influence of surrealism
+<strong>[ ] </strong><strong> D</strong> complex geometric forms
+<strong>[ ] </strong><strong> E</strong> large paintings
+<strong>[ ] </strong><strong> F</strong> equal number of sculptures and paintings
+<strong>[ ] </strong><strong> G</strong> birds and tress</p>
+<p><strong>Questions 36-40</strong>
+Complete the table below. Write <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>THREE OF MIRO’S GREAT WORKS</strong></p>
+<p><strong>(36)</strong>  _______ 
+<strong>(37)</strong>  _______ 
+<strong>(38)</strong>  _______ 
+<strong>(39)</strong>  _______ 
+<strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Greek</p>
 <p>2. Bengali</p>
 <p>3. 2</p>
@@ -453,11 +509,34 @@ Complete the table below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_32.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_32.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -477,12 +556,23 @@ Complete the table below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -494,14 +584,6 @@ Complete the table below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

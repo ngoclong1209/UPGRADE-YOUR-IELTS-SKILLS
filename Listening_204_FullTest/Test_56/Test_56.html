@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,51 +158,51 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_56</h1>
-            <p>IELTS Listening Practice - Test 56</p>
-<p>Part 1: Questions 1-5
-Complete the details below using NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.</p>
-<p>Card number: 6992 (1)  _______</p>
-<p>Questions 6-10</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 56</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-5</strong>
+Complete the details below using <strong>NO MORE THAN TWO WORDS AND/OR A NUMBER</strong> for each answer.</p>
+<h3 class="test-heading">Card number: 6992 <strong>(1)</strong>  _______</h3>
+<p><strong>Questions 6-10</strong></p>
 <p>Choose the correct letter, A, B, or C.</p>
 <p>6. The caller has paid
-[ ]  A less than the computer shows.
-[ ]  B more than the computer shows.
-[ ]  C £500 twice.</p>
+<strong>[ ] </strong><strong> A</strong> less than the computer shows.
+<strong>[ ] </strong><strong> B</strong> more than the computer shows.
+<strong>[ ] </strong><strong> C</strong> £500 twice.</p>
 <p>7. The caller is also worried about
-[ ]  A a bill that is too high.
-[ ]  B an overpayment to a restaurant.
-[ ]  C a payment that he does not recognize.</p>
+<strong>[ ] </strong><strong> A</strong> a bill that is too high.
+<strong>[ ] </strong><strong> B</strong> an overpayment to a restaurant.
+<strong>[ ] </strong><strong> C</strong> a payment that he does not recognize.</p>
 <p>8. The interest
-[ ]  A went up in April.
-[ ]  B has not changed.
-[ ]  C has gone down.</p>
+<strong>[ ] </strong><strong> A</strong> went up in April.
+<strong>[ ] </strong><strong> B</strong> has not changed.
+<strong>[ ] </strong><strong> C</strong> has gone down.</p>
 <p>9. The caller’s number is
-[ ]  A 020 7997 9909.
-[ ]  B 020 7989 7182.
-[ ]  C 020 8979 7182.</p>
+<strong>[ ] </strong><strong> A</strong> 020 7997 9909.
+<strong>[ ] </strong><strong> B</strong> 020 7989 7182.
+<strong>[ ] </strong><strong> C</strong> 020 8979 7182.</p>
 <p>10. The operator will ring the caller
-[ ]  A tomorrow.
-[ ]  B in two hours.
-[ ]  C very soon.</p>
-<p>Part 2: Questions 11-13</p>
+<strong>[ ] </strong><strong> A</strong> tomorrow.
+<strong>[ ] </strong><strong> B</strong> in two hours.
+<strong>[ ] </strong><strong> C</strong> very soon.</p>
+<p><strong>Part 2: Questions 11-13</strong></p>
 <p>Choose the correct letter, A, B, C, or D.</p>
 <p>11. Mr Gold had problems because he
-[ ]  A hated smoking.
-[ ]  B smoked.
-[ ]  C couldn’t touch his toes.
-[ ]  D was very lazy.</p>
+<strong>[ ] </strong><strong> A</strong> hated smoking.
+<strong>[ ] </strong><strong> B</strong> smoked.
+<strong>[ ] </strong><strong> C</strong> couldn’t touch his toes.
+<strong>[ ] </strong><strong> D</strong> was very lazy.</p>
 <p>12. Mr Gold used to travel across London to
-[ ]  A get exercise.
-[ ]  B see London at night.
-[ ]  C get cigarettes.
-[ ]  D buy food.</p>
+<strong>[ ] </strong><strong> A</strong> get exercise.
+<strong>[ ] </strong><strong> B</strong> see London at night.
+<strong>[ ] </strong><strong> C</strong> get cigarettes.
+<strong>[ ] </strong><strong> D</strong> buy food.</p>
 <p>13. What did Mr Gold have difficulty with in the past?
-[ ]  A running
-[ ]  B giving up smoking
-[ ]  C getting to sleep at night
-[ ]  D getting up early in the morning</p>
-<p>Questions 14-20</p>
-<p>Write NO MORE THAN ONE WORD for each answer.</p>
+<strong>[ ] </strong><strong> A</strong> running
+<strong>[ ] </strong><strong> B</strong> giving up smoking
+<strong>[ ] </strong><strong> C</strong> getting to sleep at night
+<strong>[ ] </strong><strong> D</strong> getting up early in the morning</p>
+<p><strong>Questions 14-20</strong></p>
+<p>Write <strong>NO MORE THAN ONE WORD</strong> for each answer.</p>
 <p>14. Mr Gold stopped smoking on  _______ 
 15. Mr Gold said he was  _______  if people had not seen him smoking.
 16. The worst side effects he experienced were  _______ 
@@ -154,69 +210,69 @@ Complete the details below using NO MORE THAN TWO WORDS AND/OR A NUMBER for each
 18. It was easier for Mr Gold to stop smoking than he had  _______ 
 19. The radio presenter would like to have Mr Gold’s  _______ 
 20 The presenter hopes listeners will find their own  _______  to success.</p>
-<p>Part 3: Questions 21-23</p>
-<p>Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>Lorraine
-• has been with them on the course for (21)  _______ 
-• has left because she has got a (22)  _______ 
-• has returned to (23)  _______</p>
-<p>Questions 24-30</p>
+<p><strong>Part 3: Questions 21-23</strong></p>
+<p>Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>Lorraine</strong>
+• has been with them on the course for <strong>(21)</strong>  _______ 
+• has left because she has got a <strong>(22)</strong>  _______ 
+• has returned to <strong>(23)</strong>  _______</p>
+<p><strong>Questions 24-30</strong></p>
 <p>Choose the correct letter, A, B, C or D.</p>
 <p>24. Steve’s mark could have been better if he had
-[ ]  A not made mistakes in his project.
-[ ]  B done a better book review.
-[ ]  C written more words.
-[ ]  D chosen a different topic for his project.</p>
+<strong>[ ] </strong><strong> A</strong> not made mistakes in his project.
+<strong>[ ] </strong><strong> B</strong> done a better book review.
+<strong>[ ] </strong><strong> C</strong> written more words.
+<strong>[ ] </strong><strong> D</strong> chosen a different topic for his project.</p>
 <p>25. Steve’s book review was
-[ ]  A too long.
-[ ]  B not as good as his project.
-[ ]  C excellent.
-[ ]  D fairly good.</p>
+<strong>[ ] </strong><strong> A</strong> too long.
+<strong>[ ] </strong><strong> B</strong> not as good as his project.
+<strong>[ ] </strong><strong> C</strong> excellent.
+<strong>[ ] </strong><strong> D</strong> fairly good.</p>
 <p>26. Steve’s tutor criticizes which aspect of his project?
-[ ]  A the beginning
-[ ]  B the argument about road pricing
-[ ]  C the end
-[ ]  D the length</p>
+<strong>[ ] </strong><strong> A</strong> the beginning
+<strong>[ ] </strong><strong> B</strong> the argument about road pricing
+<strong>[ ] </strong><strong> C</strong> the end
+<strong>[ ] </strong><strong> D</strong> the length</p>
 <p>27. The tutor recommends that Frances should do
-[ ]  A a PhD but not an MPhil.
-[ ]  B an MPhil or a PhD.
-[ ]  C another project.
-[ ]  D her work more carefully.</p>
+<strong>[ ] </strong><strong> A</strong> a PhD but not an MPhil.
+<strong>[ ] </strong><strong> B</strong> an MPhil or a PhD.
+<strong>[ ] </strong><strong> C</strong> another project.
+<strong>[ ] </strong><strong> D</strong> her work more carefully.</p>
 <p>28. As regards getting funding, the tutor thinks Frances’s
-[ ]  A chances are slim.
-[ ]  B chances are greater than many other students’.
-[ ]  C exam results will be decisive.
-[ ]  D chances are better now than in the past.</p>
+<strong>[ ] </strong><strong> A</strong> chances are slim.
+<strong>[ ] </strong><strong> B</strong> chances are greater than many other students’.
+<strong>[ ] </strong><strong> C</strong> exam results will be decisive.
+<strong>[ ] </strong><strong> D</strong> chances are better now than in the past.</p>
 <p>29. The last time a student in the department achieved a first in their exams was
-[ ]  A three years ago.
-[ ]  B thirty years ago.
-[ ]  C last year.
-[ ]  D in the first three years the college was open.</p>
+<strong>[ ] </strong><strong> A</strong> three years ago.
+<strong>[ ] </strong><strong> B</strong> thirty years ago.
+<strong>[ ] </strong><strong> C</strong> last year.
+<strong>[ ] </strong><strong> D</strong> in the first three years the college was open.</p>
 <p>30. Steve does not plan to go on to do research because he wants to
-[ ]  A stop studying.
-[ ]  B do lots of really exciting things.
-[ ]  C earn some money to do the things he would like to do.
-[ ]  D return to his job.</p>
-<p>Part 4: Questions 31-33</p>
-<p>Write NO MORE THAN TWO WORDS for each answer.</p>
+<strong>[ ] </strong><strong> A</strong> stop studying.
+<strong>[ ] </strong><strong> B</strong> do lots of really exciting things.
+<strong>[ ] </strong><strong> C</strong> earn some money to do the things he would like to do.
+<strong>[ ] </strong><strong> D</strong> return to his job.</p>
+<p><strong>Part 4: Questions 31-33</strong></p>
+<p>Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>Notes:
-The speaker specializes in management (31)  _______ 
-Bullying in the workplace costs the (32)  _______  up to £4 billion a year.
+The speaker specializes in management <strong>(31)</strong>  _______ 
+Bullying in the workplace costs the <strong>(32)</strong>  _______  up to £4 billion a year.
 Bullying is caused by
 • insufficient experience,
 • insecurity, or
-• a lack of (33)  _______  on the part of managers.</p>
-<p>Questions 34-40</p>
-<p>Write NO MORE THAN TWO WORDS for each answer.</p>
+• a lack of <strong>(33)</strong>  _______  on the part of managers.</p>
+<p><strong>Questions 34-40</strong></p>
+<p>Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>Main methods of bullying
-• Setting (34)  _______  tasks.
+• Setting <strong>(34)</strong>  _______  tasks.
 • Constantly moving the goalposts.
-• Stopping individuals (35)  _______  to criticism.
-• Not (36)  _______  or replying to e-mails. This means you cannot expect your staff to (37)  _______  you.
-• Using technology. Companies should develop an (38)  _______  of practice.</p>
-<p>Task
-In groups (39)  _______  other bullying strategies and ways in which they can be (40)  _______</p>
-<p>ANSWER KEY</p>
+• Stopping individuals <strong>(35)</strong>  _______  to criticism.
+• Not <strong>(36)</strong>  _______  or replying to e-mails. This means you cannot expect your staff to <strong>(37)</strong>  _______  you.
+• Using technology. Companies should develop an <strong>(38)</strong>  _______  of practice.</p>
+<p><strong>Task</strong>
+In groups <strong>(39)</strong>  _______  other bullying strategies and ways in which they can be <strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. 3443</p>
 <p>2. SE18PB</p>
 <p>3. 43</p>
@@ -470,11 +526,34 @@ In groups (39)  _______  other bullying strategies and ways in which they can be
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_56.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_56.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -494,12 +573,23 @@ In groups (39)  _______  other bullying strategies and ways in which they can be
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -511,14 +601,6 @@ In groups (39)  _______  other bullying strategies and ways in which they can be
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

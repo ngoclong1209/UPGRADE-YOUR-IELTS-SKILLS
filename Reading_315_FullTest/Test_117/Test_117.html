@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,21 +158,21 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_117</h1>
-            <p>IELTS Reading Practice - Test 117</p>
-<p>nushu – a secret language</p>
-<p>A. It is sometimes said that men and women communicate in different languages. For hundreds of years in the Jiangyong County of Hunan Province, China, this was quite literally the case. Sometime between 400 and 1,000 years ago, women defied the patriarchal norms of the time that forbade them to read or write and conceived of Nu shu — literally, ‘ women’s language ’ — a secretive script and language of their own. Through building informal networks of ‘sworn sisters’ who committed themselves to teaching the language only to other women, and by using it artistically in ways that could be passed off as artwork (such as writing characters on a decorative fan), Nushu was able to grow and spread without attracting too much suspicion.</p>
-<p>B. Nushu has many orthographical distinctions from the standard Chinese script. Whereas standard Chinese has large, bold strokes that look as if they might have been shaped with a thick permanent marker pen, Nushu characters are thin, slanted and have a slightly ‘scratchy’ appearance that bears more similarity to calligraphy. Whereas standard Chinese is logographic, with characters that represent words and meanings, Nushu is completely phonetic — each character represents a sound; the meaning must be acquired from the context of what is being said. Users of Nushu developed coded meanings for various words and phrases, but it is likely that only a tiny fraction of these will ever be known. Many secrets of Nushu have gone to the grave.</p>
-<p>C. Nushu was developed as a way to allow women to communicate with one another in confidence. To some extent, this demand came from a desire for privacy, and Nushu allowed women a forum for personal written communication in a society that was dominated by a male-orientated social culture. There was also a practical element to the rise of Nushu, however: until the mid 20th century, women were rarely encouraged to become literate in the standard Chinese script. Nushu provided a practical and easy-to-learn alternative. Women who were separated from their families and friends by marriage could, therefore, send ‘letters’ to each other. Unlike traditional correspondence, however, Nushu characters were painted or embroidered onto everyday items like fans, pillowcases, and handkerchiefs and embodied in ‘artwork’ in order to avoid making men suspicious.</p>
-<p>D. After the Chinese Revolution, more women were encouraged to become literate in the standard Chinese script, and much of the need for a special form of women’s communication was dampened. When the Red Guard discovered the script in the 1960s, they thought it to be a code used for espionage. Upon learning that it was a secret women’s language, they were suspicious and fearful. Numerous letters, weavings, embroideries, and other artefacts were destroyed, and women were forbidden to practise Nushu customs. As a consequence, the generational chains of linguistic transmission were broken up, and the language ceased being passed down through sworn sisters. There is no longer anyone alive who has learnt Nushu in this traditional manner; Yang Huanyi, the last proficient user of the language, died on September 20, 2004, in her late 90s.</p>
-<p>E. In recent years, however, popular and scholarly interest in Nushu has blossomed. The Ford Foundation granted US$209,000 to build a Nushu Museum that houses artefacts such as audio recordings, manuscripts, and articles, some of which date back over 100 years. The investment from Hong Kong SAR is also being used to build infrastructure at potential tourist sites in Hunan, and some schools in the area have begun instruction in the language. Incidentally, the use of Nushu is also a theme in Lisa See’s historical novel. Snow Flower and the Secret Fan, which has since been adapted for film.</p>
-<p>Questions 1-5
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 117</strong></h3>
+<h3 class="test-heading"><strong>nushu – a secret language</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong>. It is sometimes said that men and women communicate in different languages. For hundreds of years in the Jiangyong County of Hunan Province, China, this was quite literally the case. Sometime between 400 and 1,000 years ago, women defied the patriarchal norms of the time that forbade them to read or write and conceived of Nu shu — literally, ‘ women’s language ’ — a secretive script and language of their own. Through building informal networks of ‘sworn sisters’ who committed themselves to teaching the language only to other women, and by using it artistically in ways that could be passed off as artwork (such as writing characters on a decorative fan), Nushu was able to grow and spread without attracting too much suspicion.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong>. Nushu has many orthographical distinctions from the standard Chinese script. Whereas standard Chinese has large, bold strokes that look as if they might have been shaped with a thick permanent marker pen, Nushu characters are thin, slanted and have a slightly ‘scratchy’ appearance that bears more similarity to calligraphy. Whereas standard Chinese is logographic, with characters that represent words and meanings, Nushu is completely phonetic — each character represents a sound; the meaning must be acquired from the context of what is being said. Users of Nushu developed coded meanings for various words and phrases, but it is likely that only a tiny fraction of these will ever be known. Many secrets of Nushu have gone to the grave.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong>. Nushu was developed as a way to allow women to communicate with one another in confidence. To some extent, this demand came from a desire for privacy, and Nushu allowed women a forum for personal written communication in a society that was dominated by a male-orientated social culture. There was also a practical element to the rise of Nushu, however: until the mid 20th century, women were rarely encouraged to become literate in the standard Chinese script. Nushu provided a practical and easy-to-learn alternative. Women who were separated from their families and friends by marriage could, therefore, send ‘letters’ to each other. Unlike traditional correspondence, however, Nushu characters were painted or embroidered onto everyday items like fans, pillowcases, and handkerchiefs and embodied in ‘artwork’ in order to avoid making men suspicious.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong>. After the Chinese Revolution, more women were encouraged to become literate in the standard Chinese script, and much of the need for a special form of women’s communication was dampened. When the Red Guard discovered the script in the 1960s, they thought it to be a code used for espionage. Upon learning that it was a secret women’s language, they were suspicious and fearful. Numerous letters, weavings, embroideries, and other artefacts were destroyed, and women were forbidden to practise Nushu customs. As a consequence, the generational chains of linguistic transmission were broken up, and the language ceased being passed down through sworn sisters. There is no longer anyone alive who has learnt Nushu in this traditional manner; Yang Huanyi, the last proficient user of the language, died on September 20, 2004, in her late 90s.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong>. In recent years, however, popular and scholarly interest in Nushu has blossomed. The Ford Foundation granted US$209,000 to build a Nushu Museum that houses artefacts such as audio recordings, manuscripts, and articles, some of which date back over 100 years. The investment from Hong Kong SAR is also being used to build infrastructure at potential tourist sites in Hunan, and some schools in the area have begun instruction in the language. Incidentally, the use of Nushu is also a theme in Lisa See’s historical novel. Snow Flower and the Secret Fan, which has since been adapted for film.</p></div></div>
+<p><strong>Questions 1-5</strong>
 Reading Passage 1 has five sections, A-E. Choose the correct heading for each section from the list of headings below.</p>
 <p>1 Section A
 2 Section B
 3 Section C
 4 Section D
 5 Section E</p>
-<p>List of headings
+<p><strong>List of headings</strong>
 i Financial costs
 ii Decline and disuse
 iii Birth and development
@@ -125,34 +181,34 @@ v The social role of Nushu
 vi Last of the Nushu speakers
 vii Characteristics of written Nushu
 viii Revival and contemporary interest</p>
-<p>Questions 6-7
-Choose TWO letters, A-E. Write your answers in boxes 6-7 on your answer sheet.</p>
-<p>Why was there a need for Nushu? Which TWO reasons are given in the text?</p>
-<p>A It provided new artistic opportunities for female artisans.
-B It was a way for uneducated women to read and write.
-C Not enough women were taking an interest in literature.
-D It was a way for women to correspond without men knowing.
-E It helped women believe in themselves and their abilities.</p>
-<p>Questions 8-13
+<p><strong>Questions 6-7</strong>
+Choose <strong>TWO</strong> letters, A-E. Write your answers in boxes 6-7 on your answer sheet.</p>
+<p>Why was there a need for Nushu? Which <strong>TWO </strong>reasons are given in the text?</p>
+<p><strong>A</strong> It provided new artistic opportunities for female artisans.
+<strong>B</strong> It was a way for uneducated women to read and write.
+<strong>C</strong> Not enough women were taking an interest in literature.
+<strong>D</strong> It was a way for women to correspond without men knowing.
+<strong>E</strong> It helped women believe in themselves and their abilities.</p>
+<p><strong>Questions 8-13</strong>
 Do the following statements agree with the information given in Reading Passage 1? In boxes 8-13 on your answer sheet, write</p>
-<p>TRUE                               if the statement is true
-FALSE                             if the statement is false
-NOT GIVEN                  if the information is not given in the passage</p>
+<p><strong>TRUE</strong>                               if the statement is true
+<strong>FALSE</strong>                             if the statement is false
+<strong>NOT GIVEN</strong>                  if the information is not given in the passage</p>
 <p>8 The post-Revolution government did not want women to read or write in any language.
 9 At first, the Red Guard thought Nushu might be a tool for spies.
 10 Women could be punished with the death penalty for using Nushu.
 11 The customary way of learning Nushu has died out
 12 There is a lot of money to be made out of public interest in Nushu.
 13 Nushu is now being openly taught.</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>venus flytrap</p>
-<p>A. From indigenous myths to John Wyndham’s Day of the Triffids and the off-Broadway musical Little Shop of Horrors, the idea of cerebral, carnivorous flora has spooked audiences and readers for centuries. While shrubs and shoots have yet to uproot themselves or show any interest in human beings, however, for some of earth’s smaller inhabitants – arachnids and insects – the risk of being trapped and ingested by a plant can be a threat to their daily existence. Easily, the most famous of these predators is the Venus Flytrap, one of only two types of ‘snap traps’ in the world. Though rarely found growing wild, the Flytrap has captured popular imagination and can be purchased in florists and plant retailers around the world.</p>
-<p>B. Part of the Venus Flytrap’s mysterious aura begins with the tide itself. While it is fairly clear that the second half of the epithet has been given for its insect-trapping ability, the origin of ‘Venus’ is somewhat more ambiguous. According to the International Carnivorous Plant Society, the plant was first studied in the 17th and 18th centuries, when puritanical mores ruled Western societies and obsession was rife with forbidden human impulses and urges, women were often portrayed in these times as seductresses and temptresses, and botanists are believed to have seen a parallel between the behaviour of the plant in luring and devouring insects and the imagined behaviour of women in luring and ‘trapping’ witless men. The plant was thus named after the pagan goddess of love and money – Venus.</p>
-<p>C. The Venus Flytrap is a small plant with six to seven leaves growing out of a bulb-like stem. At the end of each leaf is a trap, which is an opened pod with cilia around the edges like stiff eyelashes. The pod is lined with anthocyanin pigments and sweet-smelling sap to attract flies and other insects. When they fly in, trigger hairs inside the pod sense the intruder’s movement, and the pod snaps shut. The trigger mechanism is so sophisticated that the plant can differentiate between living creatures and non-edible debris by requiring two trigger hairs to be touched within twenty seconds of each other, or one hair to be touched in quick succession. The plant has no nervous system, and researchers can only hypothesise as to how the rapid shutting movement works. This uncertainty adds to the Venus Flytrap’s allure.</p>
-<p>D. The pod shuts quickly but does not seal entirely at first; scientists have found that tins mechanism allows miniscule insects to escape, as they will not be a source of useful nourishment for the plant. If the creature is large enough, however, the plant’s flaps will eventually meet to form an airtight compress, and at this point, the digestive process begins. A Venus Flytrap’s digestive system is remarkably similar to how a human stomach works. For somewhere between five and twelve days, the trap secretes acidic digestive juices that dissolve the soft tissue and cell membranes of the insect. These juices also kill any bacteria that have entered with the food, ensuring the plant maintains its hygiene so that it does not begin to rot. Enzymes in the acid help with the digestion of DNA, amino acids, and cell molecules so that every fleshy part of the animal can be consumed. Once the plant has reabsorbed the digestive fluid – this time with the added nourishment, the trap reopens and the exoskeleton blows away in the wind.</p>
-<p>E. Although transplanted to other locations around the world, the Venus Flytrap is only found natively in an area around Wilmington, North Carolina in the United States. It thrives in bogs, marshes, and wetlands and grows in wet sand and peaty soils. Because these environments are so depleted in nitrogen, they asphyxiate other flora, but the Flytrap overcomes this nutritional poverty by sourcing protein from its insect prey. One of the plant’s curious features is resilience to flame. It is speculated that the Flytrap evolved this to endure through periodic blazes and to act as a means of survival that its competition lacks.</p>
-<p>F. While the Venus Flytrap will not become extinct any time soon (an estimated 3-6 million plants are presently in cultivation), its natural existence is uncertain. In the last survey, only 35,800 Flytraps were found remaining in the wild, and some prominent conservationists have suggested the plant be given the status of ‘vulnerable’. Since this research is considerably dated, having taken place in 1992, the present number is considerably lower. The draining and destruction of natural wetlands where the Flytrap lives is considered to be the biggest threat to its existence, as well as people removing the plants from their natural habitat. Punitive measures have been introduced to prevent people from doing this. Ironically, while cultural depictions of perennial killers may persist, the bigger threat is not what meat-eating plants might do to us but what we may do to them.</p>
-<p>Questions 14-19
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>venus flytrap</strong></p>
+<p><strong>A</strong>. From indigenous myths to John Wyndham’s Day of the Triffids and the off-Broadway musical Little Shop of Horrors, the idea of cerebral, carnivorous flora has spooked audiences and readers for centuries. While shrubs and shoots have yet to uproot themselves or show any interest in human beings, however, for some of earth’s smaller inhabitants – arachnids and insects – the risk of being trapped and ingested by a plant can be a threat to their daily existence. Easily, the most famous of these predators is the Venus Flytrap, one of only two types of ‘snap traps’ in the world. Though rarely found growing wild, the Flytrap has captured popular imagination and can be purchased in florists and plant retailers around the world.</p>
+<p><strong>B</strong>. Part of the Venus Flytrap’s mysterious aura begins with the tide itself. While it is fairly clear that the second half of the epithet has been given for its insect-trapping ability, the origin of ‘Venus’ is somewhat more ambiguous. According to the International Carnivorous Plant Society, the plant was first studied in the 17th and 18th centuries, when puritanical mores ruled Western societies and obsession was rife with forbidden human impulses and urges, women were often portrayed in these times as seductresses and temptresses, and botanists are believed to have seen a parallel between the behaviour of the plant in luring and devouring insects and the imagined behaviour of women in luring and ‘trapping’ witless men. The plant was thus named after the pagan goddess of love and money – Venus.</p>
+<p><strong>C</strong>. The Venus Flytrap is a small plant with six to seven leaves growing out of a bulb-like stem. At the end of each leaf is a trap, which is an opened pod with cilia around the edges like stiff eyelashes. The pod is lined with anthocyanin pigments and sweet-smelling sap to attract flies and other insects. When they fly in, trigger hairs inside the pod sense the intruder’s movement, and the pod snaps shut. The trigger mechanism is so sophisticated that the plant can differentiate between living creatures and non-edible debris by requiring two trigger hairs to be touched within twenty seconds of each other, or one hair to be touched in quick succession. The plant has no nervous system, and researchers can only hypothesise as to how the rapid shutting movement works. This uncertainty adds to the Venus Flytrap’s allure.</p>
+<p><strong>D</strong>. The pod shuts quickly but does not seal entirely at first; scientists have found that tins mechanism allows miniscule insects to escape, as they will not be a source of useful nourishment for the plant. If the creature is large enough, however, the plant’s flaps will eventually meet to form an airtight compress, and at this point, the digestive process begins. A Venus Flytrap’s digestive system is remarkably similar to how a human stomach works. For somewhere between five and twelve days, the trap secretes acidic digestive juices that dissolve the soft tissue and cell membranes of the insect. These juices also kill any bacteria that have entered with the food, ensuring the plant maintains its hygiene so that it does not begin to rot. Enzymes in the acid help with the digestion of DNA, amino acids, and cell molecules so that every fleshy part of the animal can be consumed. Once the plant has reabsorbed the digestive fluid – this time with the added nourishment, the trap reopens and the exoskeleton blows away in the wind.</p>
+<p><strong>E</strong>. Although transplanted to other locations around the world, the Venus Flytrap is only found natively in an area around Wilmington, North Carolina in the United States. It thrives in bogs, marshes, and wetlands and grows in wet sand and peaty soils. Because these environments are so depleted in nitrogen, they asphyxiate other flora, but the Flytrap overcomes this nutritional poverty by sourcing protein from its insect prey. One of the plant’s curious features is resilience to flame. It is speculated that the Flytrap evolved this to endure through periodic blazes and to act as a means of survival that its competition lacks.</p>
+<p><strong>F</strong>. While the Venus Flytrap will not become extinct any time soon (an estimated 3-6 million plants are presently in cultivation), its natural existence is uncertain. In the last survey, only 35,800 Flytraps were found remaining in the wild, and some prominent conservationists have suggested the plant be given the status of ‘vulnerable’. Since this research is considerably dated, having taken place in 1992, the present number is considerably lower. The draining and destruction of natural wetlands where the Flytrap lives is considered to be the biggest threat to its existence, as well as people removing the plants from their natural habitat. Punitive measures have been introduced to prevent people from doing this. Ironically, while cultural depictions of perennial killers may persist, the bigger threat is not what meat-eating plants might do to us but what we may do to them.</p>
+<p><strong>Questions 14-19</strong>
 Reading Passage 2 has six paragraphs, A-F. Which paragraph contains the following information?</p>
 <p>Write the correct letter, A-F, in boxes 14-19 on your answer sheet.</p>
 <p>14 An overview of how the Flytrap eats its prey
@@ -161,50 +217,50 @@ Reading Passage 2 has six paragraphs, A-F. Which paragraph contains the followin
 17 An example of a cultural and artistic portrayal of meat-eating plants
 18 A characteristic of the Venus Flytrap that is exceptional in the botanical world
 19 A reference to an aspect of the Venus Flytrap’s biology that is not fully understood</p>
-<p>Questions 20-22
-Complete the sentences below with words taken from Reading Passage 2. Use NO MORE THAN TWO WORDS for each answer.</p>
+<p><strong>Questions 20-22</strong>
+Complete the sentences below with words taken from Reading Passage 2. Use <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>If they are too small to provide (20)…………………………………., the closing pod allows insects to get out.</p>
 <p>Only the (21)………………………………is left after the Flytrap has finished digesting an insect.</p>
 <p>Many plants cannot survive in bogs and wetlands owing to the lack of (22)……………………………</p>
-<p>Questions 23-26
+<p><strong>Questions 23-26</strong>
 Do the following statements agree with the information given in Reading Passage 2? In boxes 23—26 on your answer sheet write</p>
-<p>TRUE                             if the statement is true
-FALSE                           if the statement is false
-NOT GIVEN                if the information is not given in the passage</p>
+<p><strong>TRUE</strong>                             if the statement is true
+<strong>FALSE</strong>                           if the statement is false
+<strong>NOT GIVEN</strong>                if the information is not given in the passage</p>
 <p>23 The Venus Flytrap can withstand some exposure to fire.
 24 Many botanists would like the Venus Flytrap to be officially recognised as an endangered plant species.
 25 Only 35,800 Venus Flytraps now survive in their natural habitats.
 26 Human interference is a major factor in the decline of wild Venus Flytraps.</p>
-<p>growth model</p>
+<p><strong>growth model</strong></p>
 <p>Shortly after World War II, ‘development’ as we now understand it was set in motion. Western governments and donors poured money into new agencies that set about trying to stimulate the economies of underdeveloped countries. Because of this emphasis, it is now widely regarded as the Growth Model. Although we might expect poverty reduction to be the central objective, planners at this stage were primarily concerned with industrial development. It was hoped that the benefits of this would trickle down to poor people through raising incomes and providing employment opportunities, thereby indirectly lifting them above the ascribed poverty threshold of a dollar a day. The weaknesses of these assumptions were revealed, however, when poverty rates and economic growth were found to rise simultaneously in many countries.</p>
 <p>During the 1970s, a new trend took over – trickle-up development. Instead of focusing on macro-economic policy and large-scale industrial projects, planners shifted attention to the core living requirements of individuals and communities. This became known as the Basic Needs Approach to development. It was hoped that through the provision of services such as community sanitation and literacy programmes, poverty could be eliminated from below. Economic growth was desirable but superfluous – Basic Needs redefined poverty from involving a lack of money to lacking the capability to attain full human potential. The trouble with Basic Needs programmes, however, was their expensive, resource-intensive nature that entailed continuous management and funding</p>
 <p>Since the 1980s, development planners have moved towards the Sustainable Livelihoods Approach, which emphasises good livelihoods (materially and socially) that, most importantly, are independent and sustainable. ‘Sustainable’ in this sense means that people are able to recover from the shocks and stresses of daily life, absolving agencies of the need to persistently monitor their lives. This approach emphasises a view of poverty that comes not from the rich but from the impoverished themselves, who are considered to be most suitably positioned to determine the poverty indicators that contribute to the multiple facets of their own deprivation. Although the Sustainable Livelihoods Approach has been criticised for lacking an environmental platform strong enough to respond to climate change, and for disassociating aspects of power and societal status from being a contestable part of development, it is currently the preferred model for development projects.</p>
 <p>Though there is some linearity to the trajectory of development practice, with paradigms shifting in and out of fashion, vigorous scholarly debate persists around all approaches. The Growth Model, for example, is still defended by many theorists, particularly economists. Those who believe in the Growth Model insist that nothing trumps economic development as a tool for poverty alleviation for the developing countries (although there is often less enthusiasm for its applicability to the postindustrial West). Many countries that have focused explicitly on growth have managed to make considerable inroads into reducing poverty, even in the absence of a development programme; Japan and Germany followed this route after World War II, as has China from the 1970s. On the other hand, some countries with massive inflows of funding for aid-based ‘development projects’ – particularly those in sub-Saharan Africa – have struggled to progress with meeting poverty reduction targets.</p>
 <p>There is a good reason to be sceptical about the Growth Model, however, as is evidenced by the numerous societies that have partly imploded as a consequence of prioritising economic growth above the work of human development. The experiences of many eastern European countries with health and employment crises in the early 1990s are particularly traumatic examples of this. ‘The Growth Model also suffers from an undemocratic, and ‘technocratic’, if not autocratic, method underdeveloped countries frequently make policy decisions based on consultation with Western economists and institutions on how to generate growth. This dissolves the autonomy of communities to make their own decisions about what matters to them, and what kind of society they would like to build. The move to the Sustainable livelihoods Approach is a positive move in tills regard, because by operating on a principle that decisions should be made by those who are affected by them, it introduces a role for localised decision-making.</p>
 <p>It will be difficult, if not impossible, for any country in the near future to ignore economic growth as a development indicator while continuing to meet development targets. It is important, however, that we move away from seeing this type of growth as the prime objective for development. Development is ultimately about people, and human development must be placed at the forefront; economic growth is simply one tool out of many that can help us along the way. We also need to recognise that foreign advisers, whatever qualifications and knowledge they may possess, can sometimes be a hindrance; local autonomy must be respected for real development to occur. The Growth Model may have failed, but this does not render economic growth irrelevant. The Sustainable Livelihoods Approach offers helpful and realistic alternatives. But it is folly to commit ourselves to a strictly defined, systematic programme – less constrictive mindsets will help us break the development fashion cycle.</p>
-<p>Questions 27-33
-Complete the table below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>Questions 34-38
+<p><strong>Questions 27-33</strong>
+Complete the table below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>Questions 34-38</strong>
 Do the following statements agree with the claims of the writer in Reading Passage 3?</p>
 <p>In boxes 34-38 on your answer sheet, write</p>
-<p>YES                                  if the statement agrees with the views of the writer
-NO                                    if the statement contradicts the views of the writer
-NOT GIVEN                 if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                                  if the statement agrees with the views of the writer
+<strong>NO</strong>                                    if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong>                 if it is impossible to say what the writer thinks about this</p>
 <p>34 The most favoured method of development is the Sustainable Livelihoods Approach.
 35 While institutions often follow development trends, academic disputes are more timeless.
 36 The Growth Model is more popular with Third World scholars than Western scholars.
 37 It is not possible to reduce poverty without an explicit development policy.
 38 The Growth Model takes some authority away from local forms of organisation.</p>
-<p>Questions 39-40
-Choose TWO letters, A—E.</p>
-<p>Which TWO of the following statements form part of the author’s conclusion?</p>
-<p>A Economic growth is the primary development goal, but there are other factors to consider.
-B It is preferable not to think about development in rigid, structured terms.
-C Development projects are likely to fail in the absence of highly educated experts.
-D The Sustainable Livelihoods Approach is more effective than the Growth Model.
-E Economic growth should only be considered as a means for development, not an end point.</p>
+<p><strong>Questions 39-40</strong>
+Choose <strong>TWO</strong> letters, A—E.</p>
+<p>Which <strong>TWO</strong> of the following statements form part of the author’s conclusion?</p>
+<p><strong>A</strong> Economic growth is the primary development goal, but there are other factors to consider.
+<strong>B</strong> It is preferable not to think about development in rigid, structured terms.
+<strong>C</strong> Development projects are likely to fail in the absence of highly educated experts.
+<strong>D</strong> The Sustainable Livelihoods Approach is more effective than the Growth Model.
+<strong>E</strong> Economic growth should only be considered as a means for development, not an end point.</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. iii</p>
 <p>2. vii</p>
 <p>3. v</p>
@@ -463,6 +519,29 @@ E Economic growth should only be considered as a means for development, not an e
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -482,12 +561,23 @@ E Economic growth should only be considered as a means for development, not an e
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -499,14 +589,6 @@ E Economic growth should only be considered as a means for development, not an e
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

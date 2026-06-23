@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,54 +158,54 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_196</h1>
-            <p>IELTS Reading Practice - Test 196</p>
-<p>pine trees</p>
-<p>I am looking at a very thick twisted trunk, rising to medium height, at which point appears a stumpy canopy of spiky needles. It’s a tree, but a very special one. Ron Simonson, a park ranger explains. “It’s a bristlecone pine, and it’s been given the name, Methuselah”. I ask the obvious question, and Ron replies, “Because like Methuselah from the bible, this tree is very old, one of the oldest living things on Earth in fact.” I ask the next obvious question, and Ron replies, “Basically Methuselah has existed throughout virtually all of recorded human history.” I look again at this quiet and unassuming tree, beginning to realise it is worthy of great respect.</p>
-<p>Being in a cold climate, facing limited summer seasons, rooted in nutrient poor and dry soil, and subject to high winds and withering winters, bristlecone pines mature very slowly indeed. Yet mature they do, as with all pines becoming fractionally thicker every year as another growth ring is added to their truck. By counting these, we can accurately state that, as of 2011, Methuselah was4,842 years old, meaning that it sprouted as a seedling in 2832 BC, centuries before the ancient Egyptians began building their pyramids. And that’s just one fascinating fact about that well-known species of tree – the pine.</p>
-<p>Pines trees are native to most of the Northern Hemisphere. Several species have adapted to the harsh conditions of high elevations and latitudes, including Methuselah himself, growing among the peaks of the White Mountains of Northern California.</p>
-<p>Pines can be small, such as the Siberian Dwarf Pine, or huge, such as the Ponderosa Pine in the wilds of Oregon, and there are over 100 varieties in all. They have been introduced in to the more temperate portions of the Southern Hemisphere, where they are now grown widely, becoming a familiar feature in parks and gardens. It would not be too much of an exaggeration to say that almost everyone knows pines.</p>
-<p>These trees certainly have many telltale characteristics. They are evergreen, usually with needle-like foliage and a sharp pleasant ‘pine smell. They are often large and imposing, with thick scaly bark, and always produce their signature pine cones. These formations are certainly not simple. They can be male (small, inconspicuous, and shedding pollen) or female (large, woody, and containing seeds), even when appearing on the same tree. They have numerous scales arranged in a spiral, with seeds (on the female) tucked within. As the cone opens, the seeds eventually fall out, mostly to be dispersed by the wind, or sometimes by birds. In some varieties, the cones remain closed until their binding resin is melted by forest fires.</p>
-<p>This last fact – the need for wildfires for regeneration – is another fascinating aspect of many pine species. In fire-prone areas, it can result in extensive stands of pines, a good example being in ‘pine barrens’. These are eco-regions of sandy nutrient-poor soil dominated by pines, since the frequency of natural (usually lightning-induced) fires weeds out the less fire-tolerant species. It is perhaps sad that modern fire prevention methods have resulted in the decline of many pine species in the wild, and most ancient pine barrens are now being taken over by other forest vegetation.</p>
-<p>However, the situation is very different for home and commercial use, which has seen pines become a very common sight. As these trees grow fast, can be planted in dense arrays, and produce attractive and easily moulded wood, they are favourites for commercial plantations. The wood is fragrant, but prone to decay, so it is most suitable for indoor or dry carpentry, rather than outdoors, where more durable varieties are necessary. As for other uses of pines, their branches are valued as Christmas trees, and their wood is also pulped in factories for paper and chipboard production. Pine resin is a byproduct, and this is collected for distillation into turpentine, an important industrial solvent.</p>
-<p>In a more homely sense, perhaps what people most like are the cones, the largest of which are regularly used by children and craft enthusiasts. With the widespread distribution of pines across the Northern Hemisphere, cones form part of the many traditional cultures there, where they are used for decorative purposes, fire starters, bird feeders, or just intriguing natural playthings for young children. Many people lament that modern manufactured toys in the more affluent of these countries have displaced cones, although some Nordic communities still teach traditional ‘cone-craft’ in high schools.</p>
-<p>For some reason, I always come back to Methuselah. Ron tells me a story. In 1964, a student was taking a coring sample from another bristlecone pine in the area. His coring toll broke, so the tree was cut down to allow dating by an examination of a cross-section of its trunk. Upon doing this, to the astonishment of all, 4,844 rings were counted, signifying that the tree was even older than Methuselah. Ron smiles wryly at the thought. ‘We deliberately killed the oldest life on Earth. That’s one reason why we keep the location of Methuselah a secret. This tree is precious, and must be kept free from all human interference.’</p>
-<p>Questions 1-4
-Complete the sentences. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 196</strong></h3>
+<h3 class="test-heading"><strong>pine trees</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>I am looking at a very thick twisted trunk, rising to medium height, at which point appears a stumpy canopy of spiky needles. It’s a tree, but a very special one. Ron Simonson, a park ranger explains. “It’s a bristlecone pine, and it’s been given the name, Methuselah”. I ask the obvious question, and Ron replies, “Because like Methuselah from the bible, this tree is very old, one of the oldest living things on Earth in fact.” I ask the next obvious question, and Ron replies, “Basically Methuselah has existed throughout virtually all of recorded human history.” I look again at this quiet and unassuming tree, beginning to realise it is worthy of great respect.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>Being in a cold climate, facing limited summer seasons, rooted in nutrient poor and dry soil, and subject to high winds and withering winters, bristlecone pines mature very slowly indeed. Yet mature they do, as with all pines becoming fractionally thicker every year as another growth ring is added to their truck. By counting these, we can accurately state that, as of 2011, Methuselah was4,842 years old, meaning that it sprouted as a seedling in 2832 BC, centuries before the ancient Egyptians began building their pyramids. And that’s just one fascinating fact about that well-known species of tree – the pine.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Pines trees are native to most of the Northern Hemisphere. Several species have adapted to the harsh conditions of high elevations and latitudes, including Methuselah himself, growing among the peaks of the White Mountains of Northern California.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Pines can be small, such as the Siberian Dwarf Pine, or huge, such as the Ponderosa Pine in the wilds of Oregon, and there are over 100 varieties in all. They have been introduced in to the more temperate portions of the Southern Hemisphere, where they are now grown widely, becoming a familiar feature in parks and gardens. It would not be too much of an exaggeration to say that almost everyone knows pines.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>These trees certainly have many telltale characteristics. They are evergreen, usually with needle-like foliage and a sharp pleasant ‘pine smell. They are often large and imposing, with thick scaly bark, and always produce their signature pine cones. These formations are certainly not simple. They can be male (small, inconspicuous, and shedding pollen) or female (large, woody, and containing seeds), even when appearing on the same tree. They have numerous scales arranged in a spiral, with seeds (on the female) tucked within. As the cone opens, the seeds eventually fall out, mostly to be dispersed by the wind, or sometimes by birds. In some varieties, the cones remain closed until their binding resin is melted by forest fires.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>This last fact – the need for wildfires for regeneration – is another fascinating aspect of many pine species. In fire-prone areas, it can result in extensive stands of pines, a good example being in ‘pine barrens’. These are eco-regions of sandy nutrient-poor soil dominated by pines, since the frequency of natural (usually lightning-induced) fires weeds out the less fire-tolerant species. It is perhaps sad that modern fire prevention methods have resulted in the decline of many pine species in the wild, and most ancient pine barrens are now being taken over by other forest vegetation.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>However, the situation is very different for home and commercial use, which has seen pines become a very common sight. As these trees grow fast, can be planted in dense arrays, and produce attractive and easily moulded wood, they are favourites for commercial plantations. The wood is fragrant, but prone to decay, so it is most suitable for indoor or dry carpentry, rather than outdoors, where more durable varieties are necessary. As for other uses of pines, their branches are valued as Christmas trees, and their wood is also pulped in factories for paper and chipboard production. Pine resin is a byproduct, and this is collected for distillation into turpentine, an important industrial solvent.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>In a more homely sense, perhaps what people most like are the cones, the largest of which are regularly used by children and craft enthusiasts. With the widespread distribution of pines across the Northern Hemisphere, cones form part of the many traditional cultures there, where they are used for decorative purposes, fire starters, bird feeders, or just intriguing natural playthings for young children. Many people lament that modern manufactured toys in the more affluent of these countries have displaced cones, although some Nordic communities still teach traditional ‘cone-craft’ in high schools.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>For some reason, I always come back to Methuselah. Ron tells me a story. In 1964, a student was taking a coring sample from another bristlecone pine in the area. His coring toll broke, so the tree was cut down to allow dating by an examination of a cross-section of its trunk. Upon doing this, to the astonishment of all, 4,844 rings were counted, signifying that the tree was even older than Methuselah. Ron smiles wryly at the thought. ‘We deliberately killed the oldest life on Earth. That’s one reason why we keep the location of Methuselah a secret. This tree is precious, and must be kept free from all human interference.’</p></div></div>
+<p><strong>Questions 1-4</strong>
+Complete the sentences. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>Every year, pine trees gain another (1)……………………</p>
 <p>The pyramids were built hundreds of years after (2)…………………</p>
 <p>Typical of all pines are their (3)………………..</p>
 <p>The wood from pines is not very (4)……………………</p>
-<p>Questions 5-8
+<p><strong>Questions 5-8</strong>
 Do the following statements agree with the information given in Reading Passage One? Write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>5. Ponderosa pines are the largest.
 6. Pines are familiar to most people.
 7. Birds usually spread pine seeds.
 8. Lightning storms benefit pine barrens.</p>
-<p>Questions 9-11
-Choose THREE answers from the list, and write the correct letter, A-F, next to the questions.</p>
-<p>Which THREE groups of people, A-F, particularly like pine trees?</p>
-<p>A plantation owners
-B outdoor carpenters
-C people interested in craft
-D certain native communities
-E factory owners
-F users of turpentine</p>
-<p>Questions 12-13
+<p><strong>Questions 9-11</strong>
+Choose <strong>THREE</strong> answers from the list, and write the correct letter, A-F, next to the questions.</p>
+<p>Which <strong>THREE</strong> groups of people, A-F, particularly like pine trees?</p>
+<p><strong>A</strong> plantation owners
+<strong>B</strong> outdoor carpenters
+<strong>C</strong> people interested in craft
+<strong>D</strong> certain native communities
+<strong>E</strong> factory owners
+<strong>F</strong> users of turpentine</p>
+<p><strong>Questions 12-13</strong>
 Choose the correct letter, A, B, C, or D.</p>
 <p>12. Pine cones are
-A complicated
-B male
-C mostly the same size.
-D often used as toys in affluent countries.</p>
+<strong>A</strong> complicated
+<strong>B</strong> male
+<strong>C</strong> mostly the same size.
+<strong>D</strong> often used as toys in affluent countries.</p>
 <p>13. Methuselah is
-A 4,842 years old.
-B the oldest tree ever.
-C visited by tourists.
-D not subject to much sunshine.</p>
-<p>an insanely dangerous activity</p>
+<strong>A</strong> 4,842 years old.
+<strong>B</strong> the oldest tree ever.
+<strong>C</strong> visited by tourists.
+<strong>D</strong> not subject to much sunshine.</p>
+<p><strong>an insanely dangerous activity</strong></p>
 <p>Agnes Milowka was one of the foremost cave divers in the world. Female, photogenic, and experienced, she had gained international recognition for her exploratory work in many underground caverns around the world. In early 2011, she entered Tank Cave, near Mount Gambier, a seven-kilometre maze of narrow tunnels – yet ones she had explored many times before. Deep inside, she parted company from her dive buddy to explore a tight passageway through which only one person could pass. What happened next will never be exactly known, but the nature of the cave suggests that she became disoriented during a ‘silt-out’. Unable to manoeuvre quickly, with visibility almost zero, she could not find her way back, and her air ran out.</p>
 <p>Thinking of these last moments is disturbing, but illustrates the obvious dangers of cave diving. When anything goes wrong, divers cannot swim vertically to the surface, but must instead navigate the entire way back. The dive is immediately abandoned, but even with the full team at hand, the return is complicated by narrow tunnels, often lined with sand, mud, or clay, all of which can be easily disturbed – the dreaded ‘silt-out’ – where, in a few seconds, the diver is in a panic-inducing soup of sediment, virtually blind. Artificial light is swallowed in the pitch blackness, and there always needs to be sufficient breathing gas. In short, cave diving seems an insanely dangerous activity.</p>
 <p>Yet the cave-diving community disputes this, arguing that their sport is actually safer than normal open-sea recreational diving. This is due to the much greater degrees of experience and training, and the special equipment used. Most fatalities that have occurred are a result of breaking accepted protocols, where improperly trained and inadequately equipped divers take on caves well beyond their capabilities. Cave divers maintain that, if the rules and guidelines are followed, their sport becomes acceptably safe. In the rare cases where deaths have happened while following these, there have typically been unusual circumstances, such as unexpected currents or rock falls.</p>
@@ -157,29 +213,29 @@ D not subject to much sunshine.</p>
 <p>The next two protocols each concern a vital piece of equipment. Firstly, a guide rope is an absolute necessity. This is secured at the cave entrance, and fed into the cave by the lead diver. Sufficient tension is always maintained, and often the rope is tied up at regular lengths within the cave interior to ensure this. In the event of a silt-out, all divers, in theory, can find this rope, using it to guide their way back to the cave entrance. Equally crucial are the lights. A diver without lights is effectively marooned, unable to go anywhere. Each diver is therefore required to have three independent sources: a primary, and two backups. These are checked under the water when entering the cave, and the protocol states that if even one of these fails, the dive is abandoned for all members of the team.</p>
 <p>The final protocol is, in some ways, the most basic, and concerns the breathing gas. With no quick escape, the ‘rule of thirds’ prevails. Here, one third of the gas is reserved for exploring into the cave, one third for retreating out of it, and one third as a reserve in the event of an emergency, or to support fellow divers. Most protocols suggest keeping each third in a separate air system, so that the loss of one – for example, due to a valve rupture – will not imperil the other two. Another variation is to ensure that these three separate systems are used equally, so that the remaining air is kept balanced. Again, this is a defence against the loss of one system, maximising the amount of air remaining for the return.</p>
 <p>By following all such protocols, the risk is minimised, so that cave diving, as far as can be proven with the limited statistics available, is said to be safer than driving a car. Yet, as the sad death of Agnes Milowka shows, lethal mishaps can always occur. The question to be asked then is why anyone would want to dive into cold, confined, pitch-dark, subterranean cave systems in the first place. The answer is supplied by a cave-diving leader: ‘You get to see things that human beings have never seen before. Nothing on Earth can compare to that.’</p>
-<p>Questions 14-16
+<p><strong>Questions 14-16</strong>
 Choose the correct letter, A, B, C, or D.</p>
 <p>14. Agnes Milowka was
-A famous for her photography.
-B familiar with Tank Cave.
-C diving alone.
-D manoeuvring too quickly.</p>
+<strong>A</strong> famous for her photography.
+<strong>B</strong> familiar with Tank Cave.
+<strong>C</strong> diving alone.
+<strong>D</strong> manoeuvring too quickly.</p>
 <p>15. In cave-diving emergencies,
-A the return is difficult.
-B there is vertical escape.
-C divers often experience silt-outs.
-D some team members stay behind.</p>
+<strong>A</strong> the return is difficult.
+<strong>B</strong> there is vertical escape.
+<strong>C</strong> divers often experience silt-outs.
+<strong>D</strong> some team members stay behind.</p>
 <p>16. Cave-diving accidents usually happen
-A when equipment breaks.
-B more than in open-sea diving.
-C with bad equipment.
-D with a lack of equipment.</p>
-<p>Questions 17-23
-Complete the table. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
-<p>Questions 24-26
-Complete the summary. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
+<strong>A</strong> when equipment breaks.
+<strong>B</strong> more than in open-sea diving.
+<strong>C</strong> with bad equipment.
+<strong>D</strong> with a lack of equipment.</p>
+<p><strong>Questions 17-23</strong>
+Complete the table. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
+<p><strong>Questions 24-26</strong>
+Complete the summary. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
 <p>After she (24)…………………….from her diving companion, Agnes Milowka died, illustrating the dangers involved in cave diving, yet there are (25)…………………….which prove it is acceptably safe, and the attraction of seeing sights (26)…………………..before lures people on.</p>
-<p>criminal rehabilitation: a difficult issue</p>
+<p><strong>criminal rehabilitation: a difficult issue</strong></p>
 <p>When convicted criminals have served long terms of imprisonment, it is obvious that, upon their release, one cannot necessarily expect them to be reformed and able to reintegrate into society. In the potential ly rough and violent ganglands of prisons, quite the opposite may occur, which raises a difficult dilemma in the criminal justice system. To maintain social order, those who break the law are expected to be punished, yet that same maintenance of order means that rehabilitation must be given a high emphasis.</p>
 <p>The ethic of rehabilitation is based on the assumption that criminal tendencies are not necessarily permanent, and that former inmates can successfully lead lives in which they contribute positively to society. The ultimate goal is to prevent them from reoffending, an event technically known as criminal recidivism. Prisons therefore contain systems of education or therapy, as well as assessment to determine whether inmates have truly developed remorse for past misdeeds, an ability to reintegrate into society, and intentions to do so. Assessing this accurately is a difficult issue, and it must be accepted that there are some people who can never be rehabilitated, however much we try.</p>
 <p>The term psychopath is often used here, one of the key determiners of this condition being an inability to learn from past mistakes. Techniques towards improving their behaviour are thus unlikely to work. Obviously, recidivism is highly correlated with this condition, yet studies have shown that psychopathie prisoners are equally likely to be released from prisons as non-psychopathic ones. This is often explained by the fact that psychopathic individuals develop better strategies at disguising their intentions, and become more adept at tricking others. Treatment and therapy merely give them knowledge of penal and judicial procedures, which they can then twist to their advantage, colloquially known as ‘system cracking’.</p>
@@ -188,22 +244,22 @@ Complete the summary. Choose NO MORE THAN THREE WORDS from the passage for each 
 <p>Upon being released on parole, there are still a variety of regulatory conditions to be met. These include the obvious, such as obeying the law, and contacting the parole officer at specified intervals, but may be more individual and specific, such as the non-use of drugs and alcohol, and return to the home residence before a certain time (known as a curfew). Upon ignoring any of these, an arrest warrant is issued, parole time is stopped, and there follows a parole violation hearing. The parole board then makes a decision about whether to revoke the parole (which sees the subject reincarcerated) or to allow parole to continue. As mentioned, such decisions are not a hard science, and mistakes can be made.</p>
 <p>it is this which can make parole a controversial and politically charged issue. It only takes one highly publicised crime from a person on parole to sway public opinion violently against this system. Thus, the political will is often lacking, which has seen, for example, some US states abolish the parole system completely, and others having done so for specific offences. This is often a response to public pressure, rather than a considered assessment of the pros and cons. As always, the same argument applies without parole as an intermediate step, released inmates may face an uphill battle to avoid recidivism, costing society much more in the longer term.</p>
 <p>A more innovative method to encourage rehabilitation is ‘time off for good behaviour’. For each year of imprisonment, it automatically allots inmates who exhibit good behaviour a certain number of days. This means that, year after year, the ‘good time’ is accrued, resulting in an eventual release perhaps one third of the sentence earlier. However, if the inmates commit more than a certain number of infractions, or particularly serious ones, they then forfeit their time, and must complete the full, duration of their sentence.</p>
-<p>Questions 27-31
+<p><strong>Questions 27-31</strong>
 Do the following statements agree with the information given in Reading Passage Three? Write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>27. Many prison inmates can become worse in prison.
 28. Prisons usually have good education and therapy systems.
 29. Psychopathic prisoners often reoffend after being released.
 30. Supervised release is stricter than parole.
 31. The abolition of the parole system is usually done after much thought.</p>
-<p>Questions 32-35
-Complete the flow chart. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
-<p>Questions 36-40
-Write the specific term for each definition. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+<p><strong>Questions 32-35</strong>
+Complete the flow chart. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
+<p><strong>Questions 36-40</strong>
+Write the specific term for each definition. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. growth ring</p>
 <p>2. Methuselah sprouted</p>
 <p>3. (pine) cones</p>
@@ -462,6 +518,29 @@ Write the specific term for each definition. Choose NO MORE THAN TWO WORDS from 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -481,12 +560,23 @@ Write the specific term for each definition. Choose NO MORE THAN TWO WORDS from 
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -498,14 +588,6 @@ Write the specific term for each definition. Choose NO MORE THAN TWO WORDS from 
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

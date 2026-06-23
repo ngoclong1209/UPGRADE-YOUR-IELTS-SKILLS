@@ -6,14 +6,41 @@ BASE_DIR = "/Users/vungoclong/Desktop/Antigravity/UPGRADE YOUR ILETS SKILLS"
 READING_OUT_DIR = os.path.join(BASE_DIR, "Reading_315_FullTest")
 LISTENING_OUT_DIR = os.path.join(BASE_DIR, "Listening_204_FullTest")
 
-def parse_docx_to_html(docx_path):
+def parse_docx_to_html(docx_path, module_type):
     try:
         doc = docx.Document(docx_path)
         html_content = ""
+        letter_index = 0
+        in_questions = False
+        
         for para in doc.paragraphs:
             text = para.text.strip()
-            if text:
-                html_content += f"<p>{text}</p>\n"
+            if not text:
+                continue
+                
+            if text.lower().startswith("question"):
+                in_questions = True
+                
+            p_html = ""
+            for run in para.runs:
+                run_text = run.text.replace("<", "&lt;").replace(">", "&gt;")
+                if not run_text: continue
+                if run.bold: run_text = f"<strong>{run_text}</strong>"
+                if run.italic: run_text = f"<em>{run_text}</em>"
+                if run.underline: run_text = f"<u>{run_text}</u>"
+                p_html += run_text
+                
+            p_html = p_html.strip()
+            
+            if len(text) < 100 and not text.endswith('.') and not in_questions and "<strong>" in p_html:
+                html_content += f'<h3 class="test-heading">{p_html}</h3>\n'
+            else:
+                if module_type == "Reading Full Test" and not in_questions and len(text) > 100:
+                    letter = chr(65 + letter_index)
+                    html_content += f'<div class="para-row"><div class="para-label">{letter}</div><div class="para-text"><p>{p_html}</p></div></div>\n'
+                    letter_index += 1
+                else:
+                    html_content += f"<p>{p_html}</p>\n"
         return html_content
     except Exception as e:
         print(f"Error reading docx {docx_path}: {e}")
@@ -51,10 +78,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -62,6 +86,27 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -90,6 +135,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px);
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
+        }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
         }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
@@ -226,12 +276,38 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 """
 
 LOGIN_CSS = """
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 """
 
 LOGIN_HTML_TMPL = """
@@ -243,8 +319,15 @@ LOGIN_HTML_TMPL = """
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -253,6 +336,29 @@ LOGIN_HTML_TMPL = """
 LOGIN_JS = """
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -272,12 +378,23 @@ LOGIN_JS = """
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -289,14 +406,6 @@ LOGIN_JS = """
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 """
 
@@ -314,17 +423,15 @@ def generate_questions_html():
 def build_tests(base_dir, module_type, module_text):
     q_html = generate_questions_html()
     
-    # We find all docx files recursively inside the base_dir
     docx_files = glob.glob(os.path.join(base_dir, "**", "*.docx"), recursive=True)
     
     for docx_path in docx_files:
         if os.path.basename(docx_path).startswith('~'): continue
         
-        # We assume the directory name or the file name is the Test_name
         name = os.path.basename(docx_path).replace('.docx', '')
-        
         print(f"Building {name} from {docx_path}...")
-        doc_html = parse_docx_to_html(docx_path)
+        
+        doc_html = parse_docx_to_html(docx_path, module_type)
         
         out_dir = os.path.dirname(docx_path)
         out_file = os.path.join(out_dir, f"{name}.html")
@@ -339,17 +446,13 @@ def build_tests(base_dir, module_type, module_text):
         
         if module_type == "Listening Full Test":
             test_num = "".join(filter(str.isdigit, name))
-            # Audio is usually in the same directory as the html for Listening 101-204, 
-            # Or in ../../Listening_audios/audio_X.mp3 for 1-100?
-            # Actually, Listening_204_FullTest structure puts audio_X.mp3 in the Test_X directory!
-            # Let's check if audio_{test_num}.mp3 exists in the same dir.
             audio_path_local = os.path.join(out_dir, f"audio_{test_num}.mp3")
             if os.path.exists(audio_path_local):
                 audio_src = f"audio_{test_num}.mp3"
+                audio_html = f'''<div class="audio-fixed-bottom"><audio controls src="{audio_src}"></audio></div>'''
             else:
-                audio_src = f"../../Listening_audios/audio_{test_num}.mp3"
+                audio_html = f'''<div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_{test_num}.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>'''
                 
-            audio_html = f'''<div class="audio-fixed-bottom"><audio controls src="{audio_src}"></audio></div>'''
             html = html.replace("{AUDIO_HTML}", audio_html)
         else:
             html = html.replace("{AUDIO_HTML}", "")

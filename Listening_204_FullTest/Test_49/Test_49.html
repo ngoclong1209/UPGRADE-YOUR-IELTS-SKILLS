@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,123 +158,123 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_49</h1>
-            <p>IELTS Listening Practice - Test 49</p>
-<p>Part 1: Questions 1-5
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 49</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-5</strong>
 Choose the correct letter A, B or C.</p>
 <p>1. What is Harry’s problem?
-[ ]  he does not want to sell his things
-[ ]  B he needs to decide what to do with his possessions
-[ ]  C he wants to take everything to England</p>
-<p>2. Which of the items below does Harry want to sell?
+<strong>[ ] </strong> he does not want to sell his things
+<strong>[ ] </strong><strong> B</strong> he needs to decide what to do with his possessions
+<strong>[ ] </strong><strong> C</strong> he wants to take everything to England</p>
+<h3 class="test-heading">2. Which of the items below does Harry want to sell?
 
-[ ]  A
-[ ]  B
-[ ]  C</p>
+[ ]  <strong>A</strong>
+[ ]  <strong>B</strong>
+[ ]  <strong>C</strong></h3>
 <p>3. Where is Harry going to advertise his books for sale?
-[ ]  A In the university bookshop.
-[ ]  B In the student newspaper.
-[ ]  C in the economics department</p>
+<strong>[ ] </strong><strong> A</strong> In the university bookshop.
+<strong>[ ] </strong><strong> B</strong> In the student newspaper.
+<strong>[ ] </strong><strong> C</strong> in the economics department</p>
 <p>4. Andrea thinks it is unlikely students will buy the furniture because…
-[ ]  A they’re all doing the same thing.
-[ ]  B they live at home.
-[ ]  C it’s the summer vacation.</p>
+<strong>[ ] </strong><strong> A</strong> they’re all doing the same thing.
+<strong>[ ] </strong><strong> B</strong> they live at home.
+<strong>[ ] </strong><strong> C</strong> it’s the summer vacation.</p>
 <p>5. Andrea thinks that a second hand shop…
-[ ]  A may not pay well.
-[ ]  B may not take your goods
-[ ]  C may only take free goods</p>
-<p>Questions 6-10
-Complete Harry’s notes using NO MORE THAN TWO WORDS.</p>
+<strong>[ ] </strong><strong> A</strong> may not pay well.
+<strong>[ ] </strong><strong> B</strong> may not take your goods
+<strong>[ ] </strong><strong> C</strong> may only take free goods</p>
+<p><strong>Questions 6-10</strong>
+Complete Harry’s notes using <strong>NO MORE THAN TWO WORDS.</strong></p>
 <p>Things to do:
-• (6)  _______  furniture etc. in Trading Post
-• (7)  _______  or sell kitchen things
-• Get (8)  _______  first from second hand shop
-• Give clothes to (9)  _______  shop
-• (10)  _______  fridge and microwave to Andrea</p>
-<p>Part 2: Questions 11-14
+• <strong>(6)</strong>  _______  furniture etc. in Trading Post
+• <strong>(7)</strong>  _______  or sell kitchen things
+• Get<strong> (8)</strong>  _______  first from second hand shop
+• Give clothes to <strong>(9)</strong>  _______  shop
+•<strong> (10)</strong>  _______  fridge and microwave to Andrea</p>
+<p><strong>Part 2: Questions 11-14</strong>
 Choose the correct letter A, B or C.</p>
 <p>11. What can visitors use free of charge?
-[ ]  A pushchairs
-[ ]  B child carriers
-[ ]  C coats and bags</p>
+<strong>[ ] </strong><strong> A</strong> pushchairs
+<strong>[ ] </strong><strong> B</strong> child carriers
+<strong>[ ] </strong><strong> C</strong> coats and bags</p>
 <p>12. Which of the following can visitors buy at the shop?
-[ ]  A coins
-[ ]  B refreshments
-[ ]  C postcards</p>
+<strong>[ ] </strong><strong> A</strong> coins
+<strong>[ ] </strong><strong> B</strong> refreshments
+<strong>[ ] </strong><strong> C</strong> postcards</p>
 <p>13. When did the Grand Opening of the baths occur?
-[ ]  A 1894
-[ ]  B 1897
-[ ]  C 1994</p>
+<strong>[ ] </strong><strong> A</strong> 1894
+<strong>[ ] </strong><strong> B</strong> 1897
+<strong>[ ] </strong><strong> C</strong> 1994</p>
 <p>14. The Romans built on the site
-[ ]  A after the Celts
-[ ]  B before the Celts
-[ ]  C at the same time as the Celts</p>
-<p>Questions 15-20
-Complete the summary below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
-<p>The Great Bath is (15)  _______  deep. Around the bath area are alcoves where there were (16)  _______  and tables where bathers could relax. The water temperature of the Sacred Spring is (17)  _______  The water is rich in (18)  _______  In Roman times, the Sacred Spring was well known for its (19)  _______  The Temple was constructed between (20)  _______</p>
-<p>Part 3: Questions 21-23
-Complete the sentences below. Write NO MORE THAN THREE WORDS for each answer.</p>
+<strong>[ ] </strong><strong> A</strong> after the Celts
+<strong>[ ] </strong><strong> B</strong> before the Celts
+<strong>[ ] </strong><strong> C</strong> at the same time as the Celts</p>
+<p><strong>Questions 15-20</strong>
+Complete the summary below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p>The Great Bath is <strong>(15)</strong>  _______  deep. Around the bath area are alcoves where there were <strong>(16)</strong>  _______  and tables where bathers could relax. The water temperature of the Sacred Spring is <strong>(17)</strong>  _______  The water is rich in <strong>(18)</strong>  _______  In Roman times, the Sacred Spring was well known for its <strong>(19)</strong>  _______  The Temple was constructed between <strong>(20)</strong>  _______</p>
+<p><strong>Part 3: Questions 21-23</strong>
+Complete the sentences below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
 <p>21. The best days for engineering students are  _______ 
 22. Students can get useful suggestions about  _______ 
 23. Use the internet to look at  _______  before the event.</p>
-<p>Questions 24-27
+<p><strong>Questions 24-27</strong>
 Choose the correct letter A, B or C.</p>
 <p>24. Fergus says that
-[ ]  A there is one company he is particularly interested in
-[ ]  B he has done some research already
-[ ]  C he knows the boss at one of the companies</p>
+<strong>[ ] </strong><strong> A</strong> there is one company he is particularly interested in
+<strong>[ ] </strong><strong> B</strong> he has done some research already
+<strong>[ ] </strong><strong> C</strong> he knows the boss at one of the companies</p>
 <p>25. The tutor thinks Fergus should
-[ ]  A prepare questions in advance
-[ ]  B research the skills required for jobs before the event
-[ ]  C find out what the starting salaries are</p>
+<strong>[ ] </strong><strong> A</strong> prepare questions in advance
+<strong>[ ] </strong><strong> B</strong> research the skills required for jobs before the event
+<strong>[ ] </strong><strong> C</strong> find out what the starting salaries are</p>
 <p>26. Fergus plans
-[ ]  A to wear a suit and tie
-[ ]  B to wear smart but casual clothes
-[ ]  C to buy an outfit for the event</p>
+<strong>[ ] </strong><strong> A</strong> to wear a suit and tie
+<strong>[ ] </strong><strong> B</strong> to wear smart but casual clothes
+<strong>[ ] </strong><strong> C</strong> to buy an outfit for the event</p>
 <p>27. The tutor suggests that Fergus
-[ ]  A should ask particular people certain questions
-[ ]  B should avoid taking free gifts
-[ ]  C should treat conversations like short interviews</p>
-<p>Questions 28-30
-Choose THREE letters A-F.</p>
+<strong>[ ] </strong><strong> A</strong> should ask particular people certain questions
+<strong>[ ] </strong><strong> B</strong> should avoid taking free gifts
+<strong>[ ] </strong><strong> C</strong> should treat conversations like short interviews</p>
+<p><strong>Questions 28-30</strong>
+Choose <strong>THREE</strong> letters A-F.</p>
 <p>Why do the tutor and Fergus think it is useful to attend a jobs fair?</p>
-<p>[ ]  A to get a job
-[ ]  B to find out what employers want from you
-[ ]  C to give employers your contact details
-[ ]  D to discover which are the key companies to work for
-[ ]  E to practice your communication skills
-[ ]  F to make useful contacts</p>
-<p>Part 4: Question 31
+<p><strong>[ ] </strong><strong> A</strong> to get a job
+<strong>[ ] </strong><strong> B</strong> to find out what employers want from you
+<strong>[ ] </strong><strong> C</strong> to give employers your contact details
+<strong>[ ] </strong><strong> D</strong> to discover which are the key companies to work for
+<strong>[ ] </strong><strong> E</strong> to practice your communication skills
+<strong>[ ] </strong><strong> F</strong> to make useful contacts</p>
+<p><strong>Part 4: Question 31</strong>
 Choose the correct letter A, B or C.</p>
 <p>31. At the start of her talk Rebecca points out that new graduates can find it hard to
-[ ]  A get the right work
-[ ]  B take sufficient breaks
-[ ]  C motivate themselves</p>
-<p>Questions 32 and 33
-Circle TWO letters A-D.</p>
-<p>Which TWO of the following does Rebecca say worry new artists</p>
-<p>[ ]  A earning enough money
-[ ]  B moving to a new environment
-[ ]  C competing with other artists
-[ ]  D having their work criticized</p>
-<p>Questions 34 and 35
+<strong>[ ] </strong><strong> A</strong> get the right work
+<strong>[ ] </strong><strong> B</strong> take sufficient breaks
+<strong>[ ] </strong><strong> C</strong> motivate themselves</p>
+<p><strong>Questions 32 and 33</strong>
+Circle <strong>TWO</strong> letters A-D.</p>
+<p>Which <strong>TWO</strong> of the following does Rebecca say worry new artists</p>
+<p><strong>[ ] </strong><strong> A</strong> earning enough money
+<strong>[ ] </strong><strong> B</strong> moving to a new environment
+<strong>[ ] </strong><strong> C</strong> competing with other artists
+<strong>[ ] </strong><strong> D</strong> having their work criticized</p>
+<p><strong>Questions 34 and 35</strong>
 Circle the correct letter A, B or C.</p>
 <p>34. Rebecca decided to become an illustrator because it
-[ ]  A afforded her greater objectivity as an artist
-[ ]  B offered her greater freedom of expression
-[ ]  C allowed her to get her work published</p>
+<strong>[ ] </strong><strong> A</strong> afforded her greater objectivity as an artist
+<strong>[ ] </strong><strong> B</strong> offered her greater freedom of expression
+<strong>[ ] </strong><strong> C</strong> allowed her to get her work published</p>
 <p>35. When she had developed a portfolio of illustrations, Rebecca found publishers
-[ ]  A more receptive to her work
-[ ]  B equally cautious about her work
-[ ]  C uninterested in her work</p>
-<p>Questions 36-40
-Complete the notes below. Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>Suggestions for Developing a Portfolio</p>
-<p>Get some artwork printed in magazines by entering (36)  _______</p>
-<p>Also you can (37)  _______  and  _______  mock up book pages.</p>
-<p>Make an effort to use a variety of artistic (38)  _______</p>
-<p>Aim for recognition by dividing work into distinct (39)  _______</p>
-<p>Possibly use (40)  _______</p>
-<p>ANSWER KEY</p>
+<strong>[ ] </strong><strong> A</strong> more receptive to her work
+<strong>[ ] </strong><strong> B</strong> equally cautious about her work
+<strong>[ ] </strong><strong> C</strong> uninterested in her work</p>
+<p><strong>Questions 36-40</strong>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p><strong>Suggestions for Developing a Portfolio</strong></p>
+<p>Get some artwork printed in magazines by entering <strong>(36)</strong>  _______</p>
+<p>Also you can <strong>(37)</strong>  _______  and  _______  mock up book pages.</p>
+<p>Make an effort to use a variety of artistic <strong>(38)</strong>  _______</p>
+<p>Aim for recognition by dividing work into distinct <strong>(39)</strong>  _______</p>
+<p>Possibly use <strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. B</p>
 <p>2. C</p>
 <p>3. C</p>
@@ -472,11 +528,34 @@ Complete the notes below. Write NO MORE THAN THREE WORDS for each answer.</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_49.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_49.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -496,12 +575,23 @@ Complete the notes below. Write NO MORE THAN THREE WORDS for each answer.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -513,14 +603,6 @@ Complete the notes below. Write NO MORE THAN THREE WORDS for each answer.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

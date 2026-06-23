@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,23 +158,23 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_87</h1>
-            <p>IELTS Reading Practice - Test 87</p>
-<p>The hidden histories of exploration exhibition</p>
-<p>A We have all heard tales of lone, heroic explorers, but what about the local individuals who guided and protected European explorers in many different parts of the globe? Or the go-betweens – including interpreters and traders – who translated the needs and demands of explorers into a language that locals could understand? Such questions have received surprisingly little attention in standard histories, where European explorers are usually the heroes, sometimes the villains. The Hidden Histories of Exploration exhibition at Britain’s Royal Geographical Society in London sets out to present an alternative view, in which exploration is a fundamentally collective experience of work, involving many different people. Many of the most famous examples of explorers said to have been ‘lone travellers’ – say, Mungo Park or David Livingstone in Africa – were anything but ‘alone’ on their travels. They depended on local support of various kinds – for food, shelter, protection, information, guidance and solace – as well as on other resources from elsewhere.</p>
-<p>B The Royal Geographical Society (RGS) seeks to record this story in its Hidden Histories project, using its astonishingly rich collections. The storage of geographical information was one of the main rationales for the foundation of the RGS in 1830, and the Society’s collections now contain more than two million individual items, including books, manuscripts, maps, photographs art-works, artefacts and film – a rich storehouse of material reflecting the wide geographical extent of British interest across the globe. In addition to their remarkable scope and range, these collections contain a striking visual record of exploration: the impulse to collect the world is reflected in a large and diverse image archive. For the researcher, this archive can vield many surprises: materials gathered for one purpose – say, maps relating to an international boundary dispute or photographs taken on a scientific expedition – may today be put to quite different uses</p>
-<p>C In their published narratives, European explorers rarely portrayed themselves as vulnerable or dependent on others, despite the fact that without this support they were quite literally lost. Archival research confirms that Europeans were not merely dependent on the work of porters soldiers translators, cooks, pilots, guides, hunters and collectors: they also relied on local expertise. Such assistance was essential in identifying potential dangers poisonous species, unpredictable rivers, uncharted territories – which could mean the difference between life and death. The assistants themselves were usually in a strong bargaining position. In the Amazon, for example access to entire regions would depend on the willingness of local crew members and other assistants to enter areas inhabited by relatively powerful Amerindian groups. In an account of his journey across South America published in 1836, William Smyth thus complained of frequent desertion by his helpers: without them it was impossible to get on.</p>
-<p>D Those providing local support and information to explorers were themselves often not ‘locals’. For example, the history of African exploration in the nineteenth century is dominated by the use of Zanzibar as a recruiting station for porters, soldiers and guides who would then travel thousands of miles across the continent. In some accounts, the leading African members of expedition parties – the ‘officers’ or ‘foremen’ – are identified, and their portraits published alongside those of European explorers.</p>
-<p>E The information provided by locals and intermediaries was of potential importance to geographical science. How was this evidence judged? The formal procedures of scientific evaluation provided one framework. Alongside these were more ‘common sense’ notions of veracity and reliability, religiously-inspired judgments about the authenticity of testimony, and the routine procedures for cross-checking empirical observations developed in many professions.</p>
-<p>F Given explorers’ need for local information and support, it was in their interests to develop effective working partnerships with knowledgeable intermediaries who could act as brokers in their dealings with local inhabitants. Many of these people acquired far more experience of exploration than most Europeans could hope to attain. Some managed large groups of men and women, piloted the explorers’ river craft, or undertook mapping work. The tradition was continued with the Everest expeditions in the 1920s and 1930s, which regularly employed the Tibetan interpreter Karma Paul. In Europe, exploration was increasingly thought of as a career; the same might be said of the non-Europeans on whom their expeditions depended.</p>
-<p>G These individuals often forged close working relationships with European explorers. Such partnerships depended on mutual respect, though they were not always easy or intimate, as is particularly clear from the history of the Everest expeditions depicted in the Hidden Histories exhibition. The entire back wall is covered by an enlarged version of a single sheet of photographs of Sherpas taken during the 1936 Everest expedition. The document is a powerful reminder of the manpower on which European mountaineering expeditions depended, and also of the importance of local knowledge and assistance. Transformed from archive to wall display, it tells a powerful story through the medium of individual portraits – including Karma Paul, veteran of previous expeditions, and the young Tensing Norgay, 17 years before his successful 1953 ascent. This was a highly charged and transitional moment as the contribution of the Sherpas, depicted here with identity tags round their necks, was beginning to be much more widely recognised. These touching portraits encourage us to see them as agents rather than simply colonial subjects or paid employees. Here is a living history, which looks beyond what we already know about exploration: a larger history in which we come to recognise the contribution of everyone involved.</p>
-<p>Questions 1-7
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 87</strong></h3>
+<h3 class="test-heading"><strong>The hidden histories of exploration exhibition</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> We have all heard tales of lone, heroic explorers, but what about the local individuals who guided and protected European explorers in many different parts of the globe? Or the go-betweens – including interpreters and traders – who translated the needs and demands of explorers into a language that locals could understand? Such questions have received surprisingly little attention in standard histories, where European explorers are usually the heroes, sometimes the villains. The Hidden Histories of Exploration exhibition at Britain’s Royal Geographical Society in London sets out to present an alternative view, in which exploration is a fundamentally collective experience of work, involving many different people. Many of the most famous examples of explorers said to have been ‘lone travellers’ – say, Mungo Park or David Livingstone in Africa – were anything but ‘alone’ on their travels. They depended on local support of various kinds – for food, shelter, protection, information, guidance and solace – as well as on other resources from elsewhere.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> The Royal Geographical Society (RGS) seeks to record this story in its Hidden Histories project, using its astonishingly rich collections. The storage of geographical information was one of the main rationales for the foundation of the RGS in 1830, and the Society’s collections now contain more than two million individual items, including books, manuscripts, maps, photographs art-works, artefacts and film – a rich storehouse of material reflecting the wide geographical extent of British interest across the globe. In addition to their remarkable scope and range, these collections contain a striking visual record of exploration: the impulse to collect the world is reflected in a large and diverse image archive. For the researcher, this archive can vield many surprises: materials gathered for one purpose – say, maps relating to an international boundary dispute or photographs taken on a scientific expedition – may today be put to quite different uses</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> In their published narratives, European explorers rarely portrayed themselves as vulnerable or dependent on others, despite the fact that without this support they were quite literally lost. Archival research confirms that Europeans were not merely dependent on the work of porters soldiers translators, cooks, pilots, guides, hunters and collectors: they also relied on local expertise. Such assistance was essential in identifying potential dangers poisonous species, unpredictable rivers, uncharted territories – which could mean the difference between life and death. The assistants themselves were usually in a strong bargaining position. In the Amazon, for example access to entire regions would depend on the willingness of local crew members and other assistants to enter areas inhabited by relatively powerful Amerindian groups. In an account of his journey across South America published in 1836, William Smyth thus complained of frequent desertion by his helpers: without them it was impossible to get on.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> Those providing local support and information to explorers were themselves often not ‘locals’. For example, the history of African exploration in the nineteenth century is dominated by the use of Zanzibar as a recruiting station for porters, soldiers and guides who would then travel thousands of miles across the continent. In some accounts, the leading African members of expedition parties – the ‘officers’ or ‘foremen’ – are identified, and their portraits published alongside those of European explorers.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> The information provided by locals and intermediaries was of potential importance to geographical science. How was this evidence judged? The formal procedures of scientific evaluation provided one framework. Alongside these were more ‘common sense’ notions of veracity and reliability, religiously-inspired judgments about the authenticity of testimony, and the routine procedures for cross-checking empirical observations developed in many professions.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> Given explorers’ need for local information and support, it was in their interests to develop effective working partnerships with knowledgeable intermediaries who could act as brokers in their dealings with local inhabitants. Many of these people acquired far more experience of exploration than most Europeans could hope to attain. Some managed large groups of men and women, piloted the explorers’ river craft, or undertook mapping work. The tradition was continued with the Everest expeditions in the 1920s and 1930s, which regularly employed the Tibetan interpreter Karma Paul. In Europe, exploration was increasingly thought of as a career; the same might be said of the non-Europeans on whom their expeditions depended.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> These individuals often forged close working relationships with European explorers. Such partnerships depended on mutual respect, though they were not always easy or intimate, as is particularly clear from the history of the Everest expeditions depicted in the Hidden Histories exhibition. The entire back wall is covered by an enlarged version of a single sheet of photographs of Sherpas taken during the 1936 Everest expedition. The document is a powerful reminder of the manpower on which European mountaineering expeditions depended, and also of the importance of local knowledge and assistance. Transformed from archive to wall display, it tells a powerful story through the medium of individual portraits – including Karma Paul, veteran of previous expeditions, and the young Tensing Norgay, 17 years before his successful 1953 ascent. This was a highly charged and transitional moment as the contribution of the Sherpas, depicted here with identity tags round their necks, was beginning to be much more widely recognised. These touching portraits encourage us to see them as agents rather than simply colonial subjects or paid employees. Here is a living history, which looks beyond what we already know about exploration: a larger history in which we come to recognise the contribution of everyone involved.</p></div></div>
+<p><strong>Questions 1-7</strong>
 
 Do the following statements agree with the information given in Reading Passage 1? In boxes 1-7 on your answer sheet, write</p>
-<p>TRUE                          if the statement agrees with the information
+<p><strong>TRUE</strong>                          if the statement agrees with the information
 
-FALSE                        if the statement contradicts the information
+<strong>FALSE</strong>                        if the statement contradicts the information
 
-NOT GIVEN             if there is no information on this</p>
+<strong>NOT GIVEN</strong>             if there is no information on this</p>
 <p>1 The Hidden Histories of Exploration exhibition aims to show the wide range of people involved in expeditions.
 
 2 The common belief about how Park and Livingstone travelled is accurate.
@@ -132,7 +188,7 @@ NOT GIVEN             if there is no information on this</p>
 6 In their publications, European explorers often describe their dependence on their helpers.
 
 7 Local helpers refused to accompany William Smyth during parts of his journey.</p>
-<p>Questions 8-13
+<p><strong>Questions 8-13</strong>
 
 Reading Passage 1 has seven paragraphs, A-G. Which paragraph contains the following information?</p>
 <p>8 reference to the distances that some non-European helpers travelled
@@ -146,22 +202,22 @@ Reading Passage 1 has seven paragraphs, A-G. Which paragraph contains the follow
 12 reference to various approaches to assessing data from local helpers
 
 13 reference to people whose long-term occupation was to organise local assistance for European explorers</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>Fatal Attraction</p>
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>Fatal Attraction</strong></p>
 <p>Evolutionist Charles Darwin first marvelled at flesh-eating plants in the mid-19th century. Today, biologists, using 21st-century tools to study cells and DNA, are beginning to understand how these plants hunt, eat and digest – and how such bizarre adaptations arose in the first place.</p>
-<p>A The leaves of the Venus flytrap plant are covered in hairs. When an insect brushes against them, this triggers a tiny electric charge, which travels down tunnels in the leaf and opens up pores in the leaf’s cell membranes. Water surges from the cells on the inside of the leaf to those on the outside, causing the leaf to rapidly flip in shape from convex to concave, like a soft contact lens. As the leaves flip, they snap together, trapping the insect in their sharp-toothed jaws.</p>
-<p>B The bladderwort has an equally sophisticated way of setting its underwater trap. It pumps water out of tiny bag-like bladders, making a vacuum inside. When small creatures swim past, they bend the hairs on the bladder, causing a flap to open. The low pressure sucks water in, carrying the animal along with it. In one five-hundredth of a second, the door swings shut again. The Drosera sundew, meanwhile, has a thick, sweet liquid oozing from its leaves, which first attracts insects, then holds them fast before the leaves snap shut. Pitcher plants use yet another strategy, growing long tube-shaped leaves to imprison their prey. Raffles’ pitcher plant, from the jungles of Borneo, produces nectar that both lures insects and forms a slick surface on which they can’t get a grip. Insects that land on the rim of the pitcher slide on the liquid and tumble in.</p>
-<p>C Many carnivorous plants secrete enzymes to penetrate the hard exoskeleton of insects so they can absorb nutrients from inside their prey. But the purple pitcher plant, which lives in bogs and infertile sandy soils in North America, enlists other organisms to process its food. It is home to an intricate food web of mosquito larvae, midges and bacteria, many of which can survive only in this unique habitat. These animals shred the prey that fall into the pitcher, and the smaller organisms feed on the debris. Finally, the plant absorbs the nutrients released.</p>
-<p>D While such plants clearly thrive on being carnivorous, the benefits of eating flesh are not the ones you might expect. Carnivorous animals such as ourselves use the carbon in protein and the fat in meat to build muscles and store energy. Carnivorous plants instead draw nitrogen, phosphorus, and other critical nutrients from their prey in order to build light-harvesting enzymes. Eating animals, in other words, lets carnivorous plants do what all plants do: carry out photosynthesis, that is, grow by harnessing energy directly from the sun.</p>
-<p>E Carnivorous plants are, in fact, very inefficient at converting sunlight into tissue. This is because of all the energy they expend to make the equipment to catch animals – the enzymes, the pumps, and so on. A pitcher or a flytrap cannot carry out much photosynthesis because, unlike plants with ordinary leaves, they do not have flat solar panels that can grab lots of sunlight. There are, however, some special conditions in which the benefits of being carnivorous do outweigh the costs. The poor soil of bogs, for example, offers little nitrogen and phosphorus, so carnivorous plants enjoy an advantage over plants that obtain these nutrients by more conventional means. Bogs are also flooded with sunshine, so even an inefficient carnivorous plant can photosynthesise enough light to survive.</p>
-<p>F Evolution has repeatedly made this trade-off. By comparing the DNA of carnivorous plants with other species, scientists have found that they evolved independently on at least six separate occasions. Some carnivorous plants that look nearly identical turn out to be only distantly related. The two kinds of pitcher plants – the tropical genus Nepenthes and the North American Sarracenia – have, surprisingly, evolved from different ancestors, although both grow deep pitchershaped leaves and employ the same strategy for capturing prey.</p>
-<p>G In several cases, scientists can see how complex carnivorous plants evolved from simpler ones. Venus flytraps, for example, share an ancestor with Portuguese sundews, which only catch prey passively, via ‘flypaper’ glands on their stems. They share a more recent ancestor with Drosera sundews, which can also curl their leaves over their prey. Venus flytraps appear to have evolved an even more elaborate version of this kind of trap, complete with jaw-like leaves.</p>
-<p>H Unfortunately, the adaptations that enable carnivorous plants to thrive in marginal habitats also make them exquisitely sensitive. Agricultural run-off and pollution from power plants are adding extra nitrogen to many bogs in North America. Carnivorous plants are so finely tuned to low levels of nitrogen that this extra fertilizer is overloading their systems, and they eventually burn themselves out and die.</p>
-<p>I Humans also threaten carnivorous plants in other ways. The black market trade in exotic carnivorous plants is so vigorous now that botanists are keeping the location of some rare species a secret. But even if the poaching of carnivorous plants can be halted, they will continue to suffer from other assaults. In the pine savannah of North Carolina, the increasing suppression of fires is allowing other plants to grow too quickly and outcompete the flytraps in their native environment. Good news, perhaps, for flies. But a loss for all who, like Darwin, delight in the sheer inventiveness of evolution.</p>
-<p>Questions 14-18
+<p><strong>A</strong> The leaves of the Venus flytrap plant are covered in hairs. When an insect brushes against them, this triggers a tiny electric charge, which travels down tunnels in the leaf and opens up pores in the leaf’s cell membranes. Water surges from the cells on the inside of the leaf to those on the outside, causing the leaf to rapidly flip in shape from convex to concave, like a soft contact lens. As the leaves flip, they snap together, trapping the insect in their sharp-toothed jaws.</p>
+<p><strong>B</strong> The bladderwort has an equally sophisticated way of setting its underwater trap. It pumps water out of tiny bag-like bladders, making a vacuum inside. When small creatures swim past, they bend the hairs on the bladder, causing a flap to open. The low pressure sucks water in, carrying the animal along with it. In one five-hundredth of a second, the door swings shut again. The Drosera sundew, meanwhile, has a thick, sweet liquid oozing from its leaves, which first attracts insects, then holds them fast before the leaves snap shut. Pitcher plants use yet another strategy, growing long tube-shaped leaves to imprison their prey. Raffles’ pitcher plant, from the jungles of Borneo, produces nectar that both lures insects and forms a slick surface on which they can’t get a grip. Insects that land on the rim of the pitcher slide on the liquid and tumble in.</p>
+<p><strong>C</strong> Many carnivorous plants secrete enzymes to penetrate the hard exoskeleton of insects so they can absorb nutrients from inside their prey. But the purple pitcher plant, which lives in bogs and infertile sandy soils in North America, enlists other organisms to process its food. It is home to an intricate food web of mosquito larvae, midges and bacteria, many of which can survive only in this unique habitat. These animals shred the prey that fall into the pitcher, and the smaller organisms feed on the debris. Finally, the plant absorbs the nutrients released.</p>
+<p><strong>D</strong> While such plants clearly thrive on being carnivorous, the benefits of eating flesh are not the ones you might expect. Carnivorous animals such as ourselves use the carbon in protein and the fat in meat to build muscles and store energy. Carnivorous plants instead draw nitrogen, phosphorus, and other critical nutrients from their prey in order to build light-harvesting enzymes. Eating animals, in other words, lets carnivorous plants do what all plants do: carry out photosynthesis, that is, grow by harnessing energy directly from the sun.</p>
+<p><strong>E</strong> Carnivorous plants are, in fact, very inefficient at converting sunlight into tissue. This is because of all the energy they expend to make the equipment to catch animals – the enzymes, the pumps, and so on. A pitcher or a flytrap cannot carry out much photosynthesis because, unlike plants with ordinary leaves, they do not have flat solar panels that can grab lots of sunlight. There are, however, some special conditions in which the benefits of being carnivorous do outweigh the costs. The poor soil of bogs, for example, offers little nitrogen and phosphorus, so carnivorous plants enjoy an advantage over plants that obtain these nutrients by more conventional means. Bogs are also flooded with sunshine, so even an inefficient carnivorous plant can photosynthesise enough light to survive.</p>
+<p><strong>F</strong> Evolution has repeatedly made this trade-off. By comparing the DNA of carnivorous plants with other species, scientists have found that they evolved independently on at least six separate occasions. Some carnivorous plants that look nearly identical turn out to be only distantly related. The two kinds of pitcher plants – the tropical genus Nepenthes and the North American Sarracenia – have, surprisingly, evolved from different ancestors, although both grow deep pitchershaped leaves and employ the same strategy for capturing prey.</p>
+<p><strong>G</strong> In several cases, scientists can see how complex carnivorous plants evolved from simpler ones. Venus flytraps, for example, share an ancestor with Portuguese sundews, which only catch prey passively, via ‘flypaper’ glands on their stems. They share a more recent ancestor with Drosera sundews, which can also curl their leaves over their prey. Venus flytraps appear to have evolved an even more elaborate version of this kind of trap, complete with jaw-like leaves.</p>
+<p><strong>H</strong> Unfortunately, the adaptations that enable carnivorous plants to thrive in marginal habitats also make them exquisitely sensitive. Agricultural run-off and pollution from power plants are adding extra nitrogen to many bogs in North America. Carnivorous plants are so finely tuned to low levels of nitrogen that this extra fertilizer is overloading their systems, and they eventually burn themselves out and die.</p>
+<p><strong>I</strong> Humans also threaten carnivorous plants in other ways. The black market trade in exotic carnivorous plants is so vigorous now that botanists are keeping the location of some rare species a secret. But even if the poaching of carnivorous plants can be halted, they will continue to suffer from other assaults. In the pine savannah of North Carolina, the increasing suppression of fires is allowing other plants to grow too quickly and outcompete the flytraps in their native environment. Good news, perhaps, for flies. But a loss for all who, like Darwin, delight in the sheer inventiveness of evolution.</p>
+<p><strong>Questions 14-18</strong>
 
-Complete the notes below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>How a Venus flytrap traps an insect
+Complete the notes below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>How a Venus flytrap traps an insect</strong>
 
 • Insect touches (14)…………………………….on leaf of plant
 
@@ -172,7 +228,7 @@ Complete the notes below. Choose NO MORE THAN TWO WORDS from the passage for eac
 • Outside cells of leaves fill with (17)…………………………….
 
 • Leaves change so that they have a (18)………………………………..shape and snap nut</p>
-<p>Questions 19-22
+<p><strong>Questions 19-22</strong>
 
 Look at the following statements (Questions 19-22) and the list of plants. Match each statement with the correct plant, A. B. C, D or E. Write the correct letter, A, B, C, D or E, in boxes 19-22 on your answer sheet.</p>
 <p>19 It uses other creatures to help it digest insects.
@@ -182,18 +238,18 @@ Look at the following statements (Questions 19-22) and the list of plants. Match
 21 It creates an empty space into which insects are sucked.
 
 22 It produces a sticky substance which traps insects on its surface.</p>
-<p>List of plants
+<p><strong>List of plants</strong>
 
-A Venus flytrap
+<strong>A</strong> Venus flytrap
 
-B bladderwort
+<strong>B</strong> bladderwort
 
-C Drosera sundew
+<strong>C</strong> Drosera sundew
 
-D Raffles’ pitcher plant
+<strong>D</strong> Raffles’ pitcher plant
 
-E purple pitcher plant</p>
-<p>Questions 23-26
+<strong>E</strong> purple pitcher plant</p>
+<p><strong>Questions 23-26</strong>
 
 Reading Passage 2 has nine paragraphs, A-l. Which paragraph contains the following information?</p>
 <p>23 a mention of a disadvantage of the leaf shape of some carnivorous plants
@@ -203,20 +259,20 @@ Reading Passage 2 has nine paragraphs, A-l. Which paragraph contains the followi
 25 unexpected information about the origins of certain carnivorous plants
 
 26 an example of environmental changes that shorten the life cycles of carnivorous plants</p>
-<p>Want to be friends?</p>
-<p>A For many hundreds of thousands of people worldwide, online networking has become enmeshed in our daily lives. However, it is a decades-old insight from a study of traditional social networks that best illuminates one of the most important aspects of today’s online networking. In 1973 sociologist Mark Granovetter showed how the loose acquaintances, or ‘weak ties’, in our social network exert a disproportionate influence over our behaviour and choices. Granovetter’s research showed that a significant percentage of people get their jobs as a result of recommendations or advice provided by a weak tie. Today our number of weak-tie contacts has exploded via online social networking. ‘You couldn’t maintain all of those weak ties on your own,’ says Jennifer Golbeck of the University of Maryland. ‘Online sites, such as Facebook, give you a way of cataloguing them.’ The result? It’s now significantly easier for the schoolfriend you haven’t seen in years to pass you a tip that alters your behaviour, from recommendation of a low-cholesterol breakfast cereal to a party invite where you meet your future wife or husband.</p>
-<p>B The explosion of weak ties could have profound consequences for our social structures too, according to Judith Donath of the Berkman Center for Internet and Society at Harvard University. ‘We’re already seeing changes,’ she says. For example, many people now turn to their online social networks ahead of sources such as newspapers and television for trusted and relevant news or information. What they hear could well be inaccurate, but the change is happening nonetheless. If these huge ‘supernets’ – some of them numbering up to 5,000 people – continue to thrive and grow, they could fundamentally change the way we share information and transform our notions of relationships.</p>
-<p>C But are these vast networks really that relevant to us on a personal level? Robin Dunbar, an evolutionary anthropologist at the University of Oxford, believes that our primate brains place a cap on the number of genuine social relationships we can actually cope with: roughly 150. According to Dunbar, online social networking appears to be very good for ‘servicing’ relationships, but not for establishing them. He argues that our evolutionary roots mean we still depend heavily on physical and face-to-face contact to be able to create ties.</p>
-<p>D Nonetheless, there is evidence that online networking can transform our daily interactions. In an experiment at Cornell University, psychologist Jeff Hancock asked participants to try to encourage other participants to like them via instant messaging conversation. Beforehand, some members of the trial were allowed to view the Facebook profile of the person they were trying to win over. He found that those with Facebook access asked questions to which they already knew the answers or raised things they had in common, and as result were much more successful in their social relationships. Hancock concluded that people who use these sites to keep updated on the activities of their acquaintances are more likely to be liked in subsequent social interactions.</p>
-<p>E Online social networking may also have tangible effects on our well-being. Nicole Ellison of Michigan State University found that the frequency of networking site use correlates with greater selfesteem. Support and affirmation from the weak ties could be the explanation, G says Ellison. ‘Asking your close friends for help or advice is nothing new, but we are seeing a lowering of barriers among acquaintances,’ she says. People are readily sharing personal feelings and experiences to a wider circle than they might once have done. Sandy Pentland at the Massachusetts Institute of Technology agrees. The ability to broadcast to our social group means we need never feel alone,’ he says. The things that befall us are often due to a lack of social support. There’s more of a safety net now.’</p>
-<p>F Henry Holzman, also at MIT, who studies the interface between online social networking and the real world, points out that increased visibility also means our various social spheres – family, work, friends – are merging, and so we will have to prepare for new societal norms. ‘Well have to learn how to live a more transparent life,’ he says. ‘We may have to give up some ability to show very limited glimpses of ourselves to others.’</p>
-<p>G Another way that online networking appears to be changing our social structures is through dominance. In one repeated experiment, Michael Kearns of the University of Pennsylvania asked 30 volunteers to quickly reach consensus in an online game over a choice between two colours. Each person was offered a cash reward if they succeeded in persuading the group to pick one or other colour. All participants could see the colour chosen by some of the other people, but certain participants had an extra advantage: the ability to see more of the participants’ chosen colours than others. Every time Kearns found that those who could see the choices of more participants (in other words, were better connected) persuaded the group to pick their colour, even when they had to persuade the vast majority to give up their financial incentive. While Kearns warns that the setting was artificial, he says it’s possible that greater persuasive power could lie with well-connected individuals in the everyday online world too.</p>
-<p>Questions 27-32
+<p><strong>Want to be friends?</strong></p>
+<p><strong>A</strong> For many hundreds of thousands of people worldwide, online networking has become enmeshed in our daily lives. However, it is a decades-old insight from a study of traditional social networks that best illuminates one of the most important aspects of today’s online networking. In 1973 sociologist Mark Granovetter showed how the loose acquaintances, or ‘weak ties’, in our social network exert a disproportionate influence over our behaviour and choices. Granovetter’s research showed that a significant percentage of people get their jobs as a result of recommendations or advice provided by a weak tie. Today our number of weak-tie contacts has exploded via online social networking. ‘You couldn’t maintain all of those weak ties on your own,’ says Jennifer Golbeck of the University of Maryland. ‘Online sites, such as Facebook, give you a way of cataloguing them.’ The result? It’s now significantly easier for the schoolfriend you haven’t seen in years to pass you a tip that alters your behaviour, from recommendation of a low-cholesterol breakfast cereal to a party invite where you meet your future wife or husband.</p>
+<p><strong>B</strong> The explosion of weak ties could have profound consequences for our social structures too, according to Judith Donath of the Berkman Center for Internet and Society at Harvard University. ‘We’re already seeing changes,’ she says. For example, many people now turn to their online social networks ahead of sources such as newspapers and television for trusted and relevant news or information. What they hear could well be inaccurate, but the change is happening nonetheless. If these huge ‘supernets’ – some of them numbering up to 5,000 people – continue to thrive and grow, they could fundamentally change the way we share information and transform our notions of relationships.</p>
+<p><strong>C</strong> But are these vast networks really that relevant to us on a personal level? Robin Dunbar, an evolutionary anthropologist at the University of Oxford, believes that our primate brains place a cap on the number of genuine social relationships we can actually cope with: roughly 150. According to Dunbar, online social networking appears to be very good for ‘servicing’ relationships, but not for establishing them. He argues that our evolutionary roots mean we still depend heavily on physical and face-to-face contact to be able to create ties.</p>
+<p><strong>D</strong> Nonetheless, there is evidence that online networking can transform our daily interactions. In an experiment at Cornell University, psychologist Jeff Hancock asked participants to try to encourage other participants to like them via instant messaging conversation. Beforehand, some members of the trial were allowed to view the Facebook profile of the person they were trying to win over. He found that those with Facebook access asked questions to which they already knew the answers or raised things they had in common, and as result were much more successful in their social relationships. Hancock concluded that people who use these sites to keep updated on the activities of their acquaintances are more likely to be liked in subsequent social interactions.</p>
+<p><strong>E</strong> Online social networking may also have tangible effects on our well-being. Nicole Ellison of Michigan State University found that the frequency of networking site use correlates with greater selfesteem. Support and affirmation from the weak ties could be the explanation, G says Ellison. ‘Asking your close friends for help or advice is nothing new, but we are seeing a lowering of barriers among acquaintances,’ she says. People are readily sharing personal feelings and experiences to a wider circle than they might once have done. Sandy Pentland at the Massachusetts Institute of Technology agrees. The ability to broadcast to our social group means we need never feel alone,’ he says. The things that befall us are often due to a lack of social support. There’s more of a safety net now.’</p>
+<p><strong>F</strong> Henry Holzman, also at MIT, who studies the interface between online social networking and the real world, points out that increased visibility also means our various social spheres – family, work, friends – are merging, and so we will have to prepare for new societal norms. ‘Well have to learn how to live a more transparent life,’ he says. ‘We may have to give up some ability to show very limited glimpses of ourselves to others.’</p>
+<p><strong>G</strong> Another way that online networking appears to be changing our social structures is through dominance. In one repeated experiment, Michael Kearns of the University of Pennsylvania asked 30 volunteers to quickly reach consensus in an online game over a choice between two colours. Each person was offered a cash reward if they succeeded in persuading the group to pick one or other colour. All participants could see the colour chosen by some of the other people, but certain participants had an extra advantage: the ability to see more of the participants’ chosen colours than others. Every time Kearns found that those who could see the choices of more participants (in other words, were better connected) persuaded the group to pick their colour, even when they had to persuade the vast majority to give up their financial incentive. While Kearns warns that the setting was artificial, he says it’s possible that greater persuasive power could lie with well-connected individuals in the everyday online world too.</p>
+<p><strong>Questions 27-32</strong>
 
 Reading Passage 3 has seven paragraphs, A-G.
 
 Choose the correct heading for paragraphs B-G from the list of headings below.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 
 i A shift in our fact-finding habits
 
@@ -248,7 +304,7 @@ x Doubts about the value of online socializing</p>
 31 Paragraph F
 
 32 Paragraph G</p>
-<p>Questions 33-36
+<p><strong>Questions 33-36</strong>
 
 Look at the following findings (Questions 33-36) and the list of researchers below. Match each finding with the correct researcher; A-F. Write the correct letter; A-F. in boxes 33-36 on your answer sheet.</p>
 <p>33 People who network widely may be more able to exert pressure on others.
@@ -258,52 +314,52 @@ Look at the following findings (Questions 33-36) and the list of researchers bel
 35 There is a limit to how many meaningful relationships we can maintain.
 
 36 There is a social advantage in knowing about the lives of our online contacts.</p>
-<p>List of researchers
+<p><strong>List of researchers</strong>
 
-A Mark Granovetter
+<strong>A</strong> Mark Granovetter
 
-B Judith Donath
+<strong>B</strong> Judith Donath
 
-C Robin Dunbar
+<strong>C</strong> Robin Dunbar
 
-D Jeff Hancock
+<strong>D</strong> Jeff Hancock
 
-E Nicole Ellison
+<strong>E</strong> Nicole Ellison
 
-F Michael Kearns</p>
-<p>Questions 37-40
+<strong>F</strong> Michael Kearns</p>
+<p><strong>Questions 37-40</strong>
 
 For Questions 37-40, choose TWO answers, A-E.
 
 Write your answers in boxes 37-40 on your answer sheet.</p>
-<p>Questions 37 and 38
+<p><strong>Questions 37 and 38</strong>
 
-Which TWO of these advantages of online social networking are mentioned in Reading Passage 3?
+Which <strong>TWO</strong> of these advantages of online social networking are mentioned in Reading Passage 3?
 
-A Social networking sites can be accessed on any day and at any time.
+<strong>A</strong> Social networking sites can be accessed on any day and at any time.
 
-B Online socialising is an efficient way of keeping in touch with a lot of people.
+<strong>B</strong> Online socialising is an efficient way of keeping in touch with a lot of people.
 
-C It is very easy to establish new friendships online.
+<strong>C</strong> It is very easy to establish new friendships online.
 
-D Online social networking can solve problems in real-world relationships.
+<strong>D</strong> Online social networking can solve problems in real-world relationships.
 
-E It can be reassuring to be part of an online social network.</p>
-<p>Questions 39 and 40
+<strong>E</strong> It can be reassuring to be part of an online social network.</p>
+<p><strong>Questions 39 and 40</strong>
 
-Which TWO of these disadvantages of online social networking are mentioned in Reading Passage 3?
+Which <strong>TWO</strong> of these disadvantages of online social networking are mentioned in Reading Passage 3?
 
-A Information from online social contacts may be unreliable.
+<strong>A</strong> Information from online social contacts may be unreliable.
 
-B We may become jealous of people who seem to have a wide circle of friends.
+<strong>B</strong> We may become jealous of people who seem to have a wide circle of friends.
 
-C We may lose the ability to relate to people face-to-face.
+<strong>C</strong> We may lose the ability to relate to people face-to-face.
 
-D It is easy to waste a lot of time on social networking sites.
+<strong>D</strong> It is easy to waste a lot of time on social networking sites.
 
-E Using social networking sites may result in a lack of privacy.</p>
+<strong>E</strong> Using social networking sites may result in a lack of privacy.</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. true</p>
 <p>2. false</p>
 <p>3. not given</p>
@@ -562,6 +618,29 @@ E Using social networking sites may result in a lack of privacy.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -581,12 +660,23 @@ E Using social networking sites may result in a lack of privacy.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -598,14 +688,6 @@ E Using social networking sites may result in a lack of privacy.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

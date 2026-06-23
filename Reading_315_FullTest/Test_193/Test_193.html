@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,46 +158,46 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_193</h1>
-            <p>IELTS Reading Practice - Test 193</p>
-<p>hazardous compound helps to preserve crumbling books</p>
-<p>Librarians may be able to save millions of books from slowly crumbling with a new chemical process that uses a hazardous flammable compound, diethyl zinc (DEZ). Chemists in the US have successfully completed an 18-month trial of the technique, which neutralises the acids in paper which cause books to decay. The method was developed by the Dutch chemical giant, Akzo, in collaboration with the US Library of Congress. It can treat 1,000 books at a time at a fraction of the cost of digitising. The world’s libraries and archives are today stocked mainly with books that are destroying themselves because of a new way of making paper that was introduced over a hundred years ago. In this process, wood pulp became the main source of the cellulose from which paper was made, replacing the cotton or linen rags used previously.</p>
-<p>Unfortunately, book publishers were unaware that the slightly acidic nature of wood pulp would eventually threaten their work. The acid attacks the cellulose polymer of paper, breaking it down into shorter and shorter pieces until the paper’s structure collapses. The only answer is to neutralise the acids in the paper by chemical means. This has generally been done by unbinding the book, treating it page by page with a carbonate solution, and then rebinding it. The cost can be as much as £200 per volume. Akzo’s method can be done without taking the binding off the book.</p>
-<p>On the face of it, DEZ would seem the last chemical that should be brought in contact with paper. This volatile liquid bursts into flames when it comes in contact with air. However, it is not DEZ’s sensitivity to oxidation which is the key to its use as a preserving agent, but its ability to neutralise acids by forming zinc salts with them. Because DEZ is volatile, it permeates the pores in paper. When it meets an acid molecule, such as sulphuric acid, it reacts to form zinc sulphate and ethane gas. DEZ is such a strong base that it will react with any acid, including the weaker organic ones. It will also react with any residual water in the paper to form zinc oxide. This is an added bonus for the book conservators, since it buffers the paper against future attack by acidic gases from the atmosphere, such as sulphur dioxide.</p>
-<p>Not only will DEZ protect against acid attack, but it is also capable of neutralising alkalis, which threaten some kinds of paper, it can do this because zinc oxide is amphoteric — capable of reacting with either acids or alkalis. The Akzo method treats books that are closed, yet protects every page. It adds about two per cent of zinc oxide to the weight of the book. Much of this is deposited near the edges of the pages, the parts which are most affected by the acid from readers’ fingers or environmental pollution. The only risk in the Akzo process comes from the DEZ itself; this compound caused a fire at NASA’s Goddard Space Flight Center where earlier tests on the method were carried out.</p>
-<p>For the process, the books are gently heated under vacuum for a day to remove residual traces of moisture. The chamber is then flushed with dry nitrogen gas for five hours to remove the remaining air before DEZ is introduced at a low pressure into the gas stream. DEZ is passed through for about eight hours. Unreacted DEZ is trapped out of the exit gases and recycled, while the ethane is burned off. When the process is complete, the chamber is purged with nitrogen to remove residual DEZ. The whole process takes about three days. The cost per book is about £2, considerably less than the £40 for digitising.</p>
-<p>This work was originally funded by the US Library of Congress, which has over 10 million books now at risk. According to Dick Miller, Akzo’s director for book preservation, tests have shown that the method can deal with hundreds of books at a time. A million books a year could be rescued by the new process, for which Akzo has been granted exclusive rights. The treated books should then survive for hundreds of years. Another national institution, the British Library, launched an adopt-a-book scheme to help it meet the costs of processing books. The British Library has so far raised over £80,000. But if the traditional method were used, this would barely cover a twentieth of one per cent of the two million books the Library needs to treat. Edmund King of the British Library’s preservation service says that the Library has developed another method which coats the individual fibres of the paper with ethyl acrylate polymer, protecting the books not only against acid attack but actually making them stronger. The British Library is now seeking an industrial partner to exploit its work.</p>
-<p>Questions 1-4
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 193</strong></h3>
+<h3 class="test-heading"><strong>hazardous compound helps to preserve crumbling books</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>Librarians may be able to save millions of books from slowly crumbling with a new chemical process that uses a hazardous flammable compound, diethyl zinc (DEZ). Chemists in the US have successfully completed an 18-month trial of the technique, which neutralises the acids in paper which cause books to decay. The method was developed by the Dutch chemical giant, Akzo, in collaboration with the US Library of Congress. It can treat 1,000 books at a time at a fraction of the cost of digitising. The world’s libraries and archives are today stocked mainly with books that are destroying themselves because of a new way of making paper that was introduced over a hundred years ago. In this process, wood pulp became the main source of the cellulose from which paper was made, replacing the cotton or linen rags used previously.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>Unfortunately, book publishers were unaware that the slightly acidic nature of wood pulp would eventually threaten their work. The acid attacks the cellulose polymer of paper, breaking it down into shorter and shorter pieces until the paper’s structure collapses. The only answer is to neutralise the acids in the paper by chemical means. This has generally been done by unbinding the book, treating it page by page with a carbonate solution, and then rebinding it. The cost can be as much as £200 per volume. Akzo’s method can be done without taking the binding off the book.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>On the face of it, DEZ would seem the last chemical that should be brought in contact with paper. This volatile liquid bursts into flames when it comes in contact with air. However, it is not DEZ’s sensitivity to oxidation which is the key to its use as a preserving agent, but its ability to neutralise acids by forming zinc salts with them. Because DEZ is volatile, it permeates the pores in paper. When it meets an acid molecule, such as sulphuric acid, it reacts to form zinc sulphate and ethane gas. DEZ is such a strong base that it will react with any acid, including the weaker organic ones. It will also react with any residual water in the paper to form zinc oxide. This is an added bonus for the book conservators, since it buffers the paper against future attack by acidic gases from the atmosphere, such as sulphur dioxide.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Not only will DEZ protect against acid attack, but it is also capable of neutralising alkalis, which threaten some kinds of paper, it can do this because zinc oxide is amphoteric — capable of reacting with either acids or alkalis. The Akzo method treats books that are closed, yet protects every page. It adds about two per cent of zinc oxide to the weight of the book. Much of this is deposited near the edges of the pages, the parts which are most affected by the acid from readers’ fingers or environmental pollution. The only risk in the Akzo process comes from the DEZ itself; this compound caused a fire at NASA’s Goddard Space Flight Center where earlier tests on the method were carried out.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>For the process, the books are gently heated under vacuum for a day to remove residual traces of moisture. The chamber is then flushed with dry nitrogen gas for five hours to remove the remaining air before DEZ is introduced at a low pressure into the gas stream. DEZ is passed through for about eight hours. Unreacted DEZ is trapped out of the exit gases and recycled, while the ethane is burned off. When the process is complete, the chamber is purged with nitrogen to remove residual DEZ. The whole process takes about three days. The cost per book is about £2, considerably less than the £40 for digitising.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>This work was originally funded by the US Library of Congress, which has over 10 million books now at risk. According to Dick Miller, Akzo’s director for book preservation, tests have shown that the method can deal with hundreds of books at a time. A million books a year could be rescued by the new process, for which Akzo has been granted exclusive rights. The treated books should then survive for hundreds of years. Another national institution, the British Library, launched an adopt-a-book scheme to help it meet the costs of processing books. The British Library has so far raised over £80,000. But if the traditional method were used, this would barely cover a twentieth of one per cent of the two million books the Library needs to treat. Edmund King of the British Library’s preservation service says that the Library has developed another method which coats the individual fibres of the paper with ethyl acrylate polymer, protecting the books not only against acid attack but actually making them stronger. The British Library is now seeking an industrial partner to exploit its work.</p></div></div>
+<p><strong>Questions 1-4</strong>
 Do the following statements agree with the information given in Reading Passage 1? In boxes 1-4 on your answer sheet, write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
-<p>Questions 5-8
-Choose FOUR letters A-H.</p>
-<p>Which FOUR of the following attributes describing diethyl zinc (DEZ) are mentioned in the passage?</p>
-<p>A it bursts into flames when it comes in contact with an
-B it forms a protective layer of zinc oxide on the surface of the paper
-C it changes acid into zinc sulphate throughout the paper
-D it reacts with acids to produce zinc salts and water
-E it can react with both acids and alkalis
-F the chemical reactions it causes make books heavier
-G it coats the fibres of the paper with ethyl acrylate polymer
-H it tends to retain water within the paper structure</p>
-<p>Questions 9-13
-Complete the flow chart below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>akzo book preserving method</p>
-<p>drugs and obesity</p>
-<p>A Thin is in, in America. Not only fashion magazines, but also doctors proclaim the importance of a slim, healthy body. Yet despite the current obsession with the trim, taut and terrific body, Americans are putting on weight. In studies conducted in 1995, one quarter of Americans were found to be overweight. Fifteen years later, that number had risen to one third of the population.</p>
-<p>B In the past, doctors have always recommended a combination of diet and exercise to combat obesity. With the increase in the number of people who are overweight, however, this solution is increasingly being seen to be ineffective.</p>
-<p>C Given that diet and exercise often do not help produce weight loss, scientists are becoming convinced that, for many, obesity is a genetic disorder. In fact, a research group at Rockefeller University discovered in experiments on mice what is now called the obesity, or ‘ob’ gene. In turn, this discovery led to the identification of a hormone, leptin, that signals to the brain the amount of fat stored in the body. When injected into the rodents, the hormone reduced appetite and increased the body’s utilisation of calories, the energy produced by food which the body may convert to fat. With findings like these, a large number of medical experts are turning to a selection of drugs which appear to be safe and effective in reducing weight and maintaining lower weight levels.</p>
-<p>D Because they see obesity as an illness, these authorities claim that treatment should involve not only diet and exercise but drugs as well. What they have in mind is not just a short course of medication to produce small degrees of weight loss. They want to prescribe longterm, perhaps lifetime, drug therapies, just as they might for high blood pressure or diabetes. Obesity’s victims, these doctors hope, will not only be able to lose weight, but will also keep that weight off forever.</p>
-<p>E Not everyone in the medical community is satisfied with the new therapies. Conservatives are seriously worried that the new drugs are, in fact, merely placebos (‘medicines’ that have no medical effect but may benefit the patient psychologically), or, worse, are actually detrimental to patients’ health. Their concerns are understandable.</p>
-<p>F In the past, amphetamines—nicknamed ‘uppers’ or ‘speed’—were widely prescribed to control weight. Patients became slimmer, but suffered from tension and irritability, higher pulse rates, and sleepless nights, side effects that may have outweighed the medical benefits of lower body weight. Conservatives also point out that risky as amphetamines were, they were generally prescribed only for temporary use. Advocates of new drug treatments leave open the possibility that the medications will be prescribed for a lifetime.</p>
-<p>G While there are at least five now diet drugs waiting approval by the US Drug and Food Administration, at the moment, the only diet medication that is normally used in the US is ‘fen-phen’, a combination of the drugs fenfluramine and phentermine. Fenfluramine boosts serotonin, which elevates mood, while phentermine mimics other substances in the brain. Together, the drugs suppress appetite and increase the rate of burning of calories. As its success becomes more widely known, demand for this medication is increasing.</p>
-<p>H For several reasons, however, fen-phen is not the perfect diet medication. First, there is some debate over safety, although most fen-phen researchers say the drugs pose minor health risks compared with amphetamines. For most patients the short-term side effects are negligible; phentermine heightens alertness while persuading the body to burn more calories, and fenfluramine, thought to cut cravings for starches and sweets, can cause drowsiness. But some users experience a racing heartbeat and, although rarely, high blood pressure. While its effects are milder than those of amphetamines, the feeling of higher energy that fen-phen creates can be habit forming. Used alone, phentermine has enough of a positive psychological effect to appeal to recreational drug users, who call it ‘bumblebee’. Perhaps even more importantly for dieters, while the drug may cause initial weight loss, over a period of several years, subjects taking the drugs tended to regain some of the weight they had lost—although at a slower rate than those who did not take fen-phen.</p>
-<p>I Many conservative doctors, moreover, still remain reluctant to diagnose obesity as a disease. In a survey of 318 physicians, two thirds said their obese patients lacked self-control, and 39% described them as lazy. This traditional view holds that obesity results from a lack of discipline, correctable by diet and exercise.</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
+<p><strong>Questions 5-8</strong>
+Choose <strong>FOUR</strong> letters A-H.</p>
+<p>Which <strong>FOUR</strong> of the following attributes describing diethyl zinc (DEZ) are mentioned in the passage?</p>
+<p><strong>A</strong> it bursts into flames when it comes in contact with an
+<strong>B</strong> it forms a protective layer of zinc oxide on the surface of the paper
+<strong>C</strong> it changes acid into zinc sulphate throughout the paper
+<strong>D</strong> it reacts with acids to produce zinc salts and water
+<strong>E</strong> it can react with both acids and alkalis
+<strong>F</strong> the chemical reactions it causes make books heavier
+<strong>G</strong> it coats the fibres of the paper with ethyl acrylate polymer
+<strong>H</strong> it tends to retain water within the paper structure</p>
+<p><strong>Questions 9-13</strong>
+Complete the flow chart below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>akzo book preserving method</strong></p>
+<p><strong>drugs and obesity</strong></p>
+<p><strong>A</strong> Thin is in, in America. Not only fashion magazines, but also doctors proclaim the importance of a slim, healthy body. Yet despite the current obsession with the trim, taut and terrific body, Americans are putting on weight. In studies conducted in 1995, one quarter of Americans were found to be overweight. Fifteen years later, that number had risen to one third of the population.</p>
+<p><strong>B</strong> In the past, doctors have always recommended a combination of diet and exercise to combat obesity. With the increase in the number of people who are overweight, however, this solution is increasingly being seen to be ineffective.</p>
+<p><strong>C</strong> Given that diet and exercise often do not help produce weight loss, scientists are becoming convinced that, for many, obesity is a genetic disorder. In fact, a research group at Rockefeller University discovered in experiments on mice what is now called the obesity, or ‘ob’ gene. In turn, this discovery led to the identification of a hormone, leptin, that signals to the brain the amount of fat stored in the body. When injected into the rodents, the hormone reduced appetite and increased the body’s utilisation of calories, the energy produced by food which the body may convert to fat. With findings like these, a large number of medical experts are turning to a selection of drugs which appear to be safe and effective in reducing weight and maintaining lower weight levels.</p>
+<p><strong>D</strong> Because they see obesity as an illness, these authorities claim that treatment should involve not only diet and exercise but drugs as well. What they have in mind is not just a short course of medication to produce small degrees of weight loss. They want to prescribe longterm, perhaps lifetime, drug therapies, just as they might for high blood pressure or diabetes. Obesity’s victims, these doctors hope, will not only be able to lose weight, but will also keep that weight off forever.</p>
+<p><strong>E</strong> Not everyone in the medical community is satisfied with the new therapies. Conservatives are seriously worried that the new drugs are, in fact, merely placebos (‘medicines’ that have no medical effect but may benefit the patient psychologically), or, worse, are actually detrimental to patients’ health. Their concerns are understandable.</p>
+<p><strong>F</strong> In the past, amphetamines—nicknamed ‘uppers’ or ‘speed’—were widely prescribed to control weight. Patients became slimmer, but suffered from tension and irritability, higher pulse rates, and sleepless nights, side effects that may have outweighed the medical benefits of lower body weight. Conservatives also point out that risky as amphetamines were, they were generally prescribed only for temporary use. Advocates of new drug treatments leave open the possibility that the medications will be prescribed for a lifetime.</p>
+<p><strong>G</strong> While there are at least five now diet drugs waiting approval by the US Drug and Food Administration, at the moment, the only diet medication that is normally used in the US is ‘fen-phen’, a combination of the drugs fenfluramine and phentermine. Fenfluramine boosts serotonin, which elevates mood, while phentermine mimics other substances in the brain. Together, the drugs suppress appetite and increase the rate of burning of calories. As its success becomes more widely known, demand for this medication is increasing.</p>
+<p><strong>H</strong> For several reasons, however, fen-phen is not the perfect diet medication. First, there is some debate over safety, although most fen-phen researchers say the drugs pose minor health risks compared with amphetamines. For most patients the short-term side effects are negligible; phentermine heightens alertness while persuading the body to burn more calories, and fenfluramine, thought to cut cravings for starches and sweets, can cause drowsiness. But some users experience a racing heartbeat and, although rarely, high blood pressure. While its effects are milder than those of amphetamines, the feeling of higher energy that fen-phen creates can be habit forming. Used alone, phentermine has enough of a positive psychological effect to appeal to recreational drug users, who call it ‘bumblebee’. Perhaps even more importantly for dieters, while the drug may cause initial weight loss, over a period of several years, subjects taking the drugs tended to regain some of the weight they had lost—although at a slower rate than those who did not take fen-phen.</p>
+<p><strong>I</strong> Many conservative doctors, moreover, still remain reluctant to diagnose obesity as a disease. In a survey of 318 physicians, two thirds said their obese patients lacked self-control, and 39% described them as lazy. This traditional view holds that obesity results from a lack of discipline, correctable by diet and exercise.</p>
 <p>Since studies show that most dieters eat more than they say—or even think—they do, there is probably some truth in this view.</p>
-<p>J On the other hand, the traditional view is challenged by the discovery of the ‘ob’ gene, which would seem to place significant weight loss outside the individual’s control. Then there is the problem of the ever-increasing numbers of obese people, with the resulting increase in hypertension, and diabetes, leading to kidney failure and heart disease. All of these conditions require medication, and perhaps even costly equipment and surgery. If all of these effects of obesity must be treated with medication, then why not use medical treatment to help control body weight. Prevention is considered better than a cure, generally.</p>
-<p>Questions 14-20
+<p><strong>J</strong> On the other hand, the traditional view is challenged by the discovery of the ‘ob’ gene, which would seem to place significant weight loss outside the individual’s control. Then there is the problem of the ever-increasing numbers of obese people, with the resulting increase in hypertension, and diabetes, leading to kidney failure and heart disease. All of these conditions require medication, and perhaps even costly equipment and surgery. If all of these effects of obesity must be treated with medication, then why not use medical treatment to help control body weight. Prevention is considered better than a cure, generally.</p>
+<p><strong>Questions 14-20</strong>
 Reading Passage 2 has ten paragraphs, A-J. Which paragraph contains the following information?</p>
 <p>14. the traditionalist viewpoint under attack
 15. research findings concerning obesity as an illness
@@ -150,15 +206,15 @@ Reading Passage 2 has ten paragraphs, A-J. Which paragraph contains the followin
 18. conservative view on the causes of obesity
 19. data on weight gain within the population
 20. an explanation of the diet medication currently available</p>
-<p>Questions 21-26
-Complete the sentences. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
+<p><strong>Questions 21-26</strong>
+Complete the sentences. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
 <p>The traditional weight-loss methods were seen as an (21)……………….solution to combating obesity.</p>
 <p>There was evidence to suggest that obesity is related to the body’s production of (22)………………and therefore is an illness.</p>
 <p>Some authorities are hopeful that long-term drug therapies will help (23)……………….sustain weight loss.</p>
 <p>The kind of (24)……………………..caused by amphetamines may have counteracted the medical benefits of weight loss.</p>
 <p>The heightened feeling some drugs create can be (25)…………………</p>
 <p>The discovery of the obesity gene seems to put the responsibility for losing weight outside (26)……………….</p>
-<p>the development of artificial life</p>
+<p><strong>the development of artificial life</strong></p>
 <p>They come into a world where they must struggle to survive. Over many generations, they evolve. But are they alive? Of course, one might say. But the discussion is not about amoebae, ants or alligators. Rather, it’s about computer programs. The occurrence of artificial life’ exists only within PCs and more powerful computers, but its existence in the electronic universe parallels many elements of life in the biological world. Some programs flock like birds. Others organise like bees. Some mutate swiftly from chaotic hordes to complex, stable populations in a process similar to Darwinian evolution.</p>
 <p>As a group, artificial life programs represent the most exciting work on the edge of computer research. Study of artificial life holds promise for new ways of solving complex problems and fresh opportunities to model biology and society. Perhaps, far in the future, such research will yield the ability to blueprint living organisms. The basics behind artificial life are surprisingly simple. The programs follow a few simple rules, applying them with a speed and persistence that’s possible only inside a computer. When many such programs are run simultaneously, amazingly complex patterns can emerge. In many cases, these patterns seem like strange replications of natural behaviours.</p>
 <p>Programs work together against common enemies and devise new ways of surviving when their environment changes. These results aren’t surprising when you consider that biological life itself consists of nothing more than variations on four simple bits of code: the four compounds that constitute DNA, the building block of all genes and therefore all life. In artificial life, computer instructions take the place of DNA code. The father of modern artificial life, research, Christopher Langton of the Los Alamos National Laboratory in the U.S., sees his work this way: ‘For us, artificial life is the study of man-made systems that exhibit behaviours characteristic of natural living systems. We’re attempting to abstract logical forms of life, not matter. We can obtain some of the same dynamics as life, albeit with different materials.’</p>
@@ -167,40 +223,40 @@ Complete the sentences. Choose NO MORE THAN THREE WORDS from the passage for eac
 <p>Craig Reynolds of Symbolics demonstrated his ‘boids’, computer-animated, bird-shaped creatures that flock like real birds. Reynolds programmed the ‘boids’ to follow three simple rules: they maintain a minimum distance from the nearest object; they match velocity with the nearby flock; and they fly toward the greatest concentration of the flock. The resulting flocking behaviour is shockingly real. ‘Ants’, the creation of David Jefferson and Robert Collins, also appeared. Colonies of these randomly generated creatures have developed the ability to navigate electronic mazes and search for symbols that represent food.</p>
 <p>Independent programmer John Nagle argued that the next generation of supercomputers should challenge researchers to create ‘squirrels’, computer models with the intelligence level of a biological rodent with one gram of brain mass. Langton’s contribution, ‘Computation at the edge of chaos’, was one of the most unusual presentations. Biologists maintain that life began in a spontaneous outburst of activity that occurred when Earth’s environment reached critical thresholds of heat, atmosphere and chemical composition. A few variations on any of these variables would have altered the course of the planet into either chaos or barrenness.</p>
 <p>Langton’s presentation was based on a computer model demonstrating similar principles. Changing a parameter in the model acts like changing the temperature of a computer-generated petri dish of single-cell creatures. When this variable passes a critical threshold, the colonies of Langton’s artificial life programs neither freeze nor evaporate but settle into recurring patterns conducive to the orderly transmission of information. ‘At one end, activity freezes; at the other end, it’s too volatile,’ notes Langton. As a result, he wonders whether ‘computation may emerge spontaneously and come to dominate the dynamics of physical systems’ much as life has. In fact, Langton speculates that life itself may have started as a chance computation on the cusp of liquid and gaseous states.</p>
-<p>Questions 27-33
-Complete the summary below. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
+<p><strong>Questions 27-33</strong>
+Complete the summary below. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
 <p>Research has shown there are possible similarities between the ‘real’ or (27)……………….and computer programs. In studying so-called (28)……………………. scientists have found that images from computer-generated graphics seem to imitate the behaviour of insects and birds, while others mutate from the disorderly into highly organised populations much like in (29)…………………Artificial life programs may allow researchers to re-evaluate models of biology and society, and may even provide the possibility to (30)…………………….living organisms. Patterns which can emerge from such programs replicate (31)…………………. Being able to adapt to environmental changes, these programs mimic (32)…………………….which, essentially, is built upon four basic codes of information. The only difference, however, is that their DNA code is replaced by (33)……………….</p>
-<p>Questions 34-37
+<p><strong>Questions 34-37</strong>
 Look at the following artificial life programs (Questions 34 37) and the list of descriptions below. Match each artificial life program with the appropriate: description, A-H.</p>
 <p>34. Bees
 35. Boids
 36. Squirrels
 37. Ants</p>
-<p>List of Descriptions</p>
-<p>A can match the intelligence of a bird
-B can group together in a rectangular form
-C can cluster together moving in straight lines in 3D
-D will have a gram of intelligence
-E can keep a minimum distance from another object
-F are able to group and form a track in 3D
-G will be as intelligent as a rodent…..
-H are capable of locating symbols depicting food</p>
-<p>Questions 38-40
+<p><strong>List of Descriptions</strong></p>
+<p><strong>A</strong> can match the intelligence of a bird
+<strong>B</strong> can group together in a rectangular form
+<strong>C</strong> can cluster together moving in straight lines in 3D
+<strong>D</strong> will have a gram of intelligence
+<strong>E</strong> can keep a minimum distance from another object
+<strong>F</strong> are able to group and form a track in 3D
+<strong>G</strong> will be as intelligent as a rodent…..
+<strong>H</strong> are capable of locating symbols depicting food</p>
+<p><strong>Questions 38-40</strong>
 Choose the appropriate letter, A, B or C.</p>
 <p>38. Researchers studying artificial life are trying to
-A find how life forms impact on computer programs.
-B study behavioural characteristics exhibited by man.
-C identify logical forms which correspond to living matter.</p>
+<strong>A</strong> find how life forms impact on computer programs.
+<strong>B</strong> study behavioural characteristics exhibited by man.
+<strong>C</strong> identify logical forms which correspond to living matter.</p>
 <p>39. Computer virus programs
-A can change behaviour to suit their environment,
-B resemble biological life closely but need human input,
-C can create biological life independently of humans,</p>
+<strong>A</strong> can change behaviour to suit their environment,
+<strong>B</strong> resemble biological life closely but need human input,
+<strong>C</strong> can create biological life independently of humans,</p>
 <p>40. Researchers argue that life itself started
-A on the basis of chemical variations.
-B by chance, spontaneously in a particular environment.
-C by a spontaneous computation of physical activity.</p>
+<strong>A</strong> on the basis of chemical variations.
+<strong>B</strong> by chance, spontaneously in a particular environment.
+<strong>C</strong> by a spontaneous computation of physical activity.</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. False</p>
 <p>2. True</p>
 <p>3. False</p>
@@ -459,6 +515,29 @@ C by a spontaneous computation of physical activity.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -478,12 +557,23 @@ C by a spontaneous computation of physical activity.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -495,14 +585,6 @@ C by a spontaneous computation of physical activity.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

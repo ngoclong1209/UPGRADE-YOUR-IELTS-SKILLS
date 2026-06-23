@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,119 +158,119 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_90</h1>
-            <p>IELTS Listening Practice - Test 90</p>
-<p>Part 1: Questions 1-10
-Complete the notes below. Write NO MORE THAN ONE WORD OR A NUMBER for each answer.</p>
-<p>Events during Kenton Festival
-Start date: 16th May</p>
-<p>Opening ceremony (first day)
-• In town centre, starting at (1)  _______</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 90</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-10</strong>
+Complete the notes below. Write <strong>NO MORE THAN ONE WORD OR A NUMBER</strong> for each answer.</p>
+<h3 class="test-heading"><strong>Events during Kenton Festival</strong>
+Start date: 16th May</h3>
+<h3 class="test-heading">Opening ceremony (first day)
+• In town centre, starting at <strong>(1)</strong>  _______</h3>
 <p>Other events
-• Videos about relationships that children have with their (6)  _______ 
-• Venue: (7)  _______  House
-• Performance of (8)  _______  dances
-• Venue: the (9)  _______  market in the town centre
+• Videos about relationships that children have with their <strong>(6)</strong>  _______ 
+• Venue: <strong>(7)</strong>  _______  House
+• Performance of <strong>(8)</strong>  _______  dances
+• Venue: the <strong>(9)</strong>  _______  market in the town centre
 • Time: 2 and 5 pm every day except 1st day of festival
 • Several professional concerts and one by children
 • Venue: library
 • Time: 6.30 pm on the 18th
-• Tickets available online from festival box office and from shops which have the festival (10)  _______  in their windows</p>
-<p>Part 2: Questions 11-15
+• Tickets available online from festival box office and from shops which have the festival <strong>(10)</strong>  _______  in their windows</p>
+<p><strong>Part 2: Questions 11-15</strong>
 Choose the correct letter A, B or C.</p>
-<p>Theatre trip to Munich
+<p><strong>Theatre trip to Munich</strong>
 11. When the group meet at the airport they will have
-[ ]  A. breakfast
-[ ]  B. coffee
-[ ]  C. lunch</p>
+<strong>[ ] </strong><strong> A</strong>. breakfast
+<strong>[ ] </strong><strong> B</strong>. coffee
+<strong>[ ] </strong><strong> C</strong>. lunch</p>
 <p>12. The group will be met at Munich airport by
-[ ]  A. an employee at the National Theatre
-[ ]  B. a theatre manager
-[ ]  C. a tour operator</p>
+<strong>[ ] </strong><strong> A</strong>. an employee at the National Theatre
+<strong>[ ] </strong><strong> B</strong>. a theatre manager
+<strong>[ ] </strong><strong> C</strong>. a tour operator</p>
 <p>13. How much will they pay per night for a double room at the hotel?
-[ ]  A. 110 euros
-[ ]  B. 120 euros
-[ ]  C. 150 euros</p>
+<strong>[ ] </strong><strong> A</strong>. 110 euros
+<strong>[ ] </strong><strong> B</strong>. 120 euros
+<strong>[ ] </strong><strong> C</strong>. 150 euros</p>
 <p>14. What type of restaurant will they go to on Tuesday evening?
-[ ]  A. an Italian restaurant
-[ ]  B. a Lebanese restaurant
-[ ]  C. a typical restaurant of the region</p>
+<strong>[ ] </strong><strong> A</strong>. an Italian restaurant
+<strong>[ ] </strong><strong> B</strong>. a Lebanese restaurant
+<strong>[ ] </strong><strong> C</strong>. a typical restaurant of the region</p>
 <p>15. Who will they meet on Wednesday afternoon?
-[ ]  A. an actor
-[ ]  B. a playwright
-[ ]  C. a theatre director</p>
-<p>Questions 16-20
-What does the man say about the play on each of the following days? Choose FIVE answers from options given below.</p>
-<p>Comments
-A The playwright will be present
-B The play was written to celebrate an anniversary
-C The play will be performed inside historic building
-D The play will be accompanies by live music
-E The play will be performed outdoors
-F The paly will be performed for the first time
-G The performance will be attended by officials from the town</p>
-<p>Days
+<strong>[ ] </strong><strong> A</strong>. an actor
+<strong>[ ] </strong><strong> B</strong>. a playwright
+<strong>[ ] </strong><strong> C</strong>. a theatre director</p>
+<p><strong>Questions 16-20</strong>
+What does the man say about the play on each of the following days? Choose <strong>FIVE</strong> answers from options given below.</p>
+<p><strong>Comments</strong>
+<strong>A</strong> The playwright will be present
+<strong>B</strong> The play was written to celebrate an anniversary
+<strong>C</strong> The play will be performed inside historic building
+<strong>D</strong> The play will be accompanies by live music
+<strong>E</strong> The play will be performed outdoors
+<strong>F</strong> The paly will be performed for the first time
+<strong>G</strong> The performance will be attended by officials from the town</p>
+<p><strong>Days</strong>
 16. Wednesday  _______ 
 17. Thursday  _______ 
 18. Friday  _______ 
 19. Saturday  _______ 
 20. Monday  _______</p>
-<p>Part 3: Questions 21-25
+<p><strong>Part 3: Questions 21-25</strong>
 Choose the correct letter A, B or C.</p>
-<p>Scandinavian Studies
+<p><strong>Scandinavian Studies</strong>
 21. James chose to take Scandinavian Studies because when he was a child
-[ ]  A. he was often taken to Denmark
-[ ]  B. his mother spoke to him in Danish
-[ ]  C. a number of Danish people visited his family</p>
+<strong>[ ] </strong><strong> A</strong>. he was often taken to Denmark
+<strong>[ ] </strong><strong> B</strong>. his mother spoke to him in Danish
+<strong>[ ] </strong><strong> C</strong>. a number of Danish people visited his family</p>
 <p>22. When he graduates James would like to
-[ ]  A. take a postgraduate course
-[ ]  B. work in the media
-[ ]  C. become a translator</p>
+<strong>[ ] </strong><strong> A</strong>. take a postgraduate course
+<strong>[ ] </strong><strong> B</strong>. work in the media
+<strong>[ ] </strong><strong> C</strong>. become a translator</p>
 <p>23. Which course will end this term?
-[ ]  A. Swedish cinema
-[ ]  B. Danish television programmes
-[ ]  C. Scandinavian literature</p>
+<strong>[ ] </strong><strong> A</strong>. Swedish cinema
+<strong>[ ] </strong><strong> B</strong>. Danish television programmes
+<strong>[ ] </strong><strong> C</strong>. Scandinavian literature</p>
 <p>24. They agree that James’ literature paper this term will be on
-[ ]  A. 19th century playwrights
-[ ]  B. the Icelandic sagas
-[ ]  C. modern Scandinavian novels</p>
+<strong>[ ] </strong><strong> A</strong>. 19th century playwrights
+<strong>[ ] </strong><strong> B</strong>. the Icelandic sagas
+<strong>[ ] </strong><strong> C</strong>. modern Scandinavian novels</p>
 <p>25. Beth recommends that James’ paper should be
-[ ]  A. a historical overview of the genre
-[ ]  B. an in depth analysis of a single write
-[ ]  C. a study of the social background to the literature</p>
-<p>Questions 26-30
+<strong>[ ] </strong><strong> A</strong>. a historical overview of the genre
+<strong>[ ] </strong><strong> B</strong>. an in depth analysis of a single write
+<strong>[ ] </strong><strong> C</strong>. a study of the social background to the literature</p>
+<p><strong>Questions 26-30</strong>
 Complete the flow chart below.</p>
-<p>Choose FIVE answers from options given below and write correct letter A-G next to questions 26-30</p>
-<p>A bullet points
-B film
-C notes
-D structure
-E student paper
-F textbook
-G documentary</p>
-<p>How James will write his paper on the Vikings
-• He’ll read a (26)  _______  and choose his topic
-• He’ll borrow a (27)  _______  from Beth
-• He’ll plan the (28)  _______  of the paper
-• He’ll read some material and write (29)  _______ 
-• He’ll write paper using (30)  _______</p>
-<p>Part 4: Questions 31-40
-Complete the notes below. Write ONE WORD ONLY for each answer.</p>
-<p>Conflict at work
-Conflict mostly consists of behavior in the general category of (31)  _______ 
-Often a result of people wanting to prove their (32)  _______ 
-Also cause by differences in (33)  _______  between people
-(34)  _______  conflicts: people more concerned about own team than about company
-Conflict related stress can cause (35)  _______  that may last for months</p>
-<p>Chief Executives (CEOs)
-Many have both (36)  _______  and anxiety
+<p>Choose <strong>FIVE</strong> answers from options given below and write correct letter A-G next to questions 26-30</p>
+<p><strong>A</strong> bullet points
+<strong>B</strong> film
+<strong>C</strong> notes
+<strong>D</strong> structure
+<strong>E</strong> student paper
+<strong>F</strong> textbook
+<strong>G</strong> documentary</p>
+<p><strong>How James will write his paper on the Vikings</strong>
+• He’ll read a <strong>(26)</strong>  _______  and choose his topic
+• He’ll borrow a <strong>(27)</strong>  _______  from Beth
+• He’ll plan the <strong>(28)</strong>  _______  of the paper
+• He’ll read some material and write <strong>(29)</strong>  _______ 
+• He’ll write paper using <strong>(30)</strong>  _______</p>
+<p><strong>Part 4: Questions 31-40</strong>
+Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+<p><strong>Conflict at work</strong>
+Conflict mostly consists of behavior in the general category of <strong>(31)</strong>  _______ 
+Often a result of people wanting to prove their <strong>(32)</strong>  _______ 
+Also cause by differences in <strong>(33)</strong>  _______  between people
+<strong>(34)</strong>  _______  conflicts: people more concerned about own team than about company
+Conflict related stress can cause <strong>(35)</strong>  _______  that may last for months</p>
+<p><strong>Chief Executives (CEOs)</strong>
+Many have both <strong>(36)</strong>  _______  and anxiety
 May not like to have their decisions questioned
-There may be conflict between people who have different (37)  _______</p>
-<p>Other managers
-A structure that is more (38)  _______  may create a feeling of uncertainty about who staff should report to</p>
-<p>Minimizing conflict
-Bosses need to try hard to gain (39)  _______ 
-Someone from outside the company may be given the role of (40)  _______  in order to resolve conflicts</p>
-<p>ANSWER KEY</p>
+There may be conflict between people who have different <strong>(37)</strong>  _______</p>
+<p><strong>Other managers</strong>
+A structure that is more <strong>(38)</strong>  _______  may create a feeling of uncertainty about who staff should report to</p>
+<p><strong>Minimizing conflict</strong>
+Bosses need to try hard to gain <strong>(39)</strong>  _______ 
+Someone from outside the company may be given the role of <strong>(40)</strong>  _______  in order to resolve conflicts</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. 2.45</p>
 <p>2. band</p>
 <p>3. play</p>
@@ -468,11 +524,34 @@ Someone from outside the company may be given the role of (40)  _______  in orde
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_90.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_90.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -492,12 +571,23 @@ Someone from outside the company may be given the role of (40)  _______  in orde
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -509,14 +599,6 @@ Someone from outside the company may be given the role of (40)  _______  in orde
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

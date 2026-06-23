@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,75 +158,75 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_18</h1>
-            <p>IELTS Listening Practice - Test 18</p>
-<p>Part 1: Questions 1-8
-Complete the table below using NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.</p>
-<p>People interested in sharing the flat</p>
-<p>(1)  _______                  (2)  _______ 
-(3)  _______                 (4)  _______ 
-(5)  _______                 (6)  _______ 
-(7)  _______                 (8)  _______</p>
-<p>Questions 9 and 10
-Complete the notes below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Leo’s phone number (mobile) (9)   _______ 
-Leo would like to move in on (10)  _______</p>
-<p>Part 2: Questions 11-14
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 18</strong></h3>
+<p><u><strong>Part</strong></u><strong> 1: Questions 1-8</strong>
+Complete the table below using <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer.</p>
+<h3 class="test-heading"><strong>People interested in sharing the flat</strong></h3>
+<p><strong>(1)</strong>  _______                  <strong>(2)</strong>  _______ 
+<strong>(3)</strong>  _______                 <strong>(4)</strong>  _______ 
+<strong>(5)</strong>  _______                 <strong>(6)</strong>  _______ 
+<strong>(7)</strong>  _______                 <strong>(8)</strong>  _______</p>
+<p><strong>Questions 9 and 10</strong>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p>Leo’s phone number (mobile) <strong>(9) </strong>  _______ 
+Leo would like to move in on <strong>(10)</strong>  _______</p>
+<p><u><strong>Part</strong></u><strong> 2: Questions 11-14</strong>
 Choose the correct letter A, B or C.</p>
 <p>11. Refreshments will be served
-[ ]  A at the front counter
-[ ]  B in the lobby
-[ ]  C at the back of the hall</p>
+<strong>[ ] </strong><strong> A</strong> at the front counter
+<strong>[ ] </strong><strong> B</strong> in the lobby
+<strong>[ ] </strong><strong> C</strong> at the back of the hall</p>
 <p>12. Nick Noble advertised
-[ ]  A on the radio
-[ ]  B on a billboard
-[ ]  C in the newspaper</p>
+<strong>[ ] </strong><strong> A</strong> on the radio
+<strong>[ ] </strong><strong> B</strong> on a billboard
+<strong>[ ] </strong><strong> C</strong> in the newspaper</p>
 <p>13. The original number of founding members was about
-[ ]  A 12
-[ ]  B 20
-[ ]  C 200</p>
+<strong>[ ] </strong><strong> A</strong> 12
+<strong>[ ] </strong><strong> B</strong> 20
+<strong>[ ] </strong><strong> C</strong> 200</p>
 <p>14. The club provides activities primarily for reasonable fit
-[ ]  A males up to 75
-[ ]  B females with young children
-[ ]  C males and females of any age</p>
-<p>Questions 15-20
-Complete the table below. Write NO MORE THAN ONE WORD AND/ OR A NUMBER for each answer.</p>
-<p>(15)   _______                  (16)   _______ 
-(17)   _______                  (18)   _______ 
-(19)   _______                  (20)  _______</p>
-<p>Part 3: Questions 21-26
+<strong>[ ] </strong><strong> A</strong> males up to 75
+<strong>[ ] </strong><strong> B</strong> females with young children
+<strong>[ ] </strong><strong> C</strong> males and females of any age</p>
+<p><strong>Questions 15-20</strong>
+Complete the table below. Write <strong>NO MORE THAN ONE WORD AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>(15)</strong>   _______                  <strong>(16)</strong>   _______ 
+<strong>(17)</strong>   _______                  <strong>(18)</strong>   _______ 
+<strong>(19)</strong>   _______                  <strong>(20)</strong>  _______</p>
+<p><u><strong>Part</strong></u><strong> 3: Questions 21-26</strong>
 Choose the correct letter A, B or C.</p>
 <p>21. What is the main topic of assignment?
-[ ]  A the historical development of television
-[ ]  B the development of new media
-[ ]  C the cultural future of television</p>
+<strong>[ ] </strong><strong> A</strong> the historical development of television
+<strong>[ ] </strong><strong> B</strong> the development of new media
+<strong>[ ] </strong><strong> C</strong> the cultural future of television</p>
 <p>22. According to Emilie which new technology will become the biggest competition for television?
-[ ]  A iPods
-[ ]  B mobile phones
-[ ]  C video games</p>
+<strong>[ ] </strong><strong> A</strong> iPods
+<strong>[ ] </strong><strong> B</strong> mobile phones
+<strong>[ ] </strong><strong> C</strong> video games</p>
 <p>23. According to the tutor the average length of a television become
-[ ]  A 45 minutes
-[ ]  B 4 to 5 minutes
-[ ]  C 10 minutes</p>
+<strong>[ ] </strong><strong> A</strong> 45 minutes
+<strong>[ ] </strong><strong> B</strong> 4 to 5 minutes
+<strong>[ ] </strong><strong> C</strong> 10 minutes</p>
 <p>24. What part of the library is going to be closed for one week?
-[ ]  A the sociology section
-[ ]  B the media studies section
-[ ]  C the journals section</p>
+<strong>[ ] </strong><strong> A</strong> the sociology section
+<strong>[ ] </strong><strong> B</strong> the media studies section
+<strong>[ ] </strong><strong> C</strong> the journals section</p>
 <p>25. Which body do they decide to complain to?
-[ ]  A Premises committee
-[ ]  B Students’ Union
-[ ]  C the library</p>
+<strong>[ ] </strong><strong> A</strong> Premises committee
+<strong>[ ] </strong><strong> B</strong> Students’ Union
+<strong>[ ] </strong><strong> C</strong> the library</p>
 <p>26. What will the reprographics office do?
-[ ]  A send emails to your tutor
-[ ]  B send your dissertation to you
-[ ]  C send your dissertation to your tutor</p>
-<p>Questions 27-30
-Answer the questions below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
+<strong>[ ] </strong><strong> A</strong> send emails to your tutor
+<strong>[ ] </strong><strong> B</strong> send your dissertation to you
+<strong>[ ] </strong><strong> C</strong> send your dissertation to your tutor</p>
+<p><strong>Questions 27-30</strong>
+Answer the questions below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
 <p>27. What does the tutor compare homemade videos with?  _______ 
 28. What is the title of Mrs Jone’s lecture?  _______ 
 29. Where is the lecture?  _______ 
 30. When is the final date for the assignment?  _______</p>
-<p>Part 4: Questions 31-37
-Complete the sentences below. Write NO MORE THAN THREE WORDS for each answer.</p>
+<p><u><strong>Part</strong></u><strong> 4: Questions 31-37</strong>
+Complete the sentences below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
 <p>31. Samuel Wells  _______  before Scholastic House opened in 1903.
 32. There were  _______  original students.
 33. Scholastic House became  _______  in 1963.
@@ -178,21 +234,21 @@ Complete the sentences below. Write NO MORE THAN THREE WORDS for each answer.</p
 35. Scholastic House experienced difficulties during  _______ 
 36. The college has a tradition of learning and  _______ 
 37. Since 1972, controversial  _______  have been discussed.</p>
-<p>Questions 38-40
+<p><strong>Questions 38-40</strong>
 Choose the correct letter A, B or C.</p>
 <p>38. The college discusses controversial issues because it
-[ ]  A informs the debate
-[ ]  B reduces tension
-[ ]  C encourages argument</p>
+<strong>[ ] </strong><strong> A</strong> informs the debate
+<strong>[ ] </strong><strong> B</strong> reduces tension
+<strong>[ ] </strong><strong> C</strong> encourages argument</p>
 <p>39. The principal believes that
-[ ]  A science is less advanced than medicine
-[ ]  B philosophy is more useful than science
-[ ]  C science is ahead of philosophy</p>
+<strong>[ ] </strong><strong> A</strong> science is less advanced than medicine
+<strong>[ ] </strong><strong> B</strong> philosophy is more useful than science
+<strong>[ ] </strong><strong> C</strong> science is ahead of philosophy</p>
 <p>40. The principal urges the students to
-[ ]  A accept what they are told
-[ ]  B ask questions at all times
-[ ]  C think only about their studies</p>
-<p>ANSWER KEY</p>
+<strong>[ ] </strong><strong> A</strong> accept what they are told
+<strong>[ ] </strong><strong> B</strong> ask questions at all times
+<strong>[ ] </strong><strong> C</strong> think only about their studies</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. sports</p>
 <p>2. energetic</p>
 <p>3. big room</p>
@@ -446,11 +502,34 @@ Choose the correct letter A, B or C.</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_18.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_18.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -470,12 +549,23 @@ Choose the correct letter A, B or C.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -487,14 +577,6 @@ Choose the correct letter A, B or C.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

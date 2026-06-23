@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,36 +158,36 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_113</h1>
-            <p>IELTS Reading Practice - Test 113</p>
-<p>Reading Passage One</p>
-<p>The way in which information is taught can vary greatly across cultures and time periods. Entering a British primary school classroom from the early 1900s, for example, one gains a sense of austerity, discipline, and a rigid way of teaching. Desks are typically seated apart from one another, with straight-backed wooden chairs that face directly to the teacher and the chalkboard. In the present day, British classrooms look very different. Desks are often grouped together so that students face each other rather than the teacher, and a large floor area is typically set aside for the class to come together for group discussion and learning.</p>
-<p>Traditionally, it was felt that teachers should be in firm control of the learning process, and that the teacher’s task was to prepare and present material for students to understand. Within this approach, the relationship students have with their teachers is not considered important, nor is the relationship students have with each other in the classroom. A student’s participation in class is likely to be minimal, aside from asking questions directed at the teacher, or responding to questions that the teacher has directed at the student. This style encourages students to develop respect for positions of power as a source of control and discipline. It is frequently described as the “formal authority” model of teaching.</p>
-<p>A less rigid form of teacher-centred education is the “demonstrator” model. This maintains the formal authority model’s notion of the teacher as a “flashlight” who illuminates the material for his or her class to learn, but emphasises a more individualized approach to form. The demonstrator acts as both a role model and a guide, demonstrating skills and processes and then helping students develop and apply these independently. Instructors who are drawn to the demonstrator style are generally confident that their own way of performing a task represents a good base model, but they are sensitive to differing learning styles and expect to provide students with help on an individual basis.</p>
-<p>Many education researchers argue for student-centred learning instead, and suggest that the learning process is more successful when students are in control. Within the student-centred paradigm, the “delegator” style is popular. The delegator teacher maintains general authority, but they delegate much of the responsibility for learning to the class as a way for students to become independent thinkers who take pride in their own work. Students are often encouraged to work on their own or in groups, and if the delegator style is implemented successfully, they will build not only a working knowledge of course specific topics, but also self-discipline and the ability to co-ordinate group work and interpersonal roles.</p>
-<p>Another style that emphasises student-centred education is the “facilitator” mode of learning. Here, while a set of specific curriculum demands is already in place, students are encouraged to take the initiative for creating ways to meet these learning requirements together. The teacher typically designs activities that encourage active learning, group collaboration, and problem solving, and students are encouraged to process and apply the course content in creative and original ways. Whereas the delegator style emphasises content and the responsibility students can have for generating and directing their own knowledge base, the facilitator style emphasises form and the fluid and diverse possibilities that are available in the process of learning.</p>
-<p>Until the 1960s, formal authority was common in almost all Western schools and universities. As a professor would enter a university lecture theatre, a student would be expected to rush up, take his bag to the desk, and pull out the chair for the professor to sit down on. This style has become outmoded over time. Now at university, students and professors typically have more relaxed, collegiate relationships, address each other on a first name basis, and acknowledge that students have much to contribute in class. Teacher-centred education has a lingering appeal in the form of the demonstrator style, however, which remains useful in subjects where skills must be demonstrated to an external standard and the learning process remains fixed in the earlier years of education. A student of mathematics, sewing or metalwork will likely be familiar with the demonstrator style. At the highest levels of education, however, the demonstrator approach must be abandoned in all fields as students are required to produce innovative work that makes unique contributions to knowledge. Thesis and doctoral students lead their own research in facilitation with supervisors.</p>
-<p>The delegator style is valuable when the course is likely to lead students to careers that require group projects. Often, someone who has a high level of expertise in a particular field does not make for the best employee because they have not learnt to apply their abilities in a co-ordinated manner. The delegator style confronts this problem by recognizing that interpersonal communication is not just a means to learning but an important skill set in itself. The facilitator model is probably the most creative model, and is, therefore, not suited to subjects where the practical component necessitates a careful and highly disciplined manner, such as training to be a medical practitioner. It may, however, suit more experimental and theoretical fields ranging from English, music, and the social sciences to science and medical research that takes place in research labs. In these areas, “mistakes” in form are important and valuable aspects of the learning and development process.</p>
-<p>Overall, a clear evolution has taken place in the West from a rigid, dogmatic, and teacher- dominated way of learning to a flexible, creative, and student-centred approach. Nevertheless, different subjects, ages, and skill levels suit different styles of teaching, and it is unlikely that there will ever be one recommended approach for everyone.</p>
-<p>Questions 1-8
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 113</strong></h3>
+<h3 class="test-heading"><strong>Reading Passage One</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>The way in which information is taught can vary greatly across cultures and time periods. Entering a British primary school classroom from the early 1900s, for example, one gains a sense of austerity, discipline, and a rigid way of teaching. Desks are typically seated apart from one another, with straight-backed wooden chairs that face directly to the teacher and the chalkboard. In the present day, British classrooms look very different. Desks are often grouped together so that students face each other rather than the teacher, and a large floor area is typically set aside for the class to come together for group discussion and learning.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>Traditionally, it was felt that teachers should be in firm control of the learning process, and that the teacher’s task was to prepare and present material for students to understand. Within this approach, the relationship students have with their teachers is not considered important, nor is the relationship students have with each other in the classroom. A student’s participation in class is likely to be minimal, aside from asking questions directed at the teacher, or responding to questions that the teacher has directed at the student. This style encourages students to develop respect for positions of power as a source of control and discipline. It is frequently described as the “formal authority” model of teaching.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>A less rigid form of teacher-centred education is the “demonstrator” model. This maintains the formal authority model’s notion of the teacher as a “flashlight” who illuminates the material for his or her class to learn, but emphasises a more individualized approach to form. The demonstrator acts as both a role model and a guide, demonstrating skills and processes and then helping students develop and apply these independently. Instructors who are drawn to the demonstrator style are generally confident that their own way of performing a task represents a good base model, but they are sensitive to differing learning styles and expect to provide students with help on an individual basis.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Many education researchers argue for student-centred learning instead, and suggest that the learning process is more successful when students are in control. Within the student-centred paradigm, the “delegator” style is popular. The delegator teacher maintains general authority, but they delegate much of the responsibility for learning to the class as a way for students to become independent thinkers who take pride in their own work. Students are often encouraged to work on their own or in groups, and if the delegator style is implemented successfully, they will build not only a working knowledge of course specific topics, but also self-discipline and the ability to co-ordinate group work and interpersonal roles.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>Another style that emphasises student-centred education is the “facilitator” mode of learning. Here, while a set of specific curriculum demands is already in place, students are encouraged to take the initiative for creating ways to meet these learning requirements together. The teacher typically designs activities that encourage active learning, group collaboration, and problem solving, and students are encouraged to process and apply the course content in creative and original ways. Whereas the delegator style emphasises content and the responsibility students can have for generating and directing their own knowledge base, the facilitator style emphasises form and the fluid and diverse possibilities that are available in the process of learning.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Until the 1960s, formal authority was common in almost all Western schools and universities. As a professor would enter a university lecture theatre, a student would be expected to rush up, take his bag to the desk, and pull out the chair for the professor to sit down on. This style has become outmoded over time. Now at university, students and professors typically have more relaxed, collegiate relationships, address each other on a first name basis, and acknowledge that students have much to contribute in class. Teacher-centred education has a lingering appeal in the form of the demonstrator style, however, which remains useful in subjects where skills must be demonstrated to an external standard and the learning process remains fixed in the earlier years of education. A student of mathematics, sewing or metalwork will likely be familiar with the demonstrator style. At the highest levels of education, however, the demonstrator approach must be abandoned in all fields as students are required to produce innovative work that makes unique contributions to knowledge. Thesis and doctoral students lead their own research in facilitation with supervisors.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>The delegator style is valuable when the course is likely to lead students to careers that require group projects. Often, someone who has a high level of expertise in a particular field does not make for the best employee because they have not learnt to apply their abilities in a co-ordinated manner. The delegator style confronts this problem by recognizing that interpersonal communication is not just a means to learning but an important skill set in itself. The facilitator model is probably the most creative model, and is, therefore, not suited to subjects where the practical component necessitates a careful and highly disciplined manner, such as training to be a medical practitioner. It may, however, suit more experimental and theoretical fields ranging from English, music, and the social sciences to science and medical research that takes place in research labs. In these areas, “mistakes” in form are important and valuable aspects of the learning and development process.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>Overall, a clear evolution has taken place in the West from a rigid, dogmatic, and teacher- dominated way of learning to a flexible, creative, and student-centred approach. Nevertheless, different subjects, ages, and skill levels suit different styles of teaching, and it is unlikely that there will ever be one recommended approach for everyone.</p></div></div>
+<p><strong>Questions 1-8</strong>
 
 Look at the following statements (Questions 1-8) and the styles of teaching below. Match each statement with the correct teaching style, A -D. Write the correct letter, A-D, in boxes 1-8 on your answer sheet. NB You may use any letter more than once.</p>
-<p>List of teaching styles
+<p><strong>List of teaching styles</strong>
 
-A Formal authority
+<strong>A</strong> Formal authority
 
-B Demonstrator
+<strong>B</strong> Demonstrator
 
-C Delegator
+<strong>C</strong> Delegator
 
-D Facilitator</p>
-<p>Questions 9-12
+<strong>D</strong> Facilitator</p>
+<p><strong>Questions 9-12</strong>
 
 Do the following statements agree with the information given in Reading Passage 1? In boxes 9-12 on your answer sheet, write</p>
-<p>TRUE                     if the statement is true
+<p><strong>TRUE</strong>                     if the statement is true
 
-FALSE                   if the statement is false
+<strong>FALSE</strong>                   if the statement is false
 
-NOT GIVEN        if the information is not given in the passage</p>
+<strong>NOT GIVEN</strong>        if the information is not given in the passage</p>
 <p>9 The formal authority model remains popular in educational institutions of the West
 
 10 The demonstrator model is never used at tertiary level.
@@ -139,28 +195,28 @@ NOT GIVEN        if the information is not given in the passage</p>
 11 Graduates of delegator style teaching are good communicators.
 
 12 The facilitator style is not appropriate in the field of medicine.</p>
-<p>Question 13
+<p><strong>Question 13</strong>
 
 Choose the correct letter. A, B, C or D.</p>
 <p>13 What is the best title for Reading Passage 1?
 
-A Teaching styles and their application
+<strong>A</strong> Teaching styles and their application
 
-B Teaching: then and now
+<strong>B</strong> Teaching: then and now
 
-C When students become teachers
+<strong>C</strong> When students become teachers
 
-D Why student-centred learning is best</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>The Flavour Industry</p>
-<p>A. Read through the nutritional information on the food in your freezer, refrigerator or kitchen pantry, and you are likely to find a simple, innocuous-looking ingredient recurring on a number of products: “natural flavour”. The story of what natural flavour is, how it got into your food, and where it came from is the result of more complex processes than you might imagine.</p>
-<p>B. During the 1980s, health watchdogs and nutritionists began turning their attention to cholesterol, a waxy steroid metabolite that we mainly consume from animal-sourced products such as cheese, egg yolks, beef, poultry, shrimp, and pork. Nutritionists blamed cholesterol for contributing to the growing rates of obesity, heart disease, diabetes, and several cancers in Western societies. As extensive recognition of the matter grew amongst the common people, McDonalds stopped cooking their french fries in a mixture of cottonseed oil and beef tallow, and in 1990, the restaurant chain began using 100% vegetable oil instead.</p>
-<p>C. This substantially lowered the amount of cholesterol in McDonalds’ fries, but it created a new dilemma The beef tallow and cottonseed oil mixture gave the French fries high cholesterol content, but it also gifted them with a rich aroma and “mouth-feel” that even James Beard, an American food critic, admitted he enjoyed. Pure vegetable oil is bland in comparison. Looking at the current ingredients’ list of McDonalds’ French fries, however, it is easy to see how they overcame this predicament Aside from a few preservatives, there are essentially three main ingredients: potato, soybean oil, and the mysterious component of “natural flavour”.</p>
-<p>D. Natural flavour also entered our diet through the rise in processed foods, which now make up over 90% (and growing) of the American diet, as well as representing a burgeoning industry in developing countries such as China and India. Processed foods are essentially any foods that have been boxed, bagged, canned or packaged, and have a list of ingredients on the label. Sometimes, the processing involves adding a little sodium or sugar, and a few preservatives. Often, however, it is coloured, bleached, stabilized, emulsified, dehydrated, odour-concealed, and sweetened. This process typically saps any original flavour out of the product, and so, of course, flavour must be added back in as well.</p>
-<p>E. Often this is “natural flavour”, but while the term may bring to mind images of fresh barley, hand-ground spices, and dried herbs being traded in a bustling street market, most of these natural sources are, in fact, engineered to culinary perfection in a set of factories and plants off the New Jersey Turnpike outside of New York. Here, firms such as International Flavors & Fragrances, Harmen & Keimer, Flavor Dynamics, Frutarom and Elan Chemical isolate and manufacture the tastes that are incorporated in much of what we eat and drink. The sweet, summery burst of naturally squeezed orange juice, the wood-smoked aroma in barbeque sauces, and the creamy, buttery, fresh taste in many dairy products do not come from sundrenched meadows or backyard grills but are formed in the labs and test tubes of these flavour industry giants.</p>
-<p>F. The scientists – dubbed “flavourists” who create the potent chemicals that set our olfactory senses to overdrive use a mix of techniques that have been refined over many years. Part of it is dense, intricate chemistry: spectrometers, gas chromatographs, and headspace-vapour analysers can break down components of a flavour in amounts as minute as one part per billion. Not to be outdone, however, the human nose can isolate aromas down to three parts per trillion. Flavourists, therefore, consider their work as much an art as a science, and flavourism requires a nose “trained” with a delicate and poetic sense of balance.</p>
-<p>G. Should we be wary of the industrialisation of natural flavour? On its own, the trend may not present any clear reason for alarm. Nutritionists widely agree that the real assault on health in the last few decades stems from an “unholy trinity” of sugar, fat, and sodium in processed foods. Natural flavour on its own is not a health risk. It does play a role, however, in helping these processed foods to taste fresh and nutritious, even when they are not. So, while the natural flavour industry should not be considered the culprit, we might think of it as a willing accomplice.</p>
-<p>Questions 14-21
+<strong>D</strong> Why student-centred learning is best</p>
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>The Flavour Industry</strong></p>
+<p><strong>A</strong>. Read through the nutritional information on the food in your freezer, refrigerator or kitchen pantry, and you are likely to find a simple, innocuous-looking ingredient recurring on a number of products: “natural flavour”. The story of what natural flavour is, how it got into your food, and where it came from is the result of more complex processes than you might imagine.</p>
+<p><strong>B</strong>. During the 1980s, health watchdogs and nutritionists began turning their attention to cholesterol, a waxy steroid metabolite that we mainly consume from animal-sourced products such as cheese, egg yolks, beef, poultry, shrimp, and pork. Nutritionists blamed cholesterol for contributing to the growing rates of obesity, heart disease, diabetes, and several cancers in Western societies. As extensive recognition of the matter grew amongst the common people, McDonalds stopped cooking their french fries in a mixture of cottonseed oil and beef tallow, and in 1990, the restaurant chain began using 100% vegetable oil instead.</p>
+<p><strong>C</strong>. This substantially lowered the amount of cholesterol in McDonalds’ fries, but it created a new dilemma The beef tallow and cottonseed oil mixture gave the French fries high cholesterol content, but it also gifted them with a rich aroma and “mouth-feel” that even James Beard, an American food critic, admitted he enjoyed. Pure vegetable oil is bland in comparison. Looking at the current ingredients’ list of McDonalds’ French fries, however, it is easy to see how they overcame this predicament Aside from a few preservatives, there are essentially three main ingredients: potato, soybean oil, and the mysterious component of “natural flavour”.</p>
+<p><strong>D</strong>. Natural flavour also entered our diet through the rise in processed foods, which now make up over 90% (and growing) of the American diet, as well as representing a burgeoning industry in developing countries such as China and India. Processed foods are essentially any foods that have been boxed, bagged, canned or packaged, and have a list of ingredients on the label. Sometimes, the processing involves adding a little sodium or sugar, and a few preservatives. Often, however, it is coloured, bleached, stabilized, emulsified, dehydrated, odour-concealed, and sweetened. This process typically saps any original flavour out of the product, and so, of course, flavour must be added back in as well.</p>
+<p><strong>E</strong>. Often this is “natural flavour”, but while the term may bring to mind images of fresh barley, hand-ground spices, and dried herbs being traded in a bustling street market, most of these natural sources are, in fact, engineered to culinary perfection in a set of factories and plants off the New Jersey Turnpike outside of New York. Here, firms such as International Flavors & Fragrances, Harmen & Keimer, Flavor Dynamics, Frutarom and Elan Chemical isolate and manufacture the tastes that are incorporated in much of what we eat and drink. The sweet, summery burst of naturally squeezed orange juice, the wood-smoked aroma in barbeque sauces, and the creamy, buttery, fresh taste in many dairy products do not come from sundrenched meadows or backyard grills but are formed in the labs and test tubes of these flavour industry giants.</p>
+<p><strong>F</strong>. The scientists – dubbed “flavourists” who create the potent chemicals that set our olfactory senses to overdrive use a mix of techniques that have been refined over many years. Part of it is dense, intricate chemistry: spectrometers, gas chromatographs, and headspace-vapour analysers can break down components of a flavour in amounts as minute as one part per billion. Not to be outdone, however, the human nose can isolate aromas down to three parts per trillion. Flavourists, therefore, consider their work as much an art as a science, and flavourism requires a nose “trained” with a delicate and poetic sense of balance.</p>
+<p><strong>G</strong>. Should we be wary of the industrialisation of natural flavour? On its own, the trend may not present any clear reason for alarm. Nutritionists widely agree that the real assault on health in the last few decades stems from an “unholy trinity” of sugar, fat, and sodium in processed foods. Natural flavour on its own is not a health risk. It does play a role, however, in helping these processed foods to taste fresh and nutritious, even when they are not. So, while the natural flavour industry should not be considered the culprit, we might think of it as a willing accomplice.</p>
+<p><strong>Questions 14-21</strong>
 
 Reading Passage 2 has seven paragraphs, A-G. Which paragraph contains the following information?
 
@@ -180,14 +236,14 @@ Write the correct letter. A-G, in boxes 14-21 on your answer sheet. NB You may u
 20 a comparison of personal and technological abilities in flavour detection
 
 21 examples of diet-related health conditions</p>
-<p>Questions 22-25
+<p><strong>Questions 22-25</strong>
 
 Do the following statements agree with the information given in Reading Passage 2? In boxes 22-25 on your answer sheet, write</p>
-<p>TRUE                     if the statement is true
+<p><strong>TRUE</strong>                     if the statement is true
 
-FALSE                   if the statement is false
+<strong>FALSE</strong>                   if the statement is false
 
-NOT GIVEN          if the information is not given in the passage</p>
+<strong>NOT GIVEN         </strong> if the information is not given in the passage</p>
 <p>22 On their own, vegetable oils do not have a strong flavour.
 
 23 Soybean oil is lower in cholesterol than cottonseed oil.
@@ -195,41 +251,41 @@ NOT GIVEN          if the information is not given in the passage</p>
 24 Processed foods are becoming more popular in some Asian countries.
 
 25 All food processing maintains the natural flavours of the products.</p>
-<p>Question 26
+<p><strong>Question 26</strong>
 
 Choose the correct letter. A, B.C, or D.</p>
 <p>26 The writer of Reading Passage 2 concludes that natural flavours …………………..
 
-A are the major cause of dietary health problems.
+<strong>A</strong> are the major cause of dietary health problems.
 
-B are unhealthy, but not as bad as sugar, fat, and sodium.
+<strong>B</strong> are unhealthy, but not as bad as sugar, fat, and sodium.
 
-C have health benefits that other ingredients tend to cancel out.
+<strong>C</strong> have health benefits that other ingredients tend to cancel out.
 
-D help make unhealthy foods taste better.</p>
-<p>Britain needs strong TV industry</p>
+<strong>D</strong> help make unhealthy foods taste better.</p>
+<p><strong>Britain needs strong TV industry</strong></p>
 <p>Comedy writer Armando Iannucci has called for an industry-wide defence of the BBC and British programme-makers. “The Thick of It” creator made his remarks in the annual MacTaggart Lecture at the Edinburgh TV Festival.</p>
 <p>“It’s more important than ever that we have more strong, popular channels… that act as beacons, drawing audiences to the best content,” he said. Speaking earlier, Culture Secretary John Whittingdale rejected suggestions that he wanted to dismantle the BBC.</p>
-<p>‘Champion supporters’</p>
+<p><strong>‘Champion supporters’</strong></p>
 <p>Iannucci co-wrote “I’m Alan Partridge”, wrote the movie “In the Loop” and created and wrote the hit “HBO” and “Sky Atlantic show Veep”. He delivered the 40th annual MacTaggart Lecture, which has previously been given by Oscar winner Kevin Spacey, former BBC director general Greg Dyke, Jeremy Paxman and Rupert Murdoch. Iannucci said: “Faced with a global audience, British television needs its champion supporters.”</p>
 <p>He continued his praise for British programming by saying the global success of American TV shows had come about because they were emulating British television. “The best US shows are modelling themselves on what used to make British TV so world-beating,” he said. “US prime-time schedules are now littered with those quirky formats from the UK – the “Who Do You Think You Are”‘s and the variants on “Strictly Come Dancing” – as well as the single-camera non-audience sitcom, which we brought into the mainstream first. We have changed international viewing for the better.”</p>
 <p>With the renewal of the BBC’s royal charter approaching, Iannucci also praised the corporation. He said: “If public service broadcasting – one of the best things we’ve ever done creatively as a country – if it was a car industry, our ministers would be out championing it overseas, trying to win contracts, boasting of the British jobs that would bring.” In July, the government issued a green paper setting out issues that will be explored during negotiations over the future of the BBC, including the broadcaster’s size, its funding and governance.</p>
 <p>Primarily Mr Whittingdale wanted to appoint a panel of five people, but finally he invited two more people to advise on the channer renewal, namely former Channel 4 boss Dawn Airey and journalism professor Stewart Purvis, a former editor-in-chief of ITN. Iannucci bemoaned the lack of “creatives” involved in the discussions.</p>
 <p>“When the media, communications and information industries make up nearly 8% our GDP, larger than the car and oil and gas industries put together, we need to be heard, as those industries are heard. But when I see the panel of experts who’ve been asked by the culture secretary to take a root and branch look at the BBC, I don’t see anyone who is a part of that cast and crew list. I see executives, media owners, industry gurus, all talented people – but not a single person who’s made a classic and enduring television show.”</p>
-<p>‘Don’t be modest’</p>
+<p><strong>‘Don’t be modest’</strong></p>
 <p>Iannucci suggested one way of easing the strain on the licence fee was “by pushing ourselves more commercially abroad”.</p>
 <p>“Use the BBC’s name, one of the most recognised brands in the world,” he said. “And use the reputation of British television across all networks, to capitalise financially oversees. Be more aggressive in selling our shows, through advertising, through proper international subscription channels, freeing up BBC Worldwide to be fully commercial, whatever it takes.</p>
 <p>“Frankly, don’t be icky and modest about making money, let’s monetise the bezeesus Mary and Joseph out of our programmes abroad so that money can come back, take some pressure off the licence fee at home and be invested in even more ambitious quality shows, that can only add to our value.”</p>
 <p>Mr Whittingdale, who was interviewed by ITV News’ Alastair Stewart at the festival, said he wanted an open debate about whether the corporation should do everything it has done in the past. He said he had a slight sense that people who rushed to defend the BBC were “trying to have an argument that’s never been started”.</p>
 <p>“Whatever my view is, I don’t determine what programmes the BBC should show,” he added. “That’s the job of the BBC.” Mr Whittingdale said any speculation that the Conservative Party had always wanted to change the BBC due to issues such as its editorial line was “absolute nonsense”.</p>
-<p>Questions 27-31
+<p><strong>Questions 27-31</strong>
 
 Do the following statements agree with the information in the IELTS reading text? In boxes 27–31 on your answer sheet, write</p>
-<p>TRUE                        if the statement is true
+<p><strong>TRUE</strong>                        if the statement is true
 
-FALSE                      if the statement is false
+<strong>FALSE</strong>                      if the statement is false
 
-NOT GIVEN           if the information is not given in the passage</p>
+<strong>NOT GIVEN</strong>           if the information is not given in the passage</p>
 <p>27 Armando Iannucci expressed a need of having more popular channels.
 
 28 John Whittingdale wanted to dismantle the BBC.
@@ -239,52 +295,52 @@ NOT GIVEN           if the information is not given in the passage</p>
 30 Ianucci believes that British television has contributed to the success of American TV-shows.
 
 31 There have been negotiations over the future of the BBC in July.</p>
-<p>Questions 32–35
+<p><strong>Questions 32–35</strong>
 
 Choose the correct letter, A, B, C or D.</p>
 <p>32 Ianucci praised everything EXCEPT
 
-A US shows
+<strong>A</strong> US shows
 
-B British shows
+<strong>B</strong> British shows
 
-C Corporation
+<strong>C</strong> Corporation
 
-D British programming</p>
+<strong>D</strong> British programming</p>
 <p>33 To advise on the charter renewal Mr Whittingdale appointed a panel of
 
-A five people
+<strong>A</strong> five people
 
-B two people
+<strong>B</strong> two people
 
-C seven people
+<strong>C</strong> seven people
 
-D four people</p>
+<strong>D</strong> four people</p>
 <p>34 Who of these people was NOT invited to the discussion concerning BBC renewal?
 
-A Armando Iannucci
+<strong>A</strong> Armando Iannucci
 
-B Dawn Airey
+<strong>B</strong> Dawn Airey
 
-C John Whittingdale
+<strong>C</strong> John Whittingdale
 
-D Stewart Purvis</p>
+<strong>D</strong> Stewart Purvis</p>
 <p>35 There panel of experts lacks:
 
-A media owners
+<strong>A</strong> media owners
 
-B people who make enduring TV-shows
+<strong>B</strong> people who make enduring TV-shows
 
-C gurus of Television industry
+<strong>C</strong> gurus of Television industry
 
-D top executives</p>
-<p>Questions 36–40
+<strong>D</strong> top executives</p>
+<p><strong>Questions 36–40</strong>
 
-Complete the summary below. Write NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>Easing the strain on the licence fees</p>
+Complete the summary below. Write <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>Easing the strain on the licence fees</strong></p>
 <p>Iannucci recommended increasing BBC’s profit by pushing ourselves more (36)………………………………He suggests being more aggressive in selling British shows, through advertising and proper international (37)…………………………… Also, he invokes producers to stop being (38)………………………………and modest about making money and invest into even (39)…………………………………….quality shows. However, Mr Whittingdale denied any (40)………………………………that the Conservative Party had always wanted to change the BBC because of its editorial line.</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. C</p>
 <p>2. B</p>
 <p>3. A</p>
@@ -543,6 +599,29 @@ Complete the summary below. Write NO MORE THAN TWO WORDS from the passage for ea
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -562,12 +641,23 @@ Complete the summary below. Write NO MORE THAN TWO WORDS from the passage for ea
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -579,14 +669,6 @@ Complete the summary below. Write NO MORE THAN TWO WORDS from the passage for ea
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,17 +158,17 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_46</h1>
-            <p>IELTS Reading Practice - Test 46</p>
-<p>jargon</p>
-<p>A Jargon is a loaded word. One dictionary defines it, neatly and neutrally, as ‘the technical vocabulary or idiom of a special activity or group’, but this sense is almost completely overshadowed by another: ‘obscure and often pretentious language marked by a roundabout way of expression and use of long words’. For most people, it is this second sense which is at the front of their minds when they think about jargon. Jargon is said to be a bad use of language, something to be avoided at all costs. No one ever describes it in positive terms (‘that was a delightful piece of rousing jargon’). Nor does one usually admit to using it oneself: the myth is that jargon is something only other people employ.</p>
-<p>B The reality, however, is that everyone uses jargon. It is an essential part of the network of occupations and pursuits that make up society. All jobs present an element of jargon, which workers learn as they develop their expertise. All hobbies require mastery of a jargon. Each society grouping has its jargon. The phenomenon turns out to be universal – and valuable. It is the jargon element which, in a job, can promote economy and precision of expression, and thus help make life easier for the workers. It is also the chief linguistic element which shows professional awareness (‘know-how’) and social togetherness (‘shop-talk’).</p>
-<p>C When we have learned to command it, jargon is something we readily take pleasure in, whether the subject area is motorcycles, knitting, cricket, baseball or computers. It can add pace, variety and humour to speech – as when, with an important event approaching, we might slip into NASA-speak, and talk about countdown, all systems go, and lift-off. We enjoy the mutual showing-off which stems from a fluent use of terminology, and we enjoy the in-jokes which shared linguistic experience permits. Moreover, we are jealous of this knowledge. We are quick to demean anyone who tries to be part of our group without being prepared to take on its jargon.</p>
-<p>D If jargon is so essential a part of our lives, why then has it had such a bad press? The most important reason stems from the way jargon can exclude as well as include. We may not be too concerned if we find ourselves faced with an impenetrable wall of jargon when the subject matter has little perceived relevance to our everyday lives, as in the case of hydrology, say, or linguistics. But when the subject matter is one where we feel implicated, and think we have a right to know, and the speaker uses words which make it hard for us to understand, then we start to complain; and if we suspect that the obfuscation is deliberate policy, we unreservedly condemn, labelling it gobbledegook and calling down public derision upon it.</p>
-<p>E No area is exempt, but the fields of advertising, politics and defence have been especially criticised in recent years by the various campaigns for Plain English. In these domains, the extent to which people are prepared to use jargon to hide realities is a ready source of amusement, disbelief and horror. A lie is a lie, which can be only temporarily hidden by calling it an ‘inoperative statement’ or ‘an instance of plausible deniability’. Nor can a nuclear plant explosion be suppressed for long behind such phrases as ‘energetic disassembly’, ‘abnormal evolution’ or ‘plant transient’.</p>
-<p>F While condemning unnecessary or obscuring jargon in others, we should not forget to look out for it in ourselves. It is so easy to ‘slip into’ jargon, without realizing that our own listeners/readers do not understand. It is also temptingly easy to slip some jargon into our expression, to ensure that others do not understand. And it is just as easy to begin using jargon which we ourselves do not understand. The motivation to do such apparently perverse things is not difficult to grasp. People like to be ‘in’, to be part of an intellectual or technical elite; and the use of jargon, whether understood or not, is a badge of membership. Jargon, also, can provide a lazy way into a group or an easy way of hiding uncertainties and inadequacies: when terminology slips plausibly from the tongue, it is not essential for the brain to keep up. Indeed some people have developed this skill to professional levels. And certainly, faced with a telling or awkward question, and the need to say something acceptable in public, slipping into jargon becomes a simple way out, and can soon become a bad habit.</p>
-<p>Questions 1-6
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 46</strong></h3>
+<h3 class="test-heading"><strong>jargon</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Jargon is a loaded word. One dictionary defines it, neatly and neutrally, as ‘the technical vocabulary or idiom of a special activity or group’, but this sense is almost completely overshadowed by another: ‘obscure and often pretentious language marked by a roundabout way of expression and use of long words’. For most people, it is this second sense which is at the front of their minds when they think about jargon. Jargon is said to be a bad use of language, something to be avoided at all costs. No one ever describes it in positive terms (‘that was a delightful piece of rousing jargon’). Nor does one usually admit to using it oneself: the myth is that jargon is something only other people employ.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> The reality, however, is that everyone uses jargon. It is an essential part of the network of occupations and pursuits that make up society. All jobs present an element of jargon, which workers learn as they develop their expertise. All hobbies require mastery of a jargon. Each society grouping has its jargon. The phenomenon turns out to be universal – and valuable. It is the jargon element which, in a job, can promote economy and precision of expression, and thus help make life easier for the workers. It is also the chief linguistic element which shows professional awareness (‘know-how’) and social togetherness (‘shop-talk’).</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> When we have learned to command it, jargon is something we readily take pleasure in, whether the subject area is motorcycles, knitting, cricket, baseball or computers. It can add pace, variety and humour to speech – as when, with an important event approaching, we might slip into NASA-speak, and talk about countdown, all systems go, and lift-off. We enjoy the mutual showing-off which stems from a fluent use of terminology, and we enjoy the in-jokes which shared linguistic experience permits. Moreover, we are jealous of this knowledge. We are quick to demean anyone who tries to be part of our group without being prepared to take on its jargon.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> If jargon is so essential a part of our lives, why then has it had such a bad press? The most important reason stems from the way jargon can exclude as well as include. We may not be too concerned if we find ourselves faced with an impenetrable wall of jargon when the subject matter has little perceived relevance to our everyday lives, as in the case of hydrology, say, or linguistics. But when the subject matter is one where we feel implicated, and think we have a right to know, and the speaker uses words which make it hard for us to understand, then we start to complain; and if we suspect that the obfuscation is deliberate policy, we unreservedly condemn, labelling it gobbledegook and calling down public derision upon it.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> No area is exempt, but the fields of advertising, politics and defence have been especially criticised in recent years by the various campaigns for Plain English. In these domains, the extent to which people are prepared to use jargon to hide realities is a ready source of amusement, disbelief and horror. A lie is a lie, which can be only temporarily hidden by calling it an ‘inoperative statement’ or ‘an instance of plausible deniability’. Nor can a nuclear plant explosion be suppressed for long behind such phrases as ‘energetic disassembly’, ‘abnormal evolution’ or ‘plant transient’.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> While condemning unnecessary or obscuring jargon in others, we should not forget to look out for it in ourselves. It is so easy to ‘slip into’ jargon, without realizing that our own listeners/readers do not understand. It is also temptingly easy to slip some jargon into our expression, to ensure that others do not understand. And it is just as easy to begin using jargon which we ourselves do not understand. The motivation to do such apparently perverse things is not difficult to grasp. People like to be ‘in’, to be part of an intellectual or technical elite; and the use of jargon, whether understood or not, is a badge of membership. Jargon, also, can provide a lazy way into a group or an easy way of hiding uncertainties and inadequacies: when terminology slips plausibly from the tongue, it is not essential for the brain to keep up. Indeed some people have developed this skill to professional levels. And certainly, faced with a telling or awkward question, and the need to say something acceptable in public, slipping into jargon becomes a simple way out, and can soon become a bad habit.</p></div></div>
+<p><strong>Questions 1-6</strong>
 Reading Passage 1 has six paragraphs, A – F. Choose the correct heading for each paragraph from the list of headings below. Write the correct number i – ix in boxes 1 – 6 on your answer sheet.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i The benefits of simple language
 ii A necessary tool
 iii A lasting way of concealing disasters
@@ -128,28 +184,28 @@ ix Playing with words</p>
 4 Paragraph D
 5 Paragraph E
 6 Paragraph F</p>
-<p>Questions 7-12
+<p><strong>Questions 7-12</strong>
 Complete the summary using the list of words A-L below. Write the correct letter A- L in boxes 7 – 12 on your answer sheet.</p>
-<p>The Up Side of Jargon
+<p><strong>The Up Side of Jargon</strong>
 Jargon plays a useful part in many aspects of life including leisure. For example, when people take up pastimes they need to develop a good (7)……………………………of the relevant jargon. During discussion of these or other areas of interest, conversation can become more exciting and an element of (8)……………………….can be introduced by the use of shared jargon. Jargon is particularly helpful in the workplace. It leads to more (9)……………………….in the way colleagues communicate during work hours. Taking part in (10)……………………….during moments of relaxation can also help them to bond better. It is interesting that members of a group, whether social or professional, often demonstrate a certain (11)……………………….. towards the particular linguistic characteristics of their subject area and tend to regard new people who do not wish to learn the jargon with (12)…………………..</p>
-<p>Question 13
+<p><strong>Question 13</strong>
 Choose the correct letter, A, B, C or D. Write the correct letter in box 13 on your answer sheet.</p>
 <p>13 Which of the following statements would the writer agree with?
-A Jargon thoroughly deserves the bad reputation it has gained.
-B Jargon should not be encouraged except in the workplace.
-C Jargon should not be used if the intention is to exclude others.
-D Everyday life would be very much better without jargon.</p>
+<strong>A</strong> Jargon thoroughly deserves the bad reputation it has gained.
+<strong>B</strong> Jargon should not be encouraged except in the workplace.
+<strong>C</strong> Jargon should not be used if the intention is to exclude others.
+<strong>D</strong> Everyday life would be very much better without jargon.</p>
 <p>Cambridge IELTS Test 1 to 17</p>
-<p>healthy intentions</p>
-<p>A One hundred years ago, the leading causes of death in the industrial world were infectious diseases such as tuberculosis, influenza and pneumonia. Since then, the emergence of antibiotics, vaccines and public health controls has reduced the impact of infectious disease. Today, the top killers are non-infectious illnesses related essentially to lifestyle (diet, smoking and lack of exercise). The main causes of death in the United States in 1997 were heart disease, cancer and stroke. Chronic health problems, such as obesity, noninsulin-dependent diabetes and osteoporosis, which are not necessarily lethal but nonetheless debilitating, are steadily increasing. It is clear that economic and technical progress is no assurance of good health.</p>
-<p>B Humans are qualitatively different from other animals because we manipulate the flow of energy and resources through the ecosystem to our advantage, and consequently to the detriment of other organisms. That is why we compete so successfully with other species. But with this success come some inherent failings, particularly in terms of our health.</p>
-<p>C According to physician Boyd Eaton and his anthropologist colleagues, despite all our technological wizardry and intellectual advances, modern humans are seriously malnourished. The human body evolved to eat a very different diet from that which most of us consume today. Before the advent of agriculture, about ten thousand years ago, people were hunter-gatherers, the food varying with the seasons and climate and all obtained from local sources. Our ancestors rarely, if ever, ate grains or drank the milk of other animals.</p>
-<p>D Although ten thousand years seems a long time ago, 99.99 percent of our genetic material was already formed. Thus we are not well adapted to an agriculturally based diet of cereals and dairy products. At least 100,000 generations of people were hunter-gatherers, only 500 generations have depended on agriculture, only ten generations have lived since the onset of the industrial age and only two generations have grown up with highly processed fast foods. Physicians Randolph Nesse and George Williams write: ‘Our bodies were designed over the course of millions of years for lives spent in small groups hunting and gathering on the plains of Africa. Natural selection has not had time to revise our bodies for coping with fatty diets, automobiles, drugs, artificial lights and central heating. From this mismatch between our design and our environment arises much, perhaps most, preventable modern disease.’</p>
-<p>E Do we really want to eat like prehistoric humans? Surely ‘cavemen’ were not healthy? Surely their life was hard and short? Apparently not. Archaeological evidence indicates that these hunter-gatherer ancestors were robust, strong and lean with no sign of osteoporosis or arthritis – even at more advanced ages. Paleolithic humans ate a diet similar to that of wild chimpanzees and gorillas today: raw fruit, nuts, seeds, vegetation, fresh untreated water, insects and wild- game meat low in saturated fats. Much of their food was hard and bitter. Most important, like chimpanzees and gorillas, prehistoric humans ate a wide variety of plants – an estimated 100 to 300 different types in one year. Nowadays, even health-conscious, rich westerners seldom consume more than twenty to thirty different species of plants.</p>
-<p>F The early human diet is estimated to have included more than 100 grams of fiber a day. Today the recommended level of 30 grams is rarely achieved by most of us. Humans and lowland gorillas share similar digestive tracts – in particular, the colon – but, while gorillas derive up to 60 percent of their total energy from fiber fermentation in the colon, modern humans get only about 4 percent. When gorillas are brought into captivity and fed on lower-fiber diets containing meat and eggs, they suffer from many common human disorders: cardiovascular disease, ulcerative colitis and high cholesterol levels. Their natural diet, rich in antioxidants and fiber, apparently prevents these diseases in the wild, suggesting that such a diet may have serious implications for our own health.</p>
-<p>G Not all agricultural societies have taken the same road. Many traditional agriculturalists maintain the diversity of their diet by eating a variety of herbs and other plant compounds along with meat and grains. The Huasa people of northern Nigeria, for example, traditionally include up to twenty wild medicinal plants in their grain-based soups, and peoples who have become heavily reliant on animal products have found ways of countering the negative effects of such a diet. While the Masai of Africa eat meat and drink blood, milk and animal fat as their only sources of protein, they suffer less heart trouble than Westerners. One reason is that they always combine their animal products with strong, bitter antioxidant herbs. In other words, the Masai have balanced the intake of oxidising and antioxidising compounds. According to Timothy Johns, it is not the high intake of animal fat or the low intake of antioxidants, that creates so many health problems in industrial countries; it is the lack of balance between the two.</p>
-<p>H Eating the right foods and natural medicines requires a sensitivity to subtle changes in appetite. Do I fancy something sweet, sour, salty, stimulating or sedating? What sort of hunger is it? And after consumption, has the ‘need’ been satisfied? Such subtleties are easily overridden by artificially created superstimuli in processed foods that leave us unable to select a healthy diet. We need to listen more carefully to our bodies’ cravings and take an intentional role in maintaining our health before disease sets in.</p>
-<p>Questions 14-20
+<p><strong>healthy intentions</strong></p>
+<p><strong>A</strong> One hundred years ago, the leading causes of death in the industrial world were infectious diseases such as tuberculosis, influenza and pneumonia. Since then, the emergence of antibiotics, vaccines and public health controls has reduced the impact of infectious disease. Today, the top killers are non-infectious illnesses related essentially to lifestyle (diet, smoking and lack of exercise). The main causes of death in the United States in 1997 were heart disease, cancer and stroke. Chronic health problems, such as obesity, noninsulin-dependent diabetes and osteoporosis, which are not necessarily lethal but nonetheless debilitating, are steadily increasing. It is clear that economic and technical progress is no assurance of good health.</p>
+<p><strong>B</strong> Humans are qualitatively different from other animals because we manipulate the flow of energy and resources through the ecosystem to our advantage, and consequently to the detriment of other organisms. That is why we compete so successfully with other species. But with this success come some inherent failings, particularly in terms of our health.</p>
+<p><strong>C</strong> According to physician Boyd Eaton and his anthropologist colleagues, despite all our technological wizardry and intellectual advances, modern humans are seriously malnourished. The human body evolved to eat a very different diet from that which most of us consume today. Before the advent of agriculture, about ten thousand years ago, people were hunter-gatherers, the food varying with the seasons and climate and all obtained from local sources. Our ancestors rarely, if ever, ate grains or drank the milk of other animals.</p>
+<p><strong>D</strong> Although ten thousand years seems a long time ago, 99.99 percent of our genetic material was already formed. Thus we are not well adapted to an agriculturally based diet of cereals and dairy products. At least 100,000 generations of people were hunter-gatherers, only 500 generations have depended on agriculture, only ten generations have lived since the onset of the industrial age and only two generations have grown up with highly processed fast foods. Physicians Randolph Nesse and George Williams write: ‘Our bodies were designed over the course of millions of years for lives spent in small groups hunting and gathering on the plains of Africa. Natural selection has not had time to revise our bodies for coping with fatty diets, automobiles, drugs, artificial lights and central heating. From this mismatch between our design and our environment arises much, perhaps most, preventable modern disease.’</p>
+<p><strong>E</strong> Do we really want to eat like prehistoric humans? Surely ‘cavemen’ were not healthy? Surely their life was hard and short? Apparently not. Archaeological evidence indicates that these hunter-gatherer ancestors were robust, strong and lean with no sign of osteoporosis or arthritis – even at more advanced ages. Paleolithic humans ate a diet similar to that of wild chimpanzees and gorillas today: raw fruit, nuts, seeds, vegetation, fresh untreated water, insects and wild- game meat low in saturated fats. Much of their food was hard and bitter. Most important, like chimpanzees and gorillas, prehistoric humans ate a wide variety of plants – an estimated 100 to 300 different types in one year. Nowadays, even health-conscious, rich westerners seldom consume more than twenty to thirty different species of plants.</p>
+<p><strong>F</strong> The early human diet is estimated to have included more than 100 grams of fiber a day. Today the recommended level of 30 grams is rarely achieved by most of us. Humans and lowland gorillas share similar digestive tracts – in particular, the colon – but, while gorillas derive up to 60 percent of their total energy from fiber fermentation in the colon, modern humans get only about 4 percent. When gorillas are brought into captivity and fed on lower-fiber diets containing meat and eggs, they suffer from many common human disorders: cardiovascular disease, ulcerative colitis and high cholesterol levels. Their natural diet, rich in antioxidants and fiber, apparently prevents these diseases in the wild, suggesting that such a diet may have serious implications for our own health.</p>
+<p><strong>G</strong> Not all agricultural societies have taken the same road. Many traditional agriculturalists maintain the diversity of their diet by eating a variety of herbs and other plant compounds along with meat and grains. The Huasa people of northern Nigeria, for example, traditionally include up to twenty wild medicinal plants in their grain-based soups, and peoples who have become heavily reliant on animal products have found ways of countering the negative effects of such a diet. While the Masai of Africa eat meat and drink blood, milk and animal fat as their only sources of protein, they suffer less heart trouble than Westerners. One reason is that they always combine their animal products with strong, bitter antioxidant herbs. In other words, the Masai have balanced the intake of oxidising and antioxidising compounds. According to Timothy Johns, it is not the high intake of animal fat or the low intake of antioxidants, that creates so many health problems in industrial countries; it is the lack of balance between the two.</p>
+<p><strong>H</strong> Eating the right foods and natural medicines requires a sensitivity to subtle changes in appetite. Do I fancy something sweet, sour, salty, stimulating or sedating? What sort of hunger is it? And after consumption, has the ‘need’ been satisfied? Such subtleties are easily overridden by artificially created superstimuli in processed foods that leave us unable to select a healthy diet. We need to listen more carefully to our bodies’ cravings and take an intentional role in maintaining our health before disease sets in.</p>
+<p><strong>Questions 14-20</strong>
 Reading Passage 2 has seven paragraphs, A – G.
 Which paragraph contains the following information?
 NB You may use any letter more than once.</p>
@@ -160,18 +216,18 @@ NB You may use any letter more than once.</p>
 18 details of which main factors now threaten human life
 19 a reference to one person’s theory about the cause of some of today’s illnesses
 20 details of the varied intake of early humans</p>
-<p>Questions 21 – 26
+<p><strong>Questions 21 – 26</strong>
 Do the following statements agree with the claims of the writer in Reading passage 2? In boxes 21 -26 on your answer sheet, write</p>
-<p>YES                            if the statement agrees with the claims of the writer
-NO                              if the statement contradicts the claims of the writer
-NOT GIVEN           if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                            if the statement agrees with the claims of the writer
+<strong>NO</strong>                              if the statement contradicts the claims of the writer
+<strong>NOT GIVEN</strong>           if it is impossible to say what the writer thinks about this</p>
 <p>21 An increase in material resources leads to improved physical health.
 22 Cereals were unknown to our hunter-gathering ancestors.
 23 In the future, human bodies will adapt to take account of changes in diet.
 24 Many people in developed countries have a less balanced diet than early humans.
 25 Gorillas that live in the wild avoid most infectious diseases.
 26 Food additives can prevent people from eating what their bodies need.</p>
-<p>educational and professional opportunities for women in new technologies</p>
+<p><strong>educational and professional opportunities for women in new technologies</strong></p>
 <p>The principle that you don’t have to be a mechanic to drive a car can also be applied to Information and Communication Technologies (ICTs). Gone are the days when a computer user needed knowledge of a programming language. On one hand, this is good news for women. It is because women can now use computers without needing computer science qualifications that gives ICTs the potential to enhance women’s education. But, our lack of ICT skills is not praiseworthy. Feminist writers for many years have argued that if more women were engineers and scientists, we might live in a very different world. (Rothschild 1982)</p>
 <p>In a review of five countries, Millar and Jagger examined women’s employment in ICT occupations. They found a pattern of a low proportion of female entrants, a significant ‘leaking’ (Alper 1993) of those who enter to other areas of employment, and a ghetto of women in lower paid jobs. How did a new area of economic activity become gendered so quickly? An obvious answer could be that men have seen it as a desirable area and women have not. It is often said that new industries are both ‘gender blind’ (i.e. if you are good at your work you’ll succeed whatever your gender) and that they value ‘feminine’ communication and ‘people’ skills. But recent research does not bear this out. A study of a new high-tech ICT company (Woodfield 2000) employing highly qualified graduates showed that men were given management responsibility despite an acknowledgement by the company that they had poor management skills. And there was an unwillingness to give responsibilities to women who had these skills. It seems that jobs acquire gender quite quickly in some sectors.</p>
 <p>In the 1980s and 1990s, interesting studies were done into the ways in which men and women think about the world. They argued for the validation of diverse ways of thinking, rather than a hierarchy with a particular kind of male intellectual tradition at the apex. Turkle (1984; 1996) has done similar work on the ways people interact with computers. She sees computers as tools used as an extension of our identities, with significant variations in the ways that men and women use them to explore and perform their gendered identities. This subtle way of understanding our relationship with this technology, however, must go in parallel with a materialist view, which is that an underlying motivation for most ICT-based initiatives in work, education, leisure, citizenship is economic force.</p>
@@ -180,7 +236,7 @@ NOT GIVEN           if it is impossible to say what the writer thinks abou
 <p>Although online education provides new opportunities for women it is also the source of new pressures. The term ‘Second Shift’ was invented to identify the work/life balance of employed women. Women in paid employment did not substitute this for their domestic work; they struggled to carry out both obligations. Kramarae sees education in the new century as the ‘Third Shift’: ‘As lifelong learning and knowledge become ever more important, women and men find they juggle not only the demands of work and family, but also the demands of further education throughout their lives. ’ (2001)</p>
 <p>ICTs – the Internet in particular – are seen as providing global access to key educational resources. However, access to information is a useless resource if you don’t have the skills to evaluate and use it. Shade (2002) distinguishes between the feminisation of the Internet, where women are targeted as consumers rather than citizens or learners; and feminist uses of the Internet where women develop content that creates opportunities for women.</p>
 <p>Digital media may also produce inflexibility for women engaged in learning. A survey of open and distance learning students (Kirkup and Priimmer 1997; Kirkup 2001) demonstrated differences in the preferred learning styles of women and men. Women were uncomfortable with isolation and stated a desire for connection with others. Engagement in creating and maintaining networks and relationships is often cited as a reason why computer-mediated communication will be a ‘female’ technology. Unfortunately, however, empirical work challenges this. Li (2002), in a study of university students in the UK and China, found that male students used e-mail more frequently, spent more time online, and engaged in more varied activities than women students. There is now a wealth of research on the gender differences of male and female online activity, all of which demonstrate the online environment creating a gendered world operating in similar ways to the material world.</p>
-<p>Questions 27-34
+<p><strong>Questions 27-34</strong>
 Look at the following people (Questions 27 – 34) and the list of reported findings below. Match each person with the correct finding, A-K. Write the correct letter A – K in boxes 27 – 34 on your answer sheet.</p>
 <p>27 Rothschild
 28 Alper
@@ -190,20 +246,20 @@ Look at the following people (Questions 27 – 34) and the list of reported find
 32 Shade
 33 Kirkup
 34 Li</p>
-<p>List of Reported Findings
-A Men and women perceive their environment differently.
-B The advantages of ICTs in schools are difficult to specify.
-C Men see ICT as an exciting new area of employment.
-D Female students find working on their own unappealing.
-E A greater female representation in scientific and technical posts would have enormous benefits.
-F Women can be seen as both passive and active users of ICTs.
-G Female students can benefit most from ICTs and distance learning.
-H In Higher Education, men use a wider range of ICT skills than women.
-I A considerable number of women give up ICT posts to work in different fields.
-J The way the two genders regard computers reflects the differences in the way they develop their sense of self.
-K Certain new employment sectors are soon colonized by workers of one sex.</p>
-<p>Questions 35-40
-Complete the sentences below. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
+<p><strong>List of Reported Findings</strong>
+<strong>A</strong> Men and women perceive their environment differently.
+<strong>B</strong> The advantages of ICTs in schools are difficult to specify.
+<strong>C</strong> Men see ICT as an exciting new area of employment.
+<strong>D</strong> Female students find working on their own unappealing.
+<strong>E</strong> A greater female representation in scientific and technical posts would have enormous benefits.
+<strong>F</strong> Women can be seen as both passive and active users of ICTs.
+<strong>G</strong> Female students can benefit most from ICTs and distance learning.
+<strong>H</strong> In Higher Education, men use a wider range of ICT skills than women.
+<strong>I</strong> A considerable number of women give up ICT posts to work in different fields.
+<strong>J</strong> The way the two genders regard computers reflects the differences in the way they develop their sense of self.
+<strong>K</strong> Certain new employment sectors are soon colonized by workers of one sex.</p>
+<p><strong>Questions 35-40</strong>
+Complete the sentences below. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
 <p>35 The term ‘…………………………’ refers to a company that is equally happy to promote workers of either sex.
 36 It is clear that ICT developments in most fields are driven by…………………..
 37 The range of institutions providing high level instruction today is known as a…………………..
@@ -211,7 +267,7 @@ Complete the sentences below. Choose NO MORE THAN THREE WORDS from the passage f
 39 The way workers of both sexes now face having to fit children, work and continued learning into their lives is called the………………….
 40 Women are thought to be suited to computer work as it involves developing………………………and………………….</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. vi</p>
 <p>2. ii</p>
 <p>3. ix</p>
@@ -470,6 +526,29 @@ Complete the sentences below. Choose NO MORE THAN THREE WORDS from the passage f
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -489,12 +568,23 @@ Complete the sentences below. Choose NO MORE THAN THREE WORDS from the passage f
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -506,14 +596,6 @@ Complete the sentences below. Choose NO MORE THAN THREE WORDS from the passage f
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

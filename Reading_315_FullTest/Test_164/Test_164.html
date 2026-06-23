@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,67 +158,67 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_164</h1>
-            <p>IELTS Reading Practice - Test 164</p>
-<p>How Mobile Telephony Turned into a Health Scare</p>
-<p>The technology which enabled mobile phones was previously used in the kind of two- way radio which could be found in taxis and emergency vehicles. Although this was a great development, it was not really considered mobile telephony because it could not be used to dial into existing phone networks. It was known as simplex technology, operating on the same principles as a walkie-talkie, which required that a user press a button, meaning that only one person at a time could talk. Simplex meant that there was only one communication frequency in use at any one time.</p>
-<p>The first mobile phones to connect to telephone networks were often installed in cars before the hand-held version came on the market and the revolution in mobile technology began. The first generation of mobile phones (called 1G) were large, heavy and analogue and it was not until the invention of the second generation (2G) in the 1990s that digital networks could be used. The digital element enabled faster signalling. At the same time, developments in battery design and energy-saving electronics allowed the phones themselves to become smaller and therefore more truly mobile. The second generation allowed for text messaging too, and this began with the first person-to-person text message in Finland in 1993, although a machine-generated text message had been successfully sent two years earlier.</p>
-<p>None of this would have been possible without the development of duplex technology to replace the relatively primitive simplex technology of the first phase of mobile communication. In duplex technology, there are two frequencies available simultaneously. These two frequencies can be obtained by the principle of Frequency Division Duplex (FDD). To send two signals wirelessly, it is necessary to create a paired spectrum, where one band carries the uplink (from phone to antenna) and the other carries the downlink (from antenna to phone).Time Division Duplex (TDD) can achieve the same thing, but instead of splitting the frequency, the uplink and downlink are switched very rapidly, giving the impression that one frequency is used.</p>
-<p>For mobile telephony to work to its fullest potential, it needs to have a network through which it can relay signals.This network depends on base stations which send and receive the signals. The base stations tend to be simple constructions, or masts, on top of which are mounted the antennas. With the rapid increase in demand for mobile services, the infrastructure of antennas in the United Kingdom is now huge.</p>
-<p>Many thousands of reports have appeared claiming that the signals relayed by these antennas are harmful to human and animal health. The claims focus on the fact that the antennas are transmitting radio waves in microwave form. In some ways, public demand is responsible for the increase in the alleged threat to health. Until quite recently, voice and text messages were transmitted using 2G technology. A 2G mast can send a low-frequency microwave signal approximately 35 kilometres. Third generation (3G) technology allows users to wirelessly download information from the internet and is extremely popular. The difference is that 3G technology uses a higher frequency to carry the signals, allowing masts to emit more radiation. This problem Is intensified by the need to have masts in closer proximity to each other and to the handsets themselves. Whatever danger there was in 2G signals is greatly multiplied by the fact that the 3G masts are physically much closer to people.</p>
-<p>Government authorities have so far refused to accept that there is a danger to public health, and tests carried out by governments and telecommunications companies have been restricted to testing to see if heat is being produced from these microwaves. According to many, however, the problem is not heat, but electromagnetic waves which are found near the masts.</p>
-<p>It is believed that some people, though not all, have a condition known as electro- sensitivity or electro-hypersensitivity (EHS), meaning that the electromagnetism makes them ill in some way. The actual health threat from these pulsed microwave signals is an area which greatly needs more research. It has been claimed that the signals affect all living organisms, including plants, at a cellular level and cause symptoms in people ranging from tiredness and headaches to cancer. Of particular concern is the effect that increased electromagnetic fields may have on children and the fear is that the negative effects on their health may not manifest themselves until they have had many years of continued exposure to high levels. Tests carried out on animals living close to this form of radiation are particularly useful because scientists can rule out the psychological effect that humans might be exhibiting due to their fear of possible contamination.</p>
-<p>Of course, the danger of exposure exists when using a mobile phone but since we do this for limited periods, between which it is believed our bodies can recover, it is not considered as serious as the effect of living or working near a mast (sometimes mounted on the very building we occupy) which is transmitting electromagnetic waves 24 hours a day.</p>
-<p>Questions 1-6
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 164</strong></h3>
+<h3 class="test-heading"><strong>How Mobile Telephony Turned into a Health Scare</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>The technology which enabled mobile phones was previously used in the kind of two- way radio which could be found in taxis and emergency vehicles. Although this was a great development, it was not really considered mobile telephony because it could not be used to dial into existing phone networks. It was known as simplex technology, operating on the same principles as a walkie-talkie, which required that a user press a button, meaning that only one person at a time could talk. Simplex meant that there was only one communication frequency in use at any one time.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>The first mobile phones to connect to telephone networks were often installed in cars before the hand-held version came on the market and the revolution in mobile technology began. The first generation of mobile phones (called 1G) were large, heavy and analogue and it was not until the invention of the second generation (2G) in the 1990s that digital networks could be used. The digital element enabled faster signalling. At the same time, developments in battery design and energy-saving electronics allowed the phones themselves to become smaller and therefore more truly mobile. The second generation allowed for text messaging too, and this began with the first person-to-person text message in Finland in 1993, although a machine-generated text message had been successfully sent two years earlier.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>None of this would have been possible without the development of duplex technology to replace the relatively primitive simplex technology of the first phase of mobile communication. In duplex technology, there are two frequencies available simultaneously. These two frequencies can be obtained by the principle of Frequency Division Duplex (FDD). To send two signals wirelessly, it is necessary to create a paired spectrum, where one band carries the uplink (from phone to antenna) and the other carries the downlink (from antenna to phone).Time Division Duplex (TDD) can achieve the same thing, but instead of splitting the frequency, the uplink and downlink are switched very rapidly, giving the impression that one frequency is used.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>For mobile telephony to work to its fullest potential, it needs to have a network through which it can relay signals.This network depends on base stations which send and receive the signals. The base stations tend to be simple constructions, or masts, on top of which are mounted the antennas. With the rapid increase in demand for mobile services, the infrastructure of antennas in the United Kingdom is now huge.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>Many thousands of reports have appeared claiming that the signals relayed by these antennas are harmful to human and animal health. The claims focus on the fact that the antennas are transmitting radio waves in microwave form. In some ways, public demand is responsible for the increase in the alleged threat to health. Until quite recently, voice and text messages were transmitted using 2G technology. A 2G mast can send a low-frequency microwave signal approximately 35 kilometres. Third generation (3G) technology allows users to wirelessly download information from the internet and is extremely popular. The difference is that 3G technology uses a higher frequency to carry the signals, allowing masts to emit more radiation. This problem Is intensified by the need to have masts in closer proximity to each other and to the handsets themselves. Whatever danger there was in 2G signals is greatly multiplied by the fact that the 3G masts are physically much closer to people.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Government authorities have so far refused to accept that there is a danger to public health, and tests carried out by governments and telecommunications companies have been restricted to testing to see if heat is being produced from these microwaves. According to many, however, the problem is not heat, but electromagnetic waves which are found near the masts.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>It is believed that some people, though not all, have a condition known as electro- sensitivity or electro-hypersensitivity (EHS), meaning that the electromagnetism makes them ill in some way. The actual health threat from these pulsed microwave signals is an area which greatly needs more research. It has been claimed that the signals affect all living organisms, including plants, at a cellular level and cause symptoms in people ranging from tiredness and headaches to cancer. Of particular concern is the effect that increased electromagnetic fields may have on children and the fear is that the negative effects on their health may not manifest themselves until they have had many years of continued exposure to high levels. Tests carried out on animals living close to this form of radiation are particularly useful because scientists can rule out the psychological effect that humans might be exhibiting due to their fear of possible contamination.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>Of course, the danger of exposure exists when using a mobile phone but since we do this for limited periods, between which it is believed our bodies can recover, it is not considered as serious as the effect of living or working near a mast (sometimes mounted on the very building we occupy) which is transmitting electromagnetic waves 24 hours a day.</p></div></div>
+<p><strong>Questions 1-6</strong>
 
-Answer the questions below. Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>Questions 7-10
+Answer the questions below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p><strong>Questions 7-10</strong>
 
-Complete the diagram. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>Questions 11-13
+Complete the diagram. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>Questions 11-13</strong>
 
 Choose the correct letter, A, B, C or D.</p>
 <p>11. 3G technology is believed to be more of a threat to health because
 
-A the signals are transmitted over much greater distances than before.
+<strong>A</strong> the signals are transmitted over much greater distances than before.
 
-B the masts are closer together and emit higher frequencies.
+<strong>B</strong> the masts are closer together and emit higher frequencies.
 
-C the signals are carrying both voice and text messages.
+<strong>C</strong> the signals are carrying both voice and text messages.
 
-D the modern handsets needed emit more radiation.</p>
+<strong>D</strong> the modern handsets needed emit more radiation.</p>
 <p>12. Why might the testing of animals give us more reliable results?
 
-A because most of them live closer to the masts
+<strong>A</strong> because most of them live closer to the masts
 
-B because they are continually exposed to higher levels of radiation
+<strong>B</strong> because they are continually exposed to higher levels of radiation
 
-C because they are not affected at a cellular level
+<strong>C</strong> because they are not affected at a cellular level
 
-D because they are not afraid of the effects of radiation</p>
+<strong>D</strong> because they are not afraid of the effects of radiation</p>
 <p>13. What is believed to limit the danger from mobile phones?
 
-A not using them continuously
+<strong>A</strong> not using them continuously
 
-B turning them off when not in use
+<strong>B</strong> turning them off when not in use
 
-C mounting a mast on the building where you live or work
+<strong>C</strong> mounting a mast on the building where you live or work
 
-D keeping healthy and getting enough sleep</p>
-<p>Some Facts and Theories about Flu</p>
+<strong>D</strong> keeping healthy and getting enough sleep</p>
+<p><strong>Some Facts and Theories about Flu</strong></p>
 <p>The flu, more properly known as influenza, takes its name from the fact that it is so easily transmitted from person to person (influenza is the Italian word for ’influence’). Usually, contamination occurs through direct contact with secretions from an infected person. Its spread is also possible from contaminated airborne particles, such as those that occur when someone coughs or sneezes. However, it should be made clear that the risk is not great from simply being in the same room as an infected person, since the flu virus, unlike other respiratory viruses, does not dissolve in the air. Within 4-6 hours of someone catching the flu, the virus multiplies in infected cells and the cells burst, spreading the virus to other cells nearby.</p>
 <p>The spread continues for up to 72 hours, the exact length of time depending on the body’s immune system response and the strength of the particular strain of flu. The range of human responses to the flu virus has been of interest to scientists for many years. This is because the effect can vary from no infection to a rapid and deadly spread of the virus to many people. One area of study that has received particular attention is the immune system response of the individual. Where a person’s immune system is healthy, the virus is attacked as it enters the body, usually in the respiratory tract. This lessens the severity of the illness. In contrast, people with compromised immune systems (typical in the young, where it is not fully developed, or in the old and the sick, where it is not working efficiently), often suffer the worst effects.</p>
 <p>One of the body’s responses to flu is the creation of antibodies which recognise and destroy that particular strain of flu virus. What fascinates most researchers in the field is that the human body seems capable of storing these antibodies over a whole lifetime in case of future attack from the same or similar strains of flu. It was while researching these antibodies that scientists turned their attention back to what was possibly the worst ever flu pandemic in the world. The actual number of deaths is disputed, but the outbreak in 1918 killed between 20 and 50 million people. It is also estimated that one fifth of the population of the world may have been infected.</p>
 <p>Through tests done on some of the survivors of the 1918 outbreak, it was discovered that, 90 years later, they still possessed the antibodies to that strain of flu, and some of them were actually still producing the antibodies. Work is now focused on why these people survived in the first place, with one theory being that they had actually been exposed to an earlier, similar strain, therefore developing immunity to the 1918 strain. It is hoped that, in the near future, we might be able to isolate the antibodies and use them to vaccinate people against further outbreaks.</p>
 <p>Yet vaccination against the flu is an imprecise measure. At best, the vaccine protects us from the variations of flu that doctors expect that year. If their predictions are wrong in any particular year, being vaccinated will not prevent us from becoming infected. This is further complicated by the fact that there are two main types of flu, known as influenza A and influenza B. Influenza B causes less concern as its effects are usually less serious. Influenza A, however, has the power to change its genetic make-up. Although these genetic changes are rare, they create entirely new strains of flu against which we have no protection. It has been suggested that this is what had happened immediately prior to the 1918 outbreak, with research indicating that a genetic shift had taken place in China.</p>
 <p>In 2005, another genetic shift in an influenza A virus was recorded, giving rise to the H5N1 strain, otherwise known as avian flu, or bird flu. Typical of such new strains, we have no way of fighting it and many people who are infected with it die. Perhaps more worrying is that it is a strain only previously found in birds but which changed its genetic make-up in a way that allowed it to be transmitted to humans. Most of the fear surrounding this virus is that it will change again, developing the ability to pass from human to human. If that change does happen, scientists and doctors can reasonably expect a death rate comparable to that which occurred in 1918 and, given that we can now travel more quickly and more easily between countries, infecting many more people than was previously possible, it could be several times worse.</p>
-<p>Questions 14-20
+<p><strong>Questions 14-20</strong>
 
 Do the following statements agree with the information given in Reading Passage 2?</p>
-<p>TRUE if the statement agrees with the information
+<p><strong>TRUE</strong> if the statement agrees with the information
 
-FALSE if the statement contradicts the information
+<strong>FALSE</strong> if the statement contradicts the information
 
-NOT GIVEN If there is no information on this</p>
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>14. The only way to catch flu is if someone coughs or sneezes near you.
 
 15. You become aware of the symptoms of flu within 4-6 hours of infection.
@@ -176,14 +232,14 @@ NOT GIVEN If there is no information on this</p>
 19. Vaccination is largely ineffective against flu.
 
 20. Another change in the genetic make-up of the H5N1 strain could kill more people than the 1918 epidemic.</p>
-<p>Questions 21 -24
+<p><strong>Questions 21 -24</strong>
 
 Classify the following statements as characterising</p>
-<p>A something known by scientists to be true
+<p><strong>A</strong> something known by scientists to be true
 
-B something believed by scientists to be true
+<strong>B</strong> something believed by scientists to be true
 
-C something known by scientists to be false</p>
+<strong>C</strong> something known by scientists to be false</p>
 <p>21. Sharing a room with a flu sufferer presents a very high risk to your health.
 
 22. One fifth of the people in the world caught the flu in 1918.
@@ -191,13 +247,13 @@ C something known by scientists to be false</p>
 23. Influenza A viruses do not change their genetic make-up frequently.
 
 24. The H5N1 strain evolved in or before 2005.</p>
-<p>Questions 25-26
+<p><strong>Questions 25-26</strong>
 
-Answer the questions below. Write NO MORE THAN THREE WORDS for each answer.</p>
+Answer the questions below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
 <p>25. In which part of the body do antibodies normally attack the flu virus?
 
 26. What kind of transmission of the H5N1 strain are people afraid might become reality?</p>
-<p>Changes in International Commerce How ethics and fair trade can make a difference</p>
+<p><strong>Changes in International Commerce How ethics and fair trade can make a difference</strong></p>
 <p>The purpose of international commerce is to buy things from and sell things to people in other countries. Hundreds, and indeed thousands, of years ago, this actually worked quite well. People who travelled to foreign lands, often by ship, would take with them items for trade. Agricultural countries would, for example, trade olive oil or wine for weapons or other worked items. All that needed to be negotiated was a fair ’price’ for the items. (How many axes is a barrel of oil worth, for example?) Currency did not enter into the first deals but, even when it did, few problems existed to complicate matters barring disagreements over the value of goods.</p>
 <p>Today, fixing a fair price remains at the centre of international commerce. When we look at the deal from the point of view of the seller, market research must determine the price at which the goods will be sold. This may vary greatly from country to country and people are often surprised to see exactly the same item for sale at two or three times the price it sells for in another country. Taxation and local government controls are sometimes behind this, but often it comes down to the fact that people in poor countries simply cannot afford to pay the same amount of money as those in rich countries. These are the things a seller has to bear in mind when preparing a price list for goods in each country.</p>
 <p>In most cases, the purpose of setting a suitable price is to sell the maximum number of units. Usually, this is the way to guarantee the biggest profit. One exception is in the selling of luxury or specialist goods. These are often goods for which there is a limited market Here, slightly different rules apply because the profit margin (the amount of money a producer makes on each item) is much higher. For instance, nearly everyone wants to own a television or a mobile phone, and there is a lot of competition in the area of production, forcing the prices to be competitive too. The producers have to sell a large number of items to make a profit because their profit margin is small. But not everyone wants to buy hand-made jewellery, or a machine for sticking labels onto bottles. This enables the producer to charge a price much higher than the cost of making the item, increasing the profit margin. But at the heart of any sale, whether they sell many items for a small profit, or a few items for a large profit the prime motivation for the producer is to make as much profit as possible.</p>
@@ -205,14 +261,14 @@ Answer the questions below. Write NO MORE THAN THREE WORDS for each answer.</p>
 <p>There have been many examples throughout the developing world where local producers were forced by economic pressure to supply cash crops such as tea, coffee and cotton to major industries. These people are frequently not in a position to fix their prices, and are often forced by market conditions to sell for a price too low to support the producers and their community. Worse still, while the agricultural land is given over to cash crops, it robs the local people of the ability to grow their own food. In time, through over-production, the land becomes spent and infertile, leading to poverty, starvation, and sometimes the destruction of the whole community.</p>
 <p>Fair trade policies differ from ethical trade policies in that they take the process a stage further. Where ethical policies are designed to keep the damage to a minimum, fair trade organisations actually work to improve conditions among producers and their communities. Fair trade organisations view sustainability as a key aim. This involves implementing policies where producers are given a fair price for the goods they sell, so that they and their communities can continue to operate.</p>
 <p>Although many big businesses are cynical about an operation that does not regard profit as a main driving force, the paradox is that it will help them too. With sustainability as their main aim, fair trade organisations not only help the poorer producers obtain a reasonable standard of living, but they also help guarantee a constant supply of raw materials. This form of sustainability benefits everyone, whether their motive is making a profit or improving the lives of the world’s poorer people.</p>
-<p>Questions 27-31
+<p><strong>Questions 27-31</strong>
 
 Classify the following as being a result of</p>
-<p>A fair trade policies
+<p><strong>A</strong> fair trade policies
 
-B ethical trade policies
+<strong>B</strong> ethical trade policies
 
-C a country being poor</p>
+<strong>C</strong> a country being poor</p>
 <p>27. Manufactured goods are obtainable at a lower price than elsewhere.
 
 28. Harm to producers of raw materials is minimised.
@@ -222,51 +278,51 @@ C a country being poor</p>
 30. Land is not used to produce food for the local population.
 
 31. The local community has more chance of survival.</p>
-<p>Questions 32-36
+<p><strong>Questions 32-36</strong>
 
-Complete the summary below. Use NO MORE THAN THREE WORDS from the passage for each answer.</p>
+Complete the summary below. Use <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
 <p>Companies carry out (32)…………………….to decide the price that their goods are sold at in each country. The prices of the same goods can vary in different countries because of (33)…………………..or taxes. The (34)…………………is finalised, depending on how much customers in a particular market can afford. To ensure a profit, manufacturers aim to sell the (35)………………..of a particular item. Manufacturers can have a higher profit margin on luxury or specialist goods which often have a (36)………………….</p>
-<p>Questions 37-40
+<p><strong>Questions 37-40</strong>
 
 Choose the correct letter, A, B, C or D.</p>
 <p>37. According to the writer, what might early traders have disagreed about?
 
-A the comparative values of the goods
+<strong>A</strong> the comparative values of the goods
 
-B which currency to use for their deal
+<strong>B</strong> which currency to use for their deal
 
-C which items they wanted as exchange
+<strong>C</strong> which items they wanted as exchange
 
-D the quality of the goods being traded</p>
+<strong>D</strong> the quality of the goods being traded</p>
 <p>38. What is the main consequence of a product being in demand?
 
-A higher prices
+<strong>A</strong> higher prices
 
-B smaller profit margins
+<strong>B</strong> smaller profit margins
 
-C fewer items being produced
+<strong>C</strong> fewer items being produced
 
-D less market competition</p>
+<strong>D</strong> less market competition</p>
 <p>39. How might an agricultural community be destroyed?
 
-A because companies in richer countries steal from them
+<strong>A</strong> because companies in richer countries steal from them
 
-B because they ask an unrealistically high price for their produce
+<strong>B</strong> because they ask an unrealistically high price for their produce
 
-C because they over-use the land in order to grow cash crops
+<strong>C</strong> because they over-use the land in order to grow cash crops
 
-D because the crops take much too long to grow</p>
+<strong>D</strong> because the crops take much too long to grow</p>
 <p>40. The word paradox in the final paragraph refers to the fact that
 
-A poorer people will become richer than the people who run big businesses.
+<strong>A</strong> poorer people will become richer than the people who run big businesses.
 
-B by being cynical, the big businesses have helped produce a result they do not want.
+<strong>B</strong> by being cynical, the big businesses have helped produce a result they do not want.
 
-C the suppliers of raw materials will sell them to big businesses for a huge profit.
+<strong>C</strong> the suppliers of raw materials will sell them to big businesses for a huge profit.
 
-D big businesses will gain from these policies although they don’t support them.</p>
+<strong>D</strong> big businesses will gain from these policies although they don’t support them.</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. (existing) phone networks</p>
 <p>2. press a button</p>
 <p>3. (in) cars</p>
@@ -525,6 +581,29 @@ D big businesses will gain from these policies although they don’t support the
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -544,12 +623,23 @@ D big businesses will gain from these policies although they don’t support the
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -561,14 +651,6 @@ D big businesses will gain from these policies although they don’t support the
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

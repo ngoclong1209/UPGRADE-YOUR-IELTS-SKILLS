@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,137 +158,137 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_61</h1>
-            <p>IELTS Listening Practice - Test 61</p>
-<p>Part 1: Questions 1-5
-Complete the notes below. Write NO MORE THAN TWO WORDS.</p>
-<p>Customer details:
-• They will be coming to London on (1)  _______</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 61</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-5</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS.</strong></p>
+<h3 class="test-heading">Customer details:
+• They will be coming to London on <strong>(1)</strong>  _______</h3>
 <p>Tour details:
 • Bus tour
-o The cost is (3) £  _______  for adults and (4) £  _______  for children
-o Tours start at 7 am and finish at (5)  _______</p>
-<p>Questions 6-8
-Choose TWO letters A-G.</p>
+o The cost is <strong>(3)</strong> £  _______  for adults and <strong>(4)</strong> £  _______  for children
+o Tours start at 7 am and finish at <strong>(5)</strong>  _______</p>
+<p><strong>Questions 6-8</strong>
+Choose <strong>TWO</strong> letters A-G.</p>
 <p>Which three places does the tourist decide he’s likely to see?
-[ ]  A Buckingham Palace
-[ ]  B Big Ben
-[ ]  C Harrods
-[ ]  D Houses of Parliament
-[ ]  E Hyde Park
-[ ]  F St Paul’s Cathedral
-[ ]  G London Eye</p>
-<p>Questions 9-10
+<strong>[ ] </strong><strong> A</strong> Buckingham Palace
+<strong>[ ] </strong><strong> B</strong> Big Ben
+<strong>[ ] </strong><strong> C</strong> Harrods
+<strong>[ ] </strong><strong> D</strong> Houses of Parliament
+<strong>[ ] </strong><strong> E</strong> Hyde Park
+<strong>[ ] </strong><strong> F</strong> St Paul’s Cathedral
+<strong>[ ] </strong><strong> G</strong> London Eye</p>
+<p><strong>Questions 9-10</strong>
 Choose the correct letter A, B or C.</p>
 <p>9. How will the tourist buy the tickets?
-[ ]  A By phone
-[ ]  B Online
-[ ]  C On the bus</p>
+<strong>[ ] </strong><strong> A</strong> By phone
+<strong>[ ] </strong><strong> B</strong> Online
+<strong>[ ] </strong><strong> C</strong> On the bus</p>
 <p>10. How long before he leaves should he buy his tickets?
-[ ]  A 1 week
-[ ]  B 6 weeks
-[ ]  C 3 months</p>
-<p>Part 2: Questions 11-12
+<strong>[ ] </strong><strong> A</strong> 1 week
+<strong>[ ] </strong><strong> B</strong> 6 weeks
+<strong>[ ] </strong><strong> C</strong> 3 months</p>
+<p><strong>Part 2: Questions 11-12</strong>
 Choose the correct letter A, B or C.</p>
 <p>11. Each day, pandas need to eat:
-[ ]  A Very little nutrition
-[ ]  B 12-38 kg of bamboo
-[ ]  C 330 pounds of bamboo</p>
+<strong>[ ] </strong><strong> A</strong> Very little nutrition
+<strong>[ ] </strong><strong> B</strong> 12-38 kg of bamboo
+<strong>[ ] </strong><strong> C</strong> 330 pounds of bamboo</p>
 <p>12. If pandas are cared for away from the wild, they can live for approximately:
-[ ]  A 6 months
-[ ]  B 14-20 years
-[ ]  C 30 years</p>
-<p>Questions 13-14
-Choose TWO letters A-E.</p>
+<strong>[ ] </strong><strong> A</strong> 6 months
+<strong>[ ] </strong><strong> B</strong> 14-20 years
+<strong>[ ] </strong><strong> C</strong> 30 years</p>
+<p><strong>Questions 13-14</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
 <p>Select two things that are endangering pandas:
-[ ]  A Public awareness
-[ ]  B Ecotourism
-[ ]  C Poaching
-[ ]  D Other wildlife
-[ ]  E Building of roads and railroads</p>
-<p>Questions 15-16
-Write NO MORE THAN THREE WORDS AND / OR A NUMBER.</p>
+<strong>[ ] </strong><strong> A</strong> Public awareness
+<strong>[ ] </strong><strong> B</strong> Ecotourism
+<strong>[ ] </strong><strong> C</strong> Poaching
+<strong>[ ] </strong><strong> D</strong> Other wildlife
+<strong>[ ] </strong><strong> E</strong> Building of roads and railroads</p>
+<p><strong>Questions 15-16</strong>
+Write <strong>NO MORE THAN THREE WORDS AND / OR A NUMBER.</strong></p>
 <p>15. What proportion of the panda population in China is protected by reserves?  _______ 
 16. What did the WWF create which encouraged people to support pandas?  _______</p>
-<p>Questions 17 – 20
-Write NO MORE THAN ONE WORD AND / OR A NUMBER.</p>
+<p><strong>Questions 17 – 20</strong>
+Write <strong>NO MORE THAN ONE WORD AND / OR A NUMBER.</strong></p>
 <p>Reasons that pandas may not be worth saving:
-• They are extremely (17)  _______  to look after
-• They have a diet that is not (18)  _______ 
+• They are extremely <strong>(17)</strong>  _______  to look after
+• They have a diet that is not <strong>(18)</strong>  _______ 
 • They get sick easily and are hard to breed</p>
 <p>Reasons that pandas should not be allowed to die out:
-• They are in danger because (19)  _______  are damaging the forests
+• They are in danger because <strong>(19)</strong>  _______  are damaging the forests
 • We should protect their homes because other animals live there
-• The number of pandas in the wild is (20)  _______  so they will not become extinct</p>
-<p>Part 3: Questions 21 and 22
+• The number of pandas in the wild is <strong>(20)</strong>  _______  so they will not become extinct</p>
+<p><strong>Part 3: Questions 21 and 22</strong>
 Choose the correct letter A, B or C.</p>
 <p>21. What is the problem that the students are having with the project?
-[ ]  A The readings are too difficult
-[ ]  B The readings are not interesting
-[ ]  C The project is taking too long</p>
+<strong>[ ] </strong><strong> A</strong> The readings are too difficult
+<strong>[ ] </strong><strong> B</strong> The readings are not interesting
+<strong>[ ] </strong><strong> C</strong> The project is taking too long</p>
 <p>22. When can extensions be granted?
-[ ]  A Problems with planning
-[ ]  B Illness or accidents
-[ ]  C Scheduling issues</p>
-<p>Questions 23-27
+<strong>[ ] </strong><strong> A</strong> Problems with planning
+<strong>[ ] </strong><strong> B</strong> Illness or accidents
+<strong>[ ] </strong><strong> C</strong> Scheduling issues</p>
+<p><strong>Questions 23-27</strong>
 Choose your answers from the box and write the letters A–G next to questions 23–27.</p>
-<p>A knowledge about their customers
-B long-term gain
-C competition
-D customer satisfaction
-E employees
-F external factors</p>
+<p><strong>A</strong> knowledge about their customers
+<strong>B</strong> long-term gain
+<strong>C</strong> competition
+<strong>D</strong> customer satisfaction
+<strong>E</strong> employees
+<strong>F</strong> external factors</p>
 <p>23. Princeton Windows  _______ 
 24. MK Cars  _______ 
 25. Lakeside Golf  _______ 
 26. Bryson’s Meats  _______ 
 27. Mojo’s Music Shop  _______</p>
-<p>Questions 28-30
+<p><strong>Questions 28-30</strong>
 Choose your answers from the box and write the letters A-F next to questions 28-30.</p>
-<p>A It has good managers
-B It has been operating for too long
-C There aren’t enough music shops
-D It needs more innovative marketing
-E It will close down in the end
-F It has a good long-term future</p>
+<p><strong>A</strong> It has good managers
+<strong>B</strong> It has been operating for too long
+<strong>C</strong> There aren’t enough music shops
+<strong>D</strong> It needs more innovative marketing
+<strong>E</strong> It will close down in the end
+<strong>F</strong> It has a good long-term future</p>
 <p>28. Sarah  _______ 
 29. John  _______ 
 30. Neil  _______</p>
-<p>Part 4: Questions 31-40
-Complete the notes below. Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.</p>
+<p><strong>Part 4: Questions 31-40</strong>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer.</p>
 <p>Behavior or dolphins
 • almost 40 species of dolphin
-• found (31)  _______ 
+• found <strong>(31)</strong>  _______ 
 • usually in shallower seas
 • carnivores</p>
-<p>SOCIALISING
+<p><strong>SOCIALISING</strong>
 • very sociable and live in pods
-• super-pods may have more than (32)  _______  dolphins
+• super-pods may have more than <strong>(32)</strong>  _______  dolphins
 • have strong social bonds
-• help other animals – Moko helped a whale and calf escape from (33)  _______ 
+• help other animals – Moko helped a whale and calf escape from <strong>(33)</strong>  _______ 
 • have been known to assist swimmers</p>
-<p>CULTURE
-• discovered in May 2005 that young bottlenose dolphins learn to (34)  _______ 
-• dolphins pass knowledge from mothers to daughters, whereas primates pass to (35)  _______</p>
-<p>AGGRESSION
+<p><strong>CULTURE</strong>
+• discovered in May 2005 that young bottlenose dolphins learn to <strong>(34)</strong>  _______ 
+• dolphins pass knowledge from mothers to daughters, whereas primates pass to <strong>(35)</strong>  _______</p>
+<p><strong>AGGRESSION</strong>
 • dolphins may be aggressive towards each other
-• Like humans, this is due to disagreements over (36)  _______  and competition for females
+• Like humans, this is due to disagreements over <strong>(36)</strong>  _______  and competition for females
 • Infanticide sometimes occurs and the killing of porpoises</p>
-<p>FOOD
-• dolphins have a variety of feeding methods, some of which are (37)  _______  to one population
+<p><strong>FOOD</strong>
+• dolphins have a variety of feeding methods, some of which are <strong>(37)</strong>  _______  to one population
 • methods include:
 o herding
 o corralling
-o (38)  _______  or strand feeding
+o <strong>(38)</strong>  _______  or strand feeding
 o whacking fish with their flukes</p>
-<p>PLAYING
+<p><strong>PLAYING</strong>
 • have a variety of playful activities
 • common behaviour with an object or small animal include:
 o carrying it along
 o passing it along
-o (39)  _______  away from another dolphin throwing it out the water
+o <strong>(39)</strong>  _______  away from another dolphin throwing it out the water
 • may harass other animals
-• playful behaviour may include other (40)  _______  such as humans</p>
-<p>ANSWER KEY</p>
+• playful behaviour may include other <strong>(40)</strong>  _______  such as humans</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. 10 July</p>
 <p>2. parents</p>
 <p>3. 29</p>
@@ -486,11 +542,34 @@ o (39)  _______  away from another dolphin throwing it out the water
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_61.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_61.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -510,12 +589,23 @@ o (39)  _______  away from another dolphin throwing it out the water
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -527,14 +617,6 @@ o (39)  _______  away from another dolphin throwing it out the water
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

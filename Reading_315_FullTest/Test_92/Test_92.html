@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,19 +158,19 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_92</h1>
-            <p>IELTS Reading Practice - Test 92</p>
-<p>The History of Glass</p>
-<p>From our earliest origins, man has been making use of glass. Historians have discovered that a type of natural glass – obsidian – formed in places such as the mouth of a volcano as a result of the intense heat of an eruption melting sand – was first used as tips for spears. Archaeologists have even found evidence of man-made glass which dates back to 4000 BC; this took the form of glazes used for coating stone beads. It was not until 1500 BC, however, that the first hollow glass container was made by covering a sand core with a layer of molten glass.</p>
-<p>Glass blowing became the most common way to make glass containers from the first century BC. The glass made during this time was highly coloured due to the impurities of the raw material. In the first century AD, methods of creating colourless glass were developed, which was then tinted by the addition of colouring materials. The secret of glass making was taken across Europe by the Romans during this century. However, they guarded the skills and technology required to make glass very closely, and it was not until their empire collapsed in 476 AD that glass- making knowledge became widespread throughout Europe and the Middle East. From the 10th century onwards, the Venetians gained a reputation for technical skill and artistic ability in the making of glass bottles, and many of the city’s craftsmen left Italy to set up glassworks throughout Europe.</p>
-<p>A major milestone in the history of glass occurred with the invention of lead crystal glass by the English glass manufacturer George Ravenscroft (1632 – 1683). He attempted to counter the effect of clouding that sometimes occurred in blown glass by introducing lead to the raw materials used in the process. The new glass he created was softer and easier to decorate, and had a higher refractive index, adding to its brilliance and beauty, and it proved invaluable to the optical industry. It is thanks to Ravenscroft’s invention that optical lenses, astronomical telescopes, microscopes and the like became possible.</p>
-<p>In Britain, the modem glass industry only really started to develop after the repeal of the Excise Act in 1845. Before that time, heavy taxes had been placed on the amount of glass melted in a glasshouse, and were levied continuously from 1745 to 1845. Joseph Paxton’s Crystal Palace at London’s Great Exhibition of 1851 marked the beginning of glass as a material used in the building industry. This revolutionary new building encouraged the use of glass in public, domestic and horticultural architecture. Glass manufacturing techniques also improved with the advancement of science and the development of better technology.</p>
-<p>From 1887 onwards, glass making developed from traditional mouth-blowing to a semi-automatic process, after factory- owner HM Ashley introduced a machine capable of producing 200 bottles per hour in Castleford, Yorkshire, England – more than three times quicker than any previous production method. Then in 1907, the first fully automated machine was developed in the USA by Michael Owens – founder of the Owens Bottle Machine Company (later the major manufacturers Owens- Illinois) – and installed in its factory. Owens’ invention could produce an impressive 2,500 bottles per hour Other developments followed rapidly, but it | was not until the First World War when Britain became cut off from essential glass suppliers, that glass became part of the scientific sector. Previous to this, glass had been seen as a craft rather than a precise science.</p>
-<p>Today, glass making is big business. It has become a modem, hi-tech industry operating in a fiercely competitive global market where quality, design and service levels are critical to maintaining market share. Modem glass plants are capable of making millions of glass containers a day in many different colours, with green, brown and clear remaining the most popular. Few of us can imagine modem life without glass. It features in almost every aspect of our lives – in our homes, our cars and whenever we sit down to eat or drink. Glass packaging is used for many products, many beverages are sold in glass, as are numerous foodstuffs, as well as medicines and cosmetics.</p>
-<p>Glass is an ideal material for recycling, and with growing consumer concern for green issues, glass bottles and jars are becoming ever more popular. Glass recycling is good news for the environment. It saves used glass containers being sent to landfill. As less energy is needed to melt recycled glass than to melt down raw materials, this also saves fuel and production costs. Recycling also reduces the need for raw materials to be quarried, thus saving precious resources.</p>
-<p>Questions 1-8
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 92</strong></h3>
+<h3 class="test-heading"><strong>The History of Glass</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>From our earliest origins, man has been making use of glass. Historians have discovered that a type of natural glass – obsidian – formed in places such as the mouth of a volcano as a result of the intense heat of an eruption melting sand – was first used as tips for spears. Archaeologists have even found evidence of man-made glass which dates back to 4000 BC; this took the form of glazes used for coating stone beads. It was not until 1500 BC, however, that the first hollow glass container was made by covering a sand core with a layer of molten glass.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>Glass blowing became the most common way to make glass containers from the first century BC. The glass made during this time was highly coloured due to the impurities of the raw material. In the first century AD, methods of creating colourless glass were developed, which was then tinted by the addition of colouring materials. The secret of glass making was taken across Europe by the Romans during this century. However, they guarded the skills and technology required to make glass very closely, and it was not until their empire collapsed in 476 AD that glass- making knowledge became widespread throughout Europe and the Middle East. From the 10th century onwards, the Venetians gained a reputation for technical skill and artistic ability in the making of glass bottles, and many of the city’s craftsmen left Italy to set up glassworks throughout Europe.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>A major milestone in the history of glass occurred with the invention of lead crystal glass by the English glass manufacturer George Ravenscroft (1632 – 1683). He attempted to counter the effect of clouding that sometimes occurred in blown glass by introducing lead to the raw materials used in the process. The new glass he created was softer and easier to decorate, and had a higher refractive index, adding to its brilliance and beauty, and it proved invaluable to the optical industry. It is thanks to Ravenscroft’s invention that optical lenses, astronomical telescopes, microscopes and the like became possible.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>In Britain, the modem glass industry only really started to develop after the repeal of the Excise Act in 1845. Before that time, heavy taxes had been placed on the amount of glass melted in a glasshouse, and were levied continuously from 1745 to 1845. Joseph Paxton’s Crystal Palace at London’s Great Exhibition of 1851 marked the beginning of glass as a material used in the building industry. This revolutionary new building encouraged the use of glass in public, domestic and horticultural architecture. Glass manufacturing techniques also improved with the advancement of science and the development of better technology.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>From 1887 onwards, glass making developed from traditional mouth-blowing to a semi-automatic process, after factory- owner HM Ashley introduced a machine capable of producing 200 bottles per hour in Castleford, Yorkshire, England – more than three times quicker than any previous production method. Then in 1907, the first fully automated machine was developed in the USA by Michael Owens – founder of the Owens Bottle Machine Company (later the major manufacturers Owens- Illinois) – and installed in its factory. Owens’ invention could produce an impressive 2,500 bottles per hour Other developments followed rapidly, but it | was not until the First World War when Britain became cut off from essential glass suppliers, that glass became part of the scientific sector. Previous to this, glass had been seen as a craft rather than a precise science.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Today, glass making is big business. It has become a modem, hi-tech industry operating in a fiercely competitive global market where quality, design and service levels are critical to maintaining market share. Modem glass plants are capable of making millions of glass containers a day in many different colours, with green, brown and clear remaining the most popular. Few of us can imagine modem life without glass. It features in almost every aspect of our lives – in our homes, our cars and whenever we sit down to eat or drink. Glass packaging is used for many products, many beverages are sold in glass, as are numerous foodstuffs, as well as medicines and cosmetics.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>Glass is an ideal material for recycling, and with growing consumer concern for green issues, glass bottles and jars are becoming ever more popular. Glass recycling is good news for the environment. It saves used glass containers being sent to landfill. As less energy is needed to melt recycled glass than to melt down raw materials, this also saves fuel and production costs. Recycling also reduces the need for raw materials to be quarried, thus saving precious resources.</p></div></div>
+<p><strong>Questions 1-8</strong>
 
-Complete the notes below. Choose ONE WORD ONLY from the passage.</p>
-<p>The History of Glass
+Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage.</p>
+<p><strong>The History of Glass</strong>
 
 • Early humans used a material called (1)……………………………..to make the sharp points of their (2)…………………..
 
@@ -129,14 +185,14 @@ Complete the notes below. Choose ONE WORD ONLY from the passage.</p>
 • 17th century: George Ravenscroft developed a process using (6)………………….to avoid the occurrence of (7)……………………………in blown glass
 
 • Mid 19th century: British glass production developed after changes to laws concerning (8)……………………</p>
-<p>Questions 9-13
+<p><strong>Questions 9-13</strong>
 
 In boxes 9-13 on your answer sheet write</p>
-<p>TRUE                          if the statement agrees with the information
+<p><strong>TRUE</strong>                          if the statement agrees with the information
 
-FALSE                        if the statement contradicts the information
+<strong>FALSE</strong>                        if the statement contradicts the information
 
-NOT GIVEN             if there is no information on this</p>
+<strong>NOT GIVEN</strong>             if there is no information on this</p>
 <p>9. In 1887, HM Ashley has the fastest bottle producing machine that existed at the time.
 
 10. Micheal Owens was hired by a large US company to design a fully automated bottle manufacturing machine for them.
@@ -146,8 +202,8 @@ NOT GIVEN             if there is no information on this</p>
 12. Concern for the environment is leading to an increased demand for glass containers.
 
 13. It is more expensive to produce recycle glass than to manufacture new glass.</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>Bring back the big cats</p>
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>Bring back the big cats</strong></p>
 <p>It’s time to start returning vanished native animals to Britain, says John Vesty There is a poem, written around 598 AD, which describes hunting a mystery animal called a llewyn. But what was it? Nothing seemed to fit, until 2006, when an animal bone, dating from around the same period, was found in the Kinsey Cave in northern England. Until this discovery, the lynx – a large spotted cat with tassel led ears – was presumed to have died out in Britain at least 6,000 years ago, before the inhabitants of these islands took up farming. But the 2006 find, together with three others in Yorkshire and Scotland, is compelling evidence that the lynx and the mysterious llewyn were in fact one and the same animal. If this is so, it would bring forward the tassel-eared cat’s estimated extinction date by roughly 5,000 years.</p>
 <p>However, this is not quite the last glimpse of the animal in British culture. A 9th- century stone cross from the Isle of Eigg shows, alongside the deer, boar and aurochs pursued by a mounted hunter, a speckled cat with tasselled ears. Were it not for the animal’s backside having worn away with time, we could have been certain, as the lynx’s stubby tail is unmistakable. But even without this key feature, it’s hard to see what else the creature could have been. The lynx is now becoming the totemic animal of a movement that is transforming British environmentalism: rewilding.</p>
 <p>Rewilding means the mass restoration of damaged ecosystems. It involves letting trees return to places that have been denuded, allowing parts of the seabed to recover from trawling and dredging, permitting rivers to flow freely again. Above all, it means bringing back missing species. One of the most striking findings of modern ecology is that ecosystems without large predators behave in completely different ways from those that retain them Some of them drive dynamic processes that resonate through the whole food chain, creating niches for hundreds of species that might otherwise struggle to survive. The killers turn out to be bringers of life.</p>
@@ -157,79 +213,79 @@ NOT GIVEN             if there is no information on this</p>
 <p>The lynx presents no threat to human beings: there is no known instance of one preying on people. It is a specialist predator of roe deer, a species that has exploded in Britain in recent decades, holding back, by intensive browsing, attempts to re-establish forests. It will also winkle out sika deer: an exotic species that is almost impossible for human beings to control, as it hides in impenetrable plantations of young trees. The attempt to reintroduce this predator marries well with the aim of bringing forests back to parts of our bare and barren uplands. The lynx requires deep cover, and as such presents little risk to sheep and other livestock, which are supposed, as a condition of farm subsidies, to be kept out of the woods.</p>
 <p>On a recent trip to the Cairngorm Mountains, I heard several conservationists suggest that the lynx could be reintroduced there within 20 years. If trees return to the bare hills elsewhere in Britain, the big cats could soon follow. There is nothing extraordinary about these proposals, seen from the perspective of anywhere else in Europe. The lynx has now been reintroduced to the Jura Mountains, the Alps, the Vosges in eastern France and the Harz mountains in Germany, and has re-established itself in many more places. The European population has tripled since 1970 to roughly 10,000. As with wolves, bears, beavers, boar, bison, moose and many other species, the lynx has been able to spread as farming has, left the hills and people discover that it is more lucrative to protect charismatic wildlife than to hunt it, as tourists will pay for the chance to see it. Large-scale rewilding is happening almost everywhere – except Britain.</p>
 <p>Here, attitudes are just beginning to change. Conservationists are starting to accept that the old preservation-jar model is failing, even on its own terms. Already, projects such as Trees for Life in the Highlands provide a hint of what might be coming. An organisation is being set up that will seek to catalyse the rewilding of land and sea across Britain, its aim being to reintroduce that rarest of species to British ecosystems: hope.</p>
-<p>Questions 14-18
+<p><strong>Questions 14-18</strong>
 
 Choose the correct letter A, B, C or D.</p>
 <p>14. What did the 2006 discovery of the animal bone reveal about the lynx?
 
-A. its physical appearance was very distinctive
+<strong>A</strong>. its physical appearance was very distinctive
 
-B. its extinction was linked to the spread of farming
+<strong>B</strong>. its extinction was linked to the spread of farming
 
-C. it vanished from Britain several thousand years ago
+<strong>C</strong>. it vanished from Britain several thousand years ago
 
-D. it survived in Britain longer than was previously thought</p>
+<strong>D</strong>. it survived in Britain longer than was previously thought</p>
 <p>15. What point does the writer make about large predators in the third paragraph?
 
-A. their presence can increase biodiversity
+<strong>A</strong>. their presence can increase biodiversity
 
-B. they may cause damage to local ecosystems
+<strong>B</strong>. they may cause damage to local ecosystems
 
-C. their behavior can alter according to the environment
+<strong>C</strong>. their behavior can alter according to the environment
 
-D. they should be reintroduced only to areas where they were native</p>
+<strong>D</strong>. they should be reintroduced only to areas where they were native</p>
 <p>16. What does the write suggest about British conservation in the fourth paragraph?
 
-A. it has failed to achieve its aims
+<strong>A</strong>. it has failed to achieve its aims
 
-B. it is beginning to change direction
+<strong>B</strong>. it is beginning to change direction
 
-C. it has taken a misguided approach
+<strong>C</strong>. it has taken a misguided approach
 
-D. it has focused on the most widespread species</p>
+<strong>D</strong>. it has focused on the most widespread species</p>
 <p>17. Protecting large areas of the sea from commercial fishing would result in
 
-A. practical benefits for the fishing industry
+<strong>A</strong>. practical benefits for the fishing industry
 
-B. some short term losses to the fishing industry
+<strong>B</strong>. some short term losses to the fishing industry
 
-C. widespread opposition from the fishing industry
+<strong>C</strong>. widespread opposition from the fishing industry
 
-D. certain changes to techniques within the fishing industry</p>
+<strong>D</strong>. certain changes to techniques within the fishing industry</p>
 <p>18. According to the author, what distinguishes rewilding from other environmental campaigns?
 
-A. its objective is more achievable
+<strong>A</strong>. its objective is more achievable
 
-B. its supporters are more articulate
+<strong>B</strong>. its supporters are more articulate
 
-C. its positive message is more appealing
+<strong>C</strong>. its positive message is more appealing
 
-D. it is based on sounder scientific principles</p>
-<p>Questions 19-22
+<strong>D</strong>. it is based on sounder scientific principles</p>
+<p><strong>Questions 19-22</strong>
 
 Complete the summary using the list of words and phrases A-F below.</p>
-<p>Reintroducing the lynx to Britain
+<p><strong>Reintroducing the lynx to Britain</strong>
 
 There would be many advantages to reintroducing the lynx to Britain. While there is no evidence that the lynx has ever put (19)………………………….in danger, it would reduce the numbers of certain (20)………………………..whose populations have increased enormously in recent decades. It would present only a minimal threat to (21)……………………….provided these were kept away from lynx habitats. Furthermore, the reintroduction programme would also like efficiently with initiatives to return native (22)……………………….to certain areas of the country.</p>
-<p>A. Trees
+<p><strong>A</strong>. Trees
 
-B. Endangered species
+<strong>B</strong>. Endangered species
 
-C. Hillsides
+<strong>C</strong>. Hillsides
 
-D. Wild animals
+<strong>D</strong>. Wild animals
 
-E. Humans
+<strong>E</strong>. Humans
 
-F. Farm animals</p>
-<p>Questions 23-26
+<strong>F</strong>. Farm animals</p>
+<p><strong>Questions 23-26</strong>
 
 In boxes 23-26 on your answer sheet, write</p>
-<p>YES                            if the statement agrees with the claims of the writer
+<p><strong>YES</strong>                            if the statement agrees with the claims of the writer
 
-NO                             if the statement contradicts the claims of the writer
+<strong>NO</strong>                             if the statement contradicts the claims of the writer
 
-NOT GIVEN           if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>           if it is impossible to say what the writer thinks about this</p>
 <p>23. Britain could become the first European country to reintroduce the lynx.
 
 24. The large growth in the European lynx population since 1970 has exceeded conservationists’ expectations.
@@ -237,18 +293,18 @@ NOT GIVEN           if it is impossible to say what the writer thinks abou
 25. Changes in agricultural practices have extended the habitat of the lynx in Europe.
 
 26. It has become apparent that species reintroduction has commercial advantages.</p>
-<p>UK companies need more effective boards of directors</p>
-<p>A After a number of serious failures of governance (that is, how they are managed at the highest level), companies in Britain, as well as elsewhere, should consider radical changes to their directors’ roles. It is clear that the role of a board director today is not an easy one. Following the 2008 financial meltdown, which resulted in a deeper and more prolonged period of economic downturn than anyone expected, the search for explanations in the many post-mortems of the crisis has meant blame has been spread far and wide. Governments, regulators, central banks and auditors have all been in the frame. The role of bank directors and management and their widely publicised failures have been extensively picked over and examined in reports, inquiries and commentaries.</p>
-<p>B The knock-on t of this scrutiny has been to make the governance of companies in general an issue of intense public debate and has significantly increased the pressures on, and the responsibilities of, directors. At the simplest and most practical level, the time involved in fulfilling the demands of a board directorship has increased significantly, calling into question the effectiveness of the classic model of corporate governance by part-time, independent non-executive directors. Where once a board schedule may have consisted of between eight and ten meetings a year, in many companies the number of events requiring board input and decisions has dramatically risen. Furthermore, the amount of reading and preparation required for each meeting is increasing. Agendas can become overloaded and this can mean the time for constructive debate must necessarily be restricted in favour of getting through the business.</p>
-<p>C Often, board business is devolved to committees in order to cope with the workload, which may be more efficient but can mean that the board as a whole is less involved in fully addressing some of the most important issues. It is not uncommon for the audit committee meeting to last longer than the main board meeting itself. Process may take the place of discussion and be at the expense of real collaboration, so that boxes are ticked rather than issues tackled.</p>
-<p>D A radical solution, which may work for some very large companies whose businesses are extensive and complex, is the professional board, whose members would work up to three or four days a week, supported by their own dedicated staff and advisers. There are obvious risks to this and it would be important to establish clear guidelines for such a board to ensure that it did not step on the toes of management by becoming too engaged in the day- to-day running of the company. Problems of recruitment, remuneration and independence could also arise and this structure would not be appropriate for all companies. However, more professional and better-informed boards would have been particularly appropriate for banks where the executives had access to information that part-time non-executive directors lacked, leaving the latter unable to comprehend or anticipate the 2008 crash.</p>
-<p>E One of the main criticisms of boards and their directors is that they do not focus sufficiently on longer-term matters of strategy, sustainability and governance, but instead concentrate too much on short-term financial metrics. Regulatory requirements and the structure of the market encourage this behaviour. The tyranny of quarterly reporting can distort board decision-making, as directors have to ‘make the numbers’ every four months to meet the insatiable appetite of the market for more data. This serves to encourage the trading methodology of a certain kind of investor who moves in and out of a stock without engaging in constructive dialogue with the company about strategy or performance, and is simply seeking a short¬ term financial gain. This effect has been made worse by the changing profile of investors due to the globalisation of capital and the increasing use of automated trading systems. Corporate culture adapts and management teams are largely incentivised to meet financial goals.</p>
-<p>F Compensation for chief executives has become a combat zone where pitched battles between investors, management and board members are fought, often behind closed doors but increasingly frequently in the full glare of press attention. Many would argue that this is in the interest of transparency and good governance as shareholders use their muscle in the area of pay to pressure boards to remove underperforming chief executives. Their powers to vote down executive remuneration policies increased when binding votes came into force. The chair of the remuneration committee can be an exposed and lonely role, as Alison Carnwath, chair of Barclays Bank’s remuneration committee, found when she had to resign, having been roundly criticised for trying to defend the enormous bonus to be paid to the chief executive; the irony being that she was widely understood to have spoken out against it in the privacy of the committee.</p>
-<p>G The financial crisis stimulated a debate about the role and purpose of the company and a heightened awareness of corporate ethics. Trust in the corporation has been eroded and academics such as Michael Sandel, in his thoughtful and bestselling book What Money Can’t Buy, are questioning the morality of capitalism and the market economy. Boards of companies in all sectors will need to widen their perspective to encompass these issues and this may involve a realignment of corporate goals. We live in challenging times.</p>
-<p>Questions 27-33
+<p><strong>UK companies need more effective boards of directors</strong></p>
+<p><strong>A</strong> After a number of serious failures of governance (that is, how they are managed at the highest level), companies in Britain, as well as elsewhere, should consider radical changes to their directors’ roles. It is clear that the role of a board director today is not an easy one. Following the 2008 financial meltdown, which resulted in a deeper and more prolonged period of economic downturn than anyone expected, the search for explanations in the many post-mortems of the crisis has meant blame has been spread far and wide. Governments, regulators, central banks and auditors have all been in the frame. The role of bank directors and management and their widely publicised failures have been extensively picked over and examined in reports, inquiries and commentaries.</p>
+<p><strong>B</strong> The knock-on t of this scrutiny has been to make the governance of companies in general an issue of intense public debate and has significantly increased the pressures on, and the responsibilities of, directors. At the simplest and most practical level, the time involved in fulfilling the demands of a board directorship has increased significantly, calling into question the effectiveness of the classic model of corporate governance by part-time, independent non-executive directors. Where once a board schedule may have consisted of between eight and ten meetings a year, in many companies the number of events requiring board input and decisions has dramatically risen. Furthermore, the amount of reading and preparation required for each meeting is increasing. Agendas can become overloaded and this can mean the time for constructive debate must necessarily be restricted in favour of getting through the business.</p>
+<p><strong>C</strong> Often, board business is devolved to committees in order to cope with the workload, which may be more efficient but can mean that the board as a whole is less involved in fully addressing some of the most important issues. It is not uncommon for the audit committee meeting to last longer than the main board meeting itself. Process may take the place of discussion and be at the expense of real collaboration, so that boxes are ticked rather than issues tackled.</p>
+<p><strong>D</strong> A radical solution, which may work for some very large companies whose businesses are extensive and complex, is the professional board, whose members would work up to three or four days a week, supported by their own dedicated staff and advisers. There are obvious risks to this and it would be important to establish clear guidelines for such a board to ensure that it did not step on the toes of management by becoming too engaged in the day- to-day running of the company. Problems of recruitment, remuneration and independence could also arise and this structure would not be appropriate for all companies. However, more professional and better-informed boards would have been particularly appropriate for banks where the executives had access to information that part-time non-executive directors lacked, leaving the latter unable to comprehend or anticipate the 2008 crash.</p>
+<p><strong>E</strong> One of the main criticisms of boards and their directors is that they do not focus sufficiently on longer-term matters of strategy, sustainability and governance, but instead concentrate too much on short-term financial metrics. Regulatory requirements and the structure of the market encourage this behaviour. The tyranny of quarterly reporting can distort board decision-making, as directors have to ‘make the numbers’ every four months to meet the insatiable appetite of the market for more data. This serves to encourage the trading methodology of a certain kind of investor who moves in and out of a stock without engaging in constructive dialogue with the company about strategy or performance, and is simply seeking a short¬ term financial gain. This effect has been made worse by the changing profile of investors due to the globalisation of capital and the increasing use of automated trading systems. Corporate culture adapts and management teams are largely incentivised to meet financial goals.</p>
+<p><strong>F</strong> Compensation for chief executives has become a combat zone where pitched battles between investors, management and board members are fought, often behind closed doors but increasingly frequently in the full glare of press attention. Many would argue that this is in the interest of transparency and good governance as shareholders use their muscle in the area of pay to pressure boards to remove underperforming chief executives. Their powers to vote down executive remuneration policies increased when binding votes came into force. The chair of the remuneration committee can be an exposed and lonely role, as Alison Carnwath, chair of Barclays Bank’s remuneration committee, found when she had to resign, having been roundly criticised for trying to defend the enormous bonus to be paid to the chief executive; the irony being that she was widely understood to have spoken out against it in the privacy of the committee.</p>
+<p><strong>G</strong> The financial crisis stimulated a debate about the role and purpose of the company and a heightened awareness of corporate ethics. Trust in the corporation has been eroded and academics such as Michael Sandel, in his thoughtful and bestselling book What Money Can’t Buy, are questioning the morality of capitalism and the market economy. Boards of companies in all sectors will need to widen their perspective to encompass these issues and this may involve a realignment of corporate goals. We live in challenging times.</p>
+<p><strong>Questions 27-33</strong>
 
 Reading passage 3 has seven paragraphs A-G. Choose the correct heading for each paragraph from the list of heading below.</p>
-<p>List of headings
+<p><strong>List of headings</strong>
 
 i Disputes over financial arrangements regarding senior managers
 
@@ -278,14 +334,14 @@ viii A proposal to change the way the board operates</p>
 32. Paragraph F
 
 33. Paragraph G</p>
-<p>Questions 34-37
+<p><strong>Questions 34-37</strong>
 
 In boxes 34-37 on your answer sheet write</p>
-<p>YES                             if the statement agrees with the claims of the writer
+<p><strong>YES</strong>                             if the statement agrees with the claims of the writer
 
-NO                               if the statement contradicts the claims of the writer
+<strong>NO</strong>                               if the statement contradicts the claims of the writer
 
-NOT GIVEN            if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>            if it is impossible to say what the writer thinks about this</p>
 <p>34. Close scrutiny of the behavior of boards has increased since the economic downturn.
 
 35. Banks have been mismanaged to a greater extent than other businesses.
@@ -293,16 +349,16 @@ NOT GIVEN            if it is impossible to say what the writer thinks abo
 36. Board meetings normally continue for as long as necessary to debate matters in full.
 
 37. Using a committee structure would ensure that board members are fully informed about significant issues.</p>
-<p>Questions 38-40
+<p><strong>Questions 38-40</strong>
 
-Complete the sentences below. Choose ONE WORD ONLY from the passage.</p>
+Complete the sentences below. Choose <strong>ONE WORD ONLY</strong> from the passage.</p>
 <p>38. Before 2008, non-executive directors were at a disadvantage because of their lack of………………….
 
 39. Boards tend to place too much emphasis on…………………………..considerations that are only of short term relevance.
 
 40. On certain matters, such as pay the board may have to accept the views of…………………..</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. obsidian</p>
 <p>2. spears</p>
 <p>3. beads</p>
@@ -561,6 +617,29 @@ Complete the sentences below. Choose ONE WORD ONLY from the passage.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -580,12 +659,23 @@ Complete the sentences below. Choose ONE WORD ONLY from the passage.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -597,14 +687,6 @@ Complete the sentences below. Choose ONE WORD ONLY from the passage.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

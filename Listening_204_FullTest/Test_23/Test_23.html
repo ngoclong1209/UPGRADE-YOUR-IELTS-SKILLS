@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,88 +158,88 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_23</h1>
-            <p>IELTS Listening Practice - Test 23</p>
-<p>Part 1: Questions 1-5
-Complete the notes below. Write NO MORE THAN TWO WORDS.</p>
-<p>Tauber Insurance Company</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 23</strong></h3>
+<p><u><strong>Part</strong></u><strong> 1:</strong><strong> Questions 1-5</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS.</strong></p>
+<h3 class="test-heading"><strong>Tauber Insurance Company</strong></h3>
 <p>Insurance type:     vehicle</p>
-<p>Policy#: (1)  _______ 
+<p>Policy#: <strong>(1)</strong>  _______ 
 Make and model: Masda Marvel
-Engine size: (2)  _______ 
+Engine size: <strong>(2)</strong>  _______ 
 Name: Lisa Marie Haethcote
-Date of birth: (3)  _______  1955
-Password: (4)  _______ 
+Date of birth: <strong>(3)</strong>  _______  1955
+Password: <strong>(4)</strong>  _______ 
 Change valuation? Yes
-Reduce value to: (5) $  _______</p>
-<p>Questions 6-10
-Complete the notes below. Write NO MORE THAN TWO WORDS.</p>
+Reduce value to: <strong>(5)</strong> $  _______</p>
+<p><strong>Questions 6-10</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS.</strong></p>
 <p>Notes to be added to policy:
 Add new driver:
 • Name: Samuel Michaels
 • Age: 28
-• Relationship to main driver: (6)  _______ 
+• Relationship to main driver: <strong>(6)</strong>  _______ 
 Reason:
-• (7)  _______ 
+• <strong>(7)</strong>  _______ 
 Client/ new driver to provide:
-• Verified (8)  _______  of driver’s licence
-• Clean driving (9)  _______ 
+• Verified <strong>(8)</strong>  _______  of driver’s licence
+• Clean driving <strong>(9)</strong>  _______ 
 Start date:
-• (10)  _______  cover for 2 weeks from today
+• <strong>(10)</strong>  _______  cover for 2 weeks from today
 • Full cover when paperwork approved</p>
-<p>Part 2: Questions 11-16
-Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.</p>
+<p><u><strong>Part</strong></u><strong> 2: Questions 11-16</strong>
+Complete the sentences below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>11. You can become more confident by using  _______</p>
 <p>12. More confidence results in better  _______</p>
 <p>13. A good strategy to build confidence is to get rid of negative memories of mistakes and failures and instead concentrate on  _______</p>
 <p>14. Frequent  _______  of positive imagery is necessary for success.</p>
 <p>15. Mental positivity is not enough-you also have to act in a confident manner-so  _______  is important too.</p>
 <p>16. Setting and achieving goals results in brain activity that brings about an experience of  _______</p>
-<p>Questions 17-20
-Complete the flow chart below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>(17)   _______               (18)   _______ 
-(19)   _______              (20)  _______</p>
-<p>Part 3: Questions 21-23
+<p><strong>Questions 17-20</strong>
+Complete the flow chart below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>(17)</strong>   _______               <strong>(18)</strong>   _______ 
+<strong>(19) </strong>  _______              <strong>(20)</strong>  _______</p>
+<p><u><strong>Part</strong></u><strong> 3: Questions 21-23</strong>
 Choose the correct letter A, B or C.</p>
 <p>21. Julia and Bob’s science project is due
-[ ]  A next week
-[ ]  B next month
-[ ]  C next year</p>
+<strong>[ ] </strong><strong> A</strong> next week
+<strong>[ ] </strong><strong> B</strong> next month
+<strong>[ ] </strong><strong> C</strong> next year</p>
 <p>22. All the materials they use must be
-[ ]  A recycled
-[ ]  B inexpensive
-[ ]  C available in the lab</p>
+<strong>[ ] </strong><strong> A</strong> recycled
+<strong>[ ] </strong><strong> B</strong> inexpensive
+<strong>[ ] </strong><strong> C</strong> available in the lab</p>
 <p>23. A Cartesian diver was called a devil by some people because
-[ ]  A they saw it was black
-[ ]  B they believed in the supernatural
-[ ]  C they wanted the inventor to be famous</p>
-<p>Questions 24 and 25
-Choose TWO letters A-E.</p>
+<strong>[ ] </strong><strong> A</strong> they saw it was black
+<strong>[ ] </strong><strong> B</strong> they believed in the supernatural
+<strong>[ ] </strong><strong> C</strong> they wanted the inventor to be famous</p>
+<p><strong>Questions 24 and 25</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
 <p>Julia and Bob find some of the items they need
-[ ]  A in Bob’s pencil case and the recycling bin
-[ ]  B in the cafeteria and the Resource Centre
-[ ]  C in the shop and Julia’s locker
-[ ]  D in Bob’s bag and his pocket
-[ ]  E in Tara’s packet and on the floor</p>
-<p>Questions 26-30
-Complete the notes below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>Assembly
-Step 1: fold (26)  _______  in half
-Step 2: use (27)  _______  to secure the ends
-Step 3: attach (28)  _______  to diver
-Step 4: fill bottle with water and replace (29)  _______ 
-Step 5: demonstrate by squeezing and releasing bottle. Compression causes diver to sink because diver becomes (30) _______</p>
-<p>Part 4: Questions 31-35
-Answer the questions below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
+<strong>[ ] </strong><strong> A</strong> in Bob’s pencil case and the recycling bin
+<strong>[ ] </strong><strong> B</strong> in the cafeteria and the Resource Centre
+<strong>[ ] </strong><strong> C</strong> in the shop and Julia’s locker
+<strong>[ ] </strong><strong> D</strong> in Bob’s bag and his pocket
+<strong>[ ] </strong><strong> E</strong> in Tara’s packet and on the floor</p>
+<p><strong>Questions 26-30</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>Assembly</strong>
+Step 1: fold <strong>(26)</strong>  _______  in half
+Step 2: use <strong>(27)</strong>  _______  to secure the ends
+Step 3: attach <strong>(28)</strong>  _______  to diver
+Step 4: fill bottle with water and replace <strong>(29)</strong>  _______ 
+Step 5: demonstrate by squeezing and releasing bottle. Compression causes diver to sink because diver becomes <strong>(30)</strong> _______</p>
+<p><u><strong>Part</strong></u><strong> 4: Questions 31-35</strong>
+Answer the questions below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
 <p>31. When did Mt. Pinatubo erupt for the first time?  _______</p>
 <p>32. When was the earthquake measuring 7.8 recorded?  _______</p>
 <p>33. When did the experts begin to study Mt. Pinatubo?  _______</p>
 <p>34. What fell on the local villages on 2nd April?  _______</p>
 <p>35. What does a ‘level 5’ alert mean?  _______</p>
-<p>Questions 36-40
-Complete the sentences below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Several large earthquakes were triggered by the eruption of Pinatubo on 15th June 1991 because of the (36)  _______  of the summit. The caldera thus created considerably reduced the height of the mountain. At the same time (37)  _______  was passing by and the rain associated with it mixed with the cinders in the air to form a substance called tephra which fell on the (38)  _______  of homes causing them to collapse, crushing hundreds of people.</p>
-<p>During the eruption large amounts of Sulphur dioxide gas were emitted, which combined with (39)  _______  to make sulphuric acid which was responsible for a great deal of ozone depletion above Antarctica. The overall effect of the cloud from this great eruption was the lowering of (40)  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>Questions 36-40</strong>
+Complete the sentences below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p>Several large earthquakes were triggered by the eruption of Pinatubo on 15th June 1991 because of the <strong>(36)</strong>  _______  of the summit. The caldera thus created considerably reduced the height of the mountain. At the same time <strong>(37)</strong>  _______  was passing by and the rain associated with it mixed with the cinders in the air to form a substance called tephra which fell on the <strong>(38)</strong>  _______  of homes causing them to collapse, crushing hundreds of people.</p>
+<p>During the eruption large amounts of Sulphur dioxide gas were emitted, which combined with <strong>(39)</strong>  _______  to make sulphuric acid which was responsible for a great deal of ozone depletion above Antarctica. The overall effect of the cloud from this great eruption was the lowering of <strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. ZQW5009</p>
 <p>2. 2500cc</p>
 <p>3. 22 August</p>
@@ -437,11 +493,34 @@ Complete the sentences below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER fo
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_23.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_23.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -461,12 +540,23 @@ Complete the sentences below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER fo
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -478,14 +568,6 @@ Complete the sentences below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER fo
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

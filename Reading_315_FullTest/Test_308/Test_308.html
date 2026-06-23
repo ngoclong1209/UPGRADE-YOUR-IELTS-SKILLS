@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,65 +158,65 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_308</h1>
-            <p>IELTS Reading Practice - Test 308</p>
-<p>THE SMART CARD</p>
-<p>The invention of the microchip in the 1960s revolutionised the computer industry. Microchips are also used in thousands of other products, including smart cards. These look and function like the familiar magnetic-stripe credit cards, but they have a microchip embedded inside them that can store information. The smart card was the brainchild of two French inventors, Roland Moreno and Michel Ugon, who developed the technology in the mid-1970s. The first cards were tested in several French cities in the early 1980s and the technology was subsequently adopted by banks throughout Europe. Smart cards are now a part of everyday life in Europe, where they are used for a wide range of purposes, including paying for public transport, making small purchases over the counter, and banking by telephone. The European Union has adopted the technology as the standard for all its future credit cards.</p>
-<p>Smart cards are only just beginning to be introduced in the United States, where the older magnetic-stripe technology is still the norm. The new technology is considered to be much more secure than the magnetic-stripe card, which is vulnerable to fraud. The microchip embedded in the smart card can be programmed to allow the cardholder to access many different systems. One card can be used for various types of banking transactions, for example, and as a phone card. It can also serve as an electronic purse, storing a cash balance for small purchases and recording phone and ATM transactions. It can also be used as a security pass to give the cardholder access to restricted areas.</p>
-<p>The smart card may well replace keys, money, and identity cards in the future. In the United States, the Department of Defense has provided smart cards to its 4.3 million employees, and the Department of Energy is planning to do the same. Many of the nation’s hospitals and health-care facilities are also adopting the technology.</p>
-<p>One of the most significant uses of the smart card is in providing people with access to their own health records. In France, for example, everyone now has a smart card containing a complete medical history, which can be accessed immediately by a doctor or pharmacist. The card, which is the size of a credit card, has a microchip embedded in it that contains the patient’s medical history, including allergies, blood type, and details of any current medical conditions. The card also contains information about the patient’s health-insurance provider. The card can be used to store medical records, prescriptions, and details of medical appointments.</p>
-<p>In the United States, the Health Insurance Portability and Accountability Act (HIPAA) is driving the demand for smart cards. The Act requires health-care providers to protect the privacy of patients’ medical information and to take measures to protect the security of sensitive information. Smart cards are considered one of the best ways of meeting these requirements.</p>
-<p>The technology is also being used to improve the security of the US passport card. The card is a wallet-sized document that can be used instead of the traditional passport booklet when US citizens cross the border by land or sea between the United States and Canada, Mexico, the Caribbean, or Bermuda. The card has a microchip embedded in it that contains a unique number linking the card to a government database containing the cardholder’s personal information.</p>
-<p>Smart cards are also used in public-transport systems around the world. In Hong Kong, for example, the Octopus card is used by millions of commuters every day. The card is a plastic smart card containing a microchip that can be loaded with cash and used to pay for travel on the city’s underground railway system. The card can also be used on buses, ferries, and trams, and even in car parks and convenience stores.</p>
-<p>Questions 1-7
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 308</strong></h3>
+<h3 class="test-heading"><strong>THE SMART CARD</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>The invention of the microchip in the 1960s revolutionised the computer industry. Microchips are also used in thousands of other products, including smart cards. These look and function like the familiar magnetic-stripe credit cards, but they have a microchip embedded inside them that can store information. The smart card was the brainchild of two French inventors, Roland Moreno and Michel Ugon, who developed the technology in the mid-1970s. The first cards were tested in several French cities in the early 1980s and the technology was subsequently adopted by banks throughout Europe. Smart cards are now a part of everyday life in Europe, where they are used for a wide range of purposes, including paying for public transport, making small purchases over the counter, and banking by telephone. The European Union has adopted the technology as the standard for all its future credit cards.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>Smart cards are only just beginning to be introduced in the United States, where the older magnetic-stripe technology is still the norm. The new technology is considered to be much more secure than the magnetic-stripe card, which is vulnerable to fraud. The microchip embedded in the smart card can be programmed to allow the cardholder to access many different systems. One card can be used for various types of banking transactions, for example, and as a phone card. It can also serve as an electronic purse, storing a cash balance for small purchases and recording phone and ATM transactions. It can also be used as a security pass to give the cardholder access to restricted areas.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>The smart card may well replace keys, money, and identity cards in the future. In the United States, the Department of Defense has provided smart cards to its 4.3 million employees, and the Department of Energy is planning to do the same. Many of the nation’s hospitals and health-care facilities are also adopting the technology.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>One of the most significant uses of the smart card is in providing people with access to their own health records. In France, for example, everyone now has a smart card containing a complete medical history, which can be accessed immediately by a doctor or pharmacist. The card, which is the size of a credit card, has a microchip embedded in it that contains the patient’s medical history, including allergies, blood type, and details of any current medical conditions. The card also contains information about the patient’s health-insurance provider. The card can be used to store medical records, prescriptions, and details of medical appointments.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>In the United States, the Health Insurance Portability and Accountability Act (HIPAA) is driving the demand for smart cards. The Act requires health-care providers to protect the privacy of patients’ medical information and to take measures to protect the security of sensitive information. Smart cards are considered one of the best ways of meeting these requirements.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>The technology is also being used to improve the security of the US passport card. The card is a wallet-sized document that can be used instead of the traditional passport booklet when US citizens cross the border by land or sea between the United States and Canada, Mexico, the Caribbean, or Bermuda. The card has a microchip embedded in it that contains a unique number linking the card to a government database containing the cardholder’s personal information.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>Smart cards are also used in public-transport systems around the world. In Hong Kong, for example, the Octopus card is used by millions of commuters every day. The card is a plastic smart card containing a microchip that can be loaded with cash and used to pay for travel on the city’s underground railway system. The card can also be used on buses, ferries, and trams, and even in car parks and convenience stores.</p></div></div>
+<p><strong>Questions 1-7</strong>
+<strong>
+</strong>Do the following statements agree with the information given in reading passage? In boxes 1-7 on your answer sheet, write</p>
+<p><strong>TRUE    </strong>              if the statement agrees with the information
 
-Do the following statements agree with the information given in reading passage? In boxes 1-7 on your answer sheet, write</p>
-<p>TRUE                  if the statement agrees with the information
+<strong>FALSE</strong>                 if the statement contradicts the information
 
-FALSE                 if the statement contradicts the information
-
-NOT GIVEN         if there is no information on this</p>
-<p>Questions 8-13
-
-Complete the notes below. Choose NO MORE THAN THREE WORDS AND/OR A NUMBER from the passage for each answer. Write your answers in boxes 8-13 on your answer sheet.</p>
-<p>THE SMART CARD</p>
-<p>Functions of smart cards
-
-– store information
+<strong>NOT GIVEN</strong>         if there is no information on this</p>
+<p><strong>Questions 8-13</strong>
+<strong>
+</strong>Complete the notes below. Choose <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> from the passage for each answer. Write your answers in boxes 8-13 on your answer sheet.</p>
+<p><strong>THE SMART CARD</strong></p>
+<p><strong>Functions of smart cards</strong>
+<strong>
+</strong>– store information
 
 – allow the cardholder to access different systems</p>
-<p>Different uses of smart cards
-
-– to make small purchases
+<p><strong>Different uses of smart cards</strong>
+<strong>
+</strong>– to make small purchases
 
 – to record phone and ATM transactions
 
 – as a security pass</p>
-<p>Use of smart cards in France
-
-– to provide people with access to their own health records
+<p><strong>Use of smart cards in France</strong>
+<strong>
+</strong>– to provide people with access to their own health records
 
 – to store medical records and details about (8) ………………….
 
 – to store (9) …………………</p>
-<p>Use of smart cards in the United States
-
-– to improve the security of the US passport card
+<p><strong>Use of smart cards in the United States</strong>
+<strong>
+</strong>– to improve the security of the US passport card
 
 – to provide a (10) …………………. between the card and a government database</p>
-<p>Use of smart cards in Hong Kong
-
-– to pay for travel on the city’s underground railway system
+<p><strong>Use of smart cards in Hong Kong</strong>
+<strong>
+</strong>– to pay for travel on the city’s underground railway system
 
 – to pay for travel on (11) ………………….. , (12) ……………….. and (13) …………….</p>
-<p>GENE THERAPY</p>
-<p>A Gene therapy is the introduction of genes into existing cells to prevent or cure a wide range of diseases. The most common form of gene therapy involves using DNA that encodes a functional, therapeutic gene to replace a mutated gene. Gene therapy was first conceptualised in 1972, with the authors urging caution before commencing human gene therapy studies. The first attempt, an unsuccessful one, at modifying human DNA was performed in 1980 by Martin Cline. The first successful nuclear gene transfer in humans, approved by the National Institutes of Health, was performed in May 1989. The first therapeutic use of gene transfer as well as the first direct insertion of human DNA into the nuclear genome was performed by French Anderson in a trial starting in September 1990. The first commercial gene therapy, Gendicine, was approved in China in 2003 for the treatment of certain cancers. In 2011, Neovasculgen was registered in Russia as the first-in-class gene-therapy drug for treatment of peripheral artery disease, including critical limb ischemia. In 2012, Glybera, a treatment for a rare inherited disorder, lipoprotein lipase deficiency, was approved by the European Commission.</p>
-<p>B Although the technology is still in its infancy, it has been used with some success. It is a potential therapy for a number of diseases (such as cystic fibrosis, sickle cell anaemia, adrenoleukodystrophy and haemophilia) as well as several inherited retinal diseases. Current gene therapy has primarily focused on treating individuals by targeting the therapy to somatic (body) cells, such as bone marrow cells. Gene therapy may be classified into the two following types:</p>
+<p><strong>GENE THERAPY</strong></p>
+<p><strong>A</strong> Gene therapy is the introduction of genes into existing cells to prevent or cure a wide range of diseases. The most common form of gene therapy involves using DNA that encodes a functional, therapeutic gene to replace a mutated gene. Gene therapy was first conceptualised in 1972, with the authors urging caution before commencing human gene therapy studies. The first attempt, an unsuccessful one, at modifying human DNA was performed in 1980 by Martin Cline. The first successful nuclear gene transfer in humans, approved by the National Institutes of Health, was performed in May 1989. The first therapeutic use of gene transfer as well as the first direct insertion of human DNA into the nuclear genome was performed by French Anderson in a trial starting in September 1990. The first commercial gene therapy, Gendicine, was approved in China in 2003 for the treatment of certain cancers. In 2011, Neovasculgen was registered in Russia as the first-in-class gene-therapy drug for treatment of peripheral artery disease, including critical limb ischemia. In 2012, Glybera, a treatment for a rare inherited disorder, lipoprotein lipase deficiency, was approved by the European Commission.</p>
+<p><strong>B</strong> Although the technology is still in its infancy, it has been used with some success. It is a potential therapy for a number of diseases (such as cystic fibrosis, sickle cell anaemia, adrenoleukodystrophy and haemophilia) as well as several inherited retinal diseases. Current gene therapy has primarily focused on treating individuals by targeting the therapy to somatic (body) cells, such as bone marrow cells. Gene therapy may be classified into the two following types:</p>
 <p>Somatic gene therapy: In somatic gene therapy, the therapeutic genes are transferred into the somatic cells (cells that do not make sperm or eggs) of a patient. Any modifications and effects will be restricted to the individual patient only, and will not be inherited by the patient’s offspring or later generations. Somatic gene therapy represents mainstream basic and clinical research, in which therapeutic DNA is used to treat disease.</p>
 <p>Germline gene therapy: In germline gene therapy, germ cells (sperm or eggs) are modified by the introduction of functional genes, which are ordinarily integrated into their genomes. The change due to therapy would therefore be heritable and would be passed on to later generations. In some jurisdictions, germline gene therapy is the only feasible option for some diseases; however, this option is fraught with many bio-ethical considerations. For the present, germline gene therapy is prohibited for application in human beings, at least for the foreseeable future, in most countries.</p>
-<p>C Gene therapy may be classified into two types, ex vivo and in vivo, on the basis of the method of delivery of genes. Ex vivo gene therapy involves the transfer of genes in cultured cells and reinsertion of the genetically altered cells back into the patient. In vivo gene therapy is the direct delivery of genes into the cells of a particular tissue in the body. The in vivo gene delivery can be divided into two categories: the therapeutic gene is directly injected into the body tissues; the therapeutic DNA is delivered to the target cells through the circulation.</p>
-<p>D Gene therapy uses sections of DNA (usually genes) to treat or prevent disease. The DNA is carefully selected to correct the effect of a mutated gene that is causing disease. The technique was first developed in 1972 but has, so far, had limited success in treating human diseases. For example, in 1999, 18-year-old Jesse Gelsinger died after undergoing gene therapy for ornithine transcarbamylase deficiency, and in 2002 it was reported that two children treated for X-linked severe combined immunodeficiency (X-SCID) in a clinical trial in 1999 had developed leukaemia. However, more than 1,800 gene therapy clinical trials have been conducted since the technique was first developed. Gene therapy can be used to modify cells inside or outside the body. When it’s done inside the body, a doctor will inject the vector carrying the gene directly into the patient. This method is useful when only certain tissues require correction. When it’s done outside the body, doctors will take a sample of the patient’s cells and expose them to the vector in a laboratory. The corrected cells are then returned to the patient. This approach is more useful when only a few cells need to be corrected.</p>
-<p>E Gene therapy has the potential to eliminate and prevent hereditary diseases such as cystic fibrosis and is a possible cure for heart disease, AIDS and cancer. The technology is still in its infancy. If the defects in the gene are corrected, these diseases could be treated. Gene therapy could have the potential to cure many genetic disorders. However, there are concerns that the wide range use of gene therapy in human beings is not safe.</p>
-<p>Questions 14-18</p>
+<p><strong>C</strong> Gene therapy may be classified into two types, ex vivo and in vivo, on the basis of the method of delivery of genes. Ex vivo gene therapy involves the transfer of genes in cultured cells and reinsertion of the genetically altered cells back into the patient. In vivo gene therapy is the direct delivery of genes into the cells of a particular tissue in the body. The in vivo gene delivery can be divided into two categories: the therapeutic gene is directly injected into the body tissues; the therapeutic DNA is delivered to the target cells through the circulation.</p>
+<p><strong>D</strong> Gene therapy uses sections of DNA (usually genes) to treat or prevent disease. The DNA is carefully selected to correct the effect of a mutated gene that is causing disease. The technique was first developed in 1972 but has, so far, had limited success in treating human diseases. For example, in 1999, 18-year-old Jesse Gelsinger died after undergoing gene therapy for ornithine transcarbamylase deficiency, and in 2002 it was reported that two children treated for X-linked severe combined immunodeficiency (X-SCID) in a clinical trial in 1999 had developed leukaemia. However, more than 1,800 gene therapy clinical trials have been conducted since the technique was first developed. Gene therapy can be used to modify cells inside or outside the body. When it’s done inside the body, a doctor will inject the vector carrying the gene directly into the patient. This method is useful when only certain tissues require correction. When it’s done outside the body, doctors will take a sample of the patient’s cells and expose them to the vector in a laboratory. The corrected cells are then returned to the patient. This approach is more useful when only a few cells need to be corrected.</p>
+<p><strong>E</strong> Gene therapy has the potential to eliminate and prevent hereditary diseases such as cystic fibrosis and is a possible cure for heart disease, AIDS and cancer. The technology is still in its infancy. If the defects in the gene are corrected, these diseases could be treated. Gene therapy could have the potential to cure many genetic disorders. However, there are concerns that the wide range use of gene therapy in human beings is not safe.</p>
+<p><strong>Questions 14-18</strong></p>
 <p>Reading passage 2 has five sections, A-E. Which section contains the following information? Write the correct letter, A-E, in boxes 14-18 on your answer sheet. NB: You may use any letter more than once</p>
 <p>14. a reference to a person who resisted the use of gene therapy on humans
 
@@ -171,19 +227,19 @@ Complete the notes below. Choose NO MORE THAN THREE WORDS AND/OR A NUMBER from t
 17. a reference to the ethical concerns surrounding inheritable gene therapy.
 
 18. mention of the total recorded attempts to apply gene therapy in clinical research.</p>
-<p>Questions 19-22
-
-Complete the summary below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 19-22 on your answer sheet.</p>
-<p>TYPES OF GENE THERAPY</p>
+<p><strong>Questions 19-22</strong>
+<strong>
+</strong>Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer. Write your answers in boxes 19-22 on your answer sheet.</p>
+<p><strong>TYPES OF GENE THERAPY</strong><strong> </strong></p>
 <p>Gene therapy can be classified as either somatic or germline. In somatic gene therapy, the (19) ……………. cells of a patient are targeted for gene replacement. The effects of the therapy will not be passed down to future (20) ……………… However, in germline gene therapy, the DNA of a patient’s sperm or egg cells is altered. This means that any changes will be passed down to future generations. Although this type of gene therapy is not permitted in humans in most countries, it may be the only possible cure for people with certain (21) …………………In addition, gene therapy can be classified as either ex vivo or in vivo. In ex vivo gene therapy, the genes are altered outside the patient’s body before the (22) ……………….. into the patient. In vivo gene therapy involves injecting the therapeutic DNA directly into the patient’s body.</p>
-<p>Questions 23-26
+<p><strong>Questions 23-26</strong>
+<strong>
+</strong>Do the following statements agree with the information given in reading passage? In boxes 23-26 on your answer sheet, write</p>
+<p><strong>TRUE    </strong>              if the statement agrees with the information
 
-Do the following statements agree with the information given in reading passage? In boxes 23-26 on your answer sheet, write</p>
-<p>TRUE                  if the statement agrees with the information
+<strong>FALSE</strong>                 if the statement contradicts the information
 
-FALSE                 if the statement contradicts the information
-
-NOT GIVEN         if there is no information on this</p>
+<strong>NOT GIVEN</strong>         if there is no information on this</p>
 <p>23. The first gene therapy trial on humans was unsuccessful.
 
 24. So far, gene therapy has only been used on adults.
@@ -191,7 +247,7 @@ NOT GIVEN         if there is no information on this</p>
 25. X-SCID is more common in boys than girls.
 
 26.The corrected cells are then returned to the patient.</p>
-<p>THE MYTH OF LEARNING STYLES</p>
+<p><strong>THE MYTH OF LEARNING STYLES</strong></p>
 <p>The idea that teaching methods should match a student’s particular learning style — their personal way of learning — is popular with teachers and students alike. But the evidence suggests it may not be helpful.</p>
 <p>The concept of learning styles is one of the most influential — and widely criticized — theories in education. It is the idea that each person finds it easier to learn through a particular method of instruction. Some people, for example, are thought to learn better when they’re taught visually; others, when instruction is auditory, or through movement, and so on.</p>
 <p>The idea is popular in part because it reflects the intuition of teachers and students. Everyone knows from personal experience that some kinds of learning feel easier than others, and that they may prefer one way of learning over another. And it is also popular because it claims to be based on science. The idea of learning styles was developed in the 1970s, as psychologists and educational theorists were trying to understand how people learn. The idea that different people learn information in different ways was appealing, and it soon became clear that many people had strong preferences about how they liked information to be presented. In a typical research study, one group of students might be classified as ‘visual learners’, while another group would be classified as ‘auditory learners’. All the students would then be asked to learn something, with half the visual learners being taught visually, and half being taught aurally. The auditory learners would also be split into the two groups. If the theory was correct, the visual learners should do better when taught visually, and the auditory learners should do better when taught aurally.</p>
@@ -202,14 +258,14 @@ NOT GIVEN         if there is no information on this</p>
 <p>Despite the lack of evidence for learning styles, the idea is still very popular. A 2014 study of more than 400 teachers in the UK and the Netherlands found that more than 90 percent of them believed that people learn better if they are taught in their preferred learning style, and that the majority of them used learning styles as a method of instruction. In the US, a 2017 survey of more than 300 teachers found that 96 percent of them agreed with the idea of learning styles, and 24 percent of them used it to guide their teaching.</p>
 <p>The idea of learning styles is also popular among students. In a 2018 study, researchers asked more than 600 students in the US about their beliefs about learning. They found that 93 percent of them agreed with the idea of learning styles, and that 78 percent of them said that they had a particular learning style.</p>
 <p>The evidence is clear: matching teaching to a student’s particular learning style is unlikely to lead to better learning. It may in fact be holding students back.</p>
-<p>Questions 27-31
+<p><strong>Questions 27-31</strong>
+<strong>
+</strong>Do the following statements agree with the claims of the writer in reading passage? In boxes 27-31 on your answer sheet, write</p>
+<p><strong>YES       </strong>              if the statement agrees with the views of the writer
 
-Do the following statements agree with the claims of the writer in reading passage? In boxes 27-31 on your answer sheet, write</p>
-<p>YES                     if the statement agrees with the views of the writer
+<strong>NO</strong>                       if the statement contradicts the views of the writer
 
-NO                       if the statement contradicts the views of the writer
-
-NOT GIVEN         if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>         if it is impossible to say what the writer thinks about this</p>
 <p>27. Teachers and students’ personal experiences contribute to the popularity of the learning styles concept.
 
 28. Research into learning styles was popular in the 1970s.
@@ -219,32 +275,32 @@ NOT GIVEN         if it is impossible to say what the writer thinks abou
 30. The team of psychologists led by Daniel Willingham found evidence for the idea of learning styles.
 
 31. Students may learn better when they are taught using methods they are not familiar with.</p>
-<p>Questions 32-35
-
-Complete the summary using the list of words, A-F, below. Write the correct letter, A-F, in boxes 32-35 on your answer sheet.</p>
-<p>EXPLANATIONS FOR THE FINDINGS</p>
+<p><strong>Questions 32-35</strong>
+<strong>
+</strong>Complete the summary using the list of words, A-F, below. Write the correct letter, A-F, in boxes 32-35 on your answer sheet.</p>
+<p><strong>EXPLANATIONS FOR THE FINDINGS</strong></p>
 <p>One explanation is that some students might not have a strong enough (32) ………………. to affect their learning. Another possibility is that students may have preferences about how they learn, but these do not affect their (33) …………………. A third possibility is that students’ preferences do affect their learning, but only because they have learned less well through other methods in the past.</p>
 <p>The most likely explanation is that different ways of learning are useful for learning different things. For example, learning to drive a car involves visual learning, auditory learning and (34) ………………….</p>
 <p>The learning-styles approach is not only unsupported by science, but may actually be (35) …………….</p>
-<p>A harmful
+<p><strong>A</strong> harmful
 
-B ability
+<strong>B</strong> ability
 
-C hands-on learning
+<strong>C</strong> hands-on learning
 
-D learning
+<strong>D</strong> learning
 
-E preference
+<strong>E</strong> preference
 
-F useful</p>
-<p>Questions 36-40</p>
-<p>Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 36-40 on your answer sheet.</p>
+<strong>F</strong> useful</p>
+<p><strong>Questions 36-40</strong></p>
+<p>Complete the sentences below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer. Write your answers in boxes 36-40 on your answer sheet.</p>
 <p>The idea of learning styles can give students the wrong idea about their level of (36) …………………. Students who believe that intelligence is (37) ………………… tend to do better than other students.</p>
 <p>Students who have been told that they are (38) …………………… learners might not try so hard to learn by reading or listening.</p>
 <p>Research has shown that students who use a (39) ………………….. of learning methods often learn more effectively.</p>
 <p>In a 2018 study, 78 percent of students said that they had a particular (40) …………………</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. False</p>
 <p>2. True</p>
 <p>3. Not given</p>
@@ -503,6 +559,29 @@ F useful</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -522,12 +601,23 @@ F useful</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -539,14 +629,6 @@ F useful</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

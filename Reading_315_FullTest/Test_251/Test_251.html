@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,17 +158,17 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_251</h1>
-            <p>IELTS Reading Practice - Test 251</p>
-<p>Father of modern management</p>
-<p>A Peter Drucker was one of the most important management thinkers of the past hundred years. He wrote about 40 book and thousands of articles and he never rested in his mission to persuade the world that management matters. “Management is an organ of institutions … the organ that converts a mob into an organisation, and human efforts into performance.” Did he succeed? The range of his influence was extraordinary. Wherever people grapple with tricky management problems, from big organizations to small ones, from the public sector to the private, and increasingly in the voluntary sector, you can find Drucker’s fingerprints.</p>
-<p>B His first two books – The End of Economic Man (1939) and The Future of Industrial Man (1942) – had their admirers, including Winston Churchill, but they annoyed academic critics by ranging so widely over so many different subjects. Still, the second of these books attracted attention with its passionate insistence that companies had a social dimension as well as an economic purpose. His third book, The Concept of the Corporation, became an instant bestseller and has remained in print ever since.</p>
-<p>C The two most interesting arguments in The Concept of the Corporation actually had little to do with the decentralization fad. They were to dominate his work. The first had to do with “empowering” workers. Drucker believed in treating workers as resources rather than just as costs. He was a harsh critic of the assembly-line system of production that then dominated the manufacturing sector – partly because assembly lines moved at the speed of the slowest and partly because they failed to engage the creativity of individual workers. The second argument had to do with the rise of knowledge workers. Drucker argued that the world is moving from an “economy of goods” to an economy of “knowledge” – and from a society dominated by an industrial proletariat to one dominated by brain workers. He insisted that this had profound implications for both managers and politicians. Managers had to stop treating workers like cogs in a huge inhuman machine and start treating them as brain workers. In turn, politicians had to realise that knowledge, and hence education, was the single most important resource for any advanced society. Yet Drucker also thought that this economy had implications for knowledge workers themselves. They had to come to terms with the fact that they were neither “bosses” nor “workers”, but something in between: entrepreneurs who had responsibility for developing their most important resource, brainpower, and who also needed to take more control of their own careers, including their pension plans.</p>
-<p>D However, there was also a hard side to his work. Drucker was responsible for inventing one of the rational school of management’s most successful products – “management by objectives”. In one of his most substantial works, The Practice of Management (1954), he emphasised the importance of managers and corporations setting clear long-term objectives and then translating those long-term objectives into more immediate goals. He argued that firms should have an elite corps of general managers, who set these long-term objectives, and then a group of more specialised managers. For his critics, this was a retreat from his earlier emphasis on the soft side of management. For Drucker it was all perfectly consistent: if you rely too much on empowerment you risk anarchy, whereas if you rely too much on command-and-control you sacrifice creativity. The trick is for managers to set long-term goals, but then allow their employees to work out ways of achieving those goals. If Drucker helped make management a global industry, he also helped push it beyond its business base. He was emphatically a management thinker, not just a business one. He believed that management is “the defining organ of all modern institutions”, not just corporations.</p>
-<p>E There are three persistent criticisms of Drucker’s work. The first is that he focused on big organisations rather than small ones. The Concept of the Corporation was in many ways a fanfare to big organisations. As Drucker said, “We know today that in modern industrial production, particularly in modern mass production, the small unit is not only inefficient, it cannot produce at all.” The book helped to launch the “big organisation boom” that dominated business thinking for the next 20 years. The second criticism is that Drucker’s enthusiasm for management by objectives helped to lead the business down a dead end. They prefer to allow ideas, including ideas for long-term strategies, to bubble up from the bottom and middle of the organisations rather than being imposed from on high. Thirdly, Drucker is criticised for being a maverick who has increasingly been left behind by the increasing rigour of his chosen field. There is no single area of academic management theory that he made his own.</p>
-<p>F There is some truth in the first two arguments. Drucker never wrote anything as good as The Concept of the Corporation on entrepreneurial start-ups. Drucker’s work on management by objectives sits uneasily with his earlier and later writings on the importance of knowledge workers and self-directed teams. But the third argument is short-sighted and unfair because it ignores Drucker’s pioneering role in creating the modern profession of management. He produced one of the first systematic studies of a big company. He pioneered the idea that ideas can help galvanise companies. The biggest problem with evaluating Drucker’s influence is that so many of his ideas have passed into conventional wisdom. In other words, he is the victim of his own success. His writings on the importance of knowledge workers and empowerment may sound a little banal today. But they certainly weren’t banal when he first dreamed them up in the 1940s, or when they were first put in to practice in the Anglo-Saxon world in the 1980s. Moreover, Drucker continued to produce new ideas up until his 90s. His work on the management of voluntary organisations remained at the cutting edge.</p>
-<p>Questions 1-6
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 251</strong></h3>
+<h3 class="test-heading"><strong>Father of modern management</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Peter Drucker was one of the most important management thinkers of the past hundred years. He wrote about 40 book and thousands of articles and he never rested in his mission to persuade the world that management matters. “Management is an organ of institutions … the organ that converts a mob into an organisation, and human efforts into performance.” Did he succeed? The range of his influence was extraordinary. Wherever people grapple with tricky management problems, from big organizations to small ones, from the public sector to the private, and increasingly in the voluntary sector, you can find Drucker’s fingerprints.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> His first two books – The End of Economic Man (1939) and The Future of Industrial Man (1942) – had their admirers, including Winston Churchill, but they annoyed academic critics by ranging so widely over so many different subjects. Still, the second of these books attracted attention with its passionate insistence that companies had a social dimension as well as an economic purpose. His third book, The Concept of the Corporation, became an instant bestseller and has remained in print ever since.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> The two most interesting arguments in The Concept of the Corporation actually had little to do with the decentralization fad. They were to dominate his work. The first had to do with “empowering” workers. Drucker believed in treating workers as resources rather than just as costs. He was a harsh critic of the assembly-line system of production that then dominated the manufacturing sector – partly because assembly lines moved at the speed of the slowest and partly because they failed to engage the creativity of individual workers. The second argument had to do with the rise of knowledge workers. Drucker argued that the world is moving from an “economy of goods” to an economy of “knowledge” – and from a society dominated by an industrial proletariat to one dominated by brain workers. He insisted that this had profound implications for both managers and politicians. Managers had to stop treating workers like cogs in a huge inhuman machine and start treating them as brain workers. In turn, politicians had to realise that knowledge, and hence education, was the single most important resource for any advanced society. Yet Drucker also thought that this economy had implications for knowledge workers themselves. They had to come to terms with the fact that they were neither “bosses” nor “workers”, but something in between: entrepreneurs who had responsibility for developing their most important resource, brainpower, and who also needed to take more control of their own careers, including their pension plans.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> However, there was also a hard side to his work. Drucker was responsible for inventing one of the rational school of management’s most successful products – “management by objectives”. In one of his most substantial works, The Practice of Management (1954), he emphasised the importance of managers and corporations setting clear long-term objectives and then translating those long-term objectives into more immediate goals. He argued that firms should have an elite corps of general managers, who set these long-term objectives, and then a group of more specialised managers. For his critics, this was a retreat from his earlier emphasis on the soft side of management. For Drucker it was all perfectly consistent: if you rely too much on empowerment you risk anarchy, whereas if you rely too much on command-and-control you sacrifice creativity. The trick is for managers to set long-term goals, but then allow their employees to work out ways of achieving those goals. If Drucker helped make management a global industry, he also helped push it beyond its business base. He was emphatically a management thinker, not just a business one. He believed that management is “the defining organ of all modern institutions”, not just corporations.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> There are three persistent criticisms of Drucker’s work. The first is that he focused on big organisations rather than small ones. The Concept of the Corporation was in many ways a fanfare to big organisations. As Drucker said, “We know today that in modern industrial production, particularly in modern mass production, the small unit is not only inefficient, it cannot produce at all.” The book helped to launch the “big organisation boom” that dominated business thinking for the next 20 years. The second criticism is that Drucker’s enthusiasm for management by objectives helped to lead the business down a dead end. They prefer to allow ideas, including ideas for long-term strategies, to bubble up from the bottom and middle of the organisations rather than being imposed from on high. Thirdly, Drucker is criticised for being a maverick who has increasingly been left behind by the increasing rigour of his chosen field. There is no single area of academic management theory that he made his own.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> There is some truth in the first two arguments. Drucker never wrote anything as good as The Concept of the Corporation on entrepreneurial start-ups. Drucker’s work on management by objectives sits uneasily with his earlier and later writings on the importance of knowledge workers and self-directed teams. But the third argument is short-sighted and unfair because it ignores Drucker’s pioneering role in creating the modern profession of management. He produced one of the first systematic studies of a big company. He pioneered the idea that ideas can help galvanise companies. The biggest problem with evaluating Drucker’s influence is that so many of his ideas have passed into conventional wisdom. In other words, he is the victim of his own success. His writings on the importance of knowledge workers and empowerment may sound a little banal today. But they certainly weren’t banal when he first dreamed them up in the 1940s, or when they were first put in to practice in the Anglo-Saxon world in the 1980s. Moreover, Drucker continued to produce new ideas up until his 90s. His work on the management of voluntary organisations remained at the cutting edge.</p></div></div>
+<p><strong>Questions 1-6</strong>
 Reading Passage has six paragraphs, A-F. Choose the correct heading for each paragraph from the list below. Write the correct number, i-ix, in boxes 1-6 on your answer sheet.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i The popularity and impact of Drucker’s work
 ii Finding fault with Drucker
 iii The impact of economic globalisation
@@ -122,50 +178,50 @@ vi Drucker’s view of balanced management
 vii Drucker’s rejection of big business
 viii An appreciation of the pros and cons of Drucker’s work
 ix The changing role of the employee</p>
-<p>Questions 7-10
+<p><strong>Questions 7-10</strong>
 Do the following statements agree with the information given in Reading Passage? In boxes 7-10 on your answer sheet, write:</p>
-<p>YES                              if the statement agrees with the views of the writer
-NO                              if the statement contradicts the views of the writer
-NOT GIVEN                 if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                              if the statement agrees with the views of the writer
+<strong>NO</strong>                              if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong>                 if it is impossible to say what the writer thinks about this</p>
 <p>7. Drucker believed the employees should enjoy the same status as the employers in a company
 8. Drucker argued the managers and politicians will dominate the economy during a social transition
 9. Drucker support that workers are not simply put themselves just in the employment relationship and should develop their resources of intelligence voluntarily
 10. Drucker’s work on the management is out of date in moderns days</p>
-<p>Questions 11-12
-Choose TWO letters from A-E. Write your answers in boxes 12 and 13 on your answer sheet.</p>
-<p>Which TWO of the following are true of Drucker’s views?
-A High rank executives and workers should be put in balanced positions in management practice
-B Young executives should be given chances to start from low level jobs
-C More emphasis should be laid on fostering the development of the union
-D Management should facilitate workers with tools of self-appraisal instead of controlling them from the outside force
-E Leaders should go beyond the scope of management details and strategically establish goals</p>
-<p>Questions 13-14
-Choose TWO letters from A-E. Write your answers in boxes 13 and 14 on your answer sheet.</p>
-<p>Which TWO of the following are mentioned in the passage as criticisms to Drucker and his views?
-A His lectures focus too much on big organisations and ignore the small ones
-B His lectures are too broad and lack of being precise and accurate about the facts
-C He put a source of objectives more on corporate executives but not on average workers
-D He acted much like a maverick and did not set up his own management groups
-E He was overstating the case for knowledge workers when warning businesses to get prepared</p>
-<p>New Agriculture in Oregon, US</p>
-<p>A Onion growers in eastern Oregon are adopting a system that saves water and keeps topsoil in place while producing the highest quality “super-colossal” onions. Pear growers in southern Oregon have reduced their use of some of the most toxic pesticides by up to two-thirds, and are still producing top-quality pear. Range managers throughout the state have controlled the poisonous weed tansy ragwort with insect predators and saved the Oregon livestock industry up to $4.8 million a year.</p>
-<p>B These are some of the results Oregon growers have achieved in collaboration with Oregon State University (OSU) researchers as they test new farming methods including integrated pest management (IPM). Nationwide, however, IPM has not delivered results comparable to those in Oregon. A recent U.S General Accounting Office (GAO) report indicates that while integrated pest management can result in dramatically reduced pesticide use, the federal government has been lacking in effectively promoting that goal and implementing IPM. Farmers also blame the government for not making the new options of pest management attractive. “Wholesale changes in the way that farmers control the pests on their farms is an expensive business.” Tony Brown, of the National Farmers Association, says. “If the farmers are given tax breaks to offset the expenditure, then they would willingly accept the new practices.” The report goes on to note that even though the use of the riskiest pesticides has declined nationwide, they still make up more than 40 percent of all pesticides used today; and national pesticide use has risen by 40 million kilograms since 1992. “Our food supply remains the safest and highest quality on Earth but we continue to overdose our farmland with powerful and toxic pesticides and to under-use the safe and effective alternatives,” charged Patrick Leahy, who commissioned the report. Green action groups disagree about the safety issue. “There is no way that habitual consumption of foodstuffs grown using toxic chemical of the nature found on today’s farms can be healthy for consumers,” noted Bill Bowler, spokesman for Green Action, one of many lobbyists interested in this issue.</p>
-<p>C The GAO report singles out Oregon’s apple and pear producers who have used the new IPM techniques with growing success. Although Oregon is clearly ahead of the nation, scientists at OSU are taking the Government Accounting Office criticisms seriously. “We must continue to develop effective alternative practices that will reduce environmental hazards and produce high-quality products,” said Paul Jepson, a professor of entomology at OSU and new director of</p>
-<p>D OSU’s Integrated Plant Protection Centre (IPPC). The IPPC brings together scientists from OSU’s Agricultural Experiment Station, OSU Extension service, the U.S. Department of Agriculture and Oregon farmers to help develop agricultural systems that will save water and soil, and reduce pesticides. In response to the GAO report, the Centre is putting even more emphasis on integrating research and farming practices to improve Oregon agriculture environmentally and economically.</p>
-<p>E “The GAO report criticizes agencies for not clearly communicating the goals of IPM,” said Jepson. “Our challenge is to greatly improve the communication to and from growers, to learn what works and what doesn’t. the work coming from OSU researchers must be adopted in the field and not simply languish in scientific journals.”</p>
-<p>F In Oregon, growers and scientists are working together to instigate new practices. For example, a few years ago scientists at OSU’s Malheur Experiment Station began testing a new drip irrigation system to replace old ditches that wasted water and washed soil and fertilizer into streams. The new system cut water and fertilizer use by half kept topsoil in place and protected water quality.</p>
-<p>G In addition, the new system produced crops of very large onions, rated “super-colossal” and highly valued by the restaurant industry and food processors. Art Pimms, one of the researchers at Malheur comments: “Growers are finding that when they adopt more environmentally benign practices, they can have excellent results. The new practices benefit the environment and give the growers their success.”</p>
-<p>H OSU researcher in Malheur next tested straw mulch and found that it successfully held soil in place and kept the ground moist with less irrigation. In addition, and unexpectedly, the scientists found that the mulched soil created a home for beneficial beetles and spiders that prey on onion thrips – a notorious pest in commercial onion fields – a discovery that could reduce the need for pesticides. “I would never have believed that we could replace the artificial pest controls that we had before and still keep our good results,” commented Steve Black, a commercial onion farmer in Oregon, “but instead we have actually surpassed expectations.”</p>
-<p>I OSU researchers throughout the state have been working to reduce dependence on broad-spectrum chemical spays that are toxic to many kinds of organisms, including humans. “Consumers are rightly putting more and more pressure on the industry to change its reliance on chemical pesticides, but they still want a picture-perfect product,” said Rick Hilton, an entomologist at OSU’s Southern Oregon Research and Extension Centre, where researches help pear growers reduce the need for highly toxic pesticides. Picture perfect pears are an important product in Oregon and traditionally they have required lots of chemicals. In recent years, the industry has faced stiff competition from overseas producers, so any new methods that growers adopt must make sense economically as well as environmentally. Hilton is testing a growth regulator that interferes with the molting of codling moth larvae. Another study used pheromone dispensers to disrupt codling moth mating. These and other methods of integrated pest management have allowed pear growers to reduce their use of organophosphates by two-thirds and reduce all other synthetic pesticides by even more and still produce top-quality pears. These and other studies around the state are part of the effort of the IPPC to find alternative farming practices that benefit both the economy and the environment.</p>
-<p>Questions 15-22
+<p><strong>Questions 11-12</strong>
+Choose <strong>TWO</strong> letters from A-E. Write your answers in boxes 12 and 13 on your answer sheet.</p>
+<p>Which <strong>TWO</strong> of the following are true of Drucker’s views?
+<strong>A</strong> High rank executives and workers should be put in balanced positions in management practice
+<strong>B</strong> Young executives should be given chances to start from low level jobs
+<strong>C</strong> More emphasis should be laid on fostering the development of the union
+<strong>D</strong> Management should facilitate workers with tools of self-appraisal instead of controlling them from the outside force
+<strong>E</strong> Leaders should go beyond the scope of management details and strategically establish goals</p>
+<p><strong>Questions 13-14</strong>
+Choose <strong>TWO</strong> letters from A-E. Write your answers in boxes 13 and 14 on your answer sheet.</p>
+<p>Which <strong>TWO</strong> of the following are mentioned in the passage as criticisms to Drucker and his views?
+<strong>A</strong> His lectures focus too much on big organisations and ignore the small ones
+<strong>B</strong> His lectures are too broad and lack of being precise and accurate about the facts
+<strong>C</strong> He put a source of objectives more on corporate executives but not on average workers
+<strong>D</strong> He acted much like a maverick and did not set up his own management groups
+<strong>E</strong> He was overstating the case for knowledge workers when warning businesses to get prepared</p>
+<p><strong>New Agriculture in Oregon, US</strong></p>
+<p><strong>A</strong> Onion growers in eastern Oregon are adopting a system that saves water and keeps topsoil in place while producing the highest quality “super-colossal” onions. Pear growers in southern Oregon have reduced their use of some of the most toxic pesticides by up to two-thirds, and are still producing top-quality pear. Range managers throughout the state have controlled the poisonous weed tansy ragwort with insect predators and saved the Oregon livestock industry up to $4.8 million a year.</p>
+<p><strong>B</strong> These are some of the results Oregon growers have achieved in collaboration with Oregon State University (OSU) researchers as they test new farming methods including integrated pest management (IPM). Nationwide, however, IPM has not delivered results comparable to those in Oregon. A recent U.S General Accounting Office (GAO) report indicates that while integrated pest management can result in dramatically reduced pesticide use, the federal government has been lacking in effectively promoting that goal and implementing IPM. Farmers also blame the government for not making the new options of pest management attractive. “Wholesale changes in the way that farmers control the pests on their farms is an expensive business.” Tony Brown, of the National Farmers Association, says. “If the farmers are given tax breaks to offset the expenditure, then they would willingly accept the new practices.” The report goes on to note that even though the use of the riskiest pesticides has declined nationwide, they still make up more than 40 percent of all pesticides used today; and national pesticide use has risen by 40 million kilograms since 1992. “Our food supply remains the safest and highest quality on Earth but we continue to overdose our farmland with powerful and toxic pesticides and to under-use the safe and effective alternatives,” charged Patrick Leahy, who commissioned the report. Green action groups disagree about the safety issue. “There is no way that habitual consumption of foodstuffs grown using toxic chemical of the nature found on today’s farms can be healthy for consumers,” noted Bill Bowler, spokesman for Green Action, one of many lobbyists interested in this issue.</p>
+<p><strong>C</strong> The GAO report singles out Oregon’s apple and pear producers who have used the new IPM techniques with growing success. Although Oregon is clearly ahead of the nation, scientists at OSU are taking the Government Accounting Office criticisms seriously. “We must continue to develop effective alternative practices that will reduce environmental hazards and produce high-quality products,” said Paul Jepson, a professor of entomology at OSU and new director of</p>
+<p><strong>D</strong> OSU’s Integrated Plant Protection Centre (IPPC). The IPPC brings together scientists from OSU’s Agricultural Experiment Station, OSU Extension service, the U.S. Department of Agriculture and Oregon farmers to help develop agricultural systems that will save water and soil, and reduce pesticides. In response to the GAO report, the Centre is putting even more emphasis on integrating research and farming practices to improve Oregon agriculture environmentally and economically.</p>
+<p><strong>E</strong> “The GAO report criticizes agencies for not clearly communicating the goals of IPM,” said Jepson. “Our challenge is to greatly improve the communication to and from growers, to learn what works and what doesn’t. the work coming from OSU researchers must be adopted in the field and not simply languish in scientific journals.”</p>
+<p><strong>F</strong> In Oregon, growers and scientists are working together to instigate new practices. For example, a few years ago scientists at OSU’s Malheur Experiment Station began testing a new drip irrigation system to replace old ditches that wasted water and washed soil and fertilizer into streams. The new system cut water and fertilizer use by half kept topsoil in place and protected water quality.</p>
+<p><strong>G</strong> In addition, the new system produced crops of very large onions, rated “super-colossal” and highly valued by the restaurant industry and food processors. Art Pimms, one of the researchers at Malheur comments: “Growers are finding that when they adopt more environmentally benign practices, they can have excellent results. The new practices benefit the environment and give the growers their success.”</p>
+<p><strong>H</strong> OSU researcher in Malheur next tested straw mulch and found that it successfully held soil in place and kept the ground moist with less irrigation. In addition, and unexpectedly, the scientists found that the mulched soil created a home for beneficial beetles and spiders that prey on onion thrips – a notorious pest in commercial onion fields – a discovery that could reduce the need for pesticides. “I would never have believed that we could replace the artificial pest controls that we had before and still keep our good results,” commented Steve Black, a commercial onion farmer in Oregon, “but instead we have actually surpassed expectations.”</p>
+<p><strong>I</strong> OSU researchers throughout the state have been working to reduce dependence on broad-spectrum chemical spays that are toxic to many kinds of organisms, including humans. “Consumers are rightly putting more and more pressure on the industry to change its reliance on chemical pesticides, but they still want a picture-perfect product,” said Rick Hilton, an entomologist at OSU’s Southern Oregon Research and Extension Centre, where researches help pear growers reduce the need for highly toxic pesticides. Picture perfect pears are an important product in Oregon and traditionally they have required lots of chemicals. In recent years, the industry has faced stiff competition from overseas producers, so any new methods that growers adopt must make sense economically as well as environmentally. Hilton is testing a growth regulator that interferes with the molting of codling moth larvae. Another study used pheromone dispensers to disrupt codling moth mating. These and other methods of integrated pest management have allowed pear growers to reduce their use of organophosphates by two-thirds and reduce all other synthetic pesticides by even more and still produce top-quality pears. These and other studies around the state are part of the effort of the IPPC to find alternative farming practices that benefit both the economy and the environment.</p>
+<p><strong>Questions 15-22</strong>
 Use the information in the passage to match the people (listed A-G) with opinions or deeds below. Write the appropriate letters A-G in boxes 15-22 on your answer sheet. NB You may use any letter more than once</p>
-<p>A Tony Brown
-B Patrick Leahy
-C Bill Bowler
-D Paul Jepson
-E Art Pimms
-F Steve Black
-G Rick Hilton</p>
+<p><strong>A</strong> Tony Brown
+<strong>B</strong> Patrick Leahy
+<strong>C</strong> Bill Bowler
+<strong>D</strong> Paul Jepson
+<strong>E</strong> Art Pimms
+<strong>F</strong> Steve Black
+<strong>G</strong> Rick Hilton</p>
 <p>15. There is a double-advantage to the new techniques.
 16. The work on developing these alternative techniques is not finished.
 17. Eating food that has had chemicals used in its production is dangerous to our health.
@@ -174,67 +230,67 @@ G Rick Hilton</p>
 20. The research done should be translated into practical projects.
 21. The U.S. produces the best food in the world nowadays.
 22. Expectations of end-users of agricultural products affect the products.</p>
-<p>Questions 23-27
+<p><strong>Questions 23-27</strong>
 Do the following statements agree with the information given in Reading Passage? In boxes 23-27 on your answer sheet, write:</p>
-<p>YES                if the statement agrees with the views of the writer
-NO                 if the statement contradicts the views of the writer
-NOT GIVEN    if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                if the statement agrees with the views of the writer
+<strong>NO</strong>                 if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong>    if it is impossible to say what the writer thinks about this</p>
 <p>23. Integrated Pest Management has generally been regarded as a success in across the US.
 24. Oregon farmers of apples and pears have been promoted as successful examples of Integrated Pest Management.
 25. The IPPC uses scientists from different organisations globally
 26. Straw mulch experiments produced unplanned benefits.
 27. The apple industry is now facing a lot of competition from abroad.</p>
-<p>Terminated Dinosaur Era</p>
-<p>A Day after day, we hear about how anthropogenic development is causing global warming. According to an increasingly vocal minority, however, we should be asking ourselves how much of this is media hype, and how much is based on real evidence. It seems – as so often is the ease – that it depends on which expert you listen to, or which statistics you study.</p>
-<p>B Yes, it is true that there is a mass of evidence to indicate that the world is getting warmer, with one of the world’s leading weather predictors stating that air temperatures have frown an increase of just under half a degree Celsius since the beginning of the twentieth century. And while this may not sound like anything worth losing sleep over, the interna­tional press would have us believe that the consequences could be devastating. Other ex­perts, however, are of the opinion that what we are seeing is just part of a natural upward and downward swing that has always been part of the cycle of global weather. An analysis of the views of major meteorologists in the United States showed that less than 20% of them believed that any change in temperature over the last hundred years was our own fault – the rest attributed it to natural cyclical changes.</p>
-<p>C There is, of course, no denying that we are still at a very early stage in understanding weather. The effects of such variables as rainfall, cloud formation, the seas and oceans, gases such as methane and ozone, or even solar energy are still not really understood, and therefore the predictions that we make using them cannot always be relied on.</p>
+<p><strong>Terminated Dinosaur Era</strong></p>
+<p><strong>A</strong> Day after day, we hear about how anthropogenic development is causing global warming. According to an increasingly vocal minority, however, we should be asking ourselves how much of this is media hype, and how much is based on real evidence. It seems – as so often is the ease – that it depends on which expert you listen to, or which statistics you study.</p>
+<p><strong>B</strong> Yes, it is true that there is a mass of evidence to indicate that the world is getting warmer, with one of the world’s leading weather predictors stating that air temperatures have frown an increase of just under half a degree Celsius since the beginning of the twentieth century. And while this may not sound like anything worth losing sleep over, the interna­tional press would have us believe that the consequences could be devastating. Other ex­perts, however, are of the opinion that what we are seeing is just part of a natural upward and downward swing that has always been part of the cycle of global weather. An analysis of the views of major meteorologists in the United States showed that less than 20% of them believed that any change in temperature over the last hundred years was our own fault – the rest attributed it to natural cyclical changes.</p>
+<p><strong>C</strong> There is, of course, no denying that we are still at a very early stage in understanding weather. The effects of such variables as rainfall, cloud formation, the seas and oceans, gases such as methane and ozone, or even solar energy are still not really understood, and therefore the predictions that we make using them cannot always be relied on.</p>
 <p>Dr James Hansen, in 19BH, was predicting that the likely effects of global warming would be a raising of the world temperature which would have disastrous consequences for mankind: “a strong cause arid effect relationship between the current climate and human alteration of the at­mosphere”. He has now gone on record as stating that using artificial models of climate as a way of predicting change is all but impossible. In fact, he now believes that, rather than getting hotter, our planet is getting greener as a result of the carbon dioxide increase, with the prospect of increasing vegetation in areas which in recent history have been frozen wastelands.</p>
-<p>D In fact, there is some evidence to suggest that as our computer-based weather models have become more sophisticated, the predicted rises In temperature have been cut back. In addi­tion, if we look at the much-reported rise in global temperature over the last century, a close analysis reveals that the lion’s share of that increase, almost three quarters in total, occurred before man began to “poison” his world with industrial processes and the accom­panying greenhouse gas emissions in the second half of the twentieth century.</p>
-<p>E So should we pay any attention to those stories that scream out at us from billboards and television news headlines, claiming that man, with his inexhaustible dependence on oil-based machinery and ever more sophisticated forms of transport is creating a nightmare level of greenhouse gas emissions, poisoning his environment and ripping open the ozone layer?</p>
+<p><strong>D</strong> In fact, there is some evidence to suggest that as our computer-based weather models have become more sophisticated, the predicted rises In temperature have been cut back. In addi­tion, if we look at the much-reported rise in global temperature over the last century, a close analysis reveals that the lion’s share of that increase, almost three quarters in total, occurred before man began to “poison” his world with industrial processes and the accom­panying greenhouse gas emissions in the second half of the twentieth century.</p>
+<p><strong>E</strong> So should we pay any attention to those stories that scream out at us from billboards and television news headlines, claiming that man, with his inexhaustible dependence on oil-based machinery and ever more sophisticated forms of transport is creating a nightmare level of greenhouse gas emissions, poisoning his environment and ripping open the ozone layer?</p>
 <p>Doubters point to scientific evidence, which can prove that, of all the greenhouse gases, only two per cent come from man-made sources, the rest resulting from natural emissions. Who, then, to believe: the environmentalist exhorting us to leave the car at home, to buy re-usable products packaged in recycled paper and to plant trees in our back yard? Or the sceptics, including, of course, a lot of big businesses who have most to lose, when they tell us that we are making a mountain out of a molehill? And my own opinion? The jury’s still out as for as I am concerned!</p>
-<p>Questions 28-32
+<p><strong>Questions 28-32</strong>
 Choose the appropriate letters A-D.</p>
 <p>28.The author …
-A believes that man is causing global warming
-B believes that global warming is a natural process
-C is sure what the causes of global warming are
-D does not say what he believes the causes of global warming are</p>
+<strong>A</strong> believes that man is causing global warming
+<strong>B</strong> believes that global warming is a natural process
+<strong>C</strong> is sure what the causes of global warming are
+<strong>D</strong> does not say what he believes the causes of global warming are</p>
 <p>29. As to the cause of global warming, the author believes that …
-A occasionally the fact depends on who you are talking to
-B the facts always depend on who you are talking to
-C often the fact depends on which expert you listen to
-D you should not speak to experts</p>
+<strong>A</strong> occasionally the fact depends on who you are talking to
+<strong>B</strong> the facts always depend on who you are talking to
+<strong>C</strong> often the fact depends on which expert you listen to
+<strong>D</strong> you should not speak to experts</p>
 <p>30. More than 80% of the top meteorologists in the United States are of the opinion that…
-A global warming should make us lose sleep
-B global warming is not the result of oil natural cyclical changes, but man-made
-C the consequences of global warming will be deviating
-D global warming is not man-made, but the result of natural cyclical changes.</p>
+<strong>A</strong> global warming should make us lose sleep
+<strong>B</strong> global warming is not the result of oil natural cyclical changes, but man-made
+<strong>C</strong> the consequences of global warming will be deviating
+<strong>D</strong> global warming is not man-made, but the result of natural cyclical changes.</p>
 <p>31. Our understanding of the weather…
-A leads to reliable predictions
-B is variable
-C cannot be denied
-D is not very developed yet</p>
+<strong>A</strong> leads to reliable predictions
+<strong>B</strong> is variable
+<strong>C</strong> cannot be denied
+<strong>D</strong> is not very developed yet</p>
 <p>32. Currently, Dr. James Hansen’s beliefs include the fact that …
-A It is nearly impossible to predict weather change using artificial models
-B the consequences of global warming would be disastrous in mankind
-C there is a significant link between the climate now, mid man’s changing of the atmosphere
-D Earth is getting colder</p>
-<p>Questions 33-38
+<strong>A</strong> It is nearly impossible to predict weather change using artificial models
+<strong>B</strong> the consequences of global warming would be disastrous in mankind
+<strong>C</strong> there is a significant link between the climate now, mid man’s changing of the atmosphere
+<strong>D</strong> Earth is getting colder</p>
+<p><strong>Questions 33-38</strong>
 Do the statements below agree with the information in Reading Passage? In Boxes 33-38, write:</p>
-<p>YES                     if the statement agrees with the views of the writer
-NO                     if the statement contradicts the views of the writer
-NOT GIVEN        if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                     if the statement agrees with the views of the writer
+<strong>NO</strong>                     if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong>        if it is impossible to say what the writer thinks about this</p>
 <p>33. At the same time that computer-based weather models have become more sophisticated, weather forecasters have become more expert.
 34. Most of the increase in global temperature happened in the second half of the twentieth century.
 35. The media wants us to blame ourselves for global warming.
 36. The media encourages the public to use environment-friendly vehicles, such as electric cars to combat global warming.
 37. Environmentalists are very effective at persuading people to be kind to the environment.
 38. Many big businesses are on the side of the sceptics as regards the cause of global warming.</p>
-<p>Questions 39-40
-Complete the sentences below. Use NO MORE THAN THREE WORDS from the passage for each blank space.</p>
+<p><strong>Questions 39-40</strong>
+Complete the sentences below. Use <strong>NO MORE THAN THREE WORDS</strong> from the passage for each blank space.</p>
 <p>As well as planting trees and not driving, the environmentalist would like us to choose products that are wrapped (39)…………………. and can be used more than once.</p>
 <p>Big businesses would have us believe that we are making too much fuss about global warming, because they have (40)………………….</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. i</p>
 <p>2. v</p>
 <p>3. ix</p>
@@ -493,6 +549,29 @@ Complete the sentences below. Use NO MORE THAN THREE WORDS from the passage for 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -512,12 +591,23 @@ Complete the sentences below. Use NO MORE THAN THREE WORDS from the passage for 
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -529,14 +619,6 @@ Complete the sentences below. Use NO MORE THAN THREE WORDS from the passage for 
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

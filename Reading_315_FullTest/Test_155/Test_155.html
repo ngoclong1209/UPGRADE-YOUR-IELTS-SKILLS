@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,21 +158,21 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_155</h1>
-            <p>IELTS Reading Practice - Test 155</p>
-<p>review of research on the effects of food promotion to children</p>
-<p>This review was commissioned by the Food Standards Agency to examine the current research evidence on:</p>
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 155</strong></h3>
+<h3 class="test-heading"><strong>review of research on the effects of food promotion to children</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>This review was commissioned by the Food Standards Agency to examine the current research evidence on:</p></div></div>
 <p>• the extent and nature of food promotion to children</p>
 <p>• the effect, if any, that this promotion has on their food knowledge, preferences and behaviour.</p>
-<p>A Children’s food promotion is dominated by television advertising, and the great majority of this promotes the so-called ‘Big Four’ of pre-sugared breakfast cereals, soft-drinks, confectionary and savoury snacks. In the last ten years advertising for fast food outlets has rapidly increased. There is some evidence that the dominance of television has recently begun to wane. The importance of strong, global branding reinforces a need for multi-faceted communications combining television with merchandising, ‘tie-ins’ and point of sale activity. The advertised diet contrasts sharply with that recommended by public health advisors, and themes of fun and fantasy or taste, rather than health and nutrition, are used to promote it to children. Meanwhile, the recommended diet gets little promotional support.</p>
-<p>B There is plenty of evidence that children notice and enjoy food promotion. However, establishing whether this actually influences them is a complex problem. The review tackled it by looking at studies that had examined possible effects on what children know about food, their food preferences, their actual food behaviour (both buying and eating), and their health outcomes (eg. obesity or cholesterol levels). The majority of studies examined food advertising, but a few examined other forms of food promotion. In terms of nutritional knowledge, food advertising seems to have little influence on children’s general perceptions of what constitutes a healthy diet, but, in certain contexts, it does have an effect on more specific types of nutritional knowledge. For example, seeing soft drink and cereal adverts reduced primary aged children’s ability to determine correctly whether or not certain products contained real fruit.</p>
-<p>C The review also found evidence that food promotion influences children’s food preferences and their purchase behaviour. A study of primary school children, for instance, found that exposure to advertising influenced which foods they claimed to like; and another showed that labelling and signage on a vending machine had an effect on what was bought by secondary school pupils. A number of studies have also shown that food advertising can influence what children eat. One, for example, showed that advertising influenced a primary class’s choice of daily snack at playtime.</p>
-<p>D The next step, of trying to establish whether or not a link exists between food promotion and diet or obesity, is extremely difficult as it requires research to be done in real world settings. A number of studies have attempted this by using amount of television viewing as a proxy for exposure to television advertising. They have established a clear link between television viewing and diet, obesity, and cholesterol levels. It is impossible to say, however, whether this effect is caused by the advertising, the sedentary nature of television viewing or snacking that might take place whilst viewing. One study resolved this problem by taking a detailed diary of children’s viewing habits. This showed that the more food adverts they saw, the more snacks and calories they consumed.</p>
-<p>E Thus the literature does suggest food promotion is influencing children’s diet in a number of ways. This does not amount to proof; as noted above with this kind of research, incontrovertible proof simply isn’t attainable. Nor do all studies point to this conclusion; several have not found an effect. In addition, very few studies have attempted to measure how strong these effects are relative to other factors influencing children’s food choices. Nonetheless, many studies have found clear effects and they have used sophisticated methodologies that make it possible to determine that i) these effects are not just due to chance; ii) they are independent of other factors that may influence diet, such as parents’ eating habits or attitudes; and iii) they occur at a brand and category level.</p>
-<p>F Furthermore, two factors suggest that these findings actually downplay the effect that food promotion has on children. First, the literature focuses principally on television advertising; the cumulative effect of this combined with other forms of promotion and marketing is likely to be significantly greater. Second, the studies have looked at direct effects on individual children, and understate indirect influences. For example, promotion for fast food outlets may not only influence the child, but also encourage parents to take them for meals and reinforce the idea that this is a normal and desirable behaviour.</p>
-<p>G This does not amount to proof of an effect, but in our view does provide sufficient evidence to conclude that an effect exists. The debate should now shift to what action is needed, and specifically to how the power of commercial marketing can be used to bring about improvements in young people’s eating.</p>
-<p>Questions 1-7
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>A</strong> Children’s food promotion is dominated by television advertising, and the great majority of this promotes the so-called ‘Big Four’ of pre-sugared breakfast cereals, soft-drinks, confectionary and savoury snacks. In the last ten years advertising for fast food outlets has rapidly increased. There is some evidence that the dominance of television has recently begun to wane. The importance of strong, global branding reinforces a need for multi-faceted communications combining television with merchandising, ‘tie-ins’ and point of sale activity. The advertised diet contrasts sharply with that recommended by public health advisors, and themes of fun and fantasy or taste, rather than health and nutrition, are used to promote it to children. Meanwhile, the recommended diet gets little promotional support.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>B</strong> There is plenty of evidence that children notice and enjoy food promotion. However, establishing whether this actually influences them is a complex problem. The review tackled it by looking at studies that had examined possible effects on what children know about food, their food preferences, their actual food behaviour (both buying and eating), and their health outcomes (eg. obesity or cholesterol levels). The majority of studies examined food advertising, but a few examined other forms of food promotion. In terms of nutritional knowledge, food advertising seems to have little influence on children’s general perceptions of what constitutes a healthy diet, but, in certain contexts, it does have an effect on more specific types of nutritional knowledge. For example, seeing soft drink and cereal adverts reduced primary aged children’s ability to determine correctly whether or not certain products contained real fruit.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>C</strong> The review also found evidence that food promotion influences children’s food preferences and their purchase behaviour. A study of primary school children, for instance, found that exposure to advertising influenced which foods they claimed to like; and another showed that labelling and signage on a vending machine had an effect on what was bought by secondary school pupils. A number of studies have also shown that food advertising can influence what children eat. One, for example, showed that advertising influenced a primary class’s choice of daily snack at playtime.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>D</strong> The next step, of trying to establish whether or not a link exists between food promotion and diet or obesity, is extremely difficult as it requires research to be done in real world settings. A number of studies have attempted this by using amount of television viewing as a proxy for exposure to television advertising. They have established a clear link between television viewing and diet, obesity, and cholesterol levels. It is impossible to say, however, whether this effect is caused by the advertising, the sedentary nature of television viewing or snacking that might take place whilst viewing. One study resolved this problem by taking a detailed diary of children’s viewing habits. This showed that the more food adverts they saw, the more snacks and calories they consumed.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>E</strong> Thus the literature does suggest food promotion is influencing children’s diet in a number of ways. This does not amount to proof; as noted above with this kind of research, incontrovertible proof simply isn’t attainable. Nor do all studies point to this conclusion; several have not found an effect. In addition, very few studies have attempted to measure how strong these effects are relative to other factors influencing children’s food choices. Nonetheless, many studies have found clear effects and they have used sophisticated methodologies that make it possible to determine that i) these effects are not just due to chance; ii) they are independent of other factors that may influence diet, such as parents’ eating habits or attitudes; and iii) they occur at a brand and category level.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>F</strong> Furthermore, two factors suggest that these findings actually downplay the effect that food promotion has on children. First, the literature focuses principally on television advertising; the cumulative effect of this combined with other forms of promotion and marketing is likely to be significantly greater. Second, the studies have looked at direct effects on individual children, and understate indirect influences. For example, promotion for fast food outlets may not only influence the child, but also encourage parents to take them for meals and reinforce the idea that this is a normal and desirable behaviour.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>G</strong> This does not amount to proof of an effect, but in our view does provide sufficient evidence to conclude that an effect exists. The debate should now shift to what action is needed, and specifically to how the power of commercial marketing can be used to bring about improvements in young people’s eating.</p></div></div>
+<p><strong>Questions 1-7</strong>
 Reading Passage 1 has seven paragraphs, A-G. Choose the most suitable heading for paragraphs A-G from the list of headings below. Write the appropriate number, i-x, in boxes 1-7 on your answer sheet.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i General points of agreements and disagreements of researchers
 ii How much children really know about food
 iii Need to take action
@@ -127,18 +183,18 @@ vii How parents influence children’s eating habits
 viii Advertising’s focus on unhealthy options
 ix Children often buy what they want
 x Underestimating the effects advertising has on children</p>
-<p>Questions 8-13
+<p><strong>Questions 8-13</strong>
 Do the following statements agree with the views of the writer in Reading Passage 1? In boxes 8-13 on your answer sheet, write</p>
-<p>YES if the statement agrees with the views of the writer
-NO if the statement contradicts the views of the writer
-NOT GIVEN if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong> if the statement agrees with the views of the writer
+<strong>NO</strong> if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this</p>
 <p>8. There is little difference between the number of healthy food advertisements and the number of unhealthy food advertisements.
 9. TV advertising has successfully taught children nutritional knowledge about vitamins and others.
 10. It is hard to decide which aspect of TV viewing has caused weight problems of children.
 11. The preference of food for children is affected by their age and gender.
 12. Wealthy parents tend to buy more “sensible food” for their children.
 13. There is a lack of investigation on food promotion methods other than TV advertising.</p>
-<p>the bridge that swayed</p>
+<p><strong>the bridge that swayed</strong></p>
 <p>When the London Millennium footbridge was opened in June 2000, it swayed alarmingly. This generated huge public interest and the bridge became known as London’s “wobbly bridge.”</p>
 <p>The Millennium Bridge is the first new bridge across the river Thames in London since Tower Bridge opened in 1894, and it is the first ever designed for pedestrians only. The bridge links the City of London near St Paul’s Cathedral with the Tate Modern art gallery on Bankside.</p>
 <p>The bridge opened initially on Saturday 10th June 2000. For the opening ceremony, a crowd of over 1,000 people had assembled on the south half of the bridge with a band in front. When they started to walk across with the band playing, there was immediately an unexpectedly pronounced lateral movement of the bridge deck. “It was a fine day and the bridge was on the route of a major charity walk,” one of the pedestrians recounted what ho saw that day. “At first, it was still. Then if began to sway sideways, just slightly. Then, almost from one moment to the next, when large groups of people were crossing, the wobble intensified. Everyone had to stop walking to retain balance and sometimes to hold onto the hand rails for support.” Immediately it was decided to limit the number of people on the bridge, and the bridge was dubbed the ‘wobbly’ bridge by the media who declared it another high-profile British Millennium Project failure. In older to fully investigate and resolve the issue the decision was taken to close the bridge on 12th June 2000.</p>
@@ -147,24 +203,24 @@ NOT GIVEN if it is impossible to say what the writer thinks about this</p>
 <p>Professor Fujino Yozo of Tokyo University, who studied the earth-resistant Toda Bridge in Japan, believes the horizontal forces caused by walking, running or jumping could also in turn cause excessive dynamic vibration in the lateral direction in the bridge. He explains that as the structure began moving, pedestrians adjusted their gait to the same lateral rhythm as the bridge; the adjusted footsteps magnified the motion just like when four people all stand up in small boat at the same time. As more pedestrians locked into the same rhythm, the increasing oscillation led to the dramatic swaying captured on film until people stopped walking altogether, because they could not even keep upright. In order to design a method of reducing the movements, an immediate research program was launched by the bridge’s engineering designer Arup. It was decided that the force exerted by the pedestrians had to be quantified and related to the motion of the bridge. Although there are some descriptions of this phenomenon in existing literature, none of these actually quantifies the force. So there was no quantitative analytical way to design the bridge against this effect. The efforts to solve the problem quickly got supported by a number of universities and research organisations.</p>
 <p>The tests at the University of Southampton involved a person walking on the spot on a small shake table. The tests at Imperial College involved persons walking along a specially built, 7.2m-long platform, which could be driven laterally at different frequencies and amplitudes. These tests have their own limitations. While the Imperial College test platform was too short that only seven or eight steps could be measured at one time, the “walking on the spot” test did not accurately replicate forward walking, although many footsteps could be observed using this method. Neither test could investigate any influence of other people in a crowd on the behavior of the individual tested.</p>
 <p>The results of the laboratory tests provided information which enabled the initial design of a retrofit to be progressed. However, unless the usage of the bridge was to be greatly restricted, only two generic options to improve its performance were considered feasible. The first was to increase the stiffness of the bridge to move all its lateral natural frequencies out of the range that could be excited by the lateral footfall forces, and the second was to increase the damping of the bridge to reduce the resonant response.</p>
-<p>Questions 14-17
-Choose FOUR letters, A-I.</p>
-<p>Which FOUR of the following could be seen on the day when the bridge opened to the public?</p>
-<p>A the bridge moved vertically
-B the bridge swayed from side to side
-C the bridge swayed violently throughout the opening ceremony
-D it was hard to keep balance on the bridge
-E pedestrians walked in synchronized steps
-F pedestrians lengthened their footsteps
-G a music band marched across the bridge
-H the swaying rhythm varied to the portions of the bridge
-I flags and banners kept still on the bridge</p>
-<p>Questions 18-23
-Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+<p><strong>Questions 14-17</strong>
+Choose <strong>FOUR</strong> letters, A-I.</p>
+<p>Which <strong>FOUR</strong> of the following could be seen on the day when the bridge opened to the public?</p>
+<p><strong>A</strong> the bridge moved vertically
+<strong>B</strong> the bridge swayed from side to side
+<strong>C</strong> the bridge swayed violently throughout the opening ceremony
+<strong>D</strong> it was hard to keep balance on the bridge
+<strong>E</strong> pedestrians walked in synchronized steps
+<strong>F</strong> pedestrians lengthened their footsteps
+<strong>G</strong> a music band marched across the bridge
+<strong>H</strong> the swaying rhythm varied to the portions of the bridge
+<strong>I</strong> flags and banners kept still on the bridge</p>
+<p><strong>Questions 18-23</strong>
+Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>To understand why the Millennium Bridge swayed, engineers of Arup studied the videotape taken on the day of the opening ceremony. In the beginning they thought the forces of (18)……………………might have caused the movement because there were many flags and banners on the bridge that day. But quickly new understandings arose after series of tests were conducted on how people walk on (19)……………………..floors. The tests showed people would place their leg (20)……………………….to keep balance when the floor is shaking. Pat Dallard even believes pedestrians may unknowingly adjust their (21)………………….to match the sway of the bridge. Professor Fujino Yozo’s study found that the vibration of a bridge could be caused by the (22)…………………..of people walking, running and jumping on it because the lateral rhythm of the sway could make pedestrians adjust their walk and reach the same step until it is impossible to stand (23)……………………</p>
-<p>Questions 24-26
-Complete the table below. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
-<p>internal market: selling the inside</p>
+<p><strong>Questions 24-26</strong>
+Complete the table below. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
+<p><strong>internal market: selling the inside</strong></p>
 <p>When you think of marketing, you more than likely think of marketing to your customers: How can you persuade more people to buy what you sell? But another “market” is just as important: your employees, the very people who can make the brand come alive for your customers. Yet in our work helping executives develop and carry out branding campaigns, my colleagues and I have found that companies very often ignore this critical constituency.</p>
 <p>Why is internal marketing so important? First, because it’s the best way to help employees make a powerful emotional connection to the products and services you sell. Without that connection, employees are likely to undermine the expectations set by your advertising. In some cases, this is because they simply don’t understand what you have promised the public, so they end up working at cross-purposes. In other cases, it may be they don’t actually believe in the brand and feel disengaged or, worse, hostile toward the company. We’ve found that when people care about and believe in the brand, they’re motivated to work harder and their loyalty to the company increases. Employees are united and inspired by a common sense of purpose and identity.</p>
 <p>Unfortunately, in most companies, internal marketing is done poorly, if at all. While executives recognise the need to keep people informed about the company’s strategy and direction, few understand the need to convince employees of the brand’s power—they take it as a given.</p>
@@ -174,7 +230,7 @@ Complete the table below. Choose NO MORE THAN THREE WORDS from the passage for e
 <p>When it comes to execution, the most common and effective way to link internal and external marketing campaigns is to create external advertising that targets both audiences. IBM used this tactic very effectively when it launched its e-business campaign, It took out an eight-page ad in the Wall Street Journal declaring its new vision, a message directed at both customers and internal stakeholders. This is an expensive way to capture attention, but if used sparingly, it is the most powerful form of communication; in fact, you need do it only once for everyone in the company to read it. There’s a symbolic advantage as well. Such a tactic signals that the company is taking its pledge very seriously; it also signals transparency—the same message going out to both audiences.</p>
 <p>Advertising isn’t the only way to link internal and external marketing. At Nike, a number of senior executives now hold the additional title of “Corporate Storyteller.” They deliberately avoid stories of financial successes and concentrate on parables of “just doing it,” reflecting and reinforcing the company’s ad campaigns. One tale, for example, recalls how legendary coach and Nike cofounder Bill Bowerman, in an effort to build a better shoe for his team, poured rubber into the family waffle iron, giving birth to the prototype of Nike’s famous Waffle Sole. By talking about such inventive moves, the company hopes to keep the spirit of innovation that characterises its ad campaigns alive and well within the company.</p>
 <p>But while their messages must be aligned, companies must also keep external promises a little ahead of internal realities. Such promises provide incentives for employees and give them something to live up to. In the 1980s, Ford turned “Quality Is Job 1” from an internal rallying cry into a consumer slogan in response to the threat from cheaper, more reliable Japanese cars. It did so before the claim was fully justified, but by placing it in the public arena, it gave employees an incentive to match the Japanese. If the promise is pushed too far ahead, however, it loses credibility. When a beleaguered British Rail launched a campaign announcing service improvements under the banner “We’re Getting There,” it did so prematurely. By drawing attention to the gap between the promise and the reality, it prompted destructive press coverage. This, in turn, demoralised staff, who had been legitimately proud of the service advances they had made.</p>
-<p>Questions 27-32
+<p><strong>Questions 27-32</strong>
 Complete each sentence with the correct ending, A-E, below. Write the correct letter, A-E, in boxes 27-32 on your answer sheet. NB You can use any letter more than once.</p>
 <p>27. A health company
 28. A financial institution
@@ -182,16 +238,16 @@ Complete each sentence with the correct ending, A-E, below. Write the correct le
 30. An airline
 31. A sport shoe company
 32. A railway company</p>
-<p>A alienated its employees by its apologetic branding campaign.
-B attracted negative publicity through its advertising campaign.
-C produced conflicting image between its employees and the general public.
-D successfully used an advertising campaign to inspire employees
-E draws on the legends of the company spirit.</p>
-<p>Questions 33-40
+<p><strong>A</strong> alienated its employees by its apologetic branding campaign.
+<strong>B</strong> attracted negative publicity through its advertising campaign.
+<strong>C</strong> produced conflicting image between its employees and the general public.
+<strong>D</strong> successfully used an advertising campaign to inspire employees
+<strong>E</strong> draws on the legends of the company spirit.</p>
+<p><strong>Questions 33-40</strong>
 Do the following statements agree with the claims of the writer in Reading Passage 3? In boxes 33-40 on your answer sheet, write</p>
-<p>YES if the statement agrees with the views of the writer
-NO if the statement contradicts the views of the writer
-NOT GIVEN if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong> if the statement agrees with the views of the writer
+<strong>NO</strong> if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this</p>
 <p>33. A strong conviction in the brand can contribute to higher job performance.
 34. It is common for companies to overlook the necessity for internal communication.
 35. Consumers were ready to view IBM as a leader in e-business before the advertising campaign.
@@ -201,7 +257,7 @@ NOT GIVEN if it is impossible to say what the writer thinks about this</p>
 39. Nike employees claimed that they were inspired by their company tales.
 40. A slight difference between internal and external promises can create a sense of purpose.</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. viii</p>
 <p>2. ii</p>
 <p>3. vi</p>
@@ -460,6 +516,29 @@ NOT GIVEN if it is impossible to say what the writer thinks about this</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -479,12 +558,23 @@ NOT GIVEN if it is impossible to say what the writer thinks about this</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -496,14 +586,6 @@ NOT GIVEN if it is impossible to say what the writer thinks about this</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

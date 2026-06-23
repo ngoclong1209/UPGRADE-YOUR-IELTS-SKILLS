@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,127 +158,127 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_68</h1>
-            <p>IELTS Listening Practice - Test 68</p>
-<p>Part 1: Questions 1-4
-Choose the correct letter A, B or C.</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 68</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-4</strong>
+<strong>Choose the correct letter A, B or C.</strong></p>
 <p>Types of membership – 2</p>
-<p>1. How much is the life-time membership of the Society?
-[ ]  £1,535
-[ ]  B £1,935
-[ ]  C £1,537</p>
-<p>2. How much does the ordinary membership cost per year?
-[ ]  A £293
-[ ]  B £396
-[ ]  C £193</p>
+<h3 class="test-heading">1. How much is the life-time membership of the Society?
+<strong>[ ] </strong> £1,535
+<strong>[ ] </strong><strong> B</strong> £1,935
+<strong>[ ] </strong><strong> C</strong> £1,537</h3>
+<h3 class="test-heading">2. How much does the ordinary membership cost per year?
+<strong>[ ] </strong><strong> A</strong> £293
+<strong>[ ] </strong><strong> B</strong> £396
+<strong>[ ] </strong><strong> C</strong> £193</h3>
 <p>3. What are the opening times on week-days?
-[ ]  A 9 am to 10 pm
-[ ]  B 10 am to 9 pm
-[ ]  C 10 am to 5 pm</p>
-<p>4. What is the arts programme at the Society like?
-[ ]  A limited
-[ ]  B wide
-[ ]  C interesting</p>
-<p>Questions 5-10
-Complete the notes below. Write NO MORE THAN TWO WORDS AND/OR A NUMBER.</p>
-<p>Name Margaret (5)  _______ 
-Address 55 (6)  _______ 
-Postcode (7)  _______ 
-Work number 0207 895 2220 Extension (8)  _______ 
-Payment terms by (9)  _______ 
-Guest restrictions one per (10)  _______</p>
-<p>Part 2: Questions 11 and 12
-Choose TWO letters A-E.</p>
-<p>What TWO changes to the organization of this year’s festival are mentioned?
-[ ]  A free parking
-[ ]  B free refreshments
-[ ]  C new uniforms
-[ ]  D free concert
-[ ]  E large tents</p>
-<p>Questions 13-15
-Complete the table below. Write NO MORE THAN ONE WORD AND/OR A NUMBER for each answer.</p>
-<p>(13)  _______ 
-(14)  _______ 
-(15)  _______</p>
-<p>Questions 16-20
+<strong>[ ] </strong><strong> A</strong> 9 am to 10 pm
+<strong>[ ] </strong><strong> B</strong> 10 am to 9 pm
+<strong>[ ] </strong><strong> C</strong> 10 am to 5 pm</p>
+<h3 class="test-heading">4. What is the arts programme at the Society like?
+<strong>[ ] </strong><strong> A</strong> limited
+<strong>[ ] </strong><strong> B</strong> wide
+<strong>[ ] </strong><strong> C</strong> interesting</h3>
+<p><strong>Questions 5-10</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS AND/OR A NUMBER.</strong></p>
+<p>Name Margaret <strong>(5)</strong>  _______ 
+Address 55 <strong>(6)</strong>  _______ 
+Postcode <strong>(7)</strong>  _______ 
+Work number 0207 895 2220 Extension <strong>(8)</strong>  _______ 
+Payment terms by <strong>(9)</strong>  _______ 
+Guest restrictions one per <strong>(10)</strong>  _______</p>
+<p><strong>Part 2: Questions 11 and 12</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>What <strong>TWO</strong> changes to the organization of this year’s festival are mentioned?
+<strong>[ ] </strong><strong> A</strong> free parking
+<strong>[ ] </strong><strong> B</strong> free refreshments
+<strong>[ ] </strong><strong> C</strong> new uniforms
+<strong>[ ] </strong><strong> D</strong> free concert
+<strong>[ ] </strong><strong> E</strong> large tents</p>
+<p><strong>Questions 13-15</strong>
+Complete the table below. Write <strong>NO MORE THAN ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
+<p><strong>(13)</strong>  _______ 
+<strong>(14)</strong>  _______ 
+<strong>(15)</strong>  _______</p>
+<p><strong>Questions 16-20</strong>
 Choose the correct letter A, B or C.</p>
 <p>16. What does the speaker say about the judges in the competitions?
-[ ]  A Most people judging will have some experience
-[ ]  B None of the judges will have experience
-[ ]  C Every judge will be experienced</p>
+<strong>[ ] </strong><strong> A</strong> Most people judging will have some experience
+<strong>[ ] </strong><strong> B</strong> None of the judges will have experience
+<strong>[ ] </strong><strong> C</strong> Every judge will be experienced</p>
 <p>17. The winner in each of the competitions will
-[ ]  A be given vouchers
-[ ]  B be awarded a cash prize
-[ ]  C receive book-tokens</p>
+<strong>[ ] </strong><strong> A</strong> be given vouchers
+<strong>[ ] </strong><strong> B</strong> be awarded a cash prize
+<strong>[ ] </strong><strong> C</strong> receive book-tokens</p>
 <p>18. The profits from the marathon will be given to the Children’s Hospital to help
-[ ]  A buy new specialist equipment
-[ ]  B decorate the hospital wards
-[ ]  C provide books for the children</p>
+<strong>[ ] </strong><strong> A</strong> buy new specialist equipment
+<strong>[ ] </strong><strong> B</strong> decorate the hospital wards
+<strong>[ ] </strong><strong> C</strong> provide books for the children</p>
 <p>19. Wardens will be needed at the car park because
-[ ]  A they helped organize the parking well last year
-[ ]  B the parking last year was disorganized
-[ ]  C they will be needed to collect parking fees</p>
+<strong>[ ] </strong><strong> A</strong> they helped organize the parking well last year
+<strong>[ ] </strong><strong> B</strong> the parking last year was disorganized
+<strong>[ ] </strong><strong> C</strong> they will be needed to collect parking fees</p>
 <p>20. Bags will be provided by the council
-[ ]  A for all the rubbish
-[ ]  B only for food rubbish
-[ ]  C only for material that can be recycled</p>
-<p>Part 3: Questions 21-23
+<strong>[ ] </strong><strong> A</strong> for all the rubbish
+<strong>[ ] </strong><strong> B</strong> only for food rubbish
+<strong>[ ] </strong><strong> C</strong> only for material that can be recycled</p>
+<p><strong>Part 3: Questions 21-23</strong>
 Choose the correct letter A, B or C.</p>
 <p>21. In the practice exams, the students did
-[ ]  A two exams altogether
-[ ]  B seven exams in total
-[ ]  C eleven exams in total</p>
+<strong>[ ] </strong><strong> A</strong> two exams altogether
+<strong>[ ] </strong><strong> B</strong> seven exams in total
+<strong>[ ] </strong><strong> C</strong> eleven exams in total</p>
 <p>22. Adam thinks that essay papers are
-[ ]  A inappropriate for assessing theoretical medical knowledge
-[ ]  B not good for assessing practical medical knowledge
-[ ]  C suitable for testing theoretical medical knowledge</p>
+<strong>[ ] </strong><strong> A</strong> inappropriate for assessing theoretical medical knowledge
+<strong>[ ] </strong><strong> B</strong> not good for assessing practical medical knowledge
+<strong>[ ] </strong><strong> C</strong> suitable for testing theoretical medical knowledge</p>
 <p>23. Mary criticizes multiple-choice questions, because
-[ ]  A they require detailed instructions
-[ ]  B they benefit women more than men
-[ ]  C they favour men rather than women</p>
-<p>Questions 24 and 25
-Choose TWO letters A-E.</p>
-<p>Which TWO aspects of the role-play examination are mentioned?
-[ ]  A the rest stations
-[ ]  B 24 test stations
-[ ]  C the recording
-[ ]  D the examiners
-[ ]  E the simulated patients</p>
-<p>Questions 26-30
-Complete the summary below. Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.</p>
-<p>In the problem-solving tests, students had to work in groups of four people and (26)  _______  to solve a problem. As they discussed the problem, (27)  _______  watched them. As well as assessing the ability to speak, the problem-solving tested if people can (28)  _______  , organize their thoughts and demonstrate they can be part of a (29)  _______  Re-sits of the final exams are held in September. After that any problems are dealt with by (30)  _______</p>
-<p>Part 4: Questions 31-33
+<strong>[ ] </strong><strong> A</strong> they require detailed instructions
+<strong>[ ] </strong><strong> B</strong> they benefit women more than men
+<strong>[ ] </strong><strong> C</strong> they favour men rather than women</p>
+<p><strong>Questions 24 and 25</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>Which <strong>TWO</strong> aspects of the role-play examination are mentioned?
+<strong>[ ] </strong><strong> A</strong> the rest stations
+<strong>[ ] </strong><strong> B</strong> 24 test stations
+<strong>[ ] </strong><strong> C</strong> the recording
+<strong>[ ] </strong><strong> D</strong> the examiners
+<strong>[ ] </strong><strong> E</strong> the simulated patients</p>
+<p><strong>Questions 26-30</strong>
+Complete the summary below. Write <strong>NO MORE THAN TWO WORDS AND/OR A NUMBER</strong> for each answer.</p>
+<p>In the problem-solving tests, students had to work in groups of four people and <strong>(26)</strong>  _______  to solve a problem. As they discussed the problem, <strong>(27)</strong>  _______  watched them. As well as assessing the ability to speak, the problem-solving tested if people can <strong>(28)</strong>  _______  , organize their thoughts and demonstrate they can be part of a <strong>(29)</strong>  _______  Re-sits of the final exams are held in September. After that any problems are dealt with by <strong>(30)</strong>  _______</p>
+<p><strong>Part 4: Questions 31-33</strong>
 Choose the correct letter A, B or C.</p>
 <p>31. The Indian Ocean differs from the Atlantic and Pacific Oceans
-[ ]  A by being closed in to the north
-[ ]  B by being warmer than both
-[ ]  C by extending into cold regions</p>
+<strong>[ ] </strong><strong> A</strong> by being closed in to the north
+<strong>[ ] </strong><strong> B</strong> by being warmer than both
+<strong>[ ] </strong><strong> C</strong> by extending into cold regions</p>
 <p>32. Approximately how much of the world’s total ocean area does the Indian Ocean constitute?
-[ ]  A 7%
-[ ]  B 20%
-[ ]  C 25%</p>
+<strong>[ ] </strong><strong> A</strong> 7%
+<strong>[ ] </strong><strong> B</strong> 20%
+<strong>[ ] </strong><strong> C</strong> 25%</p>
 <p>33. The island of Madagascar is
-[ ]  A the tip of a submerged ridge
-[ ]  B the result of a volcanic eruption
-[ ]  C structurally part of the continent of Africa</p>
-<p>Questions 34 and 35
-Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.</p>
+<strong>[ ] </strong><strong> A</strong> the tip of a submerged ridge
+<strong>[ ] </strong><strong> B</strong> the result of a volcanic eruption
+<strong>[ ] </strong><strong> C</strong> structurally part of the continent of Africa</p>
+<p><strong>Questions 34 and 35</strong>
+Complete the sentences below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>34. Oceanographers and meteorologists are monitoring changes in the Indian ocean’s temperature and  _______ 
 35. An assessment is being made of the impact of the changes on low-lying  _______  and  _______</p>
-<p>Questions 36-40
-Complete the flow-chart below. Write NO MORE THAN THREE WORDS for each answer .</p>
-<p>Data Processing</p>
-<p>Step 1: Ship off Antarctica</p>
-<p>Step 2: Buoys anchored at sea</p>
-<p>Step 3: Five buoys off Antarctica which are (36)………….and icebergs</p>
-<p>Step 4: Satellites recording the (37)……………of icebergs</p>
-<p>Step 5: (38)……………data received at institute</p>
-<p>Step 6: Constantly processed by a (39)…………of computers</p>
-<p>Step 7: Data collated</p>
-<p>Step 8: Then analysed by (40)……………around the world</p>
-<p>(36)  _______                   (37)  _______ 
-(38)  _______                   (39)  _______ 
-(40)  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>Questions 36-40</strong>
+Complete the flow-chart below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer .</p>
+<p><strong>Data Processing</strong></p>
+<p><strong>Step 1</strong>: Ship off Antarctica</p>
+<p><strong>Step 2</strong>: Buoys anchored at sea</p>
+<p><strong>Step 3</strong>: Five buoys off Antarctica which are (36)………….and icebergs</p>
+<p><strong>Step 4</strong>: Satellites recording the (37)……………of icebergs</p>
+<p><strong>Step 5</strong>: (38)……………data received at institute</p>
+<p><strong>Step 6</strong>: Constantly processed by a (39)…………of computers</p>
+<p><strong>Step 7</strong>: Data collated</p>
+<p><strong>Step 8</strong>: Then analysed by (40)……………around the world</p>
+<p><strong>(36)</strong>  _______                   <strong>(37)</strong>  _______ 
+<strong>(38)</strong>  _______                   <strong>(39)</strong>  _______ 
+<strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. C</p>
 <p>2. C</p>
 <p>3. B</p>
@@ -476,11 +532,34 @@ Complete the flow-chart below. Write NO MORE THAN THREE WORDS for each answer .<
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_68.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_68.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -500,12 +579,23 @@ Complete the flow-chart below. Write NO MORE THAN THREE WORDS for each answer .<
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -517,14 +607,6 @@ Complete the flow-chart below. Write NO MORE THAN THREE WORDS for each answer .<
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

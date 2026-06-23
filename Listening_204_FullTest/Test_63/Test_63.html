@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,104 +158,104 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_63</h1>
-            <p>IELTS Listening Practice - Test 63</p>
-<p>Part 1: Questions 1-10
-Complete the information below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER.</p>
-<p>House Rental</p>
-<p>Name: Mary Collins
-Facility available: (1)  _______</p>
-<p>Part 2: Questions 11-15
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 63</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-10</strong>
+Complete the information below. Write <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER.</strong></p>
+<h3 class="test-heading"><strong>House Rental</strong></h3>
+<h3 class="test-heading">Name: Mary Collins
+Facility available: <strong>(1)</strong>  _______</h3>
+<p><strong>Part 2: Questions 11-15</strong>
 Choose the correct letter A, B or C.</p>
 <p>11. What’s the new improvement about the zoo this time?
-[ ]  A The zoo has built a new dog-walking area.
-[ ]  B The zoo has brought a new batch of animals
-[ ]  C The zoo has expanded its exhibition area.</p>
+<strong>[ ] </strong><strong> A</strong> The zoo has built a new dog-walking area.
+<strong>[ ] </strong><strong> B</strong> The zoo has brought a new batch of animals
+<strong>[ ] </strong><strong> C</strong> The zoo has expanded its exhibition area.</p>
 <p>12. What is the change for the new regulation enacted in June?
-[ ]  A The zoo is not open during the weekdays.
-[ ]  B Visitors are allowed to feed the animals at night
-[ ]  C Visitors are allowed to see the animals until the late night.</p>
+<strong>[ ] </strong><strong> A</strong> The zoo is not open during the weekdays.
+<strong>[ ] </strong><strong> B</strong> Visitors are allowed to feed the animals at night
+<strong>[ ] </strong><strong> C</strong> Visitors are allowed to see the animals until the late night.</p>
 <p>13. While visiting the kangaroo, which behaviour is forbidden?
-[ ]  A Photo-taking
-[ ]  B Shouting
-[ ]  C Feeding</p>
+<strong>[ ] </strong><strong> A</strong> Photo-taking
+<strong>[ ] </strong><strong> B</strong> Shouting
+<strong>[ ] </strong><strong> C</strong> Feeding</p>
 <p>14. Why is the pye-dog zone temporarily closed?
-[ ]  A Because the fence is broken.
-[ ]  B Because the pye-dogs are in hibernation
-[ ]  C Because the pye-dog zone is under construction.</p>
+<strong>[ ] </strong><strong> A</strong> Because the fence is broken.
+<strong>[ ] </strong><strong> B</strong> Because the pye-dogs are in hibernation
+<strong>[ ] </strong><strong> C</strong> Because the pye-dog zone is under construction.</p>
 <p>15. Where can the visitors buy the discounted ticket?
-[ ]  A Gift shop
-[ ]  B Photo shop
-[ ]  C Reception desk</p>
-<p>Questions 16-20
+<strong>[ ] </strong><strong> A</strong> Gift shop
+<strong>[ ] </strong><strong> B</strong> Photo shop
+<strong>[ ] </strong><strong> C</strong> Reception desk</p>
+<p><strong>Questions 16-20</strong>
 Label the map below. Write the correct letter A-H next to questions 16-20.</p>
 <p>16. Bird hide  _______ 
 17. Pye-dog zone  _______ 
 18. Rest area  _______ 
 19. Kangaroo visiting site  _______ 
 20. Photo shop  _______</p>
-<p>Part 3: Questions 21-24
+<p><strong>Part 3: Questions 21-24</strong>
 Choose the correct letter A, B or C.</p>
 <p>21. The course has improved the environment since
-[ ]  A it was regulated by law.
-[ ]  B more students were involved.
-[ ]  C more species were brought from other places.</p>
+<strong>[ ] </strong><strong> A</strong> it was regulated by law.
+<strong>[ ] </strong><strong> B</strong> more students were involved.
+<strong>[ ] </strong><strong> C</strong> more species were brought from other places.</p>
 <p>22. What is the biggest reason why the organisation improved greatly?
-[ ]  A It was funded by a private investor
-[ ]  B It sold out its shares.
-[ ]  C It got the governmental fund in the first year.</p>
+<strong>[ ] </strong><strong> A</strong> It was funded by a private investor
+<strong>[ ] </strong><strong> B</strong> It sold out its shares.
+<strong>[ ] </strong><strong> C</strong> It got the governmental fund in the first year.</p>
 <p>23. What is suggested from the reports?
-[ ]  A Resources still need management.
-[ ]  B Teachers and the students have benefitted from the field trips.
-[ ]  C The environment has been terribly damaged.</p>
+<strong>[ ] </strong><strong> A</strong> Resources still need management.
+<strong>[ ] </strong><strong> B</strong> Teachers and the students have benefitted from the field trips.
+<strong>[ ] </strong><strong> C</strong> The environment has been terribly damaged.</p>
 <p>24. Who did obtain the special experience from the field trip carried out by the organisation?
-[ ]  A students
-[ ]  B teachers
-[ ]  C researchers</p>
-<p>Questions 25 and 26
-Choose TWO letters A-E.</p>
-<p>What TWO problems does the report focus on?</p>
-<p>[ ]  A air pollution
-[ ]  B soil erosion
-[ ]  C overgrazing
-[ ]  D forest exploitation
-[ ]  E water pollution</p>
-<p>Questions 27 and 28
-Choose TWO letters A-E.</p>
-<p>Which TWO benefits of this activity to the students are mentioned by the professor?</p>
-<p>[ ]  A they become more punctual
-[ ]  B they feel more confident
-[ ]  C they get practical experience
-[ ]  D they learn how to collect data
-[ ]  E they know the importance of environment protection</p>
-<p>Questions 29 and 30
-Choose TWO letters A-E.</p>
-<p>What TWO things will the woman do in the rest of the time when no activities are going on?</p>
-<p>[ ]  A read more reference books
-[ ]  B study in library
-[ ]  C interview some teachers
-[ ]  D participate in one of fun hobbies
-[ ]  E join in some tutorials</p>
-<p>Part 4: Questions 31-40
-Complete the notes below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>ROBERTS COMPANY
-Founding
-• The most important principal of the company is to improve the (31)  _______  development of camera technology.</p>
-<p>Aim
-• It was founded by Dwayne Roberts in 1957 and mainly explore (32)  _______</p>
-<p>Potential applications
+<strong>[ ] </strong><strong> A</strong> students
+<strong>[ ] </strong><strong> B</strong> teachers
+<strong>[ ] </strong><strong> C</strong> researchers</p>
+<p><strong>Questions 25 and 26</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>What <strong>TWO</strong> problems does the report focus on?</p>
+<p><strong>[ ] </strong><strong> A</strong> air pollution
+<strong>[ ] </strong><strong> B</strong> soil erosion
+<strong>[ ] </strong><strong> C</strong> overgrazing
+<strong>[ ] </strong><strong> D</strong> forest exploitation
+<strong>[ ] </strong><strong> E</strong> water pollution</p>
+<p><strong>Questions 27 and 28</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>Which <strong>TWO</strong> benefits of this activity to the students are mentioned by the professor?</p>
+<p><strong>[ ] </strong><strong> A</strong> they become more punctual
+<strong>[ ] </strong><strong> B</strong> they feel more confident
+<strong>[ ] </strong><strong> C</strong> they get practical experience
+<strong>[ ] </strong><strong> D</strong> they learn how to collect data
+<strong>[ ] </strong><strong> E</strong> they know the importance of environment protection</p>
+<p><strong>Questions 29 and 30</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>What <strong>TWO</strong> things will the woman do in the rest of the time when no activities are going on?</p>
+<p><strong>[ ] </strong><strong> A</strong> read more reference books
+<strong>[ ] </strong><strong> B</strong> study in library
+<strong>[ ] </strong><strong> C</strong> interview some teachers
+<strong>[ ] </strong><strong> D</strong> participate in one of fun hobbies
+<strong>[ ] </strong><strong> E</strong> join in some tutorials</p>
+<p><strong>Part 4: Questions 31-40</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>ROBERTS COMPANY</strong>
+<strong>Founding</strong>
+• The most important principal of the company is to improve the <strong>(31)</strong>  _______  development of camera technology.</p>
+<p><strong>Aim</strong>
+• It was founded by Dwayne Roberts in 1957 and mainly explore <strong>(32)</strong>  _______</p>
+<p><strong>Potential applications</strong>
 • recording high-definition video
-• discovering (33)  _______ 
-• searching plants in the rainforest to experiment (34)  _______ 
-• distributing more across the road network to control (35)  _______</p>
-<p>At present
-• (36)  _______  are the best sellers in the company.
-• They are designed to look like (37)  _______ 
-• The company is working on a tiny (38)  _______  to change the way people see photography.</p>
-<p>Other applications
-• Surgeries could be faster and more (39)  _______</p>
-<p>Internship opportunity
-• To get it, the students can participate in the (40)  _______  organised by the company every year.</p>
-<p>ANSWER KEY</p>
+• discovering <strong>(33)</strong>  _______ 
+• searching plants in the rainforest to experiment <strong>(34)</strong>  _______ 
+• distributing more across the road network to control <strong>(35)</strong>  _______</p>
+<p><strong>At present</strong>
+• <strong>(36)</strong>  _______  are the best sellers in the company.
+• They are designed to look like <strong>(37)</strong>  _______ 
+• The company is working on a tiny <strong>(38)</strong>  _______  to change the way people see photography.</p>
+<p><strong>Other applications</strong>
+• Surgeries could be faster and more <strong>(39)</strong>  _______</p>
+<p><strong>Internship opportunity</strong>
+• To get it, the students can participate in the <strong>(40)</strong>  _______  organised by the company every year.</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. swimming pool</p>
 <p>2. dining room</p>
 <p>3. garage</p>
@@ -453,11 +509,34 @@ Founding
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_63.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_63.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -477,12 +556,23 @@ Founding
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -494,14 +584,6 @@ Founding
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

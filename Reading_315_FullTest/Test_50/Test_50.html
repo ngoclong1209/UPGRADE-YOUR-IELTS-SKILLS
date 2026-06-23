@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,21 +158,21 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_50</h1>
-            <p>IELTS Reading Practice - Test 50</p>
-<p>the coral reefs of agatti island</p>
-<p>A Agatti is one of the Lakshadweep Islands off the southwest coast of India. These islands are surrounded by lagoons and coral reefs which are in turn surrounded by the open ocean. Coral reefs, which are formed from the skeletons of minute sea creatures, give shelter to a variety of plants and animals, and therefore have the potential to provide a stream of diverse benefits to the inhabitants of Agatti Island.</p>
-<p>B In the first place, the reefs provide food and other products for consumption by the islanders themselves. Foods include different types of fish, octopus and molluscs, and in the case of poorer families these constitute as much as 90% of the protein they consume. Reef resources are also used for medicinal purposes. For example, the money cowrie, a shell known locally as Vallakavadi, is commonly made into a paste and used as a home remedy to treat cysts in the eye.</p>
-<p>C In addition, the reef contributes to income generation. According to a recent survey, 20% of the households on Agatti report lagoon fishing, or shingle, mollusc, octopus and cowrie collection as their main occupation (Hoon et al, 2002). For poor households, the direct contribution of the reef to their financial resources is significant: 12% of poor households are completely dependent on the reef for their household income, while 59% of poor households rely on the reef for 70% of their household income, and the remaining 29% for 50% of their household income.</p>
-<p>D Bartering of reef resources also commonly takes place, both between islanders and between islands. For example, Agatti Island is known for its abundance of octopus, and this is often used to obtain products from nearby Androth Island. Locally, reef products may be given by islanders in return for favours, such as help in constructing a house or net mending, or for other products such as rice, coconuts or fish.</p>
-<p>E The investment required to exploit the reefs is minimal. It involves simple, locally available tools and equipment, some of which can be used without a boat, such as the fishing practice known as Kat moodsal. This is carried out in the shallow eastern lagoon of Agatti by children and adults, close to shore at low tide, throughout the year. A small cast net, a leaf bag, and plastic slippers are all that are required, and the activity can yield 10–12 small fish (approximately 1 kg) for household consumption. Cast nets are not expensive, and all the households in Agatti own at least one. Even the boats, which operate in the lagoon and near-shore reef, are constructed locally and have low running costs. They are either small, non-mechanised, traditional wooden rowing boats, known as Thonis, or rafts, known as Tharappam.</p>
-<p>F During more than 400 years of occupation and survival, the Agatti islanders have developed an intimate knowledge of the reefs. They have knowledge of numerous different types of fish and where they can be found according to the tide or lunar cycle. They have also developed a local naming system or folk taxonomy, naming fish according to their shape. Sometimes the same species is given different names depending on its size and age. For example, a full grown Emperor fish is called Metti and a juvenile is called Killokam. The abundance of each species at different fishing grounds is also well known. Along with this knowledge of reef resources, the islanders have developed a wide range of skills and techniques for exploiting them. A multitude of different fishing techniques are still used by the islanders, each targeting different areas of the reef and particular species.</p>
-<p>G The reef plays an important role in the social lives of the islanders too, being an integral part of traditions and rituals. Most of the island’s folklore revolves around the reef and sea. There is hardly any tale or song which does not mention the traditional sailing crafts, known as Odams, the journeys of enterprising ‘heroes’, the adventures of sea fishing and encounters with sea creatures. Songs that women sing recollect women looking for returning Odams, and requesting the waves to be gentler and the breeze just right for the sails. There are stories of the benevolent sea ghost baluvam, whose coming to shore is considered a harbinger of prosperity for that year, bringing more coconuts, more fish and general well-being.</p>
-<p>H The reef is regarded by the islanders as common property, and all the islanders are entitled to use the lagoon and reef resources. In the past, fishing groups would obtain permission from the Amin (island head person) and go fishing in the grounds allotted by him. On their return, the Amin would be given a share of the catch, normally one of the best or biggest fish. This practice no longer exists, but there is still a code of conduct or etiquette for exploiting the reef, and common respect for this is an effective way of avoiding conflict or disputes.</p>
-<p>I Exploitation of such vast and diverse resources as the reefs and lagoon surrounding the island has encouraged collaborative efforts, mainly for purposes of safety, but also as a necessity in the operation of many fishing techniques. For example, an indigenous gear and operation known as Bala fadal involves 25–30 men. Reef gleaning for cowrie collection by groups of 6–10 women is also a common activity, and even today, although its economic significance is marginal, it continues as a recreational activity.</p>
-<p>Questions 1-9</p>
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 50</strong></h3>
+<h3 class="test-heading"><strong>the coral reefs of agatti island</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Agatti is one of the Lakshadweep Islands off the southwest coast of India. These islands are surrounded by lagoons and coral reefs which are in turn surrounded by the open ocean. Coral reefs, which are formed from the skeletons of minute sea creatures, give shelter to a variety of plants and animals, and therefore have the potential to provide a stream of diverse benefits to the inhabitants of Agatti Island.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> In the first place, the reefs provide food and other products for consumption by the islanders themselves. Foods include different types of fish, octopus and molluscs, and in the case of poorer families these constitute as much as 90% of the protein they consume. Reef resources are also used for medicinal purposes. For example, the money cowrie, a shell known locally as Vallakavadi, is commonly made into a paste and used as a home remedy to treat cysts in the eye.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> In addition, the reef contributes to income generation. According to a recent survey, 20% of the households on Agatti report lagoon fishing, or shingle, mollusc, octopus and cowrie collection as their main occupation (Hoon et al, 2002). For poor households, the direct contribution of the reef to their financial resources is significant: 12% of poor households are completely dependent on the reef for their household income, while 59% of poor households rely on the reef for 70% of their household income, and the remaining 29% for 50% of their household income.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> Bartering of reef resources also commonly takes place, both between islanders and between islands. For example, Agatti Island is known for its abundance of octopus, and this is often used to obtain products from nearby Androth Island. Locally, reef products may be given by islanders in return for favours, such as help in constructing a house or net mending, or for other products such as rice, coconuts or fish.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> The investment required to exploit the reefs is minimal. It involves simple, locally available tools and equipment, some of which can be used without a boat, such as the fishing practice known as Kat moodsal. This is carried out in the shallow eastern lagoon of Agatti by children and adults, close to shore at low tide, throughout the year. A small cast net, a leaf bag, and plastic slippers are all that are required, and the activity can yield 10–12 small fish (approximately 1 kg) for household consumption. Cast nets are not expensive, and all the households in Agatti own at least one. Even the boats, which operate in the lagoon and near-shore reef, are constructed locally and have low running costs. They are either small, non-mechanised, traditional wooden rowing boats, known as Thonis, or rafts, known as Tharappam.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> During more than 400 years of occupation and survival, the Agatti islanders have developed an intimate knowledge of the reefs. They have knowledge of numerous different types of fish and where they can be found according to the tide or lunar cycle. They have also developed a local naming system or folk taxonomy, naming fish according to their shape. Sometimes the same species is given different names depending on its size and age. For example, a full grown Emperor fish is called Metti and a juvenile is called Killokam. The abundance of each species at different fishing grounds is also well known. Along with this knowledge of reef resources, the islanders have developed a wide range of skills and techniques for exploiting them. A multitude of different fishing techniques are still used by the islanders, each targeting different areas of the reef and particular species.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> The reef plays an important role in the social lives of the islanders too, being an integral part of traditions and rituals. Most of the island’s folklore revolves around the reef and sea. There is hardly any tale or song which does not mention the traditional sailing crafts, known as Odams, the journeys of enterprising ‘heroes’, the adventures of sea fishing and encounters with sea creatures. Songs that women sing recollect women looking for returning Odams, and requesting the waves to be gentler and the breeze just right for the sails. There are stories of the benevolent sea ghost baluvam, whose coming to shore is considered a harbinger of prosperity for that year, bringing more coconuts, more fish and general well-being.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>H</strong> The reef is regarded by the islanders as common property, and all the islanders are entitled to use the lagoon and reef resources. In the past, fishing groups would obtain permission from the Amin (island head person) and go fishing in the grounds allotted by him. On their return, the Amin would be given a share of the catch, normally one of the best or biggest fish. This practice no longer exists, but there is still a code of conduct or etiquette for exploiting the reef, and common respect for this is an effective way of avoiding conflict or disputes.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p><strong>I</strong> Exploitation of such vast and diverse resources as the reefs and lagoon surrounding the island has encouraged collaborative efforts, mainly for purposes of safety, but also as a necessity in the operation of many fishing techniques. For example, an indigenous gear and operation known as Bala fadal involves 25–30 men. Reef gleaning for cowrie collection by groups of 6–10 women is also a common activity, and even today, although its economic significance is marginal, it continues as a recreational activity.</p></div></div>
+<p><strong>Questions 1-9</strong></p>
 <p>Reading Passage 1 has nine paragraphs A–I.
 Choose the correct heading for each paragraph from the list of headings below.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i Island legends
 ii Resources for exchange
 iii Competition for fishing rights
@@ -138,47 +194,47 @@ xii Social rights and obligations</p>
 7) Paragraph G
 8) Paragraph H
 9) Paragraph I</p>
-<p>Questions 10-13</p>
+<p><strong>Questions 10-13</strong></p>
 <p>Choose the correct letter, A, B, C or D.</p>
 <p>10) What proportion of poor households get all their income from reef products?
-A 12%
-B 20%
-C 29%
-D 59%</p>
+<strong>A</strong> 12%
+<strong>B</strong> 20%
+<strong>C</strong> 29%
+<strong>D</strong> 59%</p>
 <p>11 Kat moodsal fishing
-A is a seasonal activity.
-B is a commercial activity.
-C requires little investment.
-D requires use of a rowing boat.</p>
+<strong>A</strong> is a seasonal activity.
+<strong>B</strong> is a commercial activity.
+<strong>C</strong> requires little investment.
+<strong>D</strong> requires use of a rowing boat.</p>
 <p>12 Which characteristic of present-day islanders do the writers describe?
-A physical strength
-B fishing expertise
-C courage
-D imagination</p>
+<strong>A</strong> physical strength
+<strong>B</strong> fishing expertise
+<strong>C</strong> courage
+<strong>D</strong> imagination</p>
 <p>13 What do the writers say about the system for using the reef on Agatti?
-A Fish catches are shared equally.
-B The reef owner issues permits.
-C There are frequent disputes.
-D There is open access.</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>urban planning in singapore</p>
+<strong>A</strong> Fish catches are shared equally.
+<strong>B</strong> The reef owner issues permits.
+<strong>C</strong> There are frequent disputes.
+<strong>D</strong> There is open access.</p>
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>urban planning in singapore</strong></p>
 <p>British merchants established a trading post in Singapore in the early nineteenth century, and for more than a century trading interests dominated. However, in 1965 the newly independent island state was cut off from its hinterland, and so it set about pursuing a survival strategy. The good international communications it already enjoyed provided a useful base, but it was decided that if Singapore was to secure its economic future, it must develop its industry. To this end, new institutional structures were needed to facilitate, develop, and control foreign investment. One of the most important of these was the Economic Development Board (EDB), an arm of government that developed strategies for attracting investment. Thus from the outset, the Singaporean government was involved in city promotion.</p>
 <p>Towards the end of the twentieth century, the government realised that, due to limits on both the size of the country’s workforce and its land area, its labour-intensive industries were becoming increasingly uncompetitive. So an economic committee was established which concluded that Singapore should focus on developing as a service centre, and seek to attract company headquarters to serve South East Asia, and develop tourism, banking, and offshore activities. The land required for this service-sector orientation had been acquired in the early 1970s, when the government realised that it lacked the banking infrastructure for a modern economy. So a new banking and corporate district, known as the ‘Golden Shoe’, was planned, incorporating the historic commercial area. This district now houses all the major companies and various government financial agencies.</p>
 <p>Singapore’s current economic strategy is closely linked to land use and development planning. Although it is already a major city, the current development plan seeks to ensure Singapore’s continued economic growth through restructuring, to ensure that the facilities needed by future business are planned now. These include transport and telecommunication infrastructure, land, and environmental quality. A major concern is to avoid congestion in the central area, and so the latest plan deviates from previous plans by having a strong decentralisation policy. The plan makes provision for four major regional centres, each serving 800,000 people, but this does not mean that the existing central business district will not also grow. A major extension planned around Marina Bay draws on examples of other ‘world cities’, especially those with waterside central areas such as Sydney and San Francisco. The project involves major land reclamation of 667 hectares in total. Part of this has already been developed as a conference and exhibition zone, and the rest will be used for other facilities. However the need for vitality has been recognised and a mixed zoning approach has been adopted, to include housing and entertainment.</p>
 <p>One of the new features of the current plan is a broader conception of what contributes to economic success. It encompasses high quality residential provision, a good environment, leisure facilities and exciting city life. Thus there is more provision for low-density housing, often in waterfront communities linked to beaches and recreational facilities. However, the lower housing densities will put considerable pressure on the very limited land available for development, and this creates problems for another of the plan’s aims, which is to stress environmental quality. More and more of the remaining open area will be developed, and the only natural landscape surviving will be a small zone in the centre of the island which serves as a water catchment area. Environmental policy is therefore very much concerned with making the built environment more green by introducing more plants – what is referred to as the ‘beautification’ of Singapore. The plan focuses on green zones defining the boundaries of settlements, and running along transport corridors. The incidental green provision within housing areas is also given considerable attention.</p>
 <p>Much of the environmental provision, for example golf courses, recreation areas, and beaches, is linked to the prime objective of attracting business. The plan places much emphasis on good leisure provision and the need to exploit Singapore’s island setting. One way of doing this is through further land reclamation, to create a whole new island devoted to leisure and luxury housing which will stretch from the central area to the airport. A current concern also appears to be how to use the planning system to create opportunities for greater spontaneity: planners have recently given much attention to the concept of the 24-hour city and the cafe society. For example, a promotion has taken place along the Singapore river to create a cafe zone. This has included the realisation, rather late in the day, of the value of retaining older buildings, and the creation of a continuous riverside promenade. Since the relaxation in 1996 of strict guidelines on outdoor eating areas, this has become an extremely popular area in the evenings. Also, in 1998 the Urban Redevelopment Authority created a new entertainment area in the centre of the city which they are promoting as ‘the city’s one-stop, dynamic entertainment scene’.</p>
 <p>In conclusion, the economic development of Singapore has been very consciously centrally planned, and the latest strategy is very clearly oriented to establishing Singapore as a leading ‘world city’. It is well placed to succeed, for a variety of reasons. It can draw upon its historic roots as a world trading centre; it has invested heavily in telecommunications and air transport infrastructure; it is well located in relation to other Asian economies; it has developed a safe and clean environment; and it has utilised the international language of English.</p>
-<p>Questions 14-19
+<p><strong>Questions 14-19</strong>
 Complete the summary below using words from the box.</p>
-<p>Singapore</p>
+<p><strong>Singapore</strong></p>
 <p>When Singapore became an independent, self-sufficient state it decided to build up its (14) ……………….., and government organisations were created to support this policy. However, this initial plan met with limited success due to a shortage of (15) ……………….. and land. It was therefore decided to develop the (16) ……………….. sector of the economy instead.</p>
 <p>Singapore is now a leading city, but planners are working to ensure that its economy continues to grow. In contrast to previous policies, there is emphasis on (17) ………………… In addition, land will be recovered to extend the financial district, and provide (18) ……………….. as well as housing. The government also plans to improve the quality of Singapore’s environment, but due to the shortage of natural landscapes it will concentrate instead on what it calls (19) …………………</p>
-<p>Questions 20-26</p>
+<p><strong>Questions 20-26</strong></p>
 <p>Do the following statements agree with the information given in Reading Passage 2.</p>
 <p>In boxes 1-6 on your answer sheet, write</p>
-<p>TRUE                         if the statement is true according to the passage
-FALSE                       if the statement is false according to the passage
-NOT GIVEN           if the information is not given in the passage</p>
+<p><strong>TRUE</strong>                         if the statement is true according to the passage
+<strong>FALSE</strong>                       if the statement is false according to the passage
+<strong>NOT GIVEN</strong>           if the information is not given in the passage</p>
 <p>20) After 1965, the Singaporean government switched the focus of the island’s economy.
 21) The creation of Singapore’s financial centre was delayed while a suitable site was found.
 22) Singapore’s four regional centres will eventually be the same size as its central business district.
@@ -186,17 +242,17 @@ NOT GIVEN           if the information is not given in the passage</p>
 24) Plants and trees are amongst the current priorities for Singapore’s city planners.
 25) The government has enacted new laws to protect Singapore’s old buildings.
 26) Singapore will find it difficult to compete with leading cities in other parts of the world.</p>
-<p>reading passage 3</p>
-<p>A Spice plants, such as coriander, cardamom or ginger, contain compounds which, when added to food, give it a distinctive flavour. Spices have been used for centuries in the preparation of both meat dishes for consumption and meat dishes for long-term storage. However, an initial analysis of traditional meat-based recipes indicated that spices are not used equally in different countries and regions, so we set about investigating global patterns of spice use.</p>
-<p>B We hypothesized initially that the benefit of spices might lie in their anti-microbial properties. Those compounds in spice plants which give them their distinctive flavours probably first evolved to fight enemies such as plant-eating insects, fungi, and bacteria. Many of the organisms which afflict spice plants attack humans too, in particular the bacteria and fungi that live on and in dead plant and animal matter. So if spices kill these organisms, or inhibit their production of toxins, spice use in food might reduce our own chances of contracting food poisoning.</p>
-<p>C The results of our investigation supported this hypothesis. In common with other researchers, we found that all spices for which we could locate appropriate information have some antibacterial effects: half inhibit more than 75% of bacteria, and four (garlic, onion, allspice and oregano) inhibit 100% of those bacteria tested. In addition, many spices are powerful fungicides.</p>
-<p>D Studies also show that when combined, spices exhibit even greater anti-bacterial properties than when each is used alone. This is interesting because the food recipes we used in our sample specify an average of four different spices. Some spices are so frequently combined that the blends have acquired special names, such as ‘chili powder’ (typically a mixture of red pepper, onion, paprika, garlic, cumin and oregano) and ‘oriental five spice’ (pepper, cinnamon, anise, fennel and cloves). One intriguing example is the French ‘quatre epices’ (pepper, cloves, ginger and nutmeg) which is often used in making sausages. Sausages are a rich medium for bacterial growth, and have frequently been implicated as the source of death from the botulism toxin, so the value of the anti-bacterial compounds in spices used for sausage preparation is obvious.</p>
-<p>E A second hypothesis we made was that spice use would be heaviest in areas where foods spoil most quickly. Studies indicate that rates of bacterial growth increase dramatically with air temperature. Meat dishes that are prepared in advance and stored at room temperatures for more than a few hours, especially in tropical climates, typically show massive increases in bacterial counts. Of course temperatures within houses, particularly in areas where food is prepared and stored, may differ from those of the outside air, but usually it is even hotter in the kitchen.</p>
-<p>F Our survey of recipes from around the world confirmed this hypothesis: we found that countries with higher than average temperatures used more spices. Indeed, in hot countries nearly every meat-based recipe calls for at least one spice, and most include many spices, whereas in cooler ones, substantial proportions of dishes are prepared without spices, or with just a few. In other words, there is a significant positive correlation between mean temperature and the average quantity of spices used in cooking.</p>
-<p>G But if the main function of spices is to make food safer to eat, how did our ancestors know which ones to use in the first place? It seems likely that people who happened to add spice plants to meat during preparation, especially in hot climates, would have been less likely to suffer from food poisoning than those who did not. Spice users may also have been able to store foods for longer before they spoiled, enabling them to tolerate longer periods of scarcity. Observation and imitation of the eating habits of these healthier individuals by others could spread spice use rapidly through a society. Also, families that used appropriate spices would rear a greater number of more healthy offspring, to whom spice-use traditions had been demonstrated, and who possessed appropriate taste receptors.</p>
-<p>H Another question which arises is why did people develop a taste for spicy foods? One possibility involves learned taste aversions. It is known that when people eat something that makes them ill, they tend to avoid that taste subsequently. The adaptive value of such learning is obvious. Adding a spice to a food that caused sickness might alter its taste enough to make it palatable again (i.e. it tastes like a different food), as well as kill the micro-organisms that caused the illness, thus rendering it safe for consumption. By this process, food aversions would more often be associated with unspiced (and therefore unsafe) foods, and food likings would be associated with spicy foods, especially in places where foods spoil rapidly. Over time people would have developed a natural preference for spicy food.</p>
-<p>I Of course, spice use is not the only way to avoid food poisoning. Cooking, and completely consuming wild game immediately after slaughter reduces opportunities for the growth of micro-organisms. However, this is practical only where fresh meat is abundant year-round. In areas where fresh meat is not consistently available, preservation may be accomplished by thoroughly cooking, salting, smoking, drying, and spicing meats. Indeed, salt has been used worldwide for centuries to preserve food. We suggest that all these practices have been adopted for essentially the same reason: to minimize the effects of harmful, food-borne organisms.</p>
-<p>Questions 27-33</p>
+<p><strong>reading passage 3</strong></p>
+<p><strong>A</strong> Spice plants, such as coriander, cardamom or ginger, contain compounds which, when added to food, give it a distinctive flavour. Spices have been used for centuries in the preparation of both meat dishes for consumption and meat dishes for long-term storage. However, an initial analysis of traditional meat-based recipes indicated that spices are not used equally in different countries and regions, so we set about investigating global patterns of spice use.</p>
+<p><strong>B</strong> We hypothesized initially that the benefit of spices might lie in their anti-microbial properties. Those compounds in spice plants which give them their distinctive flavours probably first evolved to fight enemies such as plant-eating insects, fungi, and bacteria. Many of the organisms which afflict spice plants attack humans too, in particular the bacteria and fungi that live on and in dead plant and animal matter. So if spices kill these organisms, or inhibit their production of toxins, spice use in food might reduce our own chances of contracting food poisoning.</p>
+<p><strong>C</strong> The results of our investigation supported this hypothesis. In common with other researchers, we found that all spices for which we could locate appropriate information have some antibacterial effects: half inhibit more than 75% of bacteria, and four (garlic, onion, allspice and oregano) inhibit 100% of those bacteria tested. In addition, many spices are powerful fungicides.</p>
+<p><strong>D</strong> Studies also show that when combined, spices exhibit even greater anti-bacterial properties than when each is used alone. This is interesting because the food recipes we used in our sample specify an average of four different spices. Some spices are so frequently combined that the blends have acquired special names, such as ‘chili powder’ (typically a mixture of red pepper, onion, paprika, garlic, cumin and oregano) and ‘oriental five spice’ (pepper, cinnamon, anise, fennel and cloves). One intriguing example is the French ‘quatre epices’ (pepper, cloves, ginger and nutmeg) which is often used in making sausages. Sausages are a rich medium for bacterial growth, and have frequently been implicated as the source of death from the botulism toxin, so the value of the anti-bacterial compounds in spices used for sausage preparation is obvious.</p>
+<p><strong>E</strong> A second hypothesis we made was that spice use would be heaviest in areas where foods spoil most quickly. Studies indicate that rates of bacterial growth increase dramatically with air temperature. Meat dishes that are prepared in advance and stored at room temperatures for more than a few hours, especially in tropical climates, typically show massive increases in bacterial counts. Of course temperatures within houses, particularly in areas where food is prepared and stored, may differ from those of the outside air, but usually it is even hotter in the kitchen.</p>
+<p><strong>F</strong> Our survey of recipes from around the world confirmed this hypothesis: we found that countries with higher than average temperatures used more spices. Indeed, in hot countries nearly every meat-based recipe calls for at least one spice, and most include many spices, whereas in cooler ones, substantial proportions of dishes are prepared without spices, or with just a few. In other words, there is a significant positive correlation between mean temperature and the average quantity of spices used in cooking.</p>
+<p><strong>G</strong> But if the main function of spices is to make food safer to eat, how did our ancestors know which ones to use in the first place? It seems likely that people who happened to add spice plants to meat during preparation, especially in hot climates, would have been less likely to suffer from food poisoning than those who did not. Spice users may also have been able to store foods for longer before they spoiled, enabling them to tolerate longer periods of scarcity. Observation and imitation of the eating habits of these healthier individuals by others could spread spice use rapidly through a society. Also, families that used appropriate spices would rear a greater number of more healthy offspring, to whom spice-use traditions had been demonstrated, and who possessed appropriate taste receptors.</p>
+<p><strong>H</strong> Another question which arises is why did people develop a taste for spicy foods? One possibility involves learned taste aversions. It is known that when people eat something that makes them ill, they tend to avoid that taste subsequently. The adaptive value of such learning is obvious. Adding a spice to a food that caused sickness might alter its taste enough to make it palatable again (i.e. it tastes like a different food), as well as kill the micro-organisms that caused the illness, thus rendering it safe for consumption. By this process, food aversions would more often be associated with unspiced (and therefore unsafe) foods, and food likings would be associated with spicy foods, especially in places where foods spoil rapidly. Over time people would have developed a natural preference for spicy food.</p>
+<p><strong>I</strong> Of course, spice use is not the only way to avoid food poisoning. Cooking, and completely consuming wild game immediately after slaughter reduces opportunities for the growth of micro-organisms. However, this is practical only where fresh meat is abundant year-round. In areas where fresh meat is not consistently available, preservation may be accomplished by thoroughly cooking, salting, smoking, drying, and spicing meats. Indeed, salt has been used worldwide for centuries to preserve food. We suggest that all these practices have been adopted for essentially the same reason: to minimize the effects of harmful, food-borne organisms.</p>
+<p><strong>Questions 27-33</strong></p>
 <p>Reading Passage 3 has nine paragraphs, labelled A–I.</p>
 <p>Which paragraphs contain the following information?</p>
 <p>27) an example of a food which particularly benefits from the addition of spices.
@@ -206,24 +262,24 @@ NOT GIVEN           if the information is not given in the passage</p>
 31) a method of enhancing the effectiveness of individual spices.
 32) the relative effectiveness of certain spices against harmful organisms.
 33) the possible origins of a dislike for unspiced foods.</p>
-<p>Questions 34-39</p>
+<p><strong>Questions 34-39</strong></p>
 <p>Answer the questions below with words taken from Reading Passage 3.</p>
-<p>Use NO MORE THAN TWO WORDS for each answer.</p>
+<p>Use <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>34) According to the writers, what might be the use of spices in cooking help people to avoid?
 35) What proportion of bacteria in food do four of the spices tested destroy?
 36) Which food often contains a spice known as ‘quatre epices’?
 37) Which types of country use the fewest number of spices in cooking?
 38) What might food aversions often be associated with?
 39) Apart from spices, which substance is used in all countries to preserve food?</p>
-<p>Question 40</p>
+<p><strong>Question 40</strong></p>
 <p>Choose the correct letter, A, B, C, or D.
 40) Which is the best title for Reading Passage 3?
-A The function of spices in food preparation
-B A history of food preservation techniques
-C Traditional recipes from around the world
-D An analysis of the chemical properties of spice plants</p>
+<strong>A</strong> The function of spices in food preparation
+<strong>B</strong> A history of food preservation techniques
+<strong>C</strong> Traditional recipes from around the world
+<strong>D</strong> An analysis of the chemical properties of spice plants</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. v</p>
 <p>2. viii</p>
 <p>3. xi</p>
@@ -482,6 +538,29 @@ D An analysis of the chemical properties of spice plants</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -501,12 +580,23 @@ D An analysis of the chemical properties of spice plants</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -518,14 +608,6 @@ D An analysis of the chemical properties of spice plants</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

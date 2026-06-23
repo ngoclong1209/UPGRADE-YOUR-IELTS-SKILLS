@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,25 +158,25 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_14</h1>
-            <p>IELTS Reading Practice - Test 14</p>
-<p>How much higher? How much faster?</p>
-<p>Since the early years of the twentieth century, when the International Athletic Federation began keeping records, there has been a steady improvement in how fast athletes run, how high they jump and how far they are able to hurl massive objects, themselves included, through space. For the so-called power events –that require a relatively brief, explosive release of energy, like the 100-metre sprint and the long jump-times and distances have improved ten to twenty percent. In the endurance events the results have been more dramatic. At the 1908 Olympics, John Hayes of the U.S. team ran to marathon in a time of 2:55:18. In 1999, Morocco’s Khalid Khannouchi set a new world record of 2:05:42, almost thirty percent faster.</p>
-<p>No one theory can explain improvements in performance, but the most important factor has been genetics. ‘The athlete must choose his parents carefully,’ says Jesus Dapena, a sports scientist at Indiana University, invoking an oft-cited adage. Over the past century, the composition of the human gene pool has not changed appreciably, but with increasing global participation in athletics-and greater rewards to tempt athletes-it is more likely that individuals possessing the unique complement of genes for athletic performance can be identified early. ‘Was there someone like [sprinter] Michael Johnson in the 1920s?’ Dapena asks. ‘I’m sure there was, but his talent was probably never realized.’</p>
-<p>Identifying genetically talented individuals is only the first step. Michael Yessis, an emeritus professor of Sports Science at California State University at Fullerton, maintains that ‘genetics only determines about one third of what an athlete can do. But with the right training we can go much further with that one third than we’ve been going.’ Yesis believes that U.S. runners, despite their impressive achievements, are ‘running on their genetics’. By applying more scientific methods, ‘they’re going to go much faster’. These methods include strength training that duplicates what they are doing in their running events as well as plyometrics, a technique pioneered in the former Soviet Union.</p>
-<p>Whereas most exercises are designed to build up strength or endurance, plyometrics focuses on increasing power-the rate at which an athlete can expend energy. When a sprinter runs, Yesis explains, her foot stays in contact with the ground for just under a tenth of a second, half of which is devoted to landing and the other half to pushing off. Plyometric exercises help athletes make the best use of this brief interval.</p>
-<p>Nutrition is another area that sports trainers have failed to address adequately. ‘Many athletes are not getting the best nutrition, even though supplements,’ Yessis insists. Each activity has its own nutritional needs. Few coaches, for instance, understand how deficiencies in trace minerals can lead to injuries.</p>
-<p>Focused training will also play a role in enabling records to be broken. ‘If we applied the Russian training model to some of the outstanding runners we have in this country,’ Yessis asserts, ‘they would be breaking records left and right.’ He will not predict by how much, however: ‘Exactly what the limits are it’s hard to say, but there will be increases even if only by hundredths of a second, as long as our training continues to improve.’</p>
-<p>One of the most important new methodologies is biomechanics, the study of the body in motion. A biomechanic films an athlete in action and then digitizes her performance, recording the motion of every joint and limb in three dimensions. By applying Newton’s law to these motions, ‘we can say that this athlete’s run is not fast enough; that this one is not using his arms strongly enough during take-off,’ says Dapena, who uses these methods to help high jumpers. To date, however, biomechanics has made only a small difference to athletic performance.</p>
-<p>Revolutionary ideas still come from the athletes themselves. For example, during the 1968 Olympics in Mexico City, a relatively unknown high jumper named Dick Fosbury won the gold by going over the bar backwards, in complete contradiction of all the received high-jumping wisdom, a move instantly dubbed the Fosbury flop. Fosbury himself did not know what he was doing. That understanding took the later analysis of biomechanics specialists. Who put their minds to comprehending something that was too complex and unorthodox ever to have been invented through their own mathematical simulations. Fosbury also required another element that lies behind many improvements in athletic performance: an innovation in athletic equipment. In Fosbury’s case, it was the cushions that jumpers land on. Traditionally, high jumpers would land in pits filled with sawdust. But by Fosbury’s time, sawdust pits had been replaced by soft foam cushions, ideal for flopping.</p>
-<p>In the end, most people who examine human performance are humbled by the resourcefulness of athletes and the powers of the human body. ‘Once you study athletics, you learn that it’s a vexingly complex issue,’ says John S.Raglin, a sports psychologist at Indiana University. ‘Core performance is not a simple or mundane thing of higher, faster, longer. So many variables enter into the equation, and our understanding in many cases is fundamental. We’re got a long way to go.’ For the foreseeable future, records will be made to be broken.</p>
-<p>Questions 1-6
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 14</strong></h3>
+<h3 class="test-heading"><strong>How much higher? How much faster?</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>Since the early years of the twentieth century, when the International Athletic Federation began keeping records, there has been a steady improvement in how fast athletes run, how high they jump and how far they are able to hurl massive objects, themselves included, through space. For the so-called power events –that require a relatively brief, explosive release of energy, like the 100-metre sprint and the long jump-times and distances have improved ten to twenty percent. In the endurance events the results have been more dramatic. At the 1908 Olympics, John Hayes of the U.S. team ran to marathon in a time of 2:55:18. In 1999, Morocco’s Khalid Khannouchi set a new world record of 2:05:42, almost thirty percent faster.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>No one theory can explain improvements in performance, but the most important factor has been genetics. ‘The athlete must choose his parents carefully,’ says Jesus Dapena, a sports scientist at Indiana University, invoking an oft-cited adage. Over the past century, the composition of the human gene pool has not changed appreciably, but with increasing global participation in athletics-and greater rewards to tempt athletes-it is more likely that individuals possessing the unique complement of genes for athletic performance can be identified early. ‘Was there someone like [sprinter] Michael Johnson in the 1920s?’ Dapena asks. ‘I’m sure there was, but his talent was probably never realized.’</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Identifying genetically talented individuals is only the first step. Michael Yessis, an emeritus professor of Sports Science at California State University at Fullerton, maintains that ‘genetics only determines about one third of what an athlete can do. But with the right training we can go much further with that one third than we’ve been going.’ Yesis believes that U.S. runners, despite their impressive achievements, are ‘running on their genetics’. By applying more scientific methods, ‘they’re going to go much faster’. These methods include strength training that duplicates what they are doing in their running events as well as plyometrics, a technique pioneered in the former Soviet Union.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Whereas most exercises are designed to build up strength or endurance, plyometrics focuses on increasing power-the rate at which an athlete can expend energy. When a sprinter runs, Yesis explains, her foot stays in contact with the ground for just under a tenth of a second, half of which is devoted to landing and the other half to pushing off. Plyometric exercises help athletes make the best use of this brief interval.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>Nutrition is another area that sports trainers have failed to address adequately. ‘Many athletes are not getting the best nutrition, even though supplements,’ Yessis insists. Each activity has its own nutritional needs. Few coaches, for instance, understand how deficiencies in trace minerals can lead to injuries.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Focused training will also play a role in enabling records to be broken. ‘If we applied the Russian training model to some of the outstanding runners we have in this country,’ Yessis asserts, ‘they would be breaking records left and right.’ He will not predict by how much, however: ‘Exactly what the limits are it’s hard to say, but there will be increases even if only by hundredths of a second, as long as our training continues to improve.’</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>One of the most important new methodologies is biomechanics, the study of the body in motion. A biomechanic films an athlete in action and then digitizes her performance, recording the motion of every joint and limb in three dimensions. By applying Newton’s law to these motions, ‘we can say that this athlete’s run is not fast enough; that this one is not using his arms strongly enough during take-off,’ says Dapena, who uses these methods to help high jumpers. To date, however, biomechanics has made only a small difference to athletic performance.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>Revolutionary ideas still come from the athletes themselves. For example, during the 1968 Olympics in Mexico City, a relatively unknown high jumper named Dick Fosbury won the gold by going over the bar backwards, in complete contradiction of all the received high-jumping wisdom, a move instantly dubbed the Fosbury flop. Fosbury himself did not know what he was doing. That understanding took the later analysis of biomechanics specialists. Who put their minds to comprehending something that was too complex and unorthodox ever to have been invented through their own mathematical simulations. Fosbury also required another element that lies behind many improvements in athletic performance: an innovation in athletic equipment. In Fosbury’s case, it was the cushions that jumpers land on. Traditionally, high jumpers would land in pits filled with sawdust. But by Fosbury’s time, sawdust pits had been replaced by soft foam cushions, ideal for flopping.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>In the end, most people who examine human performance are humbled by the resourcefulness of athletes and the powers of the human body. ‘Once you study athletics, you learn that it’s a vexingly complex issue,’ says John S.Raglin, a sports psychologist at Indiana University. ‘Core performance is not a simple or mundane thing of higher, faster, longer. So many variables enter into the equation, and our understanding in many cases is fundamental. We’re got a long way to go.’ For the foreseeable future, records will be made to be broken.</p></div></div>
+<p><strong>Questions 1-6</strong>
 
 Do the following statements agree with the information given in Reading Passage 1? In boxes 1-6 on your answer sheet write</p>
-<p>TRUE                          if the statement agrees with the information
+<p><strong>TRUE</strong>                          if the statement agrees with the information
 
-FALSE                        if the statement contradicts the information
+<strong>FALSE</strong>                        if the statement contradicts the information
 
-NOT GIVEN             if there is no information on this</p>
+<strong>NOT GIVEN</strong>             if there is no information on this</p>
 <p>1 Modern official athletic records date from about 1900.
 
 2 There was little improvement in athletic performance before the twentieth century,
@@ -132,9 +188,9 @@ NOT GIVEN             if there is no information on this</p>
 5 The parents of top athletes have often been successful athletes themselves.
 
 6 The growing international importance of athletics means that gifted athletes can be recognised at a younger age.</p>
-<p>Questions 7-10
+<p><strong>Questions 7-10</strong>
 
-Complete the sentences below with words taken from Reading Passage 1. Use ONE WORD for each answer. Write your answers in boxes 7-10 on your answer sheet.</p>
+Complete the sentences below with words taken from Reading Passage 1. Use <strong>ONE WORD</strong> for each answer. Write your answers in boxes 7-10 on your answer sheet.</p>
 <p>7 According to Professor Yessis, American runners are relying for their current success on………………..
 
 8 Yessis describes a training approach from the former Soviet Union that aims to develop an athlete’s…………
@@ -142,38 +198,38 @@ Complete the sentences below with words taken from Reading Passage 1. Use ONE WO
 9 Yessis links an inadequate diet to…………………
 
 10 Yessis claims that the key to setting new records is better……………..</p>
-<p>Questions 11-13
+<p><strong>Questions 11-13</strong>
 
 Choose the correct letter, A, B, C or D. Write your answers in boxes 11-13 on your answer sheet.</p>
 <p>11 Biomechanics films are proving particularly useful because they enable trainers to
 
-A highlight areas for improvement in athletes
+<strong>A</strong> highlight areas for improvement in athletes
 
-B assess the fitness levels of athletes
+<strong>B</strong> assess the fitness levels of athletes
 
-C select top athletes
+<strong>C</strong> select top athletes
 
-D predict the success of athletes</p>
+<strong>D</strong> predict the success of athletes</p>
 <p>12 Biomechanics specialists used theoretical models to
 
-A soften the Fosbury flop
+<strong>A</strong> soften the Fosbury flop
 
-B create the Fosbury flop
+<strong>B</strong> create the Fosbury flop
 
-C correct the Fosbury flo
+<strong>C</strong> correct the Fosbury flo
 
-D explain the Fosbury flop.</p>
+<strong>D</strong> explain the Fosbury flop.</p>
 <p>13 John S. Raglin believes our current knowledge of athletics is
 
-A mistaken
+<strong>A</strong> mistaken
 
-B basic
+<strong>B</strong> basic
 
-C diverse
+<strong>C</strong> diverse
 
-D theoretical</p>
+<strong>D</strong> theoretical</p>
 <p>Cambridge IELTS Test 1 to 17</p>
-<p>The Nature and Aims of Archaeology</p>
+<p><strong>The Nature and Aims of Archaeology</strong></p>
 <p>Archaeology is partly the discovery of treasures of the past, partly the work of the scientific analyst, partly the exercise of the creative imagination. It is toiling in the sun on an excavation in the Middle East, it is working with living Inuit in the snows of Alaska, and it is investigating the sewers of Roman Britain. But it is also the painstaking task of interpretation, so that we come to understand what these things mean for the human story. And it is the conservation of the world’s cultural heritage against looting and careless harm.</p>
 <p>Archaeology, then, is both a physical activity out in the field, and an intellectual pursuit in the study or laboratory. That is part of its great attraction. The rich mixture of danger and detective work has also made it the perfect vehicle for fiction writers and film-makers, from Agatha Christie with Murder in Mesopotamia to Stephen Spielberg with Indiana Jones. However far from reality such portrayals are, they capture the essential truth that archaeology is an exciting quest – the quest for knowledge about ourselves and our past.</p>
 <p>But how does archaeology relate to other disciplines such as anthropology and history that are also concerned with the human story? Is archaeology itself a science? And what are the responsibilities of the archaeologist in today’s world?</p>
@@ -184,14 +240,14 @@ D theoretical</p>
 <p>If, then, archaeology deals with the past, in what way does it differ from history? In the broadest sense, just as archaeology is an aspect of anthropology, so too is it a part of history – where we mean the whole history of humankind from its beginnings over three million years ago. Indeed, for more than ninety-nine percent of that huge span of time, archaeology – the study of past material culture – is the only significant source of information. Conventional historical sources begin only with the introduction of written records around 3,000 BC in western Asia, and much later in most other parts in the world.</p>
 <p>A commonly drawn distinction is between pre-history, i.e. the period before written records – and history in the narrow sense, meaning the study of the past using written evidence. To archaeology, which studies all cultures and periods, whether with or without writing, the distinction between history and pre-history is a convenient dividing line that recognises the importance of the written word, but in no way lessens the importance of the useful information contained in oral histories.</p>
 <p>Since the aim of archaeology is the understanding of humankind, it is a humanistic study, and since it deals with the human past, it is a historical discipline. But is differs from the study of written history in a fundamental way. The material the archaeologist finds does not tell us directly what to think. Historical records make statements, offer opinions and pass judgements. The objects the archaeologists discover, on the other hand, tell us nothing directly in themselves. In this respect, the practice of the archaeologist is rather like that of the scientist, who collects data, conducts experiments, formulates a hypothesis tests the hypothesis against more data, and then, in conclusion, devises a model that seems best to summarise the pattern observed in the data. The archaeologist has to develop a picture of the past, just as the scientist has to develop a coherent view of the natural world.</p>
-<p>Questions 14-19
+<p><strong>Questions 14-19</strong>
 
 Do the following statements agree with the claims of the writer in Reading Passage 2? In boxes 14-19 on your answer sheet write:</p>
-<p>YES                          if the statement agrees with the claims of the writer
+<p><strong>YES</strong>                          if the statement agrees with the claims of the writer
 
-NO                            if the statement contradicts the claims of the writer
+<strong>NO</strong>                            if the statement contradicts the claims of the writer
 
-NOT GIVEN         if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>         if it is impossible to say what the writer thinks about this</p>
 <p>14 Archaeology involves creativity as well as investigative work.
 
 15 Archaeologist must be able to translate texts from ancient languages.
@@ -203,60 +259,60 @@ NOT GIVEN         if it is impossible to say what the writer thinks about t
 18 Archaeology is a more demanding field of study than anthropology.
 
 19 The history of Europe has been documented since 3,000 BC.</p>
-<p>Questions 20 and 21
+<p><strong>Questions 20 and 21</strong>
 
-Choose TWO letters A – E. Write your answer in boxes 20 and 21 on your answer sheet.</p>
+Choose <strong>TWO</strong> letters A – E. Write your answer in boxes 20 and 21 on your answer sheet.</p>
 <p>The list below gives some statements about anthropology.</p>
-<p>Which TWO statements are mentioned by the writer of the text?</p>
-<p>A It is important for government planners
+<p>Which <strong>TWO</strong> statements are mentioned by the writer of the text?</p>
+<p><strong>A</strong> It is important for government planners
 
-B It is a continually growing field of study
+<strong>B</strong> It is a continually growing field of study
 
-C It often involves long periods of fieldwork
+<strong>C</strong> It often involves long periods of fieldwork
 
-D It is subdivided for study purposes
+<strong>D</strong> It is subdivided for study purposes
 
-E It studies human evolutionary patterns</p>
-<p>Questions 22 and 23
+<strong>E</strong> It studies human evolutionary patterns</p>
+<p><strong>Questions 22 and 23</strong>
 
-Choose TWO letters A – E. Write your answer in boxes 22 and 23 on your answer sheet.</p>
+Choose <strong>TWO</strong> letters A – E. Write your answer in boxes 22 and 23 on your answer sheet.</p>
 <p>The list below gives some of the tasks of an archaeologist.</p>
-<p>Which TWO of these tasks are mentioned by the writer of the text?</p>
-<p>A examining ancient waste sites to investigate diet
+<p>Which <strong>TWO</strong> of these tasks are mentioned by the writer of the text?</p>
+<p><strong>A</strong> examining ancient waste sites to investigate diet
 
-B studying cave art to determine its significance
+<strong>B</strong> studying cave art to determine its significance
 
-C deducing reasons for the shape of domestic buildings
+<strong>C</strong> deducing reasons for the shape of domestic buildings
 
-D investigating the way different cultures make and use objects
+<strong>D</strong> investigating the way different cultures make and use objects
 
-E examining evidence for past climate changes</p>
-<p>Questions 24-27
+<strong>E</strong> examining evidence for past climate changes</p>
+<p><strong>Questions 24-27</strong>
 
-Complete the summary of the last two paragraphs of Reading Passage 2. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+Complete the summary of the last two paragraphs of Reading Passage 2. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>Much of the work of archaeologists can be done using written records, but they find (24) ………………………… equally valuable. The writer describes archaeology as both a (25) …………………………. and a (26) …………………… However, as archaeologists do not try to influence human behaviour, the writer compares their style of working to that of a (27) ……………..</p>
-<p>The Problem of Scarce Resources</p>
-<p>Section A
+<p><strong>The Problem of Scarce Resources</strong></p>
+<p><strong>Section A</strong>
 
 The problem of how health-care resources should be allocated or apportioned, so that they are distributed in both the most just and most efficient way, is not a new one. Every health system in an economically developed society is faced with the need to decide (either formally or informally) what proportion of the community’s total resources should be spent on health-care; how resources are to be apportioned; what diseases and disabilities and which forms of treatment are to be given priority; which members of the community are to be given special consideration in respect of their health needs; and which forms of treatment are the most cost-effective.</p>
-<p>Section B
+<p><strong>Section B</strong>
 
 What is new is that, from the 1950s onwards, there have been certain general changes in outlook about the finitude of resources as a whole and of health-care resources in particular, as well as more specific changes regarding the clientele of health-care resources and the cost to the community of those resources. Thus, in the 1950s and 1960s, there emerged an awareness in Western societies that resources for the provision of fossil fuel energy were finite and exhaustible and that the capacity of nature or the environment to sustain economic development and population was also finite. In other words, we became aware of the obvious fact that there were ‘limits to growth’. The new consciousness that there were also severe limits to health-care resources was part of this general revelation of the obvious. Looking back, it now seems quite incredible that in the national health systems that emerged in many countries in the years immediately after the 1939-45 World War, it was assumed without question that all the basic health needs of any community could be satisfied, at least in principle; the ‘in visible hand’ of economic progress would provide.</p>
-<p>Section C
+<p><strong>Section C</strong>
 
 However, at exactly the same time as this new realization of the finite character of health-care resources was sinking in, an awareness of a contrary kind was developing in Western societies: that people have a basic right to health-care as a necessary condition of a proper human life. Like education, political and legal processes and institutions, public order, communication, transport and money supply, health-care came to be seen as one of the fundamental social facilities necessary for people to exercise their other rights as autonomous human beings. People are not in a position to exercise personal liberty and to be self-determining if they are poverty-stricken, or deprived of basic education, or do not live within a context of law and order. In the same way, basic health-care is a condition of the exercise of autonomy.</p>
-<p>Section D
+<p><strong>Section D</strong>
 
 Although the language of ‘rights’ sometimes leads to confusion, by the late 1970s it was recognized in most societies that people have a right to health-care (though there has been considerable resistance in the United Sates to the idea that there is a formal right to health-care). It is also accepted that this right generates an obligation or duty for the state to ensure that adequate health-care resources are provided out of the public purse. The state has no obligation to provide a health-care system itself, but to ensure that such a system is provided. Put another way, basic health-care is now recognized as a ‘public good’, rather than a ‘private good’ that one is expected to buy for oneself. As the 1976 declaration of the World Health Organisation put it: ‘The enjoyment of the highest attainable standard of health is one of the fundamental rights of every human being without distinction of race, religion, political belief, economic or social condition’. As has just been remarked, in a liberal society basic health is seen as one of the indispensable conditions for the exercise of personal autonomy.</p>
-<p>Section E
+<p><strong>Section E</strong>
 
 Just at the time when it became obvious that health-care resources could not possibly meet the demands being made upon them, people were demanding that their fundamental right to health-care be satisfied by the state. The second set of more specific changes that have led to the present concern about the distribution of health-care resources stems from the dramatic rise in health costs in most OECD countries, accompanied by large-scale demographic and social changes which have meant, to take one example, that elderly people are now major (and relatively very expensive) consumers of health-care resources. Thus in OECD countries as a whole, health costs increased from 3.8% of GDP in 1960 to 7% of GDP in 1980, and it has been predicted that the proportion of health costs to GDP will continue to increase. (In the US the current figure is about 12% of GDP, and in Australia about 7.8% of GDP.)</p>
 <p>As a consequence, during the 1980s a kind of doomsday scenario (analogous to similar doomsday extrapolations about energy needs and fossil fuels or about population increases) was projected by health administrators, economists and politicians. In this scenario, ever-rising health costs were matched against static or declining resources.</p>
-<p>Questions 28-31
+<p><strong>Questions 28-31</strong>
 
 Reading Passage 3 has five sections A-E. Choose the correct heading for section A and C-E from the list of headings below.</p>
 <p>Write the correct number i-viii in boxes 28-31 on your answer sheet.</p>
-<p>List of Headings</p>
+<p><strong>List of Headings</strong></p>
 <p>i The connection between health-care and other human rights
 
 ii The development of market-based health systems.
@@ -281,14 +337,14 @@ Example:  Section B           viii
 30 Section D
 
 31 Section E</p>
-<p>Questions 32-35
+<p><strong>Questions 32-35</strong>
 
 Classify the following as first occurring</p>
-<p>A between 1945 and 1950
+<p><strong>A</strong> between 1945 and 1950
 
-B between 1950 and 1980
+<strong>B</strong> between 1950 and 1980
 
-C after 1980</p>
+<strong>C</strong> after 1980</p>
 <p>32 the realisation that the resources of the national health system were limited
 
 33 a sharp rise in the cost of health-care.
@@ -296,14 +352,14 @@ C after 1980</p>
 34 a belief that all the health-care resources the community needed would be produced by economic growth
 
 35 an acceptance of the role of the state in guaranteeing the provision of health-care.</p>
-<p>Questions 36-40
+<p><strong>Questions 36-40</strong>
 
 Do the following statements agree with the view of the writer in Reading Passage 3? In boxes 136-40 on your answer sheet write:</p>
-<p>YES                           if the statement agrees with the views of the writer
+<p><strong>YES</strong>                           if the statement agrees with the views of the writer
 
-NO                            if the statement contradicts the views of the writer
+<strong>NO</strong>                            if the statement contradicts the views of the writer
 
-NOT GIVEN          if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>          if it is impossible to say what the writer thinks about this</p>
 <p>36 Personal liberty and independence have never been regarded as directly linked to health-care.
 
 37 Health-care came to be seen as a right at about the same time that the limits of health-care resources became evident.
@@ -314,7 +370,7 @@ NOT GIVEN          if it is impossible to say what the writer thinks about 
 
 40 In most economically developed countries the elderly will to make special provision for their health-care in the future.</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. true</p>
 <p>2. not given</p>
 <p>3. false</p>
@@ -573,6 +629,29 @@ NOT GIVEN          if it is impossible to say what the writer thinks about 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -592,12 +671,23 @@ NOT GIVEN          if it is impossible to say what the writer thinks about 
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -609,14 +699,6 @@ NOT GIVEN          if it is impossible to say what the writer thinks about 
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

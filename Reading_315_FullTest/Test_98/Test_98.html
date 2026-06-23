@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,16 +158,16 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_98</h1>
-            <p>IELTS Reading Practice - Test 98</p>
-<p>The Sweet Scent of Success</p>
-<p>A Innovation and entrepreneurship, in the right mix, can bring spectacular results and propel a business ahead of the pack. Across a diverse range of commercial successes, from the Hills Hoist clothes line to the Cochlear ear implant, it is hardto generalize beyond saying the creators tapped into something consumers could not wait to get their hands on. However, most ideas never make it to the market. Some ideas that innovators are spruiking to potential investors include new water-saving shower heads, a keyless locking system, ping-pong balls that keep pollution out of rainwater tanks, making teeth grow from stemcells inserted in the gum, and technology to stop LPG tanks from exploding. Grant Kearney, chief executive of the Innovation Xchange, which connects businesses to innovation networks, says he hears of great business ideas that he knows will never get on the market. “Ideas by themselves are absolutely useless,” he says. “An idea only becomes innovation when it is connected to the right resources and capabilities”.</p>
-<p>B One of Australia’s latest innovation successes stems from a lemon-scented bath-room cleaner called Shower Power, the formula for which was concocted in afactory in Yatala, Queensland. In 1995, Tom Quinn and John Heron bought a struggling cleaning products business, OzKleen, for 250,000. It was selling 100 different kinds of cleaning products, mainly in bulk. The business was in bad shape, the cleaning formulas were ineffective and environmentally harsh, and there were few regular clients. Now Shower Power is claimed to be the top-selling bathroom cleaning product in the country. In the past 12 months, almost four million bottles of OzKleen’s Power products have been sold and the company forecasts 2004 sales of 10 million bottles. The company’s, sales in2003 reached $11 million, with 700k of business being exports. In particular, Shower Power is making big inroads on the British market.</p>
-<p>C OzKleen’s turnaround began when Quinn and Heron hired an industrial chemist to revitalize the product line. Market research showed that people were looking for a better cleaner for the bathroom, universally regarded as the hardest room in the home to clean. The company also wanted to make the product formulas more environmentally friendly One of Tom Quinn’s sons, Peter, aged 24 at the time, began working with the chemist on the formulas, looking at the potential for citrus-based cleaning products. He detested all the chlorine-based cleaning products that dominated the market. “We didn’t want to use chlorine, simple as that,” he says. “It offers bad working conditions and there’s no money in it.” Peter looked at citrus ingredients, such as orange peel, to replace the petroleum by-products in cleaners. He is credited with finding the Shower Power formula. “The head,” he says. The company is the recipe is in a vault somewhere and in my sole owner of the intellectual property.</p>
-<p>D To begin with, Shower Power was sold only in commercial quantities but Tom Quinn decided to sell it in 750ml bottles after the constant “raves” from customers at their retail store at Beenleigh, near Brisbane. Customers were travel- ling long distances to buy supplies. Others began writing to OzKleen to say how good Shower Power was. “We did a dummy label and went to see Woolworths,” Tom Quinn says. The Woolworths buyer took a bottle home and was able to remove a stain from her basin that had been impossible to shift. From that point on, she championed the product and OzKleen had its first super- market order, for a palette of Shower Power worth $3000. “We were over the moon,” says OzKleen’s financial controller, Belinda McDonnell.</p>
-<p>E Shower Power was released in Australian supermarkets in 1997 and became the top-selling product in its category within six months. It was all hands on deck cat the factory, labeling and bottling Shower Power to keep up with demand. OzKleen ditched all other products and rebuilt the business around Shower Power. This stage, recalls McDonnell, was very tough. “It was hand-to-mouth, cashflow was very difficult,” she says. OzKleen had to pay new-line fees to supermarket chains, which also squeezed margins.</p>
-<p>F OzKleen’s next big break came when the daughter of a Coles Myer executive used the product while on holidays in Queensland and convinced her father that Shower Power should be in Coles supermarkets. Despite the product success, Peter Quinn says the company was wary of how long the sales would last and hesitated to spend money on upgrading the manufactur­ing process. As a result, he remembers long periods of working round the clock to keep up with orders. Small tanks were still being used, so batches were small and bottles were labelled and filled manually. The privately owned OzKleen relied on cash flow to expand. “The equipment could not keep up with demand,” Peter Quinn says. Eventually a new bottling machine was bought for $50,000 in the hope of streamlining production, but he says: “We got ripped off.” Since then, he has been developing a new auto­mated bottling machine that can control the amount of foam produced in the liquid, so that bottles can be filled more effectively – “I love coming up with new ideas.” The machine is being patented.</p>
-<p>G Peter Quinn says OzKleen’s approach to research and development is open slather. “If I need it, I get it. It is about doing something simple that no one else is doing. Most of these things are just sitting in front of people … it’s just seeing the opportunities.” With a tried and tested product, OzKleen is expanding overseas and developing more Power-brand house­hold products. Tom Quinn, who previously ran a real estate agency, says: “We are competing with the same market all over the world, the cleaning products are sold everywhere.” Shower Power, known as Bath Power in Britain, was launched four years ago with the help of an export develop­ment grant from the Federal Government. “We wanted to do it straight away because we realised we had the same opportunities worldwide.” OzKleen is already number three in the British market, and the next stop is France. The Power range includes cleaning products for carpets, kitchens and pre-wash stain removal. The Quinn and Heron families are still involved. OzKleen has been approached with offers to buy the company, but Tom Quinn says he is happy with things as they are. “We’re having too much fun.”</p>
-<p>Questions 1-7
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 98</strong></h3>
+<h3 class="test-heading"><strong>The Sweet Scent of Success</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Innovation and entrepreneurship, in the right mix, can bring spectacular results and propel a business ahead of the pack. Across a diverse range of commercial successes, from the Hills Hoist clothes line to the Cochlear ear implant, it is hardto generalize beyond saying the creators tapped into something consumers could not wait to get their hands on. However, most ideas never make it to the market. Some ideas that innovators are spruiking to potential investors include new water-saving shower heads, a keyless locking system, ping-pong balls that keep pollution out of rainwater tanks, making teeth grow from stemcells inserted in the gum, and technology to stop LPG tanks from exploding. Grant Kearney, chief executive of the Innovation Xchange, which connects businesses to innovation networks, says he hears of great business ideas that he knows will never get on the market. “Ideas by themselves are absolutely useless,” he says. “An idea only becomes innovation when it is connected to the right resources and capabilities”.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> One of Australia’s latest innovation successes stems from a lemon-scented bath-room cleaner called Shower Power, the formula for which was concocted in afactory in Yatala, Queensland. In 1995, Tom Quinn and John Heron bought a struggling cleaning products business, OzKleen, for 250,000. It was selling 100 different kinds of cleaning products, mainly in bulk. The business was in bad shape, the cleaning formulas were ineffective and environmentally harsh, and there were few regular clients. Now Shower Power is claimed to be the top-selling bathroom cleaning product in the country. In the past 12 months, almost four million bottles of OzKleen’s Power products have been sold and the company forecasts 2004 sales of 10 million bottles. The company’s, sales in2003 reached $11 million, with 700k of business being exports. In particular, Shower Power is making big inroads on the British market.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> OzKleen’s turnaround began when Quinn and Heron hired an industrial chemist to revitalize the product line. Market research showed that people were looking for a better cleaner for the bathroom, universally regarded as the hardest room in the home to clean. The company also wanted to make the product formulas more environmentally friendly One of Tom Quinn’s sons, Peter, aged 24 at the time, began working with the chemist on the formulas, looking at the potential for citrus-based cleaning products. He detested all the chlorine-based cleaning products that dominated the market. “We didn’t want to use chlorine, simple as that,” he says. “It offers bad working conditions and there’s no money in it.” Peter looked at citrus ingredients, such as orange peel, to replace the petroleum by-products in cleaners. He is credited with finding the Shower Power formula. “The head,” he says. The company is the recipe is in a vault somewhere and in my sole owner of the intellectual property.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> To begin with, Shower Power was sold only in commercial quantities but Tom Quinn decided to sell it in 750ml bottles after the constant “raves” from customers at their retail store at Beenleigh, near Brisbane. Customers were travel- ling long distances to buy supplies. Others began writing to OzKleen to say how good Shower Power was. “We did a dummy label and went to see Woolworths,” Tom Quinn says. The Woolworths buyer took a bottle home and was able to remove a stain from her basin that had been impossible to shift. From that point on, she championed the product and OzKleen had its first super- market order, for a palette of Shower Power worth $3000. “We were over the moon,” says OzKleen’s financial controller, Belinda McDonnell.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> Shower Power was released in Australian supermarkets in 1997 and became the top-selling product in its category within six months. It was all hands on deck cat the factory, labeling and bottling Shower Power to keep up with demand. OzKleen ditched all other products and rebuilt the business around Shower Power. This stage, recalls McDonnell, was very tough. “It was hand-to-mouth, cashflow was very difficult,” she says. OzKleen had to pay new-line fees to supermarket chains, which also squeezed margins.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> OzKleen’s next big break came when the daughter of a Coles Myer executive used the product while on holidays in Queensland and convinced her father that Shower Power should be in Coles supermarkets. Despite the product success, Peter Quinn says the company was wary of how long the sales would last and hesitated to spend money on upgrading the manufactur­ing process. As a result, he remembers long periods of working round the clock to keep up with orders. Small tanks were still being used, so batches were small and bottles were labelled and filled manually. The privately owned OzKleen relied on cash flow to expand. “The equipment could not keep up with demand,” Peter Quinn says. Eventually a new bottling machine was bought for $50,000 in the hope of streamlining production, but he says: “We got ripped off.” Since then, he has been developing a new auto­mated bottling machine that can control the amount of foam produced in the liquid, so that bottles can be filled more effectively – “I love coming up with new ideas.” The machine is being patented.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> Peter Quinn says OzKleen’s approach to research and development is open slather. “If I need it, I get it. It is about doing something simple that no one else is doing. Most of these things are just sitting in front of people … it’s just seeing the opportunities.” With a tried and tested product, OzKleen is expanding overseas and developing more Power-brand house­hold products. Tom Quinn, who previously ran a real estate agency, says: “We are competing with the same market all over the world, the cleaning products are sold everywhere.” Shower Power, known as Bath Power in Britain, was launched four years ago with the help of an export develop­ment grant from the Federal Government. “We wanted to do it straight away because we realised we had the same opportunities worldwide.” OzKleen is already number three in the British market, and the next stop is France. The Power range includes cleaning products for carpets, kitchens and pre-wash stain removal. The Quinn and Heron families are still involved. OzKleen has been approached with offers to buy the company, but Tom Quinn says he is happy with things as they are. “We’re having too much fun.”</p></div></div>
+<p><strong>Questions 1-7</strong>
 
 Reading Passage 1 has six paragraphs, A-G. Which paragraph contains the following information?</p>
 <p>1 Description of one family member persuading another of selling cleaning products
@@ -127,20 +183,20 @@ Reading Passage 1 has six paragraphs, A-G. Which paragraph contains the followin
 6 The reason of changing the packaging size of Shower Power
 
 7 An example of some innovative ideas</p>
-<p>Questions 8-11
+<p><strong>Questions 8-11</strong>
 
 Look at the following people and list of statements below. Match each person with the correct statement.</p>
-<p>List of Statement
+<p><strong>List of Statement</strong>
 
-A Described his story of selling his product to a chain store
+<strong>A</strong> Described his story of selling his product to a chain store
 
-B Explained there was a shortage of money when sales suddenly increased
+<strong>B</strong> Explained there was a shortage of money when sales suddenly increased
 
-C Believe innovations need support to succeed
+<strong>C</strong> Believe innovations need support to succeed
 
-D Believes new products like Shower Power may incur risks
+<strong>D</strong> Believes new products like Shower Power may incur risks
 
-E Says business won’t succeed with innovations</p>
+<strong>E</strong> Says business won’t succeed with innovations</p>
 <p>8 Grant Kearney
 
 9 Tom Quinn
@@ -148,29 +204,29 @@ E Says business won’t succeed with innovations</p>
 10 Peter Quinn
 
 11 Belinda McDonnell</p>
-<p>Questions 12-13
+<p><strong>Questions 12-13</strong>
 
 Choose the correct letter A, B, C or D.</p>
 <p>12 Tom Quinn changed the bottle size to 750ml to make Shower Power
 
-A Easier to package.
+<strong>A</strong> Easier to package.
 
-B Appealing to individual customers.
+<strong>B</strong> Appealing to individual customers.
 
-C Popular in foreign markets.
+<strong>C</strong> Popular in foreign markets.
 
-D Attractive to supermarkets.</p>
+<strong>D</strong> Attractive to supermarkets.</p>
 <p>13 Why did Tom Quinn decide not to sell OzKleen?
 
-A No one wanted to buy OzKleen.
+<strong>A</strong> No one wanted to buy OzKleen.
 
-B New products were being developed in OzKleen.
+<strong>B</strong> New products were being developed in OzKleen.
 
-C He couldn’t make an agreement on the price with the buyer.
+<strong>C</strong> He couldn’t make an agreement on the price with the buyer.
 
-D He wanted to keep things unchanged.</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>Mrs. Carlill and the Carbolic Smoke Ball</p>
+<strong>D</strong> He wanted to keep things unchanged.</p>
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>Mrs. Carlill and the Carbolic Smoke Ball</strong></p>
 <p>On 14 January 1892, Queen Victoria’s grandson Prince Albert Victor, second in line to the British throne, died from flu. He had succumbed to the third and most lethal wave of the Russian flu pandemic sweeping the world. The nation was shocked. The people mourned. Albert was relegated to a footnote in history.</p>
 <p>Three days later, London housewife Louisa Carlill went down with flu. She was shocked. For two months, she had inhaled thrice daily from a carbolic smoke ball, a preventive measure guaranteed to fend off flu – if you believed the advert. Which she did. And why shouldn’t she when the Carbolic Smoke Ball Company had promised to cough up £100 for any customer who fell ill? Unlike Albert, Louisa recovered, claimed her £100 and set in train events that would win her lasting fame.</p>
 <p>It started in the spring of 1889. The first reports of a flu epidemic came from Russia. By the end of the year, the world was in the grip of the first truly global flu pandemic. The disease came in waves, once a year for the next four years, and each worse than the last.</p>
@@ -189,14 +245,14 @@ D He wanted to keep things unchanged.</p>
 <p>There was no reply. But £100 was not a sum to be sneezed at. Mr. Carlill per­sisted. The company resisted. Louisa recovered and sued. In June, Mr. Justice Hawkins found in Mrs. Carlill’s favour. The company’s main defence was that adverts were mere “puffery” and only an idiot would believe such extravagant claims. Judge Hawkins pointed out that adverts were not aimed at the wise and thoughtful, but at the credulous and weak. A vendor who made a promise “must not be surprised if occasionally he is held to his promise”.</p>
 <p>Carbolic appealed. In December, three lord justices considered the case. Carbolic’s lawyers tried several lines of defence. But in the end, the case came down to a single matter: not whether the remedy was useless, or whether Carbolic had committed fraud, but whether its advert constituted a contract – which the company had broken. A contract required agreement between two parties, argued Carbolic’s lawyers. What agreement had Mrs. Carlill made with them?</p>
 <p>There were times, the judges decided, when a contract could be one-sided. The advert had made a very specific offer to purchasers: protection from flu or £100. By using the smoke ball as instructed, Mrs. Carlill had accepted that offer. The company might just have wriggled out of if if it hadn’t added the bit about the £1,000 deposit. That, said the judges, gave buyers reason to believe Carbolic meant what it said. “It seems to me that if a person chooses to make extrava­gant promises of this kind, he probably does so because it pays him to make them, and, if he has made them, the extravagance of the promises is no reason in law why he should not be bound by them,” pronounced Lord Justice Bowen. Louisa got her £100. The case established the principle of the unilateral con­tract and is frequently cited today.</p>
-<p>Questions 14-17
+<p><strong>Questions 14-17</strong>
 
 Do the following statements agree with the claims of the writer in Reading Passage?</p>
-<p>TRUE                        if the statement agrees with the information
+<p><strong>TRUE</strong>                        if the statement agrees with the information
 
-FALSE                      if the statement contradicts the information
+<strong>FALSE</strong>                      if the statement contradicts the information
 
-NOT GIVEN           if there is no information on this</p>
+<strong>NOT GIVEN</strong>           if there is no information on this</p>
 <p>14 Cities rather than rural areas were badly affected by the pandemic flu.
 
 15 At the time of the flu pandemic, people didn’t know the link between micro-organisms and illnesses.
@@ -204,24 +260,24 @@ NOT GIVEN           if there is no information on this</p>
 16 People used to believe flu was caused by miasmas.
 
 17 Flu prescriptions often contained harmful ingredients.</p>
-<p>Questions 22-25
+<p><strong>Questions 22-25</strong>
 
 Look at the following people (Questions 22-25) and the list of statements.
 
 Match each person with the correct statement.</p>
-<p>List of Statements
+<p><strong>List of Statements</strong>
 
-A Filed a complaint which was never responded to
+<strong>A</strong> Filed a complaint which was never responded to
 
-B Broke the contract made with Carbolic Smoke Ball Company
+<strong>B</strong> Broke the contract made with Carbolic Smoke Ball Company
 
-C Initiated a legal case
+<strong>C</strong> Initiated a legal case
 
-D Described the audience of advertisement
+<strong>D</strong> Described the audience of advertisement
 
-E Claimed that most advertisements are fraudulent
+<strong>E</strong> Claimed that most advertisements are fraudulent
 
-F Treated advertisement as a type of contract</p>
+<strong>F</strong> Treated advertisement as a type of contract</p>
 <p>22 Mrs. Carlill
 
 23 Mrs. Carlill’s husband
@@ -229,35 +285,35 @@ F Treated advertisement as a type of contract</p>
 24 Judge Hawkins
 
 25 Lord Justice Bowen</p>
-<p>Questions 26
+<p><strong>Questions 26</strong>
 
 Choose the correct letter, A, B, C or D.</p>
 <p>26. Why is Mrs. Carlill’s case often cited in present-day court trials?
 
-A It proved the untrustworthiness of advertisements.
+<strong>A</strong> It proved the untrustworthiness of advertisements.
 
-B It established the validity of one-sided contract.
+<strong>B</strong> It established the validity of one-sided contract.
 
-C It explained the nature of contract.
+<strong>C</strong> It explained the nature of contract.
 
-D It defended the rights of consumers.</p>
-<p>Communicating Styles and Conflict</p>
+<strong>D</strong> It defended the rights of consumers.</p>
+<p><strong>Communicating Styles and Conflict</strong></p>
 <p>Knowing your communication style and having a mix of styles on your team can provide a positive force for resolving conflict.</p>
-<p>A As far back as Hippocrates’ time (460-370B.C.), people have tried to understand other people by characterizing them according to personality type or temperament. Hippocrates believed there were four different body fluids that influenced four basic types of temperament. His work was further developed 500 years later by Galen. These days there are any number of self-assessment tools that relate to the basic descriptions developed by Galen, although we no longer believe the source to be the types of body fluid that dominate our systems.</p>
-<p>B The values in self-assessments that help determine personality style. Learning styles, communication styles, conflict-handling styles, or other aspects of individuals is that they help depersonalize conflict in interpersonal relationships. The depersonalization occurs when you realize that others aren’t trying to be difficult, but they need different or more information than you do. They’re not intending to be rude: they are so focused on the task they forget about greeting people. They would like to work faster but not at the risk of damaging the relationships needed to get the job done. They understand there is a job to do. But it can only be done right with the appropriate information, which takes time to collect. When used appropriately, understanding communication styles can help resolve conflict on teams. Very rarely are conflicts true personality issues. Usually they are issues of style, information needs, or focus.</p>
-<p>C Hippocrates and later Galen determined there were four basic temperaments: sanguine, phlegmatic, melancholic and choleric. These descriptions were developed centuries ago and are still somewhat apt, although you could update the wording. In today’s world, they translate into the four fairly common communication styles described below:</p>
-<p>D The sanguine person would be the expressive or spirited style of communication. These people speak in pictures. They invest a lot of emotion and energy in their communication and often speak quickly. Putting their whole body into it. They are easily sidetracked onto a story that may or may not illustrate the point they are trying to make. Because of their enthusiasm, they are great team motivators. They are concerned about people and relationships. Their high levels of energy can come on strong at times and their focus is usually on the bigger picture, which means they sometimes miss the details or the proper order of things. These people find conflict or differences of opinion invigorating and love to engage in a spirited discussion. They love change and are constantly looking for new and exciting adventures.</p>
-<p>E The phlegmatic person – cool and persevering – translates into the technical or systematic communication style. This style of communication is focused on facts and technical details. Phlegmatic people have an orderly methodical way of approaching tasks, and their focus is very much on the task, not on the people, emotions, or concerns that the task may evoke. The focus is also more on the details necessary to accomplish a task. Sometimes the details overwhelm the big picture and focus needs to be brought back to the context of the task. People with this style think the facts should speak for themselves, and they are not as comfortable with conflict. They need time to adapt to change and need to understand both the logic of it and the steps involved.</p>
-<p>F The melancholic person who is soft hearted and oriented toward doing things for others translates into the considerate or sympathetic communication style. A person with this communication style is focused on people and relationships. They are good listeners and do things for other people-sometimes to the detriment of getting things done for themselves. They want to solicit everyone’s opinion and make sure everyone is comfortable with whatever is required to get the job done. At times this focus on others can distract from the task at hand. Because they are so concerned with the needs of others and smoothing over issues, they do not like conflict. They believe that change threatens the status quo and tends to make people feel uneasy, so people with this communication style, like phlegmatic people need time to consider the changes in order to adapt to them.</p>
-<p>G The choleric temperament translates into the bold or direct style of communication. People with this style are brief in their communication – the fewer words the better. They are big picture thinkers and love to be involved in many things at once. They are focused on tasks and outcomes and often forget that the people involved in carrying out the tasks have needs. They don’t do detail work easily and as a result can often underestimate how much time it takes to achieve the task. Because they are so direct, they often seem forceful and can be very intimidating to others. They usually would welcome someone challenging them. But most other styles are afraid to do so. They also thrive on change, the more the better.</p>
-<p>H A well-functioning team should have all of these communication styles for true effectiveness. All teams need to focus on the task, and they need to take care of relationships in order to achieve those tasks. They need the big picture perspective or the context of their work, and they need the details to be identified and taken care of for success. We all have aspects of each style within us. Some of us can easily move from one style to another and adapt our style to the needs of the situation at hand-whether the focus is on tasks or relationships. For others, a dominant style is very evident, and it is more challenging to see the situation from the perspective of another style. The work environment can influence communication styles either by the type of work that is required or by the predominance of one style reflected in that environment. Some people use one style at work and another at home.</p>
+<p><strong>A</strong> As far back as Hippocrates’ time (460-370B.C.), people have tried to understand other people by characterizing them according to personality type or temperament. Hippocrates believed there were four different body fluids that influenced four basic types of temperament. His work was further developed 500 years later by Galen. These days there are any number of self-assessment tools that relate to the basic descriptions developed by Galen, although we no longer believe the source to be the types of body fluid that dominate our systems.</p>
+<p><strong>B</strong> The values in self-assessments that help determine personality style. Learning styles, communication styles, conflict-handling styles, or other aspects of individuals is that they help depersonalize conflict in interpersonal relationships. The depersonalization occurs when you realize that others aren’t trying to be difficult, but they need different or more information than you do. They’re not intending to be rude: they are so focused on the task they forget about greeting people. They would like to work faster but not at the risk of damaging the relationships needed to get the job done. They understand there is a job to do. But it can only be done right with the appropriate information, which takes time to collect. When used appropriately, understanding communication styles can help resolve conflict on teams. Very rarely are conflicts true personality issues. Usually they are issues of style, information needs, or focus.</p>
+<p><strong>C</strong> Hippocrates and later Galen determined there were four basic temperaments: sanguine, phlegmatic, melancholic and choleric. These descriptions were developed centuries ago and are still somewhat apt, although you could update the wording. In today’s world, they translate into the four fairly common communication styles described below:</p>
+<p><strong>D</strong> The sanguine person would be the expressive or spirited style of communication. These people speak in pictures. They invest a lot of emotion and energy in their communication and often speak quickly. Putting their whole body into it. They are easily sidetracked onto a story that may or may not illustrate the point they are trying to make. Because of their enthusiasm, they are great team motivators. They are concerned about people and relationships. Their high levels of energy can come on strong at times and their focus is usually on the bigger picture, which means they sometimes miss the details or the proper order of things. These people find conflict or differences of opinion invigorating and love to engage in a spirited discussion. They love change and are constantly looking for new and exciting adventures.</p>
+<p><strong>E</strong> The phlegmatic person – cool and persevering – translates into the technical or systematic communication style. This style of communication is focused on facts and technical details. Phlegmatic people have an orderly methodical way of approaching tasks, and their focus is very much on the task, not on the people, emotions, or concerns that the task may evoke. The focus is also more on the details necessary to accomplish a task. Sometimes the details overwhelm the big picture and focus needs to be brought back to the context of the task. People with this style think the facts should speak for themselves, and they are not as comfortable with conflict. They need time to adapt to change and need to understand both the logic of it and the steps involved.</p>
+<p><strong>F</strong> The melancholic person who is soft hearted and oriented toward doing things for others translates into the considerate or sympathetic communication style. A person with this communication style is focused on people and relationships. They are good listeners and do things for other people-sometimes to the detriment of getting things done for themselves. They want to solicit everyone’s opinion and make sure everyone is comfortable with whatever is required to get the job done. At times this focus on others can distract from the task at hand. Because they are so concerned with the needs of others and smoothing over issues, they do not like conflict. They believe that change threatens the status quo and tends to make people feel uneasy, so people with this communication style, like phlegmatic people need time to consider the changes in order to adapt to them.</p>
+<p><strong>G</strong> The choleric temperament translates into the bold or direct style of communication. People with this style are brief in their communication – the fewer words the better. They are big picture thinkers and love to be involved in many things at once. They are focused on tasks and outcomes and often forget that the people involved in carrying out the tasks have needs. They don’t do detail work easily and as a result can often underestimate how much time it takes to achieve the task. Because they are so direct, they often seem forceful and can be very intimidating to others. They usually would welcome someone challenging them. But most other styles are afraid to do so. They also thrive on change, the more the better.</p>
+<p><strong>H</strong> A well-functioning team should have all of these communication styles for true effectiveness. All teams need to focus on the task, and they need to take care of relationships in order to achieve those tasks. They need the big picture perspective or the context of their work, and they need the details to be identified and taken care of for success. We all have aspects of each style within us. Some of us can easily move from one style to another and adapt our style to the needs of the situation at hand-whether the focus is on tasks or relationships. For others, a dominant style is very evident, and it is more challenging to see the situation from the perspective of another style. The work environment can influence communication styles either by the type of work that is required or by the predominance of one style reflected in that environment. Some people use one style at work and another at home.</p>
 <p>The good news about communication styles is that we have the ability to develop flexibility in our styles. The greater the flexibility we have, the more skilled we usually are at handling possible and actual conflicts. Usually it has to be relevant to us to do so, either because we think it is important or because there are incentives in our environment to encourage it. The key is that we have to want to become flexible with our communication style. As Henry Ford said, “Whether you think you can or you can’t, you’re right!”</p>
-<p>Questions 27-34
+<p><strong>Questions 27-34</strong>
 
 Reading Passage 3 has eight sections A-H.
 
 Choose the correct heading for each section from the list of headings below.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 
 i Summarising personality types
 
@@ -293,14 +349,14 @@ x Self-assessment determines one’s temperament</p>
 33 Section G
 
 34 Section H</p>
-<p>Questions 35-39
+<p><strong>Questions 35-39</strong>
 
 Do the following statements agree with the information given in Reading Passage 3?</p>
-<p>TRUE                         if the statement agrees with the information
+<p><strong>TRUE</strong>                         if the statement agrees with the information
 
-FALSE                       if the statement contradicts the information
+<strong>FALSE</strong>                       if the statement contradicts the information
 
-NOT GIVEN            if there is no information on this</p>
+<strong>NOT GIVEN</strong>            if there is no information on this</p>
 <p>35 It is believed that sanguine people dislike variety.
 
 36 Melancholic and phlegmatic people have similar characteristics.
@@ -310,20 +366,20 @@ NOT GIVEN            if there is no information on this</p>
 38 It is possible to change one’s personality type.
 
 39 Workplace environment can affect which communication style is most effective.</p>
-<p>Question 40
+<p><strong>Question 40</strong>
 
 Choose the correct letter A, B, C or D.</p>
 <p>40. The writer believes using self-assessment tools can
 
-A help to develop one’s personality.
+<strong>A</strong> help to develop one’s personality.
 
-B help to understand colleagues’ behaviour.
+<strong>B</strong> help to understand colleagues’ behaviour.
 
-C improve one’s relationship with the employer.
+<strong>C</strong> improve one’s relationship with the employer.
 
-D directly resolve conflicts.</p>
+<strong>D</strong> directly resolve conflicts.</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. F</p>
 <p>2. E</p>
 <p>3. C</p>
@@ -582,6 +638,29 @@ D directly resolve conflicts.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -601,12 +680,23 @@ D directly resolve conflicts.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -618,14 +708,6 @@ D directly resolve conflicts.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

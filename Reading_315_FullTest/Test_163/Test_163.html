@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,38 +158,38 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_163</h1>
-            <p>IELTS Reading Practice - Test 163</p>
-<p>can animals count?</p>
-<p>Prime among basic numerical faculties is the ability to distinguish between a larger and a smaller number, says psychologist Elizabeth Brannon. Humans can do this with ease – providing the ratio is big enough – but do other animals share this ability? In one experiment, rhesus monkeys and university students examined two sets of geometrical objects that appeared briefly on a computer monitor. They had to decide which set contained more objects. Both groups performed successfully but, importantly, Brannon’s team found that monkeys, like humans. make more errors when two sets of objects are close in number. The students’ performance ends up looking just like a monkey’s. It’s practically identical.’ she says.</p>
-<p>Humans and monkeys are mammals, in the animal family known as primates. These are not the only animals whose numerical capacities rely on ratio, however. The same seems to apply to some amphibians. Psychologist Claudia Uller’s team tempted salamanders with two sets of fruit flies held in clear tubes. In a series of trials, the researchers noted which tube the salamanders scampered towards, reasoning that if they had a capacity to recognize number, they would head for the larger number. The salamanders successfully discriminated between tubes containing 8 and 16 flies respectively, but not between 3 and 4. 4 and 6, or 8 and 12. So it seems that for the salamanders to discriminate between two numbers, the larger must be at least twice as big as the smaller. However, they could differentiate between 2 and 3 flies just as well as between 1 and 2 flies, suggesting they recognize small numbers in a different way from larger numbers.</p>
-<p>Further support for this theory comes from studies of mosquitofish, which instinctively join the biggest shoals they can. A team at the University of Padova found that while mosquitofish can tell the difference between a group containing 3 shoal-mates and a group containing 4, they did not snow a preference between groups of 4 and 5. The team also found that mosquitofish can discriminate between numbers up to 16, but only if the ratio between the fish in each shoal was greater than 2:1. This indicates that the fish, like salamanders, possess both the approximate and precise number systems found in more intelligent animals such as infant humans and other primates.</p>
-<p>While these findings are highly suggestive, some critics argue that the animals might be relying on other factors to complete the tasks, without considering the number itself. ‘Any study that’s claiming an animal is capable of representing number should also be controlling for other factors,’ says Brannon. Experiments have confirmed that primates can indeed perform numerical feats without extra clues, but what about the more primitive animals? To consider this possibility, the mosquitofish tests were repeated, this time using varying geometrical shapes in place of fish. The team arranged these shapes so that they had the same overall surface area and luminance even though they contained a different number of objects. Across hundreds of trials on 14 different fish, the team found they consistently discriminated 2 objects from 3. The team is now testing whether mosquitofish can also distinguish 3 geometric objects from 4.</p>
-<p>Even more primitive organisms may share this ability. Entomologist Jurgen Tautz sent a group of bees down a corridor, at the end of which lay two chambers – one which contained sugar water, which they like, while the other was empty. To test the bees’ numeracy, the team marked each chamber with a different number of geometrical shapes – between 2 and 6. The bees quickly learned to match the number of shapes with the correct chamber. Like the salamanders and fish, there was a limit to the bees’ mathematical prowess – they could differentiate up to 4 shapes, but failed with 5 or 6 shapes.</p>
-<p>These studies still do not show whether animals learn to count through training, or whether they are born with the skills already intact. If the latter is true, it would suggest there was a strong evolutionary advantage to a mathematical mind. Proof that this may be the case has emerged from an experiment testing the mathematical ability of three- and four-day-old chicks. Like mosquitofish, chicks prefer to be around as many of their siblings as possible, so they will always head towards a larger number of their kin. It chicks spend their first few days surrounded by certain objects, they become attached to these objects as if they were family. Researchers placed each chick in the middle of a platform and showed it two groups of balls of paper. Next, they hid the two piles behind screens, changed the quantities and revealed them to the chick. This forced the chick to perform simple computations to decide which side now contained the biggest number of its “brothers”. Without any prior coaching, the chicks scuttled to the larger quantity at a rate well above chance. They were doing some very simple arithmetic, claim the researchers.</p>
-<p>Why these skills evolved is not hard to imagine, since it would help almost any animal forage for food. Animals on the prowl for sustenance must constantly decide which tree has the most fruit, or which patch of flowers will contain the most nectar. Them are also other, less obvious, advantages of numeracy. In one compelling example, researchers in America found that female coots appear to calculate how many eggs they have laid – and add any in the nest laid by an intruder – before making any decisions about adding to them. Exactly how ancient these skills are is difficult to determine, however. Only’ by studying the numerical abilities of more and more creatures using standardized procedures can we hope to understand the basic preconditions for the evolution of number.</p>
-<p>Questions 1-7
-Complete the table below. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
-<p>Questions 8-13
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 163</strong></h3>
+<h3 class="test-heading"><strong>can animals count?</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>Prime among basic numerical faculties is the ability to distinguish between a larger and a smaller number, says psychologist Elizabeth Brannon. Humans can do this with ease – providing the ratio is big enough – but do other animals share this ability? In one experiment, rhesus monkeys and university students examined two sets of geometrical objects that appeared briefly on a computer monitor. They had to decide which set contained more objects. Both groups performed successfully but, importantly, Brannon’s team found that monkeys, like humans. make more errors when two sets of objects are close in number. The students’ performance ends up looking just like a monkey’s. It’s practically identical.’ she says.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>Humans and monkeys are mammals, in the animal family known as primates. These are not the only animals whose numerical capacities rely on ratio, however. The same seems to apply to some amphibians. Psychologist Claudia Uller’s team tempted salamanders with two sets of fruit flies held in clear tubes. In a series of trials, the researchers noted which tube the salamanders scampered towards, reasoning that if they had a capacity to recognize number, they would head for the larger number. The salamanders successfully discriminated between tubes containing 8 and 16 flies respectively, but not between 3 and 4. 4 and 6, or 8 and 12. So it seems that for the salamanders to discriminate between two numbers, the larger must be at least twice as big as the smaller. However, they could differentiate between 2 and 3 flies just as well as between 1 and 2 flies, suggesting they recognize small numbers in a different way from larger numbers.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Further support for this theory comes from studies of mosquitofish, which instinctively join the biggest shoals they can. A team at the University of Padova found that while mosquitofish can tell the difference between a group containing 3 shoal-mates and a group containing 4, they did not snow a preference between groups of 4 and 5. The team also found that mosquitofish can discriminate between numbers up to 16, but only if the ratio between the fish in each shoal was greater than 2:1. This indicates that the fish, like salamanders, possess both the approximate and precise number systems found in more intelligent animals such as infant humans and other primates.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>While these findings are highly suggestive, some critics argue that the animals might be relying on other factors to complete the tasks, without considering the number itself. ‘Any study that’s claiming an animal is capable of representing number should also be controlling for other factors,’ says Brannon. Experiments have confirmed that primates can indeed perform numerical feats without extra clues, but what about the more primitive animals? To consider this possibility, the mosquitofish tests were repeated, this time using varying geometrical shapes in place of fish. The team arranged these shapes so that they had the same overall surface area and luminance even though they contained a different number of objects. Across hundreds of trials on 14 different fish, the team found they consistently discriminated 2 objects from 3. The team is now testing whether mosquitofish can also distinguish 3 geometric objects from 4.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>Even more primitive organisms may share this ability. Entomologist Jurgen Tautz sent a group of bees down a corridor, at the end of which lay two chambers – one which contained sugar water, which they like, while the other was empty. To test the bees’ numeracy, the team marked each chamber with a different number of geometrical shapes – between 2 and 6. The bees quickly learned to match the number of shapes with the correct chamber. Like the salamanders and fish, there was a limit to the bees’ mathematical prowess – they could differentiate up to 4 shapes, but failed with 5 or 6 shapes.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>These studies still do not show whether animals learn to count through training, or whether they are born with the skills already intact. If the latter is true, it would suggest there was a strong evolutionary advantage to a mathematical mind. Proof that this may be the case has emerged from an experiment testing the mathematical ability of three- and four-day-old chicks. Like mosquitofish, chicks prefer to be around as many of their siblings as possible, so they will always head towards a larger number of their kin. It chicks spend their first few days surrounded by certain objects, they become attached to these objects as if they were family. Researchers placed each chick in the middle of a platform and showed it two groups of balls of paper. Next, they hid the two piles behind screens, changed the quantities and revealed them to the chick. This forced the chick to perform simple computations to decide which side now contained the biggest number of its “brothers”. Without any prior coaching, the chicks scuttled to the larger quantity at a rate well above chance. They were doing some very simple arithmetic, claim the researchers.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>Why these skills evolved is not hard to imagine, since it would help almost any animal forage for food. Animals on the prowl for sustenance must constantly decide which tree has the most fruit, or which patch of flowers will contain the most nectar. Them are also other, less obvious, advantages of numeracy. In one compelling example, researchers in America found that female coots appear to calculate how many eggs they have laid – and add any in the nest laid by an intruder – before making any decisions about adding to them. Exactly how ancient these skills are is difficult to determine, however. Only’ by studying the numerical abilities of more and more creatures using standardized procedures can we hope to understand the basic preconditions for the evolution of number.</p></div></div>
+<p><strong>Questions 1-7</strong>
+Complete the table below. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
+<p><strong>Questions 8-13</strong>
 Do the following statements agree with the information given in Reading Passage 1? In boxes 8-13 on your answer sheet, write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>8. Primates are better at identifying the larger of two numbers if one is much bigger than the other.
 9. Jurgen Tautz trained the insects in his experiment to recognize the shapes of individual numbers.
 10. The research involving young chicks took place over two separate days.
 11. The experiment with chicks suggests that some numerical ability exists in newborn animals.
 12. Researchers have experimented by altering quantities of nectar or fruit available to certain wild animals.
 13. When assessing the number of eggs in their nest, coots take into account those of other birds.</p>
-<p>is it time to halt the rising tide of plastic packaging?</p>
-<p>A Close up, plastic packaging can be a marvellous thing. Those who make a living from it call it a forgotten infrastructure that allows modem urban life to exist. Plastics have helped society defy natural limits such as the seasons, the rotting of food and the distance most of us live from where our food is produced. And yet we do not like it. Partly we do not like waste, but plastic waste, with its hydrocarbon roots and industrial manufacture, is especially galling. In 2008, the UK, for example, produced around two million tonnes of plastic waste, twice as much as in tire early 1990s. The very qualities of plastic – its cheapness, its indestructible aura – make it a reproachful symbol of an unsustainable way of life. The facts, however, do not justify our unease. All plastics are, at least theoretically, recyclable. Plastic packaging makes up just 6 to 7 per cent of the contents of British dustbins by weight and less than 3 per cent of landfill. Supermarkets and brands, which are under pressure to reduce the quantity of packaging of all types that they use, are finding good environmental reasons to turn to plastic: it is lighter, so requires less energy for transportation than glass, for example; it requires relatively little energy to produce; and it is often re-usable. An Austrian study found that if plastic packaging were removed from tire supply chain, other packaging would have to increase fourfold to make up for it.</p>
-<p>B So are we just wrong about plastic packaging?</p>
+<p><strong>is it time to halt the rising tide of plastic packaging?</strong></p>
+<p><strong>A</strong> Close up, plastic packaging can be a marvellous thing. Those who make a living from it call it a forgotten infrastructure that allows modem urban life to exist. Plastics have helped society defy natural limits such as the seasons, the rotting of food and the distance most of us live from where our food is produced. And yet we do not like it. Partly we do not like waste, but plastic waste, with its hydrocarbon roots and industrial manufacture, is especially galling. In 2008, the UK, for example, produced around two million tonnes of plastic waste, twice as much as in tire early 1990s. The very qualities of plastic – its cheapness, its indestructible aura – make it a reproachful symbol of an unsustainable way of life. The facts, however, do not justify our unease. All plastics are, at least theoretically, recyclable. Plastic packaging makes up just 6 to 7 per cent of the contents of British dustbins by weight and less than 3 per cent of landfill. Supermarkets and brands, which are under pressure to reduce the quantity of packaging of all types that they use, are finding good environmental reasons to turn to plastic: it is lighter, so requires less energy for transportation than glass, for example; it requires relatively little energy to produce; and it is often re-usable. An Austrian study found that if plastic packaging were removed from tire supply chain, other packaging would have to increase fourfold to make up for it.</p>
+<p><strong>B</strong> So are we just wrong about plastic packaging?</p>
 <p>Is it time to stop worrying and learn to love the disposable plastic wrapping around sandwiches? Certainly there are bigger targets for environmental savings such as improving household insulation and energy emissions. Naturally, tire plastics industry is keen to point them out. What’s more, concern over plastic packaging has produced a squall of conflicting initiatives from retailers, manufacturers and local authorities. It’s a squall that dies down and then blows harder from one month to the next. ‘It is being left to the individual conscience and supermarkets playing the market,’ says Tim Lang, a professor specializing in food polio’. ‘It’s a mess.’</p>
-<p>C Dick Scarle of the Packaging Federation points out that societies without sophisticated packaging lose half their food before it reaches consumers and that in the UK, waste in supply chains is about 3 per cent. In India, it is more titan 50 per cent. The difference comes later: the British throw out 30 per cent of the food they buy – an environmental cost in terms of emissions equivalent to a fifth of the cars on their roads. Packagers agree that cardboard, metals and glass all have their good points, but there’s nothing quite like plastic. With more than 20 families of polymers to choose from and then sometimes blend, packaging designers and manufacturers have a limitless variety of qualities to play with.</p>
-<p>D But if there is one law of plastic that, in environmental terms at least, prevails over all others, it is this: a little goes a long way. This means, first, that plastic is relatively cheap to use – it represents just over one-third of the UK packaging market by value but it wraps more than half die total number of items bought. Second, it means that even though plastic encases about 53 per cent of products bought, it only makes up 20 per cent by weight of the packaging consumed. And in the packaging equation, weight is the main issue because die heavier something is, the more energy you expend moving it around. In view of this, righteous indignation against plastic can look foolish.</p>
-<p>E One store commissioned a study to find precise data on which had less environmental impact: selling apples loose or ready-wrapped. Helene Roberts, head of packaging, explains that in fact they found apples in fours on a tray covered by plastic film needed 27 per cent less packaging in transportation than those sold loose. Sieve Kelsey, a packaging designer, finds die debate frustrating. He argues that the hunger to do something quickly is diverting effort away from more complicated questions about how you truly alter supply chains. Rather than further reducing the weight of a plastic bottle, more thought should be given to how packaging can be recycled. Helene Roberts explains that their greatest packaging reduction came when the company switched to re-usable plastic crates and stopped consuming 62,000 tonnes of cardboard boxes every year. Plastic packaging is important, and it might provide a way of thinking about broader questions of sustainability. To target plastic on its own is to evade the complexity’ of the issues. There seems to be a universal eagerness to condemn plastic. Is this due to an inability to make die general changes in society that are really required? ‘Plastic as a lightweight food wrapper is now built in as the logical thing,’ Lang says. ‘Does that make it an environmentally sound system of packaging? It only makes sense if you have a structure such as exists now. An environmentally driven packaging system would look completely different’ Dick Scarle put the challenge another way. “The amount of packaging used today is a reflection of modern life.”</p>
-<p>Questions 14-18
+<p><strong>C</strong> Dick Scarle of the Packaging Federation points out that societies without sophisticated packaging lose half their food before it reaches consumers and that in the UK, waste in supply chains is about 3 per cent. In India, it is more titan 50 per cent. The difference comes later: the British throw out 30 per cent of the food they buy – an environmental cost in terms of emissions equivalent to a fifth of the cars on their roads. Packagers agree that cardboard, metals and glass all have their good points, but there’s nothing quite like plastic. With more than 20 families of polymers to choose from and then sometimes blend, packaging designers and manufacturers have a limitless variety of qualities to play with.</p>
+<p><strong>D</strong> But if there is one law of plastic that, in environmental terms at least, prevails over all others, it is this: a little goes a long way. This means, first, that plastic is relatively cheap to use – it represents just over one-third of the UK packaging market by value but it wraps more than half die total number of items bought. Second, it means that even though plastic encases about 53 per cent of products bought, it only makes up 20 per cent by weight of the packaging consumed. And in the packaging equation, weight is the main issue because die heavier something is, the more energy you expend moving it around. In view of this, righteous indignation against plastic can look foolish.</p>
+<p><strong>E</strong> One store commissioned a study to find precise data on which had less environmental impact: selling apples loose or ready-wrapped. Helene Roberts, head of packaging, explains that in fact they found apples in fours on a tray covered by plastic film needed 27 per cent less packaging in transportation than those sold loose. Sieve Kelsey, a packaging designer, finds die debate frustrating. He argues that the hunger to do something quickly is diverting effort away from more complicated questions about how you truly alter supply chains. Rather than further reducing the weight of a plastic bottle, more thought should be given to how packaging can be recycled. Helene Roberts explains that their greatest packaging reduction came when the company switched to re-usable plastic crates and stopped consuming 62,000 tonnes of cardboard boxes every year. Plastic packaging is important, and it might provide a way of thinking about broader questions of sustainability. To target plastic on its own is to evade the complexity’ of the issues. There seems to be a universal eagerness to condemn plastic. Is this due to an inability to make die general changes in society that are really required? ‘Plastic as a lightweight food wrapper is now built in as the logical thing,’ Lang says. ‘Does that make it an environmentally sound system of packaging? It only makes sense if you have a structure such as exists now. An environmentally driven packaging system would look completely different’ Dick Scarle put the challenge another way. “The amount of packaging used today is a reflection of modern life.”</p>
+<p><strong>Questions 14-18</strong>
 Reading Passage 2 has five paragraphs A-E. Choose the correct heading for each paragraph, A-E from the list of headings below. Write the correct number, i-viii in boxes 14-18 on your answer sheet.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i A lack of consistent policy
 ii Learning from experience
 iii The greatest advantage
@@ -147,76 +203,76 @@ viii A sign of things to come</p>
 16. Paragraph C
 17. Paragraph D
 18. Paragraph E</p>
-<p>Questions 19-23
+<p><strong>Questions 19-23</strong>
 Look at the following statements (Questions 19-23) and the list of people below. Match each statement to the correct person A-D. Write the correct letter, A-D in boxes 19-23 on your answer sheet. NB You may use any letter more than once.</p>
 <p>19. Comparison of two approaches to packaging revealed an interesting result.
 20. People are expected to do the right thing.
 21. Most food roaches UK shops in good condition.
 22. Complex issues are ignored in the search for speedy solutions.
 23. It is merely because of the way societies operate that using plastic seems valid.</p>
-<p>People
-A Tim Lang
-B Dick Seatle
-C Helene Roberts
-D Steve Kelsey</p>
-<p>Questions 24-26
-Complete the summary below. Write NO MORE THAN ONE WORD from the text for each answer.</p>
-<p>A revolutionary material</p>
+<p><strong>People</strong>
+<strong>A</strong> Tim Lang
+<strong>B</strong> Dick Seatle
+<strong>C</strong> Helene Roberts
+<strong>D</strong> Steve Kelsey</p>
+<p><strong>Questions 24-26</strong>
+Complete the summary below. Write <strong>NO MORE THAN ONE WORD</strong> from the text for each answer.</p>
+<p><strong>A revolutionary material</strong></p>
 <p>Plastic packaging has changed the way we consume food. However, we instinctively dislike it partly because it is the product of (24)…………………….processes, but also because it seems to be (25)……………….so we feel it is wasteful. Nevertheless, it is thanks to plastic that for many people their choice of food is no longer restricted by the (26)………………………in which it is available or the location of its source.</p>
-<p>the growth of intelligence</p>
+<p><strong>the growth of intelligence</strong></p>
 <p>No one doubts that intelligence develops as children grow older. Yet the concept of intelligence has proved both quite difficult to define in unambiguous terms and unexpectedly controversial in some respects. Although, at one level, there seem to be almost as many definitions of intelligence as people who have tried to define it, there is broad agreement on two key features. That is, intelligence involves the capacity not only to learn from experience but also to adapt to one’s environment. However, we cannot leave the concept there. Before turning to what is known about the development of intelligence, it is necessary to consider whether we are considering the growth of one or many skills. That question has been tackled in rather different ways by psychometricians and by developmentalists.</p>
 <p>The former group has examined the issue by determining how children’s abilities on a wide range of tasks intercorrelate, or go together. Statistical techniques have been used to find out whether the pa Hems are best explained by one broad underlying capacity’, general intelligence, or by a set of multiple, relatively separate, special skills in domains such as verbal and visuospatial ability’. While it cannot be claimed that everyone agrees on what the results mean, most people now accept that for practical purposes it is reasonable 10 suppose that both are involved. In brief, the evidence in favour of some kind of general intellectual capacity is that people who are superior (or inferior) on one type of task tend also to be superior (or inferior) on others. Moreover, general measures of intelligence tend to have considerable powers to predict a person’s performance on a wide range of tasks requiring special skills. Nevertheless, it is plain that it is not at all uncommon for individuals to be very’ good at some sons of task and yet quite poor at some others. Furthermore the influences that affect verbal skills are not quite the same as those that affect other skills.</p>
 <p>This approach to investigating intelligence is based on the nature of the task involved but studies of age-related changes show that this is not the only, or necessarily the most important, approach. For instance, some decades ago, Horn and Cattell argued fora differentiation between what they termed ‘fluid’ and ‘crystallized’ intelligence. Fluid abilities are best assessed by tests that require mental manipulation of abstract symbols. Crystallized abilities, by contrast, reflect knowledge of the environment in which we live and past experience of similar tasks; they may be assessed by tests of comprehension and information. It scents that fluid abilities peak in early adult life, whereas crystallized abilities increase up to advanced old age.</p>
 <p>Developmental studies also show that the interconnection’s between different skills vary with age. Titus in the first year of life an interest in perceptual patterns is a major contributor to cognitive abilities, whereas verbal abilities are more important later on. These findings seemed to suggest a substantial lack of continuity between infancy and middle childhood. However, it is important to realize that the apparent discontinuity will vary according to which of the cognitive skills were assessed in infancy. It has been found that tests of coping with novelty do predict later intelligence. These findings reinforce the view that voting children’s intellectual performance needs to be assessed from their interest in and curiosity about the environment, and the extent to which this is applied to new situations, as well as by standardized intelligence testing.</p>
 <p>These psychometric approaches have focused on children’s increase in cognitive skills as they grow older. Piaget brought about a revolution in the approach to cognitive development through his arguments (backed up by observations) that the focus should be on the thinking processes involved rather than on levels of cognitive achievement. These ideas of Piaget gave rise to an immense body of research and it would be true to say that subsequent thinking has been heavily dependent on his genius in opening up new ways of thinking about cognitive development. Nevertheless, most of his concepts have had to be so radically revised, or rejected, that his theory’ no longer provides an appropriate basis for thinking about cognitive development. To appreciate why that is so, we need to focus on some rather different elements of Piaget s theorizing.</p>
 <p>The first element, which has stood the test of time, is his view that the child is an active agent of learning and of the importance of this activity in cognitive development. Numerous studies have shown how infants actively scan their environment; how they prefer patterned to non-patterned objects, how they choose novel over familiar stimuli, and how they explore their environment as if to see how it works. Children’s questions and comments vividly illustrate the ways in which they are constantly constructing schemes of what they know and trying out their ideas of how to fit new knowledge into those schemes or deciding that the schemes need modification. Moreover, a variety’ of studies have shown that active experiences have a greater effect on learning than comparable passive experiences. However, a second element concerns the notion that development proceeds through a scries of separate stages that have to he gone through step-by-step, in a set order, each of which is characterized by a particular cognitive structure. That has tinned out to be a rather misleading way of thinking about cognitive development, although it is not wholly wrong.</p>
-<p>Questions 27-30
+<p><strong>Questions 27-30</strong>
 Choose the correct letter, A, B, C or D. Write your answers in boxes 27-30 on your answer sheet.</p>
 <p>27. Most researchers accept that one feature of intelligence is the ability to ________
-A change our behaviour according to our situation.
-B react to others’ behaviour patterns.
-C experiment with environmental features.
-D cope with unexpected setbacks.</p>
+<strong>A</strong> change our behaviour according to our situation.
+<strong>B</strong> react to others’ behaviour patterns.
+<strong>C</strong> experiment with environmental features.
+<strong>D</strong> cope with unexpected setbacks.</p>
 <p>28. What have psychometricians used statistics for?
-A to find out if cooperative tasks are a useful tool In measuring certain skills
-B to explore whether soveral abilities are involved in the development of intelligence
-C to demonstrate that mathematical models can predict test results for different skills
-D to discover whether common sense is fundamental to developing children’s abilities</p>
+<strong>A</strong> to find out if cooperative tasks are a useful tool In measuring certain skills
+<strong>B</strong> to explore whether soveral abilities are involved in the development of intelligence
+<strong>C</strong> to demonstrate that mathematical models can predict test results for different skills
+<strong>D</strong> to discover whether common sense is fundamental to developing children’s abilities</p>
 <p>29. Why are Horn and Cattell mentioned?
-A They disagreed about the interpretation of different intelligence tests.
-B They research concerned both linguistic and mathematical abilities.
-C They were the first to prove that intelligence can be measured by testing a range of special skills.
-D Their work was an example of research into how people’s cognitive skills vary with age.</p>
+<strong>A</strong> They disagreed about the interpretation of different intelligence tests.
+<strong>B</strong> They research concerned both linguistic and mathematical abilities.
+<strong>C</strong> They were the first to prove that intelligence can be measured by testing a range of special skills.
+<strong>D</strong> Their work was an example of research into how people’s cognitive skills vary with age.</p>
 <p>30. What was innovative about Piaget’s research?
-A He refused to accept that children developed according to a set pattern.
-B He emphasised the way children thought more than how well they did in tests.
-C He used visually appealing materials instead of traditional intelligence tests.
-D He studied children of all ages and levels of intelligence.</p>
-<p>Questions 31-36
+<strong>A</strong> He refused to accept that children developed according to a set pattern.
+<strong>B</strong> He emphasised the way children thought more than how well they did in tests.
+<strong>C</strong> He used visually appealing materials instead of traditional intelligence tests.
+<strong>D</strong> He studied children of all ages and levels of intelligence.</p>
+<p><strong>Questions 31-36</strong>
 Do the following statements agree with the views of the writer in Reading Passage 3? In boxes 31-36 on your answer sheet, write</p>
-<p>YES if the statement agrees with the views of the writer
-NO if the statement contradicts the views of the writer
-NOT GIVEN if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong> if the statement agrees with the views of the writer
+<strong>NO</strong> if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this</p>
 <p>31. A surprising number of academics have come to the same conclusion about what the term intelligence means.
 32. A general test of intelligence is unlikely to indicate the level of performance in every type of task.
 33. The elderly perform less well on comprehension tests than young adults.
 34. We must take into account which skills are tested when comparing intelligence at different ages.
 35. Piaget’s work influenced theoretical studies more than practical research.
 36. Piaget’s emphasis on active learning has been discredited by later researchers.</p>
-<p>Questions 37-40
+<p><strong>Questions 37-40</strong>
 Complete the summary using the list of words, A-I below.</p>
 <p>Researchers investigating the development of intelligence have shown that (37)………………skills become more significant with age. One good predictor of (38)……………….intelligence is the degree to which small children are (39)……………..about their surroundings and how much interest they show on finding themselves in an (40)…………………setting.</p>
-<p>A adult
-B practical
-C verbal
-D spatial
-E inquisitive
-F uncertain
-G academic
-H plentiful
-I unfamiliar</p>
+<p><strong>A</strong> adult
+<strong>B</strong> practical
+<strong>C</strong> verbal
+<strong>D</strong> spatial
+<strong>E</strong> inquisitive
+<strong>F</strong> uncertain
+<strong>G</strong> academic
+<strong>H</strong> plentiful
+<strong>I</strong> unfamiliar</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Identical</p>
 <p>2. Balls of paper</p>
 <p>3. Female</p>
@@ -475,6 +531,29 @@ I unfamiliar</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -494,12 +573,23 @@ I unfamiliar</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -511,14 +601,6 @@ I unfamiliar</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

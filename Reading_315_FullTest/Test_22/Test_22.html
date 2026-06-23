@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,18 +158,18 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_22</h1>
-            <p>IELTS Reading Practice - Test 22</p>
-<p>Doctoring Sales</p>
-<p>A A few months ago Kim Schaefer, sales representative of a major global pharmaceutical company, walked into a medical center in New York to bring information and free samples of her company’s latest products. That day she was lucky- a doctor was available to see her. ‘The last rep offered me a trip to Florida. What do you have?’ the physician asked. He was only half joking.</p>
-<p>B What was on offer that day was a pair of tickets for a New York musical. But on any given day what Schaefer can offer is typical for today’s drugs rep -a car trunk full of promotional gifts and gadgets, a budget that could buy lunches and dinners for a small county hundreds of free drug samples and the freedom to give a physician $200 to prescribe her new product to the next six patients who fit the drug’s profile. And she also has a few $ 1,000 honoraria to offer in exchange for doctors’ attendance at her company’s next educational lecture.</p>
-<p>C Selling Pharmaceuticals is a daily exercise in ethical judgment. Salespeople like Schaefer walk the line between the common practice of buying a prospect’s time with a free meal, and bribing doctors to prescribe their drugs. They work in an industry highly criticized for its sales and marketing practices, but find themselves in the middle of the age-old chicken-or-egg question – businesses won’t use strategies that don’t work, so are doctors to blame for the escalating extravagance of pharmaceutical marketing? Or is it the industry’s responsibility to decide the boundaries?</p>
-<p>D The explosion in the sheer number of salespeople in the field- and the amount of funding used to promote their causes- forces close examination of the pressures, influences and relationships between drug reps and doctors. Salespeople provide much-needed information and education to physicians. In many cases the glossy brochures, article reprints and prescriptions they deliver are primary sources of drug education for healthcare givers. With the huge investment the industry has placed in face-to-face selling, sales people have essentially become specialists in one drug or group of drugs – a tremendous advantage in getting the attention of busy doctors in need of quick information.</p>
-<p>E But the sales push rarely stops in the office. The flashy brochures and pamphlets left by the sales reps are often followed up with meals at expensive restaurants, meetings in warm and sunny places, and an inundation of promotional gadgets. Rarely do patients watch a doctor write with a pen that isn’t emblazoned with a drug’s name, or see a nurse use a tablet not bearing a pharmaceutical company’s logo. Millions of dollars are spent by pharmaceutical companies on promotional products like coffee mugs, shirts, umbrellas, and golf balls. Money well spent? It’s hard to tell. I’ve been the recipient of golf balls from one company and I use them, but it doesn’t make me prescribe their medicine,’ says one doctor.’ I tend to think I’m not influenced by what they give me.’</p>
-<p>F Free samples of new and expensive drugs might be the single most effective way of getting doctors and patients to become loyal to a product. Salespeople hand out hundreds of dollars’ worth of samples each week-$7.2 billion worth of them in one year. Though few comprehensive studies have been conducted, one by the University of Washington investigated how drug sample availability affected what physicians prescribe. A total of 131 doctors self-reported their prescribing patterns-the conclusion was that the availability of samples led them to dispense and prescribe drugs that differed from their preferred drug choice.</p>
-<p>G The bottom line is that pharmaceutical companies as a whole invest more in marketing than they do in research and development. And patients are the ones who pay-in the form of sky-rocketing prescription prices-for every pen that’s handed out, every free theatre ticket, and every steak dinner eaten. In the end the fact remains that pharmaceutical companies have every right to make a profit and will continue to find new ways to increase sales. But as the medical world continues to grapple with what’s acceptable and what’s not, it is clear that companies must continue to be heavily scrutinized for their sales and marketing strategies.</p>
-<p>Questions 1-7
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 22</strong></h3>
+<h3 class="test-heading"><strong>Doctoring Sales</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> A few months ago Kim Schaefer, sales representative of a major global pharmaceutical company, walked into a medical center in New York to bring information and free samples of her company’s latest products. That day she was lucky- a doctor was available to see her. ‘The last rep offered me a trip to Florida. What do you have?’ the physician asked. He was only half joking.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> What was on offer that day was a pair of tickets for a New York musical. But on any given day what Schaefer can offer is typical for today’s drugs rep -a car trunk full of promotional gifts and gadgets, a budget that could buy lunches and dinners for a small county hundreds of free drug samples and the freedom to give a physician $200 to prescribe her new product to the next six patients who fit the drug’s profile. And she also has a few $ 1,000 honoraria to offer in exchange for doctors’ attendance at her company’s next educational lecture.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> Selling Pharmaceuticals is a daily exercise in ethical judgment. Salespeople like Schaefer walk the line between the common practice of buying a prospect’s time with a free meal, and bribing doctors to prescribe their drugs. They work in an industry highly criticized for its sales and marketing practices, but find themselves in the middle of the age-old chicken-or-egg question – businesses won’t use strategies that don’t work, so are doctors to blame for the escalating extravagance of pharmaceutical marketing? Or is it the industry’s responsibility to decide the boundaries?</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> The explosion in the sheer number of salespeople in the field- and the amount of funding used to promote their causes- forces close examination of the pressures, influences and relationships between drug reps and doctors. Salespeople provide much-needed information and education to physicians. In many cases the glossy brochures, article reprints and prescriptions they deliver are primary sources of drug education for healthcare givers. With the huge investment the industry has placed in face-to-face selling, sales people have essentially become specialists in one drug or group of drugs – a tremendous advantage in getting the attention of busy doctors in need of quick information.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> But the sales push rarely stops in the office. The flashy brochures and pamphlets left by the sales reps are often followed up with meals at expensive restaurants, meetings in warm and sunny places, and an inundation of promotional gadgets. Rarely do patients watch a doctor write with a pen that isn’t emblazoned with a drug’s name, or see a nurse use a tablet not bearing a pharmaceutical company’s logo. Millions of dollars are spent by pharmaceutical companies on promotional products like coffee mugs, shirts, umbrellas, and golf balls. Money well spent? It’s hard to tell. I’ve been the recipient of golf balls from one company and I use them, but it doesn’t make me prescribe their medicine,’ says one doctor.’ I tend to think I’m not influenced by what they give me.’</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> Free samples of new and expensive drugs might be the single most effective way of getting doctors and patients to become loyal to a product. Salespeople hand out hundreds of dollars’ worth of samples each week-$7.2 billion worth of them in one year. Though few comprehensive studies have been conducted, one by the University of Washington investigated how drug sample availability affected what physicians prescribe. A total of 131 doctors self-reported their prescribing patterns-the conclusion was that the availability of samples led them to dispense and prescribe drugs that differed from their preferred drug choice.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> The bottom line is that pharmaceutical companies as a whole invest more in marketing than they do in research and development. And patients are the ones who pay-in the form of sky-rocketing prescription prices-for every pen that’s handed out, every free theatre ticket, and every steak dinner eaten. In the end the fact remains that pharmaceutical companies have every right to make a profit and will continue to find new ways to increase sales. But as the medical world continues to grapple with what’s acceptable and what’s not, it is clear that companies must continue to be heavily scrutinized for their sales and marketing strategies.</p></div></div>
+<p><strong>Questions 1-7</strong>
 Reading Passage I has seven paragraphs, A-G. Choose the correct heading for each paragraph from the list of headings below. Write the correct number, i-x, in boxes 1-7 on your answer sheet.</p>
-<p>List of Headings</p>
+<p><strong>List of Headings</strong></p>
 <p>i Not all doctors are persuaded
 ii Choosing the best offers
 iii Who is responsible for the increase in promotions?
@@ -131,11 +187,11 @@ x Who really pays for doctors’ free gifts?</p>
 5 Paragraph E
 6 Paragraph F
 7 Paragraph G</p>
-<p>Questions 8-13
+<p><strong>Questions 8-13</strong>
 Do the following statements agree with the views of the writer in Reading Passage 1? In boxes 8-13 on your answer sheet, write</p>
-<p>YES                               if the statement agrees with the views of the writer
-NO                                 if the statement contradicts the views of the writer
-NOT GIVEN              if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                               if the statement agrees with the views of the writer
+<strong>NO</strong>                                 if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong>              if it is impossible to say what the writer thinks about this</p>
 <p>8 Sales representatives like Kim Schaefer work to a very limited budget.
 9 Kim Schaefer’s marketing technique may be open to criticism on moral grounds.
 10 The information provided by drug companies is of little use to doctors.
@@ -143,7 +199,7 @@ NOT GIVEN              if it is impossible to say what the writer thinks 
 12 The drug companies may give free drug samples to patients without doctors’ prescriptions.
 13 It is legitimate for drug companies to make money.</p>
 <p>Cambridge IELTS Test 1 to 17</p>
-<p>Literate women make better mothers?</p>
+<p><strong>Literate women make better mothers?</strong></p>
 <p>Children in developing countries are healthier and more likely to survive past the age of five when their mothers can read and write. Experts in public health accepted this idea decades ago, but until now no one has been able to show that a woman’s ability to read in itself improves her children’s chances of survival.</p>
 <p>Most literate women learnt to read in primary school, and the fact that a woman has had an education may simply indicate her family’s wealth or that it values its children more highly. Now a long-term study carried out in Nicaragua has eliminated these factors by showing that teaching reading to poor adult women, who would otherwise have remained illiterate, has a direct effect on their children’s health and survival.</p>
 <p>In 1979, the government of Nicaragua established a number of social programmes, including a National Literacy Crusade. By 1985, about 300,000 illiterate adults from all over the country, many of whom had never attended primary school, had learnt how to read, write and use numbers.</p>
@@ -153,46 +209,46 @@ NOT GIVEN              if it is impossible to say what the writer thinks 
 <p>Why are the children of literate mothers better off? According to Peter Sandiford of the Liverpool School of Tropical Medicine, no one knows for certain. Child health was not on the curriculum during the women’s lessons, so he and his colleagues are looking at other factors. They are working with the same group of 3,000 women, to try to find out whether reading mothers make better use of hospitals and clinics, opt for smaller families, exert more control at home, learn modem childcare techniques more quickly, or whether they merely have more respect for themselves and their children.</p>
 <p>The Nicaraguan study may have important implications for governments and aid agencies that need to know where to direct their resources. Sandiford says that there is increasing evidence that female education, at any age, is ‘an important health intervention in its own right’ .The results of the study lend support to the World Bank’s recommendation that education budgets in developing countries should be increased, not just to help their economies, but also to improve child health. ‘We’ve known for a long time that maternal education is important,’ says John Cleland of the London School of Hygiene and Tropical Medicine. ‘But we thought that even if we started educating girls today, we’d have to wait a generation for the pay-off. The Nicaraguan study suggests we may be able to bypass that.’</p>
 <p>Cleland warns that the Nicaraguan crusade was special in many ways, and similar campaigns elsewhere might not work as well. It is notoriously difficult to teach adults skills that do not have an immediate impact on their everyday lives, and many literacy campaigns in other countries have been much less successful. ‘The crusade was part of a larger effort to bring a better life to the people,’ says Cleland. Replicating these conditions in other countries will be a major challenge for development workers.</p>
-<p>Questions 14-18
+<p><strong>Questions 14-18</strong>
 Complete the summary using the list of words, A-J, below. Write the correct letters, A-J, in boxes 14-18 on your answer sheet. NB You may use any letter more than once.</p>
 <p>The Nicaraguan National Literacy Crusade aimed to teach large numbers of illiterate (14) ……………… to read and write. Public health experts have known for many years that there is a connection between child health and (15)……………… However, it has not previously been known whether these two factors were directly linked or not. This question has been investigated by (16)……………….. in Nicaragua. As a result, factors such as (17)…………………. and attitudes to children have been eliminated, and it has been shown that (18)……………. can in itself improve infant health and survival.</p>
-<p>A child literacy                B men and women                   C an international research team</p>
-<p>D medial care                 E mortality                                F maternal literacy</p>
-<p>G adults and children     H paternal literacy                    I a national literacy crusade</p>
-<p>J family health</p>
-<p>Questions 19-24
+<p><strong>A</strong> child literacy                <strong>B</strong> men and women                   <strong>C</strong> an international research team</p>
+<p><strong>D</strong> medial care                 <strong>E</strong> mortality                                <strong>F</strong> maternal literacy</p>
+<p><strong>G</strong> adults and children     <strong>H</strong> paternal literacy                    <strong>I</strong> a national literacy crusade</p>
+<p><strong>J</strong> family health</p>
+<p><strong>Questions 19-24</strong>
 Do the following statements agree with the claims of the writer in Reading Passage 2? In boxes 19-24 on your answer sheet, write:</p>
-<p>YES                                     if the statement agrees with the claims of the writer
-NO                                       if the statement contradicts the claims of the writer
-NOT GIVEN                    if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                                     if the statement agrees with the claims of the writer
+<strong>NO</strong>                                       if the statement contradicts the claims of the writer
+<strong>NOT GIVEN</strong>                    if it is impossible to say what the writer thinks about this</p>
 <p>19 About a thousand of the women interviewed by the researchers had learnt to read when they were children.
 20 Before the National Literacy Crusade, illiterate women had approximately the same levels of infant mortality as those who had learnt to read in primary school.
 21 Before and after the National Literacy Crusade, the child mortality rate for the illiterate women stayed at about 110 deaths for each thousand live births.
 22 The women who had learnt to read through the National Literacy Crusade showed the greatest change in infant mortality levels.
 23 The women who had learnt to read through the National Literacy Crusade had the lowest rates of child mortality.
 24 After the National Literacy Crusade, the children of the women who remained illiterate were found to be severely malnourished.</p>
-<p>Questions 25 and 26
-Choose TWO letters, A-E. Write the correct letters in boxes 25 and 26 on your answer sheet</p>
-<p>Which TWO important implications drawn from the Nicaraguan study are mentioned by the writer of the passage?
-A It is better to educate mature women than young girls
-B Similar campaigns in other countries would be equally successful
-C The effects of maternal literacy programmes can be seen very quickly
-D Improving child health can quickly affect a country’s economy
-E Money spent on female education will improve child health</p>
-<p>Reading Passage Three</p>
-<p>A Bullying can take a variety of forms, from the verbal -being taunted or called hurtful names- to the physical- being kicked or shoved- as well as indirect forms, such as being excluded from social groups. A survey I conducted with Irene Whitney found that in British primary schools up to a quarter of pupils reported experience of bullying, which in about one in ten cases was persistent. There was less bullying in secondary schools, with about one in twenty-five suffering persistent bullying, but these cases may be particularly recalcitrant.</p>
-<p>B Bullying is clearly unpleasant, and can make the child experiencing it feel unworthy and depressed. In extreme cases it can even lead to suicide, though this is thankfully rare. Victimised pupils are more likely to experience difficulties with interpersonal relationships as adults, while children who persistently bully are more likely to grow up to be physically violent, and convicted of anti-social offences.</p>
-<p>C Until recently, not much was known about the topic, and little help was available to teachers to deal with bullying. Perhaps as a consequence, schools would often deny the problem. ‘There is no bullying at this school’ has been a common refrain, almost certainty untrue. Fortunately more schools are now saying: There is not much bullying here, but when it occurs we have a clear policy for dealing with it.’</p>
-<p>D Three factors are involved in this change. First is an awareness of the severity of the problem. Second, a number of resources to help tackle bullying have become available in Britain. For example, the Scottish Council for Research in Education produced a package of materials, Action Against Bullying, circulated to all schools in England and Wales as well as in Scotland in summer 1992, with a second pack, Supporting Schools Against Bullying, produced the following year. In Ireland, Guidelines on Countering Bullying Behaviour in Post-Primary Schools was published in 1993. Third, there is evidence that these materials work, and that schools can achieve something. This comes from carefully conducted ‘before and after’ evaluations of interventions in schools, monitored by a research team. In Norway, after an intervention campaign was introduced nationally, an evaluation of forty-two schools suggested that, over a two-year period, bullying was halved. The Sheffield investigation, which involved sixteen primary schools and seven secondary schools, found that most schools succeeded in reducing bullying.</p>
-<p>E Evidence suggests that a key step is to develop a policy on bullying, saying clearly what is meant by bullying, and giving explicit guidelines on what will be done if it occurs, what record will be kept, who will be informed, what sanctions will be employed. The policy should be developed through consultation, over a period of time-not just imposed from the head teacher’s office! Pupils, parents and staff should feel they have been involved in the policy, which needs to be disseminated and implemented effectively.</p>
+<p><strong>Questions 25 and 26</strong>
+Choose <strong>TWO</strong> letters, A-E. Write the correct letters in boxes 25 and 26 on your answer sheet</p>
+<p>Which <strong>TWO</strong> important implications drawn from the Nicaraguan study are mentioned by the writer of the passage?
+<strong>A</strong> It is better to educate mature women than young girls
+<strong>B</strong> Similar campaigns in other countries would be equally successful
+<strong>C</strong> The effects of maternal literacy programmes can be seen very quickly
+<strong>D</strong> Improving child health can quickly affect a country’s economy
+<strong>E</strong> Money spent on female education will improve child health</p>
+<p><strong>Reading Passage Three</strong></p>
+<p><strong>A</strong> Bullying can take a variety of forms, from the verbal -being taunted or called hurtful names- to the physical- being kicked or shoved- as well as indirect forms, such as being excluded from social groups. A survey I conducted with Irene Whitney found that in British primary schools up to a quarter of pupils reported experience of bullying, which in about one in ten cases was persistent. There was less bullying in secondary schools, with about one in twenty-five suffering persistent bullying, but these cases may be particularly recalcitrant.</p>
+<p><strong>B</strong> Bullying is clearly unpleasant, and can make the child experiencing it feel unworthy and depressed. In extreme cases it can even lead to suicide, though this is thankfully rare. Victimised pupils are more likely to experience difficulties with interpersonal relationships as adults, while children who persistently bully are more likely to grow up to be physically violent, and convicted of anti-social offences.</p>
+<p><strong>C</strong> Until recently, not much was known about the topic, and little help was available to teachers to deal with bullying. Perhaps as a consequence, schools would often deny the problem. ‘There is no bullying at this school’ has been a common refrain, almost certainty untrue. Fortunately more schools are now saying: There is not much bullying here, but when it occurs we have a clear policy for dealing with it.’</p>
+<p><strong>D</strong> Three factors are involved in this change. First is an awareness of the severity of the problem. Second, a number of resources to help tackle bullying have become available in Britain. For example, the Scottish Council for Research in Education produced a package of materials, Action Against Bullying, circulated to all schools in England and Wales as well as in Scotland in summer 1992, with a second pack, Supporting Schools Against Bullying, produced the following year. In Ireland, Guidelines on Countering Bullying Behaviour in Post-Primary Schools was published in 1993. Third, there is evidence that these materials work, and that schools can achieve something. This comes from carefully conducted ‘before and after’ evaluations of interventions in schools, monitored by a research team. In Norway, after an intervention campaign was introduced nationally, an evaluation of forty-two schools suggested that, over a two-year period, bullying was halved. The Sheffield investigation, which involved sixteen primary schools and seven secondary schools, found that most schools succeeded in reducing bullying.</p>
+<p><strong>E</strong> Evidence suggests that a key step is to develop a policy on bullying, saying clearly what is meant by bullying, and giving explicit guidelines on what will be done if it occurs, what record will be kept, who will be informed, what sanctions will be employed. The policy should be developed through consultation, over a period of time-not just imposed from the head teacher’s office! Pupils, parents and staff should feel they have been involved in the policy, which needs to be disseminated and implemented effectively.</p>
 <p>Other actions can be taken to back up the policy. There are ways of dealing with the topic through the curriculum, using video, drama and literature. These are useful for raising awareness, and can best be tied in to early phases of development while the school is starting to discuss the issue of bullying. They are also useful in renewing the policy for new pupils, or revising it in the tight of experience. But curriculum work alone may only have short-term effects; it should be an addition to policy work, not a substitute.</p>
 <p>There are also ways of working with individual pupils, or in small groups. Assertiveness training for pupils who are liable to be victims is worthwhile, and certain approaches to group bullying such as ‘no blame’, can be useful in changing the behaviour of bullying pupils without confronting them directly, although other sanctions may be needed for those who continue with persistent bullying.</p>
 <p>Work in the playground is important, too. One helpful step is to train lunchtime supervisors to distinguish bullying from playful fighting, and help them break up conflicts. Another possibility is to improve the playground environment, so that pupils are less likely to be led into bullying from boredom or frustration.</p>
-<p>F With these developments, schools can expect that at least the most serious kinds of bullying can largely be prevented. The more effort put in and the wider the whole school involvement, the more substantial the results are likely to be. The reduction in bullying – and the consequent improvement in pupil happiness- is surely a worthwhile objective.</p>
-<p>Questions 27-30
+<p><strong>F</strong> With these developments, schools can expect that at least the most serious kinds of bullying can largely be prevented. The more effort put in and the wider the whole school involvement, the more substantial the results are likely to be. The reduction in bullying – and the consequent improvement in pupil happiness- is surely a worthwhile objective.</p>
+<p><strong>Questions 27-30</strong>
 Reading Passage 3 has six sections. Choose the correct heading for sections A-D from the list of headings below.
 Write the correct number, i-vii, in boxes 27-30 on your answer sheet.</p>
-<p>List of Headings</p>
+<p><strong>List of Headings</strong></p>
 <p>i The role of video violence
 ii The failure of government policy
 iii Reasons for the increased rate of bullying
@@ -204,43 +260,43 @@ vii Developments that have led to a new approach by schools</p>
 28 Section B
 29 Section C
 30 Section D</p>
-<p>Questions 31-34
+<p><strong>Questions 31-34</strong>
 Choose the correct letter A, B, C or D. Write the correct letter in boxes 31-34 on your answer sheet.</p>
 <p>31 A recent survey found that in British secondary schools
-A there was more bullying than had previously been the case
-B there was less bullying than in primary schools
-C cases of persistent bullying were very common
-D indirect forms of bullying were particularly difficult to deal with</p>
+<strong>A</strong> there was more bullying than had previously been the case
+<strong>B</strong> there was less bullying than in primary schools
+<strong>C</strong> cases of persistent bullying were very common
+<strong>D</strong> indirect forms of bullying were particularly difficult to deal with</p>
 <p>32 Children who are bullied
-A are twice as likely to commit suicide as the average person
-B find it more difficult to relate to adults
-C are less likely to be violent in later life
-D may have difficulty forming relationships in later life</p>
+<strong>A</strong> are twice as likely to commit suicide as the average person
+<strong>B</strong> find it more difficult to relate to adults
+<strong>C</strong> are less likely to be violent in later life
+<strong>D</strong> may have difficulty forming relationships in later life</p>
 <p>33 The writer thinks that the declaration ‘There is no bullying at this school’
-A is no longer true in many schools
-B was not in fact made by many schools
-C reflected the school’s lack of concern
-D reflected a lack of knowledge and resources</p>
+<strong>A</strong> is no longer true in many schools
+<strong>B</strong> was not in fact made by many schools
+<strong>C</strong> reflected the school’s lack of concern
+<strong>D</strong> reflected a lack of knowledge and resources</p>
 <p>34 What were the findings of research carried out in Norway?
-A Bullying declined by 50% after an anti-bullying campaign
-B Twenty-one schools reduced bullying as a result of an anti-bullying campaign
-C Two years is the optimum length for an anti-bullying campaign.
-D Bullying is a less serious problem in Norway than in the UK.</p>
-<p>Questions 35-39
-Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>What steps should schools take to reduce bullying?</p>
+<strong>A</strong> Bullying declined by 50% after an anti-bullying campaign
+<strong>B</strong> Twenty-one schools reduced bullying as a result of an anti-bullying campaign
+<strong>C</strong> Two years is the optimum length for an anti-bullying campaign.
+<strong>D</strong> Bullying is a less serious problem in Norway than in the UK.</p>
+<p><strong>Questions 35-39</strong>
+Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>What steps should schools take to reduce bullying?</strong></p>
 <p>The most important step is for the school authorities to produce a (35) ………………….. which makes the school’s attitude towards bullying quite clear. It should include detailed (36) …………………… as to how the school and its staff will react if bullying occurs.</p>
 <p>In addition, action can be taken through the (37) ……………………… This is particularly useful in the early part of the process, as a way of raising awareness and encouraging discussion. On its own, however, it is insufficient to bring about a permanent solution.</p>
 <p>Effective work can also be done with individual pupils and small groups. For example, potential (38)……………………. of bullying can be trained to be more self-confident. Or again, in dealing with group bullying, a ‘no blame’ approach, which avoids confronting the offender too directly, is often effective. Playground supervision will be more effective if members of staff are trained to recognise the difference between bullying and mere (39)……………………. .</p>
-<p>Question 40
+<p><strong>Question 40</strong>
 Choose the correct letter, A, B, C or D. Write the correct letter in box 40 on your answer sheet.</p>
 <p>Which of the following is the most suitable title for Reading Passage 3?
-A Bullying: what parents can do
-B Bullying: are the media to blame?
-C Bullying: the link with academic failure
-D Bullying: from crisis management to prevention</p>
+<strong>A</strong> Bullying: what parents can do
+<strong>B</strong> Bullying: are the media to blame?
+<strong>C</strong> Bullying: the link with academic failure
+<strong>D</strong> Bullying: from crisis management to prevention</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. v</p>
 <p>2. vi</p>
 <p>3. iii</p>
@@ -499,6 +555,29 @@ D Bullying: from crisis management to prevention</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -518,12 +597,23 @@ D Bullying: from crisis management to prevention</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -535,14 +625,6 @@ D Bullying: from crisis management to prevention</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

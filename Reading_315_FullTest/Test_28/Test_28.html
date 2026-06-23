@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,22 +158,22 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_28</h1>
-            <p>IELTS Reading Practice - Test 28</p>
-<p>Green Wave Washes Over Mainstream Shopping</p>
-<p>Research in Britain has shown that ‘green consumers’ continue to flourish as a significant group amongst shoppers. This suggests that politicians who claim environmentalism is yesterday’s issue may be seriously misjudging the public mood.</p>
-<p>A report from Mintel, the market research organisation, says that despite recession and financial pressures, more people than ever want to buy environmentally friendly products and a ‘green wave’ has swept through consumerism, taking in people previously untouched by environmental concerns. The recently published report also predicts that the process will repeat itself with ‘ethical’ concerns, involving issues such as fair trade with the Third World and the social record of businesses. Companies will have to be more honest and open in response to this mood.</p>
-<p>Mintel’s survey, based on nearly 1,000 consumers, found that the proportion who look for green products and are prepared to pay more for them has climbed from 53 per cent in 1990 to around 60 per cent in 1994. On average, they will pay 13 per cent more for such products, although this percentage is higher among women, managerial and professional groups and those aged 35 to 44.</p>
-<p>Between 1990 and 1994 the proportion of consumers claiming to be unaware of or unconcerned about green issues fell from 18 to 10 per cent but the number of green spenders among older people and manual workers has risen substantially. Regions such as Scotland have also caught up with the south of England in their environmental concerns. According to Mintel, the image of green consumerism as associated in the past with the more eccentric members of society has virtually disappeared. The consumer research manager for Mintel, Angela Hughes, said it had become firmly established as a mainstream market. She explained that as far as the average person is concerned environmentalism has not ‘gone off the boil’. In fact, it has spread across a much wider range of consumer groups, ages and occupations.</p>
-<p>Mintel’s 1994 survey found that 13 per cent of consumers are ‘very dark green’, nearly always buying environmentally friendly products, 28 per cent are ‘dark green’, trying ‘as far as possible’ to buy such products, and 21 per cent are ‘pale green’ – tending to buy green products if they see them. Another 26 per cent are ‘armchair greens’; they said they care about environmental issues but their concern does not affect their spending habits. Only 10 per cent say they do not care about green issues. Four in ten people are ‘ethical spenders’, buying goods which do not, for example, involve dealings with oppressive regimes. This figure is the same its in 1990, although the number of ‘armchair ethicals’ has risen from 28 to 35 per cent and only 22 per cent say they are unconcerned now, against 30 per cent in 1990. Hughes claims that in the twenty-first century, consumers will be encouraged to think more about the entire history of the products and services they buy, including the policies of the companies that provide them and that this will require a greater degree of honesty with consumers.</p>
-<p>Among green consumers, animal testing is the top issue – 48 per cent said they would be deterred from buying a product it if had been tested on animals – followed by concerns regarding irresponsible selling, the ozone layer, river and sea pollution, forest destruction, recycling and factory farming. However, concern for specific issues is lower than in 1990, suggesting that many consumers feel that Government and business have taken on the environmental agenda.</p>
-<p>Questions 1-6
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 28</strong></h3>
+<h3 class="test-heading"><strong>Green Wave Washes Over Mainstream Shopping</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>Research in Britain has shown that ‘green consumers’ continue to flourish as a significant group amongst shoppers. This suggests that politicians who claim environmentalism is yesterday’s issue may be seriously misjudging the public mood.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>A report from Mintel, the market research organisation, says that despite recession and financial pressures, more people than ever want to buy environmentally friendly products and a ‘green wave’ has swept through consumerism, taking in people previously untouched by environmental concerns. The recently published report also predicts that the process will repeat itself with ‘ethical’ concerns, involving issues such as fair trade with the Third World and the social record of businesses. Companies will have to be more honest and open in response to this mood.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Mintel’s survey, based on nearly 1,000 consumers, found that the proportion who look for green products and are prepared to pay more for them has climbed from 53 per cent in 1990 to around 60 per cent in 1994. On average, they will pay 13 per cent more for such products, although this percentage is higher among women, managerial and professional groups and those aged 35 to 44.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Between 1990 and 1994 the proportion of consumers claiming to be unaware of or unconcerned about green issues fell from 18 to 10 per cent but the number of green spenders among older people and manual workers has risen substantially. Regions such as Scotland have also caught up with the south of England in their environmental concerns. According to Mintel, the image of green consumerism as associated in the past with the more eccentric members of society has virtually disappeared. The consumer research manager for Mintel, Angela Hughes, said it had become firmly established as a mainstream market. She explained that as far as the average person is concerned environmentalism has not ‘gone off the boil’. In fact, it has spread across a much wider range of consumer groups, ages and occupations.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>Mintel’s 1994 survey found that 13 per cent of consumers are ‘very dark green’, nearly always buying environmentally friendly products, 28 per cent are ‘dark green’, trying ‘as far as possible’ to buy such products, and 21 per cent are ‘pale green’ – tending to buy green products if they see them. Another 26 per cent are ‘armchair greens’; they said they care about environmental issues but their concern does not affect their spending habits. Only 10 per cent say they do not care about green issues. Four in ten people are ‘ethical spenders’, buying goods which do not, for example, involve dealings with oppressive regimes. This figure is the same its in 1990, although the number of ‘armchair ethicals’ has risen from 28 to 35 per cent and only 22 per cent say they are unconcerned now, against 30 per cent in 1990. Hughes claims that in the twenty-first century, consumers will be encouraged to think more about the entire history of the products and services they buy, including the policies of the companies that provide them and that this will require a greater degree of honesty with consumers.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Among green consumers, animal testing is the top issue – 48 per cent said they would be deterred from buying a product it if had been tested on animals – followed by concerns regarding irresponsible selling, the ozone layer, river and sea pollution, forest destruction, recycling and factory farming. However, concern for specific issues is lower than in 1990, suggesting that many consumers feel that Government and business have taken on the environmental agenda.</p></div></div>
+<p><strong>Questions 1-6</strong>
 
 Do the fallowing statements agree with the claims of the writer of Reading Passage I? In boxes 1-6 on your answer sheet write</p>
-<p>YES                                 if the statement agrees with the claims of the writer
+<p><strong>YES</strong>                                 if the statement agrees with the claims of the writer
 
-NO                                   if the statement contradicts the claims of the writer
+<strong>NO</strong>                                   if the statement contradicts the claims of the writer
 
-NOT GIVEN                if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>                if it is impossible to say what the writer thinks about this</p>
 <p>1 The research findings report commercial rather than political trends.
 
 2 Being financially better off has made shoppers more sensitive to buying ‘green’.
@@ -129,37 +185,37 @@ NOT GIVEN                if it is impossible to say what the writer thin
 5 Mintel have limited their investigation to professional and managerial groups.
 
 6 Mintel undertakes market surveys on an annual basis.</p>
-<p>Questions 7-9
+<p><strong>Questions 7-9</strong>
 
 Choose the appropriate letters A-D</p>
 <p>7 Politicians may have ‘misjudged the public mood’ because
 
-A they are pre-occupied with the recession and financial problems
+<strong>A</strong> they are pre-occupied with the recession and financial problems
 
-B there is more widespread interest in the environment agenda than they anticipated
+<strong>B</strong> there is more widespread interest in the environment agenda than they anticipated
 
-C consumer spending has increased significantly as a result of ‘green’ pressure
+<strong>C</strong> consumer spending has increased significantly as a result of ‘green’ pressure
 
-D shoppers are displeased with government policies on a range of issues.</p>
+<strong>D</strong> shoppers are displeased with government policies on a range of issues.</p>
 <p>8 What is Mintel?
 
-A an environmentalist group
+<strong>A</strong> an environmentalist group
 
-B a business survey organisation
+<strong>B</strong> a business survey organisation
 
-C an academic research team
+<strong>C</strong> an academic research team
 
-D political organisation</p>
+<strong>D</strong> political organisation</p>
 <p>9 A consumer expressing concern for environmental issues without actively supporting such principles is
 
-A an ethical spender
+<strong>A</strong> an ethical spender
 
-B a very dark green spender
+<strong>B</strong> a very dark green spender
 
-C an armchair green
+<strong>C</strong> an armchair green
 
-D a pale green spender</p>
-<p>Questions 10-13
+<strong>D</strong> a pale green spender</p>
+<p><strong>Questions 10-13</strong>
 
 Complete the summary using words from the options given below. Write your answers in boxes 10-13 on your answer sheet.
 
@@ -170,64 +226,64 @@ NB There are more answers than spaces, so you will not use them all.</p>
 <p>Ethical spenders                                Armchair ethical                        Financial constraints</p>
 <p>Politicians                                          Environmentalists</p>
 <p>Cambridge IELTS Test 1 to 17</p>
-<p>Reading Passage 2</p>
-<p>A There is a great concern in Europe and North America about declining standards of literacy in schools. In Britain, the fact that 30 per cent of 16 year olds have a reading age of 14 or less has helped to prompt massive educational changes. The development of literacy has far-reaching effects on general intellectual development and thus anything which impedes the development of literacy is a serious matter for us all. So the hunt is on for the cause of the decline in literacy. The search so far has focused on socio-economic factors, or the effectiveness of ‘traditional’ versus ‘modern’ teaching techniques.</p>
-<p>B The fruitless search for the cause of the increase in illiteracy is a tragic example of the saying ‘They can’t see the wood for the trees’. When teachers use picture books, they are simply continuing a long-established tradition that is accepted without question. And for the past two decades, illustrations in reading primers have become increasingly detailed and obtrusive, while language has become impoverished – sometimes to the point of extinction.</p>
-<p>C Amazingly, there is virtually no empirical evidence to support the use of illustrations in teaching reading. On the contrary, a great deal of empirical evidence shows that pictures interfere in a damaging way with all aspects of learning to read. Despite this, from North America to the Antipodes, the first books that many school children receive are totally without text.</p>
-<p>D A teacher’s main concern is to help young beginner readers to develop not only the ability to recognise words, but the skills necessary to understand what these words mean. Even if a child is able to read aloud fluently, he or she may not be able to understand much of it: this is called ‘barking at text’. The teacher’s task of improving comprehension is made harder by influences outside the classroom. But the adverse effects of such things as television, video games, or limited language experiences at home, can be offset by experiencing ‘rich’ language at school.</p>
-<p>E Instead, it is not unusual for a book of 30 or more pages to have only one sentence full of repetitive phrases. The artwork is often marvellous, but the pictures make the language redundant, and the children have no need to imagine anything when they read such books. Looking at a picture actively prevents children younger than nine from creating a mental image, and can make it difficult for older children. In order to learn how to comprehend, they need to practise making their own meaning in response to text. They need to have their innate powers of imagination trained.</p>
-<p>F As they grow older, many children turn aside from books without pictures, and it is a situation made more serious as our culture becomes more visual. It is hard to wean children off picture books when pictures have played a major part throughout their formative reading experiences, and when there is competition for their attention from so many other sources of entertainment. The least intelligent are most vulnerable, but tests show that even intelligent children are being affected. The response of educators has been to extend the use of pictures in books and to simplify the language, even at senior levels. The Universities of Oxford and Cambridge recently held joint conferences to discuss the noticeably rapid decline in literacy among their undergraduates.</p>
-<p>G Pictures are also used to help motivate children to read because they are beautiful and eye-catching. But motivation to read should be provided by listening to stories well read, where children imagine in response to the story. Then, as they start to read, they have this experience to help them understand the language. If we present pictures to save children the trouble of developing these creative skills, then I think we are making a great mistake.</p>
-<p>H Academic journals ranging from educational research, psychology, language learning, psycholinguistics, and so on cite experiments which demonstrate how detrimental pictures are for beginner readers. Here is a brief selection:</p>
-<p>I The research results of the Canadian educationalist Dale Willows were clear and consistent: pictures affected speed and accuracy and the closer the pictures were to the words, the slower and more inaccurate the child’s reading became. She claims that when children come to a word they already know, then the pictures are unnecessary and distracting. If they do not know a word and look to the picture for a clue to its meaning, they may well be misled by aspects of the pictures which are not closely related to the meaning of the word they are trying to understand.</p>
-<p>J Jay Samuels, an American psychologist, found that poor readers given no pictures learnt significantly more words than those learning to read with books with pictures. He examined the work of other researchers who had reported problems with the use of pictures and who found that a word without a picture was superior to a word plus a picture. When children were given words and pictures, those who seemed to ignore the pictures and pointed at the words learnt more words than the children who pointed at the pictures but they still learnt fewer words than the children who had no illustrate stimuli at all.</p>
-<p>Questions 14-17
+<p><strong>Reading Passage 2</strong></p>
+<p><strong>A</strong> There is a great concern in Europe and North America about declining standards of literacy in schools. In Britain, the fact that 30 per cent of 16 year olds have a reading age of 14 or less has helped to prompt massive educational changes. The development of literacy has far-reaching effects on general intellectual development and thus anything which impedes the development of literacy is a serious matter for us all. So the hunt is on for the cause of the decline in literacy. The search so far has focused on socio-economic factors, or the effectiveness of ‘traditional’ versus ‘modern’ teaching techniques.</p>
+<p><strong>B</strong> The fruitless search for the cause of the increase in illiteracy is a tragic example of the saying ‘They can’t see the wood for the trees’. When teachers use picture books, they are simply continuing a long-established tradition that is accepted without question. And for the past two decades, illustrations in reading primers have become increasingly detailed and obtrusive, while language has become impoverished – sometimes to the point of extinction.</p>
+<p><strong>C</strong> Amazingly, there is virtually no empirical evidence to support the use of illustrations in teaching reading. On the contrary, a great deal of empirical evidence shows that pictures interfere in a damaging way with all aspects of learning to read. Despite this, from North America to the Antipodes, the first books that many school children receive are totally without text.</p>
+<p><strong>D</strong> A teacher’s main concern is to help young beginner readers to develop not only the ability to recognise words, but the skills necessary to understand what these words mean. Even if a child is able to read aloud fluently, he or she may not be able to understand much of it: this is called ‘barking at text’. The teacher’s task of improving comprehension is made harder by influences outside the classroom. But the adverse effects of such things as television, video games, or limited language experiences at home, can be offset by experiencing ‘rich’ language at school.</p>
+<p><strong>E</strong> Instead, it is not unusual for a book of 30 or more pages to have only one sentence full of repetitive phrases. The artwork is often marvellous, but the pictures make the language redundant, and the children have no need to imagine anything when they read such books. Looking at a picture actively prevents children younger than nine from creating a mental image, and can make it difficult for older children. In order to learn how to comprehend, they need to practise making their own meaning in response to text. They need to have their innate powers of imagination trained.</p>
+<p><strong>F</strong> As they grow older, many children turn aside from books without pictures, and it is a situation made more serious as our culture becomes more visual. It is hard to wean children off picture books when pictures have played a major part throughout their formative reading experiences, and when there is competition for their attention from so many other sources of entertainment. The least intelligent are most vulnerable, but tests show that even intelligent children are being affected. The response of educators has been to extend the use of pictures in books and to simplify the language, even at senior levels. The Universities of Oxford and Cambridge recently held joint conferences to discuss the noticeably rapid decline in literacy among their undergraduates.</p>
+<p><strong>G</strong> Pictures are also used to help motivate children to read because they are beautiful and eye-catching. But motivation to read should be provided by listening to stories well read, where children imagine in response to the story. Then, as they start to read, they have this experience to help them understand the language. If we present pictures to save children the trouble of developing these creative skills, then I think we are making a great mistake.</p>
+<p><strong>H</strong> Academic journals ranging from educational research, psychology, language learning, psycholinguistics, and so on cite experiments which demonstrate how detrimental pictures are for beginner readers. Here is a brief selection:</p>
+<p><strong>I</strong> The research results of the Canadian educationalist Dale Willows were clear and consistent: pictures affected speed and accuracy and the closer the pictures were to the words, the slower and more inaccurate the child’s reading became. She claims that when children come to a word they already know, then the pictures are unnecessary and distracting. If they do not know a word and look to the picture for a clue to its meaning, they may well be misled by aspects of the pictures which are not closely related to the meaning of the word they are trying to understand.</p>
+<p><strong>J</strong> Jay Samuels, an American psychologist, found that poor readers given no pictures learnt significantly more words than those learning to read with books with pictures. He examined the work of other researchers who had reported problems with the use of pictures and who found that a word without a picture was superior to a word plus a picture. When children were given words and pictures, those who seemed to ignore the pictures and pointed at the words learnt more words than the children who pointed at the pictures but they still learnt fewer words than the children who had no illustrate stimuli at all.</p>
+<p><strong>Questions 14-17</strong>
 
 Choose the appropriate letters A-D and write them in boxes 14-17.</p>
 <p>14 Readers are said to ‘bark’ at a text when
 
-A they read too loudly
+<strong>A</strong> they read too loudly
 
-B there are too many repetitive words
+<strong>B</strong> there are too many repetitive words
 
-C they are discouraged from using their imagination
+<strong>C</strong> they are discouraged from using their imagination
 
-D they have difficulty assessing its meaning</p>
+<strong>D</strong> they have difficulty assessing its meaning</p>
 <p>15 The text suggests that
 
-A pictures in books should be less detailed
+<strong>A</strong> pictures in books should be less detailed
 
-B pictures can slow down reading progress
+<strong>B</strong> pictures can slow down reading progress
 
-C picture books are best used with younger readers
+<strong>C</strong> picture books are best used with younger readers
 
-D pictures make modern books too expensive</p>
+<strong>D</strong> pictures make modern books too expensive</p>
 <p>16 University academics are concerned because
 
-A young people are showing less interest in higher education
+<strong>A</strong> young people are showing less interest in higher education
 
-B students cannot understand modern academic text
+<strong>B</strong> students cannot understand modern academic text
 
-C academic books are too childish for their under graduation
+<strong>C</strong> academic books are too childish for their under graduation
 
-D there has been a significant change in student literature</p>
+<strong>D</strong> there has been a significant change in student literature</p>
 <p>17 The youngest readers will quickly develop good reading skills if they
 
-A learn to associate the words in a text with pictures
+<strong>A</strong> learn to associate the words in a text with pictures
 
-B are exposed to modern teaching techniques
+<strong>B</strong> are exposed to modern teaching techniques
 
-C are encouraged to ignore pictures in the text
+<strong>C</strong> are encouraged to ignore pictures in the text
 
-D learn the art of telling stories</p>
-<p>Questions 18-21
+<strong>D</strong> learn the art of telling stories</p>
+<p><strong>Questions 18-21</strong>
 
 Do the following statements agree with the information given in Reading Passage 2? In boxes 18-21 on your answer sheet write</p>
-<p>YES                            if the statement agrees with the information
+<p><strong>YES</strong>                            if the statement agrees with the information
 
-NO                              if the statement contradicts the information
+<strong>NO</strong>                              if the statement contradicts the information
 
-NOT GIVEN           if there is no information about this in the passage</p>
+<strong>NOT GIVEN</strong>           if there is no information about this in the passage</p>
 <p>18 It is traditionally accepted that children’s books should contain few pictures.
 
 19 Teachers aim to teach both word recognition and word meaning.
@@ -235,7 +291,7 @@ NOT GIVEN           if there is no information about this in the passage</
 20 Older readers are having difficulty in adjusting to texts without pictures.
 
 21 Literacy has improved as a result of recent academic conferences.</p>
-<p>Questions 22-25
+<p><strong>Questions 22-25</strong>
 
 Reading Passage 2 has ten paragraphs, A-J. Which paragraphs state the following information?</p>
 <p>22 The decline of literacy is seen in groups of differing ages and abilities.
@@ -245,19 +301,19 @@ Reading Passage 2 has ten paragraphs, A-J. Which paragraphs state the following 
 24 Readers able to ignore pictures are claimed to make greater progress.
 
 25 Illustrations in books can give misleading information about word meaning.</p>
-<p>Question 26
+<p><strong>Question 26</strong>
 
 From the list below choose the most suitable title for the whole of Reading Passage 2.</p>
-<p>A The global decline in reading levels
+<p><strong>A</strong> The global decline in reading levels
 
-B Concern about recent educational developments
+<strong>B</strong> Concern about recent educational developments
 
-C The harm that picture books can cause
+<strong>C</strong> The harm that picture books can cause
 
-D Research carried out on children’s literature
+<strong>D</strong> Research carried out on children’s literature
 
-E An examination of modern reading styles</p>
-<p>IN SEARCH OF THE HOLY GRAIL</p>
+<strong>E</strong> An examination of modern reading styles</p>
+<p><strong>IN SEARCH OF THE HOLY GRAIL</strong></p>
 <p>It has been called the Holy Grail of modern biology. Costing more than £2 billion, it is the most ambitious scientific project since the Apollo programme that landed a man on the moon. And it will take longer to accomplish than the lunar missions, for it will not be complete until early next century. Even before it is finished, according to those involved, this project should open up new understanding of, and new treatments for, many of the ailments that afflict humanity. As a result of the Human Genome Project, there will be new hope of liberation from the shadows of cancer, heart disease, auto-immune diseases such as rheumatoid arthritis, and some psychiatric illnesses.</p>
 <p>The objective of the Human Genome Project is simple to state, but audacious in scope: to map and analyse every single gene within the double helix of humanity’s DNA. The project will reveal a new human anatomy — not the bones, muscles and sinews, but the complete genetic blueprint for a human being. Those working on the Human Genome Project claim that the new genetical anatomy will transform medicine and reduce human suffering in the twenty-first century. But others see the future through a darker glass, and fear that the project may open the door to a world peopled by Frankenstein’s monsters and disfigured by a new eugenics.</p>
 <p>The genetic inheritance a baby receives from its parents at the moment of conception fixes much of its later development, determining characteristics as varied as whether it will have blue eyes or suffer from a life- threatening illness such as cystic fibrosis. The human genome is the compendium of all these inherited genetic instructions. Written out along the double helix of DNA are the chemical letters of the genetic text. It is an extremely long text, for the human genome contains more than 3 billion letters:</p>
@@ -268,9 +324,9 @@ E An examination of modern reading styles</p>
 <p>But the consequences of the Human Genome Project go far beyond a narrow focus on disease. Some of its supporters have made claims of great extravagance – that the Project will bring us to understand, at the most fundamental level, what it is to be human. Yet many people are concerned that such an emphasis on humanity’s genetic constitution may distort our sense of values, and lead us to forget that human life is more than just the expression of a genetic program written in the chemistry of DNA.</p>
 <p>If properly applied, the new knowledge generated by the Human Genome Project may free humanity from the terrible scourge of diverse diseases. But if the new knowledge is not used wisely, it also holds the threat of creating new forms of discrimination and new methods of oppression. Many characteristics, such as height and intelligence, result not from the action of genes alone, but from subtle interactions between genes and the environment. What would be the implications if humanity were to understand, with precision, the genetic constitution which, given the same environment, will predispose one person towards a higher intelligence than another individual whose genes were differently shuffled?</p>
 <p>Once before in this century, the relentless curiosity of scientific researchers brought to light forces of nature in the power of the atom, the mastery of which has shaped the destiny of nations and overshadowed all our lives. The Human Genome Project holds the promise that, ultimately, we may be able to alter our genetic inheritance if we so choose. But there is the central moral problem: how can we ensure that when we choose, we choose correctly? That such a potential is a promise and not a threat? We need only look at the past to understand the danger.</p>
-<p>Questions 27-32
+<p><strong>Questions 27-32</strong>
 
-Complete the sentences below (Questions 27—32) with words taken from Reading Passage 3. Use NO MORE THAN THREE WORDS OR A NUMBER for each answer Write your answers in boxes 27-32 on your answer sheet.</p>
+Complete the sentences below (Questions 27—32) with words taken from Reading Passage 3. Use <strong>NO MORE THAN THREE WORDS OR A NUMBER</strong> for each answer Write your answers in boxes 27-32 on your answer sheet.</p>
 <p>27 The passage compares the Project in scale to the…………………
 
 28 The possible completion date of the Project is……………..
@@ -282,16 +338,16 @@ Complete the sentences below (Questions 27—32) with words taken from Reading P
 31 Research into genetic defects had its first success in the discovery of the cause of one form of……………….
 
 32 The second success of research into genetic defects was to find the cause of……………..</p>
-<p>Questions 33-40
+<p><strong>Questions 33-40</strong>
 
 Classify the following statements as representing</p>
-<p>A the writer’s fears about the Human Genome Project
+<p><strong>A</strong> the writer’s fears about the Human Genome Project
 
-B other people’s fears about the Project reported by the writer
+<strong>B</strong> other people’s fears about the Project reported by the writer
 
-C the writer’s reporting of facts about the Project
+<strong>C</strong> the writer’s reporting of facts about the Project
 
-D the writer’s reporting of the long-term hopes for the Project</p>
+<strong>D</strong> the writer’s reporting of the long-term hopes for the Project</p>
 <p>Write the appropriate letters A-D in boxes 33—40 on your answer sheet.</p>
 <p>33 The Project will provide a new understanding of major diseases.
 
@@ -309,7 +365,7 @@ D the writer’s reporting of the long-term hopes for the Project</p>
 
 40 From past experience humans may not use this new knowledge wisely.</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. yes</p>
 <p>2. no</p>
 <p>3. yes</p>
@@ -568,6 +624,29 @@ D the writer’s reporting of the long-term hopes for the Project</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -587,12 +666,23 @@ D the writer’s reporting of the long-term hopes for the Project</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -604,14 +694,6 @@ D the writer’s reporting of the long-term hopes for the Project</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,22 +158,22 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_306</h1>
-            <p>IELTS Reading Practice - Test 306</p>
-<p>Urban Trees</p>
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 306</strong></h3>
+<h3 class="test-heading"><strong>Urban Trees</strong></h3>
 <p>The presence of street trees can dramatically improve urban environments in a variety of ways.</p>
-<p>Street trees are not only a key component of the urban landscape, but also provide numerous environmental, economic and social benefits. Despite this, in many towns and cities, they are frequently seen as a problem, and in recent years, large numbers have been removed or severely cut back.</p>
-<p>Street trees are trees that are located on public land along streets and boulevards, and in parks. They are usually the responsibility of local governments, although in some cases they may be privately owned. In the past, street trees were planted and maintained by local authorities for the public good. However, with the increasing privatisation of public space, the responsibility for street trees has shifted from the public to the private domain, and they are now often seen as a liability.</p>
-<p>Street trees can make urban areas much more pleasant places in which to live, and there are many studies to show that they are associated with a wide range of benefits. For example, they remove pollutants from the air, provide shade, and reduce the urban heat island effect, which is caused by hard surfaces such as concrete and asphalt storing heat from the sun. They also improve water quality, reduce flooding, and decrease the amount of water that ends up in drainage systems. In addition, they can save energy by shading buildings and reducing the need for air conditioning in summer.</p>
-<p>Street trees also have significant social benefits. They make streets more pleasant to walk along, and provide shade and shelter for pedestrians. They also act as a buffer between pedestrians and traffic, and reduce traffic noise. In addition, they can provide a sense of place and identity, and improve the quality of life for residents. Studies have shown that street trees can reduce crime, improve mental health, and increase property values. They can also provide habitat for wildlife, and improve biodiversity in urban areas.</p>
-<p>Despite these benefits, street trees are often seen as a problem. One reason for this is that they can cause damage to infrastructure, such as roads, footpaths and underground services. This is often due to the fact that they are planted in small pits with limited space for root growth, which can lead to roots damaging infrastructure as they search for water and nutrients. In addition, street trees can be seen as a nuisance because they drop leaves, fruit and branches, which can be messy and require cleaning up. They can also block light and views, and interfere with overhead wires and signage.</p>
-<p>Another reason why street trees are seen as a problem is that they can be expensive to maintain. They require regular pruning to keep them in good condition, and to prevent them from interfering with infrastructure. They also need to be watered, fertilised and protected from pests and diseases. In addition, they can be damaged by vehicles, vandalism and extreme weather events, which can result in costly repairs or replacement.</p>
-<p>In recent years, there has been a trend towards removing street trees, or replacing them with smaller, more manageable species. This is often done to reduce maintenance costs, and to prevent damage to infrastructure. However, this can result in a loss of the benefits that street trees provide. In some cases, street trees are replaced with artificial trees, which do not provide the same benefits as real trees.</p>
-<p>There are a number of ways in which the benefits of street trees can be maximised, and the problems minimised. One way is to plant the right tree in the right place. This means choosing tree species that are suitable for the local climate, soil and growing conditions, and that will not cause damage to infrastructure. It also means planting trees in locations where they will provide the most benefits, such as along streets with high pedestrian traffic, or in areas with high levels of air pollution.</p>
-<p>Another way to maximise the benefits of street trees is to provide them with adequate space and resources to grow. This means planting them in large pits with good quality soil, and providing them with regular watering, fertilising and pruning. It also means protecting them from damage by vehicles, vandalism and extreme weather events.</p>
-<p>In conclusion, street trees are a vital component of the urban landscape, and provide numerous environmental, economic and social benefits. However, they are often seen as a problem, and are frequently removed or severely cut back. By planting the right tree in the right place, and providing them with adequate space and resources to grow, the benefits of street trees can be maximised, and the problems minimised.</p>
-<p>Questions 1-7
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>Street trees are not only a key component of the urban landscape, but also provide numerous environmental, economic and social benefits. Despite this, in many towns and cities, they are frequently seen as a problem, and in recent years, large numbers have been removed or severely cut back.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>Street trees are trees that are located on public land along streets and boulevards, and in parks. They are usually the responsibility of local governments, although in some cases they may be privately owned. In the past, street trees were planted and maintained by local authorities for the public good. However, with the increasing privatisation of public space, the responsibility for street trees has shifted from the public to the private domain, and they are now often seen as a liability.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Street trees can make urban areas much more pleasant places in which to live, and there are many studies to show that they are associated with a wide range of benefits. For example, they remove pollutants from the air, provide shade, and reduce the urban heat island effect, which is caused by hard surfaces such as concrete and asphalt storing heat from the sun. They also improve water quality, reduce flooding, and decrease the amount of water that ends up in drainage systems. In addition, they can save energy by shading buildings and reducing the need for air conditioning in summer.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Street trees also have significant social benefits. They make streets more pleasant to walk along, and provide shade and shelter for pedestrians. They also act as a buffer between pedestrians and traffic, and reduce traffic noise. In addition, they can provide a sense of place and identity, and improve the quality of life for residents. Studies have shown that street trees can reduce crime, improve mental health, and increase property values. They can also provide habitat for wildlife, and improve biodiversity in urban areas.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>Despite these benefits, street trees are often seen as a problem. One reason for this is that they can cause damage to infrastructure, such as roads, footpaths and underground services. This is often due to the fact that they are planted in small pits with limited space for root growth, which can lead to roots damaging infrastructure as they search for water and nutrients. In addition, street trees can be seen as a nuisance because they drop leaves, fruit and branches, which can be messy and require cleaning up. They can also block light and views, and interfere with overhead wires and signage.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Another reason why street trees are seen as a problem is that they can be expensive to maintain. They require regular pruning to keep them in good condition, and to prevent them from interfering with infrastructure. They also need to be watered, fertilised and protected from pests and diseases. In addition, they can be damaged by vehicles, vandalism and extreme weather events, which can result in costly repairs or replacement.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>In recent years, there has been a trend towards removing street trees, or replacing them with smaller, more manageable species. This is often done to reduce maintenance costs, and to prevent damage to infrastructure. However, this can result in a loss of the benefits that street trees provide. In some cases, street trees are replaced with artificial trees, which do not provide the same benefits as real trees.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>There are a number of ways in which the benefits of street trees can be maximised, and the problems minimised. One way is to plant the right tree in the right place. This means choosing tree species that are suitable for the local climate, soil and growing conditions, and that will not cause damage to infrastructure. It also means planting trees in locations where they will provide the most benefits, such as along streets with high pedestrian traffic, or in areas with high levels of air pollution.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>Another way to maximise the benefits of street trees is to provide them with adequate space and resources to grow. This means planting them in large pits with good quality soil, and providing them with regular watering, fertilising and pruning. It also means protecting them from damage by vehicles, vandalism and extreme weather events.</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p>In conclusion, street trees are a vital component of the urban landscape, and provide numerous environmental, economic and social benefits. However, they are often seen as a problem, and are frequently removed or severely cut back. By planting the right tree in the right place, and providing them with adequate space and resources to grow, the benefits of street trees can be maximised, and the problems minimised.</p></div></div>
+<p><strong>Questions 1-7</strong>
 
-Complete the notes below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 1-7 on your answer sheet.</p>
+Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer. Write your answers in boxes 1-7 on your answer sheet.</p>
 <p>Street trees enhance urban areas by offering various ecological, financial, and societal (1) ……………</p>
 <p>Over time, the (2) ………………. sector has increasingly taken responsibility for street trees due to the privatization of communal spaces.</p>
 <p>Materials like asphalt and concrete contribute to the urban heat island phenomenon by absorbing and retaining solar (3) ………………….</p>
@@ -125,14 +181,14 @@ Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.
 <p>These trees provide shade, reducing the reliance on artificial (5) …………….. systems during warmer months.</p>
 <p>Acting as a protective (6) ………………. between pedestrians and moving vehicles, street trees reduce noise and offer a sense of safety.</p>
 <p>Ensuring street trees thrive involves choosing appropriate locations, providing high-grade (7) ……….. and shielding them from vandalism and adverse weather.</p>
-<p>Questions 8-13
+<p><strong>Questions 8-13</strong>
 
 Do the following statements agree with the information given in reading passage? In boxes 8-13 on your answer sheet, write</p>
-<p>TRUE                                  if the statement agrees with the information
+<p><strong>TRUE</strong>                                  if the statement agrees with the information
 
-FALSE                                if the statement contradicts the information
+<strong>FALSE</strong>                                if the statement contradicts the information
 
-NOT GIVEN                    if there is no information on this</p>
+<strong>NOT GIVEN</strong>                    if there is no information on this</p>
 <p>8. Privatisation has made it easier for local governments to manage street trees.
 
 9. Street trees can help to make people feel that they are in a unique location.
@@ -144,15 +200,15 @@ NOT GIVEN                    if there is no information on this</p>
 12. Some street trees have to be removed because they are diseased.
 
 13. The benefits of street trees outweigh the disadvantages.</p>
-<p>TECHNOLOGY IN EDUCATION: PROS AND CONS</p>
-<p>A Technology has transformed the way we live, work, communicate and play. It is also transforming the way we educate our children. In the past, schools were designed to teach children the skills they would need for a future that would be very similar to the present. However, now that technology is changing so rapidly, it is hard to predict what those skills will be. What we do know is that our students will need to be able to think creatively to find solutions to problems we can’t even imagine yet. In order to prepare them for this uncertain future, our schools are increasingly turning to technology in the classroom. But is this a good thing?</p>
-<p>B The benefits of using technology in the classroom are many. For example, technology allows students to personalise their learning. They can work at their own pace, go back to lessons they missed or didn’t understand the first time, and get extra practice if they need it. Technology also gives students access to a wide range of information and resources. They can use the Internet to research topics, watch videos, and read books and articles. This can help them to learn more about a subject and develop their understanding of it. Another benefit of technology is that it can help students to develop important skills. For example, using computers and other digital devices can help students to improve their typing and computer skills. These are skills that will be useful to them in their future studies and careers.</p>
-<p>C There are also some potential drawbacks to using technology in the classroom. One concern is that students may become too reliant on technology. If they are used to having everything they need at their fingertips, they may not be able to think for themselves or solve problems independently. Another concern is that students may be distracted by technology. If they are allowed to use their devices in class, they may be tempted to check social media or play games instead of paying attention to the lesson. There is also the risk that students may be exposed to inappropriate content online. If they are not supervised, they may come across material that is not suitable for their age group.</p>
-<p>D There are also concerns about the impact of technology on students’ health and well-being. Some studies have shown that too much screen time can lead to problems such as eye strain, headaches, and difficulty sleeping. There is also the risk that students may become isolated from their peers if they spend too much time on their devices. They may miss out on important social interactions and opportunities to develop their communication skills. In addition, there is the question of whether technology is actually improving students’ learning. Some studies have shown that students who use technology in the classroom do not perform any better than those who do not. In fact, in some cases, they may even do worse. This may be because they are not using the technology effectively, or because they are not being taught how to use it properly.</p>
-<p>E Despite these concerns, many schools are embracing technology and are finding ways to overcome the challenges it presents. One way they are doing this is by using technology to support traditional teaching methods, rather than replacing them. For example, teachers can use interactive whiteboards to display information and engage students in lessons. They can also use online resources to supplement their teaching and provide students with additional practice. Another way schools are overcoming the challenges of technology is by setting clear guidelines for its use. For example, they may have rules about when and how devices can be used in the classroom. They may also have policies in place to protect students from inappropriate content online.</p>
-<p>F In order to maximise the benefits of technology in the classroom, it is important for teachers to have the right skills and knowledge. They need to be able to use technology effectively and to integrate it into their teaching in a way that enhances students’ learning. This means that teachers need to have access to training and professional development opportunities. They also need to be supported by their schools and given the resources they need to use technology effectively. In addition, schools need to have the right infrastructure in place to support the use of technology. This includes having reliable Internet access and the right hardware and software.</p>
-<p>G In conclusion, technology has the potential to transform education and to improve students’ learning. However, it is important to recognise that it is not a magic solution to all of the challenges facing education today. In order to make the most of technology in the classroom, it is important to use it effectively and to integrate it into teaching in a way that supports students’ learning. Therefore, it is essential for teachers to possess appropriate skills and understanding, and for schools to provide the necessary infrastructure and support.</p>
-<p>Questions 14-20
+<p><strong>TECHNOLOGY IN EDUCATION: PROS AND CONS</strong></p>
+<p><strong>A</strong> Technology has transformed the way we live, work, communicate and play. It is also transforming the way we educate our children. In the past, schools were designed to teach children the skills they would need for a future that would be very similar to the present. However, now that technology is changing so rapidly, it is hard to predict what those skills will be. What we do know is that our students will need to be able to think creatively to find solutions to problems we can’t even imagine yet. In order to prepare them for this uncertain future, our schools are increasingly turning to technology in the classroom. But is this a good thing?</p>
+<p><strong>B</strong> The benefits of using technology in the classroom are many. For example, technology allows students to personalise their learning. They can work at their own pace, go back to lessons they missed or didn’t understand the first time, and get extra practice if they need it. Technology also gives students access to a wide range of information and resources. They can use the Internet to research topics, watch videos, and read books and articles. This can help them to learn more about a subject and develop their understanding of it. Another benefit of technology is that it can help students to develop important skills. For example, using computers and other digital devices can help students to improve their typing and computer skills. These are skills that will be useful to them in their future studies and careers.</p>
+<p><strong>C</strong> There are also some potential drawbacks to using technology in the classroom. One concern is that students may become too reliant on technology. If they are used to having everything they need at their fingertips, they may not be able to think for themselves or solve problems independently. Another concern is that students may be distracted by technology. If they are allowed to use their devices in class, they may be tempted to check social media or play games instead of paying attention to the lesson. There is also the risk that students may be exposed to inappropriate content online. If they are not supervised, they may come across material that is not suitable for their age group.</p>
+<p><strong>D</strong> There are also concerns about the impact of technology on students’ health and well-being. Some studies have shown that too much screen time can lead to problems such as eye strain, headaches, and difficulty sleeping. There is also the risk that students may become isolated from their peers if they spend too much time on their devices. They may miss out on important social interactions and opportunities to develop their communication skills. In addition, there is the question of whether technology is actually improving students’ learning. Some studies have shown that students who use technology in the classroom do not perform any better than those who do not. In fact, in some cases, they may even do worse. This may be because they are not using the technology effectively, or because they are not being taught how to use it properly.</p>
+<p><strong>E</strong> Despite these concerns, many schools are embracing technology and are finding ways to overcome the challenges it presents. One way they are doing this is by using technology to support traditional teaching methods, rather than replacing them. For example, teachers can use interactive whiteboards to display information and engage students in lessons. They can also use online resources to supplement their teaching and provide students with additional practice. Another way schools are overcoming the challenges of technology is by setting clear guidelines for its use. For example, they may have rules about when and how devices can be used in the classroom. They may also have policies in place to protect students from inappropriate content online.</p>
+<p><strong>F</strong> In order to maximise the benefits of technology in the classroom, it is important for teachers to have the right skills and knowledge. They need to be able to use technology effectively and to integrate it into their teaching in a way that enhances students’ learning. This means that teachers need to have access to training and professional development opportunities. They also need to be supported by their schools and given the resources they need to use technology effectively. In addition, schools need to have the right infrastructure in place to support the use of technology. This includes having reliable Internet access and the right hardware and software.</p>
+<p><strong>G</strong> In conclusion, technology has the potential to transform education and to improve students’ learning. However, it is important to recognise that it is not a magic solution to all of the challenges facing education today. In order to make the most of technology in the classroom, it is important to use it effectively and to integrate it into teaching in a way that supports students’ learning. Therefore, it is essential for teachers to possess appropriate skills and understanding, and for schools to provide the necessary infrastructure and support.</p>
+<p><strong>Questions 14-20</strong>
 
 Reading passage has seven paragraphs, A-G. Which paragraph contains the following information? Write the correct letter, A-G, in boxes 14-20 on your answer sheet. NB You may use any letter more than once</p>
 <p>14. examples of how technology can be used to help students learn
@@ -168,52 +224,52 @@ Reading passage has seven paragraphs, A-G. Which paragraph contains the followin
 19. the possibility of students coming across unsuitable material online
 
 20. the possibility of students not being able to sleep well</p>
-<p>Questions 21-23
+<p><strong>Questions 21-23</strong>
 
 Choose the correct letter, A, B, C or D.</p>
 <p>21. According to the writer, schools in the past
 
-A were not very different from schools today.
+<strong>A</strong> were not very different from schools today.
 
-B focused on teaching practical knowledge.
+<strong>B</strong> focused on teaching practical knowledge.
 
-C prepared students for their future lives.
+<strong>C</strong> prepared students for their future lives.
 
-D taught students how to predict the future.</p>
+<strong>D</strong> taught students how to predict the future.</p>
 <p>22. According to the writer, technology allows students to
 
-A work in a way that suits them.
+<strong>A</strong> work in a way that suits them.
 
-B learn more quickly than in the past.
+<strong>B</strong> learn more quickly than in the past.
 
-C develop better social skills.
+<strong>C</strong> develop better social skills.
 
-D learn to make better use of their time.</p>
+<strong>D</strong> learn to make better use of their time.</p>
 <p>23. According to the writer, some students may do worse than others if
 
-A they use technology too much.
+<strong>A</strong> they use technology too much.
 
-B they are not taught how to use technology.
+<strong>B</strong> they are not taught how to use technology.
 
-C they do not have access to technology.
+<strong>C</strong> they do not have access to technology.
 
-D They rely on technology without proper guidance.</p>
-<p>Questions 24-26
+<strong>D</strong> They rely on technology without proper guidance.</p>
+<p><strong>Questions 24-26</strong>
 
-Complete the summary below. Choose ONE WORD ONLY from the passage for each answer.</p>
-<p>OVERCOMING THE CHALLENGES OF TECHNOLOGY</p>
+Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+<p><strong>OVERCOMING THE CHALLENGES OF TECHNOLOGY</strong></p>
 <p>Schools are finding ways to overcome the challenges of technology. For example, they are using technology to
 
 (24) ………………. rather than replace traditional teaching methods. They are also setting guidelines for the use of technology in the classroom and putting (25) …………… in place to protect students from inappropriate content. In order to use technology effectively, teachers need to have access to training and (26) ……………. They also need to be supported by their schools and given the resources they need to use technology effectively.</p>
-<p>THE POWER OF THE PLACEBO EFFECT</p>
-<p>A The placebo effect is a well-documented phenomenon in which patients feel better after receiving a treatment that, in fact, has no active properties. In clinical trials, some patients are given experimental drugs, while others receive a placebo, often in the form of a sugar pill. The placebo effect is the term given to the fact that people often perceive an improvement in their condition, even though they are not actually receiving any medication with active ingredients.</p>
-<p>B The placebo effect has long been a target of scorn. The term ‘placebo’ was originally coined in the 13th century, when it was used to refer to hired mourners at a funeral. These ‘mourners’ were not performing a service for the deceased, but rather for the people who had paid them. Similarly, a placebo is a treatment that is not administered for the benefit of the patient, but rather for the benefit of the physician, who can tell the patient that he or she has received a treatment. In the 19th century, the term ‘placebo’ was used by physicians to refer to treatments that they believed were biologically inert, but which they administered anyway in order to please the patient.</p>
-<p>C In the 20th century, placebos became widely used as controls in scientific studies. In such studies, the experimental group receives the treatment being tested, while the control group receives a placebo. The placebo effect is then calculated by subtracting the effect of the placebo from the effect of the experimental treatment. The placebo effect is considered to be a nuisance variable, which must be controlled in order to get an accurate measure of the experimental treatment’s effectiveness. This is the way that the placebo effect has been viewed for most of the 20th century.</p>
-<p>D However, in the 1990s, a few medical researchers began to suggest that the placebo effect might be worthy of scientific investigation in its own right. One of the first studies to draw attention to the placebo effect was published in 1955 by H. K. Beecher, who was a prominent anaesthesiologist at Harvard Medical School. Beecher’s study, entitled ‘The Powerful Placebo’, did not present any new experimental findings, but rather was a review of 15 clinical trials in which both placebo and experimental treatments were given. Beecher found that across these studies, 35% of the patients were satisfactorily relieved of their symptoms by a placebo alone. Beecher concluded that placebos could have a powerful effect on a range of conditions, including angina pectoris, the common cold, and seasickness.</p>
-<p>E Beecher argued that the placebo effect is not just a result of patients believing in the treatment they are receiving, but also of the patient’s relationship with the physician. He pointed out that the physician’s attitude toward the treatment, the physician’s confidence in the treatment, and the physician’s enthusiasm for the treatment can all have an impact on the patient’s response to the treatment. The placebo effect has been shown to be particularly effective in the treatment of pain. In one study, patients with post-operative pain were given either a placebo or a painkiller. The patients who received the placebo reported a significant reduction in pain, and some even reported complete pain relief.</p>
-<p>F In another study, patients with irritable bowel syndrome were given either a placebo or no treatment at all. The patients who received the placebo reported a significant improvement in their symptoms, while those who received no treatment reported no improvement. The placebo effect has even been shown to have an impact on surgical outcomes. In one study, patients with osteoarthritis of the knee were randomly assigned to receive either arthroscopic surgery or a placebo surgery. In the placebo surgery, the patients were given an anaesthetic and incisions were made in their knees, but no actual surgery was performed. The patients who received the placebo surgery reported a significant improvement in their symptoms, and this improvement was comparable to the improvement reported by the patients who received the actual surgery.</p>
-<p>G The placebo effect is a complex phenomenon that is not fully understood. However, it is clear that the placebo effect is a real and powerful phenomenon that can have a significant impact on a range of conditions. The placebo effect is not just a result of patients believing in the treatment they are receiving, but also of the patient’s relationship with the physician. The placebo effect is a real, measurable, and powerful phenomenon that should be taken seriously by the medical community.</p>
-<p>Questions 27-33
+<p><strong>THE POWER OF THE PLACEBO EFFECT</strong></p>
+<p><strong>A</strong> The placebo effect is a well-documented phenomenon in which patients feel better after receiving a treatment that, in fact, has no active properties. In clinical trials, some patients are given experimental drugs, while others receive a placebo, often in the form of a sugar pill. The placebo effect is the term given to the fact that people often perceive an improvement in their condition, even though they are not actually receiving any medication with active ingredients.</p>
+<p><strong>B</strong> The placebo effect has long been a target of scorn. The term ‘placebo’ was originally coined in the 13th century, when it was used to refer to hired mourners at a funeral. These ‘mourners’ were not performing a service for the deceased, but rather for the people who had paid them. Similarly, a placebo is a treatment that is not administered for the benefit of the patient, but rather for the benefit of the physician, who can tell the patient that he or she has received a treatment. In the 19th century, the term ‘placebo’ was used by physicians to refer to treatments that they believed were biologically inert, but which they administered anyway in order to please the patient.</p>
+<p><strong>C</strong> In the 20th century, placebos became widely used as controls in scientific studies. In such studies, the experimental group receives the treatment being tested, while the control group receives a placebo. The placebo effect is then calculated by subtracting the effect of the placebo from the effect of the experimental treatment. The placebo effect is considered to be a nuisance variable, which must be controlled in order to get an accurate measure of the experimental treatment’s effectiveness. This is the way that the placebo effect has been viewed for most of the 20th century.</p>
+<p><strong>D</strong> However, in the 1990s, a few medical researchers began to suggest that the placebo effect might be worthy of scientific investigation in its own right. One of the first studies to draw attention to the placebo effect was published in 1955 by H. K. Beecher, who was a prominent anaesthesiologist at Harvard Medical School. Beecher’s study, entitled ‘The Powerful Placebo’, did not present any new experimental findings, but rather was a review of 15 clinical trials in which both placebo and experimental treatments were given. Beecher found that across these studies, 35% of the patients were satisfactorily relieved of their symptoms by a placebo alone. Beecher concluded that placebos could have a powerful effect on a range of conditions, including angina pectoris, the common cold, and seasickness.</p>
+<p><strong>E</strong> Beecher argued that the placebo effect is not just a result of patients believing in the treatment they are receiving, but also of the patient’s relationship with the physician. He pointed out that the physician’s attitude toward the treatment, the physician’s confidence in the treatment, and the physician’s enthusiasm for the treatment can all have an impact on the patient’s response to the treatment. The placebo effect has been shown to be particularly effective in the treatment of pain. In one study, patients with post-operative pain were given either a placebo or a painkiller. The patients who received the placebo reported a significant reduction in pain, and some even reported complete pain relief.</p>
+<p><strong>F</strong> In another study, patients with irritable bowel syndrome were given either a placebo or no treatment at all. The patients who received the placebo reported a significant improvement in their symptoms, while those who received no treatment reported no improvement. The placebo effect has even been shown to have an impact on surgical outcomes. In one study, patients with osteoarthritis of the knee were randomly assigned to receive either arthroscopic surgery or a placebo surgery. In the placebo surgery, the patients were given an anaesthetic and incisions were made in their knees, but no actual surgery was performed. The patients who received the placebo surgery reported a significant improvement in their symptoms, and this improvement was comparable to the improvement reported by the patients who received the actual surgery.</p>
+<p><strong>G</strong> The placebo effect is a complex phenomenon that is not fully understood. However, it is clear that the placebo effect is a real and powerful phenomenon that can have a significant impact on a range of conditions. The placebo effect is not just a result of patients believing in the treatment they are receiving, but also of the patient’s relationship with the physician. The placebo effect is a real, measurable, and powerful phenomenon that should be taken seriously by the medical community.</p>
+<p><strong>Questions 27-33</strong>
 
 Reading passage has seven paragraphs, A-G. Which paragraph contains the following information? Write the correct letter, A-G, in boxes 27-33 on your answer sheet. NB You may use any letter more than once.</p>
 <p>27. a reference to the origin of the word ‘placebo’
@@ -229,14 +285,14 @@ Reading passage has seven paragraphs, A-G. Which paragraph contains the followin
 32. a reference to a study which involved a drug treatment
 
 33. a suggestion that the placebo effect should be seen as a positive thing</p>
-<p>Questions 34-38
+<p><strong>Questions 34-38</strong>
 
 Do the following statements agree with the claims of the writer in reading passage? In boxes 34-38 on your answer sheet, write</p>
-<p>YES                                if the statement agrees with the views of the writer
+<p><strong>YES</strong>                                if the statement agrees with the views of the writer
 
-NO                                  if the statement contradicts the views of the writer
+<strong>NO</strong>                                  if the statement contradicts the views of the writer
 
-NOT GIVEN               if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>               if it is impossible to say what the writer thinks about this</p>
 <p>34. A placebo can produce both positive and negative effects.
 
 35. Placebos were first used in scientific studies in the 19th century.
@@ -246,28 +302,28 @@ NOT GIVEN               if it is impossible to say what the writer think
 37. Beecher’s study was the first to compare the effects of placebos with actual medical treatments.
 
 38. Beecher believed that a patient’s relationship with their physician could affect the outcome of treatment.</p>
-<p>Questions 39-40
+<p><strong>Questions 39-40</strong>
 
 Choose the correct letter, A, B, C or D.</p>
 <p>39. What is the writer’s main purpose in Reading Passage 3?
 
-A to highlight the differences between the placebo effect and actual medical treatments
+<strong>A</strong> to highlight the differences between the placebo effect and actual medical treatments
 
-B to provide support for those who believe that the placebo effect is a good thing
+<strong>B</strong> to provide support for those who believe that the placebo effect is a good thing
 
-C to argue that the placebo effect should be studied in more detail
+<strong>C</strong> to argue that the placebo effect should be studied in more detail
 
-D to present evidence that the placebo effect is a real phenomenon</p>
+<strong>D</strong> to present evidence that the placebo effect is a real phenomenon</p>
 <p>40. What would be the best subheading for this passage?
 
-A The placebo effect: a nuisance or a powerful healing tool?
+<strong>A</strong> The placebo effect: a nuisance or a powerful healing tool?
 
-B The placebo effect: the key to effective pain management?
+<strong>B</strong> The placebo effect: the key to effective pain management?
 
-C The placebo effect: a key to understanding the immune system?
+<strong>C</strong> The placebo effect: a key to understanding the immune system?
 
-D The placebo effect: the end of modern medicine as we know it?</p>
-<p>ANSWER KEY</p>
+<strong>D</strong> The placebo effect: the end of modern medicine as we know it?</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Benefits</p>
 <p>2. Private</p>
 <p>3. Surfaces</p>
@@ -526,6 +582,29 @@ D The placebo effect: the end of modern medicine as we know it?</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -545,12 +624,23 @@ D The placebo effect: the end of modern medicine as we know it?</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -562,14 +652,6 @@ D The placebo effect: the end of modern medicine as we know it?</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

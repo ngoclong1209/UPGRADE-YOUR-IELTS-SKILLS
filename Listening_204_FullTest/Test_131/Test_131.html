@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,28 +158,28 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_131</h1>
-            <p>IELTS Listening Practice - Test 131</p>
-<p>Part 1: Questions 1-5
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 131</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-5</strong>
 
-Complete the notes below. Write NO MORE THAN THREE WORDS OR A NUMBER.</p>
-<p>People Central New Potential Staff</p>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS OR A NUMBER.</strong></p>
+<h3 class="test-heading"><strong>People Central New Potential Staff</strong></h3>
 <p>Type of job desired: Accountancy</p>
-<p>Name: Mark (1)  _______ 
+<p>Name: Mark <strong>(1)</strong>  _______ 
 
 Address: 13 Wellington Street, South Brisbane, Queensland
 
 Postcode: 4101
 
-Date of birth: (2)  _______  May 1988
+Date of birth: <strong>(2)</strong>  _______  May 1988
 
-Email address: markc@ (3)  _______  now.com
+Email address: markc@ <strong>(3)</strong>  _______  now.com
 
-Telephone: Home – 0735547671, Cell – 0469153 (4)  _______ 
+Telephone: Home – 0735547671, Cell – 0469153 <strong>(4)</strong>  _______ 
 
-Preferred work area: The Brisbane area, within a drive of approximately (5)  _______  from home</p>
-<p>Questions 6-10
+Preferred work area: The Brisbane area, within a drive of approximately <strong>(5)</strong>  _______  from home</p>
+<p><strong>Questions 6-10</strong>
 
-Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.</p>
+Complete the sentences below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>6. Mark will send  _______  of his professional certificates to Sarah.
 
 7. Mark could happily travel to Gold Coast Printing by  _______  as well as by car.
@@ -133,38 +189,38 @@ Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.</p>
 9. Mark is worried about  _______  at a smaller company like the fishing company Barracuda.
 
 10. Mark will not need to pay a  _______  for any job placement.</p>
-<p>Part 2: Questions 11-17
+<p><strong>Part 2: Questions 11-17</strong>
 
-Complete the notes below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Sway Road Health Centre</p>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>Sway Road Health Centre</strong></p>
 <p>– Six full time doctors
 
-– Just over (11)  _______  patients
+– Just over <strong>(11)</strong>  _______  patients
 
 – 2 centres – Sway Road and Church Road</p>
-<p>Registering
+<p><strong>Registering</strong>
 
-• Come during opening hours; bring a (12)  _______  , proof of address (dated within 3 months of application) and medical card (or fill out a registration form). Staff will ask for your medical history and organize a (13)  _______  to be taken.</p>
-<p>Appointments – contact only by phone and not by (14)  _______  Call only during opening hours.</p>
-<p>Opening hours
+• Come during opening hours; bring a <strong>(12)</strong>  _______  , proof of address (dated within 3 months of application) and medical card (or fill out a registration form). Staff will ask for your medical history and organize a <strong>(13)</strong>  _______  to be taken.</p>
+<p><strong>Appointments</strong> – contact only by phone and not by <strong>(14)</strong>  _______  Call only during opening hours.</p>
+<p><strong>Opening hours</strong>
 
-• (15)  _______  am – 1 pm and 2 pm – 7 pm Monday to Friday
+• <strong>(15)</strong>  _______  am – 1 pm and 2 pm – 7 pm Monday to Friday
 
 • call only between 1 pm and 2 pm in an emergency
 
-• closed weekends and (16)  _______</p>
+• closed weekends and <strong>(16)</strong>  _______</p>
 <p>The best option for emergencies is to go to hospital or call an ambulance.</p>
-<p>Medical students – consultations with doctors or nurses may have a student present; there is no obligation to have student present</p>
-<p>Travel service – lots of vaccinations available. Complete a (17)  _______  at reception – available from reception or the website. The nurse will make vaccination recommendations. Get a vaccination card. Vaccinations to be paid for on the day of vaccination.</p>
-<p>Questions 18-20
+<p><strong>Medical students</strong> – consultations with doctors or nurses may have a student present; there is no obligation to have student present</p>
+<p><strong>Travel service</strong> – lots of vaccinations available. Complete a <strong>(17)</strong>  _______  at reception – available from reception or the website. The nurse will make vaccination recommendations. Get a vaccination card. Vaccinations to be paid for on the day of vaccination.</p>
+<p><strong>Questions 18-20</strong>
 
-Answer the questions below. Write NO MORE THAN THREE WORDS for each answer.</p>
+Answer the questions below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
 <p>18. Where is the suggestion box found at the health centre?  _______ 
 
 19. Who will deal with any complaints made?  _______ 
 
 20. What area is closed off during the open morning?  _______</p>
-<p>Part 3: Questions 21-25
+<p><strong>Part 3: Questions 21-25</strong>
 
 Match Kevin’s level of satisfaction (A-C) with the things related to his training days (questions 21-25)</p>
 <p>21. The hostel accommodation  _______ 
@@ -176,12 +232,12 @@ Match Kevin’s level of satisfaction (A-C) with the things related to his train
 24. Conference centre facilities  _______ 
 
 25. The other trainees  _______</p>
-<p>A Not satisfied
+<p><strong>A</strong> Not satisfied
 
-B Quite satisfied
+<strong>B</strong> Quite satisfied
 
-C Very satisfied</p>
-<p>Questions 26-30
+<strong>C</strong> Very satisfied</p>
+<p><strong>Questions 26-30</strong>
 
 Match Kevin’s problems over the weekend (A-J) with the solutions to the problems (questions 26-30)</p>
 <p>26. Kevin had to spend some of his off-work time at the office.  _______ 
@@ -193,64 +249,64 @@ Match Kevin’s problems over the weekend (A-J) with the solutions to the proble
 29. A bug got into the company’s computer systems.  _______ 
 
 30. The burglar alarm went off in the offices.  _______</p>
-<p>A Kevin bought replacement computers
+<p><strong>A</strong> Kevin bought replacement computers
 
-B More antivirus protection was needed
+<strong>B</strong> More antivirus protection was needed
 
-C Fixed by the company’s antivirus protection
+<strong>C</strong> Fixed by the company’s antivirus protection
 
-D Kevin gave a password to the security firm
+<strong>D</strong> Kevin gave a password to the security firm
 
-E Kevin’s boss sorted the problem out
+<strong>E</strong> Kevin’s boss sorted the problem out
 
-F Kevin received some extra holiday time
+<strong>F</strong> Kevin received some extra holiday time
 
-G Kevin hired a consultant
+<strong>G</strong> Kevin hired a consultant
 
-H Kevin ran an update
+<strong>H</strong> Kevin ran an update
 
-I Kevin called a friend from the training
+<strong>I</strong> Kevin called a friend from the training
 
-J Kevin was paid a good bonus</p>
-<p>Part 4: Questions 31 and 32
+<strong>J</strong> Kevin was paid a good bonus</p>
+<p><strong>Part 4: Questions 31 and 32</strong>
 
-Label the diagram below. Write NO MORE THAN ONE WORD for each answer.</p>
-<p>(31)  _______ 
+Label the diagram below. Write <strong>NO MORE THAN ONE WORD</strong> for each answer.</p>
+<p><strong>(31)</strong>  _______ 
 
-(32)  _______</p>
-<p>Questions 33-35
+<strong>(32)</strong>  _______</p>
+<p><strong>Questions 33-35</strong>
 
-Complete the notes below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>Atacama Desert and Rain Shadow</p>
-<p>The Atacama Large Millimetre Array</p>
-<p>Because the Atacama desert is so high and the sky overhead so clear, the Atacama Large Millimetre Array has been placed there. Made up of 66 antennas, its high resolution images will allow study of the earliest galaxies and the (33)  _______  of our galaxy’s planets. The ALMA is 100 times more powerful than previous similar telescopes.</p>
-<p>The Atacama Desert</p>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>Atacama Desert and Rain Shadow</strong></p>
+<p><strong>The Atacama Large Millimetre Array</strong></p>
+<p>Because the Atacama desert is so high and the sky overhead so clear, the Atacama Large Millimetre Array has been placed there. Made up of 66 antennas, its high resolution images will allow study of the earliest galaxies and the <strong>(33)</strong>  _______  of our galaxy’s planets. The ALMA is 100 times more powerful than previous similar telescopes.</p>
+<p><strong>The Atacama Desert</strong></p>
 <p>Northern 1/3 of Chile – 100 km up to the border of Peru.
 
-Barrier of (34)  _______  in the west and the Andes in the east.
+Barrier of <strong>(34)</strong>  _______  in the west and the Andes in the east.
 
 Average elevation is 4000 m (the highest desert in the world).
 
 Temperatures average between 0 and -25 degree Celsius.</p>
-<p>Flora and Fauna</p>
-<p>Some life exists – local populations use some plants for (35)  _______ 
+<p><strong>Flora and Fauna</strong></p>
+<p>Some life exists – local populations use some plants for <strong>(35)</strong>  _______ 
 
 Animal life is rare, but there are some reptiles, mice and foxes.</p>
-<p>Questions 36-40
+<p><strong>Questions 36-40</strong>
 
-Complete the notes below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Natural resources and agriculture</p>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>Natural resources and agriculture</strong></p>
 <p>The Atacama was Chile’s main source of income pre-World War 1.</p>
-<p>Chile possessed a (36)  _______  on the nitrate trade. Mines abandoned after synthetic nitrate was invented in Germany.</p>
-<p>Other minerals are mined in the Atacama – 30% of world’s (37)  _______  is mined in the Atacama and Sulphur is also extracted; these resources caused conflict with Bolivia.</p>
+<p>Chile possessed a <strong>(36)</strong>  _______  on the nitrate trade. Mines abandoned after synthetic nitrate was invented in Germany.</p>
+<p>Other minerals are mined in the Atacama – 30% of world’s <strong>(37)</strong>  _______  is mined in the Atacama and Sulphur is also extracted; these resources caused conflict with Bolivia.</p>
 <p>Very little agriculture because of the lack of water. Some lemons, potatoes and alfalfa.</p>
-<p>Tourism</p>
+<p><strong>Tourism</strong></p>
 <p>Now a major income source.</p>
-<p>Volcanoes, geysers, lagoons etc. attract holiday-makers and (38)  _______</p>
-<p>Visitors need education to understand the (39)  _______  of the environment.</p>
+<p>Volcanoes, geysers, lagoons etc. attract holiday-makers and <strong>(38)</strong>  _______</p>
+<p>Visitors need education to understand the <strong>(39)</strong>  _______  of the environment.</p>
 <p>Urbanization and mining have caused problems.</p>
-<p>Some farming of natural plants of the Atacama is done, interrupting their (40)  _______</p>
-<p>ANSWER KEY</p>
+<p>Some farming of natural plants of the Atacama is done, interrupting their <strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. castle</p>
 <p>2. 30</p>
 <p>3. Australia</p>
@@ -509,6 +565,29 @@ Complete the notes below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for ea
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -528,12 +607,23 @@ Complete the notes below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for ea
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -545,14 +635,6 @@ Complete the notes below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for ea
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

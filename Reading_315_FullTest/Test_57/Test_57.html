@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,21 +158,21 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_57</h1>
-            <p>IELTS Reading Practice - Test 57</p>
-<p>ADAM’S WINE</p>
-<p>A Water is the giver and, at the same time, the taker of life. It covers most of the surface of the planet we live on and features large in the development of the human race. On present predictions, it is an element that is set to assume even greater significance.</p>
-<p>B Throughout history, water has had a huge impact on our lives. Humankind has always had a rather ambiguous relationship with water, on the one hand receiving enormous benefit from it, not just as a drinking source, but as a provider of food and a means whereby to travel and to trade. But forced to live close to water in order to survive and to develop, the relationship has not always been peaceful or beneficial. In fact, it has been quite the contrary. What has essentially been a necessity for survival has turned out in many instances to have a very destructive and life-threatening side.</p>
-<p>C Through the ages, great floods alternated with long periods of drought have assaulted people and their environment, hampering their fragile fight for survival. The dramatic changes to the environment that are now a feature of our daily news are not exactly new: fields that were once lush and fertile are now barren; lakes and rivers that were once teeming with life are now long gone; savannah has been turned to desert. What perhaps is new is our naive wonder when faced with the forces of nature.</p>
-<p>D Today, we are more aware of climatic changes around the world. Floods in far-flung places are instant hews for the whole world. Perhaps these events make us feel better as we face the destruction of our own property by floods and other natural disasters.</p>
-<p>E In 2002, many parts of Europe suffered severe flood damage running into billions of euros. Properties across the continent collapsed into the sea as waves pounded the coastline wreaking havoc with sea defences. But it was not just the seas. Rivers swollen by heavy rains and by the effects of deforestation carried large volumes of water that wrecked many communities.</p>
-<p>F Building stronger and more sophisticated river defences against flooding is the expensive short-term answer. There are simpler ways. Planting trees in highland areas, not just in Europe but in places like the Himalayas, to protect people living in low-lying regions like the Ganges Delta, is a cheaper and more attractive solution. Progress is already being made in convincing countries that the emission of carbon dioxide and other greenhouse gases is causing considerable damage to the environment. But more effort is needed in this direction.</p>
-<p>G And the future? If we are to believe the forecasts, it is predicted that two-thirds of the world population will be without fresh water by 2025. But for a growing number of regions of the world the future is already with us. While some areas are devastated by flooding, scarcity of water in many other places is causing conflict. The state of Texas in the United States of America is suffering a shortage of water with the Rio Grande failing to reach the Gulf of Mexico for the first time in 50 years in the spring of 2002, pitting region against region as they vie for water sources. With many parts of the globe running dry through drought and increased water consumption, there is now talk of water being the new oil.</p>
-<p>H Other doom-laden estimates suggest that, while tropical areas will become drier and uninhabitable, coastal regions and some low-lying islands will in all probability be submerged by the sea as the polar ice caps melt. Popular exotic destinations now visited by countless tourists will become no-go areas. Today’s holiday hotspots of southern Europe and elsewhere will literally become hotspots – too hot to live in or visit. With the current erratic behaviour of the weather, it is difficult not to subscribe to such despair.</p>
-<p>I Some might say that this despondency is ill-founded, but we have had ample proof that there is something not quite right with the climate. Many parts of the world have experienced devastating flooding. As the seasons revolve, the focus of the destruction moves from one continent to another. The impact on the environment is alarming and the cost to life depressing. It is a picture to which we will need to become accustomed.</p>
-<p>Questions 1-8
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 57</strong></h3>
+<h3 class="test-heading"><strong>ADAM’S WINE</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Water is the giver and, at the same time, the taker of life. It covers most of the surface of the planet we live on and features large in the development of the human race. On present predictions, it is an element that is set to assume even greater significance.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> Throughout history, water has had a huge impact on our lives. Humankind has always had a rather ambiguous relationship with water, on the one hand receiving enormous benefit from it, not just as a drinking source, but as a provider of food and a means whereby to travel and to trade. But forced to live close to water in order to survive and to develop, the relationship has not always been peaceful or beneficial. In fact, it has been quite the contrary. What has essentially been a necessity for survival has turned out in many instances to have a very destructive and life-threatening side.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> Through the ages, great floods alternated with long periods of drought have assaulted people and their environment, hampering their fragile fight for survival. The dramatic changes to the environment that are now a feature of our daily news are not exactly new: fields that were once lush and fertile are now barren; lakes and rivers that were once teeming with life are now long gone; savannah has been turned to desert. What perhaps is new is our naive wonder when faced with the forces of nature.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> Today, we are more aware of climatic changes around the world. Floods in far-flung places are instant hews for the whole world. Perhaps these events make us feel better as we face the destruction of our own property by floods and other natural disasters.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> In 2002, many parts of Europe suffered severe flood damage running into billions of euros. Properties across the continent collapsed into the sea as waves pounded the coastline wreaking havoc with sea defences. But it was not just the seas. Rivers swollen by heavy rains and by the effects of deforestation carried large volumes of water that wrecked many communities.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> Building stronger and more sophisticated river defences against flooding is the expensive short-term answer. There are simpler ways. Planting trees in highland areas, not just in Europe but in places like the Himalayas, to protect people living in low-lying regions like the Ganges Delta, is a cheaper and more attractive solution. Progress is already being made in convincing countries that the emission of carbon dioxide and other greenhouse gases is causing considerable damage to the environment. But more effort is needed in this direction.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> And the future? If we are to believe the forecasts, it is predicted that two-thirds of the world population will be without fresh water by 2025. But for a growing number of regions of the world the future is already with us. While some areas are devastated by flooding, scarcity of water in many other places is causing conflict. The state of Texas in the United States of America is suffering a shortage of water with the Rio Grande failing to reach the Gulf of Mexico for the first time in 50 years in the spring of 2002, pitting region against region as they vie for water sources. With many parts of the globe running dry through drought and increased water consumption, there is now talk of water being the new oil.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>H</strong> Other doom-laden estimates suggest that, while tropical areas will become drier and uninhabitable, coastal regions and some low-lying islands will in all probability be submerged by the sea as the polar ice caps melt. Popular exotic destinations now visited by countless tourists will become no-go areas. Today’s holiday hotspots of southern Europe and elsewhere will literally become hotspots – too hot to live in or visit. With the current erratic behaviour of the weather, it is difficult not to subscribe to such despair.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p><strong>I</strong> Some might say that this despondency is ill-founded, but we have had ample proof that there is something not quite right with the climate. Many parts of the world have experienced devastating flooding. As the seasons revolve, the focus of the destruction moves from one continent to another. The impact on the environment is alarming and the cost to life depressing. It is a picture to which we will need to become accustomed.</p></div></div>
+<p><strong>Questions 1-8</strong>
 Reading Passage 1 has eight paragraphs labelled A-I.
 Choose the most suitable headings for paragraphs B-I from the list of headings below.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i Environmental change has always been with us
 ii The scarcity of water
 iii Rivers and seas cause damage
@@ -138,45 +194,45 @@ xiii A pessimistic view of the future</p>
 6 Paragraph G
 7 Paragraph H
 8 Paragraph I</p>
-<p>Questions 9-15
+<p><strong>Questions 9-15</strong>
 Choose the appropriate letters A-D and write them in boxes 9-15 on your answer sheet.</p>
 <p>9 The writer believes that water
-A is gradually becoming of greater importance
-B will have little impact on our lives in future
-C is something we will need more than anything else
-D will have even greater importance in our lives in the future</p>
+<strong>A</strong> is gradually becoming of greater importance
+<strong>B</strong> will have little impact on our lives in future
+<strong>C</strong> is something we will need more than anything else
+<strong>D</strong> will have even greater importance in our lives in the future</p>
 <p>10 Humankind’s relationship with water has been
-A two-sided
-B one-sided
-C purely one of great benefit
-D fairly frightening</p>
+<strong>A</strong> two-sided
+<strong>B</strong> one-sided
+<strong>C</strong> purely one of great benefit
+<strong>D</strong> fairly frightening</p>
 <p>11 The writer suggests that
-A we are in awe of the news we read and see on TV every day.
-B change to the environment leaves us speechless.
-C we should not be in awe of the news we read and see on TV every day.
-D our surprise at the environmental change brought about by nature is something new.</p>
+<strong>A</strong> we are in awe of the news we read and see on TV every day.
+<strong>B</strong> change to the environment leaves us speechless.
+<strong>C</strong> we should not be in awe of the news we read and see on TV every day.
+<strong>D</strong> our surprise at the environmental change brought about by nature is something new.</p>
 <p>12 According to the text, planting trees
-A has to be co-ordinated internationally.
-B is more expensive than building sea and river defences.
-C is a less expensive answer to flooding than building river defences.
-D is not an answer to the problem of flooding in all regions.</p>
+<strong>A</strong> has to be co-ordinated internationally.
+<strong>B</strong> is more expensive than building sea and river defences.
+<strong>C</strong> is a less expensive answer to flooding than building river defences.
+<strong>D</strong> is not an answer to the problem of flooding in all regions.</p>
 <p>13 By 2025, it is projected that
-A at least half the world population will have fresh water.
-B the majority of the world population will have fresh water.
-C one-third of the world population will have fresh water.
-D fresh water will only be available to half of the world population.</p>
+<strong>A</strong> at least half the world population will have fresh water.
+<strong>B</strong> the majority of the world population will have fresh water.
+<strong>C</strong> one-third of the world population will have fresh water.
+<strong>D</strong> fresh water will only be available to half of the world population.</p>
 <p>14 According to the text, in the future low-lying islands
-A will still be habitable
-B will not be under water
-C are likely to be under water
-D will probably not be under water</p>
+<strong>A</strong> will still be habitable
+<strong>B</strong> will not be under water
+<strong>C</strong> are likely to be under water
+<strong>D</strong> will probably not be under water</p>
 <p>15 According to the writer,
-A people do not need to get used to environmental damage.
-B people will need to get used to climate changes that cause environmental damage.
-C people are now more used to environmental damage than they have been in the past.
-D the general despondency about environmental changes is ill-founded.</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>Reading Passage 2</p>
+<strong>A</strong> people do not need to get used to environmental damage.
+<strong>B</strong> people will need to get used to climate changes that cause environmental damage.
+<strong>C</strong> people are now more used to environmental damage than they have been in the past.
+<strong>D</strong> the general despondency about environmental changes is ill-founded.</p>
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>Reading Passage 2</strong></p>
 <p>Is it any wonder that there are teacher shortages? Daily, the press carries reports of schools going on four-day weeks simply because they cannot recruit enough teachers. But why? There is no straightforward answer. For a start, fewer students are entering teacher-training courses when they leave school. But can you blame young people after the barracking faced by the teaching profession in the UK over the last decade? The attack, relentless in the extreme, has been on several fronts. Government inspectors, by accident or design, have been feeding the media a constant stream of negative information about the teaching establishments in this country. Teachers also come in for a lot of flak from politicians. And the government wonders why there are problems in schools.</p>
 <p>The government’s obvious contempt for the teaching profession was recently revealed by one of the most powerful people in government when she referred to schools as ‘bog standard comprehensives’. Hardly the sort of comment to inspire parents or careers advisers seeking to direct young people’s future. Would you want to spend your working life in a dead-end profession? The government doesn’t seem to want you to either.</p>
 <p>On the administrative side, most teachers are weighed down by an increasing flow of bureaucracy. Cynicism would have me believe that this stops teachers from fomenting dissent as they are worn out by useless administrative exercises. Most teachers must then also be cynics!</p>
@@ -185,17 +241,17 @@ D the general despondency about environmental changes is ill-founded.</p>
 <p>It might also be a good idea for the relevant ministers to go on a fact-finding mission and find out from teachers in schools, rather than relying overmuch on advisers, as to what changes could be brought about to improve the quality of the education service. Initiatives in the educational’ field surprisingly come from either politicians who know little about classroom practice or educational theorists who know even less, but are more dangerous because they work in the rarefied air of universities largely ignorant of classroom practice.</p>
 <p>Making sure that nobody without recent classroom experience is employed as a teacher-trainer at any tertiary institution would further enhance the teaching profession. If someone does not have practical experience in the classroom, they cannot in all seriousness propound theories about it. Instead of being given sabbaticals to write books or papers, lecturers in teacher-training establishments should be made to spend a year at the blackboard or, these days, the whiteboard. This would give them practical insights into current classroom practice. Student teachers could then be given the chance to come and watch the specialists in the classroom: a much more worthwhile experience than the latter sitting thinking up ideas far removed from the classroom. Then we would have fewer initiatives like the recent government proposal to teach thinking in school. Prima facie, this is a laudable recommendation. But, as any practising teacher will tell you, this is done in every class. Perhaps someone needs to point out to the academic who thought up the scheme that the wheel has been around for some time.</p>
 <p>In the educational field, there is surprisingly constant tension between the educational theorists and government officials on the one hand, who would like to see teachers marching in unison to some greater Utopian abstraction and, on the other, practising teachers. Any experienced classroom practitioner knows that the series of initiatives on teaching and learning that successive governments have tried to foist on schools and colleges do not work.</p>
-<p>Questions 16-22
+<p><strong>Questions 16-22</strong>
 Complete the summary below of the first four paragraphs of Reading Passage 2.
-Choose ONE WORD ONLY from the passage for each answer.
+Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.
 Write your answers in boxes 16-22 on your answer sheet.</p>
 <p>Is it surprising that there is a (16) ……………….. of teachers? Schools do not have enough teachers, but what are the reasons for this? To begin with, fewer students are going into (17) ……………….. after finishing school. But this is not young people’s fault. The (18) ……………….. of teaching has been under constant attack over the last ten years. The government’s lack of respect for the profession is (19) ……………….. Moreover, administratively, the flow of bureaucracy is (20) ……………….. Even pupils in schools have no respect for those who teach them, as a (21) ……………….. series of assaults on teachers shows. The growing strain and stress means that, as well as fewer applications for teacher-training courses, teachers who have experience and are (22) ……………….. are also being driven out.</p>
-<p>Questions 23-29
+<p><strong>Questions 23-29</strong>
 Do the following statements agree with the information given in Reading Passage 2?
 In boxes 23-29 on your answer sheet, write</p>
-<p>YES                          if the statement agrees with the claims of the writer
-NO                           if the statement contradicts the claims of the writer
-NOT GIVEN        if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                          if the statement agrees with the claims of the writer
+<strong>NO</strong>                           if the statement contradicts the claims of the writer
+<strong>NOT GIVEN</strong>        if it is impossible to say what the writer thinks about this</p>
 <p>23 More students are entering teacher-training courses.
 24 The government is right to be surprised that there are problems in schools.
 25 Teachers are too weighed down by administrative duties to stir up trouble.
@@ -203,14 +259,14 @@ NOT GIVEN        if it is impossible to say what the writer thinks about thi
 27 Politicians are not as dangerous as educational theorists, who know even less than the former about educational theory.
 28 Any experienced classroom practitioner knows that the initiatives on teaching and learning that governments have tried to impose on schools do not work.
 29 The government’s attitude with regard to teachers is of great interest to the general public.</p>
-<p>Question 30
+<p><strong>Question 30</strong>
 Choose the appropriate letter A-D and write it in box 30 on your answer sheet.</p>
 <p>30 Which one of the following is the most suitable title for the passage?
-A Politicians and teachers
-B A profession undervalued
-C Recruitment difficulties in the teaching profession
-D Teacher-training needs improvement</p>
-<p>Three Pieces Plus…</p>
+<strong>A</strong> Politicians and teachers
+<strong>B</strong> A profession undervalued
+<strong>C</strong> Recruitment difficulties in the teaching profession
+<strong>D</strong> Teacher-training needs improvement</p>
+<p><strong>Three Pieces Plus…</strong></p>
 <p>In one corner of the room is a mass of tangled rope suspended from the ceiling with some sections dangling to the floor; the first of three encountered pieces of work that have a resounding impact on the viewing public.</p>
 <p>It stops one in one’s tracks: how dare it be there – this mess of nothing! It is like arranged chaos: that is, the confused mixture of varying sizes of rope, dipped in latex, looks as though it might collapse in a heap on the floor at any moment. At the same time, it is held up and in place by a series of fine wires and hooks, giving it a strange sense of … order.</p>
 <p>A deliberate challenge to the forces of gravity. It is a shambles. It makes one laugh. It is play. It is drawing in the air! Maybe it can move or dance about! Yet, it is hardly there, like something imagined.</p>
@@ -224,42 +280,42 @@ D Teacher-training needs improvement</p>
 <p>Hesse’s work is much more ambiguous and funny than some rather literal readings would have us believe. Perhaps it is precisely because her use of metaphor in her work is so subtle that it escapes the one-line definitions we so love to employ.</p>
 <p>We are now, more than ever, hungry for the cult of ‘personality’. While Hesse and others before and since can more than fill that demand, we seem in danger of focusing on the life of the artist and not on the life of the art.</p>
 <p>When looking at Hesse’s sculpture, drawings and paintings, the most interesting and challenging aspects lie just there – within the work. And this must be the starting point for any interpretation, not her complex life or untimely death.</p>
-<p>Questions 31-36
+<p><strong>Questions 31-36</strong>
 Do the following statements agree with the information given in Reading Passage 3?
 In boxes 31-36 on your answer sheet, write</p>
-<p>YES                         if the statement agrees with the claims of the writer
-NO                          if the statement contradicts the claims of the writer
-NOT GIVEN       if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                         if the statement agrees with the claims of the writer
+<strong>NO</strong>                          if the statement contradicts the claims of the writer
+<strong>NOT GIVEN</strong>       if it is impossible to say what the writer thinks about this</p>
 <p>31 The first piece of Hesse’s art has little effect on visitors to the gallery.
 32 The order inherent in the first piece of Hesse’s art is essential to the understanding of her work.
 33 The second piece of art by Hesse is inferior in several significant ways to the first.
 34 The second piece by Hesse has several design faults that attract the public.
 35 The third piece of work arouses different emotions.
 36 Of the three pieces of Hesse’s work described, the first is the writer’s favourite.</p>
-<p>Question 37-40
+<p><strong>Question 37-40</strong>
 Choose the appropriate letter A-D and write it in box 30 on your answer sheet.</p>
 <p>37 According to the writer, Eva Hesse
-A is not a well-known artist
-B is very familiar, as is her work
-C is not a good artist
-D is strongly attracted by visual language</p>
+<strong>A</strong> is not a well-known artist
+<strong>B</strong> is very familiar, as is her work
+<strong>C</strong> is not a good artist
+<strong>D</strong> is strongly attracted by visual language</p>
 <p>38 The writer concludes that
-A Hesse’s work is timeless
-B the understanding of Hesse’s work has until recently been interpreted only in the context of its time
-C Hesse’s work is a product of her time and is not relevant to the modern world
-D Hesse’s work is easy to read</p>
+<strong>A</strong> Hesse’s work is timeless
+<strong>B</strong> the understanding of Hesse’s work has until recently been interpreted only in the context of its time
+<strong>C</strong> Hesse’s work is a product of her time and is not relevant to the modern world
+<strong>D</strong> Hesse’s work is easy to read</p>
 <p>39 The writer thinks that it is ……………… to define Hesse’s work.
-A not difficult
-B essential
-C not important
-D not easy</p>
+<strong>A</strong> not difficult
+<strong>B</strong> essential
+<strong>C</strong> not important
+<strong>D</strong> not easy</p>
 <p>40 In the present climate,
-A we may lose sight of Hesse’s art and focus on her life.
-B personality is very important.
-C art cults are in vogue.
-D we may lose sight of Hesse’s life and focus on her art.</p>
+<strong>A</strong> we may lose sight of Hesse’s art and focus on her life.
+<strong>B</strong> personality is very important.
+<strong>C</strong> art cults are in vogue.
+<strong>D</strong> we may lose sight of Hesse’s life and focus on her art.</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. x</p>
 <p>2. i</p>
 <p>3. v</p>
@@ -518,6 +574,29 @@ D we may lose sight of Hesse’s life and focus on her art.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -537,12 +616,23 @@ D we may lose sight of Hesse’s life and focus on her art.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -554,14 +644,6 @@ D we may lose sight of Hesse’s life and focus on her art.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,133 +158,133 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_109</h1>
-            <p>IELTS Listening Practice - Test 109</p>
-<p>Part 1: Questions 1-7
-Complete the notes below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
-<p>University Geography Field Trip
-Time: next week</p>
-<p>Destination: the Warrangamba dam and (1)  _______ 
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 109</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-7</strong>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<h3 class="test-heading"><strong>University Geography Field Trip</strong>
+Time: next week</h3>
+<p>Destination: the Warrangamba dam and <strong>(1)</strong>  _______ 
 Matching course: Environmental science
-Departing time of coach: at (2)  _______  next Monday
-Length of journey there: (3)  _______  roughly and three hours back
-First day’s activity: (4)  _______ 
-Spending the night: in (5)  _______ 
-Meals provided: in the form of (6)  _______ 
-Sydney’s daily water consumption: equal to water to fill (7)  _______  full size Olympic swimming pools
+Departing time of coach: at <strong>(2)</strong>  _______  next Monday
+Length of journey there: <strong>(3)</strong>  _______  roughly and three hours back
+First day’s activity: <strong>(4)</strong>  _______ 
+Spending the night: in <strong>(5)</strong>  _______ 
+Meals provided: in the form of <strong>(6)</strong>  _______ 
+Sydney’s daily water consumption: equal to water to fill <strong>(7)</strong>  _______  full size Olympic swimming pools
 Second day’s activity: go to the water plant to see how to purify the water for drinking</p>
-<p>Questions 8-10
-Choose THREE letters A-F.</p>
-<p>Which THREE things does Cesar recommend bringing?
-[ ]  A binoculars
-[ ]  B camera
-[ ]  C penknife
-[ ]  D map
-[ ]  E raincoat
-[ ]  F mobile phone</p>
-<p>Part 2: Questions 11-15
-Complete the sentences below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
+<p><strong>Questions 8-10</strong>
+Choose <strong>THREE</strong> letters A-F.</p>
+<p>Which <strong>THREE</strong> things does Cesar recommend bringing?
+<strong>[ ] </strong><strong> A</strong> binoculars
+<strong>[ ] </strong><strong> B</strong> camera
+<strong>[ ] </strong><strong> C</strong> penknife
+<strong>[ ] </strong><strong> D</strong> map
+<strong>[ ] </strong><strong> E</strong> raincoat
+<strong>[ ] </strong><strong> F</strong> mobile phone</p>
+<p><strong>Part 2: Questions 11-15</strong>
+Complete the sentences below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
 <p>11. The last programme in the present series is  _______ 
 12. Miss Patty Ching has been rewarded as ‘Consumer of  _______  ’ for her persistent effort to see through a result of a complaint.
 13. She took  _______  of photographs on her tour in Europe.
 14. What happened to her photos after she gave them to Top-class photo services for developing?  _______ 
 15. The photo services compensated her  _______  for the loss in the end.</p>
-<p>Questions 16-20
+<p><strong>Questions 16-20</strong>
 Choose the correct letter A, B, C or D.</p>
 <p>16. What is the problem that many listeners write about?
-[ ]  A sale prices
-[ ]  B bad quality stuff
-[ ]  C faulty goods
-[ ]  D bad assistant</p>
+<strong>[ ] </strong><strong> A</strong> sale prices
+<strong>[ ] </strong><strong> B</strong> bad quality stuff
+<strong>[ ] </strong><strong> C</strong> faulty goods
+<strong>[ ] </strong><strong> D</strong> bad assistant</p>
 <p>17. How much was the sale price of the belt that Mr. Alvin liked?
-[ ]  A $200
-[ ]  B $100
-[ ]  C $150
-[ ]  D $300</p>
+<strong>[ ] </strong><strong> A</strong> $200
+<strong>[ ] </strong><strong> B</strong> $100
+<strong>[ ] </strong><strong> C</strong> $150
+<strong>[ ] </strong><strong> D</strong> $300</p>
 <p>18. Why should the consumer make a complaint about bad articles or service?
-[ ]  A to cause a fuss
-[ ]  B it won’t do what is claimed for
-[ ]  C ask the shopkeeper for a favour
-[ ]  D the shopkeeper should be responsible for it</p>
+<strong>[ ] </strong><strong> A</strong> to cause a fuss
+<strong>[ ] </strong><strong> B</strong> it won’t do what is claimed for
+<strong>[ ] </strong><strong> C</strong> ask the shopkeeper for a favour
+<strong>[ ] </strong><strong> D</strong> the shopkeeper should be responsible for it</p>
 <p>19. What should a consumer do when complaining in person?
-[ ]  A get a receipt for what you buy
-[ ]  B speak to someone in authority
-[ ]  C talk directly to the assistant
-[ ]  D ask to see the seller</p>
+<strong>[ ] </strong><strong> A</strong> get a receipt for what you buy
+<strong>[ ] </strong><strong> B</strong> speak to someone in authority
+<strong>[ ] </strong><strong> C</strong> talk directly to the assistant
+<strong>[ ] </strong><strong> D</strong> ask to see the seller</p>
 <p>20. What should a customer do when complaining on the phone?
-[ ]  A speak directly to the owner
-[ ]  B ask for the manager
-[ ]  C write a complaining letter
-[ ]  D find out with whom you discuss the matter</p>
-<p>Part 3: Questions 21 and 22
-Complete the notes below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Student record card</p>
+<strong>[ ] </strong><strong> A</strong> speak directly to the owner
+<strong>[ ] </strong><strong> B</strong> ask for the manager
+<strong>[ ] </strong><strong> C</strong> write a complaining letter
+<strong>[ ] </strong><strong> D</strong> find out with whom you discuss the matter</p>
+<p><strong>Part 3: Questions 21 and 22</strong>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>Student record card</strong></p>
 <p>Name: David Simons
 Address: 15 Market Ave. Hornsby
-Student number: (21)  _______</p>
+Student number: <strong>(21)</strong>  _______</p>
 <p>Prerequisites completed
 Screen studies course: YES
 18 credit points: NO
-If no, reasons: (22)  _______</p>
-<p>Question 23
-Complete the notes below. Write TWO DATES for the answer.</p>
+If no, reasons: <strong>(22)</strong>  _______</p>
+<p><strong>Question 23</strong>
+Complete the notes below. Write <strong>TWO DATES</strong> for the answer.</p>
 <p>23. The final date of the examination should be  _______</p>
-<p>Questions 24 and 25
+<p><strong>Questions 24 and 25</strong>
 Choose the correct letter A-D.</p>
 <p>24. Dr. Richardson explains that the set exercises
-[ ]  A required reference to a wide range of resources
-[ ]  B should be at least 250 words in length
-[ ]  C focus on key terms and concepts in media studies
-[ ]  D do not have answers</p>
+<strong>[ ] </strong><strong> A</strong> required reference to a wide range of resources
+<strong>[ ] </strong><strong> B</strong> should be at least 250 words in length
+<strong>[ ] </strong><strong> C</strong> focus on key terms and concepts in media studies
+<strong>[ ] </strong><strong> D</strong> do not have answers</p>
 <p>25. Dr. Richardson explains that essays 1 and 2
-[ ]  A are to be the same length
-[ ]  B should both be analytical
-[ ]  C both emphasise studies of audiences
-[ ]  D should be especially easy for David</p>
-<p>Questions 26-28
-Complete the table by writing ONE or TWO appropriate letters (M, T, A or J) as explained below.</p>
-<p>Mechanical M
-Theoretical T
-Analytical A
-Journalistic J</p>
+<strong>[ ] </strong><strong> A</strong> are to be the same length
+<strong>[ ] </strong><strong> B</strong> should both be analytical
+<strong>[ ] </strong><strong> C</strong> both emphasise studies of audiences
+<strong>[ ] </strong><strong> D</strong> should be especially easy for David</p>
+<p><strong>Questions 26-28</strong>
+Complete the table by writing <strong>ONE</strong> or <strong>TWO</strong> appropriate letters (M, T, A or J) as explained below.</p>
+<p>Mechanical <strong>M</strong>
+Theoretical <strong>T</strong>
+Analytical <strong>A</strong>
+Journalistic <strong>J</strong></p>
 <p>How does Dr. Richardson describe each of the following?</p>
-<p>Assignments Description</p>
-<p>Set exercises (26)  _______</p>
-<p>Assignment 1 (27)  _______</p>
+<p><strong>Assignments Description</strong></p>
+<p>Set exercises <strong>(26)</strong>  _______</p>
+<p>Assignment 1 <strong>(27)</strong>  _______</p>
 <p>Assignment 2 A</p>
-<p>Assignment 3 (28)  _______</p>
-<p>Questions 29
+<p>Assignment 3 <strong>(28)</strong>  _______</p>
+<p><strong>Questions 29</strong>
 Choose the correct answer.</p>
 <p>29. Which two time slots does Dr. Richardson suggest David use for his essay?
-[ ]  A six o’clock and midmorning
-[ ]  B breakfast and six o’clock
-[ ]  C midmorning and midnight
-[ ]  D midday and ten o’clock</p>
-<p>Question 30
-Answer the question below. Write NO MORE THAN THREE WORDS for the answer.</p>
+<strong>[ ] </strong><strong> A</strong> six o’clock and midmorning
+<strong>[ ] </strong><strong> B</strong> breakfast and six o’clock
+<strong>[ ] </strong><strong> C</strong> midmorning and midnight
+<strong>[ ] </strong><strong> D</strong> midday and ten o’clock</p>
+<p><strong>Question 30</strong>
+Answer the question below. Write <strong>NO MORE THAN THREE WORDS</strong> for the answer.</p>
 <p>30. What will David do before he decided which part of the programmes to use?  _______</p>
-<p>Part 4: Question 31
+<p><strong>Part 4: Question 31</strong>
 Choose the correct letter A-C.</p>
 <p>31. What does John Upton compare a computer virus to?
-[ ]  A a biological organism
-[ ]  B a corrupt programme
-[ ]  C an irritating person</p>
-<p>Questions 32-35
-Complete the flow chart. Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>(32)  _______                     (33)  _______ 
-(34)  _______                     (35)  _______</p>
-<p>Question 36
+<strong>[ ] </strong><strong> A</strong> a biological organism
+<strong>[ ] </strong><strong> B</strong> a corrupt programme
+<strong>[ ] </strong><strong> C</strong> an irritating person</p>
+<p><strong>Questions 32-35</strong>
+Complete the flow chart. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p><strong>(32)</strong>  _______                     <strong>(33)</strong>  _______ 
+<strong>(34)</strong>  _______                     <strong>(35)</strong>  _______</p>
+<p><strong>Question 36</strong>
 Choose the correct letter A-C.</p>
 <p>36. What does the speaker find surprising?
-[ ]  A the rise in the number of software infections
-[ ]  B the determination of those who develop viruses
-[ ]  C the fact that people blame their own computers</p>
-<p>Questions 37-40
-List FOUR ways of combating viruses. Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>(37)  _______ 
-(38)  _______ 
-(39)  _______ 
-(40)  _______</p>
-<p>ANSWER KEY</p>
+<strong>[ ] </strong><strong> A</strong> the rise in the number of software infections
+<strong>[ ] </strong><strong> B</strong> the determination of those who develop viruses
+<strong>[ ] </strong><strong> C</strong> the fact that people blame their own computers</p>
+<p><strong>Questions 37-40</strong>
+List <strong>FOUR</strong> ways of combating viruses. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p><strong>(37)</strong>  _______ 
+<strong>(38)</strong>  _______ 
+<strong>(39)</strong>  _______ 
+<strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. water treatment plan</p>
 <p>2. 8 am</p>
 <p>3. 2.5 hours</p>
@@ -487,6 +543,29 @@ List FOUR ways of combating viruses. Write NO MORE THAN THREE WORDS for each ans
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -506,12 +585,23 @@ List FOUR ways of combating viruses. Write NO MORE THAN THREE WORDS for each ans
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -523,14 +613,6 @@ List FOUR ways of combating viruses. Write NO MORE THAN THREE WORDS for each ans
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

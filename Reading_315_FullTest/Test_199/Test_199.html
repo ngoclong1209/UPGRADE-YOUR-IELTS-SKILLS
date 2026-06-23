@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,19 +158,19 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_199</h1>
-            <p>IELTS Reading Practice - Test 199</p>
-<p>tackling obesity in the western world</p>
-<p>A Obesity is a huge problem in many Western countries and one which now attracts considerable medical interest as researchers take up the challenge to find a ‘cure’ for the common condition of being seriously overweight. However, rather than take responsibility for their weight, obese people have often sought solace in the excuse that they have a slow metabolism, a genetic hiccup which sentences more than half the Australian population (63% of men and 47% of women) to a life of battling with their weight. The argument goes like this: it doesn’t matter how little they eat, they gain weight because their bodies break down food and turn it into energy more slowly than those with a so-called normal metabolic rate.</p>
-<p>B ‘This is nonsense,’ says Dr Susan Jebb from the Dunn Nutrition Unit at Cambridge in England. Despite the persistence of this metabolism myth, science has known for several years that the exact opposite is in fact true. Fat people have faster metabolisms than thin people. ‘What is very clear,’ says Dr Jebb, ‘is that overweight people actually burn off more energy. They have more cells, bigger hearts, bigger lungs and they all need more energy just to keep going.’</p>
-<p>C It took only one night, spent in a sealed room at the Dunn Unit to disabuse one of their patients of the beliefs of a lifetime: her metabolism was fast, not slow. By sealing the room and measuring the exact amount of oxygen she used, researchers were able to show her that her metabolism was not the culprit. It wasn’t the answer she expected and probably not the one she wanted but she took the news philosophically.</p>
-<p>D Although the metabolism myth has been completely disproved, science has far from discounted our genes as responsible for making us whatever weight we are, fat or thin. One of the world’s leading obesity researchers, geneticist Professor Stephen O’Rahilly, goes so far as to say we are on the threshold of a complete change in the way we view not only morbid obesity, but also everyday overweight. Prof. O’Rahilly’s groundbreaking work in Cambridge has proven that obesity can be caused by our genes. ‘These people are not weak- willed, slothful or lazy,’ says Prof. O’Rahilly, ‘They have a medical condition due to a genetic defect and that causes them to be obese.’</p>
-<p>E In Australia, the University of Sydney’s Professor Ian Caterson says while major genetic defects may be rare, many people probably have minor genetic variations that combine to dictate weight and are responsible for things such as how much we eat, the amount of exercise we do and the amount of energy we need. When you add up all these little variations, the result is that some people are genetically predisposed to putting on weight. He says while the fast/slow metabolism debate may have been settled, that doesn’t mean some other subtle change in the metabolism gene won’t be found in overweight people. He is confident that science will, eventually, be able to ‘cure’ some forms of obesity but the only effective way for the vast majority of overweight and obese people to lose weight is a change of diet and an increase in exercise.</p>
-<p>F Despite the $500 million a year Australians spend trying to lose weight and the $830 million it costs the community in health care, obesity is at epidemic proportions here, as it is in all Western nations. Until recently, research and treatment for obesity had concentrated on behaviour modification, drugs to decrease appetite and surgery. How the drugs worked was often not understood and many caused severe side effects and even death in some patients. Surgery for obesity has also claimed many lives.</p>
-<p>G It has long been known that a part of the brain called the hypothalamus is responsible for regulating hunger, among other things. But it wasn’t until 1994 that Professor Jeffery Friedman from Rockerfeller University in the US sent science in a new direction by studying an obese mouse. Prof. Friedman found that unlike its thin brothers, the fat mouse did not produce a hitherto unknown hormone called leptin. Manufactured by the fat cells, leptin acts as a messenger, sending signals to the hypothalamus to turn off the appetite. Previously, the fat cells were thought to be responsible simply for storing fat. Prof. Friedman gave the fat mouse leptin and it lost 30% of its body weight in two weeks.</p>
-<p>H On the other side of the Atlantic, Prof. O’Rahilly read about this research with great excitement. For many months two blood samples had lain in the bottom of his freezer, taken from two extremely obese young cousins. He hired a doctor to develop a test for leptin in human blood, which eventually resulted in the discovery that neither of the children’s blood contained the hormone. When one cousin was given leptin, she lost a stone in weight and Prof. O’Rahilly made medical history. Here was the first proof that a genetic defect could cause obesity in humans. But leptin deficiency turned out to be an extremely rare condition and there is a lot more research to be done before the ‘magic’ cure for obesity is ever found.</p>
-<p>Questions 1-8
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 199</strong></h3>
+<h3 class="test-heading"><strong>tackling obesity in the western world</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Obesity is a huge problem in many Western countries and one which now attracts considerable medical interest as researchers take up the challenge to find a ‘cure’ for the common condition of being seriously overweight. However, rather than take responsibility for their weight, obese people have often sought solace in the excuse that they have a slow metabolism, a genetic hiccup which sentences more than half the Australian population (63% of men and 47% of women) to a life of battling with their weight. The argument goes like this: it doesn’t matter how little they eat, they gain weight because their bodies break down food and turn it into energy more slowly than those with a so-called normal metabolic rate.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> ‘This is nonsense,’ says Dr Susan Jebb from the Dunn Nutrition Unit at Cambridge in England. Despite the persistence of this metabolism myth, science has known for several years that the exact opposite is in fact true. Fat people have faster metabolisms than thin people. ‘What is very clear,’ says Dr Jebb, ‘is that overweight people actually burn off more energy. They have more cells, bigger hearts, bigger lungs and they all need more energy just to keep going.’</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> It took only one night, spent in a sealed room at the Dunn Unit to disabuse one of their patients of the beliefs of a lifetime: her metabolism was fast, not slow. By sealing the room and measuring the exact amount of oxygen she used, researchers were able to show her that her metabolism was not the culprit. It wasn’t the answer she expected and probably not the one she wanted but she took the news philosophically.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> Although the metabolism myth has been completely disproved, science has far from discounted our genes as responsible for making us whatever weight we are, fat or thin. One of the world’s leading obesity researchers, geneticist Professor Stephen O’Rahilly, goes so far as to say we are on the threshold of a complete change in the way we view not only morbid obesity, but also everyday overweight. Prof. O’Rahilly’s groundbreaking work in Cambridge has proven that obesity can be caused by our genes. ‘These people are not weak- willed, slothful or lazy,’ says Prof. O’Rahilly, ‘They have a medical condition due to a genetic defect and that causes them to be obese.’</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> In Australia, the University of Sydney’s Professor Ian Caterson says while major genetic defects may be rare, many people probably have minor genetic variations that combine to dictate weight and are responsible for things such as how much we eat, the amount of exercise we do and the amount of energy we need. When you add up all these little variations, the result is that some people are genetically predisposed to putting on weight. He says while the fast/slow metabolism debate may have been settled, that doesn’t mean some other subtle change in the metabolism gene won’t be found in overweight people. He is confident that science will, eventually, be able to ‘cure’ some forms of obesity but the only effective way for the vast majority of overweight and obese people to lose weight is a change of diet and an increase in exercise.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> Despite the $500 million a year Australians spend trying to lose weight and the $830 million it costs the community in health care, obesity is at epidemic proportions here, as it is in all Western nations. Until recently, research and treatment for obesity had concentrated on behaviour modification, drugs to decrease appetite and surgery. How the drugs worked was often not understood and many caused severe side effects and even death in some patients. Surgery for obesity has also claimed many lives.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> It has long been known that a part of the brain called the hypothalamus is responsible for regulating hunger, among other things. But it wasn’t until 1994 that Professor Jeffery Friedman from Rockerfeller University in the US sent science in a new direction by studying an obese mouse. Prof. Friedman found that unlike its thin brothers, the fat mouse did not produce a hitherto unknown hormone called leptin. Manufactured by the fat cells, leptin acts as a messenger, sending signals to the hypothalamus to turn off the appetite. Previously, the fat cells were thought to be responsible simply for storing fat. Prof. Friedman gave the fat mouse leptin and it lost 30% of its body weight in two weeks.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>H</strong> On the other side of the Atlantic, Prof. O’Rahilly read about this research with great excitement. For many months two blood samples had lain in the bottom of his freezer, taken from two extremely obese young cousins. He hired a doctor to develop a test for leptin in human blood, which eventually resulted in the discovery that neither of the children’s blood contained the hormone. When one cousin was given leptin, she lost a stone in weight and Prof. O’Rahilly made medical history. Here was the first proof that a genetic defect could cause obesity in humans. But leptin deficiency turned out to be an extremely rare condition and there is a lot more research to be done before the ‘magic’ cure for obesity is ever found.</p></div></div>
+<p><strong>Questions 1-8</strong>
 Reading Passage 1 has seven paragraphs A-H. From the list of headings below choose the most suitable heading for each paragraph.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i Obesity in animals
 ii Hidden dangers
 iii Proof of the truth
@@ -126,19 +182,19 @@ viii A very uncommon complaint
 ix Nature or nurture
 x Shifting the blame
 xi Lifestyle change required despite new findings</p>
-<p>Questions 9-13
+<p><strong>Questions 9-13</strong>
 Complete the summary of Reading Passage 1 (Questions 9-13) using words from the box.</p>
 <p>They do this by seeking to blame their (9)……………………..for the fact that they are overweight and erroneously believe that they use (10)…………………..energy than thin people to stay alive. However, recent research has shown that a (11)………………………problem can be responsible for obesity as some people seem programmed to (12)……………………….more than others. The new research points to a shift from trying to change people’s (13)…………………..to seeking an answer to the problem in the laboratory.</p>
-<p>wheel of fortune</p>
-<p>A Since moving pictures were invented a century ago, a new way of distributing entertainment to consumers has emerged about once every generation. Each such innovation has changed the industry irreversibly; each has been accompanied by a period of fear mixed with exhilaration. The arrival of digital technology, which translates music, pictures and text into the zeros and ones of computer language, marks one of those periods.</p>
-<p>B This may sound familiar, because the digital revolution, and the explosion of choice that would go with it, has been heralded for some time. In 1992, John Malone, chief executive of TCI, an American cable giant, welcomed the ‘500-channel universe’. Digital television was about to deliver everything except pizzas to people’s living rooms. When the entertainment companies tried out the technology, it worked fine – but not at a price that people were prepared to pay.</p>
-<p>C Those 500 channels eventually arrived but via the Internet and the PC rather than through television. The digital revolution was starting to affect the entertainment business in unexpected ways. Eventually it will change every aspect of it, from the way cartoons are made to the way films are screened to the way people buy music. That much is clear. What nobody is sure of is how it will affect the economics of the business.</p>
-<p>D New technologies always contain within them both threats and opportunities. They have the potential both to make the companies in the business a great deal richer, and to sweep them away. Old companies always fear new technology. Hollywood was hostile to television, television terrified by the VCR. Go back far enough, points out Hal Varian, an economist at the University of California at Berkeley, and you find publishers complaining that ‘circulating libraries’ would cannibalise their sales. Yet whenever a new technology has come in, it has made more money for existing entertainment companies. The proliferation of the means of distribution results, gratifyingly, in the proliferation of dollars, pounds, pesetas and the rest to pay for it.</p>
-<p>E All the same, there is something in the old companies’ fears. New technologies may not threaten their lives, but they usually change their role. Once television became widespread, film and radio stopped being the staple form of entertainment. Cable television has undermined the power of the broadcasters. And as power has shifted the movie studios, the radio companies and the television broadcasters have been swallowed up. These days, the grand old names of entertainment have more resonance than power. Paramount is part of Viacom, a cable company; Universal, part of Seagram, a drinks-and-entertainment company; MGM, once the roaring lion of Hollywood, has been reduced to a whisper because it is not part of one of the giants. And RCA, once the most important broadcasting company in the world, is now a recording label belonging to Bertelsmann, a large German entertainment company.</p>
-<p>F Part of the reason why incumbents got pushed aside was that they did not see what was coming. But they also faced a tighter regulatory environment than the present one. In America, laws preventing television broadcasters from owning programme companies were repealed earlier this decade, allowing the creation of vertically integrated businesses. Greater freedom, combined with a sense of history, prompted the smarter companies in the entertainment business to re-invent themselves. They saw what happened to those of their predecessors who were stuck with one form of distribution.</p>
+<p><strong>wheel of fortune</strong></p>
+<p><strong>A</strong> Since moving pictures were invented a century ago, a new way of distributing entertainment to consumers has emerged about once every generation. Each such innovation has changed the industry irreversibly; each has been accompanied by a period of fear mixed with exhilaration. The arrival of digital technology, which translates music, pictures and text into the zeros and ones of computer language, marks one of those periods.</p>
+<p><strong>B</strong> This may sound familiar, because the digital revolution, and the explosion of choice that would go with it, has been heralded for some time. In 1992, John Malone, chief executive of TCI, an American cable giant, welcomed the ‘500-channel universe’. Digital television was about to deliver everything except pizzas to people’s living rooms. When the entertainment companies tried out the technology, it worked fine – but not at a price that people were prepared to pay.</p>
+<p><strong>C</strong> Those 500 channels eventually arrived but via the Internet and the PC rather than through television. The digital revolution was starting to affect the entertainment business in unexpected ways. Eventually it will change every aspect of it, from the way cartoons are made to the way films are screened to the way people buy music. That much is clear. What nobody is sure of is how it will affect the economics of the business.</p>
+<p><strong>D</strong> New technologies always contain within them both threats and opportunities. They have the potential both to make the companies in the business a great deal richer, and to sweep them away. Old companies always fear new technology. Hollywood was hostile to television, television terrified by the VCR. Go back far enough, points out Hal Varian, an economist at the University of California at Berkeley, and you find publishers complaining that ‘circulating libraries’ would cannibalise their sales. Yet whenever a new technology has come in, it has made more money for existing entertainment companies. The proliferation of the means of distribution results, gratifyingly, in the proliferation of dollars, pounds, pesetas and the rest to pay for it.</p>
+<p><strong>E</strong> All the same, there is something in the old companies’ fears. New technologies may not threaten their lives, but they usually change their role. Once television became widespread, film and radio stopped being the staple form of entertainment. Cable television has undermined the power of the broadcasters. And as power has shifted the movie studios, the radio companies and the television broadcasters have been swallowed up. These days, the grand old names of entertainment have more resonance than power. Paramount is part of Viacom, a cable company; Universal, part of Seagram, a drinks-and-entertainment company; MGM, once the roaring lion of Hollywood, has been reduced to a whisper because it is not part of one of the giants. And RCA, once the most important broadcasting company in the world, is now a recording label belonging to Bertelsmann, a large German entertainment company.</p>
+<p><strong>F</strong> Part of the reason why incumbents got pushed aside was that they did not see what was coming. But they also faced a tighter regulatory environment than the present one. In America, laws preventing television broadcasters from owning programme companies were repealed earlier this decade, allowing the creation of vertically integrated businesses. Greater freedom, combined with a sense of history, prompted the smarter companies in the entertainment business to re-invent themselves. They saw what happened to those of their predecessors who were stuck with one form of distribution.</p>
 <p>So, these days, the powers in the entertainment business are no longer movie studios, or television broadcasters, or publishers; all those businesses have become part of bigger businesses still, companies that can both create content and distribute it in a range of different ways.</p>
-<p>G Out of all this, seven huge entertainment companies have emerged – Time Warner, Walt Disney, Bertelsmann, Viacom, News Corp, Seagram and Sony. They cover pretty well every bit of the entertainment business except pornography. Three are American, one is Australian, one Canadian, one German and one Japanese. ‘What you are seeing’, says Christopher Dixon, managing director of media research at PaineWebber, a stockbroker, ‘is the creation of a global oligopoly. It happened to the oil and automotive businesses earlier this century; now it is happening to the entertainment business.’ It remains to be seen whether the latest technology will weaken those great companies, or make them stronger than ever.</p>
-<p>Questions 14-21
+<p><strong>G</strong> Out of all this, seven huge entertainment companies have emerged – Time Warner, Walt Disney, Bertelsmann, Viacom, News Corp, Seagram and Sony. They cover pretty well every bit of the entertainment business except pornography. Three are American, one is Australian, one Canadian, one German and one Japanese. ‘What you are seeing’, says Christopher Dixon, managing director of media research at PaineWebber, a stockbroker, ‘is the creation of a global oligopoly. It happened to the oil and automotive businesses earlier this century; now it is happening to the entertainment business.’ It remains to be seen whether the latest technology will weaken those great companies, or make them stronger than ever.</p>
+<p><strong>Questions 14-21</strong>
 Reading Passage 2 has seven paragraphs A-G. Which paragraph mentions the following (Questions 14-21)? NB Some of the paragraphs will be used more than once.</p>
 <p>14. the contrasting effects that new technology can have on existing business
 15. the fact that a total transformation is going to take place in the future in the delivery of all forms of entertainment
@@ -148,30 +204,30 @@ Reading Passage 2 has seven paragraphs A-G. Which paragraph mentions the followi
 19. uncertainty regarding the financial impact of wider media access
 20. the fact that some companies were the victims of strict government policy
 21. the fact that the digital revolution could undermine the giant entertainment companies</p>
-<p>Questions 22-25
+<p><strong>Questions 22-25</strong>
 The writer refers to various individuals and companies in the reading passage. Match the people or companies (A-E) with the points made in Questions 22-25 about the introduction of new technology.</p>
-<p>A John Malone
-B Hal Valarian
-C MGM
-D Walt Disney
-E Christopher Dixon</p>
+<p><strong>A</strong> John Malone
+<strong>B</strong> Hal Valarian
+<strong>C</strong> MGM
+<strong>D</strong> Walt Disney
+<strong>E</strong> Christopher Dixon</p>
 <p>22. Historically, new forms of distributing entertainment have alarmed those well-established in the business.
 23. The merger of entertainment companies follows a pattern evident in other industries.
 24. Major entertainment bodies that have remained independent have lost their influence.
 25. News of the most recent technological development was published some years ago.</p>
-<p>Questions 26-27
+<p><strong>Questions 26-27</strong>
 Choose the appropriate letters A-D and write them in boxes 26-27 on your answer sheet.</p>
 <p>26. How does the writer put across his views on the digital revolution?
-A by examining the forms of media that will be affected by it
-B by analysing the way entertainment companies have reacted to it
-C by giving a personal definition of technological innovation
-D by drawing comparisons with other periods of technological innovation</p>
+<strong>A</strong> by examining the forms of media that will be affected by it
+<strong>B</strong> by analysing the way entertainment companies have reacted to it
+<strong>C</strong> by giving a personal definition of technological innovation
+<strong>D</strong> by drawing comparisons with other periods of technological innovation</p>
 <p>27. Which of the following best summarises the writer’s views in Reading Passage 2?
-A The public should cease resisting the introduction of new technology.
-B Digital technology will increase profits in the entertainment business.
-C Entertainment companies should adapt to technological innovation.
-D Technological change only benefits big entertainment companies.</p>
-<p>reading passage 3</p>
+<strong>A</strong> The public should cease resisting the introduction of new technology.
+<strong>B</strong> Digital technology will increase profits in the entertainment business.
+<strong>C</strong> Entertainment companies should adapt to technological innovation.
+<strong>D</strong> Technological change only benefits big entertainment companies.</p>
+<p><strong>reading passage 3</strong></p>
 <p>What do we mean by being ‘talented’ or ‘gifted’? The most obvious way is to look at the work someone does and if they are capable of significant success, label them as talented. The purely quantitative route – ‘percentage definition’ – looks not at individuals, but at simple percentages, such as the top five per cent of the population, and labels them – by definition – as gifted. This definition has fallen from favour, eclipsed by the advent of IQ tests, favoured by luminaries such as Professor Hans Eysenck, where a series of written or verbal tests of general intelligence leads to a score of intelligence.</p>
 <p>The IQ test has been eclipsed in turn. Most people studying intelligence and creativity in the new millennium now prefer a broader definition, using a multifaceted approach where talents in many areas are recognised rather than purely concentrating on academic achievement. If we are therefore assuming that talented, creative or gifted individuals may need to be assessed across a range of abilities, does this mean intelligence can run in families as a genetic or inherited tendency? Mental dysfunction – such as schizophrenia – can, so is an efficient mental capacity passed on from parent to child?</p>
 <p>Animal experiments throw some light on this question, and on the whole area of whether it is genetics, the environment or a combination of the two that allows for intelligence and creative ability. Different strains of rats show great differences in intelligence or ‘rat reasoning’. If these are brought up in normal conditions and then through a maze to reach a food goal, the ‘bright’ strain make far fewer wrong turns that the ‘dull’ ones. But if the environment is made dull and boring the number of errors becomes equal. Return the rats to an exciting maze and the discrepancy returns as before – but is much smaller. In other words, a dull rat in a stimulating environment will almost do as well as a bright rat who is bored in a normal one. This principle applies to humans too – someone may be born with innate intelligence, but their environment probably has the final say over whether they become creative or even a genius.</p>
@@ -180,49 +236,49 @@ D Technological change only benefits big entertainment companies.</p>
 <p>A stream seems to run through creative families. Such children are not necessarily smothered with love by their parents. They feel loved and wanted, and are secure in their home, but are often more surrounded by an atmosphere of work and where following a calling appears to be important. They may see from their parents that it takes time and dedication to be master of a craft, and so are in less of a hurry to achieve for themselves once they start to work.</p>
 <p>The generation of creativity is complex: it is a mixture of genetics, the environment, parental teaching and luck that determines how successful or talented family members are. This last point – luck – is often not mentioned where talent is concerned but plays an undoubted part. Mozart, considered by many to be the finest composer of all time, was lucky to be living in an age that encouraged the writing of music. He was brought up surrounded by it, his father was a musician who encouraged him to the point of giving up his job to promote his child genius, and he learnt musical composition with frightening speed – the speed of a genius. Mozart himself simply wanted to create the finest music ever written but did not necessarily view himself as a genius – he could write sublime music at will, and so often preferred to lead a hedonistic lifestyle that he found more exciting than writing music to order.</p>
 <p>Albert Einstein and Bill Gates are two more examples of people whose talents have blossomed by virtue of the times they were living in. Einstein was a solitary, somewhat slow child who had affection at home but whose phenomenal intelligence emerged without any obvious parental input. This may have been partly due to the fact that at the start of the 20th Century a lot of the Newtonian laws of physics were being questioned, leaving a fertile ground for ideas such as his to be developed. Bill Gates may have had the creative vision to develop Microsoft, but without the new computer age dawning at the same time he may never have achieved the position on the world stage he now occupies.</p>
-<p>Questions 28-29
-Complete the notes, which show how the approaches to defining ‘talent*have changed. Choose ONE OR TWO WORDS from the passage for each answer.</p>
+<p><strong>Questions 28-29</strong>
+Complete the notes, which show how the approaches to defining ‘talent*have changed. Choose <strong>ONE OR TWO WORDS</strong> from the passage for each answer.</p>
 <p>• ‘percentage definition’
 • (28)……………………
 • (29)……………………</p>
-<p>Questions 30-32
-Which THREE of the following does the writer regard as a feature of creative families?</p>
-<p>A a higher than average level of parental affection
-B competition between brothers and sisters
-C parents who demonstrate vocational commitment
-D strong motivation to take exams and attend university
-E a patient approach to achieving success
-F the identification of the most talented child in the family</p>
-<p>Questions 33-34
+<p><strong>Questions 30-32</strong>
+Which <strong>THREE</strong> of the following does the writer regard as a feature of creative families?</p>
+<p><strong>A</strong> a higher than average level of parental affection
+<strong>B</strong> competition between brothers and sisters
+<strong>C</strong> parents who demonstrate vocational commitment
+<strong>D</strong> strong motivation to take exams and attend university
+<strong>E</strong> a patient approach to achieving success
+<strong>F</strong> the identification of the most talented child in the family</p>
+<p><strong>Questions 33-34</strong>
 Choose the appropriate letters A—D and write them in boxes 33-34 on your answer sheet.</p>
 <p>33. The rat experiment was conducted to show that
-A certain species of rat are more intelligent than others.
-B intelligent rats are more motivated than ‘dull’ rats.
-C a rat’s surroundings can influence its behaviour.
-D a boring environment has little impact on a ‘bright’ rat.</p>
+<strong>A</strong> certain species of rat are more intelligent than others.
+<strong>B</strong> intelligent rats are more motivated than ‘dull’ rats.
+<strong>C</strong> a rat’s surroundings can influence its behaviour.
+<strong>D</strong> a boring environment has little impact on a ‘bright’ rat.</p>
 <p>34. The writer cites the story of Martin Sheen to show that
-A he was the first in a creative line.
-B his parents did not have his creative flair.
-C became an actor without proper training.
-D his sons were able to benefit from his talents.</p>
-<p>Questions 35-39
+<strong>A</strong> he was the first in a creative line.
+<strong>B</strong> his parents did not have his creative flair.
+<strong>C</strong> became an actor without proper training.
+<strong>D</strong> his sons were able to benefit from his talents.</p>
+<p><strong>Questions 35-39</strong>
 Do the following statements agree with the claims of the writer in Reading Passage 3? In boxes 35-39 on your answer sheet write</p>
-<p>YES if the statement agrees with the views of the writer
-NO if the statement contradicts the views of the writer
-NOT GIVEN if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong> if the statement agrees with the views of the writer
+<strong>NO</strong> if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this</p>
 <p>35. Intelligence tests have now been proved to be unreliable.
 36. The brother or sister of a gifted older child may fail to fulfil their own potential.
 37. The importance of luck in the genius equation tends to be ignored.
 38. Mozart was acutely aware of his own remarkable talent.
 39. Einstein and Gates would have achieved success in any era.</p>
-<p>Question 40</p>
+<p><strong>Question 40</strong></p>
 <p>40. From the list below choose the most suitable title for the whole of Reading Passage 3.
-A Geniuses in their time
-B Education for the gifted
-C Revising the definition of intelligence
-D Nurturing talent within the family</p>
+<strong>A</strong> Geniuses in their time
+<strong>B</strong> Education for the gifted
+<strong>C</strong> Revising the definition of intelligence
+<strong>D</strong> Nurturing talent within the family</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. x</p>
 <p>2. vii</p>
 <p>3. iii</p>
@@ -481,6 +537,29 @@ D Nurturing talent within the family</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -500,12 +579,23 @@ D Nurturing talent within the family</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -517,14 +607,6 @@ D Nurturing talent within the family</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

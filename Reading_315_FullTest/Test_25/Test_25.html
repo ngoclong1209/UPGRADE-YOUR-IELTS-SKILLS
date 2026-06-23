@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,26 +158,26 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_25</h1>
-            <p>IELTS Reading Practice - Test 25</p>
-<p>Reading Passage One</p>
-<p>Part One
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 25</strong></h3>
+<h3 class="test-heading"><strong>Reading Passage One</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>Part One</strong>
 
-A Air pollution is increasingly becoming the focus of government and citizen concern around the globe. From Mexico City and New York, to Singapore and Tokyo, new solutions to this old problem are being proposed, Mailed and implemented with ever increasing speed. It is feared that unless pollution reduction measures are able to keep pace with the continued pressures of urban growth, air quality in many of the world’s major cities will deteriorate beyond reason.</p>
-<p>B Action is being taken along several fronts: through new legislation, improved enforcement and innovative technology. In Los Angeles, state regulations are forcing manufacturers to try to sell ever cleaner cars: their first of the cleanest, titled “Zero Emission Vehicles’, hove to be available soon, since they are intended to make up 2 per cent of sales in 1997. Local authorities in London are campaigning to be allowed to enforce anti-pollution laws themselves; at present only the police have the power to do so, but they tend to be busy elsewhere. In Singapore, renting out toad space to users is the way of the future.</p>
-<p>C When Britain’s Royal Automobile Club monitored the exhausts of 60,000 vehicles, it found that 12 per cent of them produced more than half the total pollution. Older cars were the worst offenders; though a sizeable number of quite new cars were also identified as gross polluters, they were simply badly tuned. California has developed a scheme to get these gross polluters off the streets: they offer a flat $700 for any old, run-down vehicle driven in by its owner. The aim is to remove the heaviest-polluting, most decrepit vehicles from the roads.</p>
-<p>D As part of a European Union environmental programme, a London council is resting an infra-red spectrometer from the University of Denver in Colorado. It gauges the pollution from a passing vehicle – more useful than the annual stationary rest that is the British standard today – by bouncing a beam through the exhaust and measuring what gets blocked. The councils next step may be to link the system to a computerised video camera able to read number plates automatically.</p>
-<p>E The effort to clean up cars may do little to cut pollution if nothing is done about the tendency to drive them more. Los Angeles has some of the world’s cleanest cars – far better than those of Europe – but the total number of miles those cars drive continues to grow. One solution is car-pooling, an arrangement in which a number of people who share the same destination share the use of one car. However, the average number of people in a car on the freeway in Los Angeles, which is 1.0, has been falling steadily. Increasing it would be an effective way of reducing emissions as well as easing congestion. The trouble is, Los Angeleians seem to like being alone in their cars.</p>
-<p>F Singapore has for a while had a scheme that forces drivers to buy a badge if they wish to visit a certain part of the city. Electronic innovations make possible increasing sophistication: rates can vary according to road conditions, time of day and so on. Singapore is advancing in this direction, with a city-wide network of transmitters to collect information and charge drivers as they pass certain points. Such road-pricing, however, can be controversial. When the local government in Cambridge, England, considered introducing Singaporean techniques, it faced vocal and ultimately successful opposition.</p>
-<p>Part Two
+<strong>A</strong> Air pollution is increasingly becoming the focus of government and citizen concern around the globe. From Mexico City and New York, to Singapore and Tokyo, new solutions to this old problem are being proposed, Mailed and implemented with ever increasing speed. It is feared that unless pollution reduction measures are able to keep pace with the continued pressures of urban growth, air quality in many of the world’s major cities will deteriorate beyond reason.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> Action is being taken along several fronts: through new legislation, improved enforcement and innovative technology. In Los Angeles, state regulations are forcing manufacturers to try to sell ever cleaner cars: their first of the cleanest, titled “Zero Emission Vehicles’, hove to be available soon, since they are intended to make up 2 per cent of sales in 1997. Local authorities in London are campaigning to be allowed to enforce anti-pollution laws themselves; at present only the police have the power to do so, but they tend to be busy elsewhere. In Singapore, renting out toad space to users is the way of the future.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> When Britain’s Royal Automobile Club monitored the exhausts of 60,000 vehicles, it found that 12 per cent of them produced more than half the total pollution. Older cars were the worst offenders; though a sizeable number of quite new cars were also identified as gross polluters, they were simply badly tuned. California has developed a scheme to get these gross polluters off the streets: they offer a flat $700 for any old, run-down vehicle driven in by its owner. The aim is to remove the heaviest-polluting, most decrepit vehicles from the roads.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> As part of a European Union environmental programme, a London council is resting an infra-red spectrometer from the University of Denver in Colorado. It gauges the pollution from a passing vehicle – more useful than the annual stationary rest that is the British standard today – by bouncing a beam through the exhaust and measuring what gets blocked. The councils next step may be to link the system to a computerised video camera able to read number plates automatically.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> The effort to clean up cars may do little to cut pollution if nothing is done about the tendency to drive them more. Los Angeles has some of the world’s cleanest cars – far better than those of Europe – but the total number of miles those cars drive continues to grow. One solution is car-pooling, an arrangement in which a number of people who share the same destination share the use of one car. However, the average number of people in a car on the freeway in Los Angeles, which is 1.0, has been falling steadily. Increasing it would be an effective way of reducing emissions as well as easing congestion. The trouble is, Los Angeleians seem to like being alone in their cars.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> Singapore has for a while had a scheme that forces drivers to buy a badge if they wish to visit a certain part of the city. Electronic innovations make possible increasing sophistication: rates can vary according to road conditions, time of day and so on. Singapore is advancing in this direction, with a city-wide network of transmitters to collect information and charge drivers as they pass certain points. Such road-pricing, however, can be controversial. When the local government in Cambridge, England, considered introducing Singaporean techniques, it faced vocal and ultimately successful opposition.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>Part Two</strong>
 
-The scope of the problem facing the world’s cities is immense. In 1992, the United Nations Environmental Programme and the World Health Organisation (WHO) concluded that all of a sample of twenty megacities – places likely to have more than ten million inhabitants in the year 2000 – already exceeded the level the WHO deems healthy in at least one major pollutant. Two-thirds of them exceeded the guidelines for two, seven for three or more.</p>
-<p>Of the six pollutants monitored by the WHO – carbon dioxide, nitrogen dioxide, ozone, sulphur dioxide, lead and particulate matter – it is this last category that is attracting the most attention from health researchers. PM10, a sub-category of particulate matter measuring ten-millionths of a metre across, has been implicated in thousands of deaths a year in Britain alone. Research being conducted in two counties of Southern California is reaching similarly disturbing conclusions concerning this little- understood pollutant.</p>
-<p>A world-wide rise in allergies, particularly asthma, over the past four decades is now said to be linked with increased air pollution. The lungs and brains of children who grow up in polluted air offer further evidence of its destructive power the old and ill, however, are the most vulnerable to the acute effects of heavily polluted stagnant air. It can actually hasten death, as it did in December 1991 when a cloud of exhaust fumes lingered over the city of London for over a week.</p>
-<p>The United Nations has estimated that in the year 2000 there will be twenty-four mega-cities and a further eighty-five cities of more than three million people. The pressure on public officials, corporations and urban citizens to reverse established trends in air pollution is likely to grow in proportion with the growth of cities themselves. Progress is being made. The question, though, remains the same: ‘Will change happen quickly enough?</p>
-<p>Questions 1-5
+The scope of the problem facing the world’s cities is immense. In 1992, the United Nations Environmental Programme and the World Health Organisation (WHO) concluded that all of a sample of twenty megacities – places likely to have more than ten million inhabitants in the year 2000 – already exceeded the level the WHO deems healthy in at least one major pollutant. Two-thirds of them exceeded the guidelines for two, seven for three or more.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>Of the six pollutants monitored by the WHO – carbon dioxide, nitrogen dioxide, ozone, sulphur dioxide, lead and particulate matter – it is this last category that is attracting the most attention from health researchers. PM10, a sub-category of particulate matter measuring ten-millionths of a metre across, has been implicated in thousands of deaths a year in Britain alone. Research being conducted in two counties of Southern California is reaching similarly disturbing conclusions concerning this little- understood pollutant.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>A world-wide rise in allergies, particularly asthma, over the past four decades is now said to be linked with increased air pollution. The lungs and brains of children who grow up in polluted air offer further evidence of its destructive power the old and ill, however, are the most vulnerable to the acute effects of heavily polluted stagnant air. It can actually hasten death, as it did in December 1991 when a cloud of exhaust fumes lingered over the city of London for over a week.</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p>The United Nations has estimated that in the year 2000 there will be twenty-four mega-cities and a further eighty-five cities of more than three million people. The pressure on public officials, corporations and urban citizens to reverse established trends in air pollution is likely to grow in proportion with the growth of cities themselves. Progress is being made. The question, though, remains the same: ‘Will change happen quickly enough?</p></div></div>
+<p><strong>Questions 1-5</strong>
 
 Look at the following solutions (Questions 1-5) and locations. Match each solution with one location. Write the appropriate locations in boxes 1-5 on your answer sheet. NB You may use any location more than once.</p>
-<p>SOLUTIONS
+<p><strong>SOLUTIONS</strong>
 
 1 Manufacturers must sell cleaner cars.
 
@@ -132,7 +188,7 @@ Look at the following solutions (Questions 1-5) and locations. Match each soluti
 4 Moving vehicles will be monitored for their exhaust emissions.
 
 5 Commuters are encouraged to share their vehicles with others.</p>
-<p>Locations
+<p><strong>Locations</strong>
 
 Singapore
 
@@ -147,14 +203,14 @@ Mexico City
 Cambridge
 
 Los Angeles</p>
-<p>Questions 6-10
+<p><strong>Questions 6-10</strong>
 
 Do the following statements reflect the claims of the writer in Reading Passage 1? In boxes 6-10 on your answer sheet write</p>
-<p>YES                           if the statement reflects the claims of the writer
+<p><strong>YES</strong>                           if the statement reflects the claims of the writer
 
-NO                             if the statement contradicts the claims of the writer
+<strong>NO</strong>                             if the statement contradicts the claims of the writer
 
-NOT GIVEN          if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>          if it is impossible to say what the writer thinks about this</p>
 <p>6 According to British research, a mere twelve per cent of vehicles tested produced over fifty per cent of total pollution produced by the sample group.
 
 7 It is currently possible to measure the pollution coming from individual vehicles whilst they are moving.
@@ -164,38 +220,38 @@ NOT GIVEN          if it is impossible to say what the writer thinks about 
 9 Car-pooling has steadily become more popular in Los Angeles in recent years.
 
 10 Charging drivers for entering certain parts of the city has been successfully done in Cambridge, England.</p>
-<p>Questions 11-13
+<p><strong>Questions 11-13</strong>
 
 Choose the appropriate letters A—D and write them in boxes 11-13 on your answer sheet.</p>
 <p>11 How many pollutants currently exceed WHO guidelines in all megacities studied?
 
-A one
+<strong>A</strong> one
 
-B two
+<strong>B</strong> two
 
-C three
+<strong>C</strong> three
 
-D seven</p>
+<strong>D</strong> seven</p>
 <p>12 Which pollutant is currently the subject of urgent research?
 
-A nitrogen dioxide
+<strong>A</strong> nitrogen dioxide
 
-B ozone
+<strong>B</strong> ozone
 
-C lead
+<strong>C</strong> lead
 
-D particulate matter</p>
+<strong>D</strong> particulate matter</p>
 <p>13 Which of the following groups of people are the most severely affected by intense air pollution?
 
-A allergy sufferers
+<strong>A</strong> allergy sufferers
 
-B children
+<strong>B</strong> children
 
-C the old and ill
+<strong>C</strong> the old and ill
 
-D asthma sufferers</p>
+<strong>D</strong> asthma sufferers</p>
 <p>Cambridge IELTS Test 1 to 17</p>
-<p>Votes for Women</p>
+<p><strong>Votes for Women</strong></p>
 <p>The suffragette movement, which campaigned for votes for women in the early twentieth century, is most commonly associated with the Pankhurst family and militant acts of varying degrees of violence. The Museum of London has drawn on its archive collection to convey a fresh picture with its exhibition.</p>
 <p>The name is a reference to the colour scheme that the Women’s Social and Political Union (WSPU) created to give the movement a uniform, nationwide image. By doing so, it became one of the first groups to project a corporate identity, and it is this advanced marketing strategy, along with the other organisational and commercial achievements of the WSPU, to which the exhibition is devoted.</p>
 <p>Formed in 1903 by the political campaigner Mrs. Emmeline Pankhurst and her daughters Christabel and Sylvia, the WSPU began an educated campaign to put women’s suffrage on the political agenda. New Zealand, Australia and parts of the United States had already enfranchised women, and growing numbers of their British counterparts wanted the same opportunity.</p>
@@ -212,44 +268,44 @@ D asthma sufferers</p>
 
 Original newsreel footage shows the suffragette Emily Wilding Davison throwing herself under King George V’s horse at a famous race.</p>
 <p>Although the exhibition officially charts the years 1906 to 1914, graphic display boards outlining the bills of enfranchisement of 1918 and 1928, which gave the adult female populace of Britain the vote, show what was achieved. It demonstrates how advanced the suffragettes were in their thinking, in the marketing of their campaign, and in their work as shrewd and skillful image-builders. It also conveys a sense of the energy and ability the suffragettes brought to their fight for freedom and equality. And it illustrates the intelligence employed by women who were at that time deemed by several politicians to have ‘brains too small to know how to vote’.</p>
-<p>Questions 14 and 15
+<p><strong>Questions 14 and 15</strong>
 
 Choose the appropriate letters A-D and write them in boxes 14 and 15 on your answer sheet.</p>
 <p>14 What is the main aspect of the suffragette movement’s work to which the exhibition at the Museum of London is devoted?
 
-A the role of the Pankhurst family in the suffrage movement
+<strong>A</strong> the role of the Pankhurst family in the suffrage movement
 
-B the violence of the movement’s political campaign
+<strong>B</strong> the violence of the movement’s political campaign
 
-C the success of the movement’s corporate image
+<strong>C</strong> the success of the movement’s corporate image
 
-D the movement’s co-operation with suffrage groups overseas</p>
+<strong>D</strong> the movement’s co-operation with suffrage groups overseas</p>
 <p>15 Why was the WSPU more successful than other suffrage groups?
 
-A Its leaders were much better educated
+<strong>A</strong> Its leaders were much better educated
 
-B It received funding from movements abroad.
+<strong>B</strong> It received funding from movements abroad.
 
-C It had access to new technology
+<strong>C</strong> It had access to new technology
 
-D It had a clear purpose and direction</p>
-<p>Question 16
+<strong>D</strong> It had a clear purpose and direction</p>
+<p><strong>Question 16</strong>
 
-Choose TWO letters A-E and write them in box 16 on your answer sheet.</p>
-<p>In which TWO of the following years were laws passed allowing British women to vote?
+Choose <strong>TWO</strong> letters A-E and write them in box 16 on your answer sheet.</p>
+<p>In which <strong>TWO</strong> of the following years were laws passed allowing British women to vote?
 
-A 1906
+<strong>A</strong> 1906
 
-B 1909
+<strong>B</strong> 1909
 
-C 1914
+<strong>C</strong> 1914
 
-D 1918
+<strong>D</strong> 1918
 
-E 1928</p>
-<p>Questions 17-19
+<strong>E</strong> 1928</p>
+<p><strong>Questions 17-19</strong>
 
-Complete the notes below. Choose NO MORE THAN THREE WORDS from Reading Passage 2 for each answer.
+Complete the notes below. Choose <strong>NO MORE THAN THREE WORDS</strong> from Reading Passage 2 for each answer.
 
 Write your answers in boxes 17-19 on your answer sheet.</p>
 <p>Three ways in which the WSPU raised money:
@@ -259,14 +315,14 @@ Write your answers in boxes 17-19 on your answer sheet.</p>
 • merchandising activities: selling a large variety of goods produced in their (18)……………….
 
 • additional fund-raising activities: for example, (19)…………………….</p>
-<p>Questions 20-26
+<p><strong>Questions 20-26</strong>
 
 Do the following statements reflect the situation as described by the writer in Reading Passage 2? In boxes 20-26 on your answer sheet write</p>
-<p>YES                              if the statement reflects the situation as described by the writer
+<p><strong>YES</strong>                              if the statement reflects the situation as described by the writer
 
-NO                                if the statement contradicts the writer
+<strong>NO</strong>                                if the statement contradicts the writer
 
-NOT GIVEN             if it is impossible to know what the situation is from the passage</p>
+<strong>NOT GIVEN</strong>             if it is impossible to know what the situation is from the passage</p>
 <p>20 In 1903 women in Australia were still not allowed to vote.
 
 21 The main organs of communication for the WSPU were its two newspapers.
@@ -280,19 +336,19 @@ NOT GIVEN             if it is impossible to know what the situation is f
 25 The Museum of London exhibition includes some of the goods sold by the movement.
 
 26 The opponents of the suffragettes made films opposing the movement.</p>
-<p>Question 27
+<p><strong>Question 27</strong>
 
 Choose the appropriate letter A-D and write it in box 27 on your answer sheet.</p>
 <p>The writer of the article finds the exhibition to be
 
-A misleading
+<strong>A</strong> misleading
 
-B exceptional
+<strong>B</strong> exceptional
 
-C disappointing
+<strong>C</strong> disappointing
 
-D informative</p>
-<p>Measuring Organisational Performance</p>
+<strong>D</strong> informative</p>
+<p><strong>Measuring Organisational Performance</strong></p>
 <p>There is clear-cut evidence that, for a period of at least one year, supervision which increases the direct pressure for productivity can achieve significant increases in production. However, such short-term increases are obtained only at a substantial and serious cost to the organisation.</p>
 <p>To what extent can a manager make an impressive earnings record over a short period of one to three years by exploiting the company’s investment in the human organisation in his plant or division? To what extent will the quality of his organisation suffer if he does so? The following is a description of an important study conducted by the Institute for Social Research designed to answer these questions.</p>
 <p>The study covered 500 clerical employees in four parallel divisions. Each division was organised in exactly the same way, used the same technology, did exactly the same kind of work, and had employees of comparable aptitudes.</p>
@@ -302,49 +358,49 @@ D informative</p>
 <p>Turning now to the heart of the study, in two divisions an attempt was made to change the supervision so that the decision levels were pushed down and detailed supervision of the workers reduced. More general supervision of the clerks and their supervisors was introduced. In addition, the managers, assistant managers, supervisors and assistant supervisors of these two divisions were trained in group methods of leadership, which they endeavoured to use as much as their sill would permit during the experimental year.</p>
 <p>For easy reference, the experimental changes in these two divisions will be labelled the ‘participative programme!</p>
 <p>In the other two divisions, by contrast, the programme called for modifying the supervision so as to increase the closeness of supervision and move the decision levels upwards. This will be labelled the ‘hierarchically controlled programme’. These changes were accomplished by a further extension of the scientific management approach. For example, one of the major changes made was to have the jobs timed and to have standard times computed. This showed that these divisions were overstaffed by about 30%. The general manager then ordered the managers of these two divisions to cut staff by 25%. This was done by transfers without replacing the persons who left; no one was to be dismissed.</p>
-<p>Results of the Experiment</p>
-<p>Changes in productivity
+<p><strong>Results of the Experiment</strong></p>
+<p><strong>Changes in productivity</strong>
 
 Figure 1 shows the changes in salary costs per unit of work, which reflect the change in productivity that occurred in the divisions. As will be observed, the hierarchically controlled programmes increased productivity by about 25%. This was a result of the direct orders from the general manager to reduce staff by that amount. Direct pressure produced a substantial increase in production.</p>
 <p>A significant increase in productivity of 20% was also achieved in the participative programme, but this was not as great an increase as in the hierarchically controlled programme. To bring about this improvement, the clerks themselves participated in the decision to reduce the size of the work group. (They were aware of course that productivity increases were sought by management in conducting these experiments.) Obviously, deciding to reduce the size of a work group by eliminating some of its members is probably one of the most difficult decisions for a work group to make. Yet the clerks made it. In fact, one division in the participative programme increased its productivity by about the same amount as each of the two divisions in the hierarchically controlled programme. The other participative division, which historically had been the poorest of all the divisions, did not do so well and increased productivity by only 15%.</p>
-<p>Changes in attitude
+<p><strong>Changes in attitude</strong>
 
 Although both programmes had similar effects on productivity, they had significantly different results in other respects. The productivity increases in the hierarchically controlled programme were accompanied by shifts in an adverse direction in such factors as loyalty, attitudes, interest, and involvement in the work. But just the opposite was true in the participative programme.</p>
 <p>For example, Figure 2 shows that when more general supervision and increased participation were provided, the employees’ feeling of responsibility to see that the work got done increased. Again, when the supervisor was away, they kept on working. In the hierarchically controlled programme, however, the feeling of responsibility decreased, and when the supervisor was absent, work tended to stop.</p>
 <p>As Figure 3 shows, the employees in the participative programme at the end of the year felt that their manager and assistant manager were ‘closer to them’ than at the beginning of the year. The opposite was true in the hierarchical programme. Moreover, as Figure 4 shows, employees in the participative programme felt that their supervisors were more likely to ‘pull’ for them, or for the company and them, and not be solely interested in the company, while in the hierarchically controlled programme, the opposite trend occurred.</p>
-<p>Questions 28-30
+<p><strong>Questions 28-30</strong>
 
 Choose the appropriate letters A-D and write them in boxes 28-30 on your answer sheet.</p>
 <p>28 The experiment was designed to
 
-A establish whether increased productivity should be sought at any cost
+<strong>A</strong> establish whether increased productivity should be sought at any cost
 
-B show that four divisions could use the same technology
+<strong>B</strong> show that four divisions could use the same technology
 
-C perfect a system for processing accounts
+<strong>C</strong> perfect a system for processing accounts
 
-D exploit the human organisation of a company in order to increase profits</p>
+<strong>D</strong> exploit the human organisation of a company in order to increase profits</p>
 <p>29 The four divisions
 
-A each employed a staff of 500 clerks
+<strong>A</strong> each employed a staff of 500 clerks
 
-B each had equal levels of productivity
+<strong>B</strong> each had equal levels of productivity
 
-C had identical patterns of organization
+<strong>C</strong> had identical patterns of organization
 
-D were randomly chosen for the experiment</p>
+<strong>D</strong> were randomly chosen for the experiment</p>
 <p>30 Before the experiment
 
-A the four divisions were carefully selected to suit a specific programme
+<strong>A</strong> the four divisions were carefully selected to suit a specific programme
 
-B each division was told to reduce its level of productivity
+<strong>B</strong> each division was told to reduce its level of productivity
 
-C the staff involved spent a number of months preparing for the study
+<strong>C</strong> the staff involved spent a number of months preparing for the study
 
-D the employees were questioned about their feelings towards the study</p>
-<p>Questions 31-36
+<strong>D</strong> the employees were questioned about their feelings towards the study</p>
+<p><strong>Questions 31-36</strong>
 
-Complete the summary below. Choose ONE word from Reading Passage 3 for each answer. Write your answers in boxes 31-36 on your answer sheet.</p>
+Complete the summary below. Choose <strong>ONE</strong> word from Reading Passage 3 for each answer. Write your answers in boxes 31-36 on your answer sheet.</p>
 <p>This experiment involved an organisation comprising four divisions, which were divided into two programmes: the
 
 hierarchically controlled programme and the participative programme. For a period of one year a different method
@@ -363,7 +419,7 @@ In the hierarchically controlled programme:
 • work groups were found to be (35)…………………. by 30%.
 
 • the work force was (36)………………………… by 25%.</p>
-<p>Questions 37-40
+<p><strong>Questions 37-40</strong>
 
 Look at Figures 1, 2, 3 and 4 in Reading Passage 3. Choose the most appropriate label, A—I, for each Figure from the box below. Write your answers in boxes 37-40 on your answer sheet.</p>
 <p>37 Figure 1…………..
@@ -373,25 +429,25 @@ Look at Figures 1, 2, 3 and 4 in Reading Passage 3. Choose the most appropriate 
 39 Figure 3…………
 
 40 Figure 4………….</p>
-<p>A Employees’ interest in the company
+<p><strong>A</strong> Employees’ interest in the company
 
-B Cost increases for the company
+<strong>B</strong> Cost increases for the company
 
-C Changes in productivity
+<strong>C</strong> Changes in productivity
 
-D Employees’ feelings of responsibility towards completion of work
+<strong>D</strong> Employees’ feelings of responsibility towards completion of work
 
-E Changes in productivity when supervisor was absent
+<strong>E</strong> Changes in productivity when supervisor was absent
 
-F Employees’ opinion as to extent of personal support from management
+<strong>F</strong> Employees’ opinion as to extent of personal support from management
 
-G Employees feel closer to their supervisors
+<strong>G</strong> Employees feel closer to their supervisors
 
-H Employees’ feelings towards increased supervision
+<strong>H</strong> Employees’ feelings towards increased supervision
 
-I Supervisors’ opinion as to closeness of work group</p>
+<strong>I</strong> Supervisors’ opinion as to closeness of work group</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Los Angeles</p>
 <p>2. London</p>
 <p>3. Singapore</p>
@@ -650,6 +706,29 @@ I Supervisors’ opinion as to closeness of work group</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -669,12 +748,23 @@ I Supervisors’ opinion as to closeness of work group</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -686,14 +776,6 @@ I Supervisors’ opinion as to closeness of work group</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

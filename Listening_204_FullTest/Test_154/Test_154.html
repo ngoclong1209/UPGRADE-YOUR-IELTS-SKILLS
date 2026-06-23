@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,106 +158,106 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_154</h1>
-            <p>IELTS Listening Practice - Test 154</p>
-<p>Part 1: Questions 1-10
-Complete the form below. Write NO MORE THAN THREE WORDS OR A NUMBER.</p>
-<p>CAR INSURANCE
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 154</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-10</strong>
+Complete the form below. Write <strong>NO MORE THAN THREE WORDS OR A NUMBER.</strong></p>
+<p><strong>CAR INSURANCE</strong>
 Name: Patrick Jones
-Address: (1)  _______  , Greendale
-Contact number: (2)  _______ 
+Address: <strong>(1)</strong>  _______  , Greendale
+Contact number: <strong>(2)</strong>  _______ 
 Size of car engine: 1200cc
 Type of car: Manufacturer: Hewton
-Model: (3)  _______ 
+Model: <strong>(3)</strong>  _______ 
 Year: 1997
-Previous insurance company: (4)  _______ 
+Previous insurance company: <strong>(4)</strong>  _______ 
 Any insurance claims in the last five year? Yes
-If yes, give brief details: Car was (5)  _______  in 1999
-Name(s) of other driver(s): Simon (6)  _______ 
-Relationship to main driver: (7)  _______ 
-Uses of car: Social and (8)  _______ 
+If yes, give brief details: Car was <strong>(5)</strong>  _______  in 1999
+Name(s) of other driver(s): Simon <strong>(6)</strong>  _______ 
+Relationship to main driver: <strong>(7)</strong>  _______ 
+Uses of car: Social and <strong>(8)</strong>  _______ 
 Start date: 31st January
-Recommended insurance arrangement: Name of company: (9)  _______ 
-Annual Cost: (10) $  _______</p>
-<p>Part 2: Questions 11 and 12
-Label the map below. Write NO MORE THAN TWO WORDS.</p>
-<p>(11)  _______ 
-(12)  _______</p>
-<p>Questions 13-18
-Complete the table below. Write NO MORE THAN TWO WORDS OR A NUMBER.</p>
-<p>(13)  _______                     (14)  _______ 
-(15)  _______                     (16)  _______ 
-(17)  _______                     (18)  _______</p>
-<p>Questions 19 and 20
-Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.</p>
+Recommended insurance arrangement: Name of company: <strong>(9)</strong>  _______ 
+Annual Cost: <strong>(10)</strong> $  _______</p>
+<p><strong>Part 2: Questions 11 and 12</strong>
+Label the map below. Write <strong>NO MORE THAN TWO WORDS.</strong></p>
+<h3 class="test-heading"><strong>(11)</strong>  _______ 
+<strong>(12)</strong>  _______</h3>
+<p><strong>Questions 13-18</strong>
+Complete the table below. Write <strong>NO MORE THAN TWO WORDS OR A NUMBER.</strong></p>
+<p><strong>(13)</strong>  _______                     <strong>(14)</strong>  _______ 
+<strong>(15)</strong>  _______                     <strong>(16)</strong>  _______ 
+<strong>(17)</strong>  _______                     <strong>(18)</strong>  _______</p>
+<p><strong>Questions 19 and 20</strong>
+Write <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer.</p>
 <p>19. How often do the Top Bus Company tours run?  _______ 
 20. Where can you catch a Number One Sightseeing Tour from?  _______</p>
-<p>Part 3: Questions 21-26
+<p><strong>Part 3: Questions 21-26</strong>
 Choose the correct letter A, B or C.</p>
 <p>21. The Antarctic Centre was established in Christchurch because
-[ ]  A New Zealand is a member of the Antarctic Treaty
-[ ]  B Christchurch is geographically well positioned
-[ ]  C the climate of Christchurch is suitable</p>
+<strong>[ ] </strong><strong> A</strong> New Zealand is a member of the Antarctic Treaty
+<strong>[ ] </strong><strong> B</strong> Christchurch is geographically well positioned
+<strong>[ ] </strong><strong> C</strong> the climate of Christchurch is suitable</p>
 <p>22. One role of the Antarctic Centre is to
-[ ]  A provide expeditions with suitable equipment
-[ ]  B provide researchers with financial assistance
-[ ]  C ensure that research is internationally relevant</p>
+<strong>[ ] </strong><strong> A</strong> provide expeditions with suitable equipment
+<strong>[ ] </strong><strong> B</strong> provide researchers with financial assistance
+<strong>[ ] </strong><strong> C</strong> ensure that research is internationally relevant</p>
 <p>23. The purpose of the Visitors’ Centre is to
-[ ]  A provide accommodation
-[ ]  B run training sessions
-[ ]  C show people what Antarctica is like</p>
+<strong>[ ] </strong><strong> A</strong> provide accommodation
+<strong>[ ] </strong><strong> B</strong> run training sessions
+<strong>[ ] </strong><strong> C</strong> show people what Antarctica is like</p>
 <p>24. Dr Merrywhether says that Antarctica is
-[ ]  A unlike any other country
-[ ]  B extremely beautiful
-[ ]  C too cold for tourists</p>
+<strong>[ ] </strong><strong> A</strong> unlike any other country
+<strong>[ ] </strong><strong> B</strong> extremely beautiful
+<strong>[ ] </strong><strong> C</strong> too cold for tourists</p>
 <p>25. According to Dr Merrywhether, Antarctica is very cold because
-[ ]  A of the shape of the continent
-[ ]  B it is surrounded by a frozen sea
-[ ]  C it is an extremely dry continent</p>
+<strong>[ ] </strong><strong> A</strong> of the shape of the continent
+<strong>[ ] </strong><strong> B</strong> it is surrounded by a frozen sea
+<strong>[ ] </strong><strong> C</strong> it is an extremely dry continent</p>
 <p>26. Dr Merrywhether thinks Antarctica was part of another continent because
-[ ]  A he has done his own research in the area
-[ ]  B there is geological evidence of this
-[ ]  C it is very close to South America</p>
-<p>Questions 27 and 28
-Complete the table below. Write ONE WORD OR TWO NUMBERS.</p>
-<p>ANTARCTIC TREATY</p>
-<p>(27)  _______ 
-(28)  _______</p>
-<p>Questions 29 and 30
-Choose TWO letters A-E.</p>
-<p>Which TWO achievements of the Antarctic Treaty are mentioned by the speakers?
-[ ]  A no military use
-[ ]  B animals protected
-[ ]  C historic sites reserved
-[ ]  D no nuclear testing
-[ ]  E fishing rites protected</p>
-<p>Part 4: Questions 31-35
+<strong>[ ] </strong><strong> A</strong> he has done his own research in the area
+<strong>[ ] </strong><strong> B</strong> there is geological evidence of this
+<strong>[ ] </strong><strong> C</strong> it is very close to South America</p>
+<p><strong>Questions 27 and 28</strong>
+Complete the table below. Write <strong>ONE WORD OR TWO NUMBERS.</strong></p>
+<p><strong>ANTARCTIC TREATY</strong></p>
+<p><strong>(27)</strong>  _______ 
+<strong>(28)</strong>  _______</p>
+<p><strong>Questions 29 and 30</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>Which <strong>TWO</strong> achievements of the Antarctic Treaty are mentioned by the speakers?
+<strong>[ ] </strong><strong> A</strong> no military use
+<strong>[ ] </strong><strong> B</strong> animals protected
+<strong>[ ] </strong><strong> C</strong> historic sites reserved
+<strong>[ ] </strong><strong> D</strong> no nuclear testing
+<strong>[ ] </strong><strong> E</strong> fishing rites protected</p>
+<p><strong>Part 4: Questions 31-35</strong>
 Choose the correct letter A, B or C.</p>
-<p>Left and Right Handedness in Sport
+<p><strong>Left and Right Handedness in Sport</strong>
 31. Anita first felt the Matthews article was of value when she realised
-[ ]  A how it would help her difficulties with left-handedness
-[ ]  B the relevance of connections he made with music
-[ ]  C the impressive size of his research project</p>
+<strong>[ ] </strong><strong> A</strong> how it would help her difficulties with left-handedness
+<strong>[ ] </strong><strong> B</strong> the relevance of connections he made with music
+<strong>[ ] </strong><strong> C</strong> the impressive size of his research project</p>
 <p>32. Anita feels that the findings on handedness will be of value in
-[ ]  A helping sportspeople identify their weaknesses
-[ ]  B aiding sportspeople as they plan tactics for each game
-[ ]  C developing suitable training programmes for sportspeople</p>
+<strong>[ ] </strong><strong> A</strong> helping sportspeople identify their weaknesses
+<strong>[ ] </strong><strong> B</strong> aiding sportspeople as they plan tactics for each game
+<strong>[ ] </strong><strong> C</strong> developing suitable training programmes for sportspeople</p>
 <p>33. Anita feels that most sports coaches
-[ ]  A know nothing about the influence of handedness
-[ ]  B focus on the wrong aspects of performance
-[ ]  C underestimate what science has to offer sport</p>
+<strong>[ ] </strong><strong> A</strong> know nothing about the influence of handedness
+<strong>[ ] </strong><strong> B</strong> focus on the wrong aspects of performance
+<strong>[ ] </strong><strong> C</strong> underestimate what science has to offer sport</p>
 <p>34. A German study showed there was greater ‘mixed handedness’ in musicians who
-[ ]  A started playing instruments in early youth
-[ ]  B play a string instrument such as the violin
-[ ]  C practise a great deal on their instrument</p>
+<strong>[ ] </strong><strong> A</strong> started playing instruments in early youth
+<strong>[ ] </strong><strong> B</strong> play a string instrument such as the violin
+<strong>[ ] </strong><strong> C</strong> practise a great deal on their instrument</p>
 <p>35. Studies on ape behaviour show that
-[ ]  A apes which always use the same hand to get food are most successful
-[ ]  B apes have the same proportion of left- and right-handers as humans
-[ ]  C more apes are left-handed than right-handed</p>
-<p>Questions 36-40
-Complete the table below. Write NO MORE THAN TWO WORDS OR A NUMBER.</p>
-<p>(36)  _______                   (37)  _______ 
-(38)  _______                   (39)  _______ 
-(40)  _______</p>
+<strong>[ ] </strong><strong> A</strong> apes which always use the same hand to get food are most successful
+<strong>[ ] </strong><strong> B</strong> apes have the same proportion of left- and right-handers as humans
+<strong>[ ] </strong><strong> C</strong> more apes are left-handed than right-handed</p>
+<p><strong>Questions 36-40</strong>
+Complete the table below. Write <strong>NO MORE THAN TWO WORDS OR A NUMBER.</strong></p>
+<p><strong>(36)</strong>  _______                   <strong>(37)</strong>  _______ 
+<strong>(38)</strong>  _______                   <strong>(39)</strong>  _______ 
+<strong>(40)</strong>  _______</p>
 <p>_______  _______  _______</p>
 <p>1. 27 bank road
 2. 730453
@@ -243,7 +299,7 @@ Complete the table below. Write NO MORE THAN TWO WORDS OR A NUMBER.</p>
 38. vision
 39. corrections
 40. balance</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. 27 bank road</p>
 <p>2. 730453</p>
 <p>3. sable</p>
@@ -502,6 +558,29 @@ Complete the table below. Write NO MORE THAN TWO WORDS OR A NUMBER.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -521,12 +600,23 @@ Complete the table below. Write NO MORE THAN TWO WORDS OR A NUMBER.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -538,14 +628,6 @@ Complete the table below. Write NO MORE THAN TWO WORDS OR A NUMBER.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

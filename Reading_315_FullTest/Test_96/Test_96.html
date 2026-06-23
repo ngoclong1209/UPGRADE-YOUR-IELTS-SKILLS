@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,18 +158,18 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_96</h1>
-            <p>IELTS Reading Practice - Test 96</p>
-<p>The Mozart Effect</p>
-<p>A Music has been used for centuries to heal the body. In the Ebers Papyrus (one of the earliest medical documents, circa 1550 BC), it was recorded that physicians chanted to heal the sick (Castleman, 1994). In various cul­tures, we have observed singing as part of healing rituals. In the world of Western medicine, however, using music in medicine lost popularity until the introduction of the radio. Researchers then started to notice that lis­tening to music could have significant physical effects. Therapists noticed music could help calm anxiety, and researchers saw that listening to music, could cause a drop in blood pressure. In addition to these two areas, music has been used with cancer chemotherapy to reduce nausea, during surgery to reduce stress hormone production, during childbirth, and in stroke re­covery (Castleman, 1994 and Westley, 1998). It has been shown to decrease pain as well as enhance the effectiveness of the immune system. In Japan, compilations of music are used as medication of sorts. For example, if you want to cure a headache or migraine, the album suggested is Mendelssohn’s “Spring Song”, Dvorak’s “Humoresque”, or part of George Gershwin’s “An American in Paris” (Campbell, 1998). Music is also being used to assist in learning, in a phenomenon called the Mozart Effect.</p>
-<p>B Frances H. Rauscher, PhD, first demonstrated the correlation between mu­sic and learning in an experiment in 1993. His experiment indicated that a 10-minute dose of Mozart could temporarily boost intelligence. Groups of students were given intelligence tests after listening to silence, relaxation tapes, or Mozart’s “Sonata for Two Pianos in D Major” for a short time. He found that after silence, the average IQ score was 110, and after the relax­ation tapes, the score rose a point. After listening to Mozart’s music, how­ever, the score jumped to 119 (Westley, 1998). Even students who did not like the music still had an increased score in the IQ test. Rauscher hy­pothesised that “listening to complex, non-repetitive music, like Mozart’s, may stimulate neural pathways that are important in thinking” (Castleman, 1994).</p>
-<p>C The same experiment was repeated on rats by Rauscher and Hong Hua Li from Stanford. Rats also demonstrated enhancement in their intelligence performance. These new studies indicate that rats that were exposed to Mozart’s showed “increased gene expression of BDNF (a neural growth factor), CREB (a learning and memory compound), and Synapsin I (a synap­tic growth protein)” in the brain’s hippocampus, compared with rats in the control group, which heard only white noise (e.g. the whooshing sound of a V radio tuned between stations).</p>
-<p>D How exactly does the Mozart Effect work? Researchers are still trying to determine the actual mechanisms for the formation of these enhanced learning pathways. Neuroscientists suspect that music can actually help build and strengthen connections between neurons in the cerebral cortex in a process similar to what occurs in brain development despite its type.</p>
-<p>When a baby is born, certain connections have already been made – like connections for heartbeat and breathing. As new information is learned and motor skills develop, new neural connections are formed. Neurons that are not used will eventually die while those used repeatedly will form strong connections. Although a large number of these neural connections require experience, they must also occur within a certain time frame. For example, a child born with cataracts cannot develop connections within the visual cortex. If the cataracts are removed by surgery right away, the child’s vi­sion develops normally. However, after the age of 2, if the cataracts are re­moved, the child will remain blind because those pathways cannot establish themselves.</p>
-<p>E Music seems to work in the same way. In October of 1997, researchers at the University of Konstanz in Germany found that music actually rewires neural circuits (Begley, 1996). Although some of these circuits are formed for physical skills needed to play an instrument, just listening to music strengthens connections used in higher-order thinking. Listening to music can then be thought of as “exercise” for the brain, improving concentration and enhancing intuition.</p>
-<p>F If you’re a little sceptical about the claims made by supporters of the Mozart Effect, you’re not alone. Many people accredit the advanced learning of some children who take music lessons to other personality traits, such as motivation and persistence, which are required in all types of learning. There have also been claims of that influencing the results of some experiments.</p>
-<p>G Furthermore, many people are critical of the role the media had in turning an isolated study into a trend for parents and music educators. After the Mozart Effect was published to the public, the sales of Mozart CDs stayed on the top of the hit list for three weeks. In an article by Michael Linton, he wrote that the research that began this phenomenon (the study by re­searchers at the University of California, Irvine) showed only a temporary boost in IQ, which was not significant enough to even last throughout the course of the experiment. Using music to influence intelligence was used in Confucian civilisation and Plato alluded to Pythagorean music when he de- jj scribed its ideal state in The Republic. In both of these examples, music did not cause any overwhelming changes, and the theory eventually died out. Linton also asks, “If Mozart’s music were able to improve health, why was Mozart himself so frequently sick? If listening to Mozart’s music increases intelligence and encourages spirituality, why aren’t the world’s smartest and most spiritual people Mozart specialists?” Linton raises an interesting point, if the Mozart Effect causes such significant changes, why isn’t there more documented evidence?</p>
-<p>H The “trendiness’’ of the Mozart Effect may have died out somewhat, but there are still strong supporters (and opponents) of the claims made in 1993. Since that initial experiment, there has not been a surge of support­ing evidence. However, many parents, after playing classical music while pregnant or when their children are young, will swear by the Mozart Effect. A classmate of mine once told me that listening to classical music while studying will help with memorisation. If we approach this controversy from a scientific aspect, although there has been some evidence that music does increase brain activity, actual improvements in learning and memory have not been adequately demonstrated.</p>
-<p>Questions 1-5
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 96</strong></h3>
+<h3 class="test-heading"><strong>The Mozart Effect</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Music has been used for centuries to heal the body. In the Ebers Papyrus (one of the earliest medical documents, circa 1550 BC), it was recorded that physicians chanted to heal the sick (Castleman, 1994). In various cul­tures, we have observed singing as part of healing rituals. In the world of Western medicine, however, using music in medicine lost popularity until the introduction of the radio. Researchers then started to notice that lis­tening to music could have significant physical effects. Therapists noticed music could help calm anxiety, and researchers saw that listening to music, could cause a drop in blood pressure. In addition to these two areas, music has been used with cancer chemotherapy to reduce nausea, during surgery to reduce stress hormone production, during childbirth, and in stroke re­covery (Castleman, 1994 and Westley, 1998). It has been shown to decrease pain as well as enhance the effectiveness of the immune system. In Japan, compilations of music are used as medication of sorts. For example, if you want to cure a headache or migraine, the album suggested is Mendelssohn’s “Spring Song”, Dvorak’s “Humoresque”, or part of George Gershwin’s “An American in Paris” (Campbell, 1998). Music is also being used to assist in learning, in a phenomenon called the Mozart Effect.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> Frances H. Rauscher, PhD, first demonstrated the correlation between mu­sic and learning in an experiment in 1993. His experiment indicated that a 10-minute dose of Mozart could temporarily boost intelligence. Groups of students were given intelligence tests after listening to silence, relaxation tapes, or Mozart’s “Sonata for Two Pianos in D Major” for a short time. He found that after silence, the average IQ score was 110, and after the relax­ation tapes, the score rose a point. After listening to Mozart’s music, how­ever, the score jumped to 119 (Westley, 1998). Even students who did not like the music still had an increased score in the IQ test. Rauscher hy­pothesised that “listening to complex, non-repetitive music, like Mozart’s, may stimulate neural pathways that are important in thinking” (Castleman, 1994).</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> The same experiment was repeated on rats by Rauscher and Hong Hua Li from Stanford. Rats also demonstrated enhancement in their intelligence performance. These new studies indicate that rats that were exposed to Mozart’s showed “increased gene expression of BDNF (a neural growth factor), CREB (a learning and memory compound), and Synapsin I (a synap­tic growth protein)” in the brain’s hippocampus, compared with rats in the control group, which heard only white noise (e.g. the whooshing sound of a V radio tuned between stations).</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> How exactly does the Mozart Effect work? Researchers are still trying to determine the actual mechanisms for the formation of these enhanced learning pathways. Neuroscientists suspect that music can actually help build and strengthen connections between neurons in the cerebral cortex in a process similar to what occurs in brain development despite its type.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>When a baby is born, certain connections have already been made – like connections for heartbeat and breathing. As new information is learned and motor skills develop, new neural connections are formed. Neurons that are not used will eventually die while those used repeatedly will form strong connections. Although a large number of these neural connections require experience, they must also occur within a certain time frame. For example, a child born with cataracts cannot develop connections within the visual cortex. If the cataracts are removed by surgery right away, the child’s vi­sion develops normally. However, after the age of 2, if the cataracts are re­moved, the child will remain blind because those pathways cannot establish themselves.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>E</strong> Music seems to work in the same way. In October of 1997, researchers at the University of Konstanz in Germany found that music actually rewires neural circuits (Begley, 1996). Although some of these circuits are formed for physical skills needed to play an instrument, just listening to music strengthens connections used in higher-order thinking. Listening to music can then be thought of as “exercise” for the brain, improving concentration and enhancing intuition.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>F</strong> If you’re a little sceptical about the claims made by supporters of the Mozart Effect, you’re not alone. Many people accredit the advanced learning of some children who take music lessons to other personality traits, such as motivation and persistence, which are required in all types of learning. There have also been claims of that influencing the results of some experiments.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>G</strong> Furthermore, many people are critical of the role the media had in turning an isolated study into a trend for parents and music educators. After the Mozart Effect was published to the public, the sales of Mozart CDs stayed on the top of the hit list for three weeks. In an article by Michael Linton, he wrote that the research that began this phenomenon (the study by re­searchers at the University of California, Irvine) showed only a temporary boost in IQ, which was not significant enough to even last throughout the course of the experiment. Using music to influence intelligence was used in Confucian civilisation and Plato alluded to Pythagorean music when he de- jj scribed its ideal state in The Republic. In both of these examples, music did not cause any overwhelming changes, and the theory eventually died out. Linton also asks, “If Mozart’s music were able to improve health, why was Mozart himself so frequently sick? If listening to Mozart’s music increases intelligence and encourages spirituality, why aren’t the world’s smartest and most spiritual people Mozart specialists?” Linton raises an interesting point, if the Mozart Effect causes such significant changes, why isn’t there more documented evidence?</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p><strong>H</strong> The “trendiness’’ of the Mozart Effect may have died out somewhat, but there are still strong supporters (and opponents) of the claims made in 1993. Since that initial experiment, there has not been a surge of support­ing evidence. However, many parents, after playing classical music while pregnant or when their children are young, will swear by the Mozart Effect. A classmate of mine once told me that listening to classical music while studying will help with memorisation. If we approach this controversy from a scientific aspect, although there has been some evidence that music does increase brain activity, actual improvements in learning and memory have not been adequately demonstrated.</p></div></div>
+<p><strong>Questions 1-5</strong>
 
 Reading Passage 1 has eight paragraphs A-H.</p>
 <p>Which paragraph contains the following information?</p>
@@ -126,18 +182,18 @@ Reading Passage 1 has eight paragraphs A-H.</p>
 4 The description of using music for healing in other countries
 
 5 Other qualities needed in all learning</p>
-<p>Questions 6-8
+<p><strong>Questions 6-8</strong>
 
-Complete the summary below. Choose NO MORE THAN ONE WORD from the passage for each answer.</p>
+Complete the summary below. Choose <strong>NO MORE THAN ONE WORD</strong> from the passage for each answer.</p>
 <p>During the experiment conducted by Frances Rauscher, subjects were exposed to the music for a (6)………………………. period of time before they were tested. And Rauscher believes the enhancement in their performance is related to the (7)………………………….nature of Mozart’s music. Later, a similar experiment was also repeated on (8)………………………..</p>
-<p>Questions 9-13
+<p><strong>Questions 9-13</strong>
 
 Do the following statements agree with the information given in Reading Passage 1?</p>
-<p>TRUE                          if the statement agrees with the information
+<p><strong>TRUE</strong>                          if the statement agrees with the information
 
-FALSE                        if the statement contradicts the information
+<strong>FALSE</strong>                        if the statement contradicts the information
 
-NOT GIVEN            if there is no information on this</p>
+<strong>NOT GIVEN</strong>            if there is no information on this</p>
 <p>9 All kinds of music can enhance one’s brain performance to somewhat extent.
 
 10 There is no neural connection made when a baby is born.
@@ -147,8 +203,8 @@ NOT GIVEN            if there is no information on this</p>
 12 Michael Linton conducted extensive research on Mozart’s life.
 
 13 There is not enough evidence in support of the Mozart Effect today.</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>The Ant and the Mandarin</p>
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>The Ant and the Mandarin</strong></p>
 <p>In 1476, the farmers of Berne in Switzerland decided there was only one way to rid their fields of the cutworms attacking their crops. They took the pests to court. The worms were tried, found guilty and excommunicated by the arch­bishop. In China, farmers had a more practical approach to pest control. Rather than relying on divine intervention, they put their faith in frogs, ducks and ants. Frogs and ducks were encouraged to snap up the pests in the paddies and the occasional plague of locusts. But the notion of biological control began with an ant. More specifically, it started with the predatory yellow citrus ant Oeco-phylla smaragdina, which has been polishing off pests in the orange groves of southern China for at least 1,700 years. The yellow citrus ant is a type of weaver ant, which binds leaves and twigs with silk to form a neat, tent-like nest. In the beginning, farmers made do with the odd ants’ nests here and there. But it wasn’t long before growing demand led to the development of a thriving trade in nests and a new type of agriculture – ant farming.</p>
 <p>For an insect that bites, the yellow citrus ant is remarkably popular. Even by ant standards, Oecophylla smaragdina is a fearsome predator. It’s big, runs fast and has a powerful nip – painful to humans but lethal to many of the insects that plague the orange groves of Guangdong and Guangxi in southern China. And for at least 17 centuries, Chinese orange growers have harnessed these six-legged killing machines to keep their fruit groves healthy and productive.</p>
 <p>Citrus fruits evolved in the Far East and the Chinese discovered the delights of their flesh early on. As the ancestral home of oranges, lemons and pomelos, China also has the greatest diversity of citrus pests. And the trees that produce the sweetest fruits, the mandarins – or kan – attract a host of plant-eating in­sects, from black ants and sap-sucking mealy bugs to leaf-devouring caterpil­lars. With so many enemies, fruit growers clearly had to have some way of pro­tecting their orchards.</p>
@@ -164,7 +220,7 @@ NOT GIVEN            if there is no information on this</p>
 <p>One apparent drawback of using ants – and one of the main reasons for the early scepticism by Western scientists – was that citrus ants do nothing to control mealy bugs, waxy-coated scale insects which can do considerable damage to fruit trees. In fact, the ants protect mealy bugs in exchange for the sweet honey-dew they secrete. The orange growers always denied this was a problem but Western scientists thought they knew better.</p>
 <p>Research in the 1980s suggests that the growers were right all along. Where X mealy bugs proliferate under the ants’ protection, they are usually heavily parasitised and this limits the harm they can do.</p>
 <p>Orange growers who rely on carnivorous ants rather than poisonous chemicals maintain a better balance of species in their orchards. While the ants deal with the bigger insect pests, other predatory species keep down the numbers of smaller pests such as scale insects and aphids. In the long run, ants do a lot less damage than chemicals – and they’re certainly more effective than excommunication.</p>
-<p>Questions 14-18
+<p><strong>Questions 14-18</strong>
 
 Look at the following events (Questions 14-18) and the list of dates below.</p>
 <p>Match each event with the correct time A-G.</p>
@@ -177,29 +233,29 @@ Look at the following events (Questions 14-18) and the list of dates below.</p>
 17 Chinese fruit growers started to use pesticides in place of citrus ants.
 
 18 Some Chinese farmers returned to the traditional bio-method</p>
-<p>List of Dates
+<p><strong>List of Dates</strong>
 
-A 1888
+<strong>A</strong> 1888
 
-B AD 890
+<strong>B</strong> AD 890
 
-C AD 304
+<strong>C</strong> AD 304
 
-D 1950s
+<strong>D</strong> 1950s
 
-E 1960s
+<strong>E</strong> 1960s
 
-F 1915
+<strong>F</strong> 1915
 
-G 1130</p>
-<p>Questions 19-26
+<strong>G</strong> 1130</p>
+<p><strong>Questions 19-26</strong>
 
 Do the following statements agree with the information given in Reading Passage 2?</p>
-<p>TRUE                             if the statement agrees with the information
+<p><strong>TRUE</strong>                             if the statement agrees with the information
 
-FALSE                           if the statement contradicts the information
+<strong>FALSE</strong>                           if the statement contradicts the information
 
-NOT GIVEN                if there is no information on this</p>
+<strong>NOT GIVEN</strong>                if there is no information on this</p>
 <p>19 China has more citrus pests than any other country in the world.
 
 20 Swingle came to China to search for an insect to bring back to the US.
@@ -215,32 +271,32 @@ NOT GIVEN                if there is no information on this</p>
 25 Fields using ants yield as large a crop as fields using chemical pesticides.
 
 26 Citrus ants often cause considerable damage to the bio-environment of the orchards.</p>
-<p>Music: Language We All Speak</p>
-<p>Section A
+<p><strong>Music: Language We All Speak</strong></p>
+<p><strong>Section A</strong>
 
 Music is one of the human species’ relatively few universal abilities. Without formal training, any individual, from Stone Age tribesman to suburban teenager, has the ability to recognise music and, in some fashion, to make it. Why this should be so is a mystery. After all, music isn’t necessary for getting through the day, and if it aids in reproduction, it does so only in highly indirect ways. Language, by contrast, is also everywhere – but for reasons that are more obvious. With language, you and the members of your tribe can organise a migration across Africa, build reed boats and cross the seas, and communicate at night even when you can’t see each other. Modern culture, in all its technological extravagance, springs directly from the human talent for manipulating symbols and syntax.</p>
 <p>Scientists have always been intrigued by the connection between music and language. Yet over the years, words and melody have acquired a vastly different status in the lab and the seminar room. While language has long been considered essential to unlocking the mechanisms of human intelligence, music is generally treated as an evolutionary frippery – mere “auditory cheesecake”, as the Harvard cognitive scientist Steven Pinker puts it.</p>
-<p>Section B
+<p><strong>Section B</strong>
 
 But thanks to a decade-long wave of neuroscience research, that tune is changing. A flurry of recent publications suggests that language and music may equally be able to tell us who we are and where we’re from – not just emotionally, but biologically. In July, the journal Nature Neuroscience devoted a special issue to the topic. And in an article in the 6 August issue of the Journal of Neuroscience, David Schwartz, Catherine Howe, and Dale Purves of Duke University argued that the sounds of music and the sounds of language are intricately connected.</p>
 <p>To grasp the originality of this idea, it’s necessary to realise two things about how music has traditionally been understood. First, musicologists have long emphasised that while each culture stamps a special identity onto its music, music itself has some universal qualities. For example, in virtually all cultures, sound is divided into some or all of the 12 intervals that make up the chromatic scale -that is, the scale represented by the keys on a piano. For centuries, observers have attributed this preference for certain combinations of tones to the mathematical properties of sound itself.</p>
 <p>Some 2,500 years ago, Pythagoras was the first to note a direct relationship between the harmoniousness of a tone combination and the physical dimensions of the object that produced it. For example, a plucked string will always play an octave lower than a similar string half its size, and a fifth lower than a similar string two thirds its length. This link between simple ratios and harmony has influenced music theory ever since.</p>
-<p>Section C
+<p><strong>Section C</strong>
 
 This music-is-math idea is often accompanied by the notion that music, formally speaking at least, exists apart from the world in which it was created. Writing recently in The New York Review of Books, pianist and critic Charles Rosen discussed the long-standing notion that while painting and sculpture reproduce at least some aspects of the natural world, and writing describes thoughts and feelings we are all familiar with, music is entirely abstracted from the world in which we live. Neither idea is right, according to David Schwartz and his colleagues. Human musical preferences are fundamentally shaped not by elegant algorithms or ratios but by the messy sounds of real life, and of speech in particular – which in turn is shaped by our evolutionary heritage. “The explanation of music, like the explanation of any product of the mind, must be rooted in biology, not in numbers per se,” says Schwartz.</p>
 <p>Schwartz, Howe, and Purves analysed a vast selection of speech sounds from a variety of languages to reveal the underlying patterns common to all utterances. In order to focus only on the raw sounds, they discarded all theories about speech and meaning, and sliced sentences into random bites. Using a database of over 100,000 brief segments of speech, they noted which frequency had the greatest emphasis in each sound. The resulting set of frequencies, they discovered, corresponded closely to the chromatic scale. In short, the building blocks of music are to be found in speech.</p>
 <p>Far from being abstract, music presents a strange analogue to the patterns created by the sounds of speech. “Music, like visual arts, is rooted in our experience of the natural world,” says Schwartz. “It emulates our sound environment in the way that visual arts emulate the visual environment.” In music we hear the echo of our basic sound-making instrument – the vocal tract. The explanation for human music is simpler still than Pythagoras’s mathematical equations: We like the sounds that are familiar to us – specifically, we like the sounds that remind us of us.</p>
 <p>This brings up some chicken-or-egg evolutionary questions. It may be that music imitates speech directly, the researchers say, in which case it would seem that language evolved first. It’s also conceivable that music came first and language is in effect an imitation of song – that in everyday speech we hit the musical notes we especially like. Alternately, it may be that music imitates the general products of the human sound-making system, which just happens to be mostly speech. “We can’t know this,” says Schwartz. “What we do know is that they both come from the same system, and it is this that shapes our preferences.”</p>
-<p>Section D
+<p><strong>Section D</strong>
 
 Schwartz’s study also casts light on the long-running question of whether animals understand or appreciate music. Despite the apparent abundance of “music” in the natural world – birdsong, whalesong, wolf howls, synchronised chimpanzee hooting – previous studies have found that many laboratory animals don’t show a great affinity for the human variety of music making.</p>
 <p>Marc Hauser and Josh McDermott of Harvard argued in the July issue of Nature Neuroscience that animals don’t create or perceive music the way we do. The fact that laboratory monkeys can show recognition of human tunes is evidence, they say, of shared general features of the auditory system, not any specific chimpanzee musical ability. As for birds, those most musical beasts, they generally recognise their own tunes – a narrow repertoire – but don’t generate novel melodies like we do. There are no avian Mozarts.</p>
 <p>But what’s been played to animals, Schwartz notes, is human music. If animals evolve preferences for sound as we do – based upon the soundscape in which they live – then their “music” would be fundamentally different from ours. In the same way our scales derive from human utterances, a cat’s idea of a good tune would derive from yowls and meows. To demonstrate that animals don’t appreciate sound the way we do, we’d need evidence that they don’t respond to “music” constructed from their own sound environment.</p>
-<p>Section E
+<p><strong>Section E</strong>
 
 No matter how the connection between language and music is parsed, what is apparent is that our sense of music, even our love for it, is as deeply rooted in our biology and in our brains as language is. This is most obvious with babies, says Sandra Trehub at the University of Toronto, who also published a paper in the Nature Neuroscience special issue.</p>
 <p>For babies, music and speech are on a continuum. Mothers use musical speech to “regulate infants’ emotional states”, Trehub says. Regardless of what language they speak, the voice all mothers use with babies is the same: “something between speech and song”. This kind of communication “puts the baby in a trancelike state, which may proceed to sleep or extended periods of rapture”. So if the babies of the world could understand the latest research on language and music, they probably wouldn’t be very surprised. The upshot, says Trehub, is that music may be even more of a necessity than we realise.</p>
-<p>Questions 27-31
+<p><strong>Questions 27-31</strong>
 
 Reading Passage 3 has five sections A-E.</p>
 <p>Choose the correct heading for each section from the list of headings below.</p>
@@ -253,7 +309,7 @@ Reading Passage 3 has five sections A-E.</p>
 30 Section D
 
 31 Section E</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 
 i. Communication in music with animals
 
@@ -270,7 +326,7 @@ vi. Music transcends cultures.
 vii. Look back at some of the historical theories
 
 viii. Are we genetically designed for music?</p>
-<p>Questions 32-38
+<p><strong>Questions 32-38</strong>
 
 Look at the following people (Questions 32-38) and the list of statements below.</p>
 <p>Match each person with the correct statement.</p>
@@ -287,23 +343,23 @@ Look at the following people (Questions 32-38) and the list of statements below.
 37 Charles Rosen
 
 38 Sandra Trehub</p>
-<p>List of Statements
+<p><strong>List of Statements</strong>
 
-A Music exists outside of the world it is created in.
+<strong>A</strong> Music exists outside of the world it is created in.
 
-B Music has a universal character despite cultural influences on it.
+<strong>B</strong> Music has a universal character despite cultural influences on it.
 
-C Music is a necessity for humans.
+<strong>C</strong> Music is a necessity for humans.
 
-D Music preference is related to the surrounding influences.
+<strong>D</strong> Music preference is related to the surrounding influences.
 
-E He discovered the mathematical basis of music.
+<strong>E</strong> He discovered the mathematical basis of music.
 
-F Music doesn’t enjoy the same status of research interest as language.
+<strong>F</strong> Music doesn’t enjoy the same status of research interest as language.
 
-G Humans and monkeys have similar traits in perceiving sound.</p>
+<strong>G</strong> Humans and monkeys have similar traits in perceiving sound.</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. D</p>
 <p>2. G</p>
 <p>3. B</p>
@@ -562,6 +618,29 @@ G Humans and monkeys have similar traits in perceiving sound.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -581,12 +660,23 @@ G Humans and monkeys have similar traits in perceiving sound.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -598,14 +688,6 @@ G Humans and monkeys have similar traits in perceiving sound.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,68 +158,68 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_239</h1>
-            <p>IELTS Reading Practice - Test 239</p>
-<p>Biodiversity</p>
-<p>A It seems biodiversity has become a buzzword beloved of politicians, conservationists, protesters and scientists alike. But what exactly is it? The Convention on Biological Diversity, an international agreement to conserve and share the planet’s biological riches, provides a good working definition: biodiversity comprises every form of life, from the smallest microbe to the largest animal or plant, the genes that give them their specific characteristics and the ecosystems of which they are apart.</p>
-<p>B In October, the World Conservation Union (also known as the IUCN) published its updated Red List of Threatened Species, a roll call of 11,167 creatures facing extinction – 121 more than when the list was last published in 2000. But the new figures almost certainly underestimate the crisis. Some 1.2 million species of animal and 270,000 species of plant have been classified, but the well-being of only a fraction has been assessed. The resources are simply not available. The IUCN reports that 5714 plants are threatened, for example, but admits that only 4 per cent of known plants has been assessed. And, of course, there are thousands of species that we have yet to discover. Many of these could also be facing extinction.</p>
-<p>C It is important to develop a picture of the diversity of life on Earth now so that comparisons can be made in the future and trends identified. But it isn’t necessary to observe every single type of organism in an area to get a snapshot of the health of the ecosystem. In many habitats, there are species that are particularly susceptible to shifting conditions, and these can be used as indicator species.</p>
-<p>D In the media, it is usually large, charismatic animals such as pandas, elephants, tigers and whales that get all the attention when a loss of biodiversity is discussed. However, animals or plants far lower down the food chain are often the ones vital for preserving habitats – in the process saving the skins of those more glamorous species. There are known as keystone species.</p>
-<p>E By studying the complex feeding relationships within habitats, species can be identified that have a particularly important impact on the environment. For example, the members of the fig family are the staple food for hundreds of different species in many different countries, so important that scientists sometimes call figs “jungle burgers”. A whole range of animals, from tiny insects to birds and large mammals, feed on everything from the tree’s bark and leaves to its flowers and fruits. Many fig species have very specific pollinators. There are several dozen species of the fig tree in Costa Rica, and a different type of wasp has evolved to pollinate each one. Chris Lyle of the Natural History Museum in London – who is also involved in the Global Taxonomy Initiative of the Convention on Biological Diversity – points out that if fig trees are affected by global warming, pollution, disease or any other catastrophe, the loss of biodiversity will be enormous.</p>
-<p>F Similarly, sea otters play a major role in the survival of giant kelp forests along the coasts of California and Alaska. These “marine rainforests” provide a home for a wide range of other species. The kelp itself is the main food of purple and red sea urchins and in turn, the urchins are eaten by predators, particularly sea otters. They detach an urchin from the seabed then float to the surface and lie on their backs with the urchin shell on their tummy, smashing it open with a stone before eating the contents. Urchins that are not eaten tend to spend their time in rock crevices to avoid the predators. This allows the kelp to grow – and it can grow many centimetres in a day. As the forests form, bits of kelp break off and fall to the bottom to provide food for the urchins in their crevices. The sea otters thrive hunting for sea urchins in the kelp, and many other fish and invertebrates live among the fronds. The problems start when the sea otter population declines. As large predators they are vulnerable – their numbers are relatively small to disease or human hunters can wipe them out. The result is that the sea urchin population grows unchecked and they roam the seafloor eating young kelp fronds. This tends to keep the kelp very short and stops forests developing, which has a huge impact on biodiversity.</p>
-<p>G Conversely, keystone species can also make dangerous alien species: they can wreak havoc if they end up in the wrong ecosystem. The cactus moth, whose caterpillar is a voracious eater of prickly pear was introduced to Australia to control the rampant cacti. It was so successful that someone thought it would be a good idea to introduce it to Caribbean islands that had the same problem. It solved the cactus menace, but unfortunately, some of the moths have now reached the US mainland – borne on winds and in tourists’ luggage – where they are devastating the native cactus populations of Florida.</p>
-<p>H Organisations like the Convention on Biological Diversity work with groups such as the UN and with governments and scientists to raise awareness and fund research. A number of major international meetings – including the World Summit on Sustainable Development in Johannesburg this year – have set targets for governments around the world to slow the loss of biodiversity. And the CITES meeting in Santiago last month added several more names to its list of endangered species for which trade is controlled. Of course, these agreements will prove of limited value if some countries refuse to implement them.</p>
-<p>I There is cause for optimism, however. There seems to be a growing understanding of the need for sustainable agriculture and sustainable tourism to conserve biodiversity. Problems such as illegal logging are being tackled through sustainable forestry programmes, with the emphasis on minimising the use of rainforest hardwoods in the developed world and on rigorous replanting of whatever trees are harvested. CITES is playing its part by controlling trade in wood from endangered tree species. In the same way, sustainable farming techniques that minimise environmental damage and avoid monoculture.</p>
-<p>J Action at a national level often means investing in public education and awareness. Getting people like you and me involved can be very effective. Australia and many European countries are becoming increasingly efficient at recycling much of their domestic waste, for example, preserving natural resources and reducing the use of fossil fuels. This, in turn, has a direct effect on biodiversity by minimising pollution, and an indirect effect by reducing the number of greenhouse gases emitted from incinerators and landfill sites. Preserving ecosystems intact for future generations to enjoy is obviously important, but biodiversity is not some kind of optional extra. Variety may be “the spice of life”, but biological variety is also our life-support system.</p>
-<p>Questions 1-7
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 239</strong></h3>
+<h3 class="test-heading"><strong>Biodiversity</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> It seems biodiversity has become a buzzword beloved of politicians, conservationists, protesters and scientists alike. But what exactly is it? The Convention on Biological Diversity, an international agreement to conserve and share the planet’s biological riches, provides a good working definition: biodiversity comprises every form of life, from the smallest microbe to the largest animal or plant, the genes that give them their specific characteristics and the ecosystems of which they are apart.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> In October, the World Conservation Union (also known as the IUCN) published its updated Red List of Threatened Species, a roll call of 11,167 creatures facing extinction – 121 more than when the list was last published in 2000. But the new figures almost certainly underestimate the crisis. Some 1.2 million species of animal and 270,000 species of plant have been classified, but the well-being of only a fraction has been assessed. The resources are simply not available. The IUCN reports that 5714 plants are threatened, for example, but admits that only 4 per cent of known plants has been assessed. And, of course, there are thousands of species that we have yet to discover. Many of these could also be facing extinction.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> It is important to develop a picture of the diversity of life on Earth now so that comparisons can be made in the future and trends identified. But it isn’t necessary to observe every single type of organism in an area to get a snapshot of the health of the ecosystem. In many habitats, there are species that are particularly susceptible to shifting conditions, and these can be used as indicator species.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> In the media, it is usually large, charismatic animals such as pandas, elephants, tigers and whales that get all the attention when a loss of biodiversity is discussed. However, animals or plants far lower down the food chain are often the ones vital for preserving habitats – in the process saving the skins of those more glamorous species. There are known as keystone species.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> By studying the complex feeding relationships within habitats, species can be identified that have a particularly important impact on the environment. For example, the members of the fig family are the staple food for hundreds of different species in many different countries, so important that scientists sometimes call figs “jungle burgers”. A whole range of animals, from tiny insects to birds and large mammals, feed on everything from the tree’s bark and leaves to its flowers and fruits. Many fig species have very specific pollinators. There are several dozen species of the fig tree in Costa Rica, and a different type of wasp has evolved to pollinate each one. Chris Lyle of the Natural History Museum in London – who is also involved in the Global Taxonomy Initiative of the Convention on Biological Diversity – points out that if fig trees are affected by global warming, pollution, disease or any other catastrophe, the loss of biodiversity will be enormous.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> Similarly, sea otters play a major role in the survival of giant kelp forests along the coasts of California and Alaska. These “marine rainforests” provide a home for a wide range of other species. The kelp itself is the main food of purple and red sea urchins and in turn, the urchins are eaten by predators, particularly sea otters. They detach an urchin from the seabed then float to the surface and lie on their backs with the urchin shell on their tummy, smashing it open with a stone before eating the contents. Urchins that are not eaten tend to spend their time in rock crevices to avoid the predators. This allows the kelp to grow – and it can grow many centimetres in a day. As the forests form, bits of kelp break off and fall to the bottom to provide food for the urchins in their crevices. The sea otters thrive hunting for sea urchins in the kelp, and many other fish and invertebrates live among the fronds. The problems start when the sea otter population declines. As large predators they are vulnerable – their numbers are relatively small to disease or human hunters can wipe them out. The result is that the sea urchin population grows unchecked and they roam the seafloor eating young kelp fronds. This tends to keep the kelp very short and stops forests developing, which has a huge impact on biodiversity.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> Conversely, keystone species can also make dangerous alien species: they can wreak havoc if they end up in the wrong ecosystem. The cactus moth, whose caterpillar is a voracious eater of prickly pear was introduced to Australia to control the rampant cacti. It was so successful that someone thought it would be a good idea to introduce it to Caribbean islands that had the same problem. It solved the cactus menace, but unfortunately, some of the moths have now reached the US mainland – borne on winds and in tourists’ luggage – where they are devastating the native cactus populations of Florida.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>H</strong> Organisations like the Convention on Biological Diversity work with groups such as the UN and with governments and scientists to raise awareness and fund research. A number of major international meetings – including the World Summit on Sustainable Development in Johannesburg this year – have set targets for governments around the world to slow the loss of biodiversity. And the CITES meeting in Santiago last month added several more names to its list of endangered species for which trade is controlled. Of course, these agreements will prove of limited value if some countries refuse to implement them.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p><strong>I</strong> There is cause for optimism, however. There seems to be a growing understanding of the need for sustainable agriculture and sustainable tourism to conserve biodiversity. Problems such as illegal logging are being tackled through sustainable forestry programmes, with the emphasis on minimising the use of rainforest hardwoods in the developed world and on rigorous replanting of whatever trees are harvested. CITES is playing its part by controlling trade in wood from endangered tree species. In the same way, sustainable farming techniques that minimise environmental damage and avoid monoculture.</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p><strong>J</strong> Action at a national level often means investing in public education and awareness. Getting people like you and me involved can be very effective. Australia and many European countries are becoming increasingly efficient at recycling much of their domestic waste, for example, preserving natural resources and reducing the use of fossil fuels. This, in turn, has a direct effect on biodiversity by minimising pollution, and an indirect effect by reducing the number of greenhouse gases emitted from incinerators and landfill sites. Preserving ecosystems intact for future generations to enjoy is obviously important, but biodiversity is not some kind of optional extra. Variety may be “the spice of life”, but biological variety is also our life-support system.</p></div></div>
+<p><strong>Questions 1-7</strong>
 Do the following statements agree with the information given in Reading Passage? In boxes 1-7 on your answer sheet, write</p>
-<p>TRUE                        if the statement agrees with the information
-FALSE                      if the statement contradicts the information
-NOT GIVEN          if there is no information on this</p>
-<p>Questions 8-13
-Complete the following summary of the paragraphs of Reading Passage, using NO MORE THAN TWO WORDS from the Reading Passage for each answer.</p>
+<p><strong>TRUE</strong>                        if the statement agrees with the information
+<strong>FALSE</strong>                      if the statement contradicts the information
+<strong>NOT GIVEN</strong>          if there is no information on this</p>
+<p><strong>Questions 8-13</strong>
+Complete the following summary of the paragraphs of Reading Passage, using <strong>NO MORE THAN TWO WORDS</strong> from the Reading Passage for each answer.</p>
 <p>Because of the ignorance brought by media, people tend to neglect significant creatures called (8) …………… Every creature has diet connections with others, such as (9) ……………….., which provide a majority of foods for other species. In some states of America, the decline in a number of sea otters leads to the boom of (10) ………………. An impressing case is that imported (11) ……………….. successfully tackles the plant cacti in (12) ………………….. However, the operation is needed for the government to increase its financial support in (13) …………………..</p>
-<p>What are you laughing at?</p>
-<p>A We like to think that laughing is the height of human sophistication. Our big brains let us see the humour in a strategically positioned pun, an unexpected plot twist or a clever piece of wordplay. But while joking and wit are uniquely human inventions, laughter certainly is not. Other creatures, including chimpanzees, gorillas and even rats, chuckle. Obviously, they don’t crack up at Homer Simpson or titter at the boss’s dreadful jokes, but the fact that they laugh in the first place suggests that sniggers and chortles have been around for a lot longer than we have. It points the way to the origins of laughter, suggesting a much more practical purpose than you might think.</p>
-<p>B There is no doubt that laughing typical involves groups of people. ‘Laughter evolved as a signal to others – it almost disappears when we are alone,’ says Robert Provine, a neuroscientist at the University of Maryland. Provine found that most laughter comes as a polite reaction to everyday remarks such as ‘see you later’, rather than anything particularly funny. And the way we laugh depends on the company we’re keeping. Men tend to laugh longer and harder when they are with other men, perhaps as a way of bonding. Women tend to laugh more and at a higher pitch when men are present, possibly indicating flirtation or even submission.</p>
-<p>C To find the origins of laughter, Provine believes we need to look at the play. He points out that the masters of laughing are children, and nowhere is their talent more obvious than in the boisterous antics, and the original context plays,’ he says. Well-known primate watchers, including Dian Fossey and Jane Goodall, have long argued that chimps laugh while at play. The sound they produce is known as a panting laugh. It seems obvious when you watch their behavior – they even have the same ticklish spots as we do. But remove the context, and the parallel between human laughter and a chimp’s characteristic pant laugh is not so clear. When Provine played a tape of the pant laughs to 119 of his students, for example, only two guessed correctly what it was.</p>
-<p>D These findings underline how chimp and human laughter vary. When we laugh the sound is usually produced by chopping up a single exhalation into a series of shorter with one sound produced on each inward and outward breath. The question is: does this pant laughter have the same source as our own laughter? New research lends weight to the idea that it does. The findings come from Elke Zimmerman, head of the Institute for Zoology in Germany, who compared the sounds made by babies and chimpanzees in response to tickling during the first year of their life. Using sound spectrographs to reveal the pitch and intensity of vocalizations, she discovered that chimp and human baby laughter follow broadly the same pattern. Zimmerman believes the closeness of baby laughter to chimp laughter supports the idea that laughter was around long before humans arrived on the scene. What started simply as a modification of breathing associated with enjoyable and playful interactions has acquired a symbolic meaning as an indicator of pleasure.</p>
-<p>E Pinpointing when laughter developed is another matter. Humans and chimps share a common ancestor that lived perhaps 8 million years ago, but animals might have been laughing long before that. More distantly related primates, including gorillas, laugh, and anecdotal evidence suggests that other social mammals nay do too. Scientists are currently testing such stories with a comparative analysis of just how common laughter is among animals. So far, though, the most compelling evidence for laughter beyond primates comes from research done by Jaak Panksepp from Bowling Green State University, Ohio, into the ultrasonic chirps produced by rats during play and in response to tickling.</p>
-<p>F All this still doesn’t answer the question of why we laugh at all. One idea is that laughter and tickling originated as a way of sealing the relationship between mother and child. Another is that the reflex response to tickling is protective, alerting us to the presence of crawling creatures that might harm us or compelling us to defend the parts of our bodies that are most vulnerable in hand-to-hand combat. But the idea that has gained most popularity in recent years is that laughter in response to tickling is a way for two individuals to signal and test their trust in one another. This hypothesis starts from the observation that although a little tickle can be enjoyable if it goes on too long it can be torture. By engaging in a bout of tickling, we put ourselves at the mercy of another individual, and laughing is a signal that we laughter is what makes it a reliable signal of trust according to Tom Flamson, a laughter researcher at the University of California, Los Angels. ‘Even in rats, laughter, tickle, play and trust are linked. Rats chirp a lot when they play,’ says Flamson. ‘These chirps can be aroused by tickling. And they get bonded to us as a result, which certainly seems like a show of trust.’</p>
-<p>G We’ll never know which animal laughed the first laugh, or why. But we can be sure it wasn’t in response to a prehistoric joke. The funny thing is that while the origins of laughter are probably quite serious, we owe human laughter and our language-based humor to the same unique skill. While other animals pant, we alone can control our breath well enough to produce the sound of laughter. Without that control, there would also be no speech – and no jokes to endure.</p>
-<p>Questions 14-19
+<p><strong>What are you laughing at?</strong></p>
+<p><strong>A</strong> We like to think that laughing is the height of human sophistication. Our big brains let us see the humour in a strategically positioned pun, an unexpected plot twist or a clever piece of wordplay. But while joking and wit are uniquely human inventions, laughter certainly is not. Other creatures, including chimpanzees, gorillas and even rats, chuckle. Obviously, they don’t crack up at Homer Simpson or titter at the boss’s dreadful jokes, but the fact that they laugh in the first place suggests that sniggers and chortles have been around for a lot longer than we have. It points the way to the origins of laughter, suggesting a much more practical purpose than you might think.</p>
+<p><strong>B</strong> There is no doubt that laughing typical involves groups of people. ‘Laughter evolved as a signal to others – it almost disappears when we are alone,’ says Robert Provine, a neuroscientist at the University of Maryland. Provine found that most laughter comes as a polite reaction to everyday remarks such as ‘see you later’, rather than anything particularly funny. And the way we laugh depends on the company we’re keeping. Men tend to laugh longer and harder when they are with other men, perhaps as a way of bonding. Women tend to laugh more and at a higher pitch when men are present, possibly indicating flirtation or even submission.</p>
+<p><strong>C</strong> To find the origins of laughter, Provine believes we need to look at the play. He points out that the masters of laughing are children, and nowhere is their talent more obvious than in the boisterous antics, and the original context plays,’ he says. Well-known primate watchers, including Dian Fossey and Jane Goodall, have long argued that chimps laugh while at play. The sound they produce is known as a panting laugh. It seems obvious when you watch their behavior – they even have the same ticklish spots as we do. But remove the context, and the parallel between human laughter and a chimp’s characteristic pant laugh is not so clear. When Provine played a tape of the pant laughs to 119 of his students, for example, only two guessed correctly what it was.</p>
+<p><strong>D</strong> These findings underline how chimp and human laughter vary. When we laugh the sound is usually produced by chopping up a single exhalation into a series of shorter with one sound produced on each inward and outward breath. The question is: does this pant laughter have the same source as our own laughter? New research lends weight to the idea that it does. The findings come from Elke Zimmerman, head of the Institute for Zoology in Germany, who compared the sounds made by babies and chimpanzees in response to tickling during the first year of their life. Using sound spectrographs to reveal the pitch and intensity of vocalizations, she discovered that chimp and human baby laughter follow broadly the same pattern. Zimmerman believes the closeness of baby laughter to chimp laughter supports the idea that laughter was around long before humans arrived on the scene. What started simply as a modification of breathing associated with enjoyable and playful interactions has acquired a symbolic meaning as an indicator of pleasure.</p>
+<p><strong>E</strong> Pinpointing when laughter developed is another matter. Humans and chimps share a common ancestor that lived perhaps 8 million years ago, but animals might have been laughing long before that. More distantly related primates, including gorillas, laugh, and anecdotal evidence suggests that other social mammals nay do too. Scientists are currently testing such stories with a comparative analysis of just how common laughter is among animals. So far, though, the most compelling evidence for laughter beyond primates comes from research done by Jaak Panksepp from Bowling Green State University, Ohio, into the ultrasonic chirps produced by rats during play and in response to tickling.</p>
+<p><strong>F</strong> All this still doesn’t answer the question of why we laugh at all. One idea is that laughter and tickling originated as a way of sealing the relationship between mother and child. Another is that the reflex response to tickling is protective, alerting us to the presence of crawling creatures that might harm us or compelling us to defend the parts of our bodies that are most vulnerable in hand-to-hand combat. But the idea that has gained most popularity in recent years is that laughter in response to tickling is a way for two individuals to signal and test their trust in one another. This hypothesis starts from the observation that although a little tickle can be enjoyable if it goes on too long it can be torture. By engaging in a bout of tickling, we put ourselves at the mercy of another individual, and laughing is a signal that we laughter is what makes it a reliable signal of trust according to Tom Flamson, a laughter researcher at the University of California, Los Angels. ‘Even in rats, laughter, tickle, play and trust are linked. Rats chirp a lot when they play,’ says Flamson. ‘These chirps can be aroused by tickling. And they get bonded to us as a result, which certainly seems like a show of trust.’</p>
+<p><strong>G</strong> We’ll never know which animal laughed the first laugh, or why. But we can be sure it wasn’t in response to a prehistoric joke. The funny thing is that while the origins of laughter are probably quite serious, we owe human laughter and our language-based humor to the same unique skill. While other animals pant, we alone can control our breath well enough to produce the sound of laughter. Without that control, there would also be no speech – and no jokes to endure.</p>
+<p><strong>Questions 14-19</strong>
 Look at the following research findings (questions 14-19) and the list of people below. Match each finding with the correct person A, B, C or D. Write the correct letter, A, B, C or D, in boxes 14-19 on your answer sheet. NB You may use any letter more than once.</p>
-<p>A Tom Flamson
-B Elke Zimmerman
-C Robert Provine
-D Jaak Panksepp</p>
+<p><strong>A</strong> Tom Flamson
+<strong>B</strong> Elke Zimmerman
+<strong>C</strong> Robert Provine
+<strong>D</strong> Jaak Panksepp</p>
 <p>14. Babies and chimps produce similar sounds of laughter.
 15. Primates are not the only animals who produce laughter Pan.
 16. Laughter also suggests that we feel safe and easy with others.
 17. Laughter is a response to a polite situation instead of humour.
 18. Animal laughter evolved before human laughter
 19. Laughter is a social activity.</p>
-<p>Questions 20-23
-Complete the summary using NOT MORE THAN ONE WORD from the passage.</p>
+<p><strong>Questions 20-23</strong>
+Complete the summary using <strong>NOT MORE THAN ONE WORD</strong> from the passage.</p>
 <p>Pinpointing when laughter developed is another matter. Humans and chimps share a common (20) ………….. that lived perhaps 8 million years ago. The findings come from Elke Zimmerman, head of the Institute for Zoology in Germany, who (21) ……………….. the sounds made by babies and chimpanzees in response to tickling during the first year of their life. But the idea that has gained most popularity in recent years is that laughter in response to tickling is a way for two individuals to signal and test their trust in one another. This (22) ……………. starts from the observation that although a little tickle can be enjoyable if it goes on too long it can be torture. By engaging in a bout of tickling, we put ourselves at the (23) …………….. of another individual, and laughing is a signal that we laughter is what makes it a reliable signal of trust according to Tom Flamson, a laughter researcher at the University of California, Los Angels.</p>
-<p>Questions 24-26
+<p><strong>Questions 24-26</strong>
 Do the following statements agree with the information given in Reading Passage? In boxes 24-26 on your answer sheet, write</p>
-<p>TRUE                        if the statement agrees with the information
-FALSE                      if the statement contradicts the information
-NOT GIVEN          if there is no information on this</p>
+<p><strong>TRUE</strong>                        if the statement agrees with the information
+<strong>FALSE</strong>                      if the statement contradicts the information
+<strong>NOT GIVEN</strong>          if there is no information on this</p>
 <p>24. Both men and women laugh more when they are with members of the same sex.
 25. Primates lack sufficient breath control to be able to produce laughs the way humans do.
 26. Chimpanzees produce laughter in a wider range of situations than rats do.</p>
-<p>The reconstruction of community in Talbot Park, Auckland</p>
-<p>A. An architecture of disguise is almost complete at Talbot Park in the heart of Auckland’s Glen Innes. The place was once described as a state housing ghetto, rife with crime, vandalism and other social problems. But today after a $48 million urban renewal makeover, the site is home to 700 residents — 200 more than before — and has people regularly inquiring whether they can buy or rent there. “It doesn’t look like social housing,” Housing New Zealand housing services manager Dene Busby says of the tidy brick and weatherboard apartments and townhouses which would look just as much at home in “there is no reason why public housing should look cheap in my view,” says Design Group architect Neil of the eight three-bedroom terrace houses his firm designed.</p>
-<p>B. Talbot Park is a triangle of government-owned land bounded by Apirana Ave, Pilkington Rd and Point England Rd. In the early 1960s it was developed for state housing built around a linear park that ran through the middle. Initially, there was a strong sense of a family-friendly community. Former residents recall how the Talbot Park reserve played a big part in their childhoods — a place where the kids in the block came together to play softball, cricket, tiggy, leapfrog and bullrush. Sometimes they’d play “Maoris against Pakehas” but without any animosity. “It was all just good fun”, says Georgie Thompson in Ben Schrader’s We Call it Home: A History of State Housing in New Zealand. “We had respect for our neighbours and addressed them by title Mr. and Mrs. soand-so,” she recalls.</p>
-<p>C. Quite what went wrong with Talbot Park is not clear. We call it Home Records that the community began to change in the late 1970s as more Pacific Islanders and Europeans moved in. The new arrivals didn’t readily integrate with the community, a “them and us” mentality developed, and residents interacted with their neighbours less. What was clear was the buildings were deteriorating and becoming dilapidated, petty crime was on the rise and the reserve — focus of fond childhood memories — had become a wasteland and was considered unsafe.</p>
-<p>D. But it wasn’t until 2002 that Housing New Zealand decided the properties needed upgrading. The master renewal plan didn’t take advantage of the maximum accommodation density allowable (one unit per 100 sq metres ) but did increase density to one emit per 180 sq m by refurbishing all 108 star flat units, removing the multis and building 111 new home. The Talbot strategy can be summed up as mix, match and manage. Mix up the housing with variety plans from a mix of architects, match house styles to what7 s built by the private sector, match tenants to the mix, and manage their occupancy. Inevitably cost comes into the equation.” If you’re going to build low cost homes, you’ve got to keep them simple and you can’t afford a fancy bit on them. ” says Michael Thompson of Architectus which designed the innovative three level Atrium apartments lining two sides of a covered courtyard. At $300,000 per two bedroom unit, the building is more expensive but provides for independent disabled accommodation as well as offering solar hot water heating and rainwater collection for toilet cisterns and outside taps.</p>
-<p>E. The renewal project budget at $1.5 million which will provide park pathways, planting, playgrounds, drinking fountains, seating, skateboard rails, a half-size basketball hard court, and a pavilion. But if there was any doubt this is a low socio-economic area, the demographics for the surrounding Tamaki area are sobering. Of the 5000 households there, 55 percent are state houses, 28 per cent privately owned (compared to about 65 percent nationally) and 17 percent are private rental. The area has a high concentration of households with incomes in the $5000 to $15,000 range and very few with an income over $70,000. That’s in sharp contrast to the more affluent suburbs like Kohimarama and St John’s that surround the area.</p>
-<p>F. “The design is for people with different culture background,” says architect James Lunday of Common Ground which designed the 21 large family homes. “Architecturally we decided to be relatively conservative — nice house in its own garden with a bit of space and good indoor outdoor flow.” There’s a slight reflection of the whare and a Pacific fale, but not overplayed “The private sector is way behind in urban design and sustainable futures,” says Bracey. “Redesigning sheets and parks is a big deal and very difficult to do. The private sector won’t do it, because It’s so hard.”</p>
-<p>G. There’s no doubt good urban design and good architecture play a significant part in the scheme. But probably more important is a new standard of social control. Housing New Zealand calls it “intensive tenancy management”. Others view it as social engineering. “It’s a model that we are looking at going forward,” according to Housing New Zealand’s central Auckland regional manager Graham Bodman.1 The focus is on frequent inspections, helping tenants to get to know each other and trying to create an environment of respect for neighbours, ” says Bodman. That includes some strict rules — no loud parties after 10 pm, no dogs, no cats in the apartments, no washing hung over balcony rails and a requirement to mow lawns and keep the property tidy. Housing New Zealand has also been active in organising morning teas and sheet barbecues for residents to meet their neighbours. “IVs all based on the intensification,” says Community Renewal project manager Stuart Bracey. “We acknowledge if you are going to put more people living closer together, you have to actually help them to live closer together because it creates tension — especially for people that aren’t used to it.”</p>
-<p>Questions 27-33
+<p><strong>The reconstruction of community in Talbot Park, Auckland</strong></p>
+<p><strong>A</strong>. An architecture of disguise is almost complete at Talbot Park in the heart of Auckland’s Glen Innes. The place was once described as a state housing ghetto, rife with crime, vandalism and other social problems. But today after a $48 million urban renewal makeover, the site is home to 700 residents — 200 more than before — and has people regularly inquiring whether they can buy or rent there. “It doesn’t look like social housing,” Housing New Zealand housing services manager Dene Busby says of the tidy brick and weatherboard apartments and townhouses which would look just as much at home in “there is no reason why public housing should look cheap in my view,” says Design Group architect Neil of the eight three-bedroom terrace houses his firm designed.</p>
+<p><strong>B</strong>. Talbot Park is a triangle of government-owned land bounded by Apirana Ave, Pilkington Rd and Point England Rd. In the early 1960s it was developed for state housing built around a linear park that ran through the middle. Initially, there was a strong sense of a family-friendly community. Former residents recall how the Talbot Park reserve played a big part in their childhoods — a place where the kids in the block came together to play softball, cricket, tiggy, leapfrog and bullrush. Sometimes they’d play “Maoris against Pakehas” but without any animosity. “It was all just good fun”, says Georgie Thompson in Ben Schrader’s We Call it Home: A History of State Housing in New Zealand. “We had respect for our neighbours and addressed them by title Mr. and Mrs. soand-so,” she recalls.</p>
+<p><strong>C</strong>. Quite what went wrong with Talbot Park is not clear. We call it Home Records that the community began to change in the late 1970s as more Pacific Islanders and Europeans moved in. The new arrivals didn’t readily integrate with the community, a “them and us” mentality developed, and residents interacted with their neighbours less. What was clear was the buildings were deteriorating and becoming dilapidated, petty crime was on the rise and the reserve — focus of fond childhood memories — had become a wasteland and was considered unsafe.</p>
+<p><strong>D</strong>. But it wasn’t until 2002 that Housing New Zealand decided the properties needed upgrading. The master renewal plan didn’t take advantage of the maximum accommodation density allowable (one unit per 100 sq metres ) but did increase density to one emit per 180 sq m by refurbishing all 108 star flat units, removing the multis and building 111 new home. The Talbot strategy can be summed up as mix, match and manage. Mix up the housing with variety plans from a mix of architects, match house styles to what7 s built by the private sector, match tenants to the mix, and manage their occupancy. Inevitably cost comes into the equation.” If you’re going to build low cost homes, you’ve got to keep them simple and you can’t afford a fancy bit on them. ” says Michael Thompson of Architectus which designed the innovative three level Atrium apartments lining two sides of a covered courtyard. At $300,000 per two bedroom unit, the building is more expensive but provides for independent disabled accommodation as well as offering solar hot water heating and rainwater collection for toilet cisterns and outside taps.</p>
+<p><strong>E</strong>. The renewal project budget at $1.5 million which will provide park pathways, planting, playgrounds, drinking fountains, seating, skateboard rails, a half-size basketball hard court, and a pavilion. But if there was any doubt this is a low socio-economic area, the demographics for the surrounding Tamaki area are sobering. Of the 5000 households there, 55 percent are state houses, 28 per cent privately owned (compared to about 65 percent nationally) and 17 percent are private rental. The area has a high concentration of households with incomes in the $5000 to $15,000 range and very few with an income over $70,000. That’s in sharp contrast to the more affluent suburbs like Kohimarama and St John’s that surround the area.</p>
+<p><strong>F</strong>. “The design is for people with different culture background,” says architect James Lunday of Common Ground which designed the 21 large family homes. “Architecturally we decided to be relatively conservative — nice house in its own garden with a bit of space and good indoor outdoor flow.” There’s a slight reflection of the whare and a Pacific fale, but not overplayed “The private sector is way behind in urban design and sustainable futures,” says Bracey. “Redesigning sheets and parks is a big deal and very difficult to do. The private sector won’t do it, because It’s so hard.”</p>
+<p><strong>G</strong>. There’s no doubt good urban design and good architecture play a significant part in the scheme. But probably more important is a new standard of social control. Housing New Zealand calls it “intensive tenancy management”. Others view it as social engineering. “It’s a model that we are looking at going forward,” according to Housing New Zealand’s central Auckland regional manager Graham Bodman.1 The focus is on frequent inspections, helping tenants to get to know each other and trying to create an environment of respect for neighbours, ” says Bodman. That includes some strict rules — no loud parties after 10 pm, no dogs, no cats in the apartments, no washing hung over balcony rails and a requirement to mow lawns and keep the property tidy. Housing New Zealand has also been active in organising morning teas and sheet barbecues for residents to meet their neighbours. “IVs all based on the intensification,” says Community Renewal project manager Stuart Bracey. “We acknowledge if you are going to put more people living closer together, you have to actually help them to live closer together because it creates tension — especially for people that aren’t used to it.”</p>
+<p><strong>Questions 27-33</strong>
 Reading Passage has seven paragraphs, A-G. Choose the correct heading for paragraphs, A-G from the list below. Write the correct number, i-xi, in boxes 27-33 on your answer sheet.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i Financial hardship of community
 ii A good tendency of strengthening the supervision
 iii Details of plans for the community’s makeover and upgrade
@@ -182,20 +238,20 @@ xi a plan with details for house structure</p>
 31. Paragraph E
 32. Paragraph F
 33. Paragraph G</p>
-<p>Questions 34-36
+<p><strong>Questions 34-36</strong>
 Use the information in the passage to match the people (listed A-E) with opinions or deeds below. Write the appropriate letters, A-E, in boxes 34-36 on your answer sheet.</p>
 <p>34. Design should meet the need of mix-raced cultural background
 35. for better living environment, regulations and social control should be imperative
 36. organising more community’s activities helps strengthening relationship in community</p>
-<p>A Michael Thompson
-B Graham Bodman
-C Stuart Bracey
-D James Lunday
-E Dene Busby</p>
-<p>Questions 37-40
-Complete the following summary of the paragraphs of Reading Passage. Choose NO MORE THAN TWO WORDS from the passage for each answer. Write your answers in boxes 37-40 on your answer sheet.</p>
+<p><strong>A</strong> Michael Thompson
+<strong>B</strong> Graham Bodman
+<strong>C</strong> Stuart Bracey
+<strong>D</strong> James Lunday
+<strong>E</strong> Dene Busby</p>
+<p><strong>Questions 37-40</strong>
+Complete the following summary of the paragraphs of Reading Passage. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer. Write your answers in boxes 37-40 on your answer sheet.</p>
 <p>In the year 2002, the Talbot decided to raise housing standard, yet the plan was to build homes go much beyond the accommodation limit and people complain about the high living (37) ……………. And as the variety plans were complemented under the designs of many (38) …………….. together, made house styles go with the part designed by individuals, matched tenants from different culture. As for the finance, reconstruction program’s major concern is to build a house within low (39) ……………. finally, just as expert predicted residents will agree on building a relatively conventional house in its own (40) ……………… which provides considerable space to move around.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. True</p>
 <p>2. False</p>
 <p>3. True</p>
@@ -454,6 +510,29 @@ Complete the following summary of the paragraphs of Reading Passage. Choose NO M
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -473,12 +552,23 @@ Complete the following summary of the paragraphs of Reading Passage. Choose NO M
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -490,14 +580,6 @@ Complete the following summary of the paragraphs of Reading Passage. Choose NO M
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,128 +158,128 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_47</h1>
-            <p>IELTS Listening Practice - Test 47</p>
-<p>Part 1: Questions 1-10
-Complete the notes below. Write NO MORE THAN TWO WORDS OR A NUMBER.</p>
-<p>Notes for holiday
-Travel information: will email the flight number</p>
-<p>• Must find out which (1)  _______</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 47</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-10</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS OR A NUMBER.</strong></p>
+<h3 class="test-heading"><strong>Notes for holiday</strong>
+Travel information: will email the flight number</h3>
+<h3 class="test-heading">• Must find out which <strong>(1)</strong>  _______</h3>
 <p>What to pack
 To wear:
 • Casual clothes
-• One smart dress – to wear at a (5)  _______ 
-• A good (6)  _______ 
-• Tough (7)  _______</p>
-<p>To read:
-• Try to find book named (8)  _______  by Rox Campbell</p>
-<p>For presents:
-• For Janice (9)  _______ 
-• For Alec (10)  _______  (with racing pictures)</p>
-<p>Part 2: Questions 11-16
+• One smart dress – to wear at a <strong>(5)</strong>  _______ 
+• A good <strong>(6)</strong>  _______ 
+• Tough <strong>(7)</strong>  _______</p>
+<h3 class="test-heading">To read:
+• Try to find book named <strong>(8)</strong>  _______  by Rox Campbell</h3>
+<h3 class="test-heading">For presents:
+• For Janice <strong>(9)</strong>  _______ 
+• For Alec <strong>(10)</strong>  _______  (with racing pictures)</h3>
+<p><strong>Part 2: Questions 11-16</strong>
 Choose the correct letter A, B or C.</p>
-<p>Camber’s theme park
+<p><strong>Camber’s theme park</strong>
 11. According to the speaker, in what way is Camber’s different from other theme parks?
-[ ]  A it is suitable for different age groups
-[ ]  B it offers lots to do in wet weather
-[ ]  C it has a focus on education</p>
-<p>12. The park first opened in
-[ ]  A 1980
-[ ]  B 1997
-[ ]  C 2004</p>
+<strong>[ ] </strong><strong> A</strong> it is suitable for different age groups
+<strong>[ ] </strong><strong> B</strong> it offers lots to do in wet weather
+<strong>[ ] </strong><strong> C</strong> it has a focus on education</p>
+<h3 class="test-heading">12. The park first opened in
+<strong>[ ] </strong><strong> A</strong> 1980
+<strong>[ ] </strong><strong> B</strong> 1997
+<strong>[ ] </strong><strong> C</strong> 2004</h3>
 <p>13. What is included in the entrance fee?
-[ ]  A most rides and parking
-[ ]  B all rides and some exhibits
-[ ]  C parking and all rides</p>
+<strong>[ ] </strong><strong> A</strong> most rides and parking
+<strong>[ ] </strong><strong> B</strong> all rides and some exhibits
+<strong>[ ] </strong><strong> C</strong> parking and all rides</p>
 <p>14. Becoming a member of the Adventurers Club means
-[ ]  A you can avoid queuing so much
-[ ]  B you can enter the park free for a year
-[ ]  C you can visit certain zones closed to other people</p>
+<strong>[ ] </strong><strong> A</strong> you can avoid queuing so much
+<strong>[ ] </strong><strong> B</strong> you can enter the park free for a year
+<strong>[ ] </strong><strong> C</strong> you can visit certain zones closed to other people</p>
 <p>15. The Future Farm zone encourages visitors to
-[ ]  A buy animals as pets
-[ ]  B learn about the care of animals
-[ ]  C get close to the animals</p>
+<strong>[ ] </strong><strong> A</strong> buy animals as pets
+<strong>[ ] </strong><strong> B</strong> learn about the care of animals
+<strong>[ ] </strong><strong> C</strong> get close to the animals</p>
 <p>16. When is hot food available in the park?
-[ ]  A 10 am – 5.30 pm
-[ ]  B 11 am – 5 pm
-[ ]  C 10.30 am – 5 pm</p>
-<p>Questions 17-20</p>
+<strong>[ ] </strong><strong> A</strong> 10 am – 5.30 pm
+<strong>[ ] </strong><strong> B</strong> 11 am – 5 pm
+<strong>[ ] </strong><strong> C</strong> 10.30 am – 5 pm</p>
+<p><strong>Questions 17-20</strong></p>
 <p>What special conditions apply to the following rides?</p>
-<p>Choose FOUR answers from the list below and write correct letter A-F next to the questions 17-20</p>
+<p>Choose <strong>FOUR</strong> answers from the list below and write correct letter A-F next to the questions 17-20</p>
 <p>Special conditions for visitors
-A Must be over a certain age
-B Must use special safety equipment
-C Must avoid it if they have health problems
-D Must wear a particular type of clothing
-E Must be over a certain height
-F Must be accompanied by an adult if under 16</p>
-<p>Rides
+<strong>A</strong> Must be over a certain age
+<strong>B</strong> Must use special safety equipment
+<strong>C</strong> Must avoid it if they have health problems
+<strong>D</strong> Must wear a particular type of clothing
+<strong>E</strong> Must be over a certain height
+<strong>F</strong> Must be accompanied by an adult if under 16</p>
+<p><strong>Rides</strong>
 17. River Adventure  _______ 
 18. Jungle Jim Rollercoaster  _______ 
 19. Swoop Slide  _______ 
 20. Zip Go-carts  _______</p>
-<p>Part 3: Questions 21 and 22
-Choose TWO letters A-E.</p>
-<p>What TWO things do Brad and Helen agree to say about listening in groups?
-[ ]  A Listening skills are often overlooked in business training
-[ ]  B Learning to listen well is a skill that is easy for most people to learn
-[ ]  C It is sometimes acceptable to argue against speakers
-[ ]  D Body language is very important when listening
-[ ]  E Listeners should avoid interrupting speakers</p>
-<p>Questions 23 and 24
-Choose TWO letters A-E.</p>
-<p>What TWO things does the article say about goal setting?
-[ ]  A Meetings should start with a clear statement of goals
-[ ]  B It is important for each individual’ goals to be explained
-[ ]  C Everybody in the group should have the same goals
-[ ]  D Goals should be a mix of the realistic and the ideal
-[ ]  E Goals must always to be achievable within a set time</p>
-<p>Questions 25 and 26
-Choose TWO letters A-E.</p>
-<p>What TWO things do Brad and Helen agree are weak points in the article’s section on conflict resolution?
-[ ]  A It does not explore the topic in enough detail
-[ ]  B It only discusses conservative views
-[ ]  C It says nothing about the potential value of conflict
-[ ]  D It talks too much about winners and losers
-[ ]  E It does not provide definitions of key terms</p>
-<p>Questions 27-30</p>
+<p><strong>Part 3: Questions 21 and 22</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>What <strong>TWO</strong> things do Brad and Helen agree to say about listening in groups?
+<strong>[ ] </strong><strong> A</strong> Listening skills are often overlooked in business training
+<strong>[ ] </strong><strong> B</strong> Learning to listen well is a skill that is easy for most people to learn
+<strong>[ ] </strong><strong> C</strong> It is sometimes acceptable to argue against speakers
+<strong>[ ] </strong><strong> D</strong> Body language is very important when listening
+<strong>[ ] </strong><strong> E</strong> Listeners should avoid interrupting speakers</p>
+<p><strong>Questions 23 and 24</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>What <strong>TWO</strong> things does the article say about goal setting?
+<strong>[ ] </strong><strong> A</strong> Meetings should start with a clear statement of goals
+<strong>[ ] </strong><strong> B</strong> It is important for each individual’ goals to be explained
+<strong>[ ] </strong><strong> C</strong> Everybody in the group should have the same goals
+<strong>[ ] </strong><strong> D</strong> Goals should be a mix of the realistic and the ideal
+<strong>[ ] </strong><strong> E</strong> Goals must always to be achievable within a set time</p>
+<p><strong>Questions 25 and 26</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>What <strong>TWO</strong> things do Brad and Helen agree are weak points in the article’s section on conflict resolution?
+<strong>[ ] </strong><strong> A</strong> It does not explore the topic in enough detail
+<strong>[ ] </strong><strong> B</strong> It only discusses conservative views
+<strong>[ ] </strong><strong> C</strong> It says nothing about the potential value of conflict
+<strong>[ ] </strong><strong> D</strong> It talks too much about winners and losers
+<strong>[ ] </strong><strong> E</strong> It does not provide definitions of key terms</p>
+<p><strong>Questions 27-30</strong></p>
 <p>What actions do Brad and Helen agree to do regarding the following preparation tasks?</p>
-<p>Choose FOUR answers from the list below and write the correct letter A-F next to questions 27-30.</p>
-<p>Action
-A Contact the tutor for clarification
-B Check the assignment specifications
-C Leave it until the last task
-D Ask a course-mate to help
-E Find information on the internet
-F Look through course handbooks</p>
-<p>Preparation tasks
+<p>Choose <strong>FOUR</strong> answers from the list below and write the correct letter A-F next to questions 27-30.</p>
+<p><strong>Action</strong>
+<strong>A</strong> Contact the tutor for clarification
+<strong>B</strong> Check the assignment specifications
+<strong>C</strong> Leave it until the last task
+<strong>D</strong> Ask a course-mate to help
+<strong>E</strong> Find information on the internet
+<strong>F</strong> Look through course handbooks</p>
+<p><strong>Preparation tasks</strong>
 27. Preparing the powerpoint  _______ 
 28. Using direct quotations  _______ 
 29. Creating a handout  _______ 
 30. Drawing up a bibliography  _______</p>
-<p>Part 4: Questions 31-40
-Complete the notes below. Write ONE WORD ONLY for each answer.</p>
-<p>Engineering for sustainable development</p>
-<p>Problem
-• Short growing season because of high altitude and low (31)  _______ 
-• Fresh vegetables imported by lorry or by (32)  _______  , so are expensive
-• Need to use sunlight to prevent local plants from (33)  _______ 
-• Previous programmes to provide greenhouses were (34)  _______</p>
-<p>New greenhouse</p>
-<p>Meets criteria for sustainability
-• Simple and (35)  _______  to build
-• Made mainly from local materials (mud or stone for the walls, wood and (36)  _______  for the roof)
+<p><strong>Part 4: Questions 31-40</strong>
+Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+<p><strong>Engineering for sustainable development</strong></p>
+<p><strong>Problem</strong>
+• Short growing season because of high altitude and low <strong>(31)</strong>  _______ 
+• Fresh vegetables imported by lorry or by <strong>(32)</strong>  _______  , so are expensive
+• Need to use sunlight to prevent local plants from <strong>(33)</strong>  _______ 
+• Previous programmes to provide greenhouses were <strong>(34)</strong>  _______</p>
+<p><strong>New greenhouse</strong></p>
+<p><strong>Meets criteria for sustainability</strong>
+• Simple and <strong>(35)</strong>  _______  to build
+• Made mainly from local materials (mud or stone for the walls, wood and <strong>(36)</strong>  _______  for the roof)
 • Building and maintenance done by local craftsmen
-• Runs solely on (37)  _______  energy
-• Only families who have a suitable (38)  _______  can own one</p>
-<p>Design
+• Runs solely on <strong>(37)</strong>  _______  energy
+• Only families who have a suitable <strong>(38)</strong>  _______  can own one</p>
+<p><strong>Design</strong>
 • Long side faces South
 • Strong polythene cover
-• Inner (39)  _______  are painted black or white</p>
-<p>Social benefits
+• Inner <strong>(39)</strong>  _______  are painted black or white</p>
+<p><strong>Social benefits</strong>
 • Owners’ status is improved
-• Rural (40)  _______  have greater opportunities
+• Rural <strong>(40)</strong>  _______  have greater opportunities
 • More children are educated</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. terminal</p>
 <p>2. Pantera</p>
 <p>3. east</p>
@@ -477,11 +533,34 @@ Complete the notes below. Write ONE WORD ONLY for each answer.</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_47.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_47.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -501,12 +580,23 @@ Complete the notes below. Write ONE WORD ONLY for each answer.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -518,14 +608,6 @@ Complete the notes below. Write ONE WORD ONLY for each answer.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

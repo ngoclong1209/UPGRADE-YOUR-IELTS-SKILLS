@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,23 +158,23 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_185</h1>
-            <p>IELTS Listening Practice - Test 185</p>
-<p>Part 1: Questions 1-10
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 185</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-10</strong>
 
-Complete the notes below. Write ONE WORD AND/ OR A NUMBER for each answer.</p>
-<p>Children’s Engineering Workshops</p>
-<p>Tiny Engineers (ages 4-5)
+Complete the notes below. Write <strong>ONE WORD AND/ OR A NUMBER</strong> for each answer.</p>
+<h3 class="test-heading"><strong>Children’s Engineering Workshops</strong></h3>
+<p><strong>Tiny Engineers (ages 4-5)</strong>
 
-Activities
+<strong>Activities</strong>
 
 • Create a cover for an (1)  _______  so they can drop it from a height without breaking it.
 
 • Take part in a competition to build the tallest (2)  _______ 
 
 • Make a (3)  _______  powered by a balloon.</p>
-<p>Junior Engineers (ages 6-8)
+<p><strong>Junior Engineers (ages 6-8)</strong>
 
-Activities:
+<strong>Activities:</strong>
 
 • Build model cars, trucks and (4)  _______  and learn how to program them so they can move.
 
@@ -127,46 +183,46 @@ Activities:
 • Create a short (6)  _______  with special software.
 
 • Build, (7)  _______  and program a humanoid robot.</p>
-<p>Cost for a five-week block: £50
+<h3 class="test-heading"><strong>Cost for a five-week block: £50</strong>
 
-Held on (8)  _______  from 10 am to 11 am</p>
-<p>Location
+Held on (8)  _______  from 10 am to 11 am</h3>
+<p><strong>Location</strong>
 
 Building 10A, (9)  _______  Industrial Estate, Grasford
 
 Plenty of (10)  _______  is available.</p>
-<p>Part 2: Questions 11-14
+<p><strong>Part 2: Questions 11-14</strong>
 
 Choose the correct letter, A, B or C.</p>
-<p>11. Stevenson’s was founded in
+<h3 class="test-heading">11. Stevenson’s was founded in
 
-[ ]  A 1923
+[ ]  <strong>A</strong> 1923
 
-[ ]  B 1924
+[ ]  <strong>B</strong> 1924
 
-[ ]  C 1926</p>
+[ ]  <strong>C</strong> 1926</h3>
 <p>12. Originally, Stevenson’s manufactured goods for
 
-[ ]  A the healthcare industry
+[ ]  <strong>A</strong> the healthcare industry
 
-[ ]  B the automotive industry
+[ ]  <strong>B</strong> the automotive industry
 
-[ ]  C the machine tools industry</p>
+[ ]  <strong>C</strong> the machine tools industry</p>
 <p>13. What does the speaker say about the company premises?
 
-[ ]  A The company has recently moved
+[ ]  <strong>A</strong> The company has recently moved
 
-[ ]  B The company has no plans to move
+[ ]  <strong>B</strong> The company has no plans to move
 
-[ ]  C The company is going to move shortly</p>
+[ ]  <strong>C</strong> The company is going to move shortly</p>
 <p>14. The programme for the work experience group includes
 
-[ ]  A time to do research
+[ ]  <strong>A</strong> time to do research
 
-[ ]  B meetings with a teacher
+[ ]  <strong>B</strong> meetings with a teacher
 
-[ ]  C talks by staff</p>
-<p>Questions 15-20
+[ ]  <strong>C</strong> talks by staff</p>
+<p><strong>Questions 15-20</strong>
 
 Label the map below. Write the correct letter A-J next to questions 15-20.</p>
 <p>15. Coffee room  _______ 
@@ -180,49 +236,49 @@ Label the map below. Write the correct letter A-J next to questions 15-20.</p>
 19. Human Resources  _______ 
 
 20. Boardroom  _______</p>
-<p>Part 3: Questions 21 and 22</p>
-<p>Choose TWO letters, A-E. Which TWO parts of the introductory stage to their art projects do Jess and Tom agree were useful?</p>
-<p>[ ]  A the Bird Park visit
+<p><strong>Part 3: Questions 21 and 22</strong></p>
+<p>Choose <strong>TWO</strong> letters, A-E. Which TWO parts of the introductory stage to their art projects do Jess and Tom agree were useful?</p>
+<p>[ ]  <strong>A</strong> the Bird Park visit
 
-[ ]  B the workshop sessions
+[ ]  <strong>B</strong> the workshop sessions
 
-[ ]  C the Natural History Museum visit
+[ ]  <strong>C</strong> the Natural History Museum visit
 
-[ ]  D the projects done in previous years
+[ ]  <strong>D</strong> the projects done in previous years
 
-[ ]  E the handouts with research sources</p>
-<p>Questions 23 and 24</p>
-<p>Choose TWO letters, A-E. In which TWO ways do both Jess and Tom decide to change their proposals?</p>
-<p>[ ]  A by giving a rationale for their action plans
+[ ]  <strong>E</strong> the handouts with research sources</p>
+<p><strong>Questions 23 and 24</strong></p>
+<p>Choose <strong>TWO</strong> letters, A-E. In which TWO ways do both Jess and Tom decide to change their proposals?</p>
+<p><strong>[ ] </strong><strong> A</strong> by giving a rationale for their action plans
 
-[ ]  B by being less specific about the outcome
+[ ]  <strong>B</strong> by being less specific about the outcome
 
-[ ]  C by adding a video diary presentation
+[ ]  <strong>C</strong> by adding a video diary presentation
 
-[ ]  D by providing a timeline and a mind map
+[ ]  <strong>D</strong> by providing a timeline and a mind map
 
-[ ]  E by making their notes more evaluative</p>
-<p>Questions 25-30
+[ ]  <strong>E</strong> by making their notes more evaluative</p>
+<p><strong>Questions 25-30</strong>
 
 Which personal meaning do the students decide to give to each of the following pictures? Choose SIX answers from the list and write the correct letter, A-H, next to Questions 25-30.</p>
-<p>Personal meanings
+<p><strong>Personal meanings</strong>
 
-A childhood memory
+<strong>A</strong> childhood memory
 
-B hope for the future
+<strong>B</strong> hope for the future
 
-C fast movement
+<strong>C</strong> fast movement
 
-D a potential threat
+<strong>D</strong> a potential threat
 
-E the power of colour
+<strong>E</strong> the power of colour
 
-F the continuity of life
+<strong>F</strong> the continuity of life
 
-G protection of nature
+<strong>G</strong> protection of nature
 
-H a confused attitude to nature</p>
-<p>Pictures
+<strong>H</strong> a confused attitude to nature</p>
+<p><strong>Pictures</strong>
 
 25. Falcon (Landseer)  _______ 
 
@@ -235,18 +291,18 @@ H a confused attitude to nature</p>
 29. Vairumati (Gauguin)  _______ 
 
 30. Portrait of Giovanni de Medici  _______</p>
-<p>Part 4: Questions 31-40
+<p><strong>Part 4: Questions 31-40</strong>
 
-Complete the notes below. Write ONE WORD ONLY for each answer.</p>
-<p>Stoicism
+Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+<p><strong>Stoicism</strong>
 
 Stoicism is still relevant today because of its (31)  _______  appeal.</p>
-<p>Ancient Stoics
+<p><strong>Ancient Stoics</strong>
 
 • Stoicism was founded over 2,000 years ago in Greece.
 
 • The Stoics’ ideas are surprisingly well known, despite not being intended for (32)  _______</p>
-<p>Stoic principles
+<p><strong>Stoic principles</strong>
 
 • Happiness could be achieved by leading a virtuous life.
 
@@ -255,7 +311,7 @@ Stoicism is still relevant today because of its (31)  _______  appeal.</p>
 • Epictetus said that external events cannot be controlled but the (33)  _______  people make in response can be controlled.
 
 • A Stoic is someone who has a different view on experiences which others would consider as (34)  _______</p>
-<p>The influence of Stoicism
+<p><strong>The influence of Stoicism</strong>
 
 • George Washington organised a (35)  _______  about Cato to motivate his men.
 
@@ -272,12 +328,12 @@ Stoicism is still relevant today because of its (31)  _______  appeal.</p>
 – people learn to base their thinking on (38)  _______ 
 
 • In business, people benefit from Stoicism by identifying obstacles as (39)  _______</p>
-<p>Relevance of Stoicism
+<p><strong>Relevance of Stoicism</strong>
 
 • It requires a lot of (40)  _______  but Stoicism can help people to lead a good life.
 
 • It teaches people that having a strong character is more important than anything else.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Egg</p>
 <p>2. Tower</p>
 <p>3. Car</p>
@@ -536,6 +592,29 @@ Stoicism is still relevant today because of its (31)  _______  appeal.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -555,12 +634,23 @@ Stoicism is still relevant today because of its (31)  _______  appeal.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -572,14 +662,6 @@ Stoicism is still relevant today because of its (31)  _______  appeal.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,125 +158,125 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_218</h1>
-            <p>IELTS Reading Practice - Test 218</p>
-<p>Sleepy Students Perform Worse</p>
-<p>A Staying up an hour or two past bedtime makes it far harder for kids to learn, say scientists who deprived youngsters of sleep and tested whether their teachers could tell the difference. They could. If parents want their children to thrive academically, “Getting them to sleep on time is as important as getting them to school on time,” said psychologist Gahan Fallone, who conducted the research at Brown Medical School.</p>
-<p>B The study, unveiled Thursday at an American Medical Association (AMA) science writers meeting, was conducted on healthy children who had no evidence of sleep- or learning-related disorders. Difficulty paying attention was among the problems the sleepy youngsters faced – raising the question of whether sleep deprivation could prove even worse for people with attention deficit hyperactivity disorder, or ADHD. Fallone now is studying that question, and suspects that sleep problems “could hit children with ADHD as a double whammy”.</p>
-<p>C Sleep experts have long warned that Americans of all ages do not get enough shuteye. Sleep is important for health, bringing a range of benefits that, as Shakespeare put it, “knits up the ravelled sleave of care”. Not getting enough is linked to a host of problems, from car crashes as drivers doze off to crippled memory and inhibited creativity. Exactly how much sleep correlates with school performance is hard to prove. So, Brown researchers set out to test whether teachers could detect problems with attention and learning when children stayed up late – even if the teachers had no idea how much sleep their students actually got.</p>
-<p>D They recruited seventy-four 6- to 12-year-olds from Rhode Island and southern Massachusetts for the three-week study. For one week, the youngsters went to bed and woke up at their usual times. They already were fairly good sleepers, getting nine to 9.5 hours of sleep a night. Another week, they were assigned to spend no fewer than ten hours in bed a night. The other week, they were kept up later than usual: First -and second-graders were in bed no more than eight hours and the older children no more than 6.5 hours. In addition to parents’ reports, the youngsters wore motiondetecting wrist monitors to ensure compliance.</p>
-<p>E Teachers were not told how much the children slept or which week they stayed up late, but rated the students on a variety of performance measures each week. The teachers reported significantly more academic problems during the week of sleep deprivation, the study, which will be published in the journal Sleep in December, concluded. Students who got eight hours of sleep or less a night were more forgetful, had the most trouble learning new lessons, and had the most problems paying attention, reported Fallone, now at the Forest Institute of Professional Psychology.</p>
-<p>F Sleep has long been a concern of educators. Potter-Burns Elementary School sends notes to parents reminding them to make sure students get enough sleep prior to the school’s yearly achievement testing. Another school considers it important enough to include in the school’s monthly newsletters. Definitely, there is an impact on students’ performance if they come to school tired. However, the findings may change physician practice, said Dr. Regina Benjamin, a family physician in Bayou La Batre, who reviewed the data at the Thursday’s AMA meeting. “I don’t ask about sleep” when evaluating academically struggling students, she noted. “I’m going to start.”</p>
-<p>G So how much sleep do kids need? Recommended amounts range from about ten to eleven hours a night for young elementary students to 8.5 hours for teens. Fallone insists that his own second-grader get ten hours a night, even when it meant dropping soccer – season that practice did not start until 7:30 — too late for her to fit in dinner and time to wind down before she needed to be snoozing. “It’s tough,” he acknowledged, but “parents must believe in the importance of sleep.”</p>
-<p>Questions 1-4
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 218</strong></h3>
+<h3 class="test-heading"><strong>Sleepy Students Perform Worse</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Staying up an hour or two past bedtime makes it far harder for kids to learn, say scientists who deprived youngsters of sleep and tested whether their teachers could tell the difference. They could. If parents want their children to thrive academically, “Getting them to sleep on time is as important as getting them to school on time,” said psychologist Gahan Fallone, who conducted the research at Brown Medical School.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> The study, unveiled Thursday at an American Medical Association (AMA) science writers meeting, was conducted on healthy children who had no evidence of sleep- or learning-related disorders. Difficulty paying attention was among the problems the sleepy youngsters faced – raising the question of whether sleep deprivation could prove even worse for people with attention deficit hyperactivity disorder, or ADHD. Fallone now is studying that question, and suspects that sleep problems “could hit children with ADHD as a double whammy”.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> Sleep experts have long warned that Americans of all ages do not get enough shuteye. Sleep is important for health, bringing a range of benefits that, as Shakespeare put it, “knits up the ravelled sleave of care”. Not getting enough is linked to a host of problems, from car crashes as drivers doze off to crippled memory and inhibited creativity. Exactly how much sleep correlates with school performance is hard to prove. So, Brown researchers set out to test whether teachers could detect problems with attention and learning when children stayed up late – even if the teachers had no idea how much sleep their students actually got.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> They recruited seventy-four 6- to 12-year-olds from Rhode Island and southern Massachusetts for the three-week study. For one week, the youngsters went to bed and woke up at their usual times. They already were fairly good sleepers, getting nine to 9.5 hours of sleep a night. Another week, they were assigned to spend no fewer than ten hours in bed a night. The other week, they were kept up later than usual: First -and second-graders were in bed no more than eight hours and the older children no more than 6.5 hours. In addition to parents’ reports, the youngsters wore motiondetecting wrist monitors to ensure compliance.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> Teachers were not told how much the children slept or which week they stayed up late, but rated the students on a variety of performance measures each week. The teachers reported significantly more academic problems during the week of sleep deprivation, the study, which will be published in the journal Sleep in December, concluded. Students who got eight hours of sleep or less a night were more forgetful, had the most trouble learning new lessons, and had the most problems paying attention, reported Fallone, now at the Forest Institute of Professional Psychology.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> Sleep has long been a concern of educators. Potter-Burns Elementary School sends notes to parents reminding them to make sure students get enough sleep prior to the school’s yearly achievement testing. Another school considers it important enough to include in the school’s monthly newsletters. Definitely, there is an impact on students’ performance if they come to school tired. However, the findings may change physician practice, said Dr. Regina Benjamin, a family physician in Bayou La Batre, who reviewed the data at the Thursday’s AMA meeting. “I don’t ask about sleep” when evaluating academically struggling students, she noted. “I’m going to start.”</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> So how much sleep do kids need? Recommended amounts range from about ten to eleven hours a night for young elementary students to 8.5 hours for teens. Fallone insists that his own second-grader get ten hours a night, even when it meant dropping soccer – season that practice did not start until 7:30 — too late for her to fit in dinner and time to wind down before she needed to be snoozing. “It’s tough,” he acknowledged, but “parents must believe in the importance of sleep.”</p></div></div>
+<p><strong>Questions 1-4</strong>
 The text has 7 paragraphs (A – G).</p>
 <p>Which paragraph contains each of the following pieces of information?</p>
-<p>Questions 5-8
-Complete the following sentences using NO MORE THAN TWO WORDS from the text for each gap.</p>
+<p><strong>Questions 5-8</strong>
+Complete the following sentences using <strong>NO MORE THAN TWO WORDS</strong> from the text for each gap.</p>
 <p>Fallone is now studying the sleep patterns of children with (5)………………</p>
 <p>The researchers used (6)……………….that show movement to check that children went to bed at the right time.</p>
 <p>Students with less sleep had problems with memory, remembering new material, and (7)……………….</p>
 <p>Fallone admitted that it was (8)……………….for children to get enough sleep.</p>
-<p>Questions 9-13
+<p><strong>Questions 9-13</strong>
 Do the following statements agree with the information given in Reading Passage? In boxes 9 – 13 write</p>
-<p>TRUE                  if the statement agrees with the information
-FALSE                if the statement contradicts the information
-NOT GIVEN     if there is no information on this</p>
+<p><strong>TRUE</strong>                  if the statement agrees with the information
+<strong>FALSE</strong>                if the statement contradicts the information
+<strong>NOT GIVEN</strong>     if there is no information on this</p>
 <p>9. The results of the study were first distributed to principals of American schools,
 10. Some of the children in the study had previously shown signs of sleeping problems.
 11. The study could influence how doctors deal with children’s health problems.
 12. Fallone does not let his daughter play soccer.
 13. Staying up later is acceptable if the child is doing homework.</p>
-<p>The Brains Business</p>
-<p>A For those of a certain age and educational background, it is hard to think of higher education without thinking of ancient institutions. Some universities are of a venerable age – the University of bologna was founded in 1088, the University of Oxford in 1096 – and many of them have a strong sense of tradition. The truly old ones make the most of their pedigrees, and those of a more recent vintage work hard to create an aura of antiquity. Yet these tradition-loving (or -creating) institutions are currently enduring a thunderstorm of changes so fundamental that some say the very idea of the university is being challenged. Universities are experimenting with new ways of funding (most notably through student fees), forging partnerships with private companies and engaging in mergers and acquisitions. Such changes ate tugging at the ivy’s toots.</p>
-<p>B This is happening for four reasons. The first is the democratisation of higher education – “massification”. in the language of the educational profession. In the rich world, massification has been going on for some time. The proportion of adults with higher educational qualifications in developed countries almost doubled between 1975 and 2000. From 22% to 41%. Most of the rich countries are still struggling to digest this huge growth in numbers. Now massification is spreading to the developing world. China doubled its student population in the late 1990s, and India is trying to follow suit.</p>
-<p>C The second reason is the rise of the knowledge economy. The world is in the grips of a “soft revolution” in which knowledge is replacing physical resources as the main driver of economic growth. Between 1985 and 1997, the contribution of knowledge-based industries to total value added increased from 51% to 59% in Germany and from 45% to 51% in Britain. The best companies are now devoting at least a third of their investment to knowledge-intensive intangibles such as R&D, licensing, and marketing. Universities are among the most important engines of the knowledge economy. Not only do they produce the brain workers who man it, they also provide much of its backbone, from laboratories to libraries to computer networks.</p>
-<p>D The third factor is globalisation. The death of distance is transforming academia just as radically as it is transforming business. The number of people from developed countries studying abroad has doubled over the past twenty years, to 1.9 million; universities are opening campuses all around the world; and a growing number of countries are trying to turn higher education into an export industry. The fourth is competition. Traditional universities are being forced to compete for students and research grants, and private companies are trying to break into a sector which they regard as “the new health care”. The World Bank calculates that global spending on higher education amounts to $300 billion a year, or 1 % of global economic output. There are more than 80 million students worldwide, and 3.5 million people are employed to teach them or look after them.</p>
-<p>E All this sounds as though a golden age for universities has arrived. However, inside academia, particularly in Europe, it. does not feel like it. Academics complain and administrators are locked in bad-tempered exchanges with the politicians who fund them. What has gone wrong? The biggest problem is the role of the state. If more and more governments are embracing massification, few of them are willing to draw the appropriate conclusion from their enthusiasm: that they should either provide the requisite hinds (as the Scandinavian countries do) or allow universities to charge realistic fees. Many governments have tried to square the circle through lighter management, but management cannot make up for lack of resources.</p>
-<p>G What, if anything can be done? Techno-utopians believe that higher education is ripe for revolution. The university, they say, is a hopelessly antiquated institution, wedded in outdated practices such as tenure and lectures, and incapable of serving a new world of mass audiences and just-in-time information. “Thirty wars from now the big university campuses will be relics,” says Peter Drucker, a veteran management guru. “I consider the American research university of the past 40 years to be a failure.” Fortunately, in his view, help is on the way in the form of Internet tuition and for-profit universities. Cultural conservatives, on the other hand, believe that the best way forward is backward. They think it is foolish to waste higher education on people who would rather study “Seinfeld” than Socrates, and disingenuous to confuse the pursuit of truth with the pursuit of profit.</p>
-<p>Questions 14-17
+<p><strong>The Brains Business</strong></p>
+<p><strong>A</strong> For those of a certain age and educational background, it is hard to think of higher education without thinking of ancient institutions. Some universities are of a venerable age – the University of bologna was founded in 1088, the University of Oxford in 1096 – and many of them have a strong sense of tradition. The truly old ones make the most of their pedigrees, and those of a more recent vintage work hard to create an aura of antiquity. Yet these tradition-loving (or -creating) institutions are currently enduring a thunderstorm of changes so fundamental that some say the very idea of the university is being challenged. Universities are experimenting with new ways of funding (most notably through student fees), forging partnerships with private companies and engaging in mergers and acquisitions. Such changes ate tugging at the ivy’s toots.</p>
+<p><strong>B</strong> This is happening for four reasons. The first is the democratisation of higher education – “massification”. in the language of the educational profession. In the rich world, massification has been going on for some time. The proportion of adults with higher educational qualifications in developed countries almost doubled between 1975 and 2000. From 22% to 41%. Most of the rich countries are still struggling to digest this huge growth in numbers. Now massification is spreading to the developing world. China doubled its student population in the late 1990s, and India is trying to follow suit.</p>
+<p><strong>C</strong> The second reason is the rise of the knowledge economy. The world is in the grips of a “soft revolution” in which knowledge is replacing physical resources as the main driver of economic growth. Between 1985 and 1997, the contribution of knowledge-based industries to total value added increased from 51% to 59% in Germany and from 45% to 51% in Britain. The best companies are now devoting at least a third of their investment to knowledge-intensive intangibles such as R&D, licensing, and marketing. Universities are among the most important engines of the knowledge economy. Not only do they produce the brain workers who man it, they also provide much of its backbone, from laboratories to libraries to computer networks.</p>
+<p><strong>D</strong> The third factor is globalisation. The death of distance is transforming academia just as radically as it is transforming business. The number of people from developed countries studying abroad has doubled over the past twenty years, to 1.9 million; universities are opening campuses all around the world; and a growing number of countries are trying to turn higher education into an export industry. The fourth is competition. Traditional universities are being forced to compete for students and research grants, and private companies are trying to break into a sector which they regard as “the new health care”. The World Bank calculates that global spending on higher education amounts to $300 billion a year, or 1 % of global economic output. There are more than 80 million students worldwide, and 3.5 million people are employed to teach them or look after them.</p>
+<p><strong>E</strong> All this sounds as though a golden age for universities has arrived. However, inside academia, particularly in Europe, it. does not feel like it. Academics complain and administrators are locked in bad-tempered exchanges with the politicians who fund them. What has gone wrong? The biggest problem is the role of the state. If more and more governments are embracing massification, few of them are willing to draw the appropriate conclusion from their enthusiasm: that they should either provide the requisite hinds (as the Scandinavian countries do) or allow universities to charge realistic fees. Many governments have tried to square the circle through lighter management, but management cannot make up for lack of resources.</p>
+<p><strong>G</strong> What, if anything can be done? Techno-utopians believe that higher education is ripe for revolution. The university, they say, is a hopelessly antiquated institution, wedded in outdated practices such as tenure and lectures, and incapable of serving a new world of mass audiences and just-in-time information. “Thirty wars from now the big university campuses will be relics,” says Peter Drucker, a veteran management guru. “I consider the American research university of the past 40 years to be a failure.” Fortunately, in his view, help is on the way in the form of Internet tuition and for-profit universities. Cultural conservatives, on the other hand, believe that the best way forward is backward. They think it is foolish to waste higher education on people who would rather study “Seinfeld” than Socrates, and disingenuous to confuse the pursuit of truth with the pursuit of profit.</p>
+<p><strong>Questions 14-17</strong>
 The text has 7 paragraphs (A – G).</p>
 <p>Which paragraph does each of the following headings best fit?</p>
 <p>14. Education for the masses
 15. Future possibilities
 16. Globalisation and competition
 17. Funding problem</p>
-<p>Questions 18-22
+<p><strong>Questions 18-22</strong>
 According to the text, FIVE of the following statements are true.</p>
 <p>Write the corresponding letters in answer boxes 18 to 22 in any order.</p>
-<p>A Some universities are joining with each other
-B There are not enough graduates in developed countries
-C Most companies in developed countries devote a third of their profits to research and development
-D The number of people from developed countries studying outside their home countries has doubled in the last two decades
-E Scandinavian governments provide enough money for their universities
-F The largest university in the world is in Turkey
-G Italian students must have a five minute interview with a professor before being accepted into university
-H Peter Drucker foresees the end of university campuses</p>
-<p>Questions 23-26
+<p><strong>A</strong> Some universities are joining with each other
+<strong>B</strong> There are not enough graduates in developed countries
+<strong>C</strong> Most companies in developed countries devote a third of their profits to research and development
+<strong>D</strong> The number of people from developed countries studying outside their home countries has doubled in the last two decades
+<strong>E</strong> Scandinavian governments provide enough money for their universities
+<strong>F</strong> The largest university in the world is in Turkey
+<strong>G</strong> Italian students must have a five minute interview with a professor before being accepted into university
+<strong>H</strong> Peter Drucker foresees the end of university campuses</p>
+<p><strong>Questions 23-26</strong>
 According to the information given in the text, choose the correct answer or answers from the choices given.</p>
 <p>23. Universities are responding to changes by
-A constructing new buildings in old styles so they appear old and traditional
-B introducing new subjects for study
-C charging students higher fees</p>
+<strong>A</strong> constructing new buildings in old styles so they appear old and traditional
+<strong>B</strong> introducing new subjects for study
+<strong>C</strong> charging students higher fees</p>
 <p>24. The knowledge economy is
-A on the rise most of all in Germany
-B not fully appreciated in Britain
-C heavily reliant on universities</p>
+<strong>A</strong> on the rise most of all in Germany
+<strong>B</strong> not fully appreciated in Britain
+<strong>C</strong> heavily reliant on universities</p>
 <p>25. Current problems at universities, especially in Europe, include
-A managers arguing with governments
-B problems with funding
-C poor management</p>
+<strong>A</strong> managers arguing with governments
+<strong>B</strong> problems with funding
+<strong>C</strong> poor management</p>
 <p>26. Possible solutions put forward by reformists and conservatives include
-A greater use of technology
-B employing management gurus to teach
-C teaching fewer students</p>
-<p>Sunday Is a Fun Day for Modern Brits</p>
+<strong>A</strong> greater use of technology
+<strong>B</strong> employing management gurus to teach
+<strong>C</strong> teaching fewer students</p>
+<p><strong>Sunday Is a Fun Day for Modern Brits</strong></p>
 <p>In a new study, Essex University sociologists have dissected the typical British Sunday, and found we get up later and do fewer chores than we did 40 years ago – and we are far more likely to be out shopping or enjoying ourselves than cooking Sunday lunch. Academics at the university’s Institute of Social and Economic Research asked 10,000 people to keep a detailed diary of how they spent Sundays in 2001. Then they compared the results with 3,500 diaries written in 1961, a treasure trove of information that had been uncovered ‘in two egg boxes and a tea chest’ in the basement of the BBC by ISER’s director, Professor Jonathan Gershuny.</p>
 <p>The contrast between the two periods could not be more striking. Forty years ago, Sunday mornings were a flurry of activity as men and women – especially women – caught up on their weekly chores and cooked up a storm in the kitchen. Women rarely allowed themselves any ‘leisure’ until the afternoon, after the dishes were cleaned. In 1961, more than a fifth of all men and women in Britain were sitting at a table by 2 p.m., most likely tucking into a roast with all the trimmings. Then there would be another rush to the table between 5 p.m. and 6 p.m. for high tea.</p>
 <p>Since the arrival of brunch, the gastropub and the all-you-can-eat Sunday buffet at the local curry house, such institutions have become extinct. Today, we graze the entire day. You only have two free days a week. You don’t want to have to waste one because there is nothing to do but watch TV. Sunday has leapfrogged Saturday in the fun stakes. On Saturdays, you are recovering from the week. Sundays are the last bastion of the weekend – you want to get as much as you can out of the day before you have to go back to work.</p>
 <p>According to researchers, the ability to trail around B&Q has made the most dramatic difference to our Sundays. In 1961, adults spent an average of 20 minutes a day shopping; by 2001, it was 50 minutes. ‘Shopping used to be a gender segregated activity that would take place during the week, while the husband was at work. Now it’s as much men as women,’ said Gershuny. We’re all more likely to be relaxing or shopping on a Sunday morning these days than scrubbing the floor or putting up shelves. ‘Men now stay in bed longer, and get up not, as previously, to work around the house, but rather to shop or to pursue other outside leisure activities.’</p>
 <p>Men do about the same amount of unpaid work around the house as they used to on a Sunday, but it’s spread throughout the whole day, instead of crammed into the morning. Women do considerably less than 40 years ago. Indeed, men and women were ‘pretty much different species’ in 1961, as far as the way they spent Sundays was concerned, with men far more likely to be out of the house – at the pub or playing football – before lunch. ‘For women, leisure happened only in the afternoon. But by 2001, the shapes of men’s and women’s Sundays were much more similar,’ says the report.</p>
 <p>‘Sunday for me is all about holding on to the weekend and trying to stave off Monday. An ideal Sunday would involve getting up and having a nice lunch. Sometimes we cook, but more often I go out to get a roast or bangers and mash at a gastropub. If it is a nice day, there is nothing better than sitting outside in the beer garden, reading the Sunday papers – one tabloid and one broadsheet – with a Guinness, extra cold. Sunday is often a chance to visit other parts of London, as long as it is not too far. I use Sundays to go clothes shopping, or to the cinema. I often go to Camden market, as I love the international foods on offer and hunting for bargains and vintage clothes.’</p>
-<p>Jonathan Bentley Atchison (25, Clapham, London, works in communications)</p>
+<p><em><strong>Jonathan Bentley Atchison (25, Clapham, London, works in communications)</strong></em></p>
 <p>‘I am usually at home making the Sunday lunch. Some friends go out to eat, but my husband Mark loves a roast, so we don’t. After that, I do the washing, like every day, and then I take my daughter Grace to netball and watch her play. Mark potters around – last Sunday, he tidied the garage. He works six days a week, so on Sunday he stays at home. I don’t like shopping on a Sunday because every man and his dog is out. I don’t work, so I can do it in the week. I tend to watch television and chill out. When summer comes, we go to barbecues at family or friends’ houses. When I was growing up, my dad would do the gardening and paint the fences while my mum would do housework.’</p>
-<p>Hazel Hallows (42, Manchester, housewife, married with three children)</p>
+<p><em><strong>Hazel Hallows (42, Manchester, housewife, married with three children)</strong></em></p>
 <p>‘When we were at home, I would get out in the garden, and my late wife Rose would cook the Sunday lunch and do the housework. I was an engineer, and Rose worked full-time as a supermarket manageress. In 1961, we had just moved to Bristol, and I spent Sunday maintaining the new house. The washing and ironing had to be done – it was a working-together atmosphere. We would sometimes go and spend the day with Rose’s sister or other relatives. In 1961, it was the first time I had a new car, so we spent time in the countryside or garden centres. Now, I get up on Sundays and spend a couple of hours reading the newspapers.’</p>
-<p>Bryan Jones (79, pensioner, Frampton Cotterell, near Bristol)</p>
-<p>Questions 27-30
+<p><em><strong>Bryan Jones (79, pensioner, Frampton Cotterell, near Bristol)</strong></em></p>
+<p><strong>Questions 27-30</strong>
 Choose the correct letter A, B or C.</p>
 <p>27. According to the diaries, in 1961, women rarely had free time on Sunday
-A mornings.
-B afternoons.
-C evenings.</p>
+<strong>A</strong> mornings.
+<strong>B</strong> afternoons.
+<strong>C</strong> evenings.</p>
 <p>28. People want to do more on Sundays because
-A more shops are open.
-B it is a good day to graze.
-C they are tired on Saturdays.</p>
+<strong>A</strong> more shops are open.
+<strong>B</strong> it is a good day to graze.
+<strong>C</strong> they are tired on Saturdays.</p>
 <p>29. Shopping habits have changed since 1961 in that
-A people shop less at weekends.
-B men shop more than women.
-C men do as much shopping as women.</p>
+<strong>A</strong> people shop less at weekends.
+<strong>B</strong> men shop more than women.
+<strong>C</strong> men do as much shopping as women.</p>
 <p>30. Compared with 1961,
-A women do far less housework on Sundays.
-B men do far less housework on Sundays.
-C men and women do far less housework on Sundays.</p>
-<p>Questions 31-35
-Complete the following sentences using NO MORE THAN THREE WORDS from the text for each gap.</p>
+<strong>A</strong> women do far less housework on Sundays.
+<strong>B</strong> men do far less housework on Sundays.
+<strong>C</strong> men and women do far less housework on Sundays.</p>
+<p><strong>Questions 31-35</strong>
+Complete the following sentences using <strong>NO MORE THAN THREE WORDS</strong> from the text for each gap.</p>
 <p>Professor Gershuny discovered thousands of (31)………………..at the BBC.</p>
 <p>In 1961, people ate (32)……………….at 5 or 6 o’clock.</p>
 <p>In 2001, people spent (33)…………………50 minutes on shopping on Sundays.</p>
 <p>Shopping is something that is not as (34)…………………as it was in 1961.</p>
 <p>In 1961, men would often go for a drink or be (35)……………..before lunch.</p>
-<p>Questions 36-40
+<p><strong>Questions 36-40</strong>
 Do the following statements agree with the information given in Reading Passage? In boxes 36 – 40 write</p>
-<p>TRUE                  if the statement agrees with the information
-FALSE                if the statement contradicts the information
-NOT GIVEN     if there is no information on this</p>
+<p><strong>TRUE</strong>                  if the statement agrees with the information
+<strong>FALSE</strong>                if the statement contradicts the information
+<strong>NOT GIVEN</strong>     if there is no information on this</p>
 <p>36. Mr. Atchison usually eats out.
 37. Mrs. Hallows’ husband does no household chores on Sundays.
 38. Mrs. Hallows thinks the shops are too busy on Sundays.
 39. Mr. Jones is a widower.
 40. Mr. Jones does household chores on Sundays.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. C</p>
 <p>2. D</p>
 <p>3. F</p>
@@ -479,6 +535,29 @@ NOT GIVEN     if there is no information on this</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -498,12 +577,23 @@ NOT GIVEN     if there is no information on this</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -515,14 +605,6 @@ NOT GIVEN     if there is no information on this</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

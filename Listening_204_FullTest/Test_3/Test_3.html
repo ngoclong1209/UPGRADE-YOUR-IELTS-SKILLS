@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,120 +158,120 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_3</h1>
-            <p>IELTS Listening Practice - Test 3</p>
-<p>Part 1: Questions 1-10
-Complete the notes below. Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer</p>
-<p>Job Inquiry
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 3</strong></h3>
+<p><u><strong>Part</strong></u><strong> 1: Questions 1-10</strong>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer</p>
+<p><strong>Job Inquiry</strong>
 Work at:                          a restaurant
-Type of work:                (1)  _______ 
+Type of work:               <strong> (1)</strong>  _______ 
 Number of hours per week: 12 hours
 Would need work permit
-Work in the:                  (2)  _______  branch
-Nearest bus stop: next to (3)  _______ 
-Pay:                                 (4) £  _______  an hour
+Work in the:                 <strong> (2)</strong>  _______  branch
+Nearest bus stop: next to <strong>(3)</strong>  _______ 
+Pay:                                 <strong>(4)</strong> £  _______  an hour
 Extra benefits: a free dinner
-Extra pay when you work on (5)  _______ 
-Transport home when you work (6)  _______ 
-Qualities required:        (7)  _______ 
-Ability to (8)  _______ 
-Interview arranged for: Thursday (9)  _______  at 6 pm
-Ask for:                            Samira (10)  _______</p>
-<p>Part 2: Questions 11-16
-Complete the notes below. Write ONE WORD AND/OR A NUMBER for each answer.</p>
-<p>SPORTS WORLD
-• a new (11)  _______  of an international sports goods company
-• located in the shopping centre to the (12)  _______  of Bradcaster
-• has sports (13)  _______  and equipment on floors 1 – 3
-• can get you any item within (14)  _______  days
-• shop specialises in equipment for (15)  _______ 
-• has a special section which just sells (16)  _______</p>
-<p>Questions 17 and 18
+Extra pay when you work on <strong>(5)</strong>  _______ 
+Transport home when you work <strong>(6)</strong>  _______ 
+Qualities required:        <strong>(7)</strong>  _______ 
+Ability to <strong>(8)</strong>  _______ 
+Interview arranged for: Thursday <strong>(9)</strong>  _______  at 6 pm
+Ask for:                            Samira <strong>(10)</strong>  _______</p>
+<p><u><strong>Part</strong></u><strong> 2: Questions 11-16</strong>
+Complete the notes below. Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
+<p><strong>SPORTS WORLD</strong>
+• a new <strong>(11)</strong>  _______  of an international sports goods company
+• located in the shopping centre to the <strong>(12)</strong>  _______  of Bradcaster
+• has sports <strong>(13)</strong>  _______  and equipment on floors 1 – 3
+• can get you any item within <strong>(14)</strong>  _______  days
+• shop specialises in equipment for <strong>(15)</strong>  _______ 
+• has a special section which just sells <strong>(16)</strong>  _______</p>
+<p><strong>Questions 17 and 18</strong>
 Choose the correct letter, A, B or C.</p>
 <p>17. A champion athlete will be in the shop
-[ ]  A on Saturday morning only
-[ ]  B all day Saturday
-[ ]  C for the whole weekend</p>
+<strong>[ ] </strong><strong> A</strong> on Saturday morning only
+<strong>[ ] </strong><strong> B</strong> all day Saturday
+<strong>[ ] </strong><strong> C</strong> for the whole weekend</p>
 <p>18. The first person to answer 20 quiz questions correctly will win
-[ ]  A gym membership
-[ ]  B a video
-[ ]  C a calendar</p>
-<p>Questions 19 and 20
-Choose TWO letters, A-E.</p>
-<p>Which TWO pieces of information does the speaker give about the fitness test?
-[ ]  A You need to reserve a place
-[ ]  B It is free to account holders
-[ ]  C You get advice on how to improve your health
-[ ]  D It takes place in a special clinic
-[ ]  E It is cheaper this month</p>
-<p>Part 3: Questions 21-30
+<strong>[ ] </strong><strong> A</strong> gym membership
+<strong>[ ] </strong><strong> B</strong> a video
+<strong>[ ] </strong><strong> C</strong> a calendar</p>
+<p><strong>Questions 19 and 20</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>Which <strong>TWO</strong> pieces of information does the speaker give about the fitness test?
+<strong>[ ] </strong><strong> A</strong> You need to reserve a place
+<strong>[ ] </strong><strong> B</strong> It is free to account holders
+<strong>[ ] </strong><strong> C</strong> You get advice on how to improve your health
+<strong>[ ] </strong><strong> D</strong> It takes place in a special clinic
+<strong>[ ] </strong><strong> E</strong> It is cheaper this month</p>
+<p><u><strong>Part</strong></u><strong> 3: Questions 21-30</strong>
 Choose the correct letter, A, B or C.</p>
-<p>Course Feedback
+<p><strong>Course Feedback</strong>
 21. One reason why Spiros felt happy about his marketing presentation was that
-[ ]  A he was not nervous
-[ ]  B his style was good
-[ ]  C the presentation was the best in his group</p>
+<strong>[ ] </strong><strong> A</strong> he was not nervous
+<strong>[ ] </strong><strong> B</strong> his style was good
+<strong>[ ] </strong><strong> C</strong> the presentation was the best in his group</p>
 <p>22. What surprised Hiroko about the other students’ presentations?
-[ ]  A Their presentations were not interesting
-[ ]  B They found their presentations stressful
-[ ]  C They didn’t look at the audience enough</p>
+<strong>[ ] </strong><strong> A</strong> Their presentations were not interesting
+<strong>[ ] </strong><strong> B</strong> They found their presentations stressful
+<strong>[ ] </strong><strong> C</strong> They didn’t look at the audience enough</p>
 <p>23. After she gave her presentation, Hiroko felt
-[ ]  A delighted
-[ ]  B dissatisfied
-[ ]  C embarrassed</p>
+<strong>[ ] </strong><strong> A</strong> delighted
+<strong>[ ] </strong><strong> B</strong> dissatisfied
+<strong>[ ] </strong><strong> C</strong> embarrassed</p>
 <p>24. How does Spiros feel about his performance in tutorials?
-[ ]  A not very happy
-[ ]  B really pleased
-[ ]  C fairly confident</p>
+<strong>[ ] </strong><strong> A</strong> not very happy
+<strong>[ ] </strong><strong> B</strong> really pleased
+<strong>[ ] </strong><strong> C</strong> fairly confident</p>
 <p>25. Why can the other students participate so easily in discussions?
-[ ]  A They are polite to each other
-[ ]  B They agree to take turns in speaking
-[ ]  C They know each other well</p>
+<strong>[ ] </strong><strong> A</strong> They are polite to each other
+<strong>[ ] </strong><strong> B</strong> They agree to take turns in speaking
+<strong>[ ] </strong><strong> C</strong> They know each other well</p>
 <p>26. Why is Hiroko feeling more positive about tutorials now?
-[ ]  A She finds the other students’ opinions more interesting
-[ ]  B She is making more of a contribution
-[ ]  C The tutor includes her in the discussion</p>
+<strong>[ ] </strong><strong> A</strong> She finds the other students’ opinions more interesting
+<strong>[ ] </strong><strong> B</strong> She is making more of a contribution
+<strong>[ ] </strong><strong> C</strong> The tutor includes her in the discussion</p>
 <p>27. To help her understand lectures, Hiroko
-[ ]  A consulted reference materials
-[ ]  B had extra tutorials with her lecturers
-[ ]  C borrowed lecture notes from other students</p>
+<strong>[ ] </strong><strong> A</strong> consulted reference materials
+<strong>[ ] </strong><strong> B</strong> had extra tutorials with her lecturers
+<strong>[ ] </strong><strong> C</strong> borrowed lecture notes from other students</p>
 <p>28. What does Spiros think of his reading skills?
-[ ]  A He reads faster than he used to
-[ ]  B It still takes him a long time to read
-[ ]  C He tends to struggle with new vocabulary</p>
+<strong>[ ] </strong><strong> A</strong> He reads faster than he used to
+<strong>[ ] </strong><strong> B</strong> It still takes him a long time to read
+<strong>[ ] </strong><strong> C</strong> He tends to struggle with new vocabulary</p>
 <p>29. What is Hiroko’s subject area?
-[ ]  A environmental studies
-[ ]  B health education
-[ ]  C engineering</p>
+<strong>[ ] </strong><strong> A</strong> environmental studies
+<strong>[ ] </strong><strong> B</strong> health education
+<strong>[ ] </strong><strong> C</strong> engineering</p>
 <p>30. Hiroko thinks that in the reading classes the students should
-[ ]  A learn more vocabulary
-[ ]  B read more in their own subject areas
-[ ]  C develop better reading strategies</p>
-<p>Part 4: Questions 31-40
-Complete the notes below. Write NO MORE THAN THREE WORDS.</p>
-<p>Mass Strandings of Whales and Dolphins
+<strong>[ ] </strong><strong> A</strong> learn more vocabulary
+<strong>[ ] </strong><strong> B</strong> read more in their own subject areas
+<strong>[ ] </strong><strong> C</strong> develop better reading strategies</p>
+<p><u><strong>Part</strong></u><strong> 4: Questions 31-40</strong>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS</strong>.</p>
+<p><strong>Mass Strandings of Whales and Dolphins</strong>
 Mass strandings: situations where groups of whales, dolphins, etc. swim onto the beach and die
-Common in areas where the (31)  _______  can change quickly</p>
-<p>Several other theories:
-Parasites
-e.g. some parasites can affect marine animals’ (32)  _______  ,which they depend on for navigation</p>
-<p>Toxins
-Poisons from (33)  _______  or  _______  are commonly consumed by whales
+Common in areas where the <strong>(31)</strong>  _______  can change quickly</p>
+<p><strong>Several other theories:</strong>
+<strong>Parasites</strong>
+e.g. some parasites can affect marine animals’ <strong>(32) </strong> _______  ,which they depend on for navigation</p>
+<p><strong>Toxins</strong>
+Poisons from <strong>(33) </strong> _______  or  _______  are commonly consumed by whales
 e.g. Cape Cod (1988) – whales were killed by saxitoxin</p>
-<p>Accidental Strandings
+<p><strong>Accidental Strandings</strong>
 Animals may follow prey ashore, e.g. Thurston (1995)
-Unlikely because the majority of animals were not (34)  _______  when they stranded</p>
-<p>Human Activity
-(35)  _______  from military tests are linked to some recent strandings
+Unlikely because the majority of animals were not <strong>(34)</strong>  _______  when they stranded</p>
+<p><strong>Human Activity</strong>
+<strong>(35) </strong> _______  from military tests are linked to some recent strandings
 The Bahamas (2000) stranding was unusual because the whales
-• were all (36)  _______ 
-• were not in a (37)  _______</p>
-<p>Group Behaviour
-• More standings in the most (38)  _______  species of whales
-• 1994 dolphin stranding – only the (39)  _______  was ill</p>
-<p>Further Reading
+• were all <strong>(36)</strong>  _______ 
+• were not in a <strong>(37)</strong>  _______</p>
+<p><strong>Group Behaviour</strong>
+• More standings in the most <strong>(38)</strong>  _______  species of whales
+• 1994 dolphin stranding – only the <strong>(39)</strong>  _______  was ill</p>
+<p><strong>Further Reading</strong>
 Marine Mammals Ashore (Connor) – gives information about stranding 
-(40)  _______</p>
-<p>ANSWER KEY</p>
+<strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. answer(ing) phone</p>
 <p>2. Hillsdunne road</p>
 <p>3. library</p>
@@ -469,11 +525,34 @@ Marine Mammals Ashore (Connor) – gives information about stranding
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_3.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_3.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -493,12 +572,23 @@ Marine Mammals Ashore (Connor) – gives information about stranding
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -510,14 +600,6 @@ Marine Mammals Ashore (Connor) – gives information about stranding
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

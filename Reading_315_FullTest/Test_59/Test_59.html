@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,18 +158,18 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_59</h1>
-            <p>IELTS Reading Practice - Test 59</p>
-<p>THE ROCKET – FROM EAST TO WEST</p>
-<p>A The concept of the rocket, or rather the mechanism behind the idea of propelling an object into the air, has been around for well over two thousand years. However, it wasn’t until the discovery of the reaction principle, which was the key to space travel and so represents one of the great milestones in the history of scientific thought that rocket technology was able to develop. Not only did it solve a problem that had intrigued man for ages, but, more importantly, it literally opened the door to exploration of the universe.</p>
-<p>B An intellectual breakthrough, brilliant though it may be, does not automatically ensure that the transition is made from theory to practice. Despite the fact that rockets had been used sporadically for several hundred years, they remained a relatively minor artefact of civilisation until the twentieth century. Prodigious efforts, accelerated during two world wars, were required before the technology of primitive rocketry could be translated into the reality of sophisticated astronauts. It is strange that the rocket was generally ignored by writers of fiction to transport their heroes to mysterious realms beyond the Earth, even though it had been commonly used in fireworks displays in China since the thirteenth century. The reason is that nobody associated the reaction principle with the idea of travelling through space to a neighbouring world.</p>
-<p>C A simple analogy can help us to understand how a rocket operates. It is much like a machine gun mounted on the rear of a boat. In reaction to the backward discharge of bullets, the gun, and hence the boat, move forwards. A rocket motor’s ‘bullets’ are minute, high-speed particles produced by burning propellants in a suitable chamber. The reaction to the ejection of these small particles causes the rocket to move forwards. There is evidence that the reaction principle was applied practically well before the rocket was invented. In his Noctes Atticae or Greek Nights, Aulus Gellius describes ‘the pigeon of Archytas’, an invention dating back to about 360 BC. Cylindrical in shape, made of wood, and hanging from string, it was moved to and fro by steam blowing out from small exhaust ports at either end. The reaction to the discharging steam provided the bird with motive power.</p>
-<p>D The invention of rockets is linked inextricably with the invention of ‘black powder’. Most historians of technology credit the Chinese with its discovery. They base their belief on studies of Chinese writings or on the notebooks of early Europeans who settled in or made long visits to China to study its history and civilisation. It is probable that, some time in the tenth century, black powder was first compounded from its basic ingredients of saltpetre, charcoal and sulphur. But this does not mean that it was immediately used to propel rockets. By the thirteenth century, powder-propelled fire arrows had become rather common. The Chinese relied on this type of technological development to produce incendiary projectiles of many sorts, explosive grenades and possibly cannons to repel their enemies. One such weapon was the ‘basket of fire’ or, as directly translated from Chinese, the ‘arrows like flying leopards’. The 0.7 metre-long arrows, each with a long tube of gunpowder attached near the point of each arrow, could be fired from a long, octagonal-shaped basket at the same time and had a range of 400 paces. Another weapon was the ‘arrow as a flying sabre’, which could be fired from crossbows. The rocket, placed in a similar position to other rocket-propelled arrows, was designed to increase the range. A small iron weight was attached to the 1.5m bamboo shaft, just below the feathers, to increase the arrow’s stability by moving the centre of gravity to a position below the rocket. At a similar time, the Arabs had developed the ‘egg which moves and burns’. This ‘egg’ was apparently full of gunpowder and stabilised by a 1.5m tail. It was fired using two rockets attached to either side of this tail.</p>
-<p>E It was not until the eighteenth century that Europe became seriously interested in the possibilities of using the rocket itself as a weapon of war and not just to propel other weapons. Prior to this, rockets were used only in pyrotechnic displays. The incentive for the more aggressive use of rockets came not from within the European continent but from far-away India, whose leaders had built up a corps of rocketeers and used rockets successfully against the British in the late eighteenth century. The Indian rockets used against the British were described by a British Captain serving in India as ‘an iron envelope about 200 millimetres long and 40 millimetres in diameter with sharp points at the top and a 3m-long bamboo guiding stick’. In the early nineteenth century the British began to experiment with incendiary barrage rockets. The British rocket differed from the Indian version in that it was completely encased in a stout, iron cylinder, terminating in a conical head, measuring one metre in diameter and having a stick almost five metres long and constructed in such a way that it could be firmly attached to the body of the rocket. The Americans developed a rocket, complete with its own launcher, to use against the Mexicans in the mid-nineteenth century. A long cylindrical tube was propped up by two sticks and fastened to the top of the launcher, thereby allowing the rockets to be inserted and lit from the other end. However, the results were sometimes not that impressive as the behaviour of the rockets in flight was less than predictable.</p>
-<p>F Since then, there have been huge developments in rocket technology, often with devastating results in the forum of war. Nevertheless, the modern day space programs owe their success to the humble beginnings of those in previous centuries who developed the foundations of the reaction principle. Who knows what it will be like in the future?</p>
-<p>Questions 1-4
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 59</strong></h3>
+<h3 class="test-heading"><strong>THE ROCKET – FROM EAST TO WEST</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> The concept of the rocket, or rather the mechanism behind the idea of propelling an object into the air, has been around for well over two thousand years. However, it wasn’t until the discovery of the reaction principle, which was the key to space travel and so represents one of the great milestones in the history of scientific thought that rocket technology was able to develop. Not only did it solve a problem that had intrigued man for ages, but, more importantly, it literally opened the door to exploration of the universe.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> An intellectual breakthrough, brilliant though it may be, does not automatically ensure that the transition is made from theory to practice. Despite the fact that rockets had been used sporadically for several hundred years, they remained a relatively minor artefact of civilisation until the twentieth century. Prodigious efforts, accelerated during two world wars, were required before the technology of primitive rocketry could be translated into the reality of sophisticated astronauts. It is strange that the rocket was generally ignored by writers of fiction to transport their heroes to mysterious realms beyond the Earth, even though it had been commonly used in fireworks displays in China since the thirteenth century. The reason is that nobody associated the reaction principle with the idea of travelling through space to a neighbouring world.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> A simple analogy can help us to understand how a rocket operates. It is much like a machine gun mounted on the rear of a boat. In reaction to the backward discharge of bullets, the gun, and hence the boat, move forwards. A rocket motor’s ‘bullets’ are minute, high-speed particles produced by burning propellants in a suitable chamber. The reaction to the ejection of these small particles causes the rocket to move forwards. There is evidence that the reaction principle was applied practically well before the rocket was invented. In his Noctes Atticae or Greek Nights, Aulus Gellius describes ‘the pigeon of Archytas’, an invention dating back to about 360 BC. Cylindrical in shape, made of wood, and hanging from string, it was moved to and fro by steam blowing out from small exhaust ports at either end. The reaction to the discharging steam provided the bird with motive power.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> The invention of rockets is linked inextricably with the invention of ‘black powder’. Most historians of technology credit the Chinese with its discovery. They base their belief on studies of Chinese writings or on the notebooks of early Europeans who settled in or made long visits to China to study its history and civilisation. It is probable that, some time in the tenth century, black powder was first compounded from its basic ingredients of saltpetre, charcoal and sulphur. But this does not mean that it was immediately used to propel rockets. By the thirteenth century, powder-propelled fire arrows had become rather common. The Chinese relied on this type of technological development to produce incendiary projectiles of many sorts, explosive grenades and possibly cannons to repel their enemies. One such weapon was the ‘basket of fire’ or, as directly translated from Chinese, the ‘arrows like flying leopards’. The 0.7 metre-long arrows, each with a long tube of gunpowder attached near the point of each arrow, could be fired from a long, octagonal-shaped basket at the same time and had a range of 400 paces. Another weapon was the ‘arrow as a flying sabre’, which could be fired from crossbows. The rocket, placed in a similar position to other rocket-propelled arrows, was designed to increase the range. A small iron weight was attached to the 1.5m bamboo shaft, just below the feathers, to increase the arrow’s stability by moving the centre of gravity to a position below the rocket. At a similar time, the Arabs had developed the ‘egg which moves and burns’. This ‘egg’ was apparently full of gunpowder and stabilised by a 1.5m tail. It was fired using two rockets attached to either side of this tail.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> It was not until the eighteenth century that Europe became seriously interested in the possibilities of using the rocket itself as a weapon of war and not just to propel other weapons. Prior to this, rockets were used only in pyrotechnic displays. The incentive for the more aggressive use of rockets came not from within the European continent but from far-away India, whose leaders had built up a corps of rocketeers and used rockets successfully against the British in the late eighteenth century. The Indian rockets used against the British were described by a British Captain serving in India as ‘an iron envelope about 200 millimetres long and 40 millimetres in diameter with sharp points at the top and a 3m-long bamboo guiding stick’. In the early nineteenth century the British began to experiment with incendiary barrage rockets. The British rocket differed from the Indian version in that it was completely encased in a stout, iron cylinder, terminating in a conical head, measuring one metre in diameter and having a stick almost five metres long and constructed in such a way that it could be firmly attached to the body of the rocket. The Americans developed a rocket, complete with its own launcher, to use against the Mexicans in the mid-nineteenth century. A long cylindrical tube was propped up by two sticks and fastened to the top of the launcher, thereby allowing the rockets to be inserted and lit from the other end. However, the results were sometimes not that impressive as the behaviour of the rockets in flight was less than predictable.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> Since then, there have been huge developments in rocket technology, often with devastating results in the forum of war. Nevertheless, the modern day space programs owe their success to the humble beginnings of those in previous centuries who developed the foundations of the reaction principle. Who knows what it will be like in the future?</p></div></div>
+<p><strong>Questions 1-4</strong>
 Choose the most suitable headings for paragraphs B-E from the list of headings below.
 Write the appropriate numbers (i-ix) in boxes 1-4 on your answer sheet.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i How the reaction principle works
 ii The impact of the reaction principle
 iii Writers’ theories of the reaction principle
@@ -127,19 +183,19 @@ ix What’s next?</p>
 2 Paragraph C
 3 Paragraph D
 4 Paragraph E</p>
-<p>Question 5 and 6
+<p><strong>Question 5 and 6</strong>
 Choose the appropriate letters A-D and write them in boxes 5 and 6 on your answer sheet.</p>
 <p>5 The greatest outcome of the discovery of the reaction principle was that
-A rockets could be propelled into the air
-B space travel became a reality
-C a major problem had been solved
-D bigger rockets were able to be built</p>
+<strong>A</strong> rockets could be propelled into the air
+<strong>B</strong> space travel became a reality
+<strong>C</strong> a major problem had been solved
+<strong>D</strong> bigger rockets were able to be built</p>
 <p>6 According to the text, the greatest progress in rocket technology was made
-A from the tenth to the thirteenth centuries
-B from the seventeenth to the nineteenth centuries
-C from the early nineteenth to the late nineteenth century
-D from the late nineteenth century to the present day</p>
-<p>Questions 7-10
+<strong>A</strong> from the tenth to the thirteenth centuries
+<strong>B</strong> from the seventeenth to the nineteenth centuries
+<strong>C</strong> from the early nineteenth to the late nineteenth century
+<strong>D</strong> from the late nineteenth century to the present day</p>
+<p><strong>Questions 7-10</strong>
 From the information in the text, indicate who FIRST invented or used the items in the list below.</p>
 <p>Write the appropriate letters A-E in boxes 7-10 on your answer sheet.
 NB You may use any letter more than once.</p>
@@ -147,21 +203,21 @@ NB You may use any letter more than once.</p>
 8 rocket-propelled arrows for fighting ……………….. .
 9 rockets as war weapons ……………….. .
 10 the rocket launcher ……………….. .</p>
-<p>FIRST invented or used by
-A the Chinese
-B the Indians
-C the British
-D the Arabs
-E the Americans</p>
-<p>Questions 11-14</p>
+<p><strong>FIRST invented or used by</strong>
+<strong>A</strong> the Chinese
+<strong>B</strong> the Indians
+<strong>C</strong> the British
+<strong>D</strong> the Arabs
+<strong>E</strong> the Americans</p>
+<p><strong>Questions 11-14</strong></p>
 <p>Look at the drawings of different projectiles below, A-H, and the names of types of projectiles given in the Reading Passage 1, Questions 11-14.
 Write the appropriate letters A-H in boxes 11-14 on your answer sheet.</p>
 <p>11 The Chinese ‘basket of fire’ …………………
 12 The Arab ‘egg which moves and burns’ …………………
 13 The Indian rocket …………………
 14 The British barrage rocket …………………</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>The Risks of Cigarette Smoke</p>
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>The Risks of Cigarette Smoke</strong></p>
 <p>Discovered in the early 1800s and named ‘nicotianine’, the oily essence now called nicotine is the main active ingredient of tobacco. Nicotine, however, is only a small component of cigarette smoke, which contains more than 4,700 chemical compounds, including 43 cancer-causing substances. In recent times, scientific research has been providing evidence that years of cigarette smoking vastly increases the risk of developing fatal medical conditions.</p>
 <p>In addition to being responsible for more than 85 per cent of lung cancers, smoking is associated with cancers of, amongst others, the mouth, stomach and kidneys, and is thought to cause about 14 per cent of leukemia and cervical cancers. In 1990, smoking caused more than 84,000 deaths, mainly resulting from such problems as pneumonia, bronchitis and influenza. Smoking, it is believed, is responsible for 30 per cent of all deaths from cancer and clearly represents the most important preventable cause of cancer in countries like the United States today.</p>
 <p>Passive smoking, the breathing in of the side-stream smoke from the burning of tobacco between puffs or of the smoke exhaled by a smoker, also causes a serious health risk. A report published in 1992 by the US Environmental Protection Agency (EPA) emphasized the health dangers, especially from side-stream smoke. This type of smoke contains more smaller particles and is therefore more likely to be deposited deep in the lungs. On the basis of this report, the EPA has classified environmental tobacco smoke in the highest risk category for causing cancer.</p>
@@ -171,70 +227,70 @@ Write the appropriate letters A-H in boxes 11-14 on your answer sheet.</p>
 <p>This report emphasizes that cancer is not caused by a single element in cigarette smoke; harmful effects to health are caused by many components. Carbon monoxide, for example, competes with oxygen in red blood cells and interferes with the blood’s ability to deliver life-giving oxygen to the heart. Nicotine and other toxins in cigarette smoke activate small blood cells called platelets, which increases the likelihood of blood clots, thereby affecting blood circulation throughout the body.</p>
 <p>The researchers criticize the practice of some scientific consultants who work with the tobacco industry for assuming that cigarette smoke has the same impact on smokers as it does on non-smokers. They argue that those scientists are underestimating the damage done by passive smoking and, in support of their recent findings, cite some previous research which points to passive smoking as the cause for between 30,000 and 60,000 deaths from heart attacks each year in the United States. This means that passive smoking is the third most preventable cause of death after active smoking and alcohol-related diseases.</p>
 <p>The study argues that the type of action needed against passive smoking should be similar to that being taken against illegal drugs and AIDS (SIDA). The UCSF researchers maintain that the simplest and most cost-effective action is to establish smoke-free work places, schools and public places.</p>
-<p>Questions 15-17
+<p><strong>Questions 15-17</strong>
 Choose the appropriate letters A-D and write them in boxes 15-17 on your answer sheet.</p>
 <p>15 According to information in the text, leukaemia and pneumonia
-A are responsible for 84,000 deaths each year
-B are strongly linked to cigarette smoking
-C are strongly linked to lung cancer
-D result in 30 per cent of deaths per year</p>
+<strong>A</strong> are responsible for 84,000 deaths each year
+<strong>B</strong> are strongly linked to cigarette smoking
+<strong>C</strong> are strongly linked to lung cancer
+<strong>D</strong> result in 30 per cent of deaths per year</p>
 <p>16 According to information in the text, intake of carbon monoxide
-A inhibits the flow of oxygen to the heart
-B increases absorption of other smoke particles
-C inhibits red blood cell formation
-D promotes nicotine absorption</p>
+<strong>A</strong> inhibits the flow of oxygen to the heart
+<strong>B</strong> increases absorption of other smoke particles
+<strong>C</strong> inhibits red blood cell formation
+<strong>D</strong> promotes nicotine absorption</p>
 <p>17 According to information in the text, intake of nicotine encourages
-A blood circulation through the body
-B activity of other toxins in the blood
-C formation of blood clots
-D an increase of platelets in the blood</p>
-<p>Questions 18-21
+<strong>A</strong> blood circulation through the body
+<strong>B</strong> activity of other toxins in the blood
+<strong>C</strong> formation of blood clots
+<strong>D</strong> an increase of platelets in the blood</p>
+<p><strong>Questions 18-21</strong>
 Do the following statements reflect the claims of the writer in Reading Passage 2.</p>
-<p>YES                             if the statement reflects the claims of the writer
-NO                               if the statement contradicts the claims of the writer
-NOT GIVEN            if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                             if the statement reflects the claims of the writer
+<strong>NO</strong>                               if the statement contradicts the claims of the writer
+<strong>NOT GIVEN</strong>            if it is impossible to say what the writer thinks about this</p>
 <p>18 Thirty per cent of deaths in the United States are caused by smoking-related diseases.
 19 If one partner in a marriage smokes, the other is likely to take up smoking.
 20 Teenagers whose parents smoke are at risk of getting lung cancer at some time during their lives.
 21 Opponents of smoking financed the UCSF study.</p>
-<p>Questions 22-24
-Choose ONE phrase from the list of phrases A-J below to complete each of the following sentences
+<p><strong>Questions 22-24</strong>
+Choose <strong>ONE</strong> phrase from the list of phrases A-J below to complete each of the following sentences
 22 Passive smoking ……………….. .
 23 Compared with a non-smoker, a smoker ……………….. .
 24 The American Medical Association ……………….. .</p>
-<p>A includes reviews of studies in its reports.
-B argues for stronger action against smoking in public places.
-C is one of the two most preventable causes of death.
-D is more likely to be at risk from passive smoking diseases.
-E is more harmful to non-smokers than to smokers.
-F is less likely to be at risk of contracting lung cancer.
-G is more likely to be at risk of contracting various cancers.
-H opposes smoking and publishes research on the subject.
-I is just as harmful to smokers as it is to non-smokers.
-J reduces the quantity of blood flowing around the body.</p>
-<p>Questions 25-28
+<p><strong>A</strong> includes reviews of studies in its reports.
+<strong>B</strong> argues for stronger action against smoking in public places.
+<strong>C</strong> is one of the two most preventable causes of death.
+<strong>D</strong> is more likely to be at risk from passive smoking diseases.
+<strong>E</strong> is more harmful to non-smokers than to smokers.
+<strong>F</strong> is less likely to be at risk of contracting lung cancer.
+<strong>G</strong> is more likely to be at risk of contracting various cancers.
+<strong>H</strong> opposes smoking and publishes research on the subject.
+<strong>I</strong> is just as harmful to smokers as it is to non-smokers.
+<strong>J</strong> reduces the quantity of blood flowing around the body.</p>
+<p><strong>Questions 25-28</strong>
 Classify the following statements as being</p>
-<p>A a finding of the UCSF study
-B an opinion of the UCSF study
-C a finding of the EPA report
-D an assumption of consultants to the tobacco industry</p>
+<p><strong>A</strong> a finding of the UCSF study
+<strong>B</strong> an opinion of the UCSF study
+<strong>C</strong> a finding of the EPA report
+<strong>D</strong> an assumption of consultants to the tobacco industry</p>
 <p>25 Smokers’ cardiovascular systems adapt to the intake of environmental smoke.
 26 There is a philosophical question as to whether people should have to inhale others’ smoke.
 27 Smoke-free public places offer the best solution.
 28 The intake of side-stream smoke is more harmful than smoke exhaled by a smoker.</p>
-<p>THE SCIENTIFIC METHOD</p>
-<p>A ‘Hypotheses,’ said Medawar in 1964, ‘are imaginative and inspirational in character’; they are ‘adventures of the mind’. He was arguing in favour of the position taken by Karl Popper in The Logic of Scientific Discovery (1972, 3rd edition) that the nature of scientific method is hypothetico-deductive and not, as is generally believed, inductive.</p>
-<p>B It is essential that you, as an intending researcher, understand the difference between these two interpretations of the research process so that you do not become discouraged or begin to suffer from a feeling of ‘cheating’ or not going about it the right way.</p>
-<p>C The myth of scientific method is that it is inductive: that the formulation of scientific theory starts with the basic, raw evidence of the senses – simple, unbiased, unprejudiced observation. Out of these sensory data – commonly referred to as ‘facts’ — generalisations will form. The myth is that from a disorderly array of factual information an orderly, relevant theory will somehow emerge. However, the starting point of induction is an impossible one.</p>
-<p>D There is no such thing as an unbiased observation. Every act of observation we make is a function of what we have seen or otherwise experienced in the past. All scientific work of an experimental or exploratory nature starts with some expectation about the outcome. This expectation is a hypothesis. Hypotheses provide the initiative and incentive for the inquiry and influence the method. It is in the light of an expectation that some observations are held to be relevant and some irrelevant, that one methodology is chosen and others discarded, that some experiments are conducted and others are not. Where is, your naive, pure and objective researcher now?</p>
-<p>E Hypotheses arise by guesswork, or by inspiration, but having been formulated they can and must be tested rigorously, using the appropriate methodology. If the predictions you make as a result of deducing certain consequences from your hypothesis are not shown to be correct then you discard or modify your hypothesis. If the predictions turn out to be correct then your hypothesis has been supported and may be retained until such time as some further test shows it not to be correct. Once you have arrived at your hypothesis, which is a product of your imagination, you then proceed to a strictly logical and rigorous process, based upon deductive argument — hence the term ‘hypothetico-deductive’.</p>
-<p>F So don’t worry if you have some idea of what your results will tell you before you even begin to collect data; there are no scientists in existence who really wait until they have all the evidence in front of them before they try to work out what it might possibly mean. The closest we ever get to this situation is when something happens by accident; but even then the researcher has to formulate a hypothesis to be tested before being sure that, for example, a mould might prove to be a successful antidote to bacterial infection.</p>
-<p>G The myth of scientific method is not only that it is inductive (which we have seen is incorrect) but also that the hypothetico-deductive method proceeds in a step-by-step, inevitable fashion. The hypothetico-deductive method describes the logical approach to much research work, but it does not describe the psychological behaviour that brings it about. This is much more holistic — involving guesses, reworkings, corrections, blind alleys and above all inspiration, in the deductive as well as the hypothetic component -than is immediately apparent from reading the final thesis or published papers. These have been, quite properly, organised into a more serial, logical order so that the worth of the output may be evaluated independently of the behavioural processes by which it was obtained. It is the difference, for example between the academic papers with which Crick and Watson demonstrated the structure of the DNA molecule and the fascinating book The Double Helix in which Watson (1968) described how they did it. From this point of view, ‘scientific method’ may more usefully be thought of as a way of writing up research rather than as a way of carrying it out.</p>
-<p>Questions 29-30
+<p><strong>THE SCIENTIFIC METHOD</strong></p>
+<p><strong>A</strong> ‘Hypotheses,’ said Medawar in 1964, ‘are imaginative and inspirational in character’; they are ‘adventures of the mind’. He was arguing in favour of the position taken by Karl Popper in The Logic of Scientific Discovery (1972, 3rd edition) that the nature of scientific method is hypothetico-deductive and not, as is generally believed, inductive.</p>
+<p><strong>B</strong> It is essential that you, as an intending researcher, understand the difference between these two interpretations of the research process so that you do not become discouraged or begin to suffer from a feeling of ‘cheating’ or not going about it the right way.</p>
+<p><strong>C</strong> The myth of scientific method is that it is inductive: that the formulation of scientific theory starts with the basic, raw evidence of the senses – simple, unbiased, unprejudiced observation. Out of these sensory data – commonly referred to as ‘facts’ — generalisations will form. The myth is that from a disorderly array of factual information an orderly, relevant theory will somehow emerge. However, the starting point of induction is an impossible one.</p>
+<p><strong>D</strong> There is no such thing as an unbiased observation. Every act of observation we make is a function of what we have seen or otherwise experienced in the past. All scientific work of an experimental or exploratory nature starts with some expectation about the outcome. This expectation is a hypothesis. Hypotheses provide the initiative and incentive for the inquiry and influence the method. It is in the light of an expectation that some observations are held to be relevant and some irrelevant, that one methodology is chosen and others discarded, that some experiments are conducted and others are not. Where is, your naive, pure and objective researcher now?</p>
+<p><strong>E</strong> Hypotheses arise by guesswork, or by inspiration, but having been formulated they can and must be tested rigorously, using the appropriate methodology. If the predictions you make as a result of deducing certain consequences from your hypothesis are not shown to be correct then you discard or modify your hypothesis. If the predictions turn out to be correct then your hypothesis has been supported and may be retained until such time as some further test shows it not to be correct. Once you have arrived at your hypothesis, which is a product of your imagination, you then proceed to a strictly logical and rigorous process, based upon deductive argument — hence the term ‘hypothetico-deductive’.</p>
+<p><strong>F</strong> So don’t worry if you have some idea of what your results will tell you before you even begin to collect data; there are no scientists in existence who really wait until they have all the evidence in front of them before they try to work out what it might possibly mean. The closest we ever get to this situation is when something happens by accident; but even then the researcher has to formulate a hypothesis to be tested before being sure that, for example, a mould might prove to be a successful antidote to bacterial infection.</p>
+<p><strong>G</strong> The myth of scientific method is not only that it is inductive (which we have seen is incorrect) but also that the hypothetico-deductive method proceeds in a step-by-step, inevitable fashion. The hypothetico-deductive method describes the logical approach to much research work, but it does not describe the psychological behaviour that brings it about. This is much more holistic — involving guesses, reworkings, corrections, blind alleys and above all inspiration, in the deductive as well as the hypothetic component -than is immediately apparent from reading the final thesis or published papers. These have been, quite properly, organised into a more serial, logical order so that the worth of the output may be evaluated independently of the behavioural processes by which it was obtained. It is the difference, for example between the academic papers with which Crick and Watson demonstrated the structure of the DNA molecule and the fascinating book The Double Helix in which Watson (1968) described how they did it. From this point of view, ‘scientific method’ may more usefully be thought of as a way of writing up research rather than as a way of carrying it out.</p>
+<p><strong>Questions 29-30</strong>
 Reading Passage 3 has seven paragraphs A-G.
 Choose the most suitable headings for paragraphs C-G from the list of headings below.
 Write the appropriate numbers i-x in boxes 29-33 on your answer sheet.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i The Crick and Watson approach to research
 ii Antidotes to bacterial infection
 iii The testing of hypotheses
@@ -250,30 +306,30 @@ x The unbiased researcher</p>
 31 Paragraph E
 32 Paragraph F
 33 Paragraph G</p>
-<p>Questions 34 and 35
-In which TWO paragraphs in Reading Passage 3 does the writer give advice directly to the reader?</p>
-<p>Write the TWO appropriate letters (A-G) in boxes 34 and 35 on your answer sheet.</p>
+<p><strong>Questions 34 and 35</strong>
+In which <strong>TWO</strong> paragraphs in Reading Passage 3 does the writer give advice directly to the reader?</p>
+<p>Write the <strong>TWO</strong> appropriate letters (A-G) in boxes 34 and 35 on your answer sheet.</p>
 <p>34 …………………
 35 ………………</p>
-<p>Questions 36-39
+<p><strong>Questions 36-39</strong>
 Do the following statements reflect the opinions of the writer in Reading Passage 3.
 In boxes 36-39 on your answer sheet write</p>
-<p>YES                            if the statement reflects the claims of the writer
-NO                              if the statement contradicts the claims of the writer
-NOT GIVEN           if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                            if the statement reflects the claims of the writer
+<strong>NO</strong>                              if the statement contradicts the claims of the writer
+<strong>NOT GIVEN</strong>           if it is impossible to say what the writer thinks about this</p>
 <p>36 Popper says that the scientific method is hypothetico-deductive ……………….. .
 37 If a prediction based on a hypothesis is fulfilled, then the hypothesis is confirmed as true ……………….. .
 38 Many people carry out research in a mistaken way ……………….. .
 39 The ‘scientific method’ is more a way of describing research than a way of doing it ……………….. .</p>
-<p>Question 40
+<p><strong>Question 40</strong>
 Choose the appropriate letter A-D and write it in box 40 on your answer sheet.</p>
 <p>Which of the following statements best describes the writer’s main purpose in Reading Passage 3?</p>
-<p>A to advise Ph.D students not to cheat while carrying out research
-B to encourage Ph.D students to work by guesswork and inspiration
-C to explain to Ph.D students the logic which the scientific research paper follows
-D to help Ph.D students by explaining different conceptions of the research process</p>
+<p><strong>A</strong> to advise Ph.D students not to cheat while carrying out research
+<strong>B</strong> to encourage Ph.D students to work by guesswork and inspiration
+<strong>C</strong> to explain to Ph.D students the logic which the scientific research paper follows
+<strong>D</strong> to help Ph.D students by explaining different conceptions of the research process</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. iv</p>
 <p>2. i</p>
 <p>3. v</p>
@@ -532,6 +588,29 @@ D to help Ph.D students by explaining different conceptions of the research proc
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -551,12 +630,23 @@ D to help Ph.D students by explaining different conceptions of the research proc
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -568,14 +658,6 @@ D to help Ph.D students by explaining different conceptions of the research proc
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

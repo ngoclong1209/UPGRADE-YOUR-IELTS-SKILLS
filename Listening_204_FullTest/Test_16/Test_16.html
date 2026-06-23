@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,108 +158,108 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_16</h1>
-            <p>IELTS Listening Practice - Test 16</p>
-<p>Section 1: Questions 1-5
-Complete the table below using NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.</p>
-<p>(1)  _______                   (2)  _______ 
-(3)  _______                  (4)  _______ 
-(5)  _______</p>
-<p>Questions 6-10
-Complete the flow chart below. Write NO MORE THAN ONE WORD for each answer.
-Process of booking a computer
-• Step 1: log in to (6)  _______  using your student number and 
-(7)  _______ 
-• Step 2: choose the resource type you would like to use
-• Step 3: select (8)  _______  of computer
-• Step 4: select date of booking using (9)  _______  options
-• Step 5: complete your booking. Your name should appear on the booking 
-(10)  _______</p>
-<p>Section 2: Questions 11-14
-Choose TWO answers for each question.</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 16</strong></h3>
+<p><strong>Section 1: Questions 1-5</strong>
+Complete the table below using <strong>NO MORE THAN TWO WORDS AND/OR A NUMBER</strong> for each answer.</p>
+<p><strong>(1)</strong>  _______                   <strong>(2)</strong>  _______ 
+<strong>(3)</strong>  _______                  <strong>(4)</strong>  _______ 
+<strong>(5)</strong>  _______</p>
+<p><strong>Questions 6-10</strong>
+Complete the flow chart below. Write <strong>NO MORE THAN ONE WORD</strong> for each answer.
+<strong>Process of booking a computer</strong>
+• <strong>Step 1:</strong> log in to <strong>(6)</strong>  _______  using your student number and 
+<strong>(7)</strong>  _______ 
+• <strong>Step 2:</strong> choose the resource type you would like to use
+• <strong>Step 3:</strong> select <strong>(8)</strong>  _______  of computer
+• <strong>Step 4:</strong> select date of booking using <strong>(9)</strong>  _______  options
+• <strong>Step 5:</strong> complete your booking. Your name should appear on the booking 
+<strong>(10)</strong>  _______</p>
+<p><strong>Section 2: Questions 11-14</strong>
+Choose <strong>TWO</strong> answers for each question.</p>
 <p>11. Doors Open
-[ ]  A is an annual event
-[ ]  B lasts for one week
-[ ]  C is a free event
-[ ]  D happens in spring
-[ ]  E is more than 100 years old</p>
+<strong>[ ] </strong><strong> A</strong> is an annual event
+<strong>[ ] </strong><strong> B</strong> lasts for one week
+<strong>[ ] </strong><strong> C</strong> is a free event
+<strong>[ ] </strong><strong> D</strong> happens in spring
+<strong>[ ] </strong><strong> E</strong> is more than 100 years old</p>
 <p>12. The Observatory
-[ ]  A is situated in Edinburgh
-[ ]  B was built 20 years ago
-[ ]  C regularly participates in the Doors Open event
-[ ]  D is 120 years old
-[ ]  E is open to visitors every day of the year</p>
+<strong>[ ] </strong><strong> A</strong> is situated in Edinburgh
+<strong>[ ] </strong><strong> B</strong> was built 20 years ago
+<strong>[ ] </strong><strong> C</strong> regularly participates in the Doors Open event
+<strong>[ ] </strong><strong> D</strong> is 120 years old
+<strong>[ ] </strong><strong> E</strong> is open to visitors every day of the year</p>
 <p>13. Planetarium Shows
-[ ]  A take place twice a day
-[ ]  B are more popular on Saturday
-[ ]  C run on Saturday and Sunday
-[ ]  D run four times a day
-[ ]  E finish at half past ten</p>
+<strong>[ ] </strong><strong> A</strong> take place twice a day
+<strong>[ ] </strong><strong> B</strong> are more popular on Saturday
+<strong>[ ] </strong><strong> C</strong> run on Saturday and Sunday
+<strong>[ ] </strong><strong> D</strong> run four times a day
+<strong>[ ] </strong><strong> E</strong> finish at half past ten</p>
 <p>14. All tickets
-[ ]  A must be booked in advance
-[ ]  B are already sold out
-[ ]  C are on sale at the information point
-[ ]  D must be booked online
-[ ]  E are available for from midday</p>
-<p>Questions 15-20
-Complete the sentences using NO MORE THAN TWO WORDS for each answer.</p>
+<strong>[ ] </strong><strong> A</strong> must be booked in advance
+<strong>[ ] </strong><strong> B</strong> are already sold out
+<strong>[ ] </strong><strong> C</strong> are on sale at the information point
+<strong>[ ] </strong><strong> D</strong> must be booked online
+<strong>[ ] </strong><strong> E</strong> are available for from midday</p>
+<p><strong>Questions 15-20</strong>
+Complete the sentences using <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>15. The tour of the telescope dome includes access to the  _______  of the building
 16. Tour participants are advised to have suitable  _______ 
 17. Visitors to the Crawford Collection can see items from the astronomical  _______  on display
 18. The children’s craft workshops take place in the  _______ 
 19. During the craft workshops children can construct a model of a  _______ 
 20. Children also have the opportunity to colour a  _______</p>
-<p>Section 3: Questions 21-23
-Choose THREE letters A-G.</p>
-<p>Which THREE examples of space junk are mentioned by the speaker?</p>
-<p>(21)  _______ 
-(22)  _______ 
-(23)  _______</p>
-<p>A cans
-B cooling tanks
-C metal plates
-D metal screws
-E paint
-F satellites
-G whole rackets</p>
-<p>Questions 24-26
+<p><strong>Section 3: Questions 21-23</strong>
+Choose <strong>THREE</strong> letters A-G.</p>
+<p>Which <strong>THREE</strong> examples of space junk are mentioned by the speaker?</p>
+<p><strong>(21)</strong>  _______ 
+<strong>(22)</strong>  _______ 
+<strong>(23)</strong>  _______</p>
+<p><strong>A</strong> cans
+<strong>B</strong> cooling tanks
+<strong>C</strong> metal plates
+<strong>D</strong> metal screws
+<strong>E</strong> paint
+<strong>F</strong> satellites
+<strong>G</strong> whole rackets</p>
+<p><strong>Questions 24-26</strong>
 Which country is responsible for depositing the following percentages of space junk?</p>
-<p>(24)  28%  _______ 
-(25)  29%  _______ 
-(26)  37%  _______</p>
-<p>A China
-B Europe
-C India
-D Russia
-E United States</p>
-<p>Questions 27-30
+<p><strong>(24)</strong>  28%  _______ 
+<strong>(25)</strong>  29%  _______ 
+<strong>(26)</strong>  37%  _______</p>
+<p><strong>A</strong> China
+<strong>B</strong> Europe
+<strong>C</strong> India
+<strong>D</strong> Russia
+<strong>E</strong> United States</p>
+<p><strong>Questions 27-30</strong>
 Complete the table below. Choose the answers from the options and write the appropriate letter A-I next to questions 27-30.
-Space Junk – Satellites</p>
-<p>(27)  _______ 
-(28)  _______ 
-(29)  _______ 
-(30)  _______</p>
-<p>A a grown up gorilla
-B a double decker bus
-C the desert
-D Eastern Australia
-E the 1980s
-F 2001
-G 100 tonnes
-H the South Pacific</p>
-<p>Section 4: Questions 31-35
-Complete the table below. Use NO MORE THAN TWO WORDS for each answer.</p>
-<p>Supermarket Layout</p>
-<p>(31)  _______                     (32)  _______ 
-(33)  _______                    (34)  _______ 
-(35)  _______</p>
-<p>Questions 36-40
+<strong>Space Junk – Satellites</strong></p>
+<p><strong>(27)</strong>  _______ 
+<strong>(28)</strong>  _______ 
+<strong>(29)</strong>  _______ 
+<strong>(30)</strong>  _______</p>
+<p><strong>A</strong> a grown up gorilla
+<strong>B</strong> a double decker bus
+<strong>C</strong> the desert
+<strong>D</strong> Eastern Australia
+<strong>E</strong> the 1980s
+<strong>F</strong> 2001
+<strong>G</strong> 100 tonnes
+<strong>H</strong> the South Pacific</p>
+<p><strong>Section 4: Questions 31-35</strong>
+Complete the table below. Use <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>Supermarket Layout</strong></p>
+<p><strong>(31)</strong>  _______                     <strong>(32)</strong>  _______ 
+<strong>(33)</strong>  _______                    <strong>(34)</strong>  _______ 
+<strong>(35)</strong>  _______</p>
+<p><strong>Questions 36-40</strong>
 Which items do the following sentences apply to?</p>
 <p>Write correct letter A, B, C, D or E next to questions 36-40.</p>
-<p>A fruit and vegetables
-B bread and milk
-C cheap tinned foods
-D flowers
-E sunglasses</p>
+<p><strong>A</strong> fruit and vegetables
+<strong>B</strong> bread and milk
+<strong>C</strong> cheap tinned foods
+<strong>D</strong> flowers
+<strong>E</strong> sunglasses</p>
 <p>36. They are referred to as distress goods  _______ 
 37. They are always located at the front of the supermarket  _______ 
 38. They are referred to as destination goods  _______ 
@@ -250,7 +306,7 @@ E sunglasses</p>
 38. B
 39. C
 40. E</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. 10</p>
 <p>2. royal parade</p>
 <p>3. biomedical</p>
@@ -504,11 +560,34 @@ E sunglasses</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_16.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_16.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -528,12 +607,23 @@ E sunglasses</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -545,14 +635,6 @@ E sunglasses</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

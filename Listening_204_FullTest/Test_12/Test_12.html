@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,90 +158,90 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_12</h1>
-            <p>IELTS Listening Practice - Test 12</p>
-<p>Part 1: Questions 1-10
-Complete the notes below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Harry’s Hire Company
-Hire for: birthday party</p>
-<p>Equipment hire:
-Day and date of event: (1)  _______  November
-Number attending event: (2)  _______</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 12</strong></h3>
+<p><u><strong>Part</strong></u><strong> 1: </strong><strong>Questions 1-10</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<h3 class="test-heading"><strong>Harry’s Hire Company</strong>
+Hire for: birthday party</h3>
+<h3 class="test-heading">Equipment hire:
+Day and date of event: <strong>(1)</strong>  _______  November
+Number attending event: <strong>(2)</strong>  _______</h3>
 <p>Rental: 5 dozens dinner plates, bowls
-5 dozens sets of (3)  _______  and  _______ 
-40 plastic (4)  _______ 
+5 dozens sets of <strong>(3)</strong>  _______  and  _______ 
+40 plastic <strong>(4)</strong>  _______ 
 4 dozen each small/ medium glasses
-Six (5)  _______</p>
+Six <strong>(5)</strong>  _______</p>
 <p>Costings:
 Weekend package: 5pm Friday – 10am Monday: $1600 + tax
-(6)  _______  package: 5pm Saturday – 10am Monday: $1350 + tax
-(7)  _______  $50 (within 10Km)</p>
+<strong>(6)</strong>  _______  package: 5pm Saturday – 10am Monday: $1350 + tax
+<strong>(7)</strong>  _______  $50 (within 10Km)</p>
 <p>Breakage allowance: $60</p>
 <p>Replacement costs: plates, bowls – $3.55 per item
-Small glasses – (8)  _______  per item
+Small glasses – <strong>(8)</strong>  _______  per item
 Medium glasses – $4.40 per item
 Customer details:
-Full name: (9)  _______ 
+Full name: <strong>(9)</strong>  _______ 
 Address: 28B, sandstone close, martinsborough
-Contact number: (10) 084  _______</p>
-<p>Part 2: Questions 11-15
+Contact number: <strong>(10)</strong> 084  _______</p>
+<p><u><strong>Part</strong></u><strong> 2: Questions 11-15</strong>
 Match the creatures to their behavior. Write the correct letter A, B, C or D next to questions 11-15.</p>
-<p>A swifts
-B bats
-C cockroaches
-D centipedes</p>
+<h3 class="test-heading"><strong>A</strong> swifts
+<strong>B</strong> bats
+<strong>C</strong> cockroaches
+<strong>D</strong> centipedes</h3>
 <p>11. feed on the guardrail beside the path  _______ 
 12. are dangerous to people  _______ 
 13. collect in large groups  _______ 
 14. fly only at night  _______ 
 15. live on the roof of the cave  _______</p>
-<p>Questions 16 and 17
-Answer the questions below. Write ONE WORD ONLY for each answer.</p>
+<p><strong>Questions 16 and 17</strong>
+Answer the questions below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
 <p>16. What is the guano from the caves used for?  _______ 
 17. What are the birds’ nests from the cave used for?  _______</p>
-<p>Questions 18-20
-Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.</p>
+<p><strong>Questions 18-20</strong>
+Complete the sentences below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>In the cave you should:
 18. carry a  _______ 
 19. wear a  _______  and a hat.
 20. keep to the  _______  at all times.</p>
-<p>Part 3: Questions 21-23
+<p><u><strong>Part</strong></u><strong> 3: Questions 21-23</strong>
 Choose the correct letter A, B or C.</p>
 <p>21. Mary has been called in for a meeting because
-[ ]  A she has been working too hard
-[ ]  B she has offered to lead an activity
-[ ]  C she is going on a training programme</p>
+<strong>[ ] </strong><strong> A</strong> she has been working too hard
+<strong>[ ] </strong><strong> B</strong> she has offered to lead an activity
+<strong>[ ] </strong><strong> C</strong> she is going on a training programme</p>
 <p>22. The most important part of planning a field trip is:
-[ ]  A to organize activities for everyone
-[ ]  B to know about the official rules for field trips
-[ ]  C to think about and plan for problems</p>
+<strong>[ ] </strong><strong> A</strong> to organize activities for everyone
+<strong>[ ] </strong><strong> B</strong> to know about the official rules for field trips
+<strong>[ ] </strong><strong> C</strong> to think about and plan for problems</p>
 <p>23. Leaders must develop
-[ ]  A a tailored trip plan
-[ ]  B an adventure activities plan
-[ ]  C a hazard management plan</p>
-<p>Questions 24 and 25
-Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.</p>
+<strong>[ ] </strong><strong> A</strong> a tailored trip plan
+<strong>[ ] </strong><strong> B</strong> an adventure activities plan
+<strong>[ ] </strong><strong> C</strong> a hazard management plan</p>
+<p><strong>Questions 24 and 25</strong>
+Complete the sentences below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>24. Mary’s plan must consider  _______  such as local rain or wind, the land and the party members.
 25. Mary’s plan does not need to consider things such as tropical storms or serious illnesses, which are known as  _______</p>
-<p>Questions 26-30
-Complete the notes below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>Field trip plan</p>
+<p><strong>Questions 26-30</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>Field trip plan</strong></p>
 <p>Weather:
-• Everyone needs warm clothing and a (26)  _______</p>
+• Everyone needs warm clothing and a <strong>(26)</strong>  _______</p>
 <p>Activities:
-• Hiking – first aid kit, map and a (27)  _______ 
-• Avoid routes where an avalanche, mudslide or (28)  _______  is possible</p>
+• Hiking – first aid kit, map and a <strong>(27)</strong>  _______ 
+• Avoid routes where an avalanche, mudslide or <strong>(28)</strong>  _______  is possible</p>
 <p>Group members
-• Think about the fitness and (29)  _______  of the group
-• Do not allow (30)  _______  to be responsible for transport</p>
-<p>Part 4: Questions 31-34
-Label the diagrams below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>(31)  _______                (32)  _______ 
-(33)  _______               (34)  _______</p>
-<p>Questions 35-40
-Complete the summary below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>Cochlear implants – Advantages, disadvantages and factors</p>
-<p>Hearing aids (35)  _______  normal sounds, so they are good for mild hearing loss but not for severe loss. Cochlear implants help some people a lot, but do not work so well for everyone. The brain gets different (36)  _______  from an implant, so users must relearn how to hear. Cochlear implants are not a cure. Users need ongoing training in (37)  _______ , lip-reading and sign language. The surgery can damage nerves. It may also destroy any (38)  _______ ; in such cases, those users cannot go back to using a hearing aid. The most important factor for selecting users is the (39)  _______  of their deafness and also age and previous speaking ability. Finally, the condition of the nerve cells in the cochlea is a factor because (40)  _______  can damage these cells.</p>
-<p>ANSWER KEY</p>
+• Think about the fitness and <strong>(29)</strong>  _______  of the group
+• Do not allow <strong>(30)</strong>  _______  to be responsible for transport</p>
+<p><u><strong>Part</strong></u><strong> 4: Questions 31-34</strong>
+Label the diagrams below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>(31)</strong>  _______                <strong>(32)</strong>  _______ 
+<strong>(33)</strong>  _______               <strong>(34)</strong>  _______</p>
+<p><strong>Questions 35-40</strong>
+Complete the summary below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p><strong>Cochlear implants – Advantages, disadvantages and factors</strong></p>
+<p>Hearing aids <strong>(35)</strong>  _______  normal sounds, so they are good for mild hearing loss but not for severe loss. Cochlear implants help some people a lot, but do not work so well for everyone. The brain gets different <strong>(36)</strong>  _______  from an implant, so users must relearn how to hear. Cochlear implants are not a cure. Users need ongoing training in <strong>(37)</strong>  _______ , lip-reading and sign language. The surgery can damage nerves. It may also destroy any <strong>(38)</strong>  _______ ; in such cases, those users cannot go back to using a hearing aid. The most important factor for selecting users is the <strong>(39)</strong>  _______  of their deafness and also age and previous speaking ability. Finally, the condition of the nerve cells in the cochlea is a factor because <strong>(40)</strong>  _______  can damage these cells.</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Saturday 25</p>
 <p>2. 55</p>
 <p>3. knives/ forks</p>
@@ -439,11 +495,34 @@ Complete the summary below. Write NO MORE THAN TWO WORDS for each answer.</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_12.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_12.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -463,12 +542,23 @@ Complete the summary below. Write NO MORE THAN TWO WORDS for each answer.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -480,14 +570,6 @@ Complete the summary below. Write NO MORE THAN TWO WORDS for each answer.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

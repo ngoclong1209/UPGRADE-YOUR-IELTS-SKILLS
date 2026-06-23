@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,55 +158,55 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_174</h1>
-            <p>IELTS Reading Practice - Test 174</p>
-<p>an essential intermediary</p>
-<p>There is a strange irony about the blue whale. With fully grown adults reaching up to 30 metres long, and weighing in at almost 200 tons, it is not only the largest animal in the world, but also the largest to have ever existed. Yes, not even the most imposing of the dinosaurs from the Jurassic era can match this sleek streamlined aquatic mammal in scale. So, where is the irony? It lies in the fact that this huge beast feeds primarily on one of the smallest life forms in the oceans, a tiny crustacean known as krill.</p>
-<p>Krill live in every ocean of the world. They thus come in many varieties, although all sporting a similar shrimp-like appearance, with an exoskeleton divided into three parts, and with two large antennae at the front, and pairs of legs running down the underside. These creatures are distinguishable from shrimp by their gills, which are externally mounted, and resemble rows of fibrous combs alongside their bodies. Another oddity is that their exoskeleton is usually transparent. This, and their small size, lead to the deceptive conclusion that they are an insubstantial presence, of little importance, until one is informed that an adult blue whale can consume almost 40 million krill, with a total weight of 3,600 kilograms, in just one day.</p>
-<p>It is this, their huge numbers, which makes these mysterious ghost-like crustaceans so important. Just looking at one species, the Antarctic krill, their collective weight (or bio-mass) is estimated to be about 500 million tons. Putting this another way, that is over twice the weight of all human beings currently on Earth. Some scientists estimate that, each year, as much as half of this is eaten by whales, seals, penguins, squid, and fish, illustrating that krill constitute an enormous food resource for other animals. The question is whether humans can get in on the act.</p>
-<p>Antarctic krill are the largest species, at six centimeters. Most other species are about two centimeters, and this makes them awkward to catch. Very fine fishing nets are needed, but these are difficult to drag through the water, quickly clogged, and easily broken. In addition, when lifted in large piles, the delicate krill crush each other, forcing out their internal fluids. They must also be peeled due to the dangerously high levels of fluoride in their exoskeleton, and finally, they must be quickly prepared and frozen due to the strong enzymes in their gut, which would otherwise cause rapid putrefaction. It is problems such as these which have limited processed krill to being mostly used as fish food in aquariums or aquaculture, or bait in commercial fishing operations, but otherwise very much out of the public’s mind.</p>
-<p>Seafood-loving Japan is the only country in the world in which some krill end up on the table. The boiled, peeled, then frozen tail-meat is sold on the market, and there is some lower-grade krill-paste used as a food flavouring or colouring agent. These products originate from the small North-Pacific krill, yet it is the large Antarctic species which would seem to offer the best commercial prospects, and perhaps a more appetising meal. The majority of krill trawlers thus target the waters around coastal Antarctica, but it is a remote region, subject to harsh weather conditions, making operations there difficult and expensive, as well as raising issues of the ecological consequences, especially given the importance of krill as the basis of the food chain in that pristine and untouched environment.</p>
-<p>Yet to explore this food chain fully, one must go smaller still. Krill themselves are filter feeders, using very fine comb-like appendages on the front of their bodies to extract microscopic organisms known as phytoplankton. These live in almost every body of water in the world, but only in the well-lit surface layers, since these organisms need exposure to sunlight, from which they obtain their energy. In the same way that plants on land are ultimately the basis of all food chains there, so too are phytoplankton in the oceans. Since krill exist in such large numbers, logically then, their primary food source must be even more numerous. There is, in fact, so much phytoplankton that their collective photosynthesis accounts for up to half of the oxygen produced in the world.</p>
-<p>However, as with krill, the vast numbers of phytoplankton live unnoticed and unobserved. Their presence can only be indirectly deduced when they are pressed together by currents, where there can be correspondingly high concentrations of krill feeding on them. This can similarly result in the usually solitary blue whales being found together, and revealing one of the most remarkable and elusive food chains in nature: from phytoplankton, to krill, to the blue whale. In other words, from the tiniest elements in nature, in two short steps leading to a mighty and awe-inspiring leviathan of the deep, the largest animal that has ever existed. And the small ghostly krill are the essential intermediary in this wondrous process.</p>
-<p>Questions 1-4
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 174</strong></h3>
+<h3 class="test-heading"><strong>an essential intermediary</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>There is a strange irony about the blue whale. With fully grown adults reaching up to 30 metres long, and weighing in at almost 200 tons, it is not only the largest animal in the world, but also the largest to have ever existed. Yes, not even the most imposing of the dinosaurs from the Jurassic era can match this sleek streamlined aquatic mammal in scale. So, where is the irony? It lies in the fact that this huge beast feeds primarily on one of the smallest life forms in the oceans, a tiny crustacean known as krill.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>Krill live in every ocean of the world. They thus come in many varieties, although all sporting a similar shrimp-like appearance, with an exoskeleton divided into three parts, and with two large antennae at the front, and pairs of legs running down the underside. These creatures are distinguishable from shrimp by their gills, which are externally mounted, and resemble rows of fibrous combs alongside their bodies. Another oddity is that their exoskeleton is usually transparent. This, and their small size, lead to the deceptive conclusion that they are an insubstantial presence, of little importance, until one is informed that an adult blue whale can consume almost 40 million krill, with a total weight of 3,600 kilograms, in just one day.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>It is this, their huge numbers, which makes these mysterious ghost-like crustaceans so important. Just looking at one species, the Antarctic krill, their collective weight (or bio-mass) is estimated to be about 500 million tons. Putting this another way, that is over twice the weight of all human beings currently on Earth. Some scientists estimate that, each year, as much as half of this is eaten by whales, seals, penguins, squid, and fish, illustrating that krill constitute an enormous food resource for other animals. The question is whether humans can get in on the act.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Antarctic krill are the largest species, at six centimeters. Most other species are about two centimeters, and this makes them awkward to catch. Very fine fishing nets are needed, but these are difficult to drag through the water, quickly clogged, and easily broken. In addition, when lifted in large piles, the delicate krill crush each other, forcing out their internal fluids. They must also be peeled due to the dangerously high levels of fluoride in their exoskeleton, and finally, they must be quickly prepared and frozen due to the strong enzymes in their gut, which would otherwise cause rapid putrefaction. It is problems such as these which have limited processed krill to being mostly used as fish food in aquariums or aquaculture, or bait in commercial fishing operations, but otherwise very much out of the public’s mind.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>Seafood-loving Japan is the only country in the world in which some krill end up on the table. The boiled, peeled, then frozen tail-meat is sold on the market, and there is some lower-grade krill-paste used as a food flavouring or colouring agent. These products originate from the small North-Pacific krill, yet it is the large Antarctic species which would seem to offer the best commercial prospects, and perhaps a more appetising meal. The majority of krill trawlers thus target the waters around coastal Antarctica, but it is a remote region, subject to harsh weather conditions, making operations there difficult and expensive, as well as raising issues of the ecological consequences, especially given the importance of krill as the basis of the food chain in that pristine and untouched environment.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Yet to explore this food chain fully, one must go smaller still. Krill themselves are filter feeders, using very fine comb-like appendages on the front of their bodies to extract microscopic organisms known as phytoplankton. These live in almost every body of water in the world, but only in the well-lit surface layers, since these organisms need exposure to sunlight, from which they obtain their energy. In the same way that plants on land are ultimately the basis of all food chains there, so too are phytoplankton in the oceans. Since krill exist in such large numbers, logically then, their primary food source must be even more numerous. There is, in fact, so much phytoplankton that their collective photosynthesis accounts for up to half of the oxygen produced in the world.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>However, as with krill, the vast numbers of phytoplankton live unnoticed and unobserved. Their presence can only be indirectly deduced when they are pressed together by currents, where there can be correspondingly high concentrations of krill feeding on them. This can similarly result in the usually solitary blue whales being found together, and revealing one of the most remarkable and elusive food chains in nature: from phytoplankton, to krill, to the blue whale. In other words, from the tiniest elements in nature, in two short steps leading to a mighty and awe-inspiring leviathan of the deep, the largest animal that has ever existed. And the small ghostly krill are the essential intermediary in this wondrous process.</p></div></div>
+<p><strong>Questions 1-4</strong>
 Do the following statements agree with the information given in Reading Passage One?</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
-<p>Questions 5-9
-Complete the diagram. Choose ONE WORD from the passage for each answer.</p>
-<p>Questions 10-13
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
+<p><strong>Questions 5-9</strong>
+Complete the diagram. Choose <strong>ONE WORD</strong> from the passage for each answer.</p>
+<p><strong>Questions 10-13</strong>
 Choose the correct letter, A, B, C, or D.</p>
 <p>10. Fishing for krill is
-A not too difficult.
-B mostly done in Antarctic waters.
-C mostly done in Japanese waters.
-D done with large fishing nets.</p>
+<strong>A</strong> not too difficult.
+<strong>B</strong> mostly done in Antarctic waters.
+<strong>C</strong> mostly done in Japanese waters.
+<strong>D</strong> done with large fishing nets.</p>
 <p>11. Krill
-A move like ghosts.
-B are processed soon after capture.
-C are mostly used for human consumption.
-D come in two varieties.</p>
+<strong>A</strong> move like ghosts.
+<strong>B</strong> are processed soon after capture.
+<strong>C</strong> are mostly used for human consumption.
+<strong>D</strong> come in two varieties.</p>
 <p>12. Phytoplankton
-A outnumber krill.
-B produce over half of the oxygen in the world.
-C can be seen with the naked eye.
-D can live anywhere in the ocean.</p>
+<strong>A</strong> outnumber krill.
+<strong>B</strong> produce over half of the oxygen in the world.
+<strong>C</strong> can be seen with the naked eye.
+<strong>D</strong> can live anywhere in the ocean.</p>
 <p>13. Blue whales
-A are a very large species offish.
-B can weigh 200 tons.
-C prefer to be alone.
-D are in the middle of a food chain.</p>
-<p>a meat-eater’s counter</p>
-<p>A You might be forgiven sometimes for thinking that vegetarians are somehow superior human beings. In today’s climate of New Age spiritualism, animal rights, and Mother Earth naturalism, confirmed meat-eaters must necessarily be categorised as selfish, environmentally-irresponsible, spiritually-deprived gluttons, whose dietary desire is akin to cannibalism. Each lamb chop, carving of roast beef, or chicken drumstick, signifies a brutal execution of a sentient animal, to whose suffering we remain callously indifferent. Here, I would like to offer some arguments to counter the more extreme claims of the bean-sprout crowd.</p>
-<p>B Vegetarians’ first justification is that eating meat is cruel to animals. But when pondering cruelty, it may pay to reflect on how animals fare in the wild. I was recently watching a documentary concerning herbivores on the African plains — where the parasite and insect-tormented herds lead lives of hair-raising and nerve-jittering bolts and dashes as they are constantly stalked by a range of predators. Now, compare this to the animals munching grass in our domestic pastures. Our four-legged friends, watered, well-fed, and attended to when sick, have an essentially stress-free and easy existence.</p>
-<p>C But, the vegetarians claim, our slaughterhouses deal out brutal deaths. Brutal? Let us reflect again on that documentary. At one point, it showed an injured zebra, an animal which was quickly spotted by a pack of hyenas. The rest was a display of such cruelty and barbarity that it would make vegetarians think twice before intoning the mantra that ‘nature is good’. Yet being viciously torn to pieces by snapping jaws is more or less the inevitable end of most animals in the wild. It is simply a fact that they do not expire peacefully — they face, instead, brutalising and painful exits. If not becoming another animal’s dinner, they starve to death, or are victims of floods, droughts, and other merciless acts of nature. Compared to this, the relatively quick and clean death that we humans deliver to our cud-chewing cousins must be considered a privileged way to go.</p>
-<p>D So, eating meat is not ‘cruel’ — at least, not compared to the natural world, and in fact can even allow the animals in question a certain quality of life that they would almost certainly never enjoy in the wild. But the vegetarians counter that, we, the human species, have a higher awareness, and should avail ourselves of other forms of food, rather than causing the deaths of living creatures. Yet it is worth realising that for tens of thousands of years our species did not have this luxury of choice. Killing animals was essential in staying alive. It is only very recently (in terms of human history), that society has reached a stage of affluence whereby a sufficiently high amount of non-animal nutrition can be obtained, and then only by a privileged and small percentage of the world’s population. Thus, the argument from moral high ground is, at best, an arbitrary one.</p>
-<p>E But then the vegetarians come out with their next core claim to superiority — that their diet is healthier. Eating meat is going to have such nasty consequences for the heart, lungs, kidneys, and immune system that we will end up in an early grave. One can agree that this may be true for people who eat too much meat, but is it true for those who eat meat in proportion with an otherwise balanced diet? So many dubious facts and figures are produced to ‘prove’ the vegetarians’ viewpoint that I would recommend a quick read of a well-known book entitled, ‘How to lie with statistics’. This emphasises two foundations for statistical validity: gaining truly representative samples, and eliminating outside variables, both of which the green-eaters ignore.</p>
-<p>F It is the second point I would like to look at. The lean and fit, health-conscious vegetarian doing his daily yoga and nightly guitar-strumming will certainly live much longer, on average, than the meat-eating, chain-smoking, beer-swilling, donut-chomping couch potatoes of this world, but not necessarily due (or in any way related) to the former’s abstinence from meat. It is not hard to deduce that those cigarettes, beer, donuts, and sedentary lifestyle are almost certainly responsible for the meat-eater’s diminished life expectancy. For a true comparison, one must compare lean and fit, health-conscious vegetarians with lean and fit, health-conscious non-vegetarians, the latter of whom mix moderate amounts of meat in their diet.</p>
-<p>G And this is the point. It is almost impossible in this complex, mixed, and multi-faceted modern society to find enough people who can constitute a truly representative sample, while eliminating the many outside variables. Any assertion that statistics ‘prove’ vegetarians live longer must note that these vegetarians have already made (compared to the average sofa sprouts) a very rigorous and disciplined health-enhancing lifestyle change, which is probably accompanied with many other similar choices, all of which are almost certainly the real cause of any statistical trends. Factor these into the equation, and so far there is no convincing statistical evidence that vegetarianism is better for the health.</p>
-<p>Questions 14-19
+<strong>A</strong> are a very large species offish.
+<strong>B</strong> can weigh 200 tons.
+<strong>C</strong> prefer to be alone.
+<strong>D</strong> are in the middle of a food chain.</p>
+<p><strong>a meat-eater’s counter</strong></p>
+<p><strong>A</strong> You might be forgiven sometimes for thinking that vegetarians are somehow superior human beings. In today’s climate of New Age spiritualism, animal rights, and Mother Earth naturalism, confirmed meat-eaters must necessarily be categorised as selfish, environmentally-irresponsible, spiritually-deprived gluttons, whose dietary desire is akin to cannibalism. Each lamb chop, carving of roast beef, or chicken drumstick, signifies a brutal execution of a sentient animal, to whose suffering we remain callously indifferent. Here, I would like to offer some arguments to counter the more extreme claims of the bean-sprout crowd.</p>
+<p><strong>B</strong> Vegetarians’ first justification is that eating meat is cruel to animals. But when pondering cruelty, it may pay to reflect on how animals fare in the wild. I was recently watching a documentary concerning herbivores on the African plains — where the parasite and insect-tormented herds lead lives of hair-raising and nerve-jittering bolts and dashes as they are constantly stalked by a range of predators. Now, compare this to the animals munching grass in our domestic pastures. Our four-legged friends, watered, well-fed, and attended to when sick, have an essentially stress-free and easy existence.</p>
+<p><strong>C</strong> But, the vegetarians claim, our slaughterhouses deal out brutal deaths. Brutal? Let us reflect again on that documentary. At one point, it showed an injured zebra, an animal which was quickly spotted by a pack of hyenas. The rest was a display of such cruelty and barbarity that it would make vegetarians think twice before intoning the mantra that ‘nature is good’. Yet being viciously torn to pieces by snapping jaws is more or less the inevitable end of most animals in the wild. It is simply a fact that they do not expire peacefully — they face, instead, brutalising and painful exits. If not becoming another animal’s dinner, they starve to death, or are victims of floods, droughts, and other merciless acts of nature. Compared to this, the relatively quick and clean death that we humans deliver to our cud-chewing cousins must be considered a privileged way to go.</p>
+<p><strong>D</strong> So, eating meat is not ‘cruel’ — at least, not compared to the natural world, and in fact can even allow the animals in question a certain quality of life that they would almost certainly never enjoy in the wild. But the vegetarians counter that, we, the human species, have a higher awareness, and should avail ourselves of other forms of food, rather than causing the deaths of living creatures. Yet it is worth realising that for tens of thousands of years our species did not have this luxury of choice. Killing animals was essential in staying alive. It is only very recently (in terms of human history), that society has reached a stage of affluence whereby a sufficiently high amount of non-animal nutrition can be obtained, and then only by a privileged and small percentage of the world’s population. Thus, the argument from moral high ground is, at best, an arbitrary one.</p>
+<p><strong>E</strong> But then the vegetarians come out with their next core claim to superiority — that their diet is healthier. Eating meat is going to have such nasty consequences for the heart, lungs, kidneys, and immune system that we will end up in an early grave. One can agree that this may be true for people who eat too much meat, but is it true for those who eat meat in proportion with an otherwise balanced diet? So many dubious facts and figures are produced to ‘prove’ the vegetarians’ viewpoint that I would recommend a quick read of a well-known book entitled, ‘How to lie with statistics’. This emphasises two foundations for statistical validity: gaining truly representative samples, and eliminating outside variables, both of which the green-eaters ignore.</p>
+<p><strong>F</strong> It is the second point I would like to look at. The lean and fit, health-conscious vegetarian doing his daily yoga and nightly guitar-strumming will certainly live much longer, on average, than the meat-eating, chain-smoking, beer-swilling, donut-chomping couch potatoes of this world, but not necessarily due (or in any way related) to the former’s abstinence from meat. It is not hard to deduce that those cigarettes, beer, donuts, and sedentary lifestyle are almost certainly responsible for the meat-eater’s diminished life expectancy. For a true comparison, one must compare lean and fit, health-conscious vegetarians with lean and fit, health-conscious non-vegetarians, the latter of whom mix moderate amounts of meat in their diet.</p>
+<p><strong>G</strong> And this is the point. It is almost impossible in this complex, mixed, and multi-faceted modern society to find enough people who can constitute a truly representative sample, while eliminating the many outside variables. Any assertion that statistics ‘prove’ vegetarians live longer must note that these vegetarians have already made (compared to the average sofa sprouts) a very rigorous and disciplined health-enhancing lifestyle change, which is probably accompanied with many other similar choices, all of which are almost certainly the real cause of any statistical trends. Factor these into the equation, and so far there is no convincing statistical evidence that vegetarianism is better for the health.</p>
+<p><strong>Questions 14-19</strong>
 Reading Passage Two has seven paragraphs, A-G. Choose the correct heading for Paragraphs B-G from the list of headings.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i Animals attack
 ii Needless killing countered
 iii Better people?
@@ -168,12 +224,12 @@ x The real cause of early deaths</p>
 17. Paragraph E
 18. Paragraph F
 19. Paragraph G</p>
-<p>Questions 20-23
-Complete the table. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
-<p>Questions 24-26
-Complete the table. Choose NO MORE THAN TWO WORDS from the passage for each term.</p>
+<p><strong>Questions 20-23</strong>
+Complete the table. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
+<p><strong>Questions 24-26</strong>
+Complete the table. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each term.</p>
 <p>Find two interesting terms used in the text to refer to</p>
-<p>cubism</p>
+<p><strong>cubism</strong></p>
 <p>When the name of Picasso is spoken, the concept of ‘Cubism’ usually springs to mind. That this happens indicates just how deep and long-lasting has been its influence on the world, yet although many people know of the name ‘Cubism’, few can speak about it with any degree of conversancy. It is Georges Braque who is now credited as an equal pioneer in this revolutionary art movement, but claiming that these two artists alone created cubism oversimplifies a very complex issue.</p>
 <p>Defining Cubism itself is difficult. At its simplest, the three-dimensional object being painted can be considered broken into pieces, sometimes square or cube-shaped (hence the name). These are reassembled in less than coherent order, and often at different angles. They can overlap, and sometimes more than one view is presented at the same time, moving beyond the limits of a fixed observer. The terms ‘multiple viewpoints’ and ‘mobile perspectives’ are often used — that is, the subject is captured from different angles, at different times, with the corresponding images fused into a single picture.</p>
 <p>Braque’s pre-war paintings began experimenting with this idea, which inevitably led to an association with Picasso, who had been dabbling also in rendering three-dimensional views into two-dimensional geometric shapes — for example, in his painting Young Ladies of Avignon — often labelled ‘proto-cubist’. Some even consider this painting to be the true beginning of Cubism itself, as it inspired Braque to follow the lead, developing the movement towards its trademark features.</p>
@@ -184,28 +240,28 @@ Complete the table. Choose NO MORE THAN TWO WORDS from the passage for each term
 <p>Léger also followed a more personal form of Cubism. As with most of his generation, he had seen the Cezanne 1907 retrospective, which enkindled interest in experimentation with geometric forms. This eventually led to the completely abstract, in which tubes, cones, and cubes, are all splayed on the canvas in bold primary colours — seen, for example, in his Railway Crossing. Merc, in spite of its non-representational quality, is the suggestion of the harsh mechanisation and alienation of modern life, a theme which the artist’s experiences in World War One only accentuated, and which pre-dates similar trends (such as pop art) by decades.</p>
 <p>Clearly, Cubism was a complex art movement, and names such as Analytical, Synthetic, and Orphic Cubism are constructs which were invented long after the events and artworks which they</p>
 <p>attempt to describe. These names appear to give a coherent order to what was actually a collective movement in which many individuals contributed. Among all this confusion, one does not doubt that the early years of last century were a fascinating period in the Parisian art scene.</p>
-<p>Questions 27-31
+<p><strong>Questions 27-31</strong>
 Answer the questions. Choose the correct letter, A-F, for each answer.</p>
 <p>Which painter</p>
-<p>A Braque
-B Cezanne
-C Delaunay
-D Gris
-E Léger
-F Picasso</p>
+<p><strong>A</strong> Braque
+<strong>B</strong> Cezanne
+<strong>C</strong> Delaunay
+<strong>D</strong> Gris
+<strong>E</strong> Léger
+<strong>F</strong> Picasso</p>
 <p>27. led a new abstraction movement?
 28. was the most influential?
 29. was affected by a global conflict?
 30. is inevitably linked with an art movement?
 31. was married?</p>
-<p>Questions 32-37
+<p><strong>Questions 32-37</strong>
 Answer the questions. Choose the correct letter, A-F, for each answer. NB You can use an answer ONLY once.</p>
-<p>A Newspaper and Fruit Dish
-B Portrait of Picasso
-C Railway Crossing
-D Simultaneous Windows
-E The Bathers
-F Young Ladies of Avignon</p>
+<p><strong>A</strong> Newspaper and Fruit Dish
+<strong>B</strong> Portrait of Picasso
+<strong>C</strong> Railway Crossing
+<strong>D</strong> Simultaneous Windows
+<strong>E</strong> The Bathers
+<strong>F</strong> Young Ladies of Avignon</p>
 <p>Which painting is</p>
 <p>32. a confusing abstraction in many colours?
 33. a darker view, ahead of its time?
@@ -213,25 +269,25 @@ F Young Ladies of Avignon</p>
 35. an intriguing and multi-chromatic view?
 36. very representative of its type?
 37. an early painting which influenced another?</p>
-<p>Questions 38-40
+<p><strong>Questions 38-40</strong>
 Choose the correct letter, A, B, C, or D.</p>
 <p>38. The Cezanne Retrospective
-A was attended by Cezanne.
-B showed his Cubist paintings.
-C was attended by very many people.
-D influenced an artist to move to non-representational style.</p>
+<strong>A</strong> was attended by Cezanne.
+<strong>B</strong> showed his Cubist paintings.
+<strong>C</strong> was attended by very many people.
+<strong>D</strong> influenced an artist to move to non-representational style.</p>
 <p>39. Many Cubist innovators
-A preferred still-life paintings.
-B favoured monochrome.
-C invented names for their styles.
-D were not adequately recognised.</p>
+<strong>A</strong> preferred still-life paintings.
+<strong>B</strong> favoured monochrome.
+<strong>C</strong> invented names for their styles.
+<strong>D</strong> were not adequately recognised.</p>
 <p>40. Cubism
-A is fairly easily explained.
-B has cubes in incoherent order.
-C shows different views of a subject.
-D was created by Picasso and Braque.</p>
+<strong>A</strong> is fairly easily explained.
+<strong>B</strong> has cubes in incoherent order.
+<strong>C</strong> shows different views of a subject.
+<strong>D</strong> was created by Picasso and Braque.</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. False</p>
 <p>2. True</p>
 <p>3. NG</p>
@@ -490,6 +546,29 @@ D was created by Picasso and Braque.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -509,12 +588,23 @@ D was created by Picasso and Braque.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -526,14 +616,6 @@ D was created by Picasso and Braque.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

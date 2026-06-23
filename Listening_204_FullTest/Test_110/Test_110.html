@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,82 +158,82 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_110</h1>
-            <p>IELTS Listening Practice - Test 110</p>
-<p>Part 1: Questions 1-5
-Complete the notes below. Write NO MORE THAN TWO WORDS OR A NUMBER.</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 110</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-5</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS OR A NUMBER.</strong></p>
 <p>Destination: Harbour City</p>
 <p>Questions: transport from Bayswater
-• Express train leaves at (1)  _______ 
-• Nearest station is (2)  _______ 
-• Number 706 bus goes to (3)  _______ 
-• Number (4)  _______  bus goes to station
-• Earlier bus leaves at (5)  _______</p>
-<p>Questions 6–10
-Complete the table below. Write no more than one word and/or a number for each answer.</p>
-<p>(6)    _______                    (7)  _______ 
-(8)    _______                    (9)  _______ 
-(10)  _______</p>
-<p>Part 2: Questions 11-14
+• Express train leaves at <strong>(1)</strong>  _______ 
+• Nearest station is <strong>(2)</strong>  _______ 
+• Number 706 bus goes to <strong>(3)</strong>  _______ 
+• Number <strong>(4)</strong>  _______  bus goes to station
+• Earlier bus leaves at <strong>(5)</strong>  _______</p>
+<p><strong>Questions 6–10</strong>
+Complete the table below. Write <strong>no more than one word and/or a number</strong> for each answer.</p>
+<p><strong>(6)</strong>    _______                    <strong>(7)</strong>  _______ 
+<strong>(8)  </strong>  _______                    <strong>(9)</strong>  _______ 
+<strong>(10)</strong>  _______</p>
+<p><strong>Part 2: Questions 11-14</strong>
 Which counsellor should you see? Write the correct letter, A, B or C, next to questions 11–14.</p>
-<p>A Louise Bagshaw
-B Tony Denby
-C Naomi Flynn</p>
-<p>(11)  _______  if it is your first time seeing a counsellor
-(12)  _______  if you are unable to see a counsellor during normal office hours
-(13)  _______  if you do not have an appointment
-(14)  _______  if your concerns are related to anxiety</p>
-<p>Questions 15-20
-Complete the table below. Write no more than two words for each answer.</p>
-<p>(15)  _______                      (16)  _______ 
-(17)  _______                      (18)  _______ 
-(19)  _______                      (20)  _______</p>
-<p>Part 3: Questions 21-30
-Complete the notes below. Write no more than three words for each answer.</p>
-<p>Novel: (21)  _______ 
+<p><strong>A</strong> Louise Bagshaw
+<strong>B</strong> Tony Denby
+<strong>C</strong> Naomi Flynn</p>
+<p><strong>(11)</strong>  _______  if it is your first time seeing a counsellor
+<strong>(12)</strong>  _______  if you are unable to see a counsellor during normal office hours
+<strong>(13)</strong>  _______  if you do not have an appointment
+<strong>(14)</strong>  _______  if your concerns are related to anxiety</p>
+<p><strong>Questions 15-20</strong>
+Complete the table below. Write <strong>no more than two words</strong> for each answer.</p>
+<p><strong>(15)</strong>  _______                      <strong>(16)</strong>  _______ 
+<strong>(17)</strong>  _______                      <strong>(18)</strong>  _______ 
+<strong>(19)</strong>  _______                      <strong>(20)</strong>  _______</p>
+<p><strong>Part 3: Questions 21-30</strong>
+Complete the notes below. Write <strong>no more than three words</strong> for each answer.</p>
+<p>Novel: <strong>(21)</strong>  _______ 
 Protagonists: Mary Lennox; Colin Craven
-Time period: Early in (22)  _______ 
-Mary moves to UK – meets Colin who thinks he’ll never be able to (23)  _______  They become friends.
-Point of view: “Omniscient” – narrator knows all about characters’ feelings, opinions and (24)  _______ 
+Time period: Early in <strong>(22)</strong>  _______ 
+Mary moves to UK – meets Colin who thinks he’ll never be able to <strong>(23)</strong>  _______  They become friends.
+Point of view: “Omniscient” – narrator knows all about characters’ feelings, opinions and <strong>(24)</strong>  _______ 
 Audience: Good for children – story simple to follow
-Symbols (physical items that represent (25)   _______  ):
+Symbols (physical items that represent <strong>(25) </strong>  _______  ):
 • the robin redbreast
-• (26)  _______ 
+• <strong>(26)</strong>  _______ 
 • the portrait of Mistress Craven
 Motifs (patterns in the story):
 • the Garden of Eden
-• secrecy – metaphorical and literal transition from (27)  _______ 
+• secrecy – metaphorical and literal transition from <strong>(27)</strong>  _______ 
 Themes: Connections between
-• (28)  _______  and outlook
-• (29)  _______  and well-being
-• individuals and the need for (30)  _______</p>
-<p>Part 4: Questions 31-35
-Complete the table below. Write one word only for each answer.</p>
-<p>(31)  _______                       (32)  _______ 
-(33)  _______                      (34)  _______ 
-(35)  _______</p>
-<p>Questions 36–40
+• <strong>(28)</strong>  _______  and outlook
+• <strong>(29)</strong>  _______  and well-being
+• individuals and the need for <strong>(30)</strong>  _______</p>
+<p><strong>Part 4: Questions 31-35</strong>
+Complete the table below. Write <strong>one word only</strong> for each answer.</p>
+<p><strong>(31)</strong>  _______                       <strong>(32)</strong>  _______ 
+<strong>(33)</strong>  _______                      <strong>(34)</strong>  _______ 
+<strong>(35)</strong>  _______</p>
+<p><strong>Questions 36–40</strong>
 Choose the correct letter, A, B or C.</p>
 <p>36. We are all present hedonists
-[ ]  A at school
-[ ]  B at birth
-[ ]  C while eating and drinking</p>
+<strong>[ ] </strong><strong> A</strong> at school
+<strong>[ ] </strong><strong> B</strong> at birth
+<strong>[ ] </strong><strong> C</strong> while eating and drinking</p>
 <p>37. American boys drop out of school at a higher rate than girls because
-[ ]  A they need to be in control of the way they learn
-[ ]  B they play video games instead of doing school work
-[ ]  C they are not as intelligent as girls</p>
+<strong>[ ] </strong><strong> A</strong> they need to be in control of the way they learn
+<strong>[ ] </strong><strong> B</strong> they play video games instead of doing school work
+<strong>[ ] </strong><strong> C</strong> they are not as intelligent as girls</p>
 <p>38. Present-orientated children
-[ ]  A do not realise present actions can have negative future effects
-[ ]  B are unable to learn lessons from past mistakes
-[ ]  C know what could happen if they do something bad, but do it anyway</p>
+<strong>[ ] </strong><strong> A</strong> do not realise present actions can have negative future effects
+<strong>[ ] </strong><strong> B</strong> are unable to learn lessons from past mistakes
+<strong>[ ] </strong><strong> C</strong> know what could happen if they do something bad, but do it anyway</p>
 <p>39. If Americans had an extra day per week, they would spend it
-[ ]  A working harder
-[ ]  B building relationships
-[ ]  C sharing family meals</p>
+<strong>[ ] </strong><strong> A</strong> working harder
+<strong>[ ] </strong><strong> B</strong> building relationships
+<strong>[ ] </strong><strong> C</strong> sharing family meals</p>
 <p>40. Understanding how people think about time can help us
-[ ]  A become more virtuous
-[ ]  B work together better
-[ ]  C identify careless or ambitious people</p>
-<p>ANSWER KEY</p>
+<strong>[ ] </strong><strong> A</strong> become more virtuous
+<strong>[ ] </strong><strong> B</strong> work together better
+<strong>[ ] </strong><strong> C</strong> identify careless or ambitious people</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. 9.30 am</p>
 <p>2. Helendale</p>
 <p>3. central street</p>
@@ -436,6 +492,29 @@ Choose the correct letter, A, B or C.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -455,12 +534,23 @@ Choose the correct letter, A, B or C.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -472,14 +562,6 @@ Choose the correct letter, A, B or C.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

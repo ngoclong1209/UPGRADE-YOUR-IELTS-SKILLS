@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,123 +158,123 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_275</h1>
-            <p>IELTS Reading Practice - Test 275</p>
-<p>World Ecotourism in the developing courtiers</p>
-<p>A The Ecotourism Society defines ecotourism as “a responsible travel to natural areas which conserves the environment and improves the welfare of local people”. It is recognised as being particularly conducive to enriching and enhancing the standing of tourism, on the basis that this form of tourism respects the natural heritage and local populations and are in keeping with the carrying capacity of the sites.</p>
-<p>B Cuba
-Cuba is undoubtedly an obvious site for ecotourism, with its picturesque beaches, underwater beauty, countryside landscapes, and ecological reserves. An educated population and improved infrastructure of roads and communications add to the mix. In the Caribbean region, Cuba is now the second most popular tourist destination.</p>
-<p>Ecotourism is also seen as an environmental education opportunity to heighten both visitors’ and residents’ awareness of environmental and conservation issues, and even to inspire conservation action. Ecotourism has also been credited with promoting peace, by providing opportunities for educational and cultural exchange. Tourists’ safety and health are guaranteed. Raul Castro, brother of the Cuban president, started this initiative to rescue the Cuban tradition of herbal medicine and provide natural medicines for its healthcare system. The school at Las Terrazas Eco-Tourism Community teaches herbal healthcare and children learn not only how to use medicinal herbs, but also to grow them in the school garden for teas, tinctures, ointments and creams.</p>
-<p>In Cuba, ecotourism has the potential to alleviate poverty by bringing money into the economy and creating jobs. In addition to the environmental impacts of these efforts, the area works on developing community employment opportunities for locals, in conjunction with ecotourism.</p>
-<p>C South America
-In terms of South America, it might be the place which shows the shortcoming of ecotourism. Histoplasma capsulatum (see chapter “Histoplasmosis and HIV”), a dimorphic fungus, is the most common endemic mycosis the United States,(12) and is associated with exposure to a bat or bird droppings. Most recently, outbreaks have been reported in healthy travelers who returned from Central and South America after engaging in recreational activities associated with spelunking, adventure tourism, and ecotourism. It is quite often to see tourists neglected sanitation while travelling. After engaging in high-risk activities, boots should be hosed off and clothing placed in airtight plastic bags for laundering. HIV-infected travelers should avoid risky behaviors or environments, such as exploring caves, particularly those that contain bat droppings.</p>
-<p>D Nowhere is the keen eye and intimate knowledge of ecotourism are more amidst this fantastic biodiversity, as we explore remote realms rich in wildlife rather than a nature adventure. A sustainable tour is significant for ecotourism, one in which we can grow hand in hand with nature and our community, respecting everything that makes us privileged. Travelers get great joy from every step that takes forward on this endless but exciting journey towards sustainability. The primary threats to South American’s tropical forests are deforestation caused by agricultural expansion, cattle ranching, logging, oil extraction and spills, mining, illegal coca farming, and colonization initiatives. Deforestation has shrunk territories belonging to indigenous peoples and wiped out more than 90% of the population. Many are taking leading roles in sustainable tourism even as they introduce protected regions to more travelers.</p>
-<p>E East Africa
-In East Africa, significantly reducing such illegal hunting and allowing wildlife populations to recover would allow the generation of significant economic benefits through trophy hunting and potentially ecotourism. “Illegal hunting is an extremely inefficient use of wildlife resources because it fails to capture the value of wildlife achievable through alternative forms of use such as trophy hunting and ecotourism,” said Peter Lindsey, author of the new study. Most residents believed that ecotourism could solve this circumstance. They have passion for local community empowerment, loves photography and writes to laud current local conservation efforts, create environmental awareness and promote ecotourism.</p>
-<p>F Indonesia
-In Indonesia, ecotourism started to become an important concept from 1995, in order to strengthen the domestic travelling movement, the local government targeting the right markets is a prerequisite for successful ecotourism. The market segment for Indonesian ecotourism consists of: (i) “The silent generation”, 55-64 year-old people who are wealthy enough, generally well-educated and have no dependent children, and can travel for four weeks; (ii) “The baby boom generation”, junior successful executives aged 35-54 years, who are likely to be travelling with their family and children (spending 2-3 weeks on travel) – travelling for them is a stress reliever; and (iii) the “X generation”, aged 18-29 years, who love to do ecotours as backpackers – they are generally students who can travel for 3-12 months with monthly expenditure of US$300-500. It is suggested that the promotion of Indonesian ecotourism products should aim to reach these various cohorts of tourists. The country welcomes diverse levels of travelers.</p>
-<p>G On the other hand, ecotourism provides as many services as traditional tourism. Nestled between Mexico, Guatemala and the Caribbean Sea is the country of Belize. It is the wonderful place for Hamanasi honeymoon, a bottle of champagne upon arrival, three meals daily, private service on one night of your stay and a choice of adventures depending on the length of your stay. It also offers six-night and seven-night honeymoon packages. A variety of specially tailored tours, including the Brimstone Hill Fortress, and a trip to a neighboring island. Guided tours include rainforest, volcano and off-road plantation tours. Gregory Pereira, an extremely knowledgeable and outgoing hiking and tour guide, says the following about his tours: “All of our tours on St.Kitts include transportation by specially modified Land Rovers, a picnic of island pastries and local fruit, fresh tropical juices, CSR, a qualified island guide and a full liability insurance coverage for participants.</p>
-<p>H Kodai is an ultimate splendor spot for those who love being close to mother nature. They say every bird must sing it’s own throat while we say every traveler should find his own way out of variegated and unblemished paths of deep valleys and steep mountains. The cheese factory here exports a great quantity of cheese to various countries across the globe. It is located in the center of the forest. Many travelers are attracted by the delicious cheese. The ecotourism is very famous this different eating experience.</p>
-<p>Questions 1-5
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 275</strong></h3>
+<h3 class="test-heading"><strong>World Ecotourism in the developing courtiers</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> The Ecotourism Society defines ecotourism as “a responsible travel to natural areas which conserves the environment and improves the welfare of local people”. It is recognised as being particularly conducive to enriching and enhancing the standing of tourism, on the basis that this form of tourism respects the natural heritage and local populations and are in keeping with the carrying capacity of the sites.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B Cuba</strong>
+Cuba is undoubtedly an obvious site for ecotourism, with its picturesque beaches, underwater beauty, countryside landscapes, and ecological reserves. An educated population and improved infrastructure of roads and communications add to the mix. In the Caribbean region, Cuba is now the second most popular tourist destination.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Ecotourism is also seen as an environmental education opportunity to heighten both visitors’ and residents’ awareness of environmental and conservation issues, and even to inspire conservation action. Ecotourism has also been credited with promoting peace, by providing opportunities for educational and cultural exchange. Tourists’ safety and health are guaranteed. Raul Castro, brother of the Cuban president, started this initiative to rescue the Cuban tradition of herbal medicine and provide natural medicines for its healthcare system. The school at Las Terrazas Eco-Tourism Community teaches herbal healthcare and children learn not only how to use medicinal herbs, but also to grow them in the school garden for teas, tinctures, ointments and creams.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>In Cuba, ecotourism has the potential to alleviate poverty by bringing money into the economy and creating jobs. In addition to the environmental impacts of these efforts, the area works on developing community employment opportunities for locals, in conjunction with ecotourism.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>C South America</strong>
+In terms of South America, it might be the place which shows the shortcoming of ecotourism. Histoplasma capsulatum (see chapter “Histoplasmosis and HIV”), a dimorphic fungus, is the most common endemic mycosis the United States,(12) and is associated with exposure to a bat or bird droppings. Most recently, outbreaks have been reported in healthy travelers who returned from Central and South America after engaging in recreational activities associated with spelunking, adventure tourism, and ecotourism. It is quite often to see tourists neglected sanitation while travelling. After engaging in high-risk activities, boots should be hosed off and clothing placed in airtight plastic bags for laundering. HIV-infected travelers should avoid risky behaviors or environments, such as exploring caves, particularly those that contain bat droppings.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>D</strong> Nowhere is the keen eye and intimate knowledge of ecotourism are more amidst this fantastic biodiversity, as we explore remote realms rich in wildlife rather than a nature adventure. A sustainable tour is significant for ecotourism, one in which we can grow hand in hand with nature and our community, respecting everything that makes us privileged. Travelers get great joy from every step that takes forward on this endless but exciting journey towards sustainability. The primary threats to South American’s tropical forests are deforestation caused by agricultural expansion, cattle ranching, logging, oil extraction and spills, mining, illegal coca farming, and colonization initiatives. Deforestation has shrunk territories belonging to indigenous peoples and wiped out more than 90% of the population. Many are taking leading roles in sustainable tourism even as they introduce protected regions to more travelers.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>E East Africa</strong>
+In East Africa, significantly reducing such illegal hunting and allowing wildlife populations to recover would allow the generation of significant economic benefits through trophy hunting and potentially ecotourism. “Illegal hunting is an extremely inefficient use of wildlife resources because it fails to capture the value of wildlife achievable through alternative forms of use such as trophy hunting and ecotourism,” said Peter Lindsey, author of the new study. Most residents believed that ecotourism could solve this circumstance. They have passion for local community empowerment, loves photography and writes to laud current local conservation efforts, create environmental awareness and promote ecotourism.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>F Indonesia</strong>
+In Indonesia, ecotourism started to become an important concept from 1995, in order to strengthen the domestic travelling movement, the local government targeting the right markets is a prerequisite for successful ecotourism. The market segment for Indonesian ecotourism consists of: (i) “The silent generation”, 55-64 year-old people who are wealthy enough, generally well-educated and have no dependent children, and can travel for four weeks; (ii) “The baby boom generation”, junior successful executives aged 35-54 years, who are likely to be travelling with their family and children (spending 2-3 weeks on travel) – travelling for them is a stress reliever; and (iii) the “X generation”, aged 18-29 years, who love to do ecotours as backpackers – they are generally students who can travel for 3-12 months with monthly expenditure of US$300-500. It is suggested that the promotion of Indonesian ecotourism products should aim to reach these various cohorts of tourists. The country welcomes diverse levels of travelers.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p><strong>G</strong> On the other hand, ecotourism provides as many services as traditional tourism. Nestled between Mexico, Guatemala and the Caribbean Sea is the country of Belize. It is the wonderful place for Hamanasi honeymoon, a bottle of champagne upon arrival, three meals daily, private service on one night of your stay and a choice of adventures depending on the length of your stay. It also offers six-night and seven-night honeymoon packages. A variety of specially tailored tours, including the Brimstone Hill Fortress, and a trip to a neighboring island. Guided tours include rainforest, volcano and off-road plantation tours. Gregory Pereira, an extremely knowledgeable and outgoing hiking and tour guide, says the following about his tours: “All of our tours on St.Kitts include transportation by specially modified Land Rovers, a picnic of island pastries and local fruit, fresh tropical juices, CSR, a qualified island guide and a full liability insurance coverage for participants.</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p><strong>H</strong> Kodai is an ultimate splendor spot for those who love being close to mother nature. They say every bird must sing it’s own throat while we say every traveler should find his own way out of variegated and unblemished paths of deep valleys and steep mountains. The cheese factory here exports a great quantity of cheese to various countries across the globe. It is located in the center of the forest. Many travelers are attracted by the delicious cheese. The ecotourism is very famous this different eating experience.</p></div></div>
+<p><strong>Questions 1-5</strong>
 Use the information in the passage to match the place (listed A-D) with opinions or deeds below.</p>
-<p>A Cuba
-B East Africa
-C South America
-D Indonesia</p>
-<p>Questions 6-9
+<p><strong>A</strong> Cuba
+<strong>B</strong> East Africa
+<strong>C</strong> South America
+<strong>D</strong> Indonesia</p>
+<p><strong>Questions 6-9</strong>
 Use the information in the passage to match the companies (listed A-D) with opinions or deeds below. Write the appropriate letters A, B, C or D in boxes 6-9 on your answer sheet.</p>
-<p>A eating the local fruits at the same time
-B find job opportunities in the community
-C which is situated in the heart of the jungle
-D with private and comfortable service</p>
+<p><strong>A</strong> eating the local fruits at the same time
+<strong>B</strong> find job opportunities in the community
+<strong>C</strong> which is situated in the heart of the jungle
+<strong>D</strong> with private and comfortable service</p>
 <p>6. Visiting the cheese factory
 7. Enjoying the honeymoon
 8. Having the picnic while
 9. The residents in Cuba could</p>
-<p>Questions 10-13
-Complete the following summary of the paragraphs of reading passage. Using NO MORE THAN TWO WORDS from the Reading Passage for each answer.</p>
+<p><strong>Questions 10-13</strong>
+Complete the following summary of the paragraphs of reading passage. Using <strong>NO MORE THAN TWO WORDS</strong> from the Reading Passage for each answer.</p>
 <p>Ecotourism is not a nature (10)………………. but a (11)…………….. tour. The reason why South America promotes ecotourism is due to the destruction of (12)…………. In addition, East Africa also encourages this kind of tourism for cutting the (13)……………….. in order to save wild animals.</p>
-<p>Ancient Storytelling</p>
-<p>A It was told, we suppose, to people crouched around a fire: a tale of adventure, most likely-relating some close encounter with death; a remarkable hunt, an escape from mortal danger; a vision, or something else out of the ordinary. Whatever its thread, the weaving of this story was done with a prime purpose. The listeners must be kept listening. They must not fall asleep. So, as the story went on, its audience should be sustained by one question above all. What happens next?</p>
-<p>B The first fireside stories in human history can never be known. They were kept in the heads of those who told them. This method of storage is not necessarily inefficient. From documented oral traditions in Australia, the Balkans and other parts of the world we know that specialised storytellers and poets can recite from memory literally thousands of lines, in verse or prose, verbatim-word for word. But while memory is rightly considered an art in itself, it is clear that a primary purpose of making symbols is to have a system of reminders or mnemonic cues – signs that assist us to recall certain information in the mind’s eye.</p>
-<p>C In some Polynesian communities, a notched memory stick may help to guide a storyteller through successive stages of recitation. But in other parts of the world, the activity of storytelling historically resulted in the development or even the invention of writing systems. One theory about the arrival of literacy in ancient Greece, for example, argues that the epic tales about the Trojan War and the wanderings of Odysseus – traditionally attributed to Homer – were just so enchanting to hear that they had to be preserved. So the Greeks, c.750-700BC, borrowed an alphabet from their neighbors in the eastern Mediterranean, the Phoenicians.</p>
-<p>D The custom of recording stories on parchment and other materials can be traced in many manifestations around the world, from the priestly papyrus archives of ancient Egypt to the birch-bark scrolls on which the North American Ojibway Indians set down their creation-myth. It is a well-tried and universal practice: so much so that to this day storytime is probably most often associated with words on paper. The formal practice of narrating a story aloud would seem-so we assume to have given way to newspapers, novels and comic strips. This, however, is not the case. Statistically, it is doubtful that the majority of humans currently rely upon the written word to get access to stories. So what is the alternative source?</p>
-<p>E Each year, over 7 billion people will go to watch the latest offering from Hollywood, Bollywood and beyond. The supreme storyteller of today is cinema. The movies, as distinct from still photography, seem to be an essential modem phenomenon. This is an illusion, for there are, as we shall see, certain ways in which the medium of film is indebted to very old precedents of arranging ‘sequences’ of images. But any account of visual storytelling must be with the recognition that all storytelling beats with a deeply atavistic pulse: that is, a ‘good story’ relies upon formal patterns of plot and characterisation that have been embedded in the practice of storytelling over many generations.</p>
-<p>F Thousands of scripts arrive every week at the offices of the major film studios. But aspiring screenwriters really need to look no further for essential advice then the fourth-century BC Greek Philosopher Aristotle. He left some incomplete lecture notes on the art of telling stories in various literary and dramatic modes, a slim volume known as The Poetics. Though he can never have envisaged the popcorn-fuelled actuality of a multiplex cinema, Aristotle is almost prescient about the key elements required to get the crowds flocking to such a cultural hub. He analyzed the process with cool rationalism. When a story enchants us, we lose the sense of where we are; we are drawn into the story so thoroughly that we forget it is a story being told. This is, in Aristotle’s phrase, ‘the suspension of disbelief.</p>
-<p>G We know the feeling. If ever we have stayed in our seats, stunned with grief, as the credits roll by, or for days after seeing that vivid evocation of horror have been nervous about taking a shower at home, then we have suspended disbelief. We have been caught, or captivated, in the storyteller’s web. Did it all really happen? We really thought so for a while. Aristotle must have witnessed often enough this suspension of disbelief. He taught at Athens, the city where theater developed as a primary form of civic ritual and recreation. Two theatrical types of storytelling, tragedy and comedy, caused Athenian audiences to lose themselves in sadness and laughter respectively. Tragedy, for Aristotle, was particularly potent in its capacity to enlist and then purge the emotions of those watching the story unfold on the stage, so he tried to identify those factors in the storyteller’s art that brought about such engagement. He had, as an obvious sample for analysis, not only the fifth-century BC masterpieces of Classical Greek tragedy written by Aeschylus, Sophocles and Euripides. Beyond them stood Homer, whose stories even then had canonical status: The Iliad and The Odyssey were already considered literary landmarks-stories by which all other stories should be measured. So what was the secret of Homer’s narrative art?</p>
-<p>H It was not hard to find. Homer created credible heroes. His heroes belonged to the past, they were mighty and magnificent, yet they were not, in the end, fantasy figures. He made his heroes sulk, bicker, cheat and cry. They were, in short, characters – protagonists of a story that an audience would care about, would want to follow, would want to know what happens next. As Aristotle saw, the hero who shows a human side-some flaw or weakness to which mortals are prone-is intrinsically dramatic by logging.</p>
-<p>Questions 14-18
+<p><strong>Ancient Storytelling</strong></p>
+<p><strong>A</strong> It was told, we suppose, to people crouched around a fire: a tale of adventure, most likely-relating some close encounter with death; a remarkable hunt, an escape from mortal danger; a vision, or something else out of the ordinary. Whatever its thread, the weaving of this story was done with a prime purpose. The listeners must be kept listening. They must not fall asleep. So, as the story went on, its audience should be sustained by one question above all. What happens next?</p>
+<p><strong>B</strong> The first fireside stories in human history can never be known. They were kept in the heads of those who told them. This method of storage is not necessarily inefficient. From documented oral traditions in Australia, the Balkans and other parts of the world we know that specialised storytellers and poets can recite from memory literally thousands of lines, in verse or prose, verbatim-word for word. But while memory is rightly considered an art in itself, it is clear that a primary purpose of making symbols is to have a system of reminders or mnemonic cues – signs that assist us to recall certain information in the mind’s eye.</p>
+<p><strong>C</strong> In some Polynesian communities, a notched memory stick may help to guide a storyteller through successive stages of recitation. But in other parts of the world, the activity of storytelling historically resulted in the development or even the invention of writing systems. One theory about the arrival of literacy in ancient Greece, for example, argues that the epic tales about the Trojan War and the wanderings of Odysseus – traditionally attributed to Homer – were just so enchanting to hear that they had to be preserved. So the Greeks, c.750-700BC, borrowed an alphabet from their neighbors in the eastern Mediterranean, the Phoenicians.</p>
+<p><strong>D</strong> The custom of recording stories on parchment and other materials can be traced in many manifestations around the world, from the priestly papyrus archives of ancient Egypt to the birch-bark scrolls on which the North American Ojibway Indians set down their creation-myth. It is a well-tried and universal practice: so much so that to this day storytime is probably most often associated with words on paper. The formal practice of narrating a story aloud would seem-so we assume to have given way to newspapers, novels and comic strips. This, however, is not the case. Statistically, it is doubtful that the majority of humans currently rely upon the written word to get access to stories. So what is the alternative source?</p>
+<p><strong>E</strong> Each year, over 7 billion people will go to watch the latest offering from Hollywood, Bollywood and beyond. The supreme storyteller of today is cinema. The movies, as distinct from still photography, seem to be an essential modem phenomenon. This is an illusion, for there are, as we shall see, certain ways in which the medium of film is indebted to very old precedents of arranging ‘sequences’ of images. But any account of visual storytelling must be with the recognition that all storytelling beats with a deeply atavistic pulse: that is, a ‘good story’ relies upon formal patterns of plot and characterisation that have been embedded in the practice of storytelling over many generations.</p>
+<p><strong>F</strong> Thousands of scripts arrive every week at the offices of the major film studios. But aspiring screenwriters really need to look no further for essential advice then the fourth-century BC Greek Philosopher Aristotle. He left some incomplete lecture notes on the art of telling stories in various literary and dramatic modes, a slim volume known as The Poetics. Though he can never have envisaged the popcorn-fuelled actuality of a multiplex cinema, Aristotle is almost prescient about the key elements required to get the crowds flocking to such a cultural hub. He analyzed the process with cool rationalism. When a story enchants us, we lose the sense of where we are; we are drawn into the story so thoroughly that we forget it is a story being told. This is, in Aristotle’s phrase, ‘the suspension of disbelief.</p>
+<p><strong>G</strong> We know the feeling. If ever we have stayed in our seats, stunned with grief, as the credits roll by, or for days after seeing that vivid evocation of horror have been nervous about taking a shower at home, then we have suspended disbelief. We have been caught, or captivated, in the storyteller’s web. Did it all really happen? We really thought so for a while. Aristotle must have witnessed often enough this suspension of disbelief. He taught at Athens, the city where theater developed as a primary form of civic ritual and recreation. Two theatrical types of storytelling, tragedy and comedy, caused Athenian audiences to lose themselves in sadness and laughter respectively. Tragedy, for Aristotle, was particularly potent in its capacity to enlist and then purge the emotions of those watching the story unfold on the stage, so he tried to identify those factors in the storyteller’s art that brought about such engagement. He had, as an obvious sample for analysis, not only the fifth-century BC masterpieces of Classical Greek tragedy written by Aeschylus, Sophocles and Euripides. Beyond them stood Homer, whose stories even then had canonical status: The Iliad and The Odyssey were already considered literary landmarks-stories by which all other stories should be measured. So what was the secret of Homer’s narrative art?</p>
+<p><strong>H</strong> It was not hard to find. Homer created credible heroes. His heroes belonged to the past, they were mighty and magnificent, yet they were not, in the end, fantasy figures. He made his heroes sulk, bicker, cheat and cry. They were, in short, characters – protagonists of a story that an audience would care about, would want to follow, would want to know what happens next. As Aristotle saw, the hero who shows a human side-some flaw or weakness to which mortals are prone-is intrinsically dramatic by logging.</p>
+<p><strong>Questions 14-18</strong>
 The reading passage has eight paragraphs A-H. Which paragraph contains the following information?</p>
 <p>14. A misunderstanding of a modern way for telling stories
 15. The typical forms mentioned for telling stories
 16. The fundamental aim of storytelling
 17. A description of reciting stories without any assistance
 18. How to make story characters attractive</p>
-<p>Questions 19-22
+<p><strong>Questions 19-22</strong>
 Classify the following information as referring to</p>
-<p>A adopted the writing system from another country
-B used organic materials to record stories
-C used tools to help to tell stories</p>
+<p><strong>A</strong> adopted the writing system from another country
+<strong>B</strong> used organic materials to record stories
+<strong>C</strong> used tools to help to tell stories</p>
 <p>19. Egyptians
 20. Ojibway
 21. Polynesians
 22. Greek</p>
-<p>Questions 23-26
-Complete the sentences below with ONE WORD ONLY from the passage.</p>
+<p><strong>Questions 23-26</strong>
+Complete the sentences below with <strong>ONE WORD ONLY</strong> from the passage.</p>
 <p>23. Aristotle wrote a book on the art of storytelling called
 24. Aristotle believed the most powerful type of story to move listeners is
 25. Aristotle viewed Homers works as
 26. Aristotle believed attractive heroes should have some</p>
-<p>Communication in Science</p>
-<p>A Science plays an increasingly significant role in people’s lives, making the faithful communication of scientific developments more important than ever. Yet such communication is fraught with challenges that can easily distort discussions, leading to unnecessary confusion and misunderstandings.</p>
-<p>B Some problems stem from the esoteric nature of current research and the associated difficulty of finding sufficiently faithful terminology. Abstraction and complexity are not signs that a given scientific direction is wrong, as some commentators have suggested, but are instead a tribute to the success of human ingenuity in meeting the increasingly complex challenges that nature presents. They can, however, make communication more difficult. But many of the biggest challenges for science reporting arise because in areas of evolving research, scientists themselves often only partly understand the full implications of any particular advance or development. Since that dynamic applies to most of the scientific developments that directly affect people’s lives global warming, cancer research, diet studies – learning how to overcome it is critical to spurring a more informed scientific debate among the broader public.</p>
-<p>C Ambiguous word choices are the source of some misunderstandings. Scientists often employ colloquial terminology, which they then assign a specific meaning that is impossible to fathom without proper training. The term “relativity,” for example, is intrinsically misleading. Many interpret the theory to mean that everything is relative and there are no absolutes. Yet although the measurements any observer makes depend on his coordinates and reference frame, the physical phenomena he measures have an invariant description that transcends that observer’s particular coordinates. Einstein’s theory of relativity is really about finding an invariant description of physical phenomena. True, Einstein agreed with the idea that his theory would have been better named “Invarianten theorie.” But the term “relativity” was already entrenched at the time for him to change.</p>
-<p>D “The uncertainty principle” is another frequently abused term. It is sometimes interpreted as a limitation on observers and their ability to make measurements.</p>
-<p>E But it is not about intrinsic limitations on any one particular measurement; it is about the inability to precisely measure particular pairs of quantities simultaneously? The first interpretation is perhaps more engaging from a philosophical or political perspective. It’s just not what the science is about.</p>
-<p>F Even the word “theory” can be a problem. Unlike most people, who use the word to describe a passing conjecture that they often regard as suspect, physicists have very specific ideas in mind when they talk about theories. For physicists, theories entail a definite physical framework embodied in a set of fundamental assumptions about the world that lead to a specific set of equations and predictions – ones that are borne out by successful predictions. Theories aren’t necessarily shown to be correct or complete immediately. Even Einstein took the better part of a decade to develop the correct version of his theory of general relativity. But eventually both the ideas and the measurements settle down and theories are either proven correct, abandoned or absorbed into other, more encompassing theories.</p>
-<p>G “Global warming” is another example of problematic terminology. Climatologists predict more drastic fluctuations in temperature and rainfall – not necessarily that every place will be warmer. The name sometimes subverts the debate, since it lets people argue that their winter was worse, so how could there be global warming? Clearly “global climate change” would have been a better name. But not all problems stem solely from poor word choices. Some stem from the intrinsically complex nature of much of modern science. Science sometimes transcends this limitation: remarkably, chemists were able to detail the precise chemical processes involved in the destruction of the ozone layer, making the evidence that chlorofluorocarbon gases (Freon, for example) were destroying the ozone layer indisputable.</p>
-<p>H A better understanding of the mathematical significance of results and less insistence on a simple story would help to clarify many scientific discussions. For several months, Harvard was tortured months, Harvard was tortured by empty debates over the relative intrinsic scientific abilities of men and women. One of the more amusing aspects of the discussion was that those who believed in the differences and those who didn’t use the same evidence about gender-specific special ability? How could that be? The answer is that the data shows no substantial effects. Social factors might account for these tiny differences, which in any case have an unclear connection to scientific ability. Not much of a headline when phrased that way, is it? Each type of science has its own source of complexity and potential for miscommunication. Yet there are steps we can take to improve public understanding in all cases. The first would be to inculcate greater understanding and acceptance of indirect scientific evidence. The information from an unmanned space mission is no less legitimate than the information from one in which people are on board.</p>
-<p>I This doesn’t mean questioning an interpretation, but it also doesn’t mean equating indirect evidence with blind belief, as people sometimes suggest. Second, we might need different standards for evaluating science with urgent policy implications than research with the purely theoretical value. When scientists say they are not certain about their predictions, it doesn’t necessarily mean they’ve found nothing substantial. It would be better if scientists were more open about the mathematical significance of their results and if the public didn’t treat math as quite so scary; statistics and errors, which tell us the uncertainty in a measurement, give us the tools to evaluate new developments fairly.</p>
-<p>J But most important, people have to recognize that science can be complex. If we accept only simple stories, the description will necessarily be distorted. When advances are subtle or complicated, scientists should be willing to go the extra distance to give proper explanations and the public should be more patient about the truth. Even so, some difficulties are unavoidable. Most developments reflect work in progress, so the story is complex because no one yet knows the big picture.</p>
-<p>Questions 27-31
+<p><strong>Communication in Science</strong></p>
+<p><strong>A</strong> Science plays an increasingly significant role in people’s lives, making the faithful communication of scientific developments more important than ever. Yet such communication is fraught with challenges that can easily distort discussions, leading to unnecessary confusion and misunderstandings.</p>
+<p><strong>B</strong> Some problems stem from the esoteric nature of current research and the associated difficulty of finding sufficiently faithful terminology. Abstraction and complexity are not signs that a given scientific direction is wrong, as some commentators have suggested, but are instead a tribute to the success of human ingenuity in meeting the increasingly complex challenges that nature presents. They can, however, make communication more difficult. But many of the biggest challenges for science reporting arise because in areas of evolving research, scientists themselves often only partly understand the full implications of any particular advance or development. Since that dynamic applies to most of the scientific developments that directly affect people’s lives global warming, cancer research, diet studies – learning how to overcome it is critical to spurring a more informed scientific debate among the broader public.</p>
+<p><strong>C</strong> Ambiguous word choices are the source of some misunderstandings. Scientists often employ colloquial terminology, which they then assign a specific meaning that is impossible to fathom without proper training. The term “relativity,” for example, is intrinsically misleading. Many interpret the theory to mean that everything is relative and there are no absolutes. Yet although the measurements any observer makes depend on his coordinates and reference frame, the physical phenomena he measures have an invariant description that transcends that observer’s particular coordinates. Einstein’s theory of relativity is really about finding an invariant description of physical phenomena. True, Einstein agreed with the idea that his theory would have been better named “Invarianten theorie.” But the term “relativity” was already entrenched at the time for him to change.</p>
+<p><strong>D</strong> “The uncertainty principle” is another frequently abused term. It is sometimes interpreted as a limitation on observers and their ability to make measurements.</p>
+<p><strong>E</strong> But it is not about intrinsic limitations on any one particular measurement; it is about the inability to precisely measure particular pairs of quantities simultaneously? The first interpretation is perhaps more engaging from a philosophical or political perspective. It’s just not what the science is about.</p>
+<p><strong>F</strong> Even the word “theory” can be a problem. Unlike most people, who use the word to describe a passing conjecture that they often regard as suspect, physicists have very specific ideas in mind when they talk about theories. For physicists, theories entail a definite physical framework embodied in a set of fundamental assumptions about the world that lead to a specific set of equations and predictions – ones that are borne out by successful predictions. Theories aren’t necessarily shown to be correct or complete immediately. Even Einstein took the better part of a decade to develop the correct version of his theory of general relativity. But eventually both the ideas and the measurements settle down and theories are either proven correct, abandoned or absorbed into other, more encompassing theories.</p>
+<p><strong>G</strong> “Global warming” is another example of problematic terminology. Climatologists predict more drastic fluctuations in temperature and rainfall – not necessarily that every place will be warmer. The name sometimes subverts the debate, since it lets people argue that their winter was worse, so how could there be global warming? Clearly “global climate change” would have been a better name. But not all problems stem solely from poor word choices. Some stem from the intrinsically complex nature of much of modern science. Science sometimes transcends this limitation: remarkably, chemists were able to detail the precise chemical processes involved in the destruction of the ozone layer, making the evidence that chlorofluorocarbon gases (Freon, for example) were destroying the ozone layer indisputable.</p>
+<p><strong>H</strong> A better understanding of the mathematical significance of results and less insistence on a simple story would help to clarify many scientific discussions. For several months, Harvard was tortured months, Harvard was tortured by empty debates over the relative intrinsic scientific abilities of men and women. One of the more amusing aspects of the discussion was that those who believed in the differences and those who didn’t use the same evidence about gender-specific special ability? How could that be? The answer is that the data shows no substantial effects. Social factors might account for these tiny differences, which in any case have an unclear connection to scientific ability. Not much of a headline when phrased that way, is it? Each type of science has its own source of complexity and potential for miscommunication. Yet there are steps we can take to improve public understanding in all cases. The first would be to inculcate greater understanding and acceptance of indirect scientific evidence. The information from an unmanned space mission is no less legitimate than the information from one in which people are on board.</p>
+<p><strong>I</strong> This doesn’t mean questioning an interpretation, but it also doesn’t mean equating indirect evidence with blind belief, as people sometimes suggest. Second, we might need different standards for evaluating science with urgent policy implications than research with the purely theoretical value. When scientists say they are not certain about their predictions, it doesn’t necessarily mean they’ve found nothing substantial. It would be better if scientists were more open about the mathematical significance of their results and if the public didn’t treat math as quite so scary; statistics and errors, which tell us the uncertainty in a measurement, give us the tools to evaluate new developments fairly.</p>
+<p><strong>J</strong> But most important, people have to recognize that science can be complex. If we accept only simple stories, the description will necessarily be distorted. When advances are subtle or complicated, scientists should be willing to go the extra distance to give proper explanations and the public should be more patient about the truth. Even so, some difficulties are unavoidable. Most developments reflect work in progress, so the story is complex because no one yet knows the big picture.</p>
+<p><strong>Questions 27-31</strong>
 Choose the correct letter A, B, C or D.</p>
 <p>27. Why faithful science communication important?
-A Science plays an increasingly significant role in people’s lives.
-B Science is fraught with challenges public are interested in.
-C The nature of complexity in science communication leads to confusion.
-D Scientific inventions are more important than ever before.</p>
+<strong>A</strong> Science plays an increasingly significant role in people’s lives.
+<strong>B</strong> Science is fraught with challenges public are interested in.
+<strong>C</strong> The nature of complexity in science communication leads to confusion.
+<strong>D</strong> Scientific inventions are more important than ever before.</p>
 <p>28. What is the reason that the author believes for the biggest challenges for science reporting
-A phenomenon such as global warming, cancer research, diet studies is too complex.
-B Scientists themselves often only partly understand the Theory of Evolution
-C Scientists do not totally comprehend the meaning of certain scientific evolution
-D Scientists themselves often partly understand the esoteric communication nature</p>
+<strong>A</strong> phenomenon such as global warming, cancer research, diet studies is too complex.
+<strong>B</strong> Scientists themselves often only partly understand the Theory of Evolution
+<strong>C</strong> Scientists do not totally comprehend the meaning of certain scientific evolution
+<strong>D</strong> Scientists themselves often partly understand the esoteric communication nature</p>
 <p>29. According to the 3rd paragraph, the reference to the term and example of “theory of relativity” is to demonstrate
-A theory of relativity is about an invariant physical phenomenon
-B common people may be misled by the inaccurate choice of scientific phrase
-C the term “relativity,” is designed to be misleading public
-D everything is relative and there is no absolutes existence</p>
+<strong>A</strong> theory of relativity is about an invariant physical phenomenon
+<strong>B</strong> common people may be misled by the inaccurate choice of scientific phrase
+<strong>C</strong> the term “relativity,” is designed to be misleading public
+<strong>D</strong> everything is relative and there is no absolutes existence</p>
 <p>30. Which one is a good example of appropriate word choice:
-A Scientific theory for the uncertainty principle
-B phenomenon of Global warming
-C the importance of ozone layer
-D Freon’s destructive process on environmental</p>
+<strong>A</strong> Scientific theory for the uncertainty principle
+<strong>B</strong> phenomenon of Global warming
+<strong>C</strong> the importance of ozone layer
+<strong>D</strong> Freon’s destructive process on environmental</p>
 <p>31. What is a surprising finding of the Harvard debates in the passage?
-A There are equal intrinsic scientific abilities of men and women.
-B The proof applied by both sides seemed to be of no big difference.
-C The scientific data usually shows no substantial figures to support a debated idea.
-D Social factors might have a clear connection to scientific ability.</p>
-<p>Questions 32-35
+<strong>A</strong> There are equal intrinsic scientific abilities of men and women.
+<strong>B</strong> The proof applied by both sides seemed to be of no big difference.
+<strong>C</strong> The scientific data usually shows no substantial figures to support a debated idea.
+<strong>D</strong> Social factors might have a clear connection to scientific ability.</p>
+<p><strong>Questions 32-35</strong>
 Do the following statements agree with the information given in reading passage? In boxes 32-35 on your answer sheet, write:</p>
-<p>TRUE                      if the statement agrees with the information
-FALSE                    if the statement contradicts the information
-NOT GIVEN        if there is no information on this</p>
+<p><strong>TRUE</strong>                      if the statement agrees with the information
+<strong>FALSE</strong>                    if the statement contradicts the information
+<strong>NOT GIVEN</strong>        if there is no information on this</p>
 <p>32. “Global warming” scientifically refers to greater fluctuations in temperature and rainfall rather than a universal temperature rise.
 33. More media coverage of “global warming” would help the public to recognize the phenomenon.
 34. Harvard debates should focus more on female scientist and male scientists
 35. Public understanding and acceptance of indirect scientific evidence in all cases would lead to confusion</p>
-<p>Questions 36-40
-Complete the following summary of the paragraphs of reading passage. Using NO MORE THAN TWO WORDS from the reading passage for each answer.</p>
+<p><strong>Questions 36-40</strong>
+Complete the following summary of the paragraphs of reading passage. Using <strong>NO MORE THAN TWO WORDS</strong> from the reading passage for each answer.</p>
 <p>Science Communication is fraught with challenges that can easily distort discussions, leading to unnecessary confusion and misunderstandings. Firstly, Ambiguous (36)………………..are the source of some misunderstandings. Common people without proper training do not understand clearly or deeply a specific scientific meaning via the (37)…………… scientists often employed. Besides, the measurements any (38)…………. makes can not be confined to describe in a(n) constant (39)………………. yet the phenomenon can be. What’s more, even the word “theory” can be a problem. Theories aren’t necessarily shown to be correct or complete immediately since scientists often evolved better versions of specific theories, a good example can be the theory of (40)………………….. Thus, most importantly people have to recognize that science can be complex.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. A</p>
 <p>2. D</p>
 <p>3. C</p>
@@ -477,6 +533,29 @@ Complete the following summary of the paragraphs of reading passage. Using NO MO
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -496,12 +575,23 @@ Complete the following summary of the paragraphs of reading passage. Using NO MO
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -513,14 +603,6 @@ Complete the following summary of the paragraphs of reading passage. Using NO MO
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

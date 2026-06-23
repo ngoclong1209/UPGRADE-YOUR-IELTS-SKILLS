@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,47 +158,47 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_140</h1>
-            <p>IELTS Reading Practice - Test 140</p>
-<p>The “Extinct” Grass in Britain</p>
-<p>A The British grass interrupted brome was said to be extinct, just like the Dodo. Called interrupted brome because of its gappy seed-head, this unprepossessing grass was found nowhere else in the world, Gardening experts from the Victorian lira were first to record it. In the early 20th century, it grew far and wide across southern England. But it quickly vanished and by 1972 was nowhere to be found. Even the seeds stored at the Cambridge University Botanic Garden as an insurance policy were dead, having been mistakenly kept at room temperature. Fans of the glass were devastated.</p>
-<p>B However, reports of its decline were not entirely correct. Interrupted brome has enjoyed a revival, one that’s not due to science. Because of the work of one gardening enthusiast, interrupted brome is thriving as a pot plant. The relaunching into the wild of Britain’s almost extinct plant has excited conservationists everywhere.</p>
-<p>C Originally, Philip Smith didn’t know that he had the very unusual grass at his own home. When he heard about the grass becoming extinct, he wanted to do something surprising. He attended a meeting of the British Botanical Society in Manchester in 1979, and seized His opporlunity. He said that it was so disappointing to hear about the demise of the interrupted brome. “What a pity we didn’t research it further!” he added. Then. all of a sudden he displayed his pots with so called “extinct grass” lot all to see.</p>
-<p>D Smith had kept the seeds from the last stronghold of the grass, Pamisford in 1963. It was then when the grass stalled to disappear from the wild. Smith cultivated the grass, year after year. Ultimately, it was his curiosity in the plant that saved it. not scientific or technological projects that</p>
-<p>E For now, the bromes future is guaranteed. The seeds front Smith’s plants have beet, securely stored in the cutting edge facilities of Millennium Seed Bank at Wakehurst Place in Sussex. And living plants thrive at the botanic gardens at Kew, Edinburgh and Cambridge. This year, seeds are also saved at sites all across the country and the grass now nourishes at several public gardens too.</p>
-<p>F The grass will now be reintroduced to the British countryside. As a part of the Species Recovery Project, the organisation English Nature will re-introduce interrupted brome into the agricultural landscape, provided willing farmers are found. Alas, the grass is neither beautiful not practical. it is undoubtedly a weed, a weed that nobody cares for these days. The brome wax probably never widespread enough to annoy farmers and today, no one would appreciate its productivity or nutritious qualities. As a grass, it leaves a lot to be desired by agriculturalists.</p>
-<p>G Smith’s research has attempted to answer the question of where the grass came from. His research points to mutations from other weedy grasses as the most likely source. So close is the relationship that interrupted brome was originally deemed to be a mere variety of soil brome by the great Victorian taxonomist Professor Hackel. A botanist from the 19th century, Druce. had taken notes on the grass and convinced his peers that the grass deserved its own status as a species. Despite Druce growing up in poverty and his self-taught profession, he became the leading botanist of his time.</p>
-<p>H Where the grass came from may be clear, but the timing of its birth may be tougher to find out. A clue lies in its penchant for growing as a weed in fields shared with a fodder crop, in particular nitrogen-fixing legumes such as sainfoin, lucerne or clover. According to agricultural historian Joan Thirsk. the humble sainfoin and its company were first noticed in Britain in the early 17th century. Seeds brought in from the Continent were sown in pastures to feed horses and other livestock. However, back then, only a few enthusiastic gentlemen were willing to use the new crops for their prized horses.</p>
-<p>I Not before too long though, the need to feed the parliamentary armies in Scotland, England and behind was more pressing than ever. farmers were forced to produce more bread, cheese and beer. And by 1650 the legumes were increasingly introduced into arable rotations, to serve as green nature to boost grain yields. A bestseller of its day, Nathaniel Fiennes’s Sainfoin Improved, published in 1671, helped to spread the word. With the advent of sainfoin, clover and lucerne. Britain’s very own rogue grass had suddenly at rivet.</p>
-<p>J Although the credit for the discovery of interrupted brome goes to a Miss A. M. Barnard, who collected the first specimens at Odsey, Bedfordshire, in 1849, the grass had probably lurked undetected in the English countryside for at least a hundred years. Smith thinks the plant- the world’s version of the Dodo probably evolved in the late 17th or early 18th century, once sainfoin became established. Due mainly to the development of the motor car and subsequent decline of fodder crops for horses, the brome declined rapidly over the 20th century. Today, sainfoin has almost disappeared from the countryside, though occasionally its colourful flowers are spotted in lowland nature reserves. More recently artificial fertilizers have made legume rotations unnecessary.</p>
-<p>K The close relationship with out-of-fashion crops spells trouble for those seeking to re-establish interrupted brome in today’s countryside. Much like the once common arable weeds, such as the corncockle, its seeds cannot survive long in the soil. Each spring, the brome relied on farmers to resow its seeds; in the days before weed killers and advanced seed sieves, an ample supply would have contaminated supplies of crop seed. However fragile seeds are not the brome’s only problem: this species is also unwilling to release its seeds as they ripen. According to Smith. The grass will struggle to survive even in optimal conditions. It would be very difficult to thrive amongst its more resilient competitors found in today’s improved agricultural landscape</p>
-<p>L Nonetheless, interrupted brome’s reluctance to thrive independently may have some benefits. Any farmer willing to foster this unique contribution to the world’s flora can rest assured that the grass will never become an invasive pest. Restoring interrupted brome to its rightful home could bring other benefits too, particularly if this strange species is granted recognition as a national treasure. Thanks to British farmers, interrupted brome was given the chance to evolve in the first place. Conservationists would like to see the grass grow once again in its natural habitat and perhaps, one day, seeing the grass become a badge of honour for a new generation of environmentally conscious farmers.</p>
-<p>Questions 1-8
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 140</strong></h3>
+<h3 class="test-heading"><strong>The “Extinct” Grass in Britain</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> The British grass interrupted brome was said to be extinct, just like the Dodo. Called interrupted brome because of its gappy seed-head, this unprepossessing grass was found nowhere else in the world, Gardening experts from the Victorian lira were first to record it. In the early 20th century, it grew far and wide across southern England. But it quickly vanished and by 1972 was nowhere to be found. Even the seeds stored at the Cambridge University Botanic Garden as an insurance policy were dead, having been mistakenly kept at room temperature. Fans of the glass were devastated.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> However, reports of its decline were not entirely correct. Interrupted brome has enjoyed a revival, one that’s not due to science. Because of the work of one gardening enthusiast, interrupted brome is thriving as a pot plant. The relaunching into the wild of Britain’s almost extinct plant has excited conservationists everywhere.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> Originally, Philip Smith didn’t know that he had the very unusual grass at his own home. When he heard about the grass becoming extinct, he wanted to do something surprising. He attended a meeting of the British Botanical Society in Manchester in 1979, and seized His opporlunity. He said that it was so disappointing to hear about the demise of the interrupted brome. “What a pity we didn’t research it further!” he added. Then. all of a sudden he displayed his pots with so called “extinct grass” lot all to see.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> Smith had kept the seeds from the last stronghold of the grass, Pamisford in 1963. It was then when the grass stalled to disappear from the wild. Smith cultivated the grass, year after year. Ultimately, it was his curiosity in the plant that saved it. not scientific or technological projects that</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> For now, the bromes future is guaranteed. The seeds front Smith’s plants have beet, securely stored in the cutting edge facilities of Millennium Seed Bank at Wakehurst Place in Sussex. And living plants thrive at the botanic gardens at Kew, Edinburgh and Cambridge. This year, seeds are also saved at sites all across the country and the grass now nourishes at several public gardens too.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> The grass will now be reintroduced to the British countryside. As a part of the Species Recovery Project, the organisation English Nature will re-introduce interrupted brome into the agricultural landscape, provided willing farmers are found. Alas, the grass is neither beautiful not practical. it is undoubtedly a weed, a weed that nobody cares for these days. The brome wax probably never widespread enough to annoy farmers and today, no one would appreciate its productivity or nutritious qualities. As a grass, it leaves a lot to be desired by agriculturalists.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> Smith’s research has attempted to answer the question of where the grass came from. His research points to mutations from other weedy grasses as the most likely source. So close is the relationship that interrupted brome was originally deemed to be a mere variety of soil brome by the great Victorian taxonomist Professor Hackel. A botanist from the 19th century, Druce. had taken notes on the grass and convinced his peers that the grass deserved its own status as a species. Despite Druce growing up in poverty and his self-taught profession, he became the leading botanist of his time.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>H</strong> Where the grass came from may be clear, but the timing of its birth may be tougher to find out. A clue lies in its penchant for growing as a weed in fields shared with a fodder crop, in particular nitrogen-fixing legumes such as sainfoin, lucerne or clover. According to agricultural historian Joan Thirsk. the humble sainfoin and its company were first noticed in Britain in the early 17th century. Seeds brought in from the Continent were sown in pastures to feed horses and other livestock. However, back then, only a few enthusiastic gentlemen were willing to use the new crops for their prized horses.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p><strong>I</strong> Not before too long though, the need to feed the parliamentary armies in Scotland, England and behind was more pressing than ever. farmers were forced to produce more bread, cheese and beer. And by 1650 the legumes were increasingly introduced into arable rotations, to serve as green nature to boost grain yields. A bestseller of its day, Nathaniel Fiennes’s Sainfoin Improved, published in 1671, helped to spread the word. With the advent of sainfoin, clover and lucerne. Britain’s very own rogue grass had suddenly at rivet.</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p><strong>J</strong> Although the credit for the discovery of interrupted brome goes to a Miss A. M. Barnard, who collected the first specimens at Odsey, Bedfordshire, in 1849, the grass had probably lurked undetected in the English countryside for at least a hundred years. Smith thinks the plant- the world’s version of the Dodo probably evolved in the late 17th or early 18th century, once sainfoin became established. Due mainly to the development of the motor car and subsequent decline of fodder crops for horses, the brome declined rapidly over the 20th century. Today, sainfoin has almost disappeared from the countryside, though occasionally its colourful flowers are spotted in lowland nature reserves. More recently artificial fertilizers have made legume rotations unnecessary.</p></div></div>
+<div class="para-row"><div class="para-label">K</div><div class="para-text"><p><strong>K</strong> The close relationship with out-of-fashion crops spells trouble for those seeking to re-establish interrupted brome in today’s countryside. Much like the once common arable weeds, such as the corncockle, its seeds cannot survive long in the soil. Each spring, the brome relied on farmers to resow its seeds; in the days before weed killers and advanced seed sieves, an ample supply would have contaminated supplies of crop seed. However fragile seeds are not the brome’s only problem: this species is also unwilling to release its seeds as they ripen. According to Smith. The grass will struggle to survive even in optimal conditions. It would be very difficult to thrive amongst its more resilient competitors found in today’s improved agricultural landscape</p></div></div>
+<div class="para-row"><div class="para-label">L</div><div class="para-text"><p><strong>L</strong> Nonetheless, interrupted brome’s reluctance to thrive independently may have some benefits. Any farmer willing to foster this unique contribution to the world’s flora can rest assured that the grass will never become an invasive pest. Restoring interrupted brome to its rightful home could bring other benefits too, particularly if this strange species is granted recognition as a national treasure. Thanks to British farmers, interrupted brome was given the chance to evolve in the first place. Conservationists would like to see the grass grow once again in its natural habitat and perhaps, one day, seeing the grass become a badge of honour for a new generation of environmentally conscious farmers.</p></div></div>
+<p><strong>Questions 1-8</strong>
 Do the following statements agree with the information given in Reading Passage 1? In boxes 1-8 on you answer sheet, write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
-<p>Questions 9-13
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
+<p><strong>Questions 9-13</strong>
 Look at the following opinions or deeds (Questions 9-13) and the list of people below. Match each opinion or deed with the correct person, A-F.</p>
 <p>9. identified interrupted brome as another species of brome.
 10. convinced others about the status of interrupted brome in the botanic world.
 11. said that sainfoin was first found more than 300 years ago.
 12. helped farmers know that sainfoin is useful for enriching the soil.
 13. collected the first sample of interrupted brome.</p>
-<p>A A. M. Barnard
-B Philip Smith
-C George Claridge Druce
-D Joan Thirsk
-E Professor Hackel
-F Nathaniel Fiennes</p>
-<p>Keep the Water Away</p>
-<p>A Last winter’s floods on the rivers of central Europe were among the worst since the Middle Ages, and as winter storms return, the spectre of floods is returning too. Just weeks ago, the river Rhone in south-east France burst its banks, driving 15,000 people from their homes, and worse could be on the way. Traditionally, river engineers have gone for Plan A: get rid of the water fast, draining it off the land and down to the sea in tall-sided rivers re-engineered as high-performance drains. But however big they dug city drains, however wide and straight they made the rivers, and however high they built the banks, the floods kept coming back to taunt them, from the Mississippi to the Danube. Arid when the floods came, they seemed to be worse than ever. No wonder engineers are turning to Plan B: sap the water’s destructive strength by dispersing it into fields, forgotten lakes, flood plains and aquifers.</p>
-<p>B Back in the days when rivers took a more tortuous path to the sea, flood waters lost impetus and volume while meandering across flood plains and idling through wetlands and inland deltas. But today the water tends to have an unimpeded journey to the sea. And this means that when it rains in the uplands, the water comes down all at once. Worse, whenever we close off more flood plains, the river’s flow farther downstream becomes more violent and uncontrollable. Dykes are only as good as their weakest link—-and the water will unerringly find it. By trying to turn the complex hydrology of rivers into the simple mechanics of a water pipe, engineers have often created danger where they promised safety, and intensified the floods they meant to end. Take the Rhine, Europe’s most engineered river. For two centuries, German engineers have erased its backwaters and cut it off from its flood plain.</p>
-<p>C Today, the river has lost 7 percent of its original length and runs up to a third faster. When it rains hard in the Alps, the peak flows from several tributaries coincide in the main river, where once they arrived separately. And with four-fifths of the lower Rhine’s flood plain barricaded off, the waters rise ever higher. The result is more frequent flooding that does ever-greater damage to the homes, offices and roads that sit on the flood plain. Much the same has happened in the US on the mighty Mississippi, which drains the world’s second largest river catchment into the Gulf of Mexico.</p>
-<p>D The European Union is trying to improve rain forecasts and more accurately model how intense rains swell rivers. That may help cities prepare, but it won’t stop the floods. To do that, say hydrologists, you need a new approach to engineering not just rivers, but the whole landscape. The UK’s Environment Agency -which has been granted an extra £150 million a year to spend in the wake of floods in 2000 that cost the country £1 billion- puts it like this: “The focus is now on working with the forces of nature. Towering concrete walks are out, and new wetlands : are in.” To help keep London’s feet dry, the agency is breaking the Thames’s banks upstream and reflooding 10 square kilometres of ancient flood plain at Otmoor outside Oxford. Nearer to London it has spent £100 million creating new wetlands and a relief channel across 16 kilometres of flood plain to protect the town of Maidenhead, as well as the ancient playing fields of Eton College. And near the south coast, the agency is digging out channels to reconnect old meanders on the river Cuckmere in East Sussex that were cut off by flood banks 150 years ago.</p>
-<p>E The same is taking place on a much grander scale in Austria, in one of Europe’s largest river restorations to date. Engineers are regenerating flood plains along 60 kilometres of the river Drava as it exits the Alps. They are also widening the river bed and channelling it back into abandoned meanders, oxbow lakes and backwaters overhung with willows. The engineers calculate that the restored flood plain can now store up to 10 million cubic metres of flood waters and slow storm surges coming out of the Alps by more than an hour, protecting towns as far downstream as Slovenia and Croatia.</p>
-<p>F “Rivers have to be allowed to take more space. They have to be turned from flood-chutes into flood-foilers,” says Nienhuis. And the Dutch, for whom preventing floods is a matter of survival, have gone furthest. A nation built largely on drained marshes and seabed had the fright of its life in 1993 when the Rhine almost overwhelmed it. The same happened again in 1995, when a quarter of a million people were evacuated from the Netherlands. But a new breed of “soft engineers” wants our cities to become porous, and Berlin is their shining example. Since reunification, the city’s massive redevelopment has been governed by tough new rules to prevent its drains becoming overloaded after heavy rains. Harald Kraft, an architect working in the city, says: “We now see rainwater as a resource to be kept rather than got rid of at great cost.” A good illustration is the giant Potsdamer Platz, a huge new commercial redevelopment by Daimler Chrysler in the heart of the city.</p>
-<p>G Los Angeles has spent billions of dollars digging huge drains and concreting river beds to carry away the water from occasional intense storms. The latest plan is to spend a cool $280 million raising the concrete walls on the Los Angeles river by another 2 metres. Yet many communities still flood regularly. Meanwhile this desert city is shipping in water from hundreds of kilometres away in northern California and from the Colorado river in Arizona to fill its taps and swimming pools, and irrigate its green spaces. It all sounds like bad planning. “In LA we receive half the water we need in rainfall, and we throw it away. Then we spend hundreds of millions to import water,” says Andy Lipkis, an LA environmentalist, along with citizen groups like Friends of the Los Angeles River and Unpaved LA, want to beat the urban flood hazard and fill the taps by holding onto the city’s flood water. And it’s not just a pipe dream. The authorities this year launched a $100 million scheme to road-test the porous city in one flood-hit community in Sun Valley. The plan is to catch the rain that falls on thousands of driveways, parking lots and rooftops in the valley. Trees will soak up water from parking lots. Homes and public buildings will capture roof water to irrigate gardens and parks. And road drains will empty into old gravel pits and other leaky places that should recharge the city’s underground water reserves. Result: less flooding and more water for the city. Plan B says every city should be porous, every river should have room to flood naturally and every coastline should be left to build its own defences. It sounds expensive and utopian, until you realise how much we spend trying to drain cities and protect our watery margins -and how bad we are at it.</p>
-<p>Questions 14-19
+<p><strong>A</strong> A. M. Barnard
+<strong>B</strong> Philip Smith
+<strong>C</strong> George Claridge Druce
+<strong>D</strong> Joan Thirsk
+<strong>E</strong> Professor Hackel
+<strong>F</strong> Nathaniel Fiennes</p>
+<p><strong>Keep the Water Away</strong></p>
+<p><strong>A</strong> Last winter’s floods on the rivers of central Europe were among the worst since the Middle Ages, and as winter storms return, the spectre of floods is returning too. Just weeks ago, the river Rhone in south-east France burst its banks, driving 15,000 people from their homes, and worse could be on the way. Traditionally, river engineers have gone for Plan A: get rid of the water fast, draining it off the land and down to the sea in tall-sided rivers re-engineered as high-performance drains. But however big they dug city drains, however wide and straight they made the rivers, and however high they built the banks, the floods kept coming back to taunt them, from the Mississippi to the Danube. Arid when the floods came, they seemed to be worse than ever. No wonder engineers are turning to Plan B: sap the water’s destructive strength by dispersing it into fields, forgotten lakes, flood plains and aquifers.</p>
+<p><strong>B</strong> Back in the days when rivers took a more tortuous path to the sea, flood waters lost impetus and volume while meandering across flood plains and idling through wetlands and inland deltas. But today the water tends to have an unimpeded journey to the sea. And this means that when it rains in the uplands, the water comes down all at once. Worse, whenever we close off more flood plains, the river’s flow farther downstream becomes more violent and uncontrollable. Dykes are only as good as their weakest link—-and the water will unerringly find it. By trying to turn the complex hydrology of rivers into the simple mechanics of a water pipe, engineers have often created danger where they promised safety, and intensified the floods they meant to end. Take the Rhine, Europe’s most engineered river. For two centuries, German engineers have erased its backwaters and cut it off from its flood plain.</p>
+<p><strong>C</strong> Today, the river has lost 7 percent of its original length and runs up to a third faster. When it rains hard in the Alps, the peak flows from several tributaries coincide in the main river, where once they arrived separately. And with four-fifths of the lower Rhine’s flood plain barricaded off, the waters rise ever higher. The result is more frequent flooding that does ever-greater damage to the homes, offices and roads that sit on the flood plain. Much the same has happened in the US on the mighty Mississippi, which drains the world’s second largest river catchment into the Gulf of Mexico.</p>
+<p><strong>D</strong> The European Union is trying to improve rain forecasts and more accurately model how intense rains swell rivers. That may help cities prepare, but it won’t stop the floods. To do that, say hydrologists, you need a new approach to engineering not just rivers, but the whole landscape. The UK’s Environment Agency -which has been granted an extra £150 million a year to spend in the wake of floods in 2000 that cost the country £1 billion- puts it like this: “The focus is now on working with the forces of nature. Towering concrete walks are out, and new wetlands : are in.” To help keep London’s feet dry, the agency is breaking the Thames’s banks upstream and reflooding 10 square kilometres of ancient flood plain at Otmoor outside Oxford. Nearer to London it has spent £100 million creating new wetlands and a relief channel across 16 kilometres of flood plain to protect the town of Maidenhead, as well as the ancient playing fields of Eton College. And near the south coast, the agency is digging out channels to reconnect old meanders on the river Cuckmere in East Sussex that were cut off by flood banks 150 years ago.</p>
+<p><strong>E</strong> The same is taking place on a much grander scale in Austria, in one of Europe’s largest river restorations to date. Engineers are regenerating flood plains along 60 kilometres of the river Drava as it exits the Alps. They are also widening the river bed and channelling it back into abandoned meanders, oxbow lakes and backwaters overhung with willows. The engineers calculate that the restored flood plain can now store up to 10 million cubic metres of flood waters and slow storm surges coming out of the Alps by more than an hour, protecting towns as far downstream as Slovenia and Croatia.</p>
+<p><strong>F</strong> “Rivers have to be allowed to take more space. They have to be turned from flood-chutes into flood-foilers,” says Nienhuis. And the Dutch, for whom preventing floods is a matter of survival, have gone furthest. A nation built largely on drained marshes and seabed had the fright of its life in 1993 when the Rhine almost overwhelmed it. The same happened again in 1995, when a quarter of a million people were evacuated from the Netherlands. But a new breed of “soft engineers” wants our cities to become porous, and Berlin is their shining example. Since reunification, the city’s massive redevelopment has been governed by tough new rules to prevent its drains becoming overloaded after heavy rains. Harald Kraft, an architect working in the city, says: “We now see rainwater as a resource to be kept rather than got rid of at great cost.” A good illustration is the giant Potsdamer Platz, a huge new commercial redevelopment by Daimler Chrysler in the heart of the city.</p>
+<p><strong>G</strong> Los Angeles has spent billions of dollars digging huge drains and concreting river beds to carry away the water from occasional intense storms. The latest plan is to spend a cool $280 million raising the concrete walls on the Los Angeles river by another 2 metres. Yet many communities still flood regularly. Meanwhile this desert city is shipping in water from hundreds of kilometres away in northern California and from the Colorado river in Arizona to fill its taps and swimming pools, and irrigate its green spaces. It all sounds like bad planning. “In LA we receive half the water we need in rainfall, and we throw it away. Then we spend hundreds of millions to import water,” says Andy Lipkis, an LA environmentalist, along with citizen groups like Friends of the Los Angeles River and Unpaved LA, want to beat the urban flood hazard and fill the taps by holding onto the city’s flood water. And it’s not just a pipe dream. The authorities this year launched a $100 million scheme to road-test the porous city in one flood-hit community in Sun Valley. The plan is to catch the rain that falls on thousands of driveways, parking lots and rooftops in the valley. Trees will soak up water from parking lots. Homes and public buildings will capture roof water to irrigate gardens and parks. And road drains will empty into old gravel pits and other leaky places that should recharge the city’s underground water reserves. Result: less flooding and more water for the city. Plan B says every city should be porous, every river should have room to flood naturally and every coastline should be left to build its own defences. It sounds expensive and utopian, until you realise how much we spend trying to drain cities and protect our watery margins -and how bad we are at it.</p>
+<p><strong>Questions 14-19</strong>
 Reading Passage 2 has seven paragraphs, A-G. Which paragraph contains the following information?</p>
 <p>14. a new approach carried out in the UK
 15. the reason why twisty path and dykes failed
@@ -150,20 +206,20 @@ Reading Passage 2 has seven paragraphs, A-G. Which paragraph contains the follow
 17. traditional way of tackling flood
 18. efforts made in Netherlands and Germany
 19. one project on a river that benefits three nations</p>
-<p>Questions 20-23
+<p><strong>Questions 20-23</strong>
 Do the following statements agree with the information given in Reading Passage 2? In boxes 20-23 on you answer sheet, write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>20. In the ancient times, the people in Europe made their efforts to improve the river banks, so the flood was becoming less severe than before.
 21. Flood makes river shorter than it used to be, which means faster speed and more damage to the constructions on flood plain.
 22. The new approach in the UK is better than that in Austria.
 23. At least 300,000 people left from Netherlands in 1995.</p>
-<p>Questions 24-26
-Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+<p><strong>Questions 24-26</strong>
+Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>UK’s Environment Agency carried out one innovative approach: a wetland is generated not far from the city of (24)……………………………to protect it from flooding, (25)…………………………..suggested that cities should be porous, and Berlin set a good example.</p>
 <p>Another city devastated by heavy storms casually is (26)……………………….though government pours billions of dollars each year in order to solve the problem.</p>
-<p>What Do Babies Know?</p>
+<p><strong>What Do Babies Know?</strong></p>
 <p>As Daniel Haworth is settled into a high chair and wheeled behind a black screen, a sudden look of worry furrows his 9-month-old brow. His dark blue eyes dart left and right in search of the familiar reassurance of his mother’s face. She calls his name and makes soothing noises, but Daniel senses something unusual is happening. He sucks his fingers for comfort, but, finding no solace, his month crumples, his body stiffens, and he lets rip an almighty shriek of distress. This is the usual expression when babies are left alone or abandoned. Mom picks him up, reassures him, and two minutes later, a chortling and alert Daniel returns to the darkened booth behind the screen and submits himself to baby lab, a unit set up in 2005 at the University of Manchester in northwest England to investigate how babies think.</p>
 <p>Watching infants piece life together, seeing their senses, emotions and motor skills take shape, is a source of mystery and endless fascination—at least to parents and developmental psychologists. We can decode their signals of distress or read a million messages into their first smile. But how much do we really know about what’s going on behind those wide, innocent eyes? How much of their understanding of and response to the world comes preloaded at birth? How much is built from scratch by experience? Such are the questions being explored at baby lab. Though the facility is just 18 months old and has tested only 100 infants, it’s already challenging current thinking on what babies know and how they come to know it.</p>
 <p>Daniel is now engrossed in watching video clips of a red toy train on a circular track. The train disappears into a tunnel and emerges on the other side. A hidden device above the screen is tracking Daniel’s eyes as they follow the train and measuring the diametre of his pupils 50 times a second. As the child gets bored—or “habituated”, as psychologists call the process— his attention level steadily drops. But it picks up a little whenever some novelty is introduced. The train might be green, or it might be blue. And sometimes an impossible thing happens— the train goes into the tunnel one color and comes out another.</p>
@@ -171,47 +227,47 @@ Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for
 <p>What Sirois and his postgraduate assistant Lain Jackson are challenging is the interpretation of a variety of classic experiments begun in the mid-1980s in which babies were shown physical events that appeared to violate such basic concepts as gravity, solidity and contiguity. In one such experiment, by University of Illinois psychologist Renee Baillargeon, a hinged wooden panel appeared to pass right through a box. Baillargeon and M.I.T’s Elizabeth Spelke found that babies as young as 3 1/2 months would reliably look longer at the impossible event than at the normal one. Their conclusion: babies have enough built-in knowledge to recognise that something is wrong.</p>
 <p>Sirois does not take issue with the way these experiments were conducted. “The methods are correct and replicable,” he says, “it’s the interpretation that’s the problem.” In a critical review to be published in the forthcoming issue of the European Journal of Developmental Psychology, he and Jackson pour cold water over recent experiments that claim to have observed innate or precocious social cognition skills in infants. His own experiments indicate that a baby’s fascination with physically impossible events merely reflects a response to stimuli that are novel. Data from the eye tracker and the measurement of the pupils (which widen in response to arousal or interest) show that impossible events involving familiar objects are no more interesting than possible events involving novel objects. In other words, when Daniel had seen the red train come out of the tunnel green a few times, he gets as bored as when it stays the same color. The mistake of previous research, says Sirois, has been to leap to the conclusion that infants can understand the concept of impossibility from the mere fact that they are able to perceive some novelty in it. “The real explanation is boring,” he says.</p>
 <p>So how do babies bridge the gap between knowing squat and drawing triangles—a task Daniel’s sister Lois, 2 1/2, is happily tackling as she waits for her brother? “Babies have to learn everything, but as Piaget was saying, they start with a few primitive reflexes that get things going,” said Sirois. For example, hardwired in the brain is an instinct that draws a baby’s eyes to a human face. From brain imaging studies we also know that the brain has some sort of visual buffer that continues to represent objects after they have been removed—a lingering perception rather than conceptual understanding. So when babies encounter novel or unexpected events, Sirois explains, “there’s a mismatch between the buffer and the information they’re getting at that moment. And what you do when you’ve got a mismatch is you try to clear the buffer. And that takes attention.” So learning, says Sirois, is essentially the laborious business of resolving mismatches. “The thing is, you can do a lot of it with this wet sticky thing called a brain. It’s a fantastic, statistical-learning machine”. Daniel, exams ended, picks up a plastic tiger and, chewing thoughtfully upon its heat, smiles as if to agree.</p>
-<p>Questions 27-32
+<p><strong>Questions 27-32</strong>
 Do the following statements agree with the information given in Reading Passage 3? In boxes 27-32 on you answer sheet, write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>27. Baby’s behavior after being abandoned is not surprising.
 28. Parents are over-estimating what babies know.
 29. Only 100 experiments have been done but can prove the theories about what we know.
 30. Piaget’s theory was rejected by parents in 1920s.
 31. Sylvain Sirois’s conclusion on infant’s cognition is similar to Piaget’s.
 32. Sylvain Sirois found serious flaws in the experimental designs by Baillargeon and Elizabeth Spelke.</p>
-<p>Questions 33-37
+<p><strong>Questions 33-37</strong>
 Complete each sentence with the correct ending, A-E, below. Write the correct letter, A-E, in boxes 33-37 on your answer sheet.</p>
 <p>33. Jean Piaget thinks infants younger than 9 months won’t know something existing
 34. Jean Piaget thinks babies only get the knowledge
 35. Some cognitive scientists think babies have the mechanism to learn a language
 36. Sylvain Sirois thinks that babies can reflect a response to stimuli that are novel
 37. Sylvain Sirois thinks babies’ attention level will drop</p>
-<p>A before they are born.
-B before they learn from experience.
-C when they had seen the same thing for a while.
-D when facing the possible and impossible events.
-E when the previous things appear again in the lives.</p>
-<p>Questions 38-40
+<p><strong>A</strong> before they are born.
+<strong>B</strong> before they learn from experience.
+<strong>C</strong> when they had seen the same thing for a while.
+<strong>D</strong> when facing the possible and impossible events.
+<strong>E</strong> when the previous things appear again in the lives.</p>
+<p><strong>Questions 38-40</strong>
 Choose the correct letter, A, B, C or D. Write the correct letter in boxes 38-40 on your answer sheet.</p>
 <p>38. What can we know about Daniel in the third paragraph?
-A Daniel’s attention level rose when he saw a blue train.
-B Kid’s attention fell when he was accustomed to the changes.
-C Child’s brain activity was monitored by a special equipment.
-D Size of the train changed when it came out of the tunnel.</p>
+<strong>A</strong> Daniel’s attention level rose when he saw a blue train.
+<strong>B</strong> Kid’s attention fell when he was accustomed to the changes.
+<strong>C</strong> Child’s brain activity was monitored by a special equipment.
+<strong>D</strong> Size of the train changed when it came out of the tunnel.</p>
 <p>39. What can we know from the writer in the fourth paragraph?
-A The theories about what baby knows changed over time.
-B Why the experiments that had been done before were rejected.
-C Infants have the innate knowledge to know the external environment.
-D Piaget’s “constructivist” theories were massively influential on parents.</p>
+<strong>A</strong> The theories about what baby knows changed over time.
+<strong>B</strong> Why the experiments that had been done before were rejected.
+<strong>C</strong> Infants have the innate knowledge to know the external environment.
+<strong>D</strong> Piaget’s “constructivist” theories were massively influential on parents.</p>
 <p>40. What can we know from the argument of the experiment about the baby in the sixth paragraph?
-A Infants are attracted by various colours of the trains all the time.
-B Sylvain Sirois accuses misleading approaches of current experiments.
-C Sylvain Sirois indicates that only impossible events make children interested.
-D Sylvain Sirois suggests that novel things attract baby’s attention.</p>
-<p>ANSWER KEY</p>
+<strong>A</strong> Infants are attracted by various colours of the trains all the time.
+<strong>B</strong> Sylvain Sirois accuses misleading approaches of current experiments.
+<strong>C</strong> Sylvain Sirois indicates that only impossible events make children interested.
+<strong>D</strong> Sylvain Sirois suggests that novel things attract baby’s attention.</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. False</p>
 <p>2. True</p>
 <p>3. NG</p>
@@ -470,6 +526,29 @@ D Sylvain Sirois suggests that novel things attract baby’s attention.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -489,12 +568,23 @@ D Sylvain Sirois suggests that novel things attract baby’s attention.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -506,14 +596,6 @@ D Sylvain Sirois suggests that novel things attract baby’s attention.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

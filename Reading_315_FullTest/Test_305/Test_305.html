@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,18 +158,18 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_305</h1>
-            <p>IELTS Reading Practice - Test 305</p>
-<p>PROJECT: Reform Of The Prison System In The UK</p>
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 305</strong></h3>
+<h3 class="test-heading"><strong>PROJECT: Reform Of The Prison System In The UK</strong></h3>
 <p>Penal progress:</p>
-<p>The UK’s large prison population is fuelled by a high level of recidivism – when criminals repeatedly relapse into crime. This project for a model prison tackles issues of architecture, management and funding in an enlightened attempt to achieve lasting rehabilitation.</p>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>The UK’s large prison population is fuelled by a high level of recidivism – when criminals repeatedly relapse into crime. This project for a model prison tackles issues of architecture, management and funding in an enlightened attempt to achieve lasting rehabilitation.</p></div></div>
 <p>Project:</p>
-<p>The penal system is one of the most direct manifestations of the power of the state, but is often also a revealing reflection of the national psyche and the public’s attitude to punishment and rehabilitation. Surprisingly, for a prosperous, progressive Western democracy, the UK has a lamentable penal record. Britain’s prison population is currently in excess of 60,000 (up 50 per cent from a decade ago) making it the second largest in Europe. The average cost of keeping an individual prisoner incarcerated for a year is £27,000 (ten times the average expenditure on a secondary school pupil in the state sector). Despite such substantial investment, over half of British prisoners re-offend within two years of release.</p>
-<p>Such high rates of recidivism is a serious problem. It means that the prison population is continuing to grow at an alarming rate (recently by as many as 700 a week), so overcrowding is endemic, hampering opportunities for education and rehabilitation and lowering staff and prisoner morale. To ease this pressure, the UK government is investing in the prison estate at historic levels, with 12,000 new prison places proposed within the next few years. Yet, like their nineteenth-century predecessors, Britain’s ‘new Victorian’ prisons are designed for security and control rather than for the rehabilitation and education which is increasingly recognised as what prisoners need. Most are poorly educated young men under 30 (at least 60 per cent of whom are functionally illiterate and innumerate), so without education and skills few will be able to build meaningful lives away from crime, no matter how often they go to prison, or how long they spend there.</p>
-<p>Any transformation of the penal system must start with the redesign of prison buildings. Prison architecture has a clearly discernible effect on behaviour, operational efficiency, interaction and morale. Last year, architects Buschow Henley were commissioned by a think tank organisation working with the Home Office Prison Service to research and develop an alternative prison model that focuses more intensely on rehabilitation through a concentrated programme of intellectual, physical and social education. The model is not intended as a blueprint but rather a series of principles that might be adapted to support the wider concept of the ‘Learning Prison’ in which other aspects such as organisation, management and funding would obviously play a part. Key to this is the introduction of a system that groups together prisoners in small communities or ‘houses’ of between 30 and 40 inmates. This has two important consequences. First, the more compact spatial organisation of the house reduces staff time spent on supervising and escorting prisoners. Second, the system places educational and other facilities at the heart of the building, within easy reach at all times of day, reinforced by a supportive social environment. This model also enables resources to be dramatically redeployed, from a current estimated ratio of 80:20 (costs of security versus rehabilitation) to a predicted reversed figure of 20:80, freeing up much-needed funds to invest in educational programmes, thereby helping to promote rehabilitation, reduce recidivism and initiate a virtuous cycle.</p>
-<p>In Buschow Henley’s scheme, the proposed group size of 30-40 has the potential for social accountability – each prisoner being known within the community and personally accountable for his behaviour. Houses are semi-autonomous, not just dormitories, with communal, as opposed to centralised, facilities. Circulation is simplified and reduced. Buildings are arranged in a chess-board formation, as opposed to pavilions marooned in space, each with a discrete external area that can be productively used for sport, games or gardening with a minimum of supervision.</p>
-<p>Individual cells are replanned to make them less like domestic lavatories and more conducive to learning. In an inversion of the conventional layout, the bed is placed lengthways along the external wall at a higher level, freeing up space below. Storage is built next to where they sleep and each inmate is provided with a moveable table equipped with electronic tools for study. Washing facilities are contained in a small adjoining space (included in the basic 8 sqm allowance) so reducing pressure on prison staff to manage inmate hygiene and ablution. Each cell is paired with a neighbouring ‘buddy’ cell linked by sliding doors controlled by individual prisoners to mitigate the risk of self-harm.</p>
-<p>While this new type of prison appears to be somewhat liberal, the arrangement of spaces and functions both inside and out is actually tightly controlled. Paradoxically, however, this proscription enables a greater range of activities to take place, and makes general supervision easier. In this environment the prisoners are judged not by their degree of conformity, but by the scope of their activities and achievements, so laying the foundations for genuine rehabilitation. As Martin Narey, Director General of the UK Prison Services observes, ‘We have got to accept that prison must be a humane and constructive place, not least because all but 23 of my population are going home some day.</p>
-<p>Questions 1-5
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>The penal system is one of the most direct manifestations of the power of the state, but is often also a revealing reflection of the national psyche and the public’s attitude to punishment and rehabilitation. Surprisingly, for a prosperous, progressive Western democracy, the UK has a lamentable penal record. Britain’s prison population is currently in excess of 60,000 (up 50 per cent from a decade ago) making it the second largest in Europe. The average cost of keeping an individual prisoner incarcerated for a year is £27,000 (ten times the average expenditure on a secondary school pupil in the state sector). Despite such substantial investment, over half of British prisoners re-offend within two years of release.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Such high rates of recidivism is a serious problem. It means that the prison population is continuing to grow at an alarming rate (recently by as many as 700 a week), so overcrowding is endemic, hampering opportunities for education and rehabilitation and lowering staff and prisoner morale. To ease this pressure, the UK government is investing in the prison estate at historic levels, with 12,000 new prison places proposed within the next few years. Yet, like their nineteenth-century predecessors, Britain’s ‘new Victorian’ prisons are designed for security and control rather than for the rehabilitation and education which is increasingly recognised as what prisoners need. Most are poorly educated young men under 30 (at least 60 per cent of whom are functionally illiterate and innumerate), so without education and skills few will be able to build meaningful lives away from crime, no matter how often they go to prison, or how long they spend there.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Any transformation of the penal system must start with the redesign of prison buildings. Prison architecture has a clearly discernible effect on behaviour, operational efficiency, interaction and morale. Last year, architects Buschow Henley were commissioned by a think tank organisation working with the Home Office Prison Service to research and develop an alternative prison model that focuses more intensely on rehabilitation through a concentrated programme of intellectual, physical and social education. The model is not intended as a blueprint but rather a series of principles that might be adapted to support the wider concept of the ‘Learning Prison’ in which other aspects such as organisation, management and funding would obviously play a part. Key to this is the introduction of a system that groups together prisoners in small communities or ‘houses’ of between 30 and 40 inmates. This has two important consequences. First, the more compact spatial organisation of the house reduces staff time spent on supervising and escorting prisoners. Second, the system places educational and other facilities at the heart of the building, within easy reach at all times of day, reinforced by a supportive social environment. This model also enables resources to be dramatically redeployed, from a current estimated ratio of 80:20 (costs of security versus rehabilitation) to a predicted reversed figure of 20:80, freeing up much-needed funds to invest in educational programmes, thereby helping to promote rehabilitation, reduce recidivism and initiate a virtuous cycle.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>In Buschow Henley’s scheme, the proposed group size of 30-40 has the potential for social accountability – each prisoner being known within the community and personally accountable for his behaviour. Houses are semi-autonomous, not just dormitories, with communal, as opposed to centralised, facilities. Circulation is simplified and reduced. Buildings are arranged in a chess-board formation, as opposed to pavilions marooned in space, each with a discrete external area that can be productively used for sport, games or gardening with a minimum of supervision.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Individual cells are replanned to make them less like domestic lavatories and more conducive to learning. In an inversion of the conventional layout, the bed is placed lengthways along the external wall at a higher level, freeing up space below. Storage is built next to where they sleep and each inmate is provided with a moveable table equipped with electronic tools for study. Washing facilities are contained in a small adjoining space (included in the basic 8 sqm allowance) so reducing pressure on prison staff to manage inmate hygiene and ablution. Each cell is paired with a neighbouring ‘buddy’ cell linked by sliding doors controlled by individual prisoners to mitigate the risk of self-harm.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>While this new type of prison appears to be somewhat liberal, the arrangement of spaces and functions both inside and out is actually tightly controlled. Paradoxically, however, this proscription enables a greater range of activities to take place, and makes general supervision easier. In this environment the prisoners are judged not by their degree of conformity, but by the scope of their activities and achievements, so laying the foundations for genuine rehabilitation. As Martin Narey, Director General of the UK Prison Services observes, ‘We have got to accept that prison must be a humane and constructive place, not least because all but 23 of my population are going home some day.</p></div></div>
+<p><strong>Questions 1-5</strong>
 
 Complete each sentence with the correct ending, A – H, below. Write the correct letter A – H in spaces 1-5 below.</p>
 <p>A. improved security, supervision and education.
@@ -131,49 +187,49 @@ F. an alternative prison model
 G. a learning environment rather than a punitive compound
 
 H. organisation, management and funding.</p>
-<p>Question 6-9
+<p><strong>Question 6-9</strong>
 
 Choose the correct letter A, B, C or D.</p>
 <p>6. The proposal to create 12,000 new prison places, within the next few years, indicates that
 
-A prison cells are too small.
+<strong>A</strong> prison cells are too small.
 
-B a lot of money is invested into educating offenders.
+<strong>B</strong> a lot of money is invested into educating offenders.
 
-C there is an increasing population of offenders in the UK.
+<strong>C</strong> there is an increasing population of offenders in the UK.
 
-D the government is getting tougher on offenders.</p>
+<strong>D</strong> the government is getting tougher on offenders.</p>
 <p>7. The proposed changes to prison architecture are designed primarily to
 
-A improve the aesthetic value of the building.
+<strong>A</strong> improve the aesthetic value of the building.
 
-B boost self-esteem and social behaviour.
+<strong>B</strong> boost self-esteem and social behaviour.
 
-C allow prisoners more living space.
+<strong>C</strong> allow prisoners more living space.
 
-D increase running costs within prisons.</p>
+<strong>D</strong> increase running costs within prisons.</p>
 <p>8. The project to reform the penal system in the UK
 
-A must begin by altering the prisons’ designs.
+<strong>A</strong> must begin by altering the prisons’ designs.
 
-B is inexpensive.
+<strong>B</strong> is inexpensive.
 
-C will eliminate the need for supervision.
+<strong>C</strong> will eliminate the need for supervision.
 
-D is, primarily, to make prisoners more comfortable.</p>
+<strong>D</strong> is, primarily, to make prisoners more comfortable.</p>
 <p>9. Why is the bed placed lengthways along the external wall at high level?
 
-A to make room below for washing facilities
+<strong>A</strong> to make room below for washing facilities
 
-B for the improvement of the inmates’ hygiene
+<strong>B</strong> for the improvement of the inmates’ hygiene
 
-C to allow room below for storage and shelves
+<strong>C</strong> to allow room below for storage and shelves
 
-D to make room for sliding doors</p>
-<p>Questions 10-13
+<strong>D</strong> to make room for sliding doors</p>
+<p><strong>Questions 10-13</strong>
 
-Label the diagram, below. Write NO MORE THAN THREE WORDS from, the passage for each answer.</p>
-<p>Special Olympics Conditions of Participation</p>
+Label the diagram, below. Write <strong>NO MORE THAN THREE WORDS</strong> from, the passage for each answer.</p>
+<p><strong>Special Olympics Conditions of Participation</strong></p>
 <p>To be eligible for participation in the Special Olympics an individual with an intellectual disability must agree to observe and abide by the SOC Sports Rules. ‘Mental Retardation’ refers to substantial limitations in present functioning. It is characterised by significantly sub-average intellectual functioning, existing concurrently with related limitations in two or more of the following applicable adaptive skill areas: communication, self-care, home living, social skills, community use, self-direction, health and safety, functional academics, leisure and work. Mental retardation manifests itself before the age of 18. The following four assumptions are essential to the application of the definition:</p>
 <p>1. Valid assessment considers cultural and linguistic diversity as well as differences in communication and behavioural factors.</p>
 <p>2. The existence of limitations in adaptive skills occurs within the context of community environments typical of the individual’s age-peers and is indexed to the person’s individualised needs for support.</p>
@@ -189,14 +245,14 @@ Label the diagram, below. Write NO MORE THAN THREE WORDS from, the passage for e
 <p>4) It is the responsibility of parents/guardians to monitor the individual and take appropriate action if neurological symptoms appear.</p>
 <p>Terminology note: the term intellectual disability is used to replace the clinical term of Mental Retardation. Intellectual disability is not a disease, nor should it be confused with mental illness. People with mental disabilities have both a slower rate of learning and a limited capacity to learn. They may also have difficulty managing the ordinary activities of daily living, understanding the behaviour of others, and determining their own appropriate social responses (adaptive behaviour). Children with intellectual disabilities grow into adults with intellectual disabilities; they do not remain ‘eternal children’.</p>
 <p>People with intellectual disabilities constitute one of the largest groups of citizens with disabilities. There are an estimated 156 million individuals in the world who have intellectual disabilities. Intellectual disability cuts across lines of race, education, and social and economic background. It can occur in anyone. Hereditary components are known to account for only a fraction of the cases of intellectual disability. There are well over 350 causes of intellectual disability and in three-quarters of the cases the specific cause is unknown. About 87 percent of all people with intellectual disabilities are mildly afflicted and in many respects are indistinguishable from people who do not have intellectual disabilities.</p>
-<p>Questions 14-20
+<p><strong>Questions 14-20</strong>
 
 Do the following statements agree with the information given in reading passage? In spaces 14-20 below, write</p>
-<p>TRUE                       if the statement agrees with the information
+<p><strong>TRUE</strong>                       if the statement agrees with the information
 
-FALSE                      if the statement contradicts the information
+<strong>FALSE</strong>                      if the statement contradicts the information
 
-NOT GIVEN          if there is no information on this</p>
+<strong>NOT GIVEN</strong>          if there is no information on this</p>
 <p>14. To be eligible to take part in the Special Olympics, the athlete has to be not only less than intellectually capable, but must also be lacking in a number of other functions.
 
 15. People with intellectual disabilities never improve their lives.
@@ -210,51 +266,51 @@ NOT GIVEN          if there is no information on this</p>
 19. All people with intellectual disabilities need the written permission of a parent or guardian in order to participate.
 
 20. Participation in sports helps people with intellectual disabilities lo improve their communication and social skills.</p>
-<p>Questions 21-23
+<p><strong>Questions 21-23</strong>
 
 Choose the correct letter A, B, C or D.</p>
 <p>21. What were the objectives of the Special Olympics document?
 
-A to inform the public about what they are to expect from the Special Olympics
+<strong>A</strong> to inform the public about what they are to expect from the Special Olympics
 
-B to provide information for future candidates
+<strong>B</strong> to provide information for future candidates
 
-C to promote awareness in the general population of the plight of disabled people
+<strong>C</strong> to promote awareness in the general population of the plight of disabled people
 
-D to list the problems intellectually disabled people have</p>
+<strong>D</strong> to list the problems intellectually disabled people have</p>
 <p>22. What word best describes the Special Olympics participation policy?
 
-A inconsistent
+<strong>A</strong> inconsistent
 
-B ambiguous
+<strong>B</strong> ambiguous
 
-C controversial
+<strong>C</strong> controversial
 
-D non-discriminatory</p>
+<strong>D</strong> non-discriminatory</p>
 <p>23. What does the passage say about intellectual disability in the last paragraph?
 
-A The majority of cases are inherited.
+<strong>A</strong> The majority of cases are inherited.
 
-B Sufferers of the condition outnumber those with physical disabilities.
+<strong>B</strong> Sufferers of the condition outnumber those with physical disabilities.
 
-C In most cases, the cause of the condition cannot be determined.
+<strong>C</strong> In most cases, the cause of the condition cannot be determined.
 
-D It may be determined by race, education, or social and economic background.</p>
-<p>Questions 24-26
+<strong>D</strong> It may be determined by race, education, or social and economic background.</p>
+<p><strong>Questions 24-26</strong>
 
-Which THREE of the following facts relating to Down Syndrome are mentioned? Choose THREE letters A – F.</p>
-<p>A It is thought that about one Down Syndrome person in every seven has Atlantoaxial Instability
+Which <strong>THREE</strong> of the following facts relating to Down Syndrome are mentioned? Choose THREE letters A – F.</p>
+<p><strong>A</strong> It is thought that about one Down Syndrome person in every seven has Atlantoaxial Instability
 
-B A person with Down Syndrome cannot participate in any winter competitions.
+<strong>B</strong> A person with Down Syndrome cannot participate in any winter competitions.
 
-C Down Syndrome sufferers with Atlantoaxial Instability who are minors need permission from a guardian to play soccer.
+<strong>C</strong> Down Syndrome sufferers with Atlantoaxial Instability who are minors need permission from a guardian to play soccer.
 
-D Down Syndrome sufferers are unable to flex the upper spine.
+<strong>D</strong> Down Syndrome sufferers are unable to flex the upper spine.
 
-E Down Syndrome athletes need to wear a neck brace to participate in the Special Olympics.
+<strong>E</strong> Down Syndrome athletes need to wear a neck brace to participate in the Special Olympics.
 
-F Down Syndrome athletes can take part in sports that do not directly affect the neck or spine without any preconditions being fulfilled.</p>
-<p>Migrants and Refugees: Racial Discrimination and Xenophobia</p>
+<strong>F</strong> Down Syndrome athletes can take part in sports that do not directly affect the neck or spine without any preconditions being fulfilled.</p>
+<p><strong>Migrants and Refugees: Racial Discrimination and Xenophobia</strong></p>
 <p>Today, one in every 50 human beings is a migrant worker, a refugee or asylum seeker, or an immigrant living in a foreign country. Current estimates by the United Nations and the International Organisation for Migration indicate that some 150 million people live temporarily or permanently outside their countries of origin (2.5% of the world population). Many of these, 80-97 million, are estimated to be migrant workers with members of their families. Another 12 million are refugees outside their country of origin. These figures do not include the estimated 20 million Internally Displaced Persons forcibly displaced within their own country, nor the tens of millions more of internal migrants, mainly rural to urban, in countries around the world.</p>
 <p>Increasing ethnic and racial diversity of societies is the inevitable consequence of migration. Increasing migration means that a growing number of states have become or are becoming more multi-ethnic, and are confronted with the challenge of accommodating peoples of different cultures, races, religions and languages. Addressing the reality of increased diversity means finding political, legal, social and economic mechanisms to ensure mutual respect and to mediate relations across differences. But xenophobia and racism have become manifest in some societies which have received substantial numbers of immigrants, as workers or as asylum-seekers. In those countries the migrants have become the targets in internal disputes about national identity. In the last few decades, the emergence of new nation states has often been accompanied by ethnic exclusion.</p>
 <p>As governments grapple with the new realities of their multi-ethnic societies, there has been a marked increase in discrimination and violence directed against migrants, refugees and other non-nationals by extremist groups in many parts of the world. The lack of any systematic documentation or research over time makes it unclear whether there is a real increase in the level of abuse or in the level of exposure and reporting. Unfortunately, there is more than enough anecdotal evidence to show that violations of the human rights of migrants, refugees and other non-nationals are so generalised, widespread and commonplace that they are a defining feature of international migration today.</p>
@@ -264,7 +320,7 @@ F Down Syndrome athletes can take part in sports that do not directly affect the
 <p>– Racism is an ideological construct that assigns a certain race and/or ethnic group, to a position of power over others on the basis of physical and cultural attributes, as well as economic wealth, involving hierarchical relations where the superior race exercises domination and control over others.</p>
 <p>– Xenophobia describes attitudes, prejudices and behaviour that reject, exclude and often vilify persons, based on the perception that they are outsiders or foreigners in the community, society or with respect to national identity.</p>
 <p>In many cases, it is difficult to distinguish between racism and xenophobia as motivations for behaviour, since differences in physical characteristics are often assumed to distinguish a person from the common identity. However, manifestations of xenophobia occur against people of identical physical characteristics, even of shared ancestry, when such people arrive, return or migrate to states or areas where occupants consider them outsiders.</p>
-<p>Questions 27-30
+<p><strong>Questions 27-30</strong>
 
 Complete each sentence with the correct ending, A – F, below. Write the correct letter, A – F, in the spaces below.</p>
 <p>27. An upward trend in violence perpetrated against non-national minority groups by radical nationals
@@ -285,53 +341,53 @@ D. has been observed in many different parts of the world.
 E. will eventually reach a position of total submission.
 
 F. has a controlling hand in the affairs of one or more of the other sections of society.</p>
-<p>Questions 31-34
+<p><strong>Questions 31-34</strong>
 
 Choose the correct letter A, B, C or D.</p>
 <p>31. Which of the following migrants are there more of?
 
-A internally displaced persons
+<strong>A</strong> internally displaced persons
 
-B refugees
+<strong>B</strong> refugees
 
-C internal migrants
+<strong>C</strong> internal migrants
 
-D immigrant workers</p>
+<strong>D</strong> immigrant workers</p>
 <p>32. The author of the text believes that
 
-A racism is inevitable when people emigrate.
+<strong>A</strong> racism is inevitable when people emigrate.
 
-B governments are finding it difficult to stop racism and xenophobia.
+<strong>B</strong> governments are finding it difficult to stop racism and xenophobia.
 
-C the exploitation of minority groups deters others from migrating.
+<strong>C</strong> the exploitation of minority groups deters others from migrating.
 
-D xenophobia does not exist within minority groups.</p>
+<strong>D</strong> xenophobia does not exist within minority groups.</p>
 <p>33. There is no real way of knowing how many migrants are discriminated against because
 
-A not all racial abuse cases are documented or looked into.
+<strong>A</strong> not all racial abuse cases are documented or looked into.
 
-B the number of migrants is increasing at an alarming rate.
+<strong>B</strong> the number of migrants is increasing at an alarming rate.
 
-C migrants don’t complain about being abused.
+<strong>C</strong> migrants don’t complain about being abused.
 
-D only serious cases are documented.</p>
+<strong>D</strong> only serious cases are documented.</p>
 <p>34. People in authority sometimes
 
-A exaggerate the seriousness of the problem.
+<strong>A</strong> exaggerate the seriousness of the problem.
 
-B create the problem.
+<strong>B</strong> create the problem.
 
-C deny there is a problem.
+<strong>C</strong> deny there is a problem.
 
-D are eager to solve the problem.</p>
-<p>Questions 35-40
+<strong>D</strong> are eager to solve the problem.</p>
+<p><strong>Questions 35-40</strong>
 
 Do the following statements agree with the information given in reading passage? In spaces 35 – 40 below, write</p>
-<p>TRUE                           if the statement agrees with the information
+<p><strong>TRUE</strong>                           if the statement agrees with the information
 
-FALSE                         if the statement contradicts the information
+<strong>FALSE</strong>                         if the statement contradicts the information
 
-NOT GIVEN              if there is no information on this</p>
+<strong>NOT GIVEN</strong>              if there is no information on this</p>
 <p>35. Most migrants flee their country of origin because of political or social disorder.
 
 36. Most internal migrants leave the countryside for the cities.
@@ -343,7 +399,7 @@ NOT GIVEN              if there is no information on this</p>
 39. People who are racist or xenophobic are uneducated and hostile.
 
 40. People returning to their country of ancestry do not face xenophobia.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. E</p>
 <p>2. B</p>
 <p>3. G</p>
@@ -602,6 +658,29 @@ NOT GIVEN              if there is no information on this</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -621,12 +700,23 @@ NOT GIVEN              if there is no information on this</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -638,14 +728,6 @@ NOT GIVEN              if there is no information on this</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

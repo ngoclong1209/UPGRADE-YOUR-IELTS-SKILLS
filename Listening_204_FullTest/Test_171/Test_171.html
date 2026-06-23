@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,124 +158,124 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_171</h1>
-            <p>IELTS Listening Practice - Test 171</p>
-<p>Part 1:Questions 1-5
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 171</strong></h3>
+<p><strong>Part 1:</strong><strong>Questions 1-5</strong>
 Circle the appropriate letter.</p>
 <p>1. A [ ]  B [ ]  C [ ]  D [ ] 
 2. A [ ]  B [ ]  C [ ]  D [ ]</p>
 <p>3 What did she have inside her briefcase?
-[ ]  A wallet, pens and novel
-[ ]  B papers and wallet
-[ ]  C pens and novel
-[ ]  D papers, pen and novel</p>
+<strong>[ ] </strong><strong> A</strong> wallet, pens and novel
+<strong>[ ] </strong><strong> B</strong> papers and wallet
+<strong>[ ] </strong><strong> C</strong> pens and novel
+<strong>[ ] </strong><strong> D</strong> papers, pen and novel</p>
 <p>A [ ] 
 B [ ] 
 C [ ] 
 D [ ]</p>
-<p>5 What time was it when she lost her briefcase?
-[ ]  A 5.20
-[ ]  B 5.25
-[ ]  C 5.30
-[ ]  D 5.55</p>
-<p>Questions 6-10
-Complete the form Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>PERSONAL DETAILS FORM
-Name: Mary (6)  _______ 
-Address: Flat 2, (7)  _______  and (8)  _______  Road Canterbury
-Telephone: (9)  _______ 
-Estimated value of lost item: (10) £  _______</p>
-<p>Part 2: Questions 11-13
-Circle the THREE other items which are mentioned in the news headlines.</p>
-<p>NEWS HEADLINES
-[ ]  A Rivers flood in the north
-[ ]  B Money promised for drought victims – Example
-[ ]  C Nurses on strike in Melbourne
-[ ]  D Passengers rescued from ship
-[ ]  E Passengers rescued from plane
-[ ]  F Bus and train drivers national strike threat
-[ ]  G Teachers demand more pay
-[ ]  H New uniform for QANTAS staff
-[ ]  I National airports under new management</p>
-<p>Questions 14-21
-Complete the notes below by writing NO MORE THAN THREE WORDS in the spaces provided.</p>
-<p>The Government plans to give (14) $  _______  to assist the farmers. This money was to be spent on improving Sydney’s (15)  _______  but has now been re-allocated. Australia has experienced its worst drought in over fifty years. Farmers say that the money will not help them because it is (16)  _______</p>
-<p>An aeroplane which was carrying a group of (17)  _______  was forced to land just (18)  _______  minutes after take-off. The passengers were rescued by 
-(19)  _______  The operation was helped because of the good weather. The passengers thanked the (20)  _______  for saving their lives but unfortunately they lost their (21)  _______</p>
-<p>Part 3: Questions 22-25
+<h3 class="test-heading">5 What time was it when she lost her briefcase?
+<strong>[ ] </strong><strong> A</strong> 5.20
+<strong>[ ] </strong><strong> B</strong> 5.25
+<strong>[ ] </strong><strong> C</strong> 5.30
+<strong>[ ] </strong><strong> D</strong> 5.55</h3>
+<p><strong>Questions 6-10</strong>
+Complete the form Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p><strong>PERSONAL DETAILS FORM</strong>
+Name: Mary <strong>(6)</strong>  _______ 
+Address: Flat 2, <strong>(7)</strong>  _______  and <strong>(8)</strong>  _______  Road Canterbury
+Telephone: <strong>(9)</strong>  _______ 
+Estimated value of lost item: <strong>(10)</strong> £  _______</p>
+<p><strong>Part 2: Questions 11-13</strong>
+Circle the <strong>THREE</strong> other items which are mentioned in the news headlines.</p>
+<p><strong>NEWS HEADLINES</strong>
+<strong>[ ] </strong><strong> A</strong> Rivers flood in the north
+<strong>[ ] </strong><strong> B</strong> Money promised for drought victims – Example
+<strong>[ ] </strong><strong> C</strong> Nurses on strike in Melbourne
+<strong>[ ] </strong><strong> D</strong> Passengers rescued from ship
+<strong>[ ] </strong><strong> E</strong> Passengers rescued from plane
+<strong>[ ] </strong><strong> F</strong> Bus and train drivers national strike threat
+<strong>[ ] </strong><strong> G</strong> Teachers demand more pay
+<strong>[ ] </strong><strong> H</strong> New uniform for QANTAS staff
+<strong>[ ] </strong><strong> I</strong> National airports under new management</p>
+<p><strong>Questions 14-21</strong>
+Complete the notes below by writing <strong>NO MORE THAN THREE WORDS</strong> in the spaces provided.</p>
+<p>The Government plans to give <strong>(14)</strong> $  _______  to assist the farmers. This money was to be spent on improving Sydney’s <strong>(15)</strong>  _______  but has now been re-allocated. Australia has experienced its worst drought in over fifty years. Farmers say that the money will not help them because it is <strong>(16)</strong>  _______</p>
+<p>An aeroplane which was carrying a group of <strong>(17)</strong>  _______  was forced to land just <strong>(18)</strong>  _______  minutes after take-off. The passengers were rescued by 
+<strong>(19)</strong>  _______  The operation was helped because of the good weather. The passengers thanked the <strong>(20)</strong>  _______  for saving their lives but unfortunately they lost their <strong>(21)</strong>  _______</p>
+<p><strong>Part 3: Questions 22-25</strong>
 Circle the appropriate letter.</p>
 <p>22 The orientation meeting
-[ ]  A took place recently
-[ ]  B took place last term
-[ ]  C will take place tomorrow
-[ ]  D will take place next week</p>
+<strong>[ ] </strong><strong> A</strong> took place recently
+<strong>[ ] </strong><strong> B</strong> took place last term
+<strong>[ ] </strong><strong> C</strong> will take place tomorrow
+<strong>[ ] </strong><strong> D</strong> will take place next week</p>
 <p>23 Attendance at lectures is
-[ ]  A optional after 4 pm
-[ ]  B closely monitored
-[ ]  C difficult to enforce
-[ ]  D sometimes unnecessary</p>
+<strong>[ ] </strong><strong> A</strong> optional after 4 pm
+<strong>[ ] </strong><strong> B</strong> closely monitored
+<strong>[ ] </strong><strong> C</strong> difficult to enforce
+<strong>[ ] </strong><strong> D</strong> sometimes unnecessary</p>
 <p>24 Tutorials take place
-[ ]  A every morning
-[ ]  B twice a week
-[ ]  C three mornings a week
-[ ]  D three afternoons a week</p>
+<strong>[ ] </strong><strong> A</strong> every morning
+<strong>[ ] </strong><strong> B</strong> twice a week
+<strong>[ ] </strong><strong> C</strong> three mornings a week
+<strong>[ ] </strong><strong> D</strong> three afternoons a week</p>
 <p>25 The lecturer’s name is
-[ ]  A Roberts
-[ ]  B Rawson
-[ ]  C Rogers
-[ ]  D Robertson</p>
-<p>Questions 26-31
-Complete the notes below using NO MORE THAN THREE WORDS.</p>
-<p>Course Requirements
+<strong>[ ] </strong><strong> A</strong> Roberts
+<strong>[ ] </strong><strong> B</strong> Rawson
+<strong>[ ] </strong><strong> C</strong> Rogers
+<strong>[ ] </strong><strong> D</strong> Robertson</p>
+<p><strong>Questions 26-31</strong>
+Complete the notes below using <strong>NO MORE THAN THREE WORDS.</strong></p>
+<p><strong>Course Requirements</strong>
 Tutorial Paper:
 • A piece of work ON A given topic. Students must:
-• (26)  _______  for 25 minutes
-• (27)  _______ 
+• <strong>(26)</strong>  _______  for 25 minutes
+• <strong>(27)</strong>  _______ 
 • give to lecturer for marking</p>
-<p>Essay Topic: usually (28)  _______ 
-Type of exam: (29)  _______ 
-Library: important books are in (30)  _______ 
-Focus of course: focus on (31)  _______</p>
-<p>Part 4: Questions 32 and 33
+<p>Essay Topic: usually <strong>(28)</strong>  _______ 
+Type of exam: <strong>(29)</strong>  _______ 
+Library: important books are in <strong>(30)</strong>  _______ 
+Focus of course: focus on <strong>(31)</strong>  _______</p>
+<p><strong>Part 4: Questions 32 and 33</strong>
 Circle the appropriate letter.</p>
 <p>32 The speaker works within the Faculty of
-[ ]  A Science and Technology
-[ ]  B Arts and Social Sciences
-[ ]  C Architecture
-[ ]  D Law</p>
+<strong>[ ] </strong><strong> A</strong> Science and Technology
+<strong>[ ] </strong><strong> B</strong> Arts and Social Sciences
+<strong>[ ] </strong><strong> C</strong> Architecture
+<strong>[ ] </strong><strong> D</strong> Law</p>
 <p>33 The faculty consists firstly of
-[ ]  A subjects
-[ ]  B degrees
-[ ]  C divisions
-[ ]  D departments</p>
-<p>Questions 34-36
-Complete the notes with NO MORE THAN THREE WORDS.</p>
+<strong>[ ] </strong><strong> A</strong> subjects
+<strong>[ ] </strong><strong> B</strong> degrees
+<strong>[ ] </strong><strong> C</strong> divisions
+<strong>[ ] </strong><strong> D</strong> departments</p>
+<p><strong>Questions 34-36</strong>
+Complete the notes with <strong>NO MORE THAN THREE WORDS.</strong></p>
 <p>• The subjects taken in the first semester in this course are psychology, sociology, 
-(34)  _______  and  _______ 
-• Students may have problems with (35)  _______  and 
-(36)  _______</p>
-<p>Questions 37-40
+<strong>(34)</strong>  _______  and  _______ 
+• Students may have problems with <strong>(35)</strong>  _______  and 
+<strong>(36)</strong>  _______</p>
+<p><strong>Questions 37-40</strong>
 Circle the appropriate letter.</p>
 <p>37 The speaker says students can visit her
-[ ]  A every morning
-[ ]  B some mornings
-[ ]  C mornings only
-[ ]  D Friday morning</p>
+<strong>[ ] </strong><strong> A</strong> every morning
+<strong>[ ] </strong><strong> B</strong> some mornings
+<strong>[ ] </strong><strong> C</strong> mornings only
+<strong>[ ] </strong><strong> D</strong> Friday morning</p>
 <p>38 According to the speaker, a tutorial
-[ ]  A is a type of lecture
-[ ]  B is less important than a lecture
-[ ]  C provides a chance to share views
-[ ]  D provides an alternative to groupwork</p>
+<strong>[ ] </strong><strong> A</strong> is a type of lecture
+<strong>[ ] </strong><strong> B</strong> is less important than a lecture
+<strong>[ ] </strong><strong> C</strong> provides a chance to share views
+<strong>[ ] </strong><strong> D</strong> provides an alternative to groupwork</p>
 <p>39 When writing essays, the speaker advises the students to
-[ ]  A research their work well
-[ ]  B name the books they have read
-[ ]  C share work with their friends
-[ ]  D avoid using other writers’ ideas</p>
+<strong>[ ] </strong><strong> A</strong> research their work well
+<strong>[ ] </strong><strong> B</strong> name the books they have read
+<strong>[ ] </strong><strong> C</strong> share work with their friends
+<strong>[ ] </strong><strong> D</strong> avoid using other writers’ ideas</p>
 <p>40 The speaker thinks that plagiarism is
-[ ]  A a common problem
-[ ]  B an acceptable risk
-[ ]  C a minor concern
-[ ]  D a serious offence</p>
-<p>ANSWER KEY</p>
+<strong>[ ] </strong><strong> A</strong> a common problem
+<strong>[ ] </strong><strong> B</strong> an acceptable risk
+<strong>[ ] </strong><strong> C</strong> a minor concern
+<strong>[ ] </strong><strong> D</strong> a serious offence</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. A</p>
 <p>2. C</p>
 <p>3. D</p>
@@ -478,6 +534,29 @@ Circle the appropriate letter.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -497,12 +576,23 @@ Circle the appropriate letter.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -514,14 +604,6 @@ Circle the appropriate letter.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

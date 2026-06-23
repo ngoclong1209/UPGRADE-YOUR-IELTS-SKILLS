@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,28 +158,28 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_119</h1>
-            <p>IELTS Reading Practice - Test 119</p>
-<p>What is it that draws us to these creatures?</p>
-<p>“This inhuman place makes human monsters,” wrote Stephen King in his novel The Shining. Many academics agree that monsters lurk in the deepest recesses, they prowl through our ancestral minds appearing in the half-light, under the bed – or at the bottom of the sea.</p>
-<p>“They don’t really exist, but they play a huge role in our mindscapes, in our dreams, stories, nightmares, myths and so on,” says Matthias Classen, assistant professor of literature and media at Aarhus University in Denmark, who studies monsters in literature. “Monsters say something about human psychology, not the world.”</p>
-<p>One Norse legend talks of the Kraken, a deep sea creature that was the curse of fishermen. If sailors found a place with many fish, most likely it was the monster that was driving them to the surface. If it saw the ship it would pluck the hapless sailors from the boat and drag them to a watery grave.</p>
-<p>This terrifying legend occupied the mind and pen of the poet Alfred Lord Tennyson too. In his short 1830 poem The Kraken he wrote: “Below the thunders of the upper deep, / Far far beneath in the abysmal sea, / His ancient, dreamless, uninvaded sleep / The Kraken sleepeth.”</p>
-<p>The deeper we travel into the ocean, the deeper we delve into our own psyche. And when we can go no further – there lurks the Kraken.</p>
-<p>Most likely the Kraken is based on a real creature – the giant squid. The huge mollusc takes pride of place as the personification of the terrors of the deep sea. Sailors would have encountered it at the surface, dying, and probably thrashing about. It would have made a weird sight, “about the most alien thing you can imagine,” says Edith Widder, CEO at the Ocean Research and Conservation Association.</p>
-<p>“It has eight lashing arms and two slashing tentacles growing straight out of its head and it’s got serrated suckers that can latch on to the slimiest of prey and it’s got a parrot beak that can rip flesh. It’s got an eye the size of your head, it’s got a jet propulsion system and three hearts that pump blue blood.”</p>
-<p>The giant squid continued to dominate stories of sea monsters with the famous 1870 novel, Twenty Thousand Leagues Under the Sea, by Jules Verne. Verne’s submarine fantasy is a classic story of puny man against a gigantic squid.</p>
-<p>The monster needed no embellishment – this creature was scary enough, and Verne incorporated as much fact as possible into the story, says Emily Alder from Edinburgh Napier University. “Twenty Thousand Leagues Under the Sea and another contemporaneous book, Victor Hugo’s Toilers of the Sea, both tried to represent the giant squid as they might have been actual zoological animals, much more taking the squid as a biological creature than a mythical creature.” It was a given that the squid was vicious and would readily attack humans given the chance.</p>
-<p>That myth wasn’t busted until 2012, when Edith Widder and her colleagues were the first people to successfully film giant squid under water and see first-hand the true character of the monster of the deep. They realised previous attempts to film squid had failed because the bright lights and noisy thrusters on submersibles had frightened them away.</p>
-<p>By quietening down the engines and using bioluminescence to attract it, they managed to see this most extraordinary animal in its natural habitat. It serenely glided into view, its body rippled with metallic colours of bronze and silver. Its huge, intelligent eye watched the submarine warily as it delicately picked at the bait with its beak. It was balletic and mesmeric. It could not have been further from the gnashing, human-destroying creature of myth and literature. In reality this is a gentle giant that is easily scared and pecks at its food.</p>
-<p>Another giant squid lies peacefully in the Natural History Museum in London, in the Spirit Room, where it is preserved in a huge glass case. In 2004 it was caught in a fishing net off the Falkland Islands and died at the surface. The crew immediately froze its body and it was sent to be preserved in the museum by the Curator of Molluscs, Jon Ablett. It is called Archie, an affectionate short version of its Latin name Architeuthis dux. It is the longest preserved specimen of a giant squid in the world.</p>
-<p>“It really has brought science to life for many people,” says Ablett. “Sometimes I feel a bit overshadowed by Archie, most of my work is on slugs and snails but unfortunately most people don’t want to talk about that!”</p>
-<p>And so today we can watch Archie’s graceful relative on film and stare Archie herself (she is a female) eye-to-eye in a museum. But have we finally slain the monster of the deep? Now we know there is nothing to be afraid of, can the Kraken finally be laid to rest? Probably not says Classen. “We humans are afraid of the strangest things. They don’t need to be realistic. There’s no indication that enlightenment and scientific progress has banished the monsters from the shadows of our imaginations. We will continue to be afraid of very strange things, including probably sea monsters.”</p>
-<p>Indeed we are. The Kraken made a fearsome appearance in the blockbuster series Pirates of the Caribbean. It forced Captain Jack Sparrow to face his demons in a terrifying face-to-face encounter. Pirates needed the monstrous Kraken, nothing else would do. Or, as the German film director Werner Herzog put it, “What would an ocean be without a monster lurking in the dark? It would be like sleep without dreams.”</p>
-<p>Questions 1-7
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 119</strong></h3>
+<h3 class="test-heading"><strong>What is it that draws us to these creatures?</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>“This inhuman place makes human monsters,” wrote Stephen King in his novel The Shining. Many academics agree that monsters lurk in the deepest recesses, they prowl through our ancestral minds appearing in the half-light, under the bed – or at the bottom of the sea.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>“They don’t really exist, but they play a huge role in our mindscapes, in our dreams, stories, nightmares, myths and so on,” says Matthias Classen, assistant professor of literature and media at Aarhus University in Denmark, who studies monsters in literature. “Monsters say something about human psychology, not the world.”</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>One Norse legend talks of the Kraken, a deep sea creature that was the curse of fishermen. If sailors found a place with many fish, most likely it was the monster that was driving them to the surface. If it saw the ship it would pluck the hapless sailors from the boat and drag them to a watery grave.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>This terrifying legend occupied the mind and pen of the poet Alfred Lord Tennyson too. In his short 1830 poem The Kraken he wrote: “Below the thunders of the upper deep, / Far far beneath in the abysmal sea, / His ancient, dreamless, uninvaded sleep / The Kraken sleepeth.”</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>The deeper we travel into the ocean, the deeper we delve into our own psyche. And when we can go no further – there lurks the Kraken.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Most likely the Kraken is based on a real creature – the giant squid. The huge mollusc takes pride of place as the personification of the terrors of the deep sea. Sailors would have encountered it at the surface, dying, and probably thrashing about. It would have made a weird sight, “about the most alien thing you can imagine,” says Edith Widder, CEO at the Ocean Research and Conservation Association.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>“It has eight lashing arms and two slashing tentacles growing straight out of its head and it’s got serrated suckers that can latch on to the slimiest of prey and it’s got a parrot beak that can rip flesh. It’s got an eye the size of your head, it’s got a jet propulsion system and three hearts that pump blue blood.”</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>The giant squid continued to dominate stories of sea monsters with the famous 1870 novel, Twenty Thousand Leagues Under the Sea, by Jules Verne. Verne’s submarine fantasy is a classic story of puny man against a gigantic squid.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>The monster needed no embellishment – this creature was scary enough, and Verne incorporated as much fact as possible into the story, says Emily Alder from Edinburgh Napier University. “Twenty Thousand Leagues Under the Sea and another contemporaneous book, Victor Hugo’s Toilers of the Sea, both tried to represent the giant squid as they might have been actual zoological animals, much more taking the squid as a biological creature than a mythical creature.” It was a given that the squid was vicious and would readily attack humans given the chance.</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p>That myth wasn’t busted until 2012, when Edith Widder and her colleagues were the first people to successfully film giant squid under water and see first-hand the true character of the monster of the deep. They realised previous attempts to film squid had failed because the bright lights and noisy thrusters on submersibles had frightened them away.</p></div></div>
+<div class="para-row"><div class="para-label">K</div><div class="para-text"><p>By quietening down the engines and using bioluminescence to attract it, they managed to see this most extraordinary animal in its natural habitat. It serenely glided into view, its body rippled with metallic colours of bronze and silver. Its huge, intelligent eye watched the submarine warily as it delicately picked at the bait with its beak. It was balletic and mesmeric. It could not have been further from the gnashing, human-destroying creature of myth and literature. In reality this is a gentle giant that is easily scared and pecks at its food.</p></div></div>
+<div class="para-row"><div class="para-label">L</div><div class="para-text"><p>Another giant squid lies peacefully in the Natural History Museum in London, in the Spirit Room, where it is preserved in a huge glass case. In 2004 it was caught in a fishing net off the Falkland Islands and died at the surface. The crew immediately froze its body and it was sent to be preserved in the museum by the Curator of Molluscs, Jon Ablett. It is called Archie, an affectionate short version of its Latin name Architeuthis dux. It is the longest preserved specimen of a giant squid in the world.</p></div></div>
+<div class="para-row"><div class="para-label">M</div><div class="para-text"><p>“It really has brought science to life for many people,” says Ablett. “Sometimes I feel a bit overshadowed by Archie, most of my work is on slugs and snails but unfortunately most people don’t want to talk about that!”</p></div></div>
+<div class="para-row"><div class="para-label">N</div><div class="para-text"><p>And so today we can watch Archie’s graceful relative on film and stare Archie herself (she is a female) eye-to-eye in a museum. But have we finally slain the monster of the deep? Now we know there is nothing to be afraid of, can the Kraken finally be laid to rest? Probably not says Classen. “We humans are afraid of the strangest things. They don’t need to be realistic. There’s no indication that enlightenment and scientific progress has banished the monsters from the shadows of our imaginations. We will continue to be afraid of very strange things, including probably sea monsters.”</p></div></div>
+<div class="para-row"><div class="para-label">O</div><div class="para-text"><p>Indeed we are. The Kraken made a fearsome appearance in the blockbuster series Pirates of the Caribbean. It forced Captain Jack Sparrow to face his demons in a terrifying face-to-face encounter. Pirates needed the monstrous Kraken, nothing else would do. Or, as the German film director Werner Herzog put it, “What would an ocean be without a monster lurking in the dark? It would be like sleep without dreams.”</p></div></div>
+<p><strong>Questions 1-7</strong>
 Do the following statements agree with the information given in Reading Passage 1?</p>
-<p>TRUE                          if the statement is true
-FALSE                        if the statement is false
-NOT GIVEN             if the information is not given in the passage</p>
+<p><strong>TRUE</strong>                          if the statement is true
+<strong>FALSE</strong>                        if the statement is false
+<strong>NOT GIVEN</strong>             if the information is not given in the passage</p>
 <p>1 Matthias Classen is unsure about the possibility of monster’s existence.
 2 Kraken is probably based on an imaginary animal.
 3 Previous attempts on filming the squid had failed due to the fact that the creature was scared.
@@ -131,54 +187,54 @@ NOT GIVEN             if the information is not given in the passage</p>
 5 Jon Ablett admits that he likes Archie.
 6 According to Classen, people can be scared both by imaginary and real monsters.
 7 Werner Herzog suggests that Kraken is essential to the ocean.</p>
-<p>Questions 8-12
+<p><strong>Questions 8-12</strong>
 Choose the correct letter, A, B, C or D.</p>
 <p>8. Who wrote a novel about a giant squid?
-A Emily Alder
-B Stephen King
-C Alfred Lord Tennyson
-D Jules Verne</p>
+<strong>A</strong> Emily Alder
+<strong>B</strong> Stephen King
+<strong>C</strong> Alfred Lord Tennyson
+<strong>D</strong> Jules Verne</p>
 <p>9. What, of the featuring body parts, mollusc DOESN’T have?
-A two tentacles
-B serrated suckers
-C beak
-D smooth suckers</p>
+<strong>A</strong> two tentacles
+<strong>B</strong> serrated suckers
+<strong>C</strong> beak
+<strong>D</strong> smooth suckers</p>
 <p>10. Which of the following applies to the bookish Kraken?
-A notorious
-B scary
-C weird
-D harmless</p>
+<strong>A</strong> notorious
+<strong>B</strong> scary
+<strong>C</strong> weird
+<strong>D</strong> harmless</p>
 <p>11. Where can we see a giant squid?
-A at the museum
-B at a seaside
-C on TV
-D in supermarkets</p>
+<strong>A</strong> at the museum
+<strong>B</strong> at a seaside
+<strong>C</strong> on TV
+<strong>D</strong> in supermarkets</p>
 <p>12. The main purpose of the text is to:
-A help us to understand more about both mythical and biological creatures of the deep
-B illustrate the difference between Kraken and squid
-C shed the light on the mythical creatures of the ocean
-D compare Kraken to its real relative</p>
-<p>Questions 13-16
-Complete the sentences below. Write NO MORE THAN THREE WORDS from the passage for each answer.</p>
+<strong>A</strong> help us to understand more about both mythical and biological creatures of the deep
+<strong>B</strong> illustrate the difference between Kraken and squid
+<strong>C</strong> shed the light on the mythical creatures of the ocean
+<strong>D</strong> compare Kraken to its real relative</p>
+<p><strong>Questions 13-16</strong>
+Complete the sentences below. Write <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
 <p>Write your answers in boxes 13–16 on your answer sheet.</p>
 <p>According to the Victor Hugo’s novel, the squid would (13)………………………….if he had such opportunity.</p>
 <p>The real squid appeared to be (14)……………………………..</p>
 <p>Archie must be the (15)……………………………….of its kind on Earth.</p>
 <p>We are able to encounter the Kraken’s (16)……………………………….in a movie franchise.</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>How did science fiction writer HG Wells predict its invention three decades before the first detonations?</p>
-<p>A Imagine you’re the greatest fantasy writer of your age. One day you dream up the idea of a bomb of infinite power. You call it the “atomic bomb”. HG Wells first imagined a uranium-based hand grenade that “would continue to explode indefinitely” in his 1914 novel The World Set Free. He even thought it would be dropped from planes. What he couldn’t predict was how a strange conjunction of his friends and acquaintances – notably Winston Churchill, who’d read all Wells’s novels twice, and the physicist Leo Szilard – would turn the idea from fantasy to reality, leaving them deeply tormented by the scale of destructive power that it unleashed.</p>
-<p>B The story of the atom bomb starts in the Edwardian age, when scientists such as Ernest Rutherford were grappling with a new way of conceiving the physical world. The idea was that solid elements might be made up of tiny particles in atoms. “When it became apparent that the Rutherford atom had a dense nucleus, there was a sense that it was like a coiled spring,” says Andrew Nahum, curator of the Science Museum’s Churchill’s Scientists exhibition. Wells was fascinated with the new discoveries. He had a track record of predicting technological innovations. Winston Churchill credited Wells for coming up with the idea of using aeroplanes and tanks in combat ahead of World War One.</p>
-<p>C The two men met and discussed ideas over the decades, especially as Churchill, a highly popular writer himself, spent the interwar years out of political power, contemplating the rising instability of Europe. Churchill grasped the danger of technology running ahead of human maturity, penning a 1924 article in the Pall Mall Gazette called “Shall we all commit suicide?”. In the article, Churchill wrote: “Might a bomb no bigger than an orange be found to possess a secret power to destroy a whole block of buildings – nay to concentrate the force of a thousand tons of cordite and blast a township at a stroke?” This idea of the orange-sized bomb is credited by Graham Farmelo, author of Churchill’s Bomb, directly to the imagery of The World Set Free.</p>
-<p>D By 1932 British scientists had succeeded in splitting the atom for the first time by artificial means, although some believed it couldn’t produce huge amounts of energy. But the same year the Hungarian emigre physicist Leo Szilard read The World Set Free. Szilard believed that the splitting of the atom could produce vast energy. He later wrote that Wells showed him “what the liberation of atomic energy on a large scale would mean”. Szilard suddenly came up with the answer in September 1933 – the chain reaction – while watching the traffic lights turn green in Russell Square in London. He wrote: “It suddenly occurred to me that if we could find an element which is split by neutrons and which would emit two neutrons when it absorbed one neutron, such an element, if assembled in sufficiently large mass, could sustain a nuclear chain reaction.”</p>
-<p>E In that eureka moment, Szilard also felt great fear – of how a bustling city like London and all its inhabitants could be destroyed in an instant as he reflected in his memoir published in 1968:
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>How did science fiction writer HG Wells predict its invention three decades before the first detonations?</strong></p>
+<p><strong>A</strong> Imagine you’re the greatest fantasy writer of your age. One day you dream up the idea of a bomb of infinite power. You call it the “atomic bomb”. HG Wells first imagined a uranium-based hand grenade that “would continue to explode indefinitely” in his 1914 novel The World Set Free. He even thought it would be dropped from planes. What he couldn’t predict was how a strange conjunction of his friends and acquaintances – notably Winston Churchill, who’d read all Wells’s novels twice, and the physicist Leo Szilard – would turn the idea from fantasy to reality, leaving them deeply tormented by the scale of destructive power that it unleashed.</p>
+<p><strong>B</strong> The story of the atom bomb starts in the Edwardian age, when scientists such as Ernest Rutherford were grappling with a new way of conceiving the physical world. The idea was that solid elements might be made up of tiny particles in atoms. “When it became apparent that the Rutherford atom had a dense nucleus, there was a sense that it was like a coiled spring,” says Andrew Nahum, curator of the Science Museum’s Churchill’s Scientists exhibition. Wells was fascinated with the new discoveries. He had a track record of predicting technological innovations. Winston Churchill credited Wells for coming up with the idea of using aeroplanes and tanks in combat ahead of World War One.</p>
+<p><strong>C</strong> The two men met and discussed ideas over the decades, especially as Churchill, a highly popular writer himself, spent the interwar years out of political power, contemplating the rising instability of Europe. Churchill grasped the danger of technology running ahead of human maturity, penning a 1924 article in the Pall Mall Gazette called “Shall we all commit suicide?”. In the article, Churchill wrote: “Might a bomb no bigger than an orange be found to possess a secret power to destroy a whole block of buildings – nay to concentrate the force of a thousand tons of cordite and blast a township at a stroke?” This idea of the orange-sized bomb is credited by Graham Farmelo, author of Churchill’s Bomb, directly to the imagery of The World Set Free.</p>
+<p><strong>D</strong> By 1932 British scientists had succeeded in splitting the atom for the first time by artificial means, although some believed it couldn’t produce huge amounts of energy. But the same year the Hungarian emigre physicist Leo Szilard read The World Set Free. Szilard believed that the splitting of the atom could produce vast energy. He later wrote that Wells showed him “what the liberation of atomic energy on a large scale would mean”. Szilard suddenly came up with the answer in September 1933 – the chain reaction – while watching the traffic lights turn green in Russell Square in London. He wrote: “It suddenly occurred to me that if we could find an element which is split by neutrons and which would emit two neutrons when it absorbed one neutron, such an element, if assembled in sufficiently large mass, could sustain a nuclear chain reaction.”</p>
+<p><strong>E</strong> In that eureka moment, Szilard also felt great fear – of how a bustling city like London and all its inhabitants could be destroyed in an instant as he reflected in his memoir published in 1968:
 “Knowing what it would mean – and I knew because I had read HG Wells – I did not want this patent to become public.” The Nazis were on the rise and Szilard was deeply anxious about who else might be working on the chain reaction theory and an atomic Bomb. Wells’s novel Things To Come, turned into a 1936 film, The Shape of Things to Come, accurately predicted aerial bombardment and an imminent devastating world war. In 1939 Szilard drafted the letter Albert Einstein sent to President Roosevelt warning America that Germany was stockpiling uranium. The Manhattan Project was born.</p>
-<p>F Szilard and several British scientists worked on it with the US military’s massive financial backing. Britons and Americans worked alongside each other in “silos” – each team unaware of how their work fitted together. They ended up moving on from the original enriched uranium “gun” method, which had been conceived in Britain, to create a plutonium implosion weapon instead. Szilard campaigned for a demonstration bomb test in front of the Japanese ambassador to give them a chance to surrender. He was horrified that it was instead dropped on a city. In 1945 Churchill was beaten in the general election and in another shock, the US government passed the 1946 McMahon Act, shutting Britain out of access to the atomic technology it had helped create. William Penney, one of the returning Los Alamos physicists, led the team charged by Prime Minister Clement Atlee with somehow putting together their individual pieces of the puzzle to create a British bomb on a fraction of the American budget.</p>
-<p>G “It was a huge intellectual feat,” Andrew Nahum observes. “Essentially they reworked the calculations that they’d been doing in Los Alamos. They had the services of Klaus Fuchs, who [later] turned out to be an atom spy passing information to the Soviet Union, but he also had a phenomenal memory.” Another British physicist, Patrick Blackett, who discussed the Bomb after the war with a German scientist in captivity, observed that there were no real secrets. According to Nahum he said: “It’s a bit like making an omelette. Not everyone can make a good one. “When Churchill was re-elected in 1951 he “found an almost complete weapon ready to test and was puzzled and fascinated by how Atlee had buried the costs in the budget”, says Nahum. “He was very conflicted about whether to go ahead with the test and wrote about whether we should have ‘the art and not the article’. Meaning should it be enough to have the capability… [rather] than to have a dangerous weapon in the armoury.”</p>
-<p>H Churchill was convinced to go ahead with the test, but the much more powerful hydrogen bomb developed three years later worried him greatly. HG Wells died in 1946. He had been working on a film sequel to The Shape of Things To Come that was to include his concerns about the now-realised atomic bomb he’d first imagined. But it was never made. Towards the end of his life, says Nahum, Wells’s friendship with Churchill “cooled a little”. “Wells considered Churchill as an enlightened but tarnished member of the ruling classes.” And Churchill had little time for Wells’ increasingly fanciful socialist utopian ideas.</p>
-<p>I Wells believed technocrats and scientists would ultimately run a peaceful new world order like in The Shape of Things To Come, even if global war destroyed the world as we knew it first. Churchill, a former soldier, believed in the lessons of history and saw diplomacy as the only way to keep mankind from self-destruction in the atomic age. Wells’ scientist acquaintance Leo Szilard stayed in America and campaigned for civilian control of atomic energy, equally pessimistic about Wells’ idea of a bold new scientist-led world order. If anything Szilard was tormented by the power he had helped unleash. In 1950, he predicted a cobalt bomb that would destroy all life on the planet. In Britain, the legacy of the Bomb was a remarkable period of elite scientific innovation as the many scientists who had worked on weaponry or radar returned to their civilian labs. They gave us the first commercial jet airliner, the Comet, near-supersonic aircraft and rockets, highly engineered computers, and the Jodrell Bank giant moveable radio telescope.</p>
-<p>J The latter had nearly ended the career of its champion, physicist Bernard Lovell, with its huge costs, until the 1957 launch of Sputnik, when it emerged that Jodrell Bank had the only device in the West that could track it. Nahum says Lovell reflected that “during the war the question was never what will something cost. The question was only can you do it and how soon can we have it? And that was the spirit he took into his peacetime science.” Austerity and the tiny size of the British market, compared with America, were to scupper those dreams. But though the Bomb created a new terror, for a few years at least, Britain saw a vision of a benign atomic future, too and believed it could be the shape of things to come.</p>
-<p>Questions 17-25
+<p><strong>F</strong> Szilard and several British scientists worked on it with the US military’s massive financial backing. Britons and Americans worked alongside each other in “silos” – each team unaware of how their work fitted together. They ended up moving on from the original enriched uranium “gun” method, which had been conceived in Britain, to create a plutonium implosion weapon instead. Szilard campaigned for a demonstration bomb test in front of the Japanese ambassador to give them a chance to surrender. He was horrified that it was instead dropped on a city. In 1945 Churchill was beaten in the general election and in another shock, the US government passed the 1946 McMahon Act, shutting Britain out of access to the atomic technology it had helped create. William Penney, one of the returning Los Alamos physicists, led the team charged by Prime Minister Clement Atlee with somehow putting together their individual pieces of the puzzle to create a British bomb on a fraction of the American budget.</p>
+<p><strong>G</strong> “It was a huge intellectual feat,” Andrew Nahum observes. “Essentially they reworked the calculations that they’d been doing in Los Alamos. They had the services of Klaus Fuchs, who [later] turned out to be an atom spy passing information to the Soviet Union, but he also had a phenomenal memory.” Another British physicist, Patrick Blackett, who discussed the Bomb after the war with a German scientist in captivity, observed that there were no real secrets. According to Nahum he said: “It’s a bit like making an omelette. Not everyone can make a good one. “When Churchill was re-elected in 1951 he “found an almost complete weapon ready to test and was puzzled and fascinated by how Atlee had buried the costs in the budget”, says Nahum. “He was very conflicted about whether to go ahead with the test and wrote about whether we should have ‘the art and not the article’. Meaning should it be enough to have the capability… [rather] than to have a dangerous weapon in the armoury.”</p>
+<p><strong>H</strong> Churchill was convinced to go ahead with the test, but the much more powerful hydrogen bomb developed three years later worried him greatly. HG Wells died in 1946. He had been working on a film sequel to The Shape of Things To Come that was to include his concerns about the now-realised atomic bomb he’d first imagined. But it was never made. Towards the end of his life, says Nahum, Wells’s friendship with Churchill “cooled a little”. “Wells considered Churchill as an enlightened but tarnished member of the ruling classes.” And Churchill had little time for Wells’ increasingly fanciful socialist utopian ideas.</p>
+<p><strong>I</strong> Wells believed technocrats and scientists would ultimately run a peaceful new world order like in The Shape of Things To Come, even if global war destroyed the world as we knew it first. Churchill, a former soldier, believed in the lessons of history and saw diplomacy as the only way to keep mankind from self-destruction in the atomic age. Wells’ scientist acquaintance Leo Szilard stayed in America and campaigned for civilian control of atomic energy, equally pessimistic about Wells’ idea of a bold new scientist-led world order. If anything Szilard was tormented by the power he had helped unleash. In 1950, he predicted a cobalt bomb that would destroy all life on the planet. In Britain, the legacy of the Bomb was a remarkable period of elite scientific innovation as the many scientists who had worked on weaponry or radar returned to their civilian labs. They gave us the first commercial jet airliner, the Comet, near-supersonic aircraft and rockets, highly engineered computers, and the Jodrell Bank giant moveable radio telescope.</p>
+<p><strong>J</strong> The latter had nearly ended the career of its champion, physicist Bernard Lovell, with its huge costs, until the 1957 launch of Sputnik, when it emerged that Jodrell Bank had the only device in the West that could track it. Nahum says Lovell reflected that “during the war the question was never what will something cost. The question was only can you do it and how soon can we have it? And that was the spirit he took into his peacetime science.” Austerity and the tiny size of the British market, compared with America, were to scupper those dreams. But though the Bomb created a new terror, for a few years at least, Britain saw a vision of a benign atomic future, too and believed it could be the shape of things to come.</p>
+<p><strong>Questions 17-25</strong>
 Reading Passage 2 has ten paragraphs, A–J. Which paragraph contains the following information?</p>
 <p>17 Scientific success
 18 Worsening relations
@@ -189,19 +245,19 @@ Reading Passage 2 has ten paragraphs, A–J. Which paragraph contains the follow
 23 Leaving Britain behind the project
 24 Long-term discussion
 25 New idea</p>
-<p>Questions 26-27
+<p><strong>Questions 26-27</strong>
 Choose the correct letter, A, B, C or D.</p>
 <p>26. How can you describe the relations between Churchill and Wells throughout the years?</p>
-<p>A passionate → friendly → adverse
-B curious → friendly
-C respectful → friendly → inhospitable
-D friendly → respectful → hostile</p>
+<p><strong>A</strong> passionate → friendly → adverse
+<strong>B</strong> curious → friendly
+<strong>C</strong> respectful → friendly → inhospitable
+<strong>D</strong> friendly → respectful → hostile</p>
 <p>27. What is the type of this text?
-A science-fiction story
-B article from the magazine
-C historical text
-D Wells autobiography</p>
-<p>The growth of intelligence</p>
+<strong>A</strong> science-fiction story
+<strong>B</strong> article from the magazine
+<strong>C</strong> historical text
+<strong>D</strong> Wells autobiography</p>
+<p><strong>The growth of intelligence</strong></p>
 <p>No one doubts that intelligence develops as children grow older. Yet the concept of intelligence has proved both quite difficult to define in unambiguous terms and unexpectedly controversial in some respects. Although, at one level, there seem to be almost as many definitions of intelligence as people who have tried to define it, there is broad agreement on two key features. That is, intelligence involves the capacity not only to learn from experience but also to adapt to one’s environment. However, we cannot leave the concept there. Before turning to what is known about the development of intelligence, it is necessary to consider whether we are considering the growth of one or many skills. That question has been tackled in rather different ways by psychometricians and by developmentalists.</p>
 <p>The former group has examined the issue by determining how children’s abilities on a wide range of tasks intercorrelate, or go together. Statistical techniques have been used to find out whether the patterns are best explained by one broad underlying capacity, general intelligence, or by a set of multiple, relatively separate, special skills in domains such as verbal and visuospatial ability. While it cannot be claimed that everyone agrees on what the results mean, most people now accept that for practical purposes it is reasonable to suppose that both are involved. In brief, the evidence in favour of some kind of general intellectual capacity is that people who are superior (or inferior) on one type of task tend also to be superior (or inferior) on others. Moreover, general measures of intelligence tend to have considerable powers to predict a person’s performance on a wide range of tasks requiring special skills. Nevertheless, it is plain that it is not at all uncommon for individuals to be very good at some sorts of task and yet quite poor at some others.</p>
 <p>Furthermore the influences that affect verbal skills are not quite the same as those that affect other skills.</p>
@@ -210,55 +266,55 @@ D Wells autobiography</p>
 <p>Developmental studies also show that the interconnections between different skills vary with age. Thus in the first year of life an interest in perceptual patterns is a major contributor to cognitive abilities, whereas verbal abilities are more important later on. These findings seemed to suggest a substantial lack of continuity between infancy and middle childhood. However, it is important to realise that the apparent discontinuity will vary according to which of the cognitive skills were assessed in infancy. It has been found that tests of coping with novelty do predict later intelligence. These findings reinforce the view that young children’s intellectual performance needs to be assessed from their interest in and curiosity about the environment, and the extent to which this is applied to new situations, as well as by standardised intelligence testing.</p>
 <p>These psychometric approaches have focused on children’s increase in cognitive skills as they grow older. Piaget brought about a revolution in the approach to cognitive development through his arguments (backed up by observations) that the focus should be on the thinking processes involved rather than on levels of cognitive achievement. These ideas of Piaget gave rise to an immense body of research and it would be true to say that subsequent thinking has been heavily dependent on his genius in opening up new ways of thinking about cognitive development. Nevertheless, most of his concepts have had to be so radically revised, or rejected, that his theory no longer provides an appropriate basis for thinking about cognitive development. To appreciate why that is so, we need to focus on some rather different elements of Piaget’s theorising.</p>
 <p>The first element, which has stood the test of time, is his view that the child is an active agent of learning and of the importance of this activity in cognitive development. Numerous studies have shown how infants actively scan their environment; how they prefer patterned to non-patterned objects, how they choose novel over familiar stimuli, and how they explore their environment as if to see how it works. Children’s questions and comments vividly illustrate the ways in which they are constantly constructing schemes of what they know and trying out their ideas of how to fit new knowledge into those schemes or deciding that the schemes need modification. Moreover, a variety of studies have shown that active experiences have a greater effect on learning than comparable passive experiences. However, a second element concerns the notion that development proceeds through a series of separate stages that have to be gone through step-by-step, in a set order, each of which is characterised by a particular cognitive structure. That has turned out to be a rather misleading way of thinking about cognitive development, although it is not wholly wrong.</p>
-<p>Questions 28-31
+<p><strong>Questions 28-31</strong>
 Choose the correct letter, A, B, C or D.</p>
 <p>28. Most researchers accept that one feature of intelligence is the ability to
-A change our behaviour according to our situation.
-B react to others’ behaviour patterns.
-C experiment with environmental features.
-D cope with unexpected setbacks.</p>
+<strong>A</strong> change our behaviour according to our situation.
+<strong>B</strong> react to others’ behaviour patterns.
+<strong>C</strong> experiment with environmental features.
+<strong>D</strong> cope with unexpected setbacks.</p>
 <p>29. What have psychometricians used statistics for?
-A to find out if cooperative tasks are a useful tool in measuring certain skills
-B to explore whether several abilities are involved in the development of intelligence
-C to demonstrate that mathematical models can predict test results for different skills
-D to discover whether common sense is fundamental to developing children’s abilities</p>
+<strong>A</strong> to find out if cooperative tasks are a useful tool in measuring certain skills
+<strong>B</strong> to explore whether several abilities are involved in the development of intelligence
+<strong>C</strong> to demonstrate that mathematical models can predict test results for different skills
+<strong>D</strong> to discover whether common sense is fundamental to developing children’s abilities</p>
 <p>30. Why are Horn and Cattell mentioned?
-A They disagreed about the interpretation of different intelligence tests.
-B Their research concerned both linguistic and mathematical abilities.
-C They were the first to prove that intelligence can be measured by testing a range of special skills.
-D Their work was an example of research into how people’s cognitive skills vary with age.</p>
+<strong>A</strong> They disagreed about the interpretation of different intelligence tests.
+<strong>B</strong> Their research concerned both linguistic and mathematical abilities.
+<strong>C</strong> They were the first to prove that intelligence can be measured by testing a range of special skills.
+<strong>D</strong> Their work was an example of research into how people’s cognitive skills vary with age.</p>
 <p>31. What was innovative about Piaget’s research?
-A He refused to accept that children developed according to a set pattern.
-B He emphasised the way children thought more than how well they did in tests.
-C He used visually appealing materials instead of traditional intelligence tests.
-D He studied children of all ages and levels of intelligence.</p>
-<p>Questions 32-37
+<strong>A</strong> He refused to accept that children developed according to a set pattern.
+<strong>B</strong> He emphasised the way children thought more than how well they did in tests.
+<strong>C</strong> He used visually appealing materials instead of traditional intelligence tests.
+<strong>D</strong> He studied children of all ages and levels of intelligence.</p>
+<p><strong>Questions 32-37</strong>
 Do the following statements agree with the views of the writer in Reading Passage 3?</p>
 <p>In boxes 32-37 on your answer sheet, write</p>
-<p>YES                            if the statement agrees with the views of the writer
-NO                              if the statement contradicts the views of the writer
-NOT GIVEN           if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                            if the statement agrees with the views of the writer
+<strong>NO</strong>                              if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong>           if it is impossible to say what the writer thinks about this</p>
 <p>32 A surprising number of academics have come to the same conclusion about what the term intelligence means.
 33 A general test of intelligence is unlikely to indicate the level of performance in every type of task.
 34 The elderly perform less well on comprehension tests than young adults.
 35 We must take into account which skills are tested when comparing intelligence at different ages.
 36 Piaget’s work influenced theoretical studies more than practical research.
 37 Piaget’s emphasis on active learning has been discredited by later researchers.</p>
-<p>Questions 38-40
+<p><strong>Questions 38-40</strong>
 Complete the summary using the list of words, A-l, below.</p>
 <p>Write the correct letter, A-l, in boxes 38-40 on your answer sheet.</p>
-<p>A adult
-B practical
-C verbal
-D spatial
-E inquisitive
-F uncertain
-G academic
-H plentiful
-I unfamiliar</p>
+<p><strong>A</strong> adult
+<strong>B</strong> practical
+<strong>C</strong> verbal
+<strong>D</strong> spatial
+<strong>E</strong> inquisitive
+<strong>F</strong> uncertain
+<strong>G</strong> academic
+<strong>H</strong> plentiful
+<strong>I</strong> unfamiliar</p>
 <p>Researchers investigating the development of intelligence have shown that (38)…………………………. skills become more significant with age. One good predictor of (39)…………………………intelligence is the degree to which small children are (40)…………………………….about their surroundings and how much interest they show on finding themselves in an unfamiliar setting.</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. false</p>
 <p>2. false</p>
 <p>3. true</p>
@@ -517,6 +573,29 @@ I unfamiliar</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -536,12 +615,23 @@ I unfamiliar</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -553,14 +643,6 @@ I unfamiliar</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

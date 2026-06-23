@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,92 +158,92 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_44</h1>
-            <p>IELTS Listening Practice - Test 44</p>
-<p>Part 1: Question 1
-Complete the sentence below. Write NO MORE THAN TWO WORDS.</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 44</strong></h3>
+<p><strong>Part 1: </strong><strong>Question 1</strong>
+Complete the sentence below. Write <strong>NO MORE THAN TWO WORDS.</strong></p>
 <p>Mr. White is a personnel manager</p>
 <p>1. Ms. Jones got to the interview  _______</p>
-<p>Questions 2-5
-Complete the following form. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each answer.</p>
+<p><strong>Questions 2-5</strong>
+Complete the following form. Write <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER</strong> for each answer.</p>
 <p>Personal details of applicant
-Full name: Penny Ann (2)  _______ 
-Citizenship: (3)  _______ 
+Full name: Penny Ann <strong>(2)</strong>  _______ 
+Citizenship: <strong>(3)</strong>  _______ 
 Date of birth: Jan 3, 1980
-Address: Flat 502, 56 (4)  _______  Oxford
-Home phone number: (5)  _______ 
+Address: Flat 502, 56 <strong>(4)</strong>  _______  Oxford
+Home phone number: <strong>(5)</strong>  _______ 
 Email address: jenny27@hotmail.com</p>
-<p>Question 6
-Complete the following sentence with THREE WORDS.</p>
+<p><strong>Question 6</strong>
+Complete the following sentence with <strong>THREE WORDS.</strong></p>
 <p>6. Ms Jones has a degree in  _______</p>
-<p>Question 7
+<p><strong>Question 7</strong>
 Choose the correct letter A-C.</p>
 <p>7. Ms Jones says
-[ ]  A her major would help her satisfy various interests
-[ ]  B she was not at first interested in the health field
-[ ]  C her parents helped her to select her major</p>
-<p>Questions 8-10
-Write NO MORE THAN THREE WORDS for each answer.</p>
+<strong>[ ] </strong><strong> A</strong> her major would help her satisfy various interests
+<strong>[ ] </strong><strong> B</strong> she was not at first interested in the health field
+<strong>[ ] </strong><strong> C</strong> her parents helped her to select her major</p>
+<p><strong>Questions 8-10</strong>
+Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
 <p>8. Where is Ms Jones applying for a job?  _______ 
 9. What does Mr White call companies’ threats of job losses?  _______ 
 10. What does Ms Jones say can help companies reduce costs?  _______</p>
-<p>Part 2: Questions 11-13
-Complete the following sentences with NO MORE THAN THREE WORDS for each answer.</p>
-<p>The headmistress will first tell her visitors about her kindergarten’s (11)  _______  and (12)  _______ 
-Maria Montessori is an (13)  _______</p>
-<p>Questions 14-16
-Complete the following sentences with NO MORE THAN TWO WORDS for each answer.</p>
-<p>The headmistress says playing with toys and other things can help children to develop (14)  _______  She says things like (15)  _______  and (16)  _______  should be seen as valuable resources.</p>
-<p>Questions 17 and 18
-Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>On this map of school, A is the (17)  _______  and B is the (18)  _______</p>
-<p>Questions 19 and 20
-Complete the following sentences. Write NO MORE THAN TWO WORDS for each answer.</p>
+<p><strong>Part 2: Questions 11-13</strong>
+Complete the following sentences with <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p>The headmistress will first tell her visitors about her kindergarten’s <strong>(11)</strong>  _______  and <strong>(12)</strong>  _______ 
+Maria Montessori is an <strong>(13)</strong>  _______</p>
+<p><strong>Questions 14-16</strong>
+Complete the following sentences with <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p>The headmistress says playing with toys and other things can help children to develop <strong>(14)</strong>  _______  She says things like <strong>(15)</strong>  _______  and <strong>(16)</strong>  _______  should be seen as valuable resources.</p>
+<p><strong>Questions 17 and 18</strong>
+Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p>On this map of school, A is the <strong>(17)</strong>  _______  and B is the <strong>(18)</strong>  _______</p>
+<p><strong>Questions 19 and 20</strong>
+Complete the following sentences. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>19. The headmistress says getting dirty in the garden is good for the children’s  _______ 
 20. There are inside the cupboard of the first classroom  _______</p>
-<p>Part 3: Questions 21 and 22
-Choose TWO letters A-E.</p>
+<p><strong>Part 3: Questions 21 and 22</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
 <p>Why was Jill late?</p>
-<p>[ ]  A she was busy doing something for Harry and Bob
-[ ]  B she needed to eat breakfast
-[ ]  C she had a problem with a shoe
-[ ]  D she had too many phone calls
-[ ]  E because of traffic jams</p>
-<p>Questions 23-25
-Answer the following questions in NO MORE THAN THREE WORDS.</p>
+<p><strong>[ ] </strong><strong> A</strong> she was busy doing something for Harry and Bob
+<strong>[ ] </strong><strong> B</strong> she needed to eat breakfast
+<strong>[ ] </strong><strong> C</strong> she had a problem with a shoe
+<strong>[ ] </strong><strong> D</strong> she had too many phone calls
+<strong>[ ] </strong><strong> E</strong> because of traffic jams</p>
+<p><strong>Questions 23-25</strong>
+Answer the following questions in <strong>NO MORE THAN THREE WORDS.</strong></p>
 <p>23. Where does Jill say Bob and Harry go every night?  _______ 
 24. What does Jill say Bob and Harry should do first?  _______ 
 25. What does Jill consider her suggestions as?  _______</p>
-<p>Questions 26-28
-Complete the following sentences with NO MORE THAN THREE WORDS for each answer.</p>
-<p>For a few weeks, Jill wants Harry and Bob to stop (26)  _______  and (27)  _______  Jill wants the other two to (28)  _______  timetable as soon as she leaves them.</p>
-<p>Questions 29-30
-Choose TWO letters A-F.</p>
+<p><strong>Questions 26-28</strong>
+Complete the following sentences with <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p>For a few weeks, Jill wants Harry and Bob to stop <strong>(26)</strong>  _______  and <strong>(27)</strong>  _______  Jill wants the other two to <strong>(28)</strong>  _______  timetable as soon as she leaves them.</p>
+<p><strong>Questions 29-30</strong>
+Choose <strong>TWO</strong> letters A-F.</p>
 <p>Jill says</p>
-<p>[ ]  A the time for reviewing is limited
-[ ]  B when reviewing, it is best to take a five minute break every hour
-[ ]  C when reviewing, one should walk around once an hour
-[ ]  D reviewing separately is not a good idea
-[ ]  E Harry and Bob should question each other regularly while reviewing</p>
-<p>Part 4: Questions 31-35
-Fill in the blanks on the following form. Use NO MORE THAN TWO WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Data collected on the town of: (31)  _______</p>
-<p>Number of households: (32)  _______</p>
-<p>(33)  _______  : 31,000</p>
+<p><strong>[ ] </strong><strong> A</strong> the time for reviewing is limited
+<strong>[ ] </strong><strong> B</strong> when reviewing, it is best to take a five minute break every hour
+<strong>[ ] </strong><strong> C</strong> when reviewing, one should walk around once an hour
+<strong>[ ] </strong><strong> D</strong> reviewing separately is not a good idea
+<strong>[ ] </strong><strong> E</strong> Harry and Bob should question each other regularly while reviewing</p>
+<p><strong>Part 4: Questions 31-35</strong>
+Fill in the blanks on the following form. Use <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p>Data collected on the town of: <strong>(31)</strong>  _______</p>
+<p>Number of households: <strong>(32)</strong>  _______</p>
+<p><strong>(33)</strong>  _______  : 31,000</p>
 <p>Average annual household income: £83,000</p>
-<p>No. of families with income over £50,000: (34)  _______</p>
-<p>No. of families surveyed: (35)  _______</p>
-<p>Questions 36-38
-Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.</p>
-<p>Two types of facilities that are planned to be added in the second and third years after the school opens are (36)  _______  and (37)  _______  And one of the most important facilities required by most parents is a (38)  _______</p>
-<p>Questions 39 and 40
-Choose TWO letters A-E.</p>
+<p>No. of families with income over £50,000: <strong>(34)</strong>  _______</p>
+<p>No. of families surveyed: <strong>(35)</strong>  _______</p>
+<p><strong>Questions 36-38</strong>
+Complete the sentences below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+<p>Two types of facilities that are planned to be added in the second and third years after the school opens are <strong>(36)</strong>  _______  and <strong>(37)</strong>  _______  And one of the most important facilities required by most parents is a <strong>(38)</strong>  _______</p>
+<p><strong>Questions 39 and 40</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
 <p>According to the talk which of the following are right?</p>
-<p>[ ]  A the club does not need a large golf practice range
-[ ]  B the range is close to the site of the proposed school
-[ ]  C the parents insist on no computer games
-[ ]  D the parents want a cafeteria selling fast food to save students’ time
-[ ]  E musical instruments are included in the budget</p>
-<p>ANSWER KEY</p>
+<p><strong>[ ] </strong><strong> A</strong> the club does not need a large golf practice range
+<strong>[ ] </strong><strong> B</strong> the range is close to the site of the proposed school
+<strong>[ ] </strong><strong> C</strong> the parents insist on no computer games
+<strong>[ ] </strong><strong> D</strong> the parents want a cafeteria selling fast food to save students’ time
+<strong>[ ] </strong><strong> E</strong> musical instruments are included in the budget</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. by bus</p>
 <p>2. Jones</p>
 <p>3. Britosh</p>
@@ -441,11 +497,34 @@ Choose TWO letters A-E.</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_44.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_44.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -465,12 +544,23 @@ Choose TWO letters A-E.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -482,14 +572,6 @@ Choose TWO letters A-E.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

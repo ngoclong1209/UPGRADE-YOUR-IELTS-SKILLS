@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,118 +158,118 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_142</h1>
-            <p>IELTS Listening Practice - Test 142</p>
-<p>Part 1: Questions 1-10
-Complete the notes below. Write ONE WORD OR A NUMBER.</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 142</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-10</strong>
+Complete the notes below. Write <strong>ONE WORD OR A NUMBER.</strong></p>
 <p>Transport Survey
 Travelled to town today: by bus
-Name: Lusia (1)  _______ 
-Address: (2)  _______  White Stone Road
+Name: Lusia <strong>(1)</strong>  _______ 
+Address: <strong>(2)</strong>  _______  White Stone Road
 Area: Bradfield
-Postcode: (3)  _______ 
-Occupation: (4)  _______ 
-Reason for visit to town: to go to the (5)  _______ 
-Suggestions for improvement: better (6)  _______ 
+Postcode: <strong>(3)</strong>  _______ 
+Occupation: <strong>(4)</strong>  _______ 
+Reason for visit to town: to go to the <strong>(5)</strong>  _______ 
+Suggestions for improvement: better <strong>(6)</strong>  _______ 
 Have more footpaths
-More frequent (7)  _______ 
+More frequent <strong>(7)</strong>  _______ 
 Things that would encourage cycling to work:
-• Having (8)  _______  parking places for bicycles
-• Being able to use a (9)  _______  at work
-• The opportunity to have cycling (10)  _______  on busy roads</p>
-<p>Part 2: Questions 11-14
+• Having <strong>(8)</strong>  _______  parking places for bicycles
+• Being able to use a <strong>(9)</strong>  _______  at work
+• The opportunity to have cycling <strong>(10)</strong>  _______  on busy roads</p>
+<p><strong>Part 2: Questions 11-14</strong>
 Choose the correct letter, A, B or C.</p>
-<p>New city developments
+<p><strong>New city developments</strong>
 11. The idea for the two new developments in the city came from
-[ ]  A local people
-[ ]  B the City Council
-[ ]  C the SWRDC</p>
+<strong>[ ] </strong><strong> A</strong> local people
+<strong>[ ] </strong><strong> B</strong> the City Council
+<strong>[ ] </strong><strong> C</strong> the SWRDC</p>
 <p>12. What is unusual about Brackenside pool?
-[ ]  A its architectural style
-[ ]  B its heating system
-[ ]  C its method of water treatment</p>
+<strong>[ ] </strong><strong> A</strong> its architectural style
+<strong>[ ] </strong><strong> B</strong> its heating system
+<strong>[ ] </strong><strong> C</strong> its method of water treatment</p>
 <p>13. Local newspapers have raised worries about
-[ ]  A the late opening date
-[ ]  B the post of the project
-[ ]  C the size of the facilities</p>
+<strong>[ ] </strong><strong> A</strong> the late opening date
+<strong>[ ] </strong><strong> B</strong> the post of the project
+<strong>[ ] </strong><strong> C</strong> the size of the facilities</p>
 <p>14. What decision has not yet been made about the pool?
-[ ]  A whose statue will be at the door
-[ ]  B the exact opening times
-[ ]  C who will open it</p>
-<p>Questions 15-20
+<strong>[ ] </strong><strong> A</strong> whose statue will be at the door
+<strong>[ ] </strong><strong> B</strong> the exact opening times
+<strong>[ ] </strong><strong> C</strong> who will open it</p>
+<p><strong>Questions 15-20</strong>
 Which feature is related to each of the following areas of the world represented in the playground?</p>
-<p>Choose SIX answers from the box and write the correct letter, A-l, next to questions 15-20.</p>
-<p>Areas of the world
+<p>Choose <strong>SIX</strong> answers from the box and write the correct letter, A-l, next to questions 15-20.</p>
+<p><strong>Areas of the world</strong>
 15 Asia  _______ 
 16 Antarctica  _______ 
 17 South America  _______ 
 18 North America  _______ 
 19 Europe  _______ 
 20 Africa  _______</p>
-<p>Features</p>
-<p>Part 3: Questions 21 and 22
-Choose TWO letters, A-E.</p>
-<p>Which TWO hobbies was Thor Heyerdahl very interested in as a youth?
-[ ]  A camping
-[ ]  B climbing
-[ ]  C collecting
-[ ]  D hunting
-[ ]  E reading</p>
-<p>Questions 23 and 24
-Choose TWO letters, A-E.</p>
+<p><strong>Features</strong></p>
+<p><strong>Part 3: Questions 21 and 22</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
+<p>Which <strong>TWO</strong> hobbies was Thor Heyerdahl very interested in as a youth?
+<strong>[ ] </strong><strong> A</strong> camping
+<strong>[ ] </strong><strong> B</strong> climbing
+<strong>[ ] </strong><strong> C</strong> collecting
+<strong>[ ] </strong><strong> D</strong> hunting
+<strong>[ ] </strong><strong> E</strong> reading</p>
+<p><strong>Questions 23 and 24</strong>
+Choose <strong>TWO</strong> letters, A-E.</p>
 <p>Which do the speakers say are the TWO reasons why Heyerdahl went to live on an island?
-[ ]  A to examine ancient carvings
-[ ]  B to experience an isolated place
-[ ]  C to formulate a new theory
-[ ]  D to learn survival skills
-[ ]  E to study the impact of an extreme environment</p>
-<p>Questions 25-30
+<strong>[ ] </strong><strong> A</strong> to examine ancient carvings
+<strong>[ ] </strong><strong> B</strong> to experience an isolated place
+<strong>[ ] </strong><strong> C</strong> to formulate a new theory
+<strong>[ ] </strong><strong> D</strong> to learn survival skills
+<strong>[ ] </strong><strong> E</strong> to study the impact of an extreme environment</p>
+<p><strong>Questions 25-30</strong>
 Choose the correct letter, A, B or C.</p>
-<p>The later life of Thor Heyerdahl
+<p><strong>The later life of Thor Heyerdahl</strong>
 25. According to Victor and Olivia, academics thought that Polynesian migration from the east was impossible due to
-[ ]  A the fact that Eastern countries were far away
-[ ]  B the lack of materials for boat building
-[ ]  C the direction of the winds and currents</p>
+<strong>[ ] </strong><strong> A</strong> the fact that Eastern countries were far away
+<strong>[ ] </strong><strong> B</strong> the lack of materials for boat building
+<strong>[ ] </strong><strong> C</strong> the direction of the winds and currents</p>
 <p>26. Which do the speakers agree was the main reason for Heyerdahl’s raft journey?
-[ ]  A to overcome a research setback
-[ ]  B to demonstrate a personal quality
-[ ]  C to test a new theory</p>
+<strong>[ ] </strong><strong> A</strong> to overcome a research setback
+<strong>[ ] </strong><strong> B</strong> to demonstrate a personal quality
+<strong>[ ] </strong><strong> C</strong> to test a new theory</p>
 <p>27. What was most important to Heyerdahl about his raft journey?
-[ ]  A the fact that he was the first person to do it
-[ ]  B the speed of crossing the Pacific
-[ ]  C the use of authentic construction methods</p>
+<strong>[ ] </strong><strong> A</strong> the fact that he was the first person to do it
+<strong>[ ] </strong><strong> B</strong> the speed of crossing the Pacific
+<strong>[ ] </strong><strong> C</strong> the use of authentic construction methods</p>
 <p>28. Why did Heyerdahl go to Easter Island?
-[ ]  A to build a stone statue
-[ ]  B to sail a reed boat
-[ ]  C to learn the local language</p>
+<strong>[ ] </strong><strong> A</strong> to build a stone statue
+<strong>[ ] </strong><strong> B</strong> to sail a reed boat
+<strong>[ ] </strong><strong> C</strong> to learn the local language</p>
 <p>29. In Olivia’s opinion, Heyerdahl’s greatest influence was on
-[ ]  A theories about Polynesian origins
-[ ]  B the development of archaeological methodology
-[ ]  C establishing archaeology as an academic subject</p>
+<strong>[ ] </strong><strong> A</strong> theories about Polynesian origins
+<strong>[ ] </strong><strong> B</strong> the development of archaeological methodology
+<strong>[ ] </strong><strong> C</strong> establishing archaeology as an academic subject</p>
 <p>30. Which criticism do the speakers make of William Oliver’s textbook?
-[ ]  A Its style is out of date
-[ ]  B Its content is over-simplified
-[ ]  C Its methodology is flawed</p>
-<p>Part 4: Questions 31-40
-Complete the notes below. Write ONE WORD ONLY.</p>
-<p>THE FUTURE OF MANAGEMENT
+<strong>[ ] </strong><strong> A</strong> Its style is out of date
+<strong>[ ] </strong><strong> B</strong> Its content is over-simplified
+<strong>[ ] </strong><strong> C</strong> Its methodology is flawed</p>
+<p><strong>Part 4: Questions 31-40</strong>
+Complete the notes below. Write <strong>ONE WORD ONLY.</strong></p>
+<p><strong>THE FUTURE OF MANAGEMENT</strong>
 Business markets
-• greater (31)  _______  among companies
-• increase in power of large (32)  _______  companies
-• rising (33)  _______  in certain countries</p>
-<p>External influences on businesses
-• more discussion with (34)  _______  before making business decisions
-• environmental concerns which may lead to more (35)  _______</p>
-<p>Business structures
-• more teams will be formed to work on a particular (36)  _______ 
-• businesses may need to offer hours that are (37)  _______  , or the chance to work remotely</p>
-<p>Management styles
-• increasing need for managers to provide good (38)  _______ 
-• changes influenced by (39)  _______  taking senior roles</p>
-<p>Changes in the economy
+• greater <strong>(31)</strong>  _______  among companies
+• increase in power of large <strong>(32)</strong>  _______  companies
+• rising <strong>(33)</strong>  _______  in certain countries</p>
+<p><strong>External influences on businesses</strong>
+• more discussion with <strong>(34)</strong>  _______  before making business decisions
+• environmental concerns which may lead to more <strong>(35)</strong>  _______</p>
+<p><strong>Business structures</strong>
+• more teams will be formed to work on a particular <strong>(36)</strong>  _______ 
+• businesses may need to offer hours that are <strong>(37)</strong>  _______  , or the chance to work remotely</p>
+<p><strong>Management styles</strong>
+• increasing need for managers to provide good <strong>(38)</strong>  _______ 
+• changes influenced by <strong>(39)</strong>  _______  taking senior roles</p>
+<p><strong>Changes in the economy</strong>
 • service sector continues to be important
 • increasing value of intellectual property
-• more and more (40)  _______  workers</p>
-<p>ANSWER KEY</p>
+• more and more <strong>(40)</strong>  _______  workers</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Hardie</p>
 <p>2. 19</p>
 <p>3. GT82LC</p>
@@ -472,6 +528,29 @@ Business markets
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -491,12 +570,23 @@ Business markets
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -508,14 +598,6 @@ Business markets
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

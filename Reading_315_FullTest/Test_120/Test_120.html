@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,28 +158,28 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_120</h1>
-            <p>IELTS Reading Practice - Test 120</p>
-<p>disorders: an overview</p>
-<p>Autistic Spectrum Disorder</p>
-<p>Children with Autistic Spectrum Disorder have difficulty understanding what other people are saying, need help to play with other children, enjoy routines and find unfamiliar situations difficult. People with Autistic Spectrum Disorder can be good at creative activities like art, music and poetry. They can concentrate on one thing for a long time no they can become very good at something that they like doing.</p>
-<p>ADHD – Attention Deficit</p>
-<p>Hyperactivity Disorder</p>
-<p>People with ADHD have three types of problems. Overactive behaviour (hyperactivity), impulsive behaviour and difficulty pitying attention. Children with ADHD are not just very active but have a wide range of problem behaviours which can make them very difficult to care for and control. Those who have ADHD often find it difficult to fit in at school. They may also have problems getting on with other children. Some children have significant problems with concentration and attention, but are not necessarily overactive or impulsive. These children are sometimes described as having Attention Deficit Disorder (ADD) rather than ADHD. ADD can easily be missed because the child is quiet and dreamy rather than disruptive. ADHD is not related to intelligence. Children with all levels of ability can have ADHD.</p>
-<p>Stress</p>
-<p>Stress can be defined as the way you feel when you’re under abnormal pressure. All sorts of situations can cause stress. The most common, however, involve work, money matters and relationships with partners, children or other family members. Stress may be caused either by major upheavals and life events such as divorce, unemployment, moving house and bereavement, or by a series of minor irritations such as feeling undervalued at work or dealing with difficult children.</p>
-<p>Some stress can be positive and research has suggested that a moderate level of stress makes us perform better. It also makes us more alert and can help us in challenging situations such as job interviews or public speaking. Stressful situations can also be exhilarating and some people actually thrive on the excitement that comes with dangerous sports or other ‘high-risk’ activities.</p>
-<p>Schizophrenia</p>
-<p>Schizophrenia is a diagnosis given to some people who have severely disrupted beliefs and experiences. During an episode of schizophrenia, a person’s experience and interpretation of the outside world is disrupted – they may lose touch with reality, see or hear things that are not there and act in unusual ways in response to these ‘hallucinations’. An episode of schizophrenia can last for several weeks and can be very frightening. The causes are unknown but episodes of schizophrenia appear to be associated with changes in some brain chemicals. Stressful experiences and some recreational drugs tire sometimes thought to trigger an episode.</p>
-<p>Depression</p>
-<p>Depression describes a range of moods, from the low spirits that we all experience, to a severe problem that interferes with everyday life. The latter type, sometimes referred to as “clinical depression”, is defined its “a persistent exaggeration of the everyday feelings that accompany sadness”. If you have severe depression you may experience low mood, loss of interest and pleasure as well as feelings of worthlessness and guilt. You may also experience tearfulness, poor concentration, reduced energy, reduced or increased appetite, changes in weight, sleep problems and anxiety. You may even feel that life is not worth living, and plan or attempt suicide.
-Obsessive Compulsive</p>
-<p>Disorder in Adults</p>
-<p>Imagine you are getting up in the morning. You know you will need to go to the bathroom, but the thought of accidentally touching the doorknob is frightening. There may be dangerous bacteria on it. Of course you cleaned the entire bathroom yesterday, including the usual series of spraying disinfectant, washing and rinsing. As usual it took a couple of hours to do it the right way. Even then you weren’t sure whether you had missed an area, so you had to re-wash the floor. Naturally the doorknob was sprayed and rubbed three times with a bactericidal spray. Now the thought that you could have missed a spot on the door knob makes you very nervous.</p>
-<p>This description might give you some sense of the tormented and anxious world that people with Obsessive Compulsive Disorder (OCD) live in. It is a world filled with dangers from outside and from within. Often elaborate rituals and thoughts are used to ward off feared events, but no amount of mental or physical activity seems adequate, so doubt and anxiety are often present.</p>
-<p>People who do not have OCD may perform behaviours in a ritualistic way, repeating, checking, or washing things out of habit or concern. Generally this is done without much, if any, worry. What distinguishes OCD as a psychiatric disorder is that the experience of obsessions, and the performance of rituals, reaches such an intensity or frequency that it causes significant psychological distress and interferes in a significant way with psycho-social functioning. The guideline of at least one hour spent on symptoms per day is often used as a measure of ‘significant interference’. However, among patients who try to avoid situations that bring on anxiety and compulsions, the actual symptoms may not consume an hour. Yet their situations would dearly constitute interfering with functioning. Consider, for instance, a welfare mother who throws out more than $100 of groceries a week because of contamination fears. Although this behaviour has a major effect on her functioning, it might not consume one hour per day.</p>
-<p>Patients with OCD describe their experience as having thoughts (obsessions) that they associate with some danger. The sufferer generally recognises that it is his or her own thoughts, rather than something imposed by someone else (as in some paranoid schizophrenic patients). However, the disturbing thoughts cannot be dismissed, and simply nag at the sufferer. Something must then be done to relieve the danger and mitigate the fear. This leads to actions and thoughts that are intended to neutralise the danger. These are the compulsions. Because these behaviours seem to give the otherwise ‘helplessly anxious’ person something to combat the danger, they are temporarily reassuring. However, since the ‘danger’ is typically irrational or imaginary, it simply returns, thereby triggering another cycle of the briefly reassuring compulsions. From the standpoint of classic conditioning, this pattern of painful obsession followed by temporarily reassuring compulsion eventually produces an intensely ingrained habit. It is rare to see obsessions without compulsions.</p>
-<p>The two most common obsessions are fears of contamination and fear of harming oneself or others, while the two most common compulsions are checking and cleaning.</p>
-<p>Questions 1-5
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 120</strong></h3>
+<h3 class="test-heading"><strong>disorders: an overview</strong></h3>
+<h3 class="test-heading"><strong>Autistic Spectrum Disorder</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>Children with Autistic Spectrum Disorder have difficulty understanding what other people are saying, need help to play with other children, enjoy routines and find unfamiliar situations difficult. People with Autistic Spectrum Disorder can be good at creative activities like art, music and poetry. They can concentrate on one thing for a long time no they can become very good at something that they like doing.</p></div></div>
+<h3 class="test-heading"><strong>ADHD – Attention Deficit</strong></h3>
+<h3 class="test-heading"><strong>Hyperactivity Disorder</strong></h3>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>People with ADHD have three types of problems. Overactive behaviour (hyperactivity), impulsive behaviour and difficulty pitying attention. Children with ADHD are not just very active but have a wide range of problem behaviours which can make them very difficult to care for and control. Those who have ADHD often find it difficult to fit in at school. They may also have problems getting on with other children. Some children have significant problems with concentration and attention, but are not necessarily overactive or impulsive. These children are sometimes described as having Attention Deficit Disorder (ADD) rather than ADHD. ADD can easily be missed because the child is quiet and dreamy rather than disruptive. ADHD is not related to intelligence. Children with all levels of ability can have ADHD.</p></div></div>
+<h3 class="test-heading"><strong>Stress</strong></h3>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Stress can be defined as the way you feel when you’re under abnormal pressure. All sorts of situations can cause stress. The most common, however, involve work, money matters and relationships with partners, children or other family members. Stress may be caused either by major upheavals and life events such as divorce, unemployment, moving house and bereavement, or by a series of minor irritations such as feeling undervalued at work or dealing with difficult children.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Some stress can be positive and research has suggested that a moderate level of stress makes us perform better. It also makes us more alert and can help us in challenging situations such as job interviews or public speaking. Stressful situations can also be exhilarating and some people actually thrive on the excitement that comes with dangerous sports or other ‘high-risk’ activities.</p></div></div>
+<h3 class="test-heading"><strong>Schizophrenia</strong></h3>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>Schizophrenia is a diagnosis given to some people who have severely disrupted beliefs and experiences. During an episode of schizophrenia, a person’s experience and interpretation of the outside world is disrupted – they may lose touch with reality, see or hear things that are not there and act in unusual ways in response to these ‘hallucinations’. An episode of schizophrenia can last for several weeks and can be very frightening. The causes are unknown but episodes of schizophrenia appear to be associated with changes in some brain chemicals. Stressful experiences and some recreational drugs tire sometimes thought to trigger an episode.</p></div></div>
+<h3 class="test-heading"><strong>Depression</strong></h3>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Depression describes a range of moods, from the low spirits that we all experience, to a severe problem that interferes with everyday life. The latter type, sometimes referred to as “clinical depression”, is defined its “a persistent exaggeration of the everyday feelings that accompany sadness”. If you have severe depression you may experience low mood, loss of interest and pleasure as well as feelings of worthlessness and guilt. You may also experience tearfulness, poor concentration, reduced energy, reduced or increased appetite, changes in weight, sleep problems and anxiety. You may even feel that life is not worth living, and plan or attempt suicide.
+Obsessive Compulsive</p></div></div>
+<h3 class="test-heading"><strong>Disorder in Adults</strong></h3>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>Imagine you are getting up in the morning. You know you will need to go to the bathroom, but the thought of accidentally touching the doorknob is frightening. There may be dangerous bacteria on it. Of course you cleaned the entire bathroom yesterday, including the usual series of spraying disinfectant, washing and rinsing. As usual it took a couple of hours to do it the right way. Even then you weren’t sure whether you had missed an area, so you had to re-wash the floor. Naturally the doorknob was sprayed and rubbed three times with a bactericidal spray. Now the thought that you could have missed a spot on the door knob makes you very nervous.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>This description might give you some sense of the tormented and anxious world that people with Obsessive Compulsive Disorder (OCD) live in. It is a world filled with dangers from outside and from within. Often elaborate rituals and thoughts are used to ward off feared events, but no amount of mental or physical activity seems adequate, so doubt and anxiety are often present.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>People who do not have OCD may perform behaviours in a ritualistic way, repeating, checking, or washing things out of habit or concern. Generally this is done without much, if any, worry. What distinguishes OCD as a psychiatric disorder is that the experience of obsessions, and the performance of rituals, reaches such an intensity or frequency that it causes significant psychological distress and interferes in a significant way with psycho-social functioning. The guideline of at least one hour spent on symptoms per day is often used as a measure of ‘significant interference’. However, among patients who try to avoid situations that bring on anxiety and compulsions, the actual symptoms may not consume an hour. Yet their situations would dearly constitute interfering with functioning. Consider, for instance, a welfare mother who throws out more than $100 of groceries a week because of contamination fears. Although this behaviour has a major effect on her functioning, it might not consume one hour per day.</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p>Patients with OCD describe their experience as having thoughts (obsessions) that they associate with some danger. The sufferer generally recognises that it is his or her own thoughts, rather than something imposed by someone else (as in some paranoid schizophrenic patients). However, the disturbing thoughts cannot be dismissed, and simply nag at the sufferer. Something must then be done to relieve the danger and mitigate the fear. This leads to actions and thoughts that are intended to neutralise the danger. These are the compulsions. Because these behaviours seem to give the otherwise ‘helplessly anxious’ person something to combat the danger, they are temporarily reassuring. However, since the ‘danger’ is typically irrational or imaginary, it simply returns, thereby triggering another cycle of the briefly reassuring compulsions. From the standpoint of classic conditioning, this pattern of painful obsession followed by temporarily reassuring compulsion eventually produces an intensely ingrained habit. It is rare to see obsessions without compulsions.</p></div></div>
+<div class="para-row"><div class="para-label">K</div><div class="para-text"><p>The two most common obsessions are fears of contamination and fear of harming oneself or others, while the two most common compulsions are checking and cleaning.</p></div></div>
+<p><strong>Questions 1-5</strong>
 Look at the statements (Questions 1 – 5) and the list of disorders (A – G) below. Match each statement with the correct disorder A – G.</p>
 <p>NB There are more disorders than descriptions, so you will not use them all.</p>
 <p>1 can be positive in small doses but is generally associated with pressure
@@ -131,48 +187,48 @@ Look at the statements (Questions 1 – 5) and the list of disorders (A – G) b
 3 has experiences that may or may not be part of the ‘real’ world
 4 active to the point of losing concentration and becoming disruptive
 5 good at art but not at communicating</p>
-<p>Types of Disorders
-A Stress
-B Autistic Spectrum Disorder
-C Attention Deficit Disorder
-D Schizophrenia
-E Attention Deficit Hyperactivity Disorder
-F Depression
-G Obsessive Compulsive Disorder</p>
-<p>Questions 6-9
-Complete the table below. Write NO MORE THAN THREE WORDS from the passage for each answer.</p>
-<p>Questions 10-13
+<p><strong>Types of Disorders</strong>
+<strong>A</strong> Stress
+<strong>B</strong> Autistic Spectrum Disorder
+<strong>C</strong> Attention Deficit Disorder
+<strong>D</strong> Schizophrenia
+<strong>E</strong> Attention Deficit Hyperactivity Disorder
+<strong>F</strong> Depression
+<strong>G</strong> Obsessive Compulsive Disorder</p>
+<p><strong>Questions 6-9</strong>
+Complete the table below. Write <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
+<p><strong>Questions 10-13</strong>
 Choose the correct letter, A, B, C or D.</p>
 <p>10. Which disorder could cause visible physical changes?
-A Autistic Spectrum Disorder
-B Stress
-C Schizophrenia
-D Depression</p>
+<strong>A</strong> Autistic Spectrum Disorder
+<strong>B</strong> Stress
+<strong>C</strong> Schizophrenia
+<strong>D</strong> Depression</p>
 <p>11. Episodes of which disorder may last for a limited period of time?
-A ADHD
-B Autistic Spectrum Disorder
-C schizophrenia
-D depression</p>
+<strong>A</strong> ADHD
+<strong>B</strong> Autistic Spectrum Disorder
+<strong>C</strong> schizophrenia
+<strong>D</strong> depression</p>
 <p>12. Which disorder can be triggered by the death of a loved one?
-A Autistic Spectrum Disorder
-B ADHD
-C Stress
-D OCD</p>
+<strong>A</strong> Autistic Spectrum Disorder
+<strong>B</strong> ADHD
+<strong>C</strong> Stress
+<strong>D</strong> OCD</p>
 <p>13. What characterises sufferers of OCD?
-A the fear of going outside
-B the performance of rituals
-C the desire to hurt others
-D the feeling that they are helpless to ease their distress</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>the developing world</p>
-<p>A THE DEVELOPING WORLD – the economically underdeveloped countries of Asia. Africa. Oceania and Latin America – is considered as an entity with common characteristics, such as poverty, high birth rates, and economic dependence on the advanced countries. Until recently, the developing world was known as ‘the third world’. The French demographer Alfred Sauvy coined the expression (in French) in 1952 by analogy with the ‘third estate’ – the commoners of France before and during the French Revolution – as opposed to priests and nobles, comprising the First and second estates respectively. ‘Like the third estate’, wrote Sauvy, ‘the third world is nothing, and it wants to be something’. The term therefore implies that the third world is exploited, much as the third estate was exploited and that, like the third estate, its destiny is a revolutionary one. It conveys as well a second idea, also discussed by Sauvy – that of nonalignment, for the developing world belongs neither to the industrialised capitalist world nor to the industrialised former communist bloc. The expression ‘third world’ was used at the 1955 conference of Afro-Asian countries held in Bandung. Indonesia. In 1956 a group of social scientists associated with Sauvy’s National Institute of Demographic Studies, in Paris, published a book called ‘Le Tiers-Monde’. Three years later, the French economist Francois Perroux launched a new journal, on problems of underdevelopment, with the same title. By the end of the 1950s the term was frequently employed in the French media to refer to the underdeveloped countries of Asia. Africa, Oceania and Latin America. Present day politicians and social commentators, however, now use the term ‘developing world’ in a politically correct effort to dispel the negative connotations of ‘third world’.</p>
-<p>B Countries in the developing world have a number of common traits: distorted and highly dependent economies devoted to producing primary products for the developed world; traditional, rural social structures; high population growth and widespread poverty. Nevertheless, the developing world is sharply differentiated, for it includes countries on various levels of economic development. And despite the poverty of the countryside and the urban shanty towns, the ruling elites of most third world countries are wealthy.</p>
-<p>C This combination of conditions in Asia, Africa, Oceania and Latin America is linked to the absorption of the developing world into the international capitalist economy, by way of conquest or indirect domination. The main economic consequence of Western domination was the creation, for the first time in history, of a world market. By setting up sub-economies linked to the West throughout the developing world, and by introducing other modern institutions, industrial capitalism disrupted traditional economies and, indeed, societies. This disruption led to underdevelopment.</p>
-<p>D Because the economies of underdeveloped countries have been geared to the needs of industrialised countries, they often comprise only a few modem economic activities, such as mining or the cultivation of plantation crops. Control over these activities has often remained in the hands of large foreign firms. The prices of developing world products are usually determined by large buyers in the economically dominant countries of the West, and trade with the West provides almost all the developing world’s income. Throughout the colonial period, outright exploitation severely limited the accumulation of capital within the foreign dominated countries. Even after decolonisation (in the 1950s, 1960s, and 1970s), the economies of the developing world grew slowly, or not at all, owing largely to the deterioration of the ‘terms of trade’ – the relationship between the cost of the goods a nation must import from abroad and its income from the exports it sends to foreign countries. Terms of trade are said to deteriorate when the cost of imports rises faster than income from exports. Since buyers in the industrialised countries determined the prices of most products involved in international trade, the worsening position of the developing world was scarcely surprising. Only the oil-producing countries – after 1973 – succeeded in escaping the effects of Western domination of the world economy.</p>
-<p>E No study of the developing world could hope to assess its future prospects without taking into account population growth. While the mortality rate from poverty-related diseases continues to cause international concern, the birth rate continues to rise at unprecedented levels. This population explosion in the developing world will surely prevent any substantial improvements in living standards, as well as threaten people in stagnant economies with worsening poverty and starvation levels.</p>
-<p>Questions 14–18
+<strong>A</strong> the fear of going outside
+<strong>B</strong> the performance of rituals
+<strong>C</strong> the desire to hurt others
+<strong>D</strong> the feeling that they are helpless to ease their distress</p>
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>the developing world</strong></p>
+<p><strong>A</strong> THE DEVELOPING WORLD – the economically underdeveloped countries of Asia. Africa. Oceania and Latin America – is considered as an entity with common characteristics, such as poverty, high birth rates, and economic dependence on the advanced countries. Until recently, the developing world was known as ‘the third world’. The French demographer Alfred Sauvy coined the expression (in French) in 1952 by analogy with the ‘third estate’ – the commoners of France before and during the French Revolution – as opposed to priests and nobles, comprising the First and second estates respectively. ‘Like the third estate’, wrote Sauvy, ‘the third world is nothing, and it wants to be something’. The term therefore implies that the third world is exploited, much as the third estate was exploited and that, like the third estate, its destiny is a revolutionary one. It conveys as well a second idea, also discussed by Sauvy – that of nonalignment, for the developing world belongs neither to the industrialised capitalist world nor to the industrialised former communist bloc. The expression ‘third world’ was used at the 1955 conference of Afro-Asian countries held in Bandung. Indonesia. In 1956 a group of social scientists associated with Sauvy’s National Institute of Demographic Studies, in Paris, published a book called ‘Le Tiers-Monde’. Three years later, the French economist Francois Perroux launched a new journal, on problems of underdevelopment, with the same title. By the end of the 1950s the term was frequently employed in the French media to refer to the underdeveloped countries of Asia. Africa, Oceania and Latin America. Present day politicians and social commentators, however, now use the term ‘developing world’ in a politically correct effort to dispel the negative connotations of ‘third world’.</p>
+<p><strong>B</strong> Countries in the developing world have a number of common traits: distorted and highly dependent economies devoted to producing primary products for the developed world; traditional, rural social structures; high population growth and widespread poverty. Nevertheless, the developing world is sharply differentiated, for it includes countries on various levels of economic development. And despite the poverty of the countryside and the urban shanty towns, the ruling elites of most third world countries are wealthy.</p>
+<p><strong>C</strong> This combination of conditions in Asia, Africa, Oceania and Latin America is linked to the absorption of the developing world into the international capitalist economy, by way of conquest or indirect domination. The main economic consequence of Western domination was the creation, for the first time in history, of a world market. By setting up sub-economies linked to the West throughout the developing world, and by introducing other modern institutions, industrial capitalism disrupted traditional economies and, indeed, societies. This disruption led to underdevelopment.</p>
+<p><strong>D</strong> Because the economies of underdeveloped countries have been geared to the needs of industrialised countries, they often comprise only a few modem economic activities, such as mining or the cultivation of plantation crops. Control over these activities has often remained in the hands of large foreign firms. The prices of developing world products are usually determined by large buyers in the economically dominant countries of the West, and trade with the West provides almost all the developing world’s income. Throughout the colonial period, outright exploitation severely limited the accumulation of capital within the foreign dominated countries. Even after decolonisation (in the 1950s, 1960s, and 1970s), the economies of the developing world grew slowly, or not at all, owing largely to the deterioration of the ‘terms of trade’ – the relationship between the cost of the goods a nation must import from abroad and its income from the exports it sends to foreign countries. Terms of trade are said to deteriorate when the cost of imports rises faster than income from exports. Since buyers in the industrialised countries determined the prices of most products involved in international trade, the worsening position of the developing world was scarcely surprising. Only the oil-producing countries – after 1973 – succeeded in escaping the effects of Western domination of the world economy.</p>
+<p><strong>E</strong> No study of the developing world could hope to assess its future prospects without taking into account population growth. While the mortality rate from poverty-related diseases continues to cause international concern, the birth rate continues to rise at unprecedented levels. This population explosion in the developing world will surely prevent any substantial improvements in living standards, as well as threaten people in stagnant economies with worsening poverty and starvation levels.</p>
+<p><strong>Questions 14–18</strong>
 Reading Passage 2 has five paragraphs, A – E. Choose the most suitable heading for each paragraph from the list of headings below.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i The great divide between rich and poor.
 ii The status and destiny of the developing’ world follows a European precedent.
 iii Economic progress in the developing world slowed down In political unrest.
@@ -186,68 +242,68 @@ viii Prices and conditions set by outsiders</p>
 16 Paragraph C
 17 Paragraph D
 18 Paragraph E</p>
-<p>Questions 19-22
+<p><strong>Questions 19-22</strong>
 Do the following statements agree with the information given in Reading Passage 2?</p>
 <p>In spaces 19-22 below, write</p>
-<p>YES                                        if the statement agrees with the views of the writer
-NO                                          if the statement contradicts the views of the writer
-NOT GIVEN                       if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                                        if the statement agrees with the views of the writer
+<strong>NO</strong>                                          if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong>                       if it is impossible to say what the writer thinks about this</p>
 <p>19 Agriculture still plays a role in the economy of developing countries.
 20 The population of the developing world increases at such a fast rate because they constantly need to renew the labour force.
 21 Countries that spend more on imports than they can from exports can experience problems.
 22 Like the developing world, oil-rich countries are also victims of dominance by Western powers.</p>
-<p>Questions 23–26
+<p><strong>Questions 23–26</strong>
 Complete each sentence with the correct ending A – F below.</p>
 <p>Write the correct letter A – F in spaces 23 – 26 below.</p>
 <p>23 Countries in the developing world
 24 The term ‘the third world’ implies
 25 One factor that is prevalent in the developing world is
 26 One consequence of the terms of trade was</p>
-<p>A economic dependence on developed countries.
-B that decolonisation took a long time to achieve.
-C dictate the needs of industrialised countries.
-D share common characteristics.
-E that many economies stagnated.
-F a society that wants something it does not have.</p>
-<p>biometrics</p>
-<p>A The term “biometrics’ is derived from the Greek words bio (life) and metric (to measure). It refers to technologies for measuring and analysing a person’s physiological or behavioural characteristics, such as fingerprints, irises, voice patterns, facial patterns and hand measurements, for identification and verification purposes. One of the earliest known examples of biometrics in practice was a form of fingerprinting used in China in the 14th century. Chinese merchants stamped children’s palm prints and footprints on paper with ink to distinguish the young children from one another. This method of biometrics is still being practised today.</p>
-<p>B Until the late 1800s, identification largely relied upon ‘photographic memory.’ In the 1890s, an anthropologist and police desk clerk in Paris named Alphonse Bertillon sought to fix the problem of identifying convicted criminals and turned biometrics into a distinct field of study. He developed a method of multiple body measurements which was named after him – Bertillonage. Bertillon based his system on the claim that measurement of adult bones does not change after the age of 20. He also introduced a cataloguing system, which enabled the filing and checking of records quite quickly. His system was used by police authorities throughout the world, until 1903, when two identical measurements were obtained for two different persons at Fort Leavenworth prison. The prison switched to fingerprinting the following day and the rest of the world soon followed abandoning Bertillonage forever. After the failure of Bertillonage, the police started using fingerprinting, which was developed by Richard Edward Henry of Scotland Yard, essentially reverting to the same methods used by the Chinese for years.</p>
-<p>C In the past three decades biometrics has moved from a single method (fingerprinting) to more than ten different methods. Hundreds of companies are involved with this development and continue to improve their methods as the technology available to them advances. As the industry grows, however, so does the public concern over privacy issues. Laws and regulations continue to be drafted and standards are beginning to be developed. While no other biometric has yet reached the wide range of use of fingerprinting, some are beginning to be used in both legal and business areas.</p>
-<p>D Identification and verification have long been in practice by presenting a personal document, such as a licence, ID card or a passport. It may also require personal information such as passwords or PINs. For security reasons, often two, or all three, of these systems are combined but as times progress, we are in constant need for more secure and accurate measures. Authentication by biometric verification is becoming increasingly common in corporate and public security systems, consumer electronics and point of-sale applications. In addition to security, the driving force behind biometric verification has been convenience. Already, many European countries are introducing a biometric passport which will carry a paper-thin computer chip to store the facial image and at least one additional biometric identifier. This will help to counter fraudulent efforts to obtain duplicate passports and will verify the identity of the holder against the document.</p>
-<p>E Identification and verification are mainly used today in the fight against crime with the methods of fingerprint and DNA analysis. It is also used in security for granting access rights by voice pattern recognition. Additionally, it is used for personal comfort by identifying a person and changing personal settings accordingly, as in setting car seats by facial recognition. Starting in early 2000, the use of biometrics in schools has become widespread, particularly in the UK and USA. A number of justifications are given for such practices, including combatting truancy, and replacing library cards or meal cards with fingerprinting systems. Opponents of school biometrics have raised privacy concerns against the creation of databases that would progressively include the entire population.</p>
-<p>F Biometric devices consist of a reader or scanning device, software that converts the gathered information into digital form, and a database that stores the biometric data for comparison with previous records. When converting the biometric input, the software identifies specific points of data as match points. The match points are processed using an algorithm into a value that can be compared with biometric data in the database. There are two types of biometrics: behavioural and physical. Behavioural biometrics are generally used for verification while physical biometrics can be used for either identification or verification.</p>
-<p>G Iris-pattern and retina-pattern authentication methods are already employed in some bank automatic teller machines. Voice waveform recognition, a method of verification that has been used for many years with tape recordings in telephone wiretaps, is now being used for access to proprietary databanks in research facilities. Facial-recognition technology has been used by law enforcement to pick out individuals in large crowds with considerable reliability. Hand geometry is being used in industry to provide physical access to buildings. Earlobe geometry has been used to disprove the identity of individuals who claim to be someone they are not (identity theft). Signature comparison is not as reliable, all by itself, as other biometric verification methods but offers an extra layer of verification when used in conjunction with one or more other methods. No matter what biometric methodology is used, the identification verification process remains the same. A record of a person’s unique characteristic is captured and kept in a database. Later on, when identification verification is required, a new record is captured and compared with the previous record in the database. If the data in the new record matches that in the database record, the person’s identity is confirmed.</p>
-<p>H As technology advances, and time goes on, more and more private companies and public utilities will use biometrics for safe, accurate identification. However, these advances will raise many concerns throughout society, where many may not be educated on the methods. Some believe this technology can cause physical harm to an individual using it, or that instruments used are unsanitary. For example, there are concerns that retina scanners might not always be clean. There are also concerns as to whether our personal information taken through biometric methods can be misused, tampered with, or sold, eg. by criminals stealing, rearranging or copying the biometric data Also, the data obtained using biometrics can be used in unauthorised ways without the individual’s consent. Much still remains to be seen in the effectiveness of biometric verification before we can identify it as the safest system for identification.</p>
-<p>Questions 27-31
+<p><strong>A</strong> economic dependence on developed countries.
+<strong>B</strong> that decolonisation took a long time to achieve.
+<strong>C</strong> dictate the needs of industrialised countries.
+<strong>D</strong> share common characteristics.
+<strong>E</strong> that many economies stagnated.
+<strong>F</strong> a society that wants something it does not have.</p>
+<p><strong>biometrics</strong></p>
+<p><strong>A</strong> The term “biometrics’ is derived from the Greek words bio (life) and metric (to measure). It refers to technologies for measuring and analysing a person’s physiological or behavioural characteristics, such as fingerprints, irises, voice patterns, facial patterns and hand measurements, for identification and verification purposes. One of the earliest known examples of biometrics in practice was a form of fingerprinting used in China in the 14th century. Chinese merchants stamped children’s palm prints and footprints on paper with ink to distinguish the young children from one another. This method of biometrics is still being practised today.</p>
+<p><strong>B</strong> Until the late 1800s, identification largely relied upon ‘photographic memory.’ In the 1890s, an anthropologist and police desk clerk in Paris named Alphonse Bertillon sought to fix the problem of identifying convicted criminals and turned biometrics into a distinct field of study. He developed a method of multiple body measurements which was named after him – Bertillonage. Bertillon based his system on the claim that measurement of adult bones does not change after the age of 20. He also introduced a cataloguing system, which enabled the filing and checking of records quite quickly. His system was used by police authorities throughout the world, until 1903, when two identical measurements were obtained for two different persons at Fort Leavenworth prison. The prison switched to fingerprinting the following day and the rest of the world soon followed abandoning Bertillonage forever. After the failure of Bertillonage, the police started using fingerprinting, which was developed by Richard Edward Henry of Scotland Yard, essentially reverting to the same methods used by the Chinese for years.</p>
+<p><strong>C</strong> In the past three decades biometrics has moved from a single method (fingerprinting) to more than ten different methods. Hundreds of companies are involved with this development and continue to improve their methods as the technology available to them advances. As the industry grows, however, so does the public concern over privacy issues. Laws and regulations continue to be drafted and standards are beginning to be developed. While no other biometric has yet reached the wide range of use of fingerprinting, some are beginning to be used in both legal and business areas.</p>
+<p><strong>D</strong> Identification and verification have long been in practice by presenting a personal document, such as a licence, ID card or a passport. It may also require personal information such as passwords or PINs. For security reasons, often two, or all three, of these systems are combined but as times progress, we are in constant need for more secure and accurate measures. Authentication by biometric verification is becoming increasingly common in corporate and public security systems, consumer electronics and point of-sale applications. In addition to security, the driving force behind biometric verification has been convenience. Already, many European countries are introducing a biometric passport which will carry a paper-thin computer chip to store the facial image and at least one additional biometric identifier. This will help to counter fraudulent efforts to obtain duplicate passports and will verify the identity of the holder against the document.</p>
+<p><strong>E</strong> Identification and verification are mainly used today in the fight against crime with the methods of fingerprint and DNA analysis. It is also used in security for granting access rights by voice pattern recognition. Additionally, it is used for personal comfort by identifying a person and changing personal settings accordingly, as in setting car seats by facial recognition. Starting in early 2000, the use of biometrics in schools has become widespread, particularly in the UK and USA. A number of justifications are given for such practices, including combatting truancy, and replacing library cards or meal cards with fingerprinting systems. Opponents of school biometrics have raised privacy concerns against the creation of databases that would progressively include the entire population.</p>
+<p><strong>F</strong> Biometric devices consist of a reader or scanning device, software that converts the gathered information into digital form, and a database that stores the biometric data for comparison with previous records. When converting the biometric input, the software identifies specific points of data as match points. The match points are processed using an algorithm into a value that can be compared with biometric data in the database. There are two types of biometrics: behavioural and physical. Behavioural biometrics are generally used for verification while physical biometrics can be used for either identification or verification.</p>
+<p><strong>G</strong> Iris-pattern and retina-pattern authentication methods are already employed in some bank automatic teller machines. Voice waveform recognition, a method of verification that has been used for many years with tape recordings in telephone wiretaps, is now being used for access to proprietary databanks in research facilities. Facial-recognition technology has been used by law enforcement to pick out individuals in large crowds with considerable reliability. Hand geometry is being used in industry to provide physical access to buildings. Earlobe geometry has been used to disprove the identity of individuals who claim to be someone they are not (identity theft). Signature comparison is not as reliable, all by itself, as other biometric verification methods but offers an extra layer of verification when used in conjunction with one or more other methods. No matter what biometric methodology is used, the identification verification process remains the same. A record of a person’s unique characteristic is captured and kept in a database. Later on, when identification verification is required, a new record is captured and compared with the previous record in the database. If the data in the new record matches that in the database record, the person’s identity is confirmed.</p>
+<p><strong>H</strong> As technology advances, and time goes on, more and more private companies and public utilities will use biometrics for safe, accurate identification. However, these advances will raise many concerns throughout society, where many may not be educated on the methods. Some believe this technology can cause physical harm to an individual using it, or that instruments used are unsanitary. For example, there are concerns that retina scanners might not always be clean. There are also concerns as to whether our personal information taken through biometric methods can be misused, tampered with, or sold, eg. by criminals stealing, rearranging or copying the biometric data Also, the data obtained using biometrics can be used in unauthorised ways without the individual’s consent. Much still remains to be seen in the effectiveness of biometric verification before we can identify it as the safest system for identification.</p>
+<p><strong>Questions 27-31</strong>
 Reading Passage 3 has eight paragraphs, A – H. Which paragraph contains the following information?</p>
 <p>27 possible health hazards associated with the use of biometrics
 28 convicted criminals were not the first to be identified by the use of biometrics
 29 the application of mathematics in assessing biometric data
 30 despite its limitations, biometries has become a commercial field of activity
 31 some biometric methods are useful only in conjunction with others</p>
-<p>Questions 32-34
-Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+<p><strong>Questions 32-34</strong>
+Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>Members of the public are becoming increasingly worried about the (32)……………………………that may accompany the use of biometrics.</p>
 <p>Biometries can be used to improve the (33)………………………………of drivers and passengers.</p>
 <p>Regardless of the technology used, it has one common purpose: to find somebody’s (34)………………………….and store it on computer.</p>
-<p>Questions 35-40
+<p><strong>Questions 35-40</strong>
 Compute the summary with the list of words A – L below. Write the correct letter A – L in spaces 35 – 40 below.</p>
-<p>BIOMETRICS
+<p><strong>BIOMETRICS</strong>
 As long ago as the 14th century, the Chinese made use of biometrics in order to tell young children apart, but it was only in the 1890s when it was first used by the authorities as a means of (35)……………………… in criminal cases. The system developed by the Frenchman Bertillon – that of measuring adult bones – was flawed, however, and so police adopted (36)………………………….. as a more reliable way of identifying suspects. Governments, companies and even schools employ biometric technology to ensure, for example, that people do not enter a country illegally, gain access to certain buildings, or assume someone else’s (37)………………………………..Apart from security, another important (38)……………………………….behind biometric verification has been (39)……………………………..The use of biometrics, however, has its critics, who say that the data collected could be used for different purposes without our (40)……………………………………</p>
-<p>A identification
-B security
-C convenience
-D scanning
-E fingerprinting
-F identity
-G violation
-H measuring
-I justification
-J approval
-K factor
-L apprehension</p>
+<p><strong>A</strong> identification
+<strong>B</strong> security
+<strong>C</strong> convenience
+<strong>D</strong> scanning
+<strong>E</strong> fingerprinting
+<strong>F</strong> identity
+<strong>G</strong> violation
+<strong>H</strong> measuring
+<strong>I</strong> justification
+<strong>J</strong> approval
+<strong>K</strong> factor
+<strong>L</strong> apprehension</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. A</p>
 <p>2. G</p>
 <p>3. D</p>
@@ -506,6 +562,29 @@ L apprehension</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -525,12 +604,23 @@ L apprehension</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -542,14 +632,6 @@ L apprehension</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

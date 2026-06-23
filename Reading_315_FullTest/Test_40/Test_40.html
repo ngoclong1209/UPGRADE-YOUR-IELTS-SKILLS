@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,30 +158,30 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_40</h1>
-            <p>IELTS Reading Practice - Test 40</p>
-<p>alternative transportation</p>
-<p>Transportation is a major issue in urban areas around the world. Rising fuel costs, environmental problems, and traffic-clogged roads are some of the concerns that have led people to consider alternative forms of transportation.</p>
-<p>Fuel-efficient cars and cars that run on alternative sources of energy are receiving increasing interest as people become more concerned about the costs of using gasoline. These costs include not only the ever increasing price of filling up a car’s fuel tank but also the environmental costs of emitting huge amounts of car exhaust into the atmosphere. Climate change is an issue of global concern. Closer to home, cities have to consider the effects on the health of their citizens. Car emissions have been linked to a range of health problems, particularly respiratory problems. For example, studies have linked childhood asthma and stunted lung growth to exposure to car exhaust in the air. Research has also made connections between car emissions and heart disease, certain cancers, and immune system problems.</p>
-<p>The popularity of smaller, more fuel efficient cars is on the rise. Hybrid vehicles are also becoming more common. These cars have two engines— one that is battery powered and one that is gasoline powered. The battery- powered engine gets the car moving from a standstill. Once the car reaches a certain speed, the gasoline engine, which is more efficient at higher speeds, takes over to keep the car moving. There is also a growing interest in cars that are completely battery powered. These are cars that would be plugged into an electric outlet to recharge when not in use. Many consider such vehicles to be the car of the future. However, as long as the electricity is generated by coal-burning plants, as is often the case, these cars cannot be considered as using clean energy. Solar cars and hydrogen cars are other “clean” technologies that are receiving attention and hopes for the future.</p>
-<p>Car emissions are the most serious source of concern, but the sheer number of vehicles on the road—over 250 million in the United States alone and over one billion worldwide—has other repercussions, as well. The roads and highways that are built to accommodate the growing number of cars in use are a source of pollution themselves. Ground that is covered with pavement cannot absorb rainwater, thus motor oil and other pollutants are washed off the roads and into lakes, rivers, and the ocean. Chemicals, herbicides, concrete, asphalt, paint, and other materials that are used during road construction also contribute to environmental pollution.</p>
-<p>Personal convenience and health are also affected. While private cars are seen as a convenient way to get from place to place, crowded roads mean traffic moves much more slowly, making it difficult to travel, especially during “rush hour” periods. And people who spend hours each day sitting in cars stuck in traffic are not standing up, moving around, or getting any sort of exercise, a situation that can lead to a variety of health problems.</p>
-<p>Thus, in addition to developing passenger cars that run on alternative sources of fuel, we also need to look at alternative forms of transportation. These would include walking, bicycle riding, carpooling, and various types of public transportation. The benefits of walking and cycling are obvious. They cause no pollution and improve physical health. Car pools—several people sharing a ride in a private car—mean fewer cars on the road and allow the riders to share the expenses involved. Public transportation— buses, subways, commuter trains—has many benefits, as well. For one, it may provide users with opportunities for physical exercise as people have to get from their homes to the bus stops and train stations, and this is often done on foot. There are also mental health benefits, as relaxing on a train or bus while reading the newspaper or listening to music is a good deal less stressful than driving one’s own car through rush hour traffic. All of these forms of transportation decrease the number of cars on the roads and greatly reduce emissions. Looking toward the future, cities need to pay as much attention, or more, to public transportation and to accommodating walkers and cyclists as they do to building roads and accommodating drivers of passenger cars.</p>
-<p>Questions 1-5
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 40</strong></h3>
+<h3 class="test-heading"><strong>alternative transportation</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>Transportation is a major issue in urban areas around the world. Rising fuel costs, environmental problems, and traffic-clogged roads are some of the concerns that have led people to consider alternative forms of transportation.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>Fuel-efficient cars and cars that run on alternative sources of energy are receiving increasing interest as people become more concerned about the costs of using gasoline. These costs include not only the ever increasing price of filling up a car’s fuel tank but also the environmental costs of emitting huge amounts of car exhaust into the atmosphere. Climate change is an issue of global concern. Closer to home, cities have to consider the effects on the health of their citizens. Car emissions have been linked to a range of health problems, particularly respiratory problems. For example, studies have linked childhood asthma and stunted lung growth to exposure to car exhaust in the air. Research has also made connections between car emissions and heart disease, certain cancers, and immune system problems.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>The popularity of smaller, more fuel efficient cars is on the rise. Hybrid vehicles are also becoming more common. These cars have two engines— one that is battery powered and one that is gasoline powered. The battery- powered engine gets the car moving from a standstill. Once the car reaches a certain speed, the gasoline engine, which is more efficient at higher speeds, takes over to keep the car moving. There is also a growing interest in cars that are completely battery powered. These are cars that would be plugged into an electric outlet to recharge when not in use. Many consider such vehicles to be the car of the future. However, as long as the electricity is generated by coal-burning plants, as is often the case, these cars cannot be considered as using clean energy. Solar cars and hydrogen cars are other “clean” technologies that are receiving attention and hopes for the future.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Car emissions are the most serious source of concern, but the sheer number of vehicles on the road—over 250 million in the United States alone and over one billion worldwide—has other repercussions, as well. The roads and highways that are built to accommodate the growing number of cars in use are a source of pollution themselves. Ground that is covered with pavement cannot absorb rainwater, thus motor oil and other pollutants are washed off the roads and into lakes, rivers, and the ocean. Chemicals, herbicides, concrete, asphalt, paint, and other materials that are used during road construction also contribute to environmental pollution.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>Personal convenience and health are also affected. While private cars are seen as a convenient way to get from place to place, crowded roads mean traffic moves much more slowly, making it difficult to travel, especially during “rush hour” periods. And people who spend hours each day sitting in cars stuck in traffic are not standing up, moving around, or getting any sort of exercise, a situation that can lead to a variety of health problems.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Thus, in addition to developing passenger cars that run on alternative sources of fuel, we also need to look at alternative forms of transportation. These would include walking, bicycle riding, carpooling, and various types of public transportation. The benefits of walking and cycling are obvious. They cause no pollution and improve physical health. Car pools—several people sharing a ride in a private car—mean fewer cars on the road and allow the riders to share the expenses involved. Public transportation— buses, subways, commuter trains—has many benefits, as well. For one, it may provide users with opportunities for physical exercise as people have to get from their homes to the bus stops and train stations, and this is often done on foot. There are also mental health benefits, as relaxing on a train or bus while reading the newspaper or listening to music is a good deal less stressful than driving one’s own car through rush hour traffic. All of these forms of transportation decrease the number of cars on the roads and greatly reduce emissions. Looking toward the future, cities need to pay as much attention, or more, to public transportation and to accommodating walkers and cyclists as they do to building roads and accommodating drivers of passenger cars.</p></div></div>
+<p><strong>Questions 1-5</strong>
 The list below shows some problems that are associated with the use of private cars. Which FIVE of these problems are mentioned in the article?</p>
-<p>A Social isolation
-B High maintenance costs
-C Air pollution
-D Noise pollution
-E Traffic congestion
-F Stress
-G Lack of parking space
-H Rising price of gasoline
-I Reduced opportunities for physical exercise</p>
-<p>Questions 6-13
+<p><strong>A</strong> Social isolation
+<strong>B</strong> High maintenance costs
+<strong>C</strong> Air pollution
+<strong>D</strong> Noise pollution
+<strong>E</strong> Traffic congestion
+<strong>F</strong> Stress
+<strong>G</strong> Lack of parking space
+<strong>H</strong> Rising price of gasoline
+<strong>I</strong> Reduced opportunities for physical exercise</p>
+<p><strong>Questions 6-13</strong>
 Do the following statements agree with the views of the writer in the passage? In boxes 6-13 on your answer sheet write</p>
-<p>YES                            if the statement agrees with the views of the writer
-NO                             if the statement contradicts the views of the writer
-NOT GIVEN          if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                            if the statement agrees with the views of the writer
+<strong>NO</strong>                             if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong>          if it is impossible to say what the writer thinks about this</p>
 <p>6 Car emissions can contribute to illnesses of the respiratory system.
 7 Cars are the largest source of environmental pollution in the modern world.
 8 People are becoming more interested in hybrid cars.
@@ -135,7 +191,7 @@ NOT GIVEN          if it is impossible to say what the writer thinks about 
 12 Bicycle riding has health benefits.
 13 Car pools can reduce individuals’ transportation costs.</p>
 <p>Cambridge IELTS Test 1 to 17</p>
-<p>less television, less violence and aggression</p>
+<p><strong>less television, less violence and aggression</strong></p>
 <p>Cutting back on television, videos, and video games reduces acts of aggression among schoolchildren, according to a study by Dr. Thomas Robinson and others from the Stanford University School of Medicine.</p>
 <p>The study, published in the January 2001 issue of the Archives of Pediatric and Adolescent Medicine, found that third- and fourth-grade students who took part in a curriculum to reduce their TV video, and video game use engaged in fewer acts of verbal and physical aggression than their peers. The study took place in two similar San Jose, California, elementary schools. Students in one school underwent an 18-lesson, 6-month program designed to limit their media usage, while the others did not. Both groups of students had similar reports of aggressive behavior at the beginning of the study. After the six-month program, however, the two groups had very real differences.</p>
 <p>The students who cut back on their TV time engaged in six fewer acts of verbal aggression per hour and rated 2.4 percent fewer of their classmates as aggressive after the program. Physical acts of violence, parental reports of aggressive behavior, and perceptions of a mean and scary world also decreased, but the authors suggest further study to solidify these results. Although many studies have shown that children who watch a lot of TV are more likely to act violently, this report further verifies that television, videos, and video games actually cause the violent behavior, and it is among the first to evaluate a solution to the problem.</p>
@@ -145,41 +201,41 @@ NOT GIVEN          if it is impossible to say what the writer thinks about 
 <p>The more violent television the subjects watched at age eight, the more serious was their aggressive behavior even 22 years later. Another study by Dr. Brandon S. Centerwall found that murder rates climb after the introduction of television. In the United States and Canada, murder rates doubled 10 to 15 years after the introduction of television, after the first TV generation grew up. Centerwall tested this pattern in South Africa, where television broadcasts were banned until 1975.</p>
 <p>Murder rates in South Africa remained relatively steady from the mid-1940s through the mid-1970s. By 1987, however, the murder rate had increased 130 percent from its 1974 level. The murder rates in the United States and Canada had leveled1 off in the meantime. Centerwall’s study implies that the medium of television, not just the con-tent, promotes violence, and the current study by Dr Robinson supports that conclusion.</p>
 <p>The Turnoff did not specifically target violent television, nor did the following allowance period. Reducing television in general reduces aggressive behavior. Even television that is not “violent” is more violent than real life and may lead viewers to believe that violence is funny, inconsequential, and a viable solution to problems. Also, watching television of any content robs us of the time to interact with real people. Watching too much TV may inhibit the skills and patience we need to get along with others without resorting to aggression. TV, as a medium, pro-motes aggression and violence. The best solution is to turn it off.</p>
-<p>Questions 14-20
+<p><strong>Questions 14-20</strong>
 Complete the summary using words from the box below.</p>
 <p>A study that was published in January 2001 found that when children (14)………………………….less, they behaved less (15)……………………..Students in a California elementary school participated in the study, which lasted (16)……………………….By the end of the study, title children’s behavior had changed. For example, the children’s (17)…………………………reported that the children were acting less violently than before. During the study, the children kept a record of the (18)…………………….they watched TV. Then, for ten days, they (19)……………………….Near the end of the study, the students began to suggest watching (20)………………</p>
-<p>Questions 21-24
+<p><strong>Questions 21-24</strong>
 Do the following statements agree with the information in Reading Passage 2? In boxes 21-24 write</p>
-<p>TRUE                     if the statement is true according to the passage.
-FALSE                   if the statement contradicts the passage.
-NOT GIVEN        if there is no information about this in the passage.</p>
+<p><strong>TRUE</strong>                     if the statement is true according to the passage.
+<strong>FALSE</strong>                   if the statement contradicts the passage.
+<strong>NOT GIVEN</strong>        if there is no information about this in the passage.</p>
 <p>21 Only one study has found a connection between TV and violent behavior.
 22 There were more murders in Canada after people began watching TV.
 23 The United States has more violence on TV than other countries.
 24 TV was introduced in South Africa in the 1940s.</p>
-<p>Questions 25 and 26
+<p><strong>Questions 25 and 26</strong>
 For each question, choose the correct letter A-D and write it in boxes 25 and 26 on your Answer Sheet.</p>
 <p>25 According to the passage,
-A only children are affected by violence on TV
-B only violent TV programs cause violent behavior
-C children who watch too much TV get poor grades in school
-D watching a lot of TV may keep us from learning important social skills</p>
+<strong>A</strong> only children are affected by violence on TV
+<strong>B</strong> only violent TV programs cause violent behavior
+<strong>C</strong> children who watch too much TV get poor grades in school
+<strong>D</strong> watching a lot of TV may keep us from learning important social skills</p>
 <p>26 The authors of this passage believe that
-A some violent TV programs are funny
-B the best plan is to stop watching TV completely
-C it’s better to watch TV with other people than on your own
-D seven hours a week of TV watching is acceptable</p>
-<p>issues affecting the southern resident orcas</p>
-<p>A Orcas, also known as killer whales, are opportunistic feeders, which means they will take a variety of different prey species. J, K, and L pods (specific groups of orcas found in the region) are almost exclusively fish eaters. Some studies show that up to 90 percent of their diet is salmon, with Chinook salmon being far and away their favorite. During the last 50 years, hundreds of wild runs of salmon have become extinct due to habitat loss and overfishing of wild stocks. Many of the extinct salmon stocks are the winter runs of Chinook and coho. Although the surviving stocks have probably been sufficient to sustain the resident pods, many of the runs that have been lost were undoubtedly traditional resources favored by the resident orcas. This may be affecting the whales’ nutrition in the winter and may require them to change their patterns of movement in order to search for food.</p>
+<strong>A</strong> some violent TV programs are funny
+<strong>B</strong> the best plan is to stop watching TV completely
+<strong>C</strong> it’s better to watch TV with other people than on your own
+<strong>D</strong> seven hours a week of TV watching is acceptable</p>
+<p><strong>issues affecting the southern resident orcas</strong></p>
+<p><strong>A</strong> Orcas, also known as killer whales, are opportunistic feeders, which means they will take a variety of different prey species. J, K, and L pods (specific groups of orcas found in the region) are almost exclusively fish eaters. Some studies show that up to 90 percent of their diet is salmon, with Chinook salmon being far and away their favorite. During the last 50 years, hundreds of wild runs of salmon have become extinct due to habitat loss and overfishing of wild stocks. Many of the extinct salmon stocks are the winter runs of Chinook and coho. Although the surviving stocks have probably been sufficient to sustain the resident pods, many of the runs that have been lost were undoubtedly traditional resources favored by the resident orcas. This may be affecting the whales’ nutrition in the winter and may require them to change their patterns of movement in order to search for food.</p>
 <p>Other studies with tagged whales have shown that they regularly dive up to 800 feet in this area. Researchers tend to think that during these deep dives the whales may be feeding on bottomfish. Bottomfish species in this area would include halibut, rockfish, lingcod, and greenling. Scientists estimate that today’s lingcod population in northern Puget Sound and the Strait of Georgia is only 2 percent of what it was in 1950. The average size of rockfish in the recreational catch has also declined by several inches since the 1970s, which is indicative of overfishing. In some locations, certain rockfish species have disappeared entirely. So even if bottomfish are not a major food resource for the whales, the present low numbers of available fish increases the pressure on orcas and all marine animals to find food. (For more information on bottomfish see the San Juan County Bottomfish Recovery Program.)</p>
-<p>B Toxic substances accumulate in higher concentrations as they move up the food chain. Because orcas are the top predator in the ocean and are at the top of several different food chains in the environment, they tend to be more affected by pollutants than other sea creatures. Examinations of stranded killer whales have shown some extremely high levels of lead, mercury, and polychlorinated hydrocarbons. Abandoned marine toxic waste dumps and present levels of industrial and human refuse pollution of the inland waters probably presents the most serious threat to the continued existence of this orca population. Unfortunately, the total remedy to this huge problem would be broad societal changes on many fronts. But because of the fact that orcas are so popular, they may be the best species to use as a focal point in bringing about the many changes that need to be made in order to protect the marine environment as a whole from further toxic poisoning.</p>
-<p>C The waters around the San Juan Islands are extremely busy due to international commercial shipping, fishing, whale watching, and pleasure boating. On a busy weekend day in the summer, it is not uncommon to see numerous boats in the vicinity of the whales as they travel through the area. The potential impacts from all this vessel traffic with regard to the whales and other marine animals in the area could be tremendous.</p>
+<p><strong>B</strong> Toxic substances accumulate in higher concentrations as they move up the food chain. Because orcas are the top predator in the ocean and are at the top of several different food chains in the environment, they tend to be more affected by pollutants than other sea creatures. Examinations of stranded killer whales have shown some extremely high levels of lead, mercury, and polychlorinated hydrocarbons. Abandoned marine toxic waste dumps and present levels of industrial and human refuse pollution of the inland waters probably presents the most serious threat to the continued existence of this orca population. Unfortunately, the total remedy to this huge problem would be broad societal changes on many fronts. But because of the fact that orcas are so popular, they may be the best species to use as a focal point in bringing about the many changes that need to be made in order to protect the marine environment as a whole from further toxic poisoning.</p>
+<p><strong>C</strong> The waters around the San Juan Islands are extremely busy due to international commercial shipping, fishing, whale watching, and pleasure boating. On a busy weekend day in the summer, it is not uncommon to see numerous boats in the vicinity of the whales as they travel through the area. The potential impacts from all this vessel traffic with regard to the whales and other marine animals in the area could be tremendous.</p>
 <p>The surfacing and breathing space of marine birds and mammals is a critical aspect of their habitat, which the animals must consciously deal with on a moment-to-moment basis throughout their lifetimes. With all the boating activity in the vicinity, there are three ways in which surface impacts are most likely to affect marine animals: (a) collision, (b) collision avoidance, and (c) exhaust emissions in breathing pockets.</p>
 <p>The first two impacts are very obvious and don’t just apply to vessels with motors. Kayakers even present a problem here because they’re so quiet. Marine animals, busy hunting and feeding under the surface of the water, may not be aware that there is a kayak above them and actually hit the bot-tom of it as they surface to breathe. The third impact is one most people don’t even think of. When there are numerous boats in the area, especially idling boats, there are a lot of exhaust fumes being spewed out on the surface of the water. When the whale comes up to take a nice big breath of “fresh” air, it instead gets a nice big breath of exhaust fumes. It’s hard to say how greatly this affects the animals, but think how breathing polluted air affects us (i.e., smog in large cities like Los Angeles, breathing the foul air while sitting in traffic jams, etc.).</p>
-<p>D Similar to surface impacts, a primary source of acoustic pollution for this population of orcas would also be derived from the cumulative underwater noise of vessel traffic. For cetaceans, the underwater sound environment is perhaps the most critical component of their sensory and behavioral lives. Orcas communicate with each other over short and long distances with a variety of clicks, chirps, squeaks, and whistles, along with using echolocation to locate prey and to navigate. They may also rely on passive listening as a primary sensory source. The long-term impacts from noise pollution would not likely show up as noticeable behavioral changes in habitat use, but rather as sensory damage or gradual reduction in population health. A new study at The Whale Museum called the SeaSound Remote Sensing Network has begun studying underwater acoustics and its relationship to orca communication.</p>
-<p>Questions 27-30
+<p><strong>D</strong> Similar to surface impacts, a primary source of acoustic pollution for this population of orcas would also be derived from the cumulative underwater noise of vessel traffic. For cetaceans, the underwater sound environment is perhaps the most critical component of their sensory and behavioral lives. Orcas communicate with each other over short and long distances with a variety of clicks, chirps, squeaks, and whistles, along with using echolocation to locate prey and to navigate. They may also rely on passive listening as a primary sensory source. The long-term impacts from noise pollution would not likely show up as noticeable behavioral changes in habitat use, but rather as sensory damage or gradual reduction in population health. A new study at The Whale Museum called the SeaSound Remote Sensing Network has begun studying underwater acoustics and its relationship to orca communication.</p>
+<p><strong>Questions 27-30</strong>
 Reading Passage 3 has four sections (A-D). Choose the most suitable heading for each section from the list of headings below. Write the appropriate numbers (i-vii) in boxes 27-30 on your Answer Sheet. There are more headings than sections, so you will not use all of them.</p>
-<p>List of headings
+<p><strong>List of headings</strong>
 i Top Ocean Predators
 ii Toxic Exposure
 iii Declining Fish Populations
@@ -191,22 +247,22 @@ vii Impact of Boat Traffic</p>
 28 Section B
 29 Section C
 30 Section D</p>
-<p>Questions 31-32
+<p><strong>Questions 31-32</strong>
 For each question, choose the appropriate letter A-D and write it in boxes 31 and 32 on your Answer Sheet.</p>
 <p>31 Killer whales (orcas) in the J, K, and L pods prefer to eat
-A halibut
-B a type of salmon
-C a variety of animals
-D fish living at the bottom of the sea</p>
+<strong>A</strong> halibut
+<strong>B</strong> a type of salmon
+<strong>C</strong> a variety of animals
+<strong>D</strong> fish living at the bottom of the sea</p>
 <p>32 Some groups of salmon have become extinct because
-A they have lost places to live
-B whales have eaten them
-C they don’t get good nutrition
-D the winters in the area are too cold</p>
-<p>Questions 33-40
-Complete the chart below. Write NO MORE THAN THREE WORDS.</p>
+<strong>A</strong> they have lost places to live
+<strong>B</strong> whales have eaten them
+<strong>C</strong> they don’t get good nutrition
+<strong>D</strong> the winters in the area are too cold</p>
+<p><strong>Questions 33-40</strong>
+Complete the chart below. Write <strong>NO MORE THAN THREE WORDS</strong>.</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. C</p>
 <p>2. E</p>
 <p>3. F</p>
@@ -465,6 +521,29 @@ Complete the chart below. Write NO MORE THAN THREE WORDS.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -484,12 +563,23 @@ Complete the chart below. Write NO MORE THAN THREE WORDS.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -501,14 +591,6 @@ Complete the chart below. Write NO MORE THAN THREE WORDS.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,40 +158,40 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_184</h1>
-            <p>IELTS Reading Practice - Test 184</p>
-<p>Working in the movies</p>
-<p>When people ask French translator Virginie Verdier what she does for a living, it must be tempting to say enigmatically: ‘Oh me? I’m in the movies’. It’s strictly true, but her starring role is behind the scenes. As translating goes, it doesn’t get more entertaining or glamorous than subtitling films. If you’re very lucky, you get to work on the new blockbuster films before they’re in the cinema, and if you’re just plain lucky, you get to work on the blockbuster movies that are going to video or DVD.</p>
-<p>The process starts when you get the original script and a tape. ‘We would start with translating and adapting the film script. The next step is what we call ‘timing’, which means synchronising the subtitles to the dialogue and pictures.’ This task requires discipline. You play the film, listen to the voice and the subtitles are up on your screen ready to be timed. You insert your subtitle when you hear the corresponding dialogue and delete .it when the dialogue finishes. The video tape carries a time code which runs in hours, minutes, seconds and frames. Think of it as a clock. The subtitling unit has an insert key to capture the time code where you want the subtitle to appear. When you press the delete key, it captures the time code where you want the subtitle to disappear. So each subtitle would Subtitling is an exacting part of the translation profession. Melanie Leyshon talks to Virginie Verdier of London translation company VSI about the glamour and the grind. Virginie is quick to point out that this is as exacting as any translating job. You work hard. It’s not all entertainment as you are doing the translating. You need all the skills of a good translator and those of a top-notch editor. You have to be precise and, of course, much more concise than in traditional translation work.</p>
-<p>‘have an ‘in’ point and an ‘out’ point which represent the exact time when the subtitle comes in and goes out. This process is then followed by a manual review, subtitle by subtitle, and time- codes are adjusted to improve synchronisation and respect shot changes. This process involves playing the film literally frame by frame as it is essential the subtitles respect the visual rhythm of the film.’</p>
-<p>Different subtitlers use different techniques. ‘I would go through the film and do the whole translation and then go right back from the beginning and start the timing process. But you could do it in different stages, translate let’s say 20 minutes of the film, then time this section and translate the next 20 minutes, and so on. It’s just a different method.’</p>
-<p>For multi-lingual projects, the timing is done first to create what is called a ‘spotting list’, a subtitle template, which is in effect a list of English subtitles pre-timed and edited for translation purposes. This is then translated and the timing is adapted to the target language with the help of the translator for quality control.</p>
-<p>‘Like any translation work, you can’t hurry subtitling,’ says Virginie. ‘If subtitles are translated and timed in a rush, the quality will be affected and it will show.’ Mistakes usually occur when the translator does not master the source language and misunderstands the original dialogue. ‘Our work also involves checking and reworking subtitles when the translation is not up to standard. However, the reason for redoing subtitles is not just because of poor quality translation. We may need to adapt subtitles to a new version of the film: the time code may be different. The film may have been edited or the subtitles may have been created for the cinema rather than video. If subtitles were done for cinema on 35mm, we would need to reformat the timing for video, as subtitles could be out of synch or too fast. If the translation is good, we would obviously respect the work of the original translator.’</p>
-<p>On a more practical level, there are general subtitling rules to follow, says Virginie. ‘Subtitles should appear at the bottom of the screen and usually in the centre.’ She says that different countries use different standards and rules. In Scandinavian countries and Holland, for example, subtitles are traditionally left justified. Characters usually appear in white with a thin black border for easy reading against a white or light background. We can also use different colours for each speaker when subtitling for the hearing impaired. Subtitles should have a maximum of two lines and the maximum number of characters on each line should be between 32 and 39. Our company standard is 37 (different companies and countries have different standards).’</p>
-<p>Translators often have a favourite genre, whether it’s war films, musicals, comedies (one of the most difficult because of the subtleties and nuances of comedy in different countries), drama or corporate programmes. Each requires a certain tone and style. ‘VSI employs American subtitlers, which is incredibly useful as many of the films we subtitle are American,’ says Virginie. ‘For an English person, it would not be so easy to understand the meaning behind typically American expressions, and vice-versa.’</p>
-<p>Questions 1-5
-Complete the flow chart below. Use NO MORE THAN THREE WORDS from the passage for each answer.</p>
-<p>THE SUBTITLING PROCESS</p>
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 184</strong></h3>
+<h3 class="test-heading"><strong>Working in the movies</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>When people ask French translator Virginie Verdier what she does for a living, it must be tempting to say enigmatically: ‘Oh me? I’m in the movies’. It’s strictly true, but her starring role is behind the scenes. As translating goes, it doesn’t get more entertaining or glamorous than subtitling films. If you’re very lucky, you get to work on the new blockbuster films before they’re in the cinema, and if you’re just plain lucky, you get to work on the blockbuster movies that are going to video or DVD.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>The process starts when you get the original script and a tape. ‘We would start with translating and adapting the film script. The next step is what we call ‘timing’, which means synchronising the subtitles to the dialogue and pictures.’ This task requires discipline. You play the film, listen to the voice and the subtitles are up on your screen ready to be timed. You insert your subtitle when you hear the corresponding dialogue and delete .it when the dialogue finishes. The video tape carries a time code which runs in hours, minutes, seconds and frames. Think of it as a clock. The subtitling unit has an insert key to capture the time code where you want the subtitle to appear. When you press the delete key, it captures the time code where you want the subtitle to disappear. So each subtitle would Subtitling is an exacting part of the translation profession. Melanie Leyshon talks to Virginie Verdier of London translation company VSI about the glamour and the grind. Virginie is quick to point out that this is as exacting as any translating job. You work hard. It’s not all entertainment as you are doing the translating. You need all the skills of a good translator and those of a top-notch editor. You have to be precise and, of course, much more concise than in traditional translation work.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>‘have an ‘in’ point and an ‘out’ point which represent the exact time when the subtitle comes in and goes out. This process is then followed by a manual review, subtitle by subtitle, and time- codes are adjusted to improve synchronisation and respect shot changes. This process involves playing the film literally frame by frame as it is essential the subtitles respect the visual rhythm of the film.’</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Different subtitlers use different techniques. ‘I would go through the film and do the whole translation and then go right back from the beginning and start the timing process. But you could do it in different stages, translate let’s say 20 minutes of the film, then time this section and translate the next 20 minutes, and so on. It’s just a different method.’</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>For multi-lingual projects, the timing is done first to create what is called a ‘spotting list’, a subtitle template, which is in effect a list of English subtitles pre-timed and edited for translation purposes. This is then translated and the timing is adapted to the target language with the help of the translator for quality control.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>‘Like any translation work, you can’t hurry subtitling,’ says Virginie. ‘If subtitles are translated and timed in a rush, the quality will be affected and it will show.’ Mistakes usually occur when the translator does not master the source language and misunderstands the original dialogue. ‘Our work also involves checking and reworking subtitles when the translation is not up to standard. However, the reason for redoing subtitles is not just because of poor quality translation. We may need to adapt subtitles to a new version of the film: the time code may be different. The film may have been edited or the subtitles may have been created for the cinema rather than video. If subtitles were done for cinema on 35mm, we would need to reformat the timing for video, as subtitles could be out of synch or too fast. If the translation is good, we would obviously respect the work of the original translator.’</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>On a more practical level, there are general subtitling rules to follow, says Virginie. ‘Subtitles should appear at the bottom of the screen and usually in the centre.’ She says that different countries use different standards and rules. In Scandinavian countries and Holland, for example, subtitles are traditionally left justified. Characters usually appear in white with a thin black border for easy reading against a white or light background. We can also use different colours for each speaker when subtitling for the hearing impaired. Subtitles should have a maximum of two lines and the maximum number of characters on each line should be between 32 and 39. Our company standard is 37 (different companies and countries have different standards).’</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>Translators often have a favourite genre, whether it’s war films, musicals, comedies (one of the most difficult because of the subtleties and nuances of comedy in different countries), drama or corporate programmes. Each requires a certain tone and style. ‘VSI employs American subtitlers, which is incredibly useful as many of the films we subtitle are American,’ says Virginie. ‘For an English person, it would not be so easy to understand the meaning behind typically American expressions, and vice-versa.’</p></div></div>
+<p><strong>Questions 1-5</strong>
+Complete the flow chart below. Use <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
+<p><strong>THE SUBTITLING PROCESS</strong></p>
 <p>Stage 1: Translate and adapt the script</p>
 <p>Stage 2: (1)…………………….-matching the subtitles to what said Involves recording time codes by using the (2)……………….keys.</p>
 <p>Stage 3: (3)……………………….– in order to make the (4)……………………..better</p>
 <p>Multi – lingual project</p>
 <p>Stage 4: Produce something known as a (5)……………………..and translate that</p>
-<p>Questions 6-9
+<p><strong>Questions 6-9</strong>
 Do the following statements agree with the information given in Reading Passage 1? In boxes 6-9 on your answer sheet write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>6. For translators, all subtitling work on films is desirable.
 7. Subtitling work involves a requirement that does not apply to other translation work.
 8. Some subtitling techniques work better than others.
 9. Few people are completely successful at subtitling comedies.</p>
-<p>Questions 10-13
-Complete the sentences below with words from Reading Passage I. Use NO MORE THAN THREE WORDS for each answer.</p>
+<p><strong>Questions 10-13</strong>
+Complete the sentences below with words from Reading Passage I. Use <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
 <p>Poor subtitling can be a result of the subtitler not being excellent at (10)……………………</p>
 <p>To create subtitles for a video version of a film, it may be necessary to (11)…………………….</p>
 <p>Subtitles usually have a (12)……………………….around them.</p>
 <p>Speakers can be distinguished from each other for the benefit of (13)…………………..</p>
-<p>Complementary and alternative medicine</p>
+<p><strong>Complementary and alternative medicine</strong></p>
 <p>Is complementary medicine hocus-pocus or does it warrant large-scale scientific investigation? should science range beyond conventional medicine and conduct research on alternative medicine and the supposed growing links between mind and body? This will be hotly debated at the British Association for the Advancement of Science.</p>
 <p>One Briton in five uses complementary medicine, and according to the most recent Mintel survey, one in ten uses herbalism or homoeopathy. Around £130 million is spent on oils, potions and pills every year in Britain, and the complementary and alternative medicine industry is estimated to be worth £1.6 billion. With the help of Professor Edzard Ernst, Laing chair of complementary medicine at The Peninsula Medical School, Universities of Exeter and Plymouth, we asked scientists their views on complementary and alternative medicine. Seventy-five scientists, in fields ranging from molecular biology to neuroscience, replied.</p>
 <p>Surprisingly, our sample of scientists was twice as likely as the public to use some form of complementary medicine, at around four in 10 compared with two in 10 of the general population. Three quarters of scientific users believed they were effective. Acupuncture, chiropractic and osteopathy were the most commonly used complementary treatments among scientists and more than 55 per cent believed these were more effective than a placebo and should be available to all on the National Health Service.</p>
@@ -147,7 +203,7 @@ Complete the sentences below with words from Reading Passage I. Use NO MORE THAN
 <p>Scientists believed that the ‘feelgood’ counselling effect of complementary medicine and the time taken to listen to patients’ problems was what worked, rather than any medicinal effect. In contrast, the average visit to the doctor lasts only eight minutes, says the British Medical Association. Dr Stephen Nurrish, a molecular biologist at University College London, said: ‘Much of the benefit people get from complementary medicine is the time to talk to someone and be listened to sympathetically, something that is now lacking from medicine in general.’</p>
 <p>But an anonymous neuroscientist at King’s College London had a more withering view of this benefit: ‘On the validity of complementary and alternative medicines, no one would dispute that ‘feeling good’ is good for your health, but why discriminate between museum-trip therapy, patting-a-dog therapy and aromatherapy? Is it because only the latter has a cadre of professional ‘practitioners’?’</p>
 <p>There are other hardline scientists who argue that there should be no such thing as complementary and alternative medicine. As Professor David Moore, director of the Medical Research Council’s Institute for Hearing Research, said: ‘Either a treatment works or it doesn’t. The only way to determine if it works is to test it against appropriate controls (that is, scientifically).’</p>
-<p>Questions 14-19
+<p><strong>Questions 14-19</strong>
 Look at the following views (Questions 14—19) and the list of people below them. Match each view with the person expressing it in the passage. NB You may use any letter more than once.</p>
 <p>14. Complementary medicine provides something that conventional medicine no longer does.
 15. It is hard for people to know whether they are being told the truth or nor.
@@ -155,43 +211,43 @@ Look at the following views (Questions 14—19) and the list of people below the
 17. Nothing can be considered a form of medicine unless it has been proved effective.
 18. It seems likely that some forms of alternative medicine do work.
 19. One particular kind of alternative medicine is a deliberate attempt to cheat the public.</p>
-<p>List of People</p>
-<p>A Dr Romke Bron
-B a molecular biologist from the University of Warwick
-C Dr Stephen Nurrish
-D a neuroscientist at King’s College London
-E Professor David Moore</p>
-<p>Questions 20-22
+<p><strong>List of People</strong></p>
+<p><strong>A</strong> Dr Romke Bron
+<strong>B</strong> a molecular biologist from the University of Warwick
+<strong>C</strong> Dr Stephen Nurrish
+<strong>D</strong> a neuroscientist at King’s College London
+<strong>E</strong> Professor David Moore</p>
+<p><strong>Questions 20-22</strong>
 Complete each sentence with the correct ending A-F from the box below.</p>
 <p>20. The British Association for the Advancement of Science will be discussing the issue of
 21. A recent survey conducted by a certain organisation addressed the issue of
 22. The survey in which the writer of the article was involved gave information on</p>
-<p>A what makes people use complementary rather than conventional medicine.’
-B how many scientists themselves use complementary and alternative medicine.
-C whether alternative medicine should be investigated scientifically.
-D research into the use of complementary and conventional medicine together.
-E how many people use various kinds of complementary medicine.
-F the extent to which attitudes to alternative medicine are changing</p>
-<p>Questions 23-26
+<p><strong>A</strong> what makes people use complementary rather than conventional medicine.’
+<strong>B</strong> how many scientists themselves use complementary and alternative medicine.
+<strong>C</strong> whether alternative medicine should be investigated scientifically.
+<strong>D</strong> research into the use of complementary and conventional medicine together.
+<strong>E</strong> how many people use various kinds of complementary medicine.
+<strong>F</strong> the extent to which attitudes to alternative medicine are changing</p>
+<p><strong>Questions 23-26</strong>
 Classify the following information as being given about</p>
-<p>A acupuncture
-B aromatherapy
-C herbalism
-D homoeopathy</p>
+<p><strong>A</strong> acupuncture
+<strong>B</strong> aromatherapy
+<strong>C</strong> herbalism
+<strong>D</strong> homoeopathy</p>
 <p>23. scientists believe that it is ineffective but harmless.
 24. Scientists felt that it could he added to the group of therapies that deserved to be provided with resources for further investigation.
 25. Scientists felt that it deserved to be taken seriously because of the organised way in which it has developed.
 26. A number of scientists had used it, but harsh criticism was expressed about it</p>
-<p>The cloud messenger</p>
-<p>A Luke Howard had been speaking for nearly an hour, during which time his audience had found itself in a state of gradually mounting excitement. By the time that he reached the concluding words of his address, the Plough Court laboratory was in an uproar. Everyone in the audience had recognized the importance of what they had just heard, and all were in a mood to have it confirmed aloud by their friends and neighbours in the room. Over the course of the past hour, they had been introduced not only to new explanations of the formation and lifespan of clouds, but also to a poetic new terminology: ‘Cirrus’, ‘Stratus’, ‘Cumulus’, ‘Nimbus’, and the other names, too, the names of intermediate compounds and modified forms, whose differences were based on altitude, air temperature and the shaping powers of upward radiation. There was much that needed to be taken on board.</p>
-<p>B Clouds, as everyone in the room would already have known, were staging posts m the rise and fall of water as it made its way on endless compensating journeys between the earth and the fruitful sky. Yet the nature of the means of their exact construction remained a mystery to most observers who, on the whole, were still in thrall to the vesicular or ‘bubble’ theory that had dominated meteorological thinking for the better part of a century. The earlier speculations, in all their strangeness, had mostly been forgotten or were treated as historical curiosities to be glanced at, derided and then abandoned. Howard, however, was adamant that clouds were formed from actual solid drops of water and ice, condensed from their vaporous forms by the fall in temperature which they encountered as they ascended through the rapidly cooling lower atmosphere. Balloon pioneers during the 1780s had continued just how cold it could get up in the realm of the clouds: the temperature fell some 6.5″C for every thousand metres they ascended. By the rime the middle of a major cumulus cloud had been reached, the temperature would have dropped to below freezing, while the oxygen concentration of the air would be starting to thin quire dangerously. That was what the balloonists meant by ‘dizzy heights’.</p>
-<p>C Howard was not, of course, the first to insist that clouds were best understood as entities with physical properties of their own, obeying the same essential laws which governed the rest of the natural world (with one or two interesting anomalies: water, after all, is a very strange material). It had long been accepted by many of the more scientifically minded that clouds, despite their distance and their seeming intangibility, should be studied and apprehended like any other objects in creation.</p>
-<p>D There was more, however, and better. Luke Howard also claimed that there was a fixed and constant number of basic cloud types, and this number was not (as the audience might have anticipated) in the hundreds or the thousands, like the teeming clouds themselves, with each as individual as a thumbprint. Had this been the case, it would render them both unclassifiable and unaccountable; just so many stains upon the sky. Howard’s claim, on the contrary, was that there were just three basic families of cloud, into which every one of the thousands of ambiguous forms could be categorized with certainty. The clouds obeyed a system and, once recognized in outline, their basic forms would be ‘as distinguishable from each other as a tree from a hill, or the latter from a lake’, for each displayed the simplest possible visual characteristics.</p>
-<p>E The names which Howard devised tor them were designed to convey a descriptive sense of each cloud type’s outward characteristics (a practice derived from the usual procedures of natural history classification), and were taken from the Latin, for ease of adoption by the learned of different nations’: Cirrus (from the Latin for fibre or hair), Cumulus (from the Latin for heap or pile) and Stratus (from the Latin for layer or sheet). Clouds were thus divided into tendrils, heaps and layers: the three formations at the heart of their design. Howard then went on to name four other cloud types, all of which were either modifications or aggregates of the three major families of formation. Clouds continually unite, pass into one another and disperse, but always in recognizable stages. The rain cloud Nimbus, for example (from the Latin for cloud), was, according to Howard, a rainy combination of all three types, although Nimbus was reclassified as nimbostratus by meteorologists in 1932, by which time the science of rain had developed beyond all recognition.</p>
-<p>F The modification of clouds was a major new idea, and what struck the audience most vividly about it was its elegant and powerful fittingness. All of what they had just heard seemed so clear and so self-evident. Some must have wondered how it was that no one – not even in antiquity – had named or graded the clouds before, or if they had, why their efforts had left no trace in the language. How could it he that the task had been waiting for Howard, who had succeeded in wringing a kind of exactitude from out of the vaporous clouds? Their forms, though shapeless and unresolved, had at last, it seemed, been securely grasped. Howard had given a set of names to a radical fluidity and impermanence that seemed every bit as magical, to that first audience, as the Eskimo’s fabled vocabulary of snow.</p>
-<p>Questions 27-32
+<p><strong>The cloud messenger</strong></p>
+<p><strong>A</strong> Luke Howard had been speaking for nearly an hour, during which time his audience had found itself in a state of gradually mounting excitement. By the time that he reached the concluding words of his address, the Plough Court laboratory was in an uproar. Everyone in the audience had recognized the importance of what they had just heard, and all were in a mood to have it confirmed aloud by their friends and neighbours in the room. Over the course of the past hour, they had been introduced not only to new explanations of the formation and lifespan of clouds, but also to a poetic new terminology: ‘Cirrus’, ‘Stratus’, ‘Cumulus’, ‘Nimbus’, and the other names, too, the names of intermediate compounds and modified forms, whose differences were based on altitude, air temperature and the shaping powers of upward radiation. There was much that needed to be taken on board.</p>
+<p><strong>B</strong> Clouds, as everyone in the room would already have known, were staging posts m the rise and fall of water as it made its way on endless compensating journeys between the earth and the fruitful sky. Yet the nature of the means of their exact construction remained a mystery to most observers who, on the whole, were still in thrall to the vesicular or ‘bubble’ theory that had dominated meteorological thinking for the better part of a century. The earlier speculations, in all their strangeness, had mostly been forgotten or were treated as historical curiosities to be glanced at, derided and then abandoned. Howard, however, was adamant that clouds were formed from actual solid drops of water and ice, condensed from their vaporous forms by the fall in temperature which they encountered as they ascended through the rapidly cooling lower atmosphere. Balloon pioneers during the 1780s had continued just how cold it could get up in the realm of the clouds: the temperature fell some 6.5″C for every thousand metres they ascended. By the rime the middle of a major cumulus cloud had been reached, the temperature would have dropped to below freezing, while the oxygen concentration of the air would be starting to thin quire dangerously. That was what the balloonists meant by ‘dizzy heights’.</p>
+<p><strong>C</strong> Howard was not, of course, the first to insist that clouds were best understood as entities with physical properties of their own, obeying the same essential laws which governed the rest of the natural world (with one or two interesting anomalies: water, after all, is a very strange material). It had long been accepted by many of the more scientifically minded that clouds, despite their distance and their seeming intangibility, should be studied and apprehended like any other objects in creation.</p>
+<p><strong>D</strong> There was more, however, and better. Luke Howard also claimed that there was a fixed and constant number of basic cloud types, and this number was not (as the audience might have anticipated) in the hundreds or the thousands, like the teeming clouds themselves, with each as individual as a thumbprint. Had this been the case, it would render them both unclassifiable and unaccountable; just so many stains upon the sky. Howard’s claim, on the contrary, was that there were just three basic families of cloud, into which every one of the thousands of ambiguous forms could be categorized with certainty. The clouds obeyed a system and, once recognized in outline, their basic forms would be ‘as distinguishable from each other as a tree from a hill, or the latter from a lake’, for each displayed the simplest possible visual characteristics.</p>
+<p><strong>E</strong> The names which Howard devised tor them were designed to convey a descriptive sense of each cloud type’s outward characteristics (a practice derived from the usual procedures of natural history classification), and were taken from the Latin, for ease of adoption by the learned of different nations’: Cirrus (from the Latin for fibre or hair), Cumulus (from the Latin for heap or pile) and Stratus (from the Latin for layer or sheet). Clouds were thus divided into tendrils, heaps and layers: the three formations at the heart of their design. Howard then went on to name four other cloud types, all of which were either modifications or aggregates of the three major families of formation. Clouds continually unite, pass into one another and disperse, but always in recognizable stages. The rain cloud Nimbus, for example (from the Latin for cloud), was, according to Howard, a rainy combination of all three types, although Nimbus was reclassified as nimbostratus by meteorologists in 1932, by which time the science of rain had developed beyond all recognition.</p>
+<p><strong>F</strong> The modification of clouds was a major new idea, and what struck the audience most vividly about it was its elegant and powerful fittingness. All of what they had just heard seemed so clear and so self-evident. Some must have wondered how it was that no one – not even in antiquity – had named or graded the clouds before, or if they had, why their efforts had left no trace in the language. How could it he that the task had been waiting for Howard, who had succeeded in wringing a kind of exactitude from out of the vaporous clouds? Their forms, though shapeless and unresolved, had at last, it seemed, been securely grasped. Howard had given a set of names to a radical fluidity and impermanence that seemed every bit as magical, to that first audience, as the Eskimo’s fabled vocabulary of snow.</p>
+<p><strong>Questions 27-32</strong>
 Reading Passage 3 has six paragraphs A-F. Choose the correct heading for each paragraph from the list of headings below.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i An easily understood system
 ii Doubts dismissed
 iii Not a totally unconventional view
@@ -208,15 +264,15 @@ x An obvious thing to do</p>
 30. Paragraph D
 31. Paragraph E
 32. Paragraph F</p>
-<p>Questions 33-36
-Label the diagram below. Choose NO MORE THAN THREE WORDS AND/OR A NUMBER from the passage for each answer.</p>
-<p>Questions 37-40
+<p><strong>Questions 33-36</strong>
+Label the diagram below. Choose <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> from the passage for each answer.</p>
+<p><strong>Questions 37-40</strong>
 Reading Passage 3 has six paragraphs labelled A-F. Which paragraph contains the following information? NB You may use any letter more than once.</p>
 <p>37. an example of a modification made to work done by Howard
 38. a comparison between Howard’s work and another classification system.
 39. a reference to the fact that Howard presented a very large amount of information
 40. an assumption that the audience asked themselves a question</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Timing</p>
 <p>2. insert (and) delete</p>
 <p>3. (a) manual review</p>
@@ -475,6 +531,29 @@ Reading Passage 3 has six paragraphs labelled A-F. Which paragraph contains the 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -494,12 +573,23 @@ Reading Passage 3 has six paragraphs labelled A-F. Which paragraph contains the 
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -511,14 +601,6 @@ Reading Passage 3 has six paragraphs labelled A-F. Which paragraph contains the 
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

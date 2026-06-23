@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,23 +158,23 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_206</h1>
-            <p>IELTS Reading Practice - Test 206</p>
-<p>Green virtues of green sand</p>
-<p>A For the past 100 years special high grade white sand dug from the ground at Leighton Buzzard in the UK. has been used to filter tap water to remove bacteria and impurities but this may no longer be necessary. A new factory that turns used wine bottles into green sand could revolutionise the recycling industry and help to filter Britain’s drinking water. Backed by $1.6m from the European Union and the Department for Environment, Food and Rural Affairs (Defra), a company based in Scotland is building the factory, which will turn beverage bottles back into the sand from which they were made in the first place. The green sand has already been successfully tested by water companies and is being used in 50 swimming pools in Scotland to keep the water clean.</p>
-<p>B The idea is not only to avoid using up an increasingly scarce natural resource, sand but also to solve a crisis in the recycling industry. Britain uses 5.5m tonnes of glass a year, but recycles only 750,000 tonnes of it. The problem is that half the green bottle glass in Britain is originally from imported wine and beer bottles. Because there is so much of it, and it is used less in domestic production than other types, green glass is worth only $25 a tonne. Clear glass, which is melted down and used for whisky bottles, mainly for export, is worth double that amount.</p>
-<p>C Howard Drvden. a scientist and managing director of the company. Drvden Aqua, of Bonnyrigg, near Edinburgh, has spent six years working on the product he calls Active Filtration Media, or AFM. He concedes that he has given what is basically recycled glass a ‘fancy name’ to remove the stigma of what most people would regard as an inferior product. He says he needs bottles that have already contained drinkable liquids to be sure that drinking water filtered through the AFM would not be contaminated. Crushed down beverage glass has fewer impurities than real sand and it performed better in trials. *The fact is that tests show that AFM does the job better than sand, it is easier to clean and reuse and has all sorts of properties that make it ideal for other applications.’ he claimed.</p>
-<p>D The factory is designed to produce 100 tonnes of AFM a day, although Mr Dryden regards this as a large-scale pilot project rather than full production. Current estimates of the UK market for this glass for filtering drinking water, sewage, industrial water, swimming pools and fish farming are between 175.000 to 217.000 tonnes a year, which will use up most of the glass available near the factory. So he intends to build five or six factories in cities where there are large quantities of bottles, in order to cut down on transport costs.</p>
-<p>E The current factory will be completed this month and is expected to go into full production on January 14th next year. Once it is providing a ‘regular’ product, the government’s drinking water inspectorate will be asked to perform tests and approve it for widespread use by water companies. A Defra spokesman said it was hoped that AFM could meet approval within six months. The only problem that they could foresee was possible contamination if some glass came from sources other than beverage bottles.</p>
-<p>F Among those who have tested the glass already is Caroline Fitzpatrick of the civil and environmental engineering department of University College London. ‘We have looked at a number of batches and it appears to do the job.’ she said. ‘Basically, sand is made of glass and Mr Dryden is turning bottles back into sand. It seems a straightforward idea and there is no reason we can think of why it would not work. Since glass from wine bottles and other beverages has no impurities and clearly did not leach any substances into the contents of the bottles, there was no reason to believe there would be a problem,’ Dr Fitzpatrick added.</p>
-<p>G Mr Dryden has set up a network of agents round the world to sell AFM. It is already in use in central America to filter water on banana plantations where the fruit has to be washed before being despatched to European markets. It is also in use in sewage works to filter water before it is returned to rivers, something which is becoming legally necessary across the European Union because of tighter regulations on sewage works. So there are a great number of applications involving cleaning up water. Currently, however, AFM costs $670 a tonne, about four times as much as good quality sand. ‘Hut that is because we haven’t got large-scale production. Obviously, when we get going it will cost a lot less, and be competitive with sand in price as well.’ Mr Dryden said. ‘I believe it performs better and lasts longer than sand, so it is going to be better value too.’</p>
-<p>H If AFM takes off as a product it will be a big boost for the government agency which is charged with finding a market for recycled products. Crushed glass is already being used in road surfacing and in making tiles and bricks. Similarly. AFM could prove to have a widespread use and give green glass a cash value.</p>
-<p>Questions 1-10
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 206</strong></h3>
+<h3 class="test-heading"><strong>Green virtues of green sand</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> For the past 100 years special high grade white sand dug from the ground at Leighton Buzzard in the UK. has been used to filter tap water to remove bacteria and impurities but this may no longer be necessary. A new factory that turns used wine bottles into green sand could revolutionise the recycling industry and help to filter Britain’s drinking water. Backed by $1.6m from the European Union and the Department for Environment, Food and Rural Affairs (Defra), a company based in Scotland is building the factory, which will turn beverage bottles back into the sand from which they were made in the first place. The green sand has already been successfully tested by water companies and is being used in 50 swimming pools in Scotland to keep the water clean.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> The idea is not only to avoid using up an increasingly scarce natural resource, sand but also to solve a crisis in the recycling industry. Britain uses 5.5m tonnes of glass a year, but recycles only 750,000 tonnes of it. The problem is that half the green bottle glass in Britain is originally from imported wine and beer bottles. Because there is so much of it, and it is used less in domestic production than other types, green glass is worth only $25 a tonne. Clear glass, which is melted down and used for whisky bottles, mainly for export, is worth double that amount.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> Howard Drvden. a scientist and managing director of the company. Drvden Aqua, of Bonnyrigg, near Edinburgh, has spent six years working on the product he calls Active Filtration Media, or AFM. He concedes that he has given what is basically recycled glass a ‘fancy name’ to remove the stigma of what most people would regard as an inferior product. He says he needs bottles that have already contained drinkable liquids to be sure that drinking water filtered through the AFM would not be contaminated. Crushed down beverage glass has fewer impurities than real sand and it performed better in trials. *The fact is that tests show that AFM does the job better than sand, it is easier to clean and reuse and has all sorts of properties that make it ideal for other applications.’ he claimed.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> The factory is designed to produce 100 tonnes of AFM a day, although Mr Dryden regards this as a large-scale pilot project rather than full production. Current estimates of the UK market for this glass for filtering drinking water, sewage, industrial water, swimming pools and fish farming are between 175.000 to 217.000 tonnes a year, which will use up most of the glass available near the factory. So he intends to build five or six factories in cities where there are large quantities of bottles, in order to cut down on transport costs.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> The current factory will be completed this month and is expected to go into full production on January 14th next year. Once it is providing a ‘regular’ product, the government’s drinking water inspectorate will be asked to perform tests and approve it for widespread use by water companies. A Defra spokesman said it was hoped that AFM could meet approval within six months. The only problem that they could foresee was possible contamination if some glass came from sources other than beverage bottles.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> Among those who have tested the glass already is Caroline Fitzpatrick of the civil and environmental engineering department of University College London. ‘We have looked at a number of batches and it appears to do the job.’ she said. ‘Basically, sand is made of glass and Mr Dryden is turning bottles back into sand. It seems a straightforward idea and there is no reason we can think of why it would not work. Since glass from wine bottles and other beverages has no impurities and clearly did not leach any substances into the contents of the bottles, there was no reason to believe there would be a problem,’ Dr Fitzpatrick added.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> Mr Dryden has set up a network of agents round the world to sell AFM. It is already in use in central America to filter water on banana plantations where the fruit has to be washed before being despatched to European markets. It is also in use in sewage works to filter water before it is returned to rivers, something which is becoming legally necessary across the European Union because of tighter regulations on sewage works. So there are a great number of applications involving cleaning up water. Currently, however, AFM costs $670 a tonne, about four times as much as good quality sand. ‘Hut that is because we haven’t got large-scale production. Obviously, when we get going it will cost a lot less, and be competitive with sand in price as well.’ Mr Dryden said. ‘I believe it performs better and lasts longer than sand, so it is going to be better value too.’</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>H</strong> If AFM takes off as a product it will be a big boost for the government agency which is charged with finding a market for recycled products. Crushed glass is already being used in road surfacing and in making tiles and bricks. Similarly. AFM could prove to have a widespread use and give green glass a cash value.</p></div></div>
+<p><strong>Questions 1-10</strong>
 Reading Passage 1 has 8 paragraphs labelled A-H Which paragraph contains the following information? NB You may use any letter more than once.</p>
-<p>Questions 11-14
-Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>Green sand
+<p><strong>Questions 11-14</strong>
+Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>Green sand</strong>
 The use of crushed green glass (AFM) may have two significant impacts: it may help to save a diminishing (11)…………………….while at the same time solving a major problem for the (12)…………………..in the UK. However, according to Howard Dryden, only glass from bottles that have been used for (13)……………………..can be used in the production process. AFM is more effective than (14)…………………….as a water filter, and also has other uses.</p>
-<p>NATURAL CHOICE Coffee and chocolate</p>
+<p><strong>NATURAL CHOICE Coffee and chocolate</strong></p>
 <p>When scientists from London’s Natural History Museum descended on the coffee farms of the tiny Central American republic of El Salvador, they were astonished to find such diversity of insect and plant species. During 18 months’ work on 12 farms, they found a third more species of parasitic wasp than are known to exist in the whole country of Costa Rica. They described four new species and are aware of a fifth. On 24 farms, they found nearly 300 species of tree when they had expected to find about 100.</p>
 <p>El Salvador has lost much of its natural forest, with coffee farms covering nearly 10% of the country. Most of them use the ‘shade-grown’ method of production, which utilises a semi-natural forest ecosystem. Alex Munro, the museum’s botanist on the expedition, says: ‘Our findings amazed our insect specialist. There’s a very sophisticated food web present. The wasps, for instance, may depend on specific species of tree.’</p>
 <p>It’s the same the world over. Species diversity is much higher where coffee is grown in shade conditions. In addition, coffee (and chocolate) is usually grown in tropical rainforest – regions that are biodiversity hotspots. ‘These habitats support up to 70% of the planets plant and animal species, and so the production methods of cocoa and coffee can have a hugely significant impact,’ explains Dr Paul Donald of the Royal Society for the. Protection of Birds.</p>
@@ -130,46 +186,46 @@ The use of crushed green glass (AFM) may have two significant impacts: it may he
 <p>The loss of shade-coffee forests has so alarmed a number of North American wildlife organisations that they are now harnessing consumer power to help save these threatened habitats. They are promoting a ‘certification’ system that can indicate to consumers that the beans have been grown on shade plantations. Bird-friendly coffee, for instance, is marketed by the Smithsonian Migratory Bird Center. The idea is that the small extra cost is passed directly on to the coffee farmers as a financial incentive to maintain their shade-coffee farms.</p>
 <p>Not all conservationists agree with such measures, however. Some say certification could be leading to the loss not preservation of natural forests. John Rappole of the Smithsonian Conservation and Research Center, for example, argues that shade-grown marketing provides ‘an incentive to convert existing areas of primary forest that are too remote or steep to be converted profitably to other forms of cultivation into shade-coffee plantations’.</p>
 <p>Other conservationists, such as Stacey Philpott and colleagues, argue the case for shade coffee. But there are different types of shade growing. Those used by subsistence farmers are virtually identical to natural forest (and have a corresponding diversity), while systems that use coffee plants as the understorey and cacao or citrus trees as the overstorey may be no more diverse than full-sun farms. Certification procedures need to distinguish between the two. and Ms.Philpott argues that as long as the process is rigorous and offers financial gains to the producers, shade growing does benefit the environment.</p>
-<p>Questions 15-19
+<p><strong>Questions 15-19</strong>
 Do the following statements agree with the information given in Reading Passage 2? In boxes 15-19 on your answer sheet write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>15. More species survive on the farms studied by the researchers than in the natural El Salvador forests.
 16. Nearly three-quarters of the Earth’s wildlife species can be found in shade- coffee plantations.
 17. Farmers in El Salvador who have tried both methods prefer shade-grown plantations.
 18. Shade plantations are important for migrating birds in both Africa and the Americas.
 19. Full-sun cultivation can increase the costs of farming.</p>
-<p>Questions 20-23
+<p><strong>Questions 20-23</strong>
 Look at the following opinions (Questions 20-23) and the list of people below. Match each opinion to the person credited with it. NB You can write any letter more than once.</p>
 <p>20. Encouraging shade growing may lead to farmers using the natural forest for their plantations.
 21. If shade-coffee farms match the right criteria, they can be good for wildlife.
 22. There may be as many species of bird found on shade farms in a particular area, as in natural habitats there.
 23. Currently, many shade-coffee farmers earn very little.</p>
-<p>A Alex Munroe
-B Paul Donald
-C Robert Rice
-D John Rappole
-E Stacey Philpott</p>
-<p>Questions 24-27
+<p><strong>A</strong> Alex Munroe
+<strong>B</strong> Paul Donald
+<strong>C</strong> Robert Rice
+<strong>D</strong> John Rappole
+<strong>E</strong> Stacey Philpott</p>
+<p><strong>Questions 24-27</strong>
 Classify the features described below as applying to</p>
 <p>24. can be used on either coffee or cocoa plantations
 25. is expected to produce bigger crops
 26. documentation may be used to encourage sales
 27. can reduce wildlife diversity</p>
-<p>A the shade-grown method
-B the full-sun method
-C both shade-grown and full-sun methods</p>
-<p>Painters of time</p>
-<p>A The works of Aboriginal artists are now much in demand throughout the world, and not just in Australia, where they are already fully recognised: the National Museum of Australia, which opened in Canberra in 2001, designated 40% of its exhibition space to works by Aborigines. In Europe their art is being exhibited at a museum in Lyon, France, while the future Quai Branly museum in Paris, which will be devoted to arts and civilisations of Africa. Asia, Oceania and the Americas, plans to commission frescoes by artists from Australia.</p>
-<p>B Their artistic movement began about 30 years ago. but its roots go back to time immemorial. All the works refer to the founding myth of the Aboriginal culture, ‘the Dreaming’. That internal geography, which is rendered with a brush and colours, is also the expression of the Aborigines’ long quest to regain the land which was stolen from them when Europeans arrived in the nineteenth century. ‘Painting is nothing without history.’ says one such artist. Michael Nelson Tjakamarra.</p>
-<p>C There are now fewer than 400.000 Aborigines living in Australia. They have been swamped by the country’s 17.5 million immigrants. These original ‘natives’ have been living in Australia for 50.000 years, but they were undoubtedly maltreated by the newcomers. Driven back to the most barren lands or crammed into slums on the outskirts of cities, the Aborigines were subjected to a policy of ‘assimilation’, which involved kidnapping children to make them better ‘integrated’ into European society, and herding the nomadic Aborigines by force into settled communities.</p>
-<p>D It was in one such community, Papunya, near Alice Springs, in the central desert, that Aboriginal painting first came into its own. In 1971, a white schoolteacher. Geoffrey Bardon, suggested to a group of Aborigines that they should decorate the school walls with ritual motifs. so as to pass on to the younger generation the myths that were starting to fade from their collective memory, the gave them brushes. colours and surfaces to paint on cardboard and canvases. He was astounded by the result. But their art did not come like a bolt from the blue: for thousands of years Aborigines had been ‘painting’ on the ground using sands of different colours, and on rock faces. They had also been decorating their bodies for ceremonial purposes. So there existed a formal vocabulary.</p>
-<p>E This had already been noted by Europeans. In the early twentieth century. Aboriginal communities brought together by missionaries in northern Australia had been encouraged to reproduce on tree bark the motifs found on rock faces. Artists turned out a steady stream of works, supported by the churches, which helped to sell them to the public, and between 1950 and I960 Aboriginal paintings began to reach overseas museums. Painting on bark persisted in the north, whereas the communities in the central desert increasingly used acrylic paint, and elsewhere in Western Australia women explored the possibilities of wax painting and dyeing processes, known as ‘batik’.</p>
-<p>F What Aborigines depict are always elements of the Dreaming, the collective history that each community is both part of and guardian of. The Dreaming is the story of their origins, of their ‘Great Ancestors’, who passed on their knowledge, their art and their skills (hunting, medicine, painting, music and dance) to man. ‘The Dreaming is not synonymous with the moment when the world was created.’ says Stephane Jacob, one of the organisers of the Lyon exhibition. ‘For Aborigines, that moment has never ceased to exist. It is perpetuated by the cycle of the seasons and the religious ceremonies which the Aborigines organise. Indeed the aim of those ceremonies is also to ensure the permanence of that golden age. The central function of Aboriginal painting, even in its contemporary manifestations, is to guarantee the survival of this world. The Dreaming is both past, present and future.’</p>
-<p>G Each work is created individually, with a form peculiar to each artist, but it is created within and on behalf of a community who must approve it. An artist cannot use a ‘dream’ that does not belong to his or her community, since each community is the owner of its dreams, just as it is anchored to a territory marked out by its ancestors, so each painting can be interpreted as a kind of spiritual road map for that community.</p>
-<p>H Nowadays, each community is organised as a cooperative and draws on the services of an art adviser, a government-employed agent who provides the artists with materials, deals with galleries and museums and redistributes the proceeds from sales among the artists. Today, Aboriginal painting has become a great success. Some works sell for more than $25,000, and exceptional items may fetch as much as $180,000 in Australia. ‘By exporting their paintings as though they were surfaces of their territory, by accompanying them to the temples of western art. the Aborigines have redrawn the map of their country, into whose depths they were exiled, says Yves Le Fur. of the Quai Branlv museum. ‘Masterpieces have been created. Their undeniable power prompts a dialogue that has proved all too rare in the history of contacts between the two cultures’.</p>
-<p>Questions 28-33
+<p><strong>A</strong> the shade-grown method
+<strong>B</strong> the full-sun method
+<strong>C</strong> both shade-grown and full-sun methods</p>
+<p><strong>Painters of time</strong></p>
+<p><strong>A</strong> The works of Aboriginal artists are now much in demand throughout the world, and not just in Australia, where they are already fully recognised: the National Museum of Australia, which opened in Canberra in 2001, designated 40% of its exhibition space to works by Aborigines. In Europe their art is being exhibited at a museum in Lyon, France, while the future Quai Branly museum in Paris, which will be devoted to arts and civilisations of Africa. Asia, Oceania and the Americas, plans to commission frescoes by artists from Australia.</p>
+<p><strong>B</strong> Their artistic movement began about 30 years ago. but its roots go back to time immemorial. All the works refer to the founding myth of the Aboriginal culture, ‘the Dreaming’. That internal geography, which is rendered with a brush and colours, is also the expression of the Aborigines’ long quest to regain the land which was stolen from them when Europeans arrived in the nineteenth century. ‘Painting is nothing without history.’ says one such artist. Michael Nelson Tjakamarra.</p>
+<p><strong>C</strong> There are now fewer than 400.000 Aborigines living in Australia. They have been swamped by the country’s 17.5 million immigrants. These original ‘natives’ have been living in Australia for 50.000 years, but they were undoubtedly maltreated by the newcomers. Driven back to the most barren lands or crammed into slums on the outskirts of cities, the Aborigines were subjected to a policy of ‘assimilation’, which involved kidnapping children to make them better ‘integrated’ into European society, and herding the nomadic Aborigines by force into settled communities.</p>
+<p><strong>D</strong> It was in one such community, Papunya, near Alice Springs, in the central desert, that Aboriginal painting first came into its own. In 1971, a white schoolteacher. Geoffrey Bardon, suggested to a group of Aborigines that they should decorate the school walls with ritual motifs. so as to pass on to the younger generation the myths that were starting to fade from their collective memory, the gave them brushes. colours and surfaces to paint on cardboard and canvases. He was astounded by the result. But their art did not come like a bolt from the blue: for thousands of years Aborigines had been ‘painting’ on the ground using sands of different colours, and on rock faces. They had also been decorating their bodies for ceremonial purposes. So there existed a formal vocabulary.</p>
+<p><strong>E</strong> This had already been noted by Europeans. In the early twentieth century. Aboriginal communities brought together by missionaries in northern Australia had been encouraged to reproduce on tree bark the motifs found on rock faces. Artists turned out a steady stream of works, supported by the churches, which helped to sell them to the public, and between 1950 and I960 Aboriginal paintings began to reach overseas museums. Painting on bark persisted in the north, whereas the communities in the central desert increasingly used acrylic paint, and elsewhere in Western Australia women explored the possibilities of wax painting and dyeing processes, known as ‘batik’.</p>
+<p><strong>F</strong> What Aborigines depict are always elements of the Dreaming, the collective history that each community is both part of and guardian of. The Dreaming is the story of their origins, of their ‘Great Ancestors’, who passed on their knowledge, their art and their skills (hunting, medicine, painting, music and dance) to man. ‘The Dreaming is not synonymous with the moment when the world was created.’ says Stephane Jacob, one of the organisers of the Lyon exhibition. ‘For Aborigines, that moment has never ceased to exist. It is perpetuated by the cycle of the seasons and the religious ceremonies which the Aborigines organise. Indeed the aim of those ceremonies is also to ensure the permanence of that golden age. The central function of Aboriginal painting, even in its contemporary manifestations, is to guarantee the survival of this world. The Dreaming is both past, present and future.’</p>
+<p><strong>G</strong> Each work is created individually, with a form peculiar to each artist, but it is created within and on behalf of a community who must approve it. An artist cannot use a ‘dream’ that does not belong to his or her community, since each community is the owner of its dreams, just as it is anchored to a territory marked out by its ancestors, so each painting can be interpreted as a kind of spiritual road map for that community.</p>
+<p><strong>H</strong> Nowadays, each community is organised as a cooperative and draws on the services of an art adviser, a government-employed agent who provides the artists with materials, deals with galleries and museums and redistributes the proceeds from sales among the artists. Today, Aboriginal painting has become a great success. Some works sell for more than $25,000, and exceptional items may fetch as much as $180,000 in Australia. ‘By exporting their paintings as though they were surfaces of their territory, by accompanying them to the temples of western art. the Aborigines have redrawn the map of their country, into whose depths they were exiled, says Yves Le Fur. of the Quai Branlv museum. ‘Masterpieces have been created. Their undeniable power prompts a dialogue that has proved all too rare in the history of contacts between the two cultures’.</p>
+<p><strong>Questions 28-33</strong>
 Reading Passage 3 has nine paragraphs A-l. Choose the most suitable heading for paragraphs A-F from the list of headings below.</p>
 <p>28. Paragraph A
 29. Paragraph B
@@ -177,7 +233,7 @@ Reading Passage 3 has nine paragraphs A-l. Choose the most suitable heading for 
 31. Paragraph D
 32. Paragraph E
 33. Paragraph F</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i Amazing results from a project
 ii New religious ceremonies
 iii Community art centres
@@ -186,30 +242,30 @@ v Mythology and history combined
 vi The increasing acclaim for Aboriginal art
 vii Belief in continuity
 viii Oppression of a minority people</p>
-<p>Questions 34-37
-Complete the flow chart below. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
+<p><strong>Questions 34-37</strong>
+Complete the flow chart below. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
 <p>• For (34)…………………….Aborigines produced ground and rock paintings.
 • Early twentieth century: churches first promoted the use of (35)………………for paintings.
 • Mid-twentieth century: Aboriginal paintings were seen in (36)……………………
 • Early 1970s: Aboriginal painted traditional patterns on (37)…………………..in one commodity</p>
-<p>Questions 38-40
+<p><strong>Questions 38-40</strong>
 Choose the correct answer, A, B, C or D</p>
 <p>38. In Paragraph G, the writer suggests that an important feature of Aboriginal art is
-A its historical context.
-B its significance to the group.
-C its religious content.
-D its message about the environment.</p>
+<strong>A</strong> its historical context.
+<strong>B</strong> its significance to the group.
+<strong>C</strong> its religious content.
+<strong>D</strong> its message about the environment.</p>
 <p>39. In Aboriginal beliefs, there is a significant relationship between
-A communities and lifestyles.
-B images and techniques.
-C culture and form.
-D ancestors and territory.</p>
+<strong>A</strong> communities and lifestyles.
+<strong>B</strong> images and techniques.
+<strong>C</strong> culture and form.
+<strong>D</strong> ancestors and territory.</p>
 <p>40. In Paragraph I. the writer suggests that Aboriginal art invites Westerners to engage with
-A the Australian land.
-B their own art.
-C Aboriginal culture.
-D their own history.</p>
-<p>ANSWER KEY</p>
+<strong>A</strong> the Australian land.
+<strong>B</strong> their own art.
+<strong>C</strong> Aboriginal culture.
+<strong>D</strong> their own history.</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. D</p>
 <p>2. E</p>
 <p>3. G</p>
@@ -468,6 +524,29 @@ D their own history.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -487,12 +566,23 @@ D their own history.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -504,14 +594,6 @@ D their own history.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

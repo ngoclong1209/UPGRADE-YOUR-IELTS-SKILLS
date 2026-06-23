@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,78 +158,78 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_219</h1>
-            <p>IELTS Reading Practice - Test 219</p>
-<p>Spot the Difference</p>
-<p>A Taxonomic history has been made this week, at least according In the World Wildlife Fund (WWF). a conservation group. Scientists have described a new species of clouded leopard from the tropical forests of Indonesia with spots (or “clouds”, as they are poetically known; smaller than those of other clouded leopards, with fur a little darker and with a double as opposed to a “partial double” stripe down its back.</p>
-<p>B However, no previously unknown beast has suddenly leapt out from the forest. In-stead, some scientists have proposed a change in the official taxonomic accounting system of clouded leopards. Where there were four subspecies there will likely now be two species. A genetic analysis and a closer inspection of museum specimens’ coals published in Current Biology has found no relevant difference between three subspecies described 50 years ago from continental Asia and from the Hainan and Taiwan islands. The 5.000-11,000 clouded leopards on Borneo, the 3,000 -7,000 on Sumatra, and the remaining few on the nearby Batu islands can now, the authors say, claim a more elevated distinction as a species.</p>
-<p>C What this actually means is fuzzy and whether it is scientifically important is questionable. In any case, biologists do not agree what species and subspecies are. Creatures are given Latin first and second names (corresponding to a genus and species) according to the convention of Carl von Linné, who was born 300 years ago this May. But Linneaus, as he is more commonly known, thought of species as perfectly discrete units created by God. Darwinism has them as mutable things, generated gradually over time by natural selection. So, delineating when enough variation has evolved to justify a new category is largely a matter of taste.</p>
-<p>D Take ants and butterflies. Ant experts have recently been waging a war against all types of species subdivision. Lepidopterists, on the other hand, cling to the double barrel second names from their discipline’s 19th-century tradition, and categorise many local subclasses within species found over wide areas. Thus, it would be futile – if one were so inclined – to attempt to compare the diversity of ant and butterfly populations.</p>
-<p>E The traditional way around the problem is to call a species all members of a group that share the same gene pool. They can mate together and produce fertile offspring. Whether Indonesian clouded leopards can make cubs with continental ones remains unknown but seems probable. Instead, the claim this week is that genetics and slight differences in fur patterning are enough to justify rebranding the clouded leopard as two significant types. Genetically, that makes sense if many DNA variations correlate perfectly between members of the two groups. The authors did find some correlation, but they looked for it in only three Indonesian animals. A larger sample would have been more difficult.</p>
-<p>F One thing is abundantly clear: conservationists who are trying to stop the destruction of the leopards’ habitat in Borneo and Sumatra see the announcement of a new species of big cat as a means to gain publicity and political capital. Upgrading subspecies to species is a strategy which James Mallet, of University College London, likes to call species inflation. It is a common by-product of genetic analysis, which can reveal differences between populations that the eye cannot. Creating ever more detailed genetic categories means creating smaller and increasingly restricted populations of more species. The trouble is that risks devaluing the importance of the term “species”.</p>
-<p>G The problem of redefining species by genetics is the creation of taxonomic confusion, a potentially serious difficulty for conservationists and others. The recent proposal to add the polar bear to the list of animals protected under America’s Endangered Species Act is an example. That seems all well and good. However, study the genetics and it transpires that polar bears are closer to some brown bears, than some brown hears are to each other. Go by the genes and it seems that the polar bear would not count as a species in its own right (and thus might not enjoy the protection afforded to species) but should be labelled a subspecies of the brown bear.</p>
-<p>Questions 1-4
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 219</strong></h3>
+<h3 class="test-heading"><strong>Spot the Difference</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Taxonomic history has been made this week, at least according In the World Wildlife Fund (WWF). a conservation group. Scientists have described a new species of clouded leopard from the tropical forests of Indonesia with spots (or “clouds”, as they are poetically known; smaller than those of other clouded leopards, with fur a little darker and with a double as opposed to a “partial double” stripe down its back.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> However, no previously unknown beast has suddenly leapt out from the forest. In-stead, some scientists have proposed a change in the official taxonomic accounting system of clouded leopards. Where there were four subspecies there will likely now be two species. A genetic analysis and a closer inspection of museum specimens’ coals published in Current Biology has found no relevant difference between three subspecies described 50 years ago from continental Asia and from the Hainan and Taiwan islands. The 5.000-11,000 clouded leopards on Borneo, the 3,000 -7,000 on Sumatra, and the remaining few on the nearby Batu islands can now, the authors say, claim a more elevated distinction as a species.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> What this actually means is fuzzy and whether it is scientifically important is questionable. In any case, biologists do not agree what species and subspecies are. Creatures are given Latin first and second names (corresponding to a genus and species) according to the convention of Carl von Linné, who was born 300 years ago this May. But Linneaus, as he is more commonly known, thought of species as perfectly discrete units created by God. Darwinism has them as mutable things, generated gradually over time by natural selection. So, delineating when enough variation has evolved to justify a new category is largely a matter of taste.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> Take ants and butterflies. Ant experts have recently been waging a war against all types of species subdivision. Lepidopterists, on the other hand, cling to the double barrel second names from their discipline’s 19th-century tradition, and categorise many local subclasses within species found over wide areas. Thus, it would be futile – if one were so inclined – to attempt to compare the diversity of ant and butterfly populations.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> The traditional way around the problem is to call a species all members of a group that share the same gene pool. They can mate together and produce fertile offspring. Whether Indonesian clouded leopards can make cubs with continental ones remains unknown but seems probable. Instead, the claim this week is that genetics and slight differences in fur patterning are enough to justify rebranding the clouded leopard as two significant types. Genetically, that makes sense if many DNA variations correlate perfectly between members of the two groups. The authors did find some correlation, but they looked for it in only three Indonesian animals. A larger sample would have been more difficult.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> One thing is abundantly clear: conservationists who are trying to stop the destruction of the leopards’ habitat in Borneo and Sumatra see the announcement of a new species of big cat as a means to gain publicity and political capital. Upgrading subspecies to species is a strategy which James Mallet, of University College London, likes to call species inflation. It is a common by-product of genetic analysis, which can reveal differences between populations that the eye cannot. Creating ever more detailed genetic categories means creating smaller and increasingly restricted populations of more species. The trouble is that risks devaluing the importance of the term “species”.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> The problem of redefining species by genetics is the creation of taxonomic confusion, a potentially serious difficulty for conservationists and others. The recent proposal to add the polar bear to the list of animals protected under America’s Endangered Species Act is an example. That seems all well and good. However, study the genetics and it transpires that polar bears are closer to some brown bears, than some brown hears are to each other. Go by the genes and it seems that the polar bear would not count as a species in its own right (and thus might not enjoy the protection afforded to species) but should be labelled a subspecies of the brown bear.</p></div></div>
+<p><strong>Questions 1-4</strong>
 The text has 7 paragraphs (A – G).</p>
 <p>Which paragraph contains each of the following pieces of information?</p>
-<p>Questions 5-8
-Complete the following sentences using NO MORE THAN TWO WORDS from the text for each answer.</p>
+<p><strong>Questions 5-8</strong>
+Complete the following sentences using <strong>NO MORE THAN TWO WORDS</strong> from the text for each answer.</p>
 <p>It is difficult to decide exactly when there is enough (5)………………to say an animal is a new species.</p>
 <p>It is (6)……………………..to compare the number of species of ant and butterfly.</p>
 <p>Generally, animals of the same species can make (7)…………………together.</p>
 <p>Some scientists claim that genetics has led to (8)……………….rather than the actual discovery of new species.</p>
-<p>Questions 9-13
+<p><strong>Questions 9-13</strong>
 Do the following statements agree with the information given in Reading Passage? In boxes 9 -13 write</p>
-<p>TRUE                      if the statement agrees with the information
-FALSE                    if the statement contradicts the information
-NOT GIVEN        if there is no information on this</p>
+<p><strong>TRUE</strong>                      if the statement agrees with the information
+<strong>FALSE</strong>                    if the statement contradicts the information
+<strong>NOT GIVEN</strong>        if there is no information on this</p>
 <p>9. The possible new species of leopard appears different in two ways.
 10. Darwinism created a problem with how species are defined.
 11. Lepidopterists study ants.
 12. Scientists are going to study more clouded leopards in Indonesia.
 13. The writer believes that polar bears are not a species in their own right.</p>
-<p>The Fertility Bust</p>
-<p>A Falling populations – the despair of state pension systems – are often regarded with calmness, even a secret satisfaction, by ordinary people. Europeans no longer need large families to gather the harvest or to look after parents. They have used their good fortune to have fewer children, thinking this will make their lives better. Much of Europe is too crowded as it is. Is this all that is going on? Germans have been agonising about recent European Union estimates suggesting that 30% of German women are, and will remain, childless. The number is a guess: Germany does not collect figures like this. Even if the share is 25%, as other surveys suggest, it is by far the highest in Europe.</p>
-<p>B Germany is something of an oddity in this. In most countries with low fertility, young women have their first child late, and stop at one. In Germany, women with children often have two or three, but many have none at all. Germany is also odd in experiencing low fertility for such a long time. Europe is demographically polarised. Countries in the north and west saw fertility fall early, in the 1960s. Recently, they have seen it stabilise or rise back towards replacement level (i.e. 2.1 births per woman). Countries in the south and east, on the other hand, saw fertility rates fall much faster, more recently (often to below 1.3, a rate at which the population falls by half every 45 years). Germany combines both. Its fertility rate fell below 2 in 1971, However, it has stayed low and is still only just above 1.3. This challenges the notion that European fertility is likely to stabilise at tolerable levels. It raises questions about whether the low birth rates of Italy and Poland, say, really are, as some have argued, merely temporary.</p>
-<p>C The list of explanations for why German fertility has not rebounded is long. Michael Teitelbaum, a demographer at the Sloan Foundation in New York ticks them off: poor childcare; unusually extended higher education; inflexible labour laws; high youth unemployment; and non-economic or cultural factors. One German writer, Gunter Grass, wrote a novel, “Headbirths”, in 1982, about Harm and Dorte Peters, “a model couple” who disport themselves on the beaches of Asia rather than invest time and trouble in bringing up a baby. “They keep a cat,” writes Mr. Grass, “and still have no child.” The novel is subtitled “The Germans Are Dying Out”. With the exception of this cultural factor, none of these features is peculiar to Germany. If social and economic explanations account for persistent low fertility there, then they may well produce the same persistence elsewhere.</p>
-<p>D The reason for hoping otherwise is that the initial decline in southern and eastern Europe was drastic, and may be reversible. In the Mediterranean, demographic decline was associated with freeing young women from the constraints of traditional Catholicism, which encouraged large families. In eastern Europe, it was associated with the collapse in living standards and the ending of pro-birth policies. In both regions, as such temporary factors fade, fertility rates might, in principle, be expected to rise. Indeed, they may already be stabilising in Italy and Spain. Germany tells you that reversing these trends can be hard. There, and elsewhere, fertility rates did not merely fall; they went below what people said they wanted. In 1979, Eurobarometer asked Europeans how many children they would like. Almost everywhere, the answer was two: the traditional two-child ideal persisted even when people were not delivering it. This may have reflected old habits of mind. Or people may really be having fewer children than they claim to want.</p>
-<p>E A recent paper suggests how this might come about. If women postpone their first child past their mid-30s, it may be too late to have a second even if they want one (the average age of first births in most of Europe is now 30). If everyone does the same, one child becomes the norm: a one-child policy by example rather than coercion, as it were. If women wait to start a family until they are established at work, they may end up postponing children longer than they might otherwise have chosen. When birth rates began to fall in Europe, this was said to be a simple matter of choice. That was true, but it is possible that fertility may overshoot below what people might naturally have chosen. For many years, politicians have argued that southern Europe will catch up from its fertility decline because women, having postponed their first child, will quickly have a second and third. The overshoot theory suggests there may be only partial recuperation. Postponement could permanently lower fertility, not just redistribute it across time.</p>
-<p>F There is a twist. If people have fewer children than they claim to want, how they see the family may change, too. Research by Tomas Sobotka of the Vienna Institute of Demography suggests that, after decades of low fertility, a quarter of young German men and a fifth of young women say they have no intention of having children and think that this is fine. When Eurobarometer repeated its poll about ideal family size in 2001, support for the two-child model had fallen everywhere. Parts of Europe, then, may be entering a new demographic trap. People restrict family size from choice. Social, economic, and cultural factors then cause this natural fertility decline to overshoot. This changes expectations, to which people respond by having even fewer children. That does not necessarily mean that birth rates will fall even more: there may yet be some natural floor, but it could mean that recovery from very low fertility rates proves to be slow or even non-existent.</p>
-<p>Questions 14-17
+<p><strong>The Fertility Bust</strong></p>
+<p><strong>A</strong> Falling populations – the despair of state pension systems – are often regarded with calmness, even a secret satisfaction, by ordinary people. Europeans no longer need large families to gather the harvest or to look after parents. They have used their good fortune to have fewer children, thinking this will make their lives better. Much of Europe is too crowded as it is. Is this all that is going on? Germans have been agonising about recent European Union estimates suggesting that 30% of German women are, and will remain, childless. The number is a guess: Germany does not collect figures like this. Even if the share is 25%, as other surveys suggest, it is by far the highest in Europe.</p>
+<p><strong>B</strong> Germany is something of an oddity in this. In most countries with low fertility, young women have their first child late, and stop at one. In Germany, women with children often have two or three, but many have none at all. Germany is also odd in experiencing low fertility for such a long time. Europe is demographically polarised. Countries in the north and west saw fertility fall early, in the 1960s. Recently, they have seen it stabilise or rise back towards replacement level (i.e. 2.1 births per woman). Countries in the south and east, on the other hand, saw fertility rates fall much faster, more recently (often to below 1.3, a rate at which the population falls by half every 45 years). Germany combines both. Its fertility rate fell below 2 in 1971, However, it has stayed low and is still only just above 1.3. This challenges the notion that European fertility is likely to stabilise at tolerable levels. It raises questions about whether the low birth rates of Italy and Poland, say, really are, as some have argued, merely temporary.</p>
+<p><strong>C</strong> The list of explanations for why German fertility has not rebounded is long. Michael Teitelbaum, a demographer at the Sloan Foundation in New York ticks them off: poor childcare; unusually extended higher education; inflexible labour laws; high youth unemployment; and non-economic or cultural factors. One German writer, Gunter Grass, wrote a novel, “Headbirths”, in 1982, about Harm and Dorte Peters, “a model couple” who disport themselves on the beaches of Asia rather than invest time and trouble in bringing up a baby. “They keep a cat,” writes Mr. Grass, “and still have no child.” The novel is subtitled “The Germans Are Dying Out”. With the exception of this cultural factor, none of these features is peculiar to Germany. If social and economic explanations account for persistent low fertility there, then they may well produce the same persistence elsewhere.</p>
+<p><strong>D</strong> The reason for hoping otherwise is that the initial decline in southern and eastern Europe was drastic, and may be reversible. In the Mediterranean, demographic decline was associated with freeing young women from the constraints of traditional Catholicism, which encouraged large families. In eastern Europe, it was associated with the collapse in living standards and the ending of pro-birth policies. In both regions, as such temporary factors fade, fertility rates might, in principle, be expected to rise. Indeed, they may already be stabilising in Italy and Spain. Germany tells you that reversing these trends can be hard. There, and elsewhere, fertility rates did not merely fall; they went below what people said they wanted. In 1979, Eurobarometer asked Europeans how many children they would like. Almost everywhere, the answer was two: the traditional two-child ideal persisted even when people were not delivering it. This may have reflected old habits of mind. Or people may really be having fewer children than they claim to want.</p>
+<p><strong>E</strong> A recent paper suggests how this might come about. If women postpone their first child past their mid-30s, it may be too late to have a second even if they want one (the average age of first births in most of Europe is now 30). If everyone does the same, one child becomes the norm: a one-child policy by example rather than coercion, as it were. If women wait to start a family until they are established at work, they may end up postponing children longer than they might otherwise have chosen. When birth rates began to fall in Europe, this was said to be a simple matter of choice. That was true, but it is possible that fertility may overshoot below what people might naturally have chosen. For many years, politicians have argued that southern Europe will catch up from its fertility decline because women, having postponed their first child, will quickly have a second and third. The overshoot theory suggests there may be only partial recuperation. Postponement could permanently lower fertility, not just redistribute it across time.</p>
+<p><strong>F</strong> There is a twist. If people have fewer children than they claim to want, how they see the family may change, too. Research by Tomas Sobotka of the Vienna Institute of Demography suggests that, after decades of low fertility, a quarter of young German men and a fifth of young women say they have no intention of having children and think that this is fine. When Eurobarometer repeated its poll about ideal family size in 2001, support for the two-child model had fallen everywhere. Parts of Europe, then, may be entering a new demographic trap. People restrict family size from choice. Social, economic, and cultural factors then cause this natural fertility decline to overshoot. This changes expectations, to which people respond by having even fewer children. That does not necessarily mean that birth rates will fall even more: there may yet be some natural floor, but it could mean that recovery from very low fertility rates proves to be slow or even non-existent.</p>
+<p><strong>Questions 14-17</strong>
 The text has 6 paragraphs (A – F).</p>
 <p>Which paragraph does each of the following headings best fit?</p>
 <p>14. Even further falls?
 15. One-child policy
 16. Germany differs
 17. Possible reasons</p>
-<p>Questions 18-22
+<p><strong>Questions 18-22</strong>
 According to the text, FIVE of the following statements are true.</p>
 <p>Write the corresponding letters in answer boxes 18 to 22 in any order.</p>
-<p>A Germany has the highest percentage of childless women
-B Italy and Poland have high birth rates
-C Most of the reasons given by Michael Teitelbaum are not unique to Germany
-D Governments in the Eastern Europe encouraged people to have children
-E In 1979, most families had one or two children
-F European women who have a child later usually have more soon after
-G In 2001, people wanted fewer children than in 1979, according to Eurobarometer research
-H Here may be a natural level at which birth rates stop declining</p>
-<p>Questions 23-26
+<p><strong>A</strong> Germany has the highest percentage of childless women
+<strong>B</strong> Italy and Poland have high birth rates
+<strong>C</strong> Most of the reasons given by Michael Teitelbaum are not unique to Germany
+<strong>D</strong> Governments in the Eastern Europe encouraged people to have children
+<strong>E</strong> In 1979, most families had one or two children
+<strong>F</strong> European women who have a child later usually have more soon after
+<strong>G</strong> In 2001, people wanted fewer children than in 1979, according to Eurobarometer research
+<strong>H</strong> Here may be a natural level at which birth rates stop declining</p>
+<p><strong>Questions 23-26</strong>
 According to the information given in the text, choose the correct answer or answers from the choices given.</p>
 <p>23. Reasons that ordinary Europeans do not think it is necessary to have as many children include
-A less labour needed to farm land
-B the feeling that Europe is too crowded
-C a general dislike of children</p>
+<strong>A</strong> less labour needed to farm land
+<strong>B</strong> the feeling that Europe is too crowded
+<strong>C</strong> a general dislike of children</p>
 <p>24. Michael Teitelbaum adds the following reasons:
-A poor children facilities
-B longer working hours
-C high unemployment amongst young adults</p>
+<strong>A</strong> poor children facilities
+<strong>B</strong> longer working hours
+<strong>C</strong> high unemployment amongst young adults</p>
 <p>25. Initial declines in southern and eastern Europe were because (of)
-A the reduced influence of the catholic church
-B lower standards of living
-C governments encouraged smaller families</p>
+<strong>A</strong> the reduced influence of the catholic church
+<strong>B</strong> lower standards of living
+<strong>C</strong> governments encouraged smaller families</p>
 <p>26. People may have fewer children than they want because
-A women are having children at a later age
-B they are following the example of other people
-C politicians want them to</p>
-<p>Teens Try to Change the World, One Purchase at a Time</p>
+<strong>A</strong> women are having children at a later age
+<strong>B</strong> they are following the example of other people
+<strong>C</strong> politicians want them to</p>
+<p><strong>Teens Try to Change the World, One Purchase at a Time</strong></p>
 <p>When classes adjourn here at the Fayerweather Street School, eighth-graders ignore the mall down the street and go straight to the place they consider much cooler: the local natural-foods grocer’s. There, they gather in groups of ten or more sometimes, smitten by a marketing atmosphere that links attractiveness to eating well. When time comes to buy something even as small as a chocolate treat, they feel good knowing a farmer somewhere probably received a good price. “Food is something you need to stay alive,” says eighth-grader Emma Lewis. “Paying farmers well is really important because if we didn’t have any unprocessed food, we’d all be living on candy.”</p>
 <p>Eating morally, as some describe it, is becoming a priority for teenagers as well as adults in their early 20s. What began a decade ago as a concern on college campuses to shun clothing made in overseas sweatshops has given birth to a parallel phenomenon in the food and beverage industries. Here, youthful shoppers are leveraging their dollars in a bid to reduce pesticide usage, limit deforestation, and make sure farmers are not left with a pittance on payday. Once again, college campuses are setting the pace. Students at 30 colleges have helped persuade administrators to make sure all cafeteria coffee comes with a “Fair Trade” label, which means bean pickers in Latin America and Africa were paid higher than the going rates. Their peers on another 300 campuses are pushing to follow suit, according to Students United for Fair Trade in Washington, D.C.</p>
 <p>Coffee is just the beginning. Bon Appetit, an institutional food-service provider based in California, relies on organic and locally grown produce. In each year since 2001, more than 25 colleges have asked the company to bid on their food-service contracts. Though Bon Appetit intentionally limits its growth, its collegiate client list has grown from 58 to 71 in that period. “It’s really just been in the last five years that we’ve seen students become concerned with where their food was coming from,” says Maisie Ganzler, Bon Appetit’s director of strategic initiatives. “Prior to that, students were excited to be getting sugared cereal.”</p>
@@ -182,42 +238,42 @@ C politicians want them to</p>
 <p>Wanting to ameliorate the world’s big problems can be frustrating, especially for those who feel ineffective because they are young. Marketers are figuring out that teenagers resent this feeling of powerlessness and are pushing products that make young buyers feel as though they are making a difference, says Michael Wood, vice president of Teenage Research Unlimited. His example: Ethos Water from Starbucks, which contributes five cents from every bottle sold to water-purification centres in developing countries. “This is a very easy way for young people to contribute. All they have to do is buy bottled water,” Mr. Wood says. “Buying products or supporting companies that give them ways to support global issues is one way for them to get involved, and they really appreciate that.”</p>
 <p>Convenience is also driving consumer activism. Joe Curnow, national coordinator of United Students for Fair Trade, says she first got involved about five years ago as a high schooler when she spent time hanging out in cafes. Buying coffee with an eco-friendly label “was a very easy way for me to express what I believed in”, she says. For young teens, consumption is their first foray into activism. At the Fayerweather Street School, Emma Lewis teamed up with classmates Kayla Kleinman and Therese LaRue to sell Fair Trade chocolate, cocoa, and other products at a school fundraiser in November. When the tally reached $8,000, they realised they were striking a chord.</p>
 <p>Some adults hasten to point out the limitations of ethical consumption as a tool for doing good deeds and personal growth. Gary Lindsay, director of Children’s Ministries, encourages Fair Trade purchases, but he also organises children to collect toys for foster children and save coins for a playground-construction project in Tanzania. He says it helps them learn to enjoy helping others even when they are not getting anything tangible in return. “When we’re benefiting, how much are we really giving? Is it really sacrifice?” Mr. Lindsay asks of Fair Trade products, he says: “Those things are great when we’re given opportunities like that once in a while, but I think for us to expect that we should get something out of everything we do is a very selfish attitude to have.”</p>
-<p>Questions 27-30
+<p><strong>Questions 27-30</strong>
 Choose the correct letter A, B or C.</p>
 <p>27. Trying to change the world through what people purchase began with
-A chocolate
-B clothing
-C coffee</p>
+<strong>A</strong> chocolate
+<strong>B</strong> clothing
+<strong>C</strong> coffee</p>
 <p>28. Bon Appetit had_______colleges using its services in 2006.
-A 25
-B 58
-C 71</p>
+<strong>A</strong> 25
+<strong>B</strong> 58
+<strong>C</strong> 71</p>
 <p>29. Buying Ethos Water helps provide money for
-A poor people in Africa.
-B poor farmers.
-C clean water projects.</p>
+<strong>A</strong> poor people in Africa.
+<strong>B</strong> poor farmers.
+<strong>C</strong> clean water projects.</p>
 <p>30. Joe Curnow first got involved with consumer activism through buying
-A coffee
-B cocoa
-C water</p>
-<p>Questions 31-35
-Complete the following sentences using NO MORE THAN ONE WORD from the text for each answer.</p>
+<strong>A</strong> coffee
+<strong>B</strong> cocoa
+<strong>C</strong> water</p>
+<p><strong>Questions 31-35</strong>
+Complete the following sentences using <strong>NO MORE THAN ONE WORD</strong> from the text for each answer.</p>
 <p>Eighth-graders from Fayerweather Street School go to the natural-foods grocer’s rather than the (31)………….</p>
 <p>Bon Appetit limits its growth (32)…………………</p>
 <p>Previously, young generations were (33)…………………to make sacrifices.</p>
 <p>Young people can feel frustrated and (34)……………..because of their age.</p>
 <p>Gary Lindsay (35)………………….people to buy products that make use of Fair Trade.</p>
-<p>Questions 36-40
+<p><strong>Questions 36-40</strong>
 Do the following statements agree with the information given in Reading Passage? In boxes 36 – 40 write:</p>
-<p>TRUE                     if the statement agrees with the information
-FALSE                   if the statement contradicts the information
-NOT GIVEN        if there is no information on this</p>
+<p><strong>TRUE</strong>                     if the statement agrees with the information
+<strong>FALSE</strong>                   if the statement contradicts the information
+<strong>NOT GIVEN</strong>        if there is no information on this</p>
 <p>36. Fair Trade coffee is more expensive than usual coffee.
 37. Bon Appetit used to sell sugared cereal.
 38. Rob Everts thinks that kids do not understand about protecting the environment.
 39. Summer Rayne Oakes will wear clothes that do not look so good as long as they promote Fair Trade.
 40. Gary Lindsay thinks people should do more than just consume ethically.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. C</p>
 <p>2. F</p>
 <p>3. G</p>
@@ -476,6 +532,29 @@ NOT GIVEN        if there is no information on this</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -495,12 +574,23 @@ NOT GIVEN        if there is no information on this</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -512,14 +602,6 @@ NOT GIVEN        if there is no information on this</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

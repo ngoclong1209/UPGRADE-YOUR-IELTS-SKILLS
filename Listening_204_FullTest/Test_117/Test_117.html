@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,96 +158,96 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_117</h1>
-            <p>IELTS Listening Practice - Test 117</p>
-<p>Part 1: Questions 1-10
-Complete the notes below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Architecture 21 conference</p>
-<p>Conference dates: (1)  _______ 
-Conference venue: (2)  _______ 
-Reservations phone no.: (3)  _______ 
-Student rate per day: (4)  _______ 
-Contact person: (5)  _______</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 117</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-10</strong>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<h3 class="test-heading"><strong>Architecture 21 conference</strong></h3>
+<p>Conference dates: <strong>(1)</strong>  _______ 
+Conference venue: <strong>(2)</strong>  _______ 
+Reservations phone no.: <strong>(3)</strong>  _______ 
+Student rate per day: <strong>(4)</strong>  _______ 
+Contact person: <strong>(5)</strong>  _______</p>
 <p>Must act fast:</p>
-<p>Closing date for talks: (6)  _______ 
-Summary should have: (7)  _______ 
-Maximum length: (8)  _______ 
-Also send: (9)  _______ 
-Email address: (10)  _______  @uniconf.edu.au</p>
-<p>Part 2: Question 11
-Complete the sentence below. Write NO MORE THAN FOUR WORDS AND/ OR A NUMBER for the answer.</p>
+<p>Closing date for talks: <strong>(6)</strong>  _______ 
+Summary should have: <strong>(7)</strong>  _______ 
+Maximum length: <strong>(8)</strong>  _______ 
+Also send: <strong>(9)</strong>  _______ 
+Email address: <strong>(10)</strong>  _______  @uniconf.edu.au</p>
+<p><strong>Part 2: Question 11</strong>
+Complete the sentence below. Write <strong>NO MORE THAN FOUR WORDS AND/ OR A NUMBER</strong> for the answer.</p>
 <p>11. The house was built between  _______</p>
-<p>Question 12
+<p><strong>Question 12</strong>
 Tick one letter A-C.</p>
 <p>12. It was originally constructed as a/ an:
-[ ]  A family home
-[ ]  B office
-[ ]  C public house</p>
-<p>Questions 13-15
-Complete the sentences below. Write NO MORE THAN FOUR WORDS for each answer.</p>
+<strong>[ ] </strong><strong> A</strong> family home
+<strong>[ ] </strong><strong> B</strong> office
+<strong>[ ] </strong><strong> C</strong> public house</p>
+<p><strong>Questions 13-15</strong>
+Complete the sentences below. Write <strong>NO MORE THAN FOUR WORDS</strong> for each answer.</p>
 <p>13. The house contains art from  _______ 
 14. Until recently, the art gallery was  _______ 
 15. Tomorrow’s talk will be on  _______</p>
-<p>Questions 16-20
-Complete the sentences below. Write NO MORE THAN FOUR WORDS for each answer.</p>
+<p><strong>Questions 16-20</strong>
+Complete the sentences below. Write <strong>NO MORE THAN FOUR WORDS</strong> for each answer.</p>
 <p>16. Breakfast is served in the cafeteria or  _______ 
 17. You can choose between English breakfast or  _______ 
 18. A car park was built because of an increase in  _______ 
 19. The garden contains many  _______ 
 20. The animals at Apsley House are all  _______</p>
-<p>Part 3: Questions 21-25
+<p><strong>Part 3: Questions 21-25</strong>
 Choose the correct letter A, B or C.</p>
 <p>21. Which college does Chris suggest would be best?
-[ ]  A Lees Conservatory of Contemporary Music
-[ ]  B The Henry Music Institute
-[ ]  C The Academy in London</p>
+<strong>[ ] </strong><strong> A</strong> Lees Conservatory of Contemporary Music
+<strong>[ ] </strong><strong> B</strong> The Henry Music Institute
+<strong>[ ] </strong><strong> C</strong> The Academy in London</p>
 <p>22. What entry requirements are common to all the colleges?
-[ ]  A an audition
-[ ]  B an essay
-[ ]  C an interview</p>
+<strong>[ ] </strong><strong> A</strong> an audition
+<strong>[ ] </strong><strong> B</strong> an essay
+<strong>[ ] </strong><strong> C</strong> an interview</p>
 <p>23. How much does the course at Leeds Conservatory of Contemporary Music cost?
-[ ]  A £6000 a year
-[ ]  B £7000 a year
-[ ]  C £8000 a year</p>
+<strong>[ ] </strong><strong> A</strong> £6000 a year
+<strong>[ ] </strong><strong> B</strong> £7000 a year
+<strong>[ ] </strong><strong> C</strong> £8000 a year</p>
 <p>24. What other expenses are payable to the colleges?
-[ ]  A application fee
-[ ]  B insurance
-[ ]  C train fare</p>
+<strong>[ ] </strong><strong> A</strong> application fee
+<strong>[ ] </strong><strong> B</strong> insurance
+<strong>[ ] </strong><strong> C</strong> train fare</p>
 <p>25. When is the deadline for Leeds Conservatory of Contemporary Music?
-[ ]  A January 9th
-[ ]  B January 19th
-[ ]  C January 30th</p>
-<p>Questions 26-30
+<strong>[ ] </strong><strong> A</strong> January 9th
+<strong>[ ] </strong><strong> B</strong> January 19th
+<strong>[ ] </strong><strong> C</strong> January 30th</p>
+<p><strong>Questions 26-30</strong>
 Which facilities do the colleges have?</p>
-<p>Choose FIVE answers from the list below and write the correct letter A-G next to questions 26-30.</p>
-<p>Facilities
-A large gardens
-B multiple sites
-C practice rooms
-D recording studio
-E research facility
-F student canteen
-G technology suite</p>
-<p>Colleges
+<p>Choose <strong>FIVE</strong> answers from the list below and write the correct letter A-G next to questions 26-30.</p>
+<p><strong>Facilities</strong>
+<strong>A</strong> large gardens
+<strong>B</strong> multiple sites
+<strong>C</strong> practice rooms
+<strong>D</strong> recording studio
+<strong>E</strong> research facility
+<strong>F</strong> student canteen
+<strong>G</strong> technology suite</p>
+<p><strong>Colleges</strong>
 26. Northdown College  _______ 
 27. The Academy in London  _______ 
 28. Leeds Conservatory of Contemporary Music  _______ 
 29. The Henry Music Institute  _______ 
 30. The James Academy of Music  _______</p>
-<p>Part 4: Questions 31-35
-Complete the sentences below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each answer.</p>
-<p>The health benefits of art and music</p>
+<p><strong>Part 4: Questions 31-35</strong>
+Complete the sentences below. Write <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>The health benefits of art and music</strong></p>
 <p>31. According to the speaker, art and music can benefit patients’ emotional  _______  and physical well-being.
 32. Florence Nightingale first noted the improvements in the year  _______ 
 33. The results of many did not prove a link between health and art as they were rarely  _______ 
 34. The American study looked at the effects of architecture on patients’  _______ 
 35. The patients who were in a ward with a  _______  were not in hospital for as long and needed less medication.</p>
-<p>Questions 36-40
-Complete the table below. Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>Recent Research Projects</p>
-<p>(36)  _______                      (37)  _______ 
-(38)  _______                      (39)  _______ 
-(40)  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>Questions 36-40</strong>
+Complete the table below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p><strong>Recent Research Projects</strong></p>
+<p><strong>(36)</strong>  _______                      <strong>(37)</strong>  _______ 
+<strong>(38)</strong>  _______                      <strong>(39)</strong>  _______ 
+<strong>(40)</strong>  _______</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. 18-20 October</p>
 <p>2. the pacific hotel</p>
 <p>3. 0793332266</p>
@@ -450,6 +506,29 @@ Complete the table below. Write NO MORE THAN THREE WORDS for each answer.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -469,12 +548,23 @@ Complete the table below. Write NO MORE THAN THREE WORDS for each answer.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -486,14 +576,6 @@ Complete the table below. Write NO MORE THAN THREE WORDS for each answer.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

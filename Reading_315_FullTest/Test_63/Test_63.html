@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,17 +158,17 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_63</h1>
-            <p>IELTS Reading Practice - Test 63</p>
-<p>britain set for heat wave in 2050</p>
-<p>A As you sit in your home or office and look at the rain running relentlessly down the window pane, you will almost certainly be thinking, “This is more like February, when will summer arrive?” This summer seems to have been colder and wetter than ever. So here is some good news. The Meteorological Office computer has analysed weather patterns over the last 100 years and suggests that the weather will get both drier and warmer – but in fifty year’s time.</p>
-<p>B Regardless of the effects of global warming it seems as though we can expect the average temperature in the UK to increase by 1.5°C. In parts of the UK we can also expect rainfall to decrease. Probably this will be most apparent in the south and east of Britain where rainfall is already the lowest in the UK. It looks as though parts of the UK may be prone to drought by the middle of the next century. This has already been noticed in the English wine making industry. John Gore Bullingham, who makes the award winning Carter Castle sparkling wine, has noticed that his grapes ripen two or three weeks earlier than they did when he started the vineyard in 1955.</p>
-<p>C All of this seems hard to believe. At present we are in the middle of a cold, grey and distinctly sodden July. It seems as though summer will never arrive. How does this observation fit with Met Office predictions of a warmer, drier Britain? The Met Office’s chief weather forecaster Claire Miles explains, “At present the weather over the whole of North America, the North Atlantic and Europe has become temporarily blocked. Those areas which have good weather, such as Southern Europe and the Balkans, can expect to keep it and develop heat waves. Those areas which have bad weather, such as the UK and Northern France, will keep the rain and unseasonable cold.”</p>
-<p>D We seem to have kept it for some time already. In the last two weeks of June and first two weeks of July the UK has had an average daily temperature of 12.9oC. Although it is hard to believe, this is only 1.7°C lower than normal for the time of year. But what makes it seem so cold is that in the same period there has been only three hours of sunshine a day; less than half the average for the period. This, combined with northerly winds, makes it seem much colder. It may get a little warmer towards the end of the month but not much.</p>
-<p>E Blocked weather does not have to be bad for the UK. The glorious summer of 1976 was caused by the same phenomenon. In that case the weather patterns came to a standstill with hot rather than cold weather over the UK. Even now, parts of Europe are suffering their highest temperatures for a generation. In Athens last week the temperature rose to 48.5oC, a temperature record for Europe. The settled and warm weather which would normally come to Britain on prevailing westerly winds is now stuck over the North Atlantic, sandwiched between unusually cold and wet weather in Northern Europe and the East coast of North America.</p>
-<p>F “Basically,” says Miss Miles, “you’ve got low pressure centred on the UK and the eastern US and two huge high pressure areas centred on the Atlantic and the Balkans. Normally high altitude winds would blow west to east and bring the weather with them. They form waves so in somewhere like the UK we usually get alternate high and low pressure systems passing over us. These bring, successively, warm and sunny, then colder and wetter weather and there is a pretty fixed boundary between the two. But this year the waves have been more pronounced. The waves become so big they turn into cells with the winds within them going round in circles. The normal west to east winds stop and the weather remains static for some time. It could stay like this for the whole summer.”</p>
-<p>Questions 1-5
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 63</strong></h3>
+<h3 class="test-heading"><strong>britain set for heat wave in 2050</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> As you sit in your home or office and look at the rain running relentlessly down the window pane, you will almost certainly be thinking, “This is more like February, when will summer arrive?” This summer seems to have been colder and wetter than ever. So here is some good news. The Meteorological Office computer has analysed weather patterns over the last 100 years and suggests that the weather will get both drier and warmer – but in fifty year’s time.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> Regardless of the effects of global warming it seems as though we can expect the average temperature in the UK to increase by 1.5°C. In parts of the UK we can also expect rainfall to decrease. Probably this will be most apparent in the south and east of Britain where rainfall is already the lowest in the UK. It looks as though parts of the UK may be prone to drought by the middle of the next century. This has already been noticed in the English wine making industry. John Gore Bullingham, who makes the award winning Carter Castle sparkling wine, has noticed that his grapes ripen two or three weeks earlier than they did when he started the vineyard in 1955.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> All of this seems hard to believe. At present we are in the middle of a cold, grey and distinctly sodden July. It seems as though summer will never arrive. How does this observation fit with Met Office predictions of a warmer, drier Britain? The Met Office’s chief weather forecaster Claire Miles explains, “At present the weather over the whole of North America, the North Atlantic and Europe has become temporarily blocked. Those areas which have good weather, such as Southern Europe and the Balkans, can expect to keep it and develop heat waves. Those areas which have bad weather, such as the UK and Northern France, will keep the rain and unseasonable cold.”</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> We seem to have kept it for some time already. In the last two weeks of June and first two weeks of July the UK has had an average daily temperature of 12.9oC. Although it is hard to believe, this is only 1.7°C lower than normal for the time of year. But what makes it seem so cold is that in the same period there has been only three hours of sunshine a day; less than half the average for the period. This, combined with northerly winds, makes it seem much colder. It may get a little warmer towards the end of the month but not much.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> Blocked weather does not have to be bad for the UK. The glorious summer of 1976 was caused by the same phenomenon. In that case the weather patterns came to a standstill with hot rather than cold weather over the UK. Even now, parts of Europe are suffering their highest temperatures for a generation. In Athens last week the temperature rose to 48.5oC, a temperature record for Europe. The settled and warm weather which would normally come to Britain on prevailing westerly winds is now stuck over the North Atlantic, sandwiched between unusually cold and wet weather in Northern Europe and the East coast of North America.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> “Basically,” says Miss Miles, “you’ve got low pressure centred on the UK and the eastern US and two huge high pressure areas centred on the Atlantic and the Balkans. Normally high altitude winds would blow west to east and bring the weather with them. They form waves so in somewhere like the UK we usually get alternate high and low pressure systems passing over us. These bring, successively, warm and sunny, then colder and wetter weather and there is a pretty fixed boundary between the two. But this year the waves have been more pronounced. The waves become so big they turn into cells with the winds within them going round in circles. The normal west to east winds stop and the weather remains static for some time. It could stay like this for the whole summer.”</p></div></div>
+<p><strong>Questions 1-5</strong>
 Reading Passage 1 has six paragraphs A – F. Choose the most suitable headings for paragraphs A – F from the list of headings below. Write the appropriate number i – viii in boxes 1 – 5 on your answer sheet. The first one has been done for you as an example. There are more headings than paragraphs, so you will not use them all</p>
-<p>Paragraph Headings
+<p><strong>Paragraph Headings</strong>
 i The process of blocked patterns
 ii Better weather in Britain soon
 iii The highs and lows of weather
@@ -126,17 +182,17 @@ viii Weather blocking in the past</p>
 3 Paragraph D
 4 Paragraph E
 5 Paragraph F</p>
-<p>Questions 13 and 14
-Complete the following paragraph based on information in Reading Passage 1 using NO MORE THAN THREE WORDS from the Reading Passage for each answer. Write the answers in boxes 13 – 14 on your answer sheet.</p>
+<p><strong>Questions 13 and 14</strong>
+Complete the following paragraph based on information in Reading Passage 1 using <strong>NO MORE THAN THREE WORDS</strong> from the Reading Passage for each answer. Write the answers in boxes 13 – 14 on your answer sheet.</p>
 <p>The weather in Britain is expected to change in the next fifty years. The temperatures will rise and in some areas the amount of rain will certainly (13)…………………………….Indeed it has been forecast that some regions of England will be (14)……………………….. by 2050.</p>
-<p>Cambridge IELTS Tests 1 to 17</p>
-<p>the biggest australian budget ever</p>
+<p><strong>Cambridge IELTS Tests 1 to 17</strong></p>
+<p><strong>the biggest australian budget ever</strong></p>
 <p>The Australian government is set to announce some of the biggest ever spending increases in education, welfare, the foreign office and defence at lunchtime tomorrow. After a decade of strong industrial growth, record low unemployment and a booming economy, the government feels confident enough to reinvest some of the funds it has been hoarding since it came to power four years ago.</p>
 <p>In accordance with the priorities which were stated when the Liberal party was elected, a very sizeable portion of this bounty will go to education and to schools in particular. Approximately A$1 billion is expected to go on educational building through the Neighbourhood Renewal Scheme. School buildings have suffered shameful neglect for over half a century. The population has grown and education has changed in that time but no new school buildings have been erected for 10 years. But this change should increase expenditure per child from some A$350 to over A$700. A further A$400 million will go on increasing teachers’ pay. There is national shortage of teachers, especially in areas such as science, mathematics and religion. The target to increase teachers in training to 5,600 last year was missed by a huge margin; only 2,533 actually enrolled. Increases both in basic pay and in incentive schemes, such as rewards for conspicuous achievement and cash payments for trainee teachers, will be made.</p>
 <p>In contrast to last year, expenditure on health will rise by less than one per cent and the changes here will be in research funding. The most notable change is in funding to the Adelaide Epidemiology Centre which is nearing its goal of marketing a vaccination against AIDS. The Department of Health will inject A$5.8 million for the large-scale, double-blind trials it requires. This compares with A$575,000 invested by the government in this programme last year. A government spokesman explains that, “health will be taking a back seat this year because of the huge increases announced in this area over the previous two years.”</p>
 <p>In other areas significant changes are also occurring. In the Department of Pensions and Welfare, state old age pensions, frozen at A$204 per month for the last three years are set to rise to A$255 per month. Unemployment benefit, likewise frozen for three years, is also set to rise but not until next year. Thereafter, rises of 10.5% over each of the remaining three years of this Parliament are scheduled. This is not as generous as it may seem, however, as certain categories of expenditure will be phased out. The Work Now Scheme to encourage single mothers back into the labour market will go, as will the infamous YTCs. The Youth Training Councils received a bad press over the Manning scandal which led to the resignation of the Minister, but there is evidence that these schemes placed in work only those people who would have found work anyway. More importantly, the period over which unemployment benefit is paid has been cut from a year to eight months and this might remove 20% of all claimants.</p>
 <p>In Defence and the Foreign Office, there are increases in the funding of the Voice of Australia radio service. The A$128 million may seem a small investment but it checks the reduction in funds from A$2 billion to A$698 million over the last decade which threatened to end the service entirely. A$500 million is being made available for two new warships and a further A$250 million for an extension to the Rapid Reaction Force now seen as so much more important given recent political and civil unrest in Indonesia, Malaysia, Papua New Guinea and Fiji.</p>
-<p>Questions 15-21
+<p><strong>Questions 15-21</strong>
 For questions 15-21 match the statistical changes stated in the text with a numerical expression. Write your answers in boxes 15 – 21 on your answer sheet. There are more expressions than answers needed, so you will not use them all.</p>
 <p>15 The decrease in financial support for the Voice of Australia over the previous 10 years…………………..
 16 The shortfall in the numbers who entered teacher training…………………..
@@ -145,31 +201,31 @@ For questions 15-21 match the statistical changes stated in the text with a nume
 19 The increase in funding for AIDS research ……………….
 20 The increase in state pensions…………………
 21 The increase in per capita expenditure on schools………………..</p>
-<p>Questions 22-26
+<p><strong>Questions 22-26</strong>
 Do the following statements agree with the information given in Reading Passage 27 In boxes 22 – 26 on your answer sheet write</p>
-<p>YES                            if the statement agrees with the information
-NO                              if the statement contradicts the information
-NOT GIVEN           if there is no information on this in the passage.</p>
+<p><strong>YES</strong>                            if the statement agrees with the information
+<strong>NO</strong>                              if the statement contradicts the information
+<strong>NOT GIVEN</strong>           if there is no information on this in the passage.</p>
 <p>22 The Australian government has been increasing expenditure for four years.
 23 School buildings have been neglected for 10 years.
 24 The Work Now Scheme was unsuccessful.
 25 The state pension did not increase for three years.
 26 The government has decided to release some of its reserves to improve the lives of its citizens.</p>
-<p>a man of principle of needless martyr?</p>
+<p><strong>a man of principle of needless martyr?</strong></p>
 <p>Sir Thomas More was the most brilliant Englishman of his age in an age, the early Renaissance, which is thought to be particularly brilliant. He scaled the heights in law, in philosophy and literature, and attained high political rank as Chancellor. But the most challenging thing about this man is nothing that he achieved in life but the nature of his death. The facts are well known. He was executed by King Henry VIII in 1534 for refusing to accept Henry as head of the church in England. What is unclear is why he chose to refuse, and to die in this way.</p>
 <p>Clouding the issue are the political and religious arguments which were at the root of his refusal and his death. It will be remembered that King Henry VIII was, for most of his life, an ardent Catholic who was awarded the title of Defender of the Faith for his resistance to the Protestant reformation. But his desperation for a male heir led Henry to divorce his first wife, Catherine of Aragon, in favour of the younger Ann Boleyn who offered the promise of a son. High politics among the crowned heads of Europe meant that this could only be achieved by a break with Rome and the acceptance of Protestantism in England. In a time when religion was taken very seriously by whole populations there was bound to be resistance.</p>
 <p>Traditional Catholic writers, such as Friar Anthony Foley, have cast “More as a martyr who stood up for the cause of Catholicism and perished for the true religion. “More was a beacon of light in those dark times,” says Friar Foley, “whose actions have shown the path of righteousness for true believers even down to the present day.” This interpretation was convenient for the Catholic church, then as now, and resulted in More being made a saint. It ignores, however, the fact that More took every step to stop his ideas being made a political issue. Whatever reason he had it was not support of the Catholic church. It also does not explain why More chose to take a stand, and effectively commit suicide, on this issue. Even under the teachings of the Catholic church he could have sworn the necessary oath to Henry because he was under duress. The church in his day did not expect or require him to refuse. More’s personal beliefs were his own but refusal to take the oath is what condemned him.</p>
 <p>A more recent biography, by Paul Hardy, views More as a medieval man and not the renaissance man he is often seen as. As such, Hardy argues, he would have been deeply conservative. The changes which Henry was embracing, with the acceptance of Protestantism, would have been highly offensive. “As a lawyer and Chancellor, More had spent his life defending the status quo and now, at the stroke of a pen, it was turned round,” he writes. This rather ignores the deliberate modernity which imbued every other aspect of More’s life from legal reform to the rewriting of school textbooks.</p>
 <p>Other writers, such as the psychotherapist Bill Blake, see More’s demise as an example of depressive illness. Melancholy was widely known at the time but not seen as an illness. It is not implausible that under the strain of work and the profile of his position as Chancellor, he succumbed to depression and, desperate and indecisive, let death sweep over him. But contemporary reports are at odds with this. He made every effort to comfort and cheer up his own relatives and never appeared lost or undecided.</p>
 <p>Since More himself left no explanation we will probably never really know what his motivation was. However, Hardy’s observations are very true in some respects in that More lived in a very different world and one that is hard for us to understand. Life could be very cheap 500 years ago especially if one held high political office or intellectual views at odds with the establishment. There is no better way of appreciating this than to consider the fate of the poets in the Oxford Book of Sixteenth Century Verse. Two thirds of these poets died violent deaths, almost all at the hands of an executioner. With the possibility of death ever present it seems to have been regarded then with something less than the dread it evokes today. Perhaps this is what happened with More. After a lifetime of good fortune, considerable luxury and achievement, the wheel of fortune had turned, and he accepted his fate with good grace in the hope of an even better life in the hereafter.</p>
-<p>Questions 27-34
+<p><strong>Questions 27-34</strong>
 Classify the following statement as referring to</p>
-<p>Writers</p>
-<p>A Foley
-B Hardy
-C Blake
-D The writer of the article
-E Contemporary writers</p>
+<p><strong>Writers</strong></p>
+<p><strong>A</strong> Foley
+<strong>B</strong> Hardy
+<strong>C</strong> Blake
+<strong>D</strong> The writer of the article
+<strong>E</strong> Contemporary writers</p>
 <p>Example: More took a religious stand against Protestantism.               Answer A</p>
 <p>Write the appropriate letters in boxes 27 – 33 on your answer sheet. You may use any answer more than once</p>
 <p>27 More was suffering from depression when he died.
@@ -180,40 +236,40 @@ E Contemporary writers</p>
 32 More resigned himself to the fact that his good luck had changed.
 33 More had a lifestyle which is difficult for modern man to comprehend.
 34 More showed he was a modern man in his restructuring of the law and education.</p>
-<p>Questions 35 – 40
+<p><strong>Questions 35 – 40</strong>
 For questions 35 – 40, choose the best answers. A, B, C or D, according to the information in the text. Write your answers on the answer sheet.</p>
 <p>35 Henry VIII executed More because
-A Henry VIII wanted a son
-B More believed in Protestantism
-C More was a Chancellor
-D More refused to take an oath</p>
+<strong>A</strong> Henry VIII wanted a son
+<strong>B</strong> More believed in Protestantism
+<strong>C</strong> More was a Chancellor
+<strong>D</strong> More refused to take an oath</p>
 <p>36 More’s death is a mystery because
-A he chose to be executed
-B he left no written explanation
-C the facts of his death are not known
-D it is bound up in religious controversy</p>
+<strong>A</strong> he chose to be executed
+<strong>B</strong> he left no written explanation
+<strong>C</strong> the facts of his death are not known
+<strong>D</strong> it is bound up in religious controversy</p>
 <p>37 Which of the following was More NOT expert in?
-A literature
-B religion
-C philosophy
-D law</p>
+<strong>A</strong> literature
+<strong>B</strong> religion
+<strong>C</strong> philosophy
+<strong>D</strong> law</p>
 <p>38 The writer disbelieves traditional views of More’s death because
-A More committed suicide
-B More didn’t follow Catholic teaching in refusing the oath
-C theories of depression are more persuasive
-D little is really understood of the time More lived in</p>
+<strong>A</strong> More committed suicide
+<strong>B</strong> More didn’t follow Catholic teaching in refusing the oath
+<strong>C</strong> theories of depression are more persuasive
+<strong>D</strong> little is really understood of the time More lived in</p>
 <p>39 According to the writer, the life of an intellectual 500 years ago could be dangerous
-A because the standard of living was cheap
-B because they held high political office
-C if they held dissident views
-D if they suffered from depression</p>
+<strong>A</strong> because the standard of living was cheap
+<strong>B</strong> because they held high political office
+<strong>C</strong> if they held dissident views
+<strong>D</strong> if they suffered from depression</p>
 <p>40 Henry VIII broke from Rome because
-A he believed Protestantism was the true faith
-B Rome refused him a divorce
-C he wanted to ensure the succession
-D he wanted to marry Ann Boleyn</p>
+<strong>A</strong> he believed Protestantism was the true faith
+<strong>B</strong> Rome refused him a divorce
+<strong>C</strong> he wanted to ensure the succession
+<strong>D</strong> he wanted to marry Ann Boleyn</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. ii</p>
 <p>2. i</p>
 <p>3. vi</p>
@@ -472,6 +528,29 @@ D he wanted to marry Ann Boleyn</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -491,12 +570,23 @@ D he wanted to marry Ann Boleyn</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -508,14 +598,6 @@ D he wanted to marry Ann Boleyn</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

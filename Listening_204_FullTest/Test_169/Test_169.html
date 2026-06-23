@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,143 +158,143 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_169</h1>
-            <p>IELTS Listening Practice - Test 169</p>
-<p>Part 1: Questions 1-4
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 169</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-4</strong>
 1. The respondent works in
-[ ]  A the professions
-[ ]  B business
-[ ]  C other</p>
+<strong>[ ] </strong><strong> A</strong> the professions
+<strong>[ ] </strong><strong> B</strong> business
+<strong>[ ] </strong><strong> C</strong> other</p>
 <p>2. The respondent has a salary of
-[ ]  A £ 0-15,000 a year
-[ ]  B £ 15,000-35,000 a year
-[ ]  C over £35,000 a year</p>
-<p>3. The respondent watched TV for
-[ ]  A relaxation
-[ ]  B entertainment
-[ ]  C information</p>
+<strong>[ ] </strong><strong> A</strong> £ 0-15,000 a year
+<strong>[ ] </strong><strong> B</strong> £ 15,000-35,000 a year
+<strong>[ ] </strong><strong> C</strong> over £35,000 a year</p>
+<h3 class="test-heading">3. The respondent watched TV for
+<strong>[ ] </strong><strong> A</strong> relaxation
+<strong>[ ] </strong><strong> B</strong> entertainment
+<strong>[ ] </strong><strong> C</strong> information</h3>
 <p>4. Every day the respondent watches TV for
-[ ]  A 30 min – 1 hour
-[ ]  B 1 hour – 2 hours
-[ ]  C more than 2 hours</p>
-<p>Questions 5-7
-Choose TWO letters A-E</p>
+<strong>[ ] </strong><strong> A</strong> 30 min – 1 hour
+<strong>[ ] </strong><strong> B</strong> 1 hour – 2 hours
+<strong>[ ] </strong><strong> C</strong> more than 2 hours</p>
+<p><strong>Questions 5-7</strong>
+Choose <strong>TWO</strong> letters A-E</p>
 <p>5. The respondent mainly watches TV
-[ ]  A in the early morning
-[ ]  B around midday
-[ ]  C in the afternoon
-[ ]  D in the early evening
-[ ]  E at night</p>
+<strong>[ ] </strong><strong> A</strong> in the early morning
+<strong>[ ] </strong><strong> B</strong> around midday
+<strong>[ ] </strong><strong> C</strong> in the afternoon
+<strong>[ ] </strong><strong> D</strong> in the early evening
+<strong>[ ] </strong><strong> E</strong> at night</p>
 <p>6. On the new channel the respondent would like to see more
-[ ]  A children’s programmes
-[ ]  B documentaries
-[ ]  C local service programmes
-[ ]  D travel programmes
-[ ]  E health programmes</p>
+<strong>[ ] </strong><strong> A</strong> children’s programmes
+<strong>[ ] </strong><strong> B</strong> documentaries
+<strong>[ ] </strong><strong> C</strong> local service programmes
+<strong>[ ] </strong><strong> D</strong> travel programmes
+<strong>[ ] </strong><strong> E</strong> health programmes</p>
 <p>7. The respondent would advise the new channel to
-[ ]  A spend more money on drama
-[ ]  B train their broadcasters to higher standards
-[ ]  C improve sound quality
-[ ]  D broadcast interviews with famous people
-[ ]  E talk more to customers</p>
-<p>Questions 8-10
+<strong>[ ] </strong><strong> A</strong> spend more money on drama
+<strong>[ ] </strong><strong> B</strong> train their broadcasters to higher standards
+<strong>[ ] </strong><strong> C</strong> improve sound quality
+<strong>[ ] </strong><strong> D</strong> broadcast interviews with famous people
+<strong>[ ] </strong><strong> E</strong> talk more to customers</p>
+<p><strong>Questions 8-10</strong>
 Circle the correct letter A-C</p>
 <p>8. The respondent feels that adverts should occur only
-[ ]  A 10 minutes
-[ ]  B 15 minutes
-[ ]  C 20 minutes</p>
+<strong>[ ] </strong><strong> A</strong> 10 minutes
+<strong>[ ] </strong><strong> B</strong> 15 minutes
+<strong>[ ] </strong><strong> C</strong> 20 minutes</p>
 <p>9. The respondent would like to attend special promotions if
-[ ]  A expenses are paid
-[ ]  B he is invited specially
-[ ]  C they are held locally</p>
+<strong>[ ] </strong><strong> A</strong> expenses are paid
+<strong>[ ] </strong><strong> B</strong> he is invited specially
+<strong>[ ] </strong><strong> C</strong> they are held locally</p>
 <p>10. The respondent would like to receive
-[ ]  A no mail
-[ ]  B requested mail
-[ ]  C all mail</p>
-<p>Part 2: Questions 11-14
-Circle FOUR letters A-G</p>
-<p>Which FOUR activities of the Union are mentioned by the speaker?</p>
-<p>[ ]  A raising money for good causes
-[ ]  B political campaigning
-[ ]  C running a new agency
-[ ]  D running a supermarket
-[ ]  E providing cheap tickets
-[ ]  F helping with accommodation
-[ ]  G providing catering services</p>
-<p>Questions 15 and 16
-Circle TWO letters A-E</p>
-<p>Which TWO of the following can you get advice about from the Union?
-[ ]  A immigration
-[ ]  B grants
-[ ]  C medical problems
-[ ]  D personal problems
-[ ]  E legal matters</p>
-<p>Questions 17-20
+<strong>[ ] </strong><strong> A</strong> no mail
+<strong>[ ] </strong><strong> B</strong> requested mail
+<strong>[ ] </strong><strong> C</strong> all mail</p>
+<p><strong>Part 2: Questions 11-14</strong>
+Circle <strong>FOUR</strong> letters A-G</p>
+<p>Which <strong>FOUR</strong> activities of the Union are mentioned by the speaker?</p>
+<p><strong>[ ] </strong><strong> A</strong> raising money for good causes
+<strong>[ ] </strong><strong> B</strong> political campaigning
+<strong>[ ] </strong><strong> C</strong> running a new agency
+<strong>[ ] </strong><strong> D</strong> running a supermarket
+<strong>[ ] </strong><strong> E</strong> providing cheap tickets
+<strong>[ ] </strong><strong> F</strong> helping with accommodation
+<strong>[ ] </strong><strong> G</strong> providing catering services</p>
+<p><strong>Questions 15 and 16</strong>
+Circle <strong>TWO</strong> letters A-E</p>
+<p>Which <strong>TWO</strong> of the following can you get advice about from the Union?
+<strong>[ ] </strong><strong> A</strong> immigration
+<strong>[ ] </strong><strong> B</strong> grants
+<strong>[ ] </strong><strong> C</strong> medical problems
+<strong>[ ] </strong><strong> D</strong> personal problems
+<strong>[ ] </strong><strong> E</strong> legal matters</p>
+<p><strong>Questions 17-20</strong>
 Write the appropriate letters A-C against questions 17-20.</p>
 <p>What are the locations of the following places in Radford?
-A part of the Metro Tower Building
-B in the main square in the centre of the town
-C some distance from the centre of the town</p>
+<strong>A</strong> part of the Metro Tower Building
+<strong>B</strong> in the main square in the centre of the town
+<strong>C</strong> some distance from the centre of the town</p>
 <p>17. the hi-tech fitness centre  _______ 
 18. the ice rink  _______ 
 19. the new cinema  _______ 
 20. the Theatre Royal  _______</p>
-<p>Part 3: Questions 21-23
-Complete the notes below. Write NO MORE THAN THREE WORDS OR A NUMBER for each answer.</p>
-<p>DISSERTATION INFORMATION
-Hand-in-date: (21)  _______ 
-Length: (22)  _______  to  _______ 
-Extra programme offered on: (23)  _______</p>
-<p>Question 24-26
+<p><strong>Part 3: Questions 21-23</strong>
+Complete the notes below. Write <strong>NO MORE THAN THREE WORDS OR A NUMBER</strong> for each answer.</p>
+<p><strong>DISSERTATION INFORMATION</strong>
+Hand-in-date: <strong>(21)</strong>  _______ 
+Length: <strong>(22)</strong>  _______  to  _______ 
+Extra programme offered on: <strong>(23)</strong>  _______</p>
+<p><strong>Question 24-26</strong>
 Complete the table below.</p>
-<p>DISSERTATION TIMETABLE</p>
-<p>(24)  _______ 
-(25)  _______ 
-(26)  _______</p>
-<p>Questions 27-30</p>
+<p><strong>DISSERTATION TIMETABLE</strong></p>
+<p><strong>(24)</strong>  _______ 
+<strong>(25)</strong>  _______ 
+<strong>(26)</strong>  _______</p>
+<p><strong>Questions 27-30</strong></p>
 <p>What is Dr Simon’s opinions on the following points?
-Tick column A if he is in favour
-Tick column B if he has no strong opinion either way
-Tick column C if he is against</p>
-<p>(27)  _______                     (28)  _______ 
-(29)  _______                     (30)  _______</p>
-<p>Part 4: Questions 31-37
+Tick column <strong>A</strong> if he is in favour
+Tick column <strong>B</strong> if he has no strong opinion either way
+Tick column <strong>C</strong> if he is against</p>
+<p><strong>(27)</strong>  _______                     <strong>(28)</strong>  _______ 
+<strong>(29)</strong>  _______                     <strong>(30)</strong>  _______</p>
+<p><strong>Part 4: Questions 31-37</strong>
 Circle the correct letters A-C</p>
 <p>31. The driest continent is
-[ ]  A Australia
-[ ]  B Africa
-[ ]  C Antarctica</p>
+<strong>[ ] </strong><strong> A</strong> Australia
+<strong>[ ] </strong><strong> B</strong> Africa
+<strong>[ ] </strong><strong> C</strong> Antarctica</p>
 <p>32. The evaporation rate in Australia is
-[ ]  A lower than Africa
-[ ]  B higher than Africa
-[ ]  C about the same as Africa</p>
+<strong>[ ] </strong><strong> A</strong> lower than Africa
+<strong>[ ] </strong><strong> B</strong> higher than Africa
+<strong>[ ] </strong><strong> C</strong> about the same as Africa</p>
 <p>33. Rainfall in Australia hardly penetrates the soil because
-[ ]  A the soil is too hard
-[ ]  B the soil is too hot
-[ ]  C plants use it up</p>
+<strong>[ ] </strong><strong> A</strong> the soil is too hard
+<strong>[ ] </strong><strong> B</strong> the soil is too hot
+<strong>[ ] </strong><strong> C</strong> plants use it up</p>
 <p>34. In sandy soils water can
-[ ]  A evaporate quickly
-[ ]  B seep down to rock
-[ ]  C wash the soil away</p>
+<strong>[ ] </strong><strong> A</strong> evaporate quickly
+<strong>[ ] </strong><strong> B</strong> seep down to rock
+<strong>[ ] </strong><strong> C</strong> wash the soil away</p>
 <p>35. Water is mainly pumped up for
-[ ]  A people to drink
-[ ]  B animals to drink
-[ ]  C watering crops</p>
+<strong>[ ] </strong><strong> A</strong> people to drink
+<strong>[ ] </strong><strong> B</strong> animals to drink
+<strong>[ ] </strong><strong> C</strong> watering crops</p>
 <p>36. Natural springs are located
-[ ]  A in unexplored parts of Australia
-[ ]  B quite commonly over all Australia
-[ ]  C in a few areas of Australia</p>
+<strong>[ ] </strong><strong> A</strong> in unexplored parts of Australia
+<strong>[ ] </strong><strong> B</strong> quite commonly over all Australia
+<strong>[ ] </strong><strong> C</strong> in a few areas of Australia</p>
 <p>37. Underground water supplies
-[ ]  A 18% of Australia’s water
-[ ]  B 48% of Australia’s water
-[ ]  C 80% of Australia’s water</p>
-<p>Questions 38-40
-Circle THREE letters A-E</p>
-<p>Which THREE of the following uses of dam water are mentioned?
-[ ]  A providing water for livestock
-[ ]  B watering farmland
-[ ]  C providing water for industry
-[ ]  D controlling flood water
-[ ]  E producing hydro-electric power</p>
+<strong>[ ] </strong><strong> A</strong> 18% of Australia’s water
+<strong>[ ] </strong><strong> B</strong> 48% of Australia’s water
+<strong>[ ] </strong><strong> C</strong> 80% of Australia’s water</p>
+<p><strong>Questions 38-40</strong>
+Circle <strong>THREE</strong> letters A-E</p>
+<p>Which <strong>THREE</strong> of the following uses of dam water are mentioned?
+<strong>[ ] </strong><strong> A</strong> providing water for livestock
+<strong>[ ] </strong><strong> B</strong> watering farmland
+<strong>[ ] </strong><strong> C</strong> providing water for industry
+<strong>[ ] </strong><strong> D</strong> controlling flood water
+<strong>[ ] </strong><strong> E</strong> producing hydro-electric power</p>
 <p>_______  _______  _______</p>
 <p>1. B
 2. C
@@ -280,7 +336,7 @@ Circle THREE letters A-E</p>
 38. B
 39. D
 40. E</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. B</p>
 <p>2. C</p>
 <p>3. A</p>
@@ -539,6 +595,29 @@ Circle THREE letters A-E</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -558,12 +637,23 @@ Circle THREE letters A-E</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -575,14 +665,6 @@ Circle THREE letters A-E</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

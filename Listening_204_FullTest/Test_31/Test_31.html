@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,116 +158,116 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_31</h1>
-            <p>IELTS Listening Practice - Test 31</p>
-<p>Part 1: Questions 1 and 2
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 31</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1 and 2</strong>
 Choose the correct letter A, B or C.</p>
-<p>1. What is the name of the pub?
-[ ]  The Lines Ahead
-[ ]  B The Lion’s Shed
-[ ]  C The Lion’s Head</p>
+<h3 class="test-heading">1. What is the name of the pub?
+<strong>[ ] </strong> The Lines Ahead
+<strong>[ ] </strong><strong> B</strong> The Lion’s Shed
+<strong>[ ] </strong><strong> C</strong> The Lion’s Head</h3>
 <p>2. Which map shows Jack’s route to Margaret’s party?</p>
-<p>[ ]  A
-[ ]  B
-[ ]  C</p>
-<p>Questions 3-5
-Complete the notes below. Write NO MORE THAN ONE WORD OR A NUMBER for each answer.</p>
+<h3 class="test-heading">[ ]  <strong>A</strong>
+[ ]  <strong>B</strong>
+[ ]  <strong>C</strong></h3>
+<p><strong>Questions 3-5</strong>
+Complete the notes below. Write <strong>NO MORE THAN ONE WORD OR A NUMBER</strong> for each answer.</p>
 <p>Complete the details for Margaret’s address:
 3. Street:  _______ 
 4. Number:  _______ 
 5. Location:  _______  house on the left</p>
-<p>Questions 6 and 7
+<p><strong>Questions 6 and 7</strong>
 Choose the correct letter A, B or C.</p>
 <p>6. Which statement is correct?
-[ ]  A Jack has got Mike’s camera
-[ ]  B Mike has got Jack’s camera
-[ ]  C Mike has sent Jack a text message</p>
+<strong>[ ] </strong><strong> A</strong> Jack has got Mike’s camera
+<strong>[ ] </strong><strong> B</strong> Mike has got Jack’s camera
+<strong>[ ] </strong><strong> C</strong> Mike has sent Jack a text message</p>
 <p>7. Jack is worried that Mike may be
-[ ]  A late
-[ ]  B lost
-[ ]  C early</p>
-<p>Question 8
+<strong>[ ] </strong><strong> A</strong> late
+<strong>[ ] </strong><strong> B</strong> lost
+<strong>[ ] </strong><strong> C</strong> early</p>
+<p><strong>Question 8</strong>
 What is Mike’s mobile number?  _______</p>
-<p>Questions 9 and 10
-Choose TWO letters A-E.</p>
+<p><strong>Questions 9 and 10</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
 <p>Jack cannot find the house because
-[ ]  A it is dark
-[ ]  B it is hidden
-[ ]  C the letterbox was behind a bush
-[ ]  D someone is coming down the street
-[ ]  E he has to call Mike</p>
-<p>Part 2: Questions 11-13
+<strong>[ ] </strong><strong> A</strong> it is dark
+<strong>[ ] </strong><strong> B</strong> it is hidden
+<strong>[ ] </strong><strong> C</strong> the letterbox was behind a bush
+<strong>[ ] </strong><strong> D</strong> someone is coming down the street
+<strong>[ ] </strong><strong> E</strong> he has to call Mike</p>
+<p><strong>Part 2: Questions 11-13</strong>
 Choose the correct letter A, B or C.</p>
 <p>11. Who provides the money to run the park?
-[ ]  A the owners
-[ ]  B the government
-[ ]  C the visitors</p>
+<strong>[ ] </strong><strong> A</strong> the owners
+<strong>[ ] </strong><strong> B</strong> the government
+<strong>[ ] </strong><strong> C</strong> the visitors</p>
 <p>12. When did the park move to the public open space?
-[ ]  A 1987
-[ ]  B 2000
-[ ]  C 2003</p>
+<strong>[ ] </strong><strong> A</strong> 1987
+<strong>[ ] </strong><strong> B</strong> 2000
+<strong>[ ] </strong><strong> C</strong> 2003</p>
 <p>13. How much do primary school children pay?
-[ ]  A $23
-[ ]  B $10
-[ ]  C $16</p>
-<p>Questions 14 and 15
+<strong>[ ] </strong><strong> A</strong> $23
+<strong>[ ] </strong><strong> B</strong> $10
+<strong>[ ] </strong><strong> C</strong> $16</p>
+<p><strong>Questions 14 and 15</strong>
 Write T (true) or F (false)</p>
 <p>14. Once you pay the entry fee, there are no extra costs  _______ 
 15. The park is open every day of the year  _______</p>
-<p>Questions 16-18
-Complete the table below. Write NO MORE THAN ONE WORD OR A NUMBER for each answer.</p>
-<p>Attractions</p>
-<p>(16)  _______ 
-(17)  _______ 
-(18)  _______</p>
-<p>Questions 19 and 20
-Choose TWO letters A-E.</p>
-<p>Which TWO other attractions are also mentioned?
-[ ]  A farmyard
-[ ]  B children’s show
-[ ]  C working farm
-[ ]  D country show
-[ ]  E volunteer program</p>
-<p>Part 3: Questions 21-23
-Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.</p>
+<p><strong>Questions 16-18</strong>
+Complete the table below. Write <strong>NO MORE THAN ONE WORD OR A NUMBER</strong> for each answer.</p>
+<p><strong>Attractions</strong></p>
+<p><strong>(16)</strong>  _______ 
+<strong>(17)</strong>  _______ 
+<strong>(18)</strong>  _______</p>
+<p><strong>Questions 19 and 20</strong>
+Choose <strong>TWO</strong> letters A-E.</p>
+<p>Which <strong>TWO</strong> other attractions are also mentioned?
+<strong>[ ] </strong><strong> A</strong> farmyard
+<strong>[ ] </strong><strong> B</strong> children’s show
+<strong>[ ] </strong><strong> C</strong> working farm
+<strong>[ ] </strong><strong> D</strong> country show
+<strong>[ ] </strong><strong> E</strong> volunteer program</p>
+<p><strong>Part 3: Questions 21-23</strong>
+Complete the sentences below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>21. The project is about  _______ 
 22. It includes a group of fuels called  _______ 
 23. This type of fuel affects the weather by creating  _______</p>
-<p>Questions 24-26
+<p><strong>Questions 24-26</strong>
 What percentage of each fuel is used in the world?</p>
 <p>Write the correct letter A-D next to questions 24-26.</p>
-<p>A natural gas
-B nuclear
-C oil
-D other</p>
+<p><strong>A</strong> natural gas
+<strong>B</strong> nuclear
+<strong>C</strong> oil
+<strong>D</strong> other</p>
 <p>24. 45 percent  _______ 
 25. 20 percent  _______ 
 26. 8 percent  _______</p>
-<p>Questions 27-30
+<p><strong>Questions 27-30</strong>
 Choose the correct letter A, B or C.</p>
 <p>27. Richard believes that the main problem with using fossil fuels is
-[ ]  A they affect everybody through global warming
-[ ]  B their supply will eventually run out
-[ ]  C they create gases that pollute the air and damage all living things</p>
+<strong>[ ] </strong><strong> A</strong> they affect everybody through global warming
+<strong>[ ] </strong><strong> B</strong> their supply will eventually run out
+<strong>[ ] </strong><strong> C</strong> they create gases that pollute the air and damage all living things</p>
 <p>28. Shirley wants to research nuclear energy because
-[ ]  A the fuels used in nuclear energy release radiation even after they have been used
-[ ]  B she wants to know how nuclear waste is disposed of
-[ ]  C of public concerns over nuclear power stations situated close to where they live</p>
+<strong>[ ] </strong><strong> A</strong> the fuels used in nuclear energy release radiation even after they have been used
+<strong>[ ] </strong><strong> B</strong> she wants to know how nuclear waste is disposed of
+<strong>[ ] </strong><strong> C</strong> of public concerns over nuclear power stations situated close to where they live</p>
 <p>29. Regarding other energy sources Richard
-[ ]  A is going to research renewable energy sources
-[ ]  B is not going to research renewable energy sources
-[ ]  C has not decided if he is going to research renewable energy sources</p>
+<strong>[ ] </strong><strong> A</strong> is going to research renewable energy sources
+<strong>[ ] </strong><strong> B</strong> is not going to research renewable energy sources
+<strong>[ ] </strong><strong> C</strong> has not decided if he is going to research renewable energy sources</p>
 <p>30. For the next meeting Shirley will find some information about
-[ ]  A the benefits of coal and oil
-[ ]  B alternative energy sources
-[ ]  C nuclear power stations</p>
-<p>Part 4: Questions 31-40
-Complete the summary below. Write NO MORE THAN THREE WORDS for each answer.</p>
-<p>Although we cannot do anything about the plants and animals that are already (31)  _______  we can do something about the many species in the world today that are in danger of becoming extinct in the future.</p>
-<p>The main reason for the growing number of (32)  _______  species is the destruction of their (33)  _______  The rapidly (34)  _______  human population needs more land and resources for (35)  _______  This is changing and destroying the habitats that plant and animal species need for (36)  _______</p>
-<p>One way we can save endangered species and permanently (37)  _______  these habitats is to create and support national parks and reserves. National parks encourage people to enjoy the (38)  _______  of species without harming them.</p>
-<p>People who visit these parks must be sure to obey few rules. These include following fire regulations, leaving (39)  _______  placing all rubbish in a bin, not picking the flowers and not taking birds’ eggs.</p>
-<p>Public (40)  _______  will help ensure the survival of our plant and animal species.</p>
-<p>ANSWER KEY</p>
+<strong>[ ] </strong><strong> A</strong> the benefits of coal and oil
+<strong>[ ] </strong><strong> B</strong> alternative energy sources
+<strong>[ ] </strong><strong> C</strong> nuclear power stations</p>
+<p><strong>Part 4: Questions 31-40</strong>
+Complete the summary below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+<p>Although we cannot do anything about the plants and animals that are already <strong>(31)</strong>  _______  we can do something about the many species in the world today that are in danger of becoming extinct in the future.</p>
+<p>The main reason for the growing number of <strong>(32)</strong>  _______  species is the destruction of their <strong>(33)</strong>  _______  The rapidly <strong>(34)</strong>  _______  human population needs more land and resources for <strong>(35)</strong>  _______  This is changing and destroying the habitats that plant and animal species need for <strong>(36)</strong>  _______</p>
+<p>One way we can save endangered species and permanently <strong>(37)</strong>  _______  these habitats is to create and support national parks and reserves. National parks encourage people to enjoy the <strong>(38)</strong>  _______  of species without harming them.</p>
+<p>People who visit these parks must be sure to obey few rules. These include following fire regulations, leaving <strong>(39)</strong>  _______  placing all rubbish in a bin, not picking the flowers and not taking birds’ eggs.</p>
+<p>Public <strong>(40)</strong>  _______  will help ensure the survival of our plant and animal species.</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. C</p>
 <p>2. C</p>
 <p>3. Wesley</p>
@@ -465,11 +521,34 @@ Complete the summary below. Write NO MORE THAN THREE WORDS for each answer.</p>
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><audio controls src="../../Listening_audios/audio_31.mp3"></audio></div>
+    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_31.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -489,12 +568,23 @@ Complete the summary below. Write NO MORE THAN THREE WORDS for each answer.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -506,14 +596,6 @@ Complete the summary below. Write NO MORE THAN THREE WORDS for each answer.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

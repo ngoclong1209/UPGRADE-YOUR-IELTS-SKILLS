@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,69 +158,69 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_161</h1>
-            <p>IELTS Reading Practice - Test 161</p>
-<p>The politics of pessimism</p>
-<p>Newspaper headlines and TV or radio news bulletins would have us believe erroneously that a new age has come upon us, the Age of Cassandra. People are being assailed not just with contemporary doom, or past gloom, but with prophecies of disasters about to befall. The dawn of the new millennium has now passed; the earth is still intact, and the fin de siècle Jeremiahs have now gone off to configure a new date for the apocalypse.</p>
-<p>It can, I believe, be said with some certainty that the doom-mongers will never run out of business. Human nature has an inclination for pessimism and anxiety, with each age hav­ing its demagogues, foretelling doom or dragging it in their wake. But what makes the modern age so different is that the catastrophes are more “in your face”, Their assault on our senses is relentless. Whether it be sub-conscious or not, this is a situation not lost on politicians. They play upon people’s propensity for unease, turning it into a very effective political tool.</p>
-<p>Deluding the general public
-All too often, when politicians want to change the status quo, they take advantage of peo­ple’s fears of the unknown and their uncertainties about the future. For example, details about a new policy may be leaked to the press. Of course, the worst case scenario is pre­sented in all its depressing detail. When the general public reacts in horror, the government appears to cave in. And then accepting some of the suggestions from their critics, ministers water down their proposals. This allows the government to get what It wants, while at the same time fooling the public into believing that they have got one over on the government. Or even that they have some say in the making of policy.</p>
-<p>There are several principles at play here. And both are rather simple: unsettle people and then play on their fears; and second, people must be given an opportunity to make a con­tribution, however insignificant, in a given situation; otherwise, they become dissatisfied, not fearful or anxious.</p>
-<p>A similar ruse, at a local level, will further illustrate how easily people’s base fears are ex­ploited. A common practice is to give people a number of options, say in a housing devel­opment, ranging from no change to radical transformation of an area. The aim is to persuade people to agree significant modifications, which may involve disruption to their lives, and possibly extra expenditure. The individuals, fearful of the worst possible outcome, plump for the middle course. And this, incidentally, is invariably the option favoured by the authorities. Everything is achieved under the guise of market research, but it is obviously a blatant exercise in the manipulation of people’s fears.</p>
-<p>Fear and survival
-Fear and anxieties about the future affect us still. People are wracked with self-doubt and low self-esteem. In the struggle to exist and advance in life, a seemingly endless string, of obstacles is encountered, so many, in fact, that any accomplishment seems surprising. liven when people do succeed they are still nagged by uncertainty.</p>
-<p>Not surprisingly, feelings like doubt, fear, anxiety and pessimism are usually associated with failure. Yet, if properly harnessed, they are the driving force behind success, the very engines of genius.</p>
-<p>if things turn out well for a long time, there is a further anxiety: that of constantly waiting for something to go wrong. People then find themselves propitiating the gods: not walking on lines on the pavements, performing rituals before public performances, wearing particu­lar clothes and colours so that they can blame the ritual not themselves when things go wrong,</p>
-<p>But surely the real terror cornea when success continues uninterrupted for such a long period of time that we forget what failure is like!</p>
-<p>We crave for and are fed a daily diet of anxiety, Horror films and disaster movies have an increasing appeal. Nostradamus pops his head up now and again. And other would-be prophets make a brief appearance, predicting the demise of human kind. Perhaps, this is all just a vestige of the hardships of early man – our attempt to recreate the struggles of a past age, as it’s becomes more and more comfortable.</p>
-<p>Mankind cannot live by contentment alone. And so, a world awash with anxieties and pessimism has been created. Being optimistic is you struggle. Hut survival dictates that mankind remain ever sanguine.</p>
-<p>Questions 1-5
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 161</strong></h3>
+<h3 class="test-heading"><strong>The politics of pessimism</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>Newspaper headlines and TV or radio news bulletins would have us believe erroneously that a new age has come upon us, the Age of Cassandra. People are being assailed not just with contemporary doom, or past gloom, but with prophecies of disasters about to befall. The dawn of the new millennium has now passed; the earth is still intact, and the fin de siècle Jeremiahs have now gone off to configure a new date for the apocalypse.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>It can, I believe, be said with some certainty that the doom-mongers will never run out of business. Human nature has an inclination for pessimism and anxiety, with each age hav­ing its demagogues, foretelling doom or dragging it in their wake. But what makes the modern age so different is that the catastrophes are more “in your face”, Their assault on our senses is relentless. Whether it be sub-conscious or not, this is a situation not lost on politicians. They play upon people’s propensity for unease, turning it into a very effective political tool.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>Deluding the general public</strong>
+All too often, when politicians want to change the status quo, they take advantage of peo­ple’s fears of the unknown and their uncertainties about the future. For example, details about a new policy may be leaked to the press. Of course, the worst case scenario is pre­sented in all its depressing detail. When the general public reacts in horror, the government appears to cave in. And then accepting some of the suggestions from their critics, ministers water down their proposals. This allows the government to get what It wants, while at the same time fooling the public into believing that they have got one over on the government. Or even that they have some say in the making of policy.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>There are several principles at play here. And both are rather simple: unsettle people and then play on their fears; and second, people must be given an opportunity to make a con­tribution, however insignificant, in a given situation; otherwise, they become dissatisfied, not fearful or anxious.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>A similar ruse, at a local level, will further illustrate how easily people’s base fears are ex­ploited. A common practice is to give people a number of options, say in a housing devel­opment, ranging from no change to radical transformation of an area. The aim is to persuade people to agree significant modifications, which may involve disruption to their lives, and possibly extra expenditure. The individuals, fearful of the worst possible outcome, plump for the middle course. And this, incidentally, is invariably the option favoured by the authorities. Everything is achieved under the guise of market research, but it is obviously a blatant exercise in the manipulation of people’s fears.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>Fear and survival</strong>
+Fear and anxieties about the future affect us still. People are wracked with self-doubt and low self-esteem. In the struggle to exist and advance in life, a seemingly endless string, of obstacles is encountered, so many, in fact, that any accomplishment seems surprising. liven when people do succeed they are still nagged by uncertainty.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>Not surprisingly, feelings like doubt, fear, anxiety and pessimism are usually associated with failure. Yet, if properly harnessed, they are the driving force behind success, the very engines of genius.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>if things turn out well for a long time, there is a further anxiety: that of constantly waiting for something to go wrong. People then find themselves propitiating the gods: not walking on lines on the pavements, performing rituals before public performances, wearing particu­lar clothes and colours so that they can blame the ritual not themselves when things go wrong,</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>But surely the real terror cornea when success continues uninterrupted for such a long period of time that we forget what failure is like!</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p>We crave for and are fed a daily diet of anxiety, Horror films and disaster movies have an increasing appeal. Nostradamus pops his head up now and again. And other would-be prophets make a brief appearance, predicting the demise of human kind. Perhaps, this is all just a vestige of the hardships of early man – our attempt to recreate the struggles of a past age, as it’s becomes more and more comfortable.</p></div></div>
+<div class="para-row"><div class="para-label">K</div><div class="para-text"><p>Mankind cannot live by contentment alone. And so, a world awash with anxieties and pessimism has been created. Being optimistic is you struggle. Hut survival dictates that mankind remain ever sanguine.</p></div></div>
+<p><strong>Questions 1-5</strong>
 Choose one phrase (A-K) from the List of phrases to complete each Key point below. Write the appropriate letters (A-K) in Boxes 1-5 on your answer sheet.</p>
 <p>The information in the completed sentences should be an accurate summary of the points made by the writer. NB. There are more phrases (A-K) than sentences, so you wilt not need to use them all. You may use each phrase once only.</p>
-<p>Key points</p>
-<p>List of phrases
-A are not as threatening as in the past
-B tell the truth
-C blame them
-D try to make us believe mistakenly that we are in a new era
-E calm people down
-F are uncertain about the future
-G are less comfortable
-H are natural pessimists and worriers
-I are more immediate
-J get what they want by deceiving the public
-K is something they can make use of</p>
-<p>Questions 6-9
+<p><strong>Key points</strong></p>
+<p><strong>List of phrases</strong>
+<strong>A</strong> are not as threatening as in the past
+<strong>B</strong> tell the truth
+<strong>C</strong> blame them
+<strong>D</strong> try to make us believe mistakenly that we are in a new era
+<strong>E</strong> calm people down
+<strong>F</strong> are uncertain about the future
+<strong>G</strong> are less comfortable
+<strong>H</strong> are natural pessimists and worriers
+<strong>I</strong> are more immediate
+<strong>J</strong> get what they want by deceiving the public
+<strong>K</strong> is something they can make use of</p>
+<p><strong>Questions 6-9</strong>
 Choose the appropriate letters A-D and write them in Boxes 6-9 on your answer sheet.</p>
 <p>6. The housing development example shows that people …
-A are not that easily deceived
-B like market research
-C lead their fears
-D are easy to delude</p>
+<strong>A</strong> are not that easily deceived
+<strong>B</strong> like market research
+<strong>C</strong> lead their fears
+<strong>D</strong> are easy to delude</p>
 <p>7. Which one of the following statements is true, according to the passage?
-A Market research uses people’s fears for their own good
-B People are scared by market research techniques
-C Market research techniques are used as a means of taking advantage of people’s fears
-D Market research makes people happy</p>
+<strong>A</strong> Market research uses people’s fears for their own good
+<strong>B</strong> People are scared by market research techniques
+<strong>C</strong> Market research techniques are used as a means of taking advantage of people’s fears
+<strong>D</strong> Market research makes people happy</p>
 <p>8. The engines of genius are …
-A properly harnessed
-B the driving force behind success
-C driven by feelings like fear
-D usually associated with failure</p>
+<strong>A</strong> properly harnessed
+<strong>B</strong> the driving force behind success
+<strong>C</strong> driven by feelings like fear
+<strong>D</strong> usually associated with failure</p>
 <p>9. Continual success …
-A makes people arrogant
-B worries people
-C does not have any negative effects on people
-D increases people’s self-esteem</p>
-<p>Questions 10-13
+<strong>A</strong> makes people arrogant
+<strong>B</strong> worries people
+<strong>C</strong> does not have any negative effects on people
+<strong>D</strong> increases people’s self-esteem</p>
+<p><strong>Questions 10-13</strong>
 Do the statements below agree with the information in Reading Passage 1? In Boxes 10-13, write:</p>
-<p>YES if the statement agrees with the views of the writer
-NO if the statement contradicts the views of the writer
-NOT GIVEN if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong> if the statement agrees with the views of the writer
+<strong>NO</strong> if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this</p>
 <p>10. The complex relationship between failure and success needs to be addressed carefully.
 11. People perform certain rituals to try to avoid failure.
 12. Anxiety in daily life is what we want.
 13. The writer believes that Nostradamus and certain other prophets are right about their predictions for the end of the human race.</p>
-<p>Crows Can be Craftsmen too</p>
+<p><strong>Crows Can be Craftsmen too</strong></p>
 <p>A remarkable colony of inventors has emerged on an isolated Pacific island. They can fashion tools out of materials scavenged from the rainforest. They can even customise a tool for a given job. Meet the crows of New Caledonia.</p>
 <p>Thinkers as diverse as Freud, Engels and Thomas Carlyle once pointed to the use of tools as being a defining behaviour of human beings. Then it was found that many animals also used them, from the ’fishing sticks’ of apes to the rocks dropped on ostrich eggs by Egyptian vultures. Crows are particularly crafty. Earlier studies showed that they are almost human-like in their use of tools, with technological features that match the stone and bone tool cultures that emerged among primitive humans between 2.5 million and 70,000 BC.</p>
 <p>But only humans were thought to have the brain power required for cumulative technological evolution. This is the skill for innovation that took our ancestors two million years ago from creating flakes of flint, for use in cutting, to honing knives, blades, arrowheads and axeheads.</p>
@@ -177,22 +233,22 @@ NOT GIVEN if it is impossible to say what the writer thinks about this</p>
 <p>‘While we have been emphasising the individual ability of animals like Betty to solve problems, the New Zealand team has been emphasising tool manufacture, the cultural traditions and transmission of information in the wild,’ said Prof Kacelnik. Both strands of research are related by how the crows are not genetically programmed to use a tool, like a spider and his web. Instead, the birds creatively invent new kinds of tools to solve problems and can share skills with others.</p>
 <p>The crow family are the Einsteins of the avian world, though Prof Kacelnik added that, at least in terms of tool making, the Pacific crows are smarter than their British cousins. We have not yet identified what it is that makes these crows so special, though it is something to do with ecological circumstances, ’said Prof Kacelnik.</p>
 <p>Once scientists have got to the bottom of what makes Pacific crows master toolmakers, they may have to think again about how this skill evolved in humans.</p>
-<p>Questions 14-17
-Complete the diagrams. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>Questions 18-22
+<p><strong>Questions 14-17</strong>
+Complete the diagrams. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>Questions 18-22</strong>
 Classify the following statements as referring to the crow(s) in</p>
-<p>A the study by Hunt and Gray
-B the study by Kacelnik, Chappell and Weir
-C both studies</p>
+<p><strong>A</strong> the study by Hunt and Gray
+<strong>B</strong> the study by Kacelnik, Chappell and Weir
+<strong>C</strong> both studies</p>
 <p>18. can share tool-making skills with other crows
 19. can make special tools for a particular purpose
 20. can solve problems by understanding rather than learning
 21. can make tools better than British crows can
 22. can manufacture hooks to extract food</p>
-<p>Questions 23-26
-Complete the summary. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+<p><strong>Questions 23-26</strong>
+Complete the summary. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>It used to be thought that only human beings used tools. Even after we learned that many other (23)…………….also do so, it was still believed that only humans were intelligent enough to gradually evolve better tools. A study of crows in (24)…………………..however, shows that these birds use a leaf tool which has been evolved over several generations. A crow in another study has shown the human­like ability to understand (25)…………………..in order to manufacture tools, which not even (26)………………………can do.</p>
-<p>Coming into the World A little-known island community comes in from the cold</p>
+<p><strong>Coming into the World A little-known island community comes in from the cold</strong></p>
 <p>Back in early 1961, few outside the corridors of dwindling British power had heard of the archipelago centred on the main island of Tristan da Cunha, from which the scattered islands that make up the group took their name.</p>
 <p>It would take a dramatic volcanic eruption, and an emergency evacuation that would grab the attention of the media, to bring attention to this mysterious outpost of the British Empire. It seemed that the islands, no more than pin-pricks in the Southern Atlantic Ocean, almost equidistant between Buenos Aires in South America and Cape Town in South Africa, preferred not to be found.</p>
 <p>The same can be said of the 290 or so residents of Tristan da Cunha at that time. They lived on the remotest island on the entire planet. There was no airport, nor was there space to build one on this mountainous carbuncle projecting from the ocean. The only harbour, impenetrable during rough weather, was 1,500 miles distant from the nearest mainland port. Cape Town. Communications with the outside world relied predominantly on signals to passing fishing boats and the annual visit of the vessel that supplied the islanders with the goods they could not produce themselves.</p>
@@ -203,33 +259,33 @@ Complete the summary. Choose NO MORE THAN TWO WORDS from the passage for each an
 <p>The last of the returning islanders arrived in November 1963 and, with the rebuilding of the crawfish canning industry and a growing demand for the island’s stamps amongst dedicated collectors following the publicity caused by the volcanic eruption, the local economy soon recovered, although communications remained as difficult as they had ever been. Michael Parsons, a young British teacher who was employed on the island, recalls that there was no television and mail from the outside world arrived just eight times a year. ‘I was allowed to send a 100-word telegram home once a month, ’he recalls,’ and getting news from home brought a lump to my throat’</p>
 <p>Things have changed with developments in technology, but at the beginning of the present century the island was again cut off from the rest of the world when, on May 23rd2001, a hurricane tore through the area. It caused extensive damage, knocking out the radio station and satellite telephone link as well as leaving the islanders without electricity. It would be a week before news of the disaster reached London and several more weeks before a rescue package could be agreed to help the islanders rebuild.</p>
 <p>Today the island boasts its own internet café. For the first time people can see what the items they wish to obtain from abroad actually look like before they purchase them – a big bonus in a place where you have to wait many months to receive an order which might prove to be unsuitable for the purpose you had in mind. At last, it seems, Tristan da Cunha has joined the world.</p>
-<p>Questions 27-28
+<p><strong>Questions 27-28</strong>
 Choose the correct letter, A, B, C or D.</p>
 <p>27. The writer describes the islands of Tristan da Cunha as
-A difficult to find in an emergency.
-B a place the media didn’t understand.
-C somewhere different countries claimed to own.
-D unknown to most members of the public.</p>
+<strong>A</strong> difficult to find in an emergency.
+<strong>B</strong> a place the media didn’t understand.
+<strong>C</strong> somewhere different countries claimed to own.
+<strong>D</strong> unknown to most members of the public.</p>
 <p>28. What does the writer say about the islanders?
-A They could go for years with no contact with outsiders.
-B They had no means of leaving the island to speak to others.
-C They exchanged messages with boats that went past them.
-D They travelled to the mainland on the supply ship.</p>
-<p>Questions 29-34
+<strong>A</strong> They could go for years with no contact with outsiders.
+<strong>B</strong> They had no means of leaving the island to speak to others.
+<strong>C</strong> They exchanged messages with boats that went past them.
+<strong>D</strong> They travelled to the mainland on the supply ship.</p>
+<p><strong>Questions 29-34</strong>
 Do the following statements agree with the claims of the writer in Reading Passage 3? Write</p>
-<p>YES if the statement agrees with the views of the writer
-NO if the statement contradicts the views of the writer
-NOT GIVEN if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong> if the statement agrees with the views of the writer
+<strong>NO</strong> if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this</p>
 <p>29. People living on Tristan da Cunha are totally self-sufficient.
 30. The islanders often get ill.
 31. Some islanders were reluctant to return after the volcanic eruption.
 32. The selling of postage stamps has generated revenue for the islanders.
 33. There is no television service on Tristan da Cunha.
 34. Communications with the island are often interrupted.</p>
-<p>Questions 35-40
-Complete the summary. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+<p><strong>Questions 35-40</strong>
+Complete the summary. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>First colonised in the early part of the 19th century, Tristan da Cunha remained unknown to many people in the rest of the world until a (35)…………………….forced the small population of this remote island to evacuate their homes and brought their existence to the attention of (36)……………………After spending two years as refugees in (37)…………………………, the British Government reluctantly allowed them to return to the island once it had been established that the danger had passed. The (38)………………………of the island improved when rebuilding work had been completed, partly because of a new interest in the (39)……………………..Disaster was to strike the island again nearly forty years later when a (40)…………………………destroyed many buildings on the island.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. D</p>
 <p>2. H</p>
 <p>3. I</p>
@@ -488,6 +544,29 @@ Complete the summary. Choose NO MORE THAN TWO WORDS from the passage for each an
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -507,12 +586,23 @@ Complete the summary. Choose NO MORE THAN TWO WORDS from the passage for each an
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -524,14 +614,6 @@ Complete the summary. Choose NO MORE THAN TWO WORDS from the passage for each an
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

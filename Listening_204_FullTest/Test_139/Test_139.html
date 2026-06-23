@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,70 +158,70 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_139</h1>
-            <p>IELTS Listening Practice - Test 139</p>
-<p>Part 1: Questions 1 – 10
-Complete the notes below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each answer.</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 139</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1 – 10</strong>
+Complete the notes below. Write <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER</strong> for each answer.</p>
 <p>Type of account: deposit account</p>
-<p>Name of account decided on: (1)  _______ 
-Customer’s name: (2)  _______ 
-Date of birth: (3)  _______  /  _______  / 1970
-Current address: 10, (4)  _______  , South Quay
-Duration of time living there: about (5)  _______ 
-Address (before): Flat 3 Canada House, (6)  _______  , Edinburgh
+<p>Name of account decided on: <strong>(1)</strong>  _______ 
+Customer’s name: <strong>(2)</strong>  _______ 
+Date of birth: <strong>(3)</strong>  _______  /  _______  / 1970
+Current address: 10, <strong>(4)</strong>  _______  , South Quay
+Duration of time living there: about <strong>(5)</strong>  _______ 
+Address (before): Flat 3 Canada House, <strong>(6)</strong>  _______  , Edinburgh
 Office number: 02072356735
-Home number: (7)  _______ 
-Occupation: (8)  _______ 
-Identity (security): Name of his (9)  _______  : Monica
-The account opening sum: (10)  _______</p>
-<p>Part 2: Questions 11-14
+Home number: <strong>(7)</strong>  _______ 
+Occupation: <strong>(8)</strong>  _______ 
+Identity (security): Name of his <strong>(9)</strong>  _______  : Monica
+The account opening sum: <strong>(10)</strong>  _______</p>
+<p><strong>Part 2: Questions 11-14</strong>
 Choose the correct letter A, B or C.</p>
 <p>11. Jonathan Owen bought the house in 1965 as it was built in the way of
-[ ]  A the standard European building style
-[ ]  B the Asian style of Middle Ages in the UK
-[ ]  C the traditional Middle Ages of the Britain</p>
+<strong>[ ] </strong><strong> A</strong> the standard European building style
+<strong>[ ] </strong><strong> B</strong> the Asian style of Middle Ages in the UK
+<strong>[ ] </strong><strong> C</strong> the traditional Middle Ages of the Britain</p>
 <p>12. Jonathan Owen had been employed at the University of Canterbury as
-[ ]  A a head master of ceramic
-[ ]  B a head carpenter
-[ ]  C a supervisor of accounting</p>
+<strong>[ ] </strong><strong> A</strong> a head master of ceramic
+<strong>[ ] </strong><strong> B</strong> a head carpenter
+<strong>[ ] </strong><strong> C</strong> a supervisor of accounting</p>
 <p>13. Jonathan Owen succeeded in his business so much, but he suffered from
-[ ]  A private household affairs
-[ ]  B personal diseases
-[ ]  C public relations</p>
+<strong>[ ] </strong><strong> A</strong> private household affairs
+<strong>[ ] </strong><strong> B</strong> personal diseases
+<strong>[ ] </strong><strong> C</strong> public relations</p>
 <p>14. Where did he gather his building material from?
-[ ]  A the local area
-[ ]  B the garden
-[ ]  C the back yard</p>
-<p>Questions 15 and 16
-Answer the questions below. Write NO MORE THAN TWO WORDS for each answer.</p>
+<strong>[ ] </strong><strong> A</strong> the local area
+<strong>[ ] </strong><strong> B</strong> the garden
+<strong>[ ] </strong><strong> C</strong> the back yard</p>
+<p><strong>Questions 15 and 16</strong>
+Answer the questions below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p>15. What did Owen’s brother study in Paris?  _______ 
 16. What is the two hundred-year-old tree?  _______</p>
-<p>Questions 17-20
-Complete the sentences below. Write NO MORE THAN THREE WORDS for each answer.</p>
+<p><strong>Questions 17-20</strong>
+Complete the sentences below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
 <p>17. You can find the shop between the path and  _______ 
 18. In the snack bar, you will be able to rest and get  _______ 
 19. Through  _______  there is a beautiful walk.
 20. Both  _______  and  _______  are the local products that are promoted and marketed every year with a variety of events and festivals.</p>
-<p>Part 3: Questions 21-24
-Complete the table below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
-<p>(21)  _______                    (22)  _______ 
-(23)  _______                   (24)  _______</p>
-<p>Questions 25-30
-Complete the summary below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Of the countries chosen, ceramic of (25)  _______  is a unique kind that the researchers are interested in. On (26)  _______  of ceramic, the decoration is compared with artwork of the present time.</p>
-<p>The natives made the ceramic from (27)  _______  , like mountain, basement, and the bottom of the lake. From (28)  _______  plants, the natives made various colors through a process of (29)  _______  The tones of ceramic were used by (30)  _______</p>
-<p>Part 4: Questions 31-36
-Complete the sentences below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
+<p><strong>Part 3: Questions 21-24</strong>
+Complete the table below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p><strong>(21)</strong>  _______                    <strong>(22)</strong>  _______ 
+<strong>(23)</strong>  _______                   <strong>(24)</strong>  _______</p>
+<p><strong>Questions 25-30</strong>
+Complete the summary below. Write <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p>Of the countries chosen, ceramic of <strong>(25)</strong>  _______  is a unique kind that the researchers are interested in. On <strong>(26)</strong>  _______  of ceramic, the decoration is compared with artwork of the present time.</p>
+<p>The natives made the ceramic from <strong>(27)</strong>  _______  , like mountain, basement, and the bottom of the lake. From <strong>(28)</strong>  _______  plants, the natives made various colors through a process of <strong>(29)</strong>  _______  The tones of ceramic were used by <strong>(30)</strong>  _______</p>
+<p><strong>Part 4: Questions 31-36</strong>
+Complete the sentences below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
 <p>31. Only  _______  of people collect waste.
 32. By 2012, waste emissions need to be  _______  lower than in 2000.
 33. Local councils are able to aid achievements with two solutions involving the  _______  and local flea markets.
 34. A flea market, sometimes referred to as  _______  is a local small market where people can buy and sell cheap or second-hand products.
 35. One critical problem of carrying out questionnaires is that they are deficient in both  _______  and  _______ 
 36. In England,  _______  of waste (e.g. electronic and furniture goods) is recycled in the flea markets each year.</p>
-<p>Questions 37-40
-Complete the summary below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for each answer.</p>
-<p>Less than 15% of (37)  _______  are collected in England, where as Europe collects (38)  _______  and (39)  _______  collects 80%.</p>
-<p>To protect the quality of the office paper, a union, called (40)  _______  sells waste paper that has been through sorting process to farmers or gardeners as soil conditioners.</p>
-<p>ANSWER KEY</p>
+<p><strong>Questions 37-40</strong>
+Complete the summary below. Write <strong>NO MORE THAN TWO WORDS AND/ OR A NUMBER</strong> for each answer.</p>
+<p>Less than 15% of <strong>(37)</strong>  _______  are collected in England, where as Europe collects <strong>(38)</strong>  _______  and <strong>(39)</strong>  _______  collects 80%.</p>
+<p>To protect the quality of the office paper, a union, called <strong>(40)</strong>  _______  sells waste paper that has been through sorting process to farmers or gardeners as soil conditioners.</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. classic</p>
 <p>2. Jonathan</p>
 <p>3. 21/ 01</p>
@@ -424,6 +480,29 @@ Complete the summary below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for ea
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -443,12 +522,23 @@ Complete the summary below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for ea
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -460,14 +550,6 @@ Complete the summary below. Write NO MORE THAN TWO WORDS AND/ OR A NUMBER for ea
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

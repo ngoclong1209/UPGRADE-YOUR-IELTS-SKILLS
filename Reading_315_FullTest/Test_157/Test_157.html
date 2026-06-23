@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,35 +158,35 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_157</h1>
-            <p>IELTS Reading Practice - Test 157</p>
-<p>CLASSIFYING SOCIETIES</p>
-<p>Although humans have established many types of societies throughout history, sociologists and anthropologists tend to classify different societies according to the degree to which different groups within a society have unequal access to advantages such as resources, prestige or power, and usually refer to four basic types of societies. From least to most socially Complex they are clans, tribes, chiefdoms and states.</p>
-<p>Clan
-These are small-scale societies of hunters and gatherers, generally of fewer than 100 people, who move seasonally to exploit wild (undomesticated) food resources. Most surviving hunter-gatherer groups are of this kind, such as the Hadza of Tanzania or the San of southern Africa. Clan members are generally kinsfolk, related by descent or marriage. Clans lack formal leaders, so there are no marked economic differences or disparities in status among their members.</p>
-<p>Because clans are composed of mobile groups of hunter-gatherers, their sites consist mainly of seasonally occupied camps, and other smaller and more specialised sites. Among the latter are kill or butchery sites—locations where large mammals are killed and sometimes butchered— and work sites, where tools are made or other specific activities carried out. The base camp of such a group may give evidence of rather insubstantial dwellings or temporary shelters, along with the debris of residential occupation.</p>
-<p>Tribe
-These are generally larger than mobile hunter-gatherer groups, but rarely number more than a few thousand, and their diet or subsistence is based largely on cultivated plants and domesticated animals. Typically, they are settled farmers, but they may be nomadic with a very different, mobile economy based on the intensive exploitation of livestock. These are generally multi-community societies, with the individual communities integrated into the larger society through kinship ties. Although some tribes have officials and even a “capital” or seat of government, such officials lack the economic base necessary for effective use of</p>
-<p>The typical settlement pattern for tribes is one of settled agricultural homesteads or villages. Characteristically, no one settlement dominates any of the others in the region. Instead, the archaeologist finds evidence for isolated, permanently occupied houses or for permanent villages. Such villages may be made up of a collection of free-standing houses, like those of the first farms of the Danube valley in Europe. Or they may be clusters of buildings grouped together, for example, the pueblos of the American Southwest, and the early farming village or small town of catalhoyuk in modern Turkey.</p>
-<p>Chiefdom
-These operate on the principle of ranking—differences in social status between people. Different lineages (a lineage is a group claiming descent from a common ancestor) are graded on a scale of prestige, and the senior lineage, and hence the society as a whole, is governed by a chief. Prestige and rank are determined by how closely related one is to the chief, and there is no true stratification into classes. The role of the chief is crucial.</p>
-<p>Often, there is local specialisation in craft products, and surpluses of these and of foodstuffs are periodically paid as obligation to the chief. He uses these to maintain his retainers, and may use them for redistribution to his subjects. The chiefdom generally has a center of power, often with temples, residences of the chief and his retainers, and craft specialists. Chiefdoms vary greatly in size, but the range is generally between about 5000 and 20,000 persons.</p>
-<p>Early State
-These preserve many of the features of chiefdoms, but the ruler (perhaps a king or sometimes a queen) has explicit authority to establish laws and also to enforce them by the use of a standing army. Society no longer depends totally upon kin relationships: it is now stratified into different classes. Agricultural workers and the poorer urban dwellers form the lowest classes, with the craft specialists above, and the priests and kinsfolk of the ruler higher still. The functions of the ruler are often separated from those of the priest: palace is distinguished from temple. The society is viewed as a territory owned by the ruling lineage and populated by tenants who have an obligation to pay taxes. The central capital houses a bureaucratic administration of officials; one of their principal purposes is to collect revenue (often in the form of taxes and tolls) and distribute it to government, army and craft specialists. Many early states developed complex redistribution systems to support these essential services.</p>
-<p>This rather simple social typology, set out by Elman Service and elaborated by William Sanders and Joseph Marino, can be criticised, and it should not be used unthinkingly. Nevertheless, if we are seeking to talk about early societies, we must use words and hence concepts to do so. Service’s categories provide a good framework to help organise our thoughts.</p>
-<p>Questions 1-7
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 157</strong></h3>
+<h3 class="test-heading"><strong>CLASSIFYING SOCIETIES</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>Although humans have established many types of societies throughout history, sociologists and anthropologists tend to classify different societies according to the degree to which different groups within a society have unequal access to advantages such as resources, prestige or power, and usually refer to four basic types of societies. From least to most socially Complex they are clans, tribes, chiefdoms and states.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>Clan</strong>
+These are small-scale societies of hunters and gatherers, generally of fewer than 100 people, who move seasonally to exploit wild (undomesticated) food resources. Most surviving hunter-gatherer groups are of this kind, such as the Hadza of Tanzania or the San of southern Africa. Clan members are generally kinsfolk, related by descent or marriage. Clans lack formal leaders, so there are no marked economic differences or disparities in status among their members.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Because clans are composed of mobile groups of hunter-gatherers, their sites consist mainly of seasonally occupied camps, and other smaller and more specialised sites. Among the latter are kill or butchery sites—locations where large mammals are killed and sometimes butchered— and work sites, where tools are made or other specific activities carried out. The base camp of such a group may give evidence of rather insubstantial dwellings or temporary shelters, along with the debris of residential occupation.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>Tribe</strong>
+These are generally larger than mobile hunter-gatherer groups, but rarely number more than a few thousand, and their diet or subsistence is based largely on cultivated plants and domesticated animals. Typically, they are settled farmers, but they may be nomadic with a very different, mobile economy based on the intensive exploitation of livestock. These are generally multi-community societies, with the individual communities integrated into the larger society through kinship ties. Although some tribes have officials and even a “capital” or seat of government, such officials lack the economic base necessary for effective use of</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>The typical settlement pattern for tribes is one of settled agricultural homesteads or villages. Characteristically, no one settlement dominates any of the others in the region. Instead, the archaeologist finds evidence for isolated, permanently occupied houses or for permanent villages. Such villages may be made up of a collection of free-standing houses, like those of the first farms of the Danube valley in Europe. Or they may be clusters of buildings grouped together, for example, the pueblos of the American Southwest, and the early farming village or small town of catalhoyuk in modern Turkey.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>Chiefdom</strong>
+These operate on the principle of ranking—differences in social status between people. Different lineages (a lineage is a group claiming descent from a common ancestor) are graded on a scale of prestige, and the senior lineage, and hence the society as a whole, is governed by a chief. Prestige and rank are determined by how closely related one is to the chief, and there is no true stratification into classes. The role of the chief is crucial.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>Often, there is local specialisation in craft products, and surpluses of these and of foodstuffs are periodically paid as obligation to the chief. He uses these to maintain his retainers, and may use them for redistribution to his subjects. The chiefdom generally has a center of power, often with temples, residences of the chief and his retainers, and craft specialists. Chiefdoms vary greatly in size, but the range is generally between about 5000 and 20,000 persons.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>Early State</strong>
+These preserve many of the features of chiefdoms, but the ruler (perhaps a king or sometimes a queen) has explicit authority to establish laws and also to enforce them by the use of a standing army. Society no longer depends totally upon kin relationships: it is now stratified into different classes. Agricultural workers and the poorer urban dwellers form the lowest classes, with the craft specialists above, and the priests and kinsfolk of the ruler higher still. The functions of the ruler are often separated from those of the priest: palace is distinguished from temple. The society is viewed as a territory owned by the ruling lineage and populated by tenants who have an obligation to pay taxes. The central capital houses a bureaucratic administration of officials; one of their principal purposes is to collect revenue (often in the form of taxes and tolls) and distribute it to government, army and craft specialists. Many early states developed complex redistribution systems to support these essential services.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>This rather simple social typology, set out by Elman Service and elaborated by William Sanders and Joseph Marino, can be criticised, and it should not be used unthinkingly. Nevertheless, if we are seeking to talk about early societies, we must use words and hence concepts to do so. Service’s categories provide a good framework to help organise our thoughts.</p></div></div>
+<p><strong>Questions 1-7</strong>
 Do the following statements agree with the information given in Reading Passage 1? In boxes 1-7 on your answer sheet, write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
-<p>Questions 8-13
-Answer the questions below. Choose NO MORE THAN TWO WORDS OR/AND A NUMBER from the passage for each answer.</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
+<p><strong>Questions 8-13</strong>
+Answer the questions below. Choose <strong>NO MORE THAN TWO WORDS OR/AND A NUMBER</strong> from the passage for each answer.</p>
 <p>8. What are made at the clan work sites?
 9. What is the other way of life for tribes besides settled farming?
 10. How are Catalhoyuk’s housing units arranged?
 11. What does a chief give to his subjects as rewards besides crafted goods?
 12. What is the largest possible population of a chiefdom?
 13. Which group of people is at the bottom of an early state but higher than the farmers?</p>
-<p>Tasmanian Tiger</p>
+<p><strong>Tasmanian Tiger</strong></p>
 <p>Although it was called tiger, it looked like a dog with black stripes on its back and it was the largest known carnivorous marsupial of modern times. Yet, despite its fame for being one of the most fabled animals in the world, it is one of the least understood of Tasmania’s native animals. The scientific name for the Tasmanian tiger is Thylacine and it is believed that they have become extinct in the 20th century.</p>
 <p>Fossils of thylacines dating from about almost 12 million years ago have been dug up at various places in Victoria, South Australia and Western Australia. They were widespread in Australia 7,000 years ago, but have probably been extinct on the continent for 2,000 years. This is believed to be because of the introduction of dingoes around 8,000 years ago. Because of disease, thylacine numbers may have been declining in Tasmania at the time of European settlement 200 years ago, but the decline was certainly accelerated by the new arrivals. The last known Tasmanian Tiger died in Hobart Zoo in 1936 and the animal is officially classified as extinct. Technically, this means that it has not been officially sighted in the wild or captivity for 50 years. However, there are still unsubstanti-ated sightings.</p>
 <p>Hans Naarding, whose study of animals had taken him around the world, was conducting a survey of a species of endangered migratory bird. What he saw that night is now regarded as the most credible sighting recorded of thylacine that many believe has been extinct for more than 70 years.</p>
@@ -145,10 +201,10 @@ Answer the questions below. Choose NO MORE THAN TWO WORDS OR/AND A NUMBER from t
 <p>However, Mooney treats all reports on face value. “I never try to embarrass people, or make fools of them. But the fact that 1 don’t pack the car immediately they ring can often be taken as ridicule. Obsessive characters get irate that someone in my position is not out there when they think the thy-lacine is there.”</p>
 <p>But Hans Naarding, whose sighting of a striped animal two decades ago was the highlight of “a life of animal spotting”, remains bemused by the time and money people waste on tiger searches. He says resources would be better applied to saving the Tasmanian devil, and helping migratory bird populations that are declining as a result of shrinking wetlands across Australia.</p>
 <p>Gould the thylacine still be out there? “Sure,” Naarding says. But be also says any discovery of surviving thylacines would be “rather pointless”. “How do you save a species from extinction? What could you do with it? If there are thylacines out there, they are better off right where they are,”</p>
-<p>Questions 14-17
-Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+<p><strong>Questions 14-17</strong>
+Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>The Tasmanian tiger, also called thylacine, resembles the look of a dog and has (14)…………………..on its fur coat. Many fossils have been found, showing that thylacines had existed as early as (15)………………years ago. They lived throughout (16)……………………..before disappearing from the mainland. And soon after the (17)………………….settlers arrived the size of thylacine population in Tasmania shrunk at a higher speed.</p>
-<p>Questions 18-23
+<p><strong>Questions 18-23</strong>
 Look at the following statements (Questions 18-23) and the list of people below. Match each statement with the correct person, A, B, C or D. NB You may use any letter more than once.</p>
 <p>18. His report of seeing a live thylacine in the wild attracted international interest.
 19. Many eyewitnesses’ reports are not trustworthy.
@@ -156,39 +212,39 @@ Look at the following statements (Questions 18-23) and the list of people below.
 21. There is no hope of finding a surviving Tasmanian tiger.
 22. Do not disturb them if there are any Tasmanian tigers still living today.
 23. The interpretation of evidence can be affected by people’s beliefs.</p>
-<p>List of People
-A Hans Naarding
-B Randolph Rose
-C David Pemberton
-D Nick Mooney</p>
-<p>Questions 24-26
+<p><strong>List of People</strong>
+<strong>A</strong> Hans Naarding
+<strong>B</strong> Randolph Rose
+<strong>C</strong> David Pemberton
+<strong>D</strong> Nick Mooney</p>
+<p><strong>Questions 24-26</strong>
 Choose the correct letter, A, B, C or D.</p>
 <p>24. Hans Naarding’s sighting has resulted in
-A government and organisations’ cooperative efforts to protect thylacine.
-B extensive interests to find a living thylacine.
-C increase of the number of reports of thylacine worldwide.
-D growth of popularity of thylacine in literature.</p>
+<strong>A</strong> government and organisations’ cooperative efforts to protect thylacine.
+<strong>B</strong> extensive interests to find a living thylacine.
+<strong>C</strong> increase of the number of reports of thylacine worldwide.
+<strong>D</strong> growth of popularity of thylacine in literature.</p>
 <p>25. The example of coelacanth is to illustrate
-A it lived in the same period with dinosaurs.
-B how dinosaurs evolved legs.
-C some animals are difficult to catch in the wild.
-D extinction of certain species can be mistaken.</p>
+<strong>A</strong> it lived in the same period with dinosaurs.
+<strong>B</strong> how dinosaurs evolved legs.
+<strong>C</strong> some animals are difficult to catch in the wild.
+<strong>D</strong> extinction of certain species can be mistaken.</p>
 <p>26. Mooney believes that all sighting reports should be
-A given some credit as they claim even if they are untrue.
-B acted upon immediately.
-C viewed as equally untrustworthy.
-D questioned and carefully investigated.</p>
-<p>Accidental Scientists</p>
-<p>A A paradox lies close to the heart of scientific discovery. If you know just what you are looking for, finding it can hardly count as a discovery, since it was fully anticipated. But if, on the other hand, you have no notion of what you are looking for, you cannot know when you have found it, and discovery, as such, is out of the question. In the philosophy of science, these extremes map onto the purist forms of deductivism and inductivism: In the former, the outcome is supposed to be logically contained in the premises you start with; in the latter, you are recommended to start with no expectations whatsoever and see what turns up.</p>
-<p>B As in so many things, the ideal position is widely supposed to reside somewhere in between these two impossible-to-realise extremes. You want to have a good enough idea of what you are looking for to be surprised when you find something else of value, and you want to be ignorant enough of your end point that you can entertain alternative outcomes. Scientific discovery should, therefore, have an accidental aspect, but not too much of one. Serendipity is a word that expresses a position something like that. It’s a fascinating word, and the late Robert King Merton—“the father of the sociology of science”—liked it well enough to compose its biography, assisted by the French cultural historian Elinor Barber.</p>
-<p>C The word did not appear in the published literature until the early 19th century and did not become well enough known to use without explanation until sometime in the first third of the 20th century. Serendipity means a “happy accident” or “pleasant surprise”, specifically, the accident of finding something good or useful without looking for it. The first noted use of “serendipity” in the English language was by Horace Walpole. He explained that it came from the fairy tale, called The Three Princes of Serendip (the ancient name for Ceylon, or present day Sri Lanka), whose heroes “were always making discoveries, by accidents and sagacity, of things which they were not in quest of’.</p>
-<p>D Antiquarians, following Walpole, found use for it, as they were always rummaging about for curiosities, and unexpected but pleasant surprises were not unknown to them. Some people just seemed to have a knack for that sort of thing, and serendipity was used to express that special capacity. The other community that came to dwell on serendipity to say something important about their practice was that of scientists, and here usages cut to the heart of the matter and were often vigorously contested. Many scientists, including the Flarvard physiologist Walter Cannon and, later, the British immunologist Peter Medawar, liked to emphasise how much of scientific discovery was unplanned and even accidental. One of the examples is Hans Christian Orsted’s discovery of electromagnetism when he unintentionally brought a current-carrying wire parallel to a magnetic needle. Rhetoric about the sufficiency of rational method was so much hot air. Indeed, as Medawar insisted, “There is no such thing as The Scientific Method,” no way at all of systematising the process of discovery. Really important discoveries had a way of showing up when they had a mind to do so and not when you were looking for them. Maybe some scientists, like some book collectors, had a happy knack; maybe serendipity described the situation rather than a personal skill or capacity.</p>
-<p>E Some scientists using the word meant to stress those accidents belonging to the situation; some treated serendipity as a personal capacity; many others exploited the ambiguity of the notion. Yet what Cannon and Medawar took as a benign nose-thumbing at Dreams of Method, other scientists found incendiary. To say that science had a significant serendipitous aspect was taken by some as dangerous denigration. If scientific discovery were really accidental, then what was the special basis of expert authority? In this connection, the aphorism of choice came from no less an authority on scientific discovery than Louis Pasteur: “Chance favors the prepared mind.” Accidents may happen, and things may turn up unplanned and unforeseen, as one is looking for something else, but the ability to notice such events, to see their potential bearing and meaning, to exploit their occurrence and make constructive use of them—these are the results of systematic mental preparation. What seems like an accident is just another form of expertise. On closer inspection, it is insisted, accident dissolves into sagacity.</p>
-<p>F The context in which scientific serendipity was most contested and had its greatest resonance was that connected with the idea of planned science. The serendipitists were not all inhabitants of academic ivory towers. As Merton and Barber note, two of the great early-20th-century American pioneers of industrial research—Willis Whitney and Irving Langmuir, both of General Electric—made much play of serendipity, in the course of arguing against overly rigid research planning. Langmuir thought that misconceptions about the certainty and ratio-nality of the research process did much harm and that a mature acceptance of uncertainty was far more likely to result in productive research policies. For his own part, Langmuir said that satisfactory outcomes “occurred as though we were just drifting with the wind. These things came about by accident.” If there is no very determinate relationship between cause and effect in research, he said, “then planning does not get us very far.” So, from within the bowels of corporate capitalism came powerful arguments, by way of serendipity, for scientific spontaneity and autonomy. The notion that industry was invariably committed to the regimentation of scientific research just doesn’t wash.</p>
-<p>G For Merton himself—who one supposes must have been the senior author-serendipity rep-resented the keystone in the arch of his social scientific work. In 1936, as a very young man, Merton wrote a seminal essay on “The Unanticipated Consequences of Purposive Social Action.” It is, he argued, the nature of social action that what one intends is rarely what one gets: Intending to provide resources for buttressing Christian religion, the natural philosophers of the Scientific Revolution laid the groundwork for secularism; people wanting to be alone with nature in Yosemite Valley wind up crowding one another. We just don’t know enough—and we can never know enough—to ensure that the past is an adequate guide to the future: Uncertainty about outcomes, even of our best-laid plans, is endemic. All social action, including that undertaken with the best evidence and formulated according to the most rational criteria, is uncertain in its consequences.</p>
-<p>Questions 27-32
+<strong>A</strong> given some credit as they claim even if they are untrue.
+<strong>B</strong> acted upon immediately.
+<strong>C</strong> viewed as equally untrustworthy.
+<strong>D</strong> questioned and carefully investigated.</p>
+<p><strong>Accidental Scientists</strong></p>
+<p><strong>A</strong> A paradox lies close to the heart of scientific discovery. If you know just what you are looking for, finding it can hardly count as a discovery, since it was fully anticipated. But if, on the other hand, you have no notion of what you are looking for, you cannot know when you have found it, and discovery, as such, is out of the question. In the philosophy of science, these extremes map onto the purist forms of deductivism and inductivism: In the former, the outcome is supposed to be logically contained in the premises you start with; in the latter, you are recommended to start with no expectations whatsoever and see what turns up.</p>
+<p><strong>B</strong> As in so many things, the ideal position is widely supposed to reside somewhere in between these two impossible-to-realise extremes. You want to have a good enough idea of what you are looking for to be surprised when you find something else of value, and you want to be ignorant enough of your end point that you can entertain alternative outcomes. Scientific discovery should, therefore, have an accidental aspect, but not too much of one. Serendipity is a word that expresses a position something like that. It’s a fascinating word, and the late Robert King Merton—“the father of the sociology of science”—liked it well enough to compose its biography, assisted by the French cultural historian Elinor Barber.</p>
+<p><strong>C</strong> The word did not appear in the published literature until the early 19th century and did not become well enough known to use without explanation until sometime in the first third of the 20th century. Serendipity means a “happy accident” or “pleasant surprise”, specifically, the accident of finding something good or useful without looking for it. The first noted use of “serendipity” in the English language was by Horace Walpole. He explained that it came from the fairy tale, called The Three Princes of Serendip (the ancient name for Ceylon, or present day Sri Lanka), whose heroes “were always making discoveries, by accidents and sagacity, of things which they were not in quest of’.</p>
+<p><strong>D</strong> Antiquarians, following Walpole, found use for it, as they were always rummaging about for curiosities, and unexpected but pleasant surprises were not unknown to them. Some people just seemed to have a knack for that sort of thing, and serendipity was used to express that special capacity. The other community that came to dwell on serendipity to say something important about their practice was that of scientists, and here usages cut to the heart of the matter and were often vigorously contested. Many scientists, including the Flarvard physiologist Walter Cannon and, later, the British immunologist Peter Medawar, liked to emphasise how much of scientific discovery was unplanned and even accidental. One of the examples is Hans Christian Orsted’s discovery of electromagnetism when he unintentionally brought a current-carrying wire parallel to a magnetic needle. Rhetoric about the sufficiency of rational method was so much hot air. Indeed, as Medawar insisted, “There is no such thing as The Scientific Method,” no way at all of systematising the process of discovery. Really important discoveries had a way of showing up when they had a mind to do so and not when you were looking for them. Maybe some scientists, like some book collectors, had a happy knack; maybe serendipity described the situation rather than a personal skill or capacity.</p>
+<p><strong>E</strong> Some scientists using the word meant to stress those accidents belonging to the situation; some treated serendipity as a personal capacity; many others exploited the ambiguity of the notion. Yet what Cannon and Medawar took as a benign nose-thumbing at Dreams of Method, other scientists found incendiary. To say that science had a significant serendipitous aspect was taken by some as dangerous denigration. If scientific discovery were really accidental, then what was the special basis of expert authority? In this connection, the aphorism of choice came from no less an authority on scientific discovery than Louis Pasteur: “Chance favors the prepared mind.” Accidents may happen, and things may turn up unplanned and unforeseen, as one is looking for something else, but the ability to notice such events, to see their potential bearing and meaning, to exploit their occurrence and make constructive use of them—these are the results of systematic mental preparation. What seems like an accident is just another form of expertise. On closer inspection, it is insisted, accident dissolves into sagacity.</p>
+<p><strong>F</strong> The context in which scientific serendipity was most contested and had its greatest resonance was that connected with the idea of planned science. The serendipitists were not all inhabitants of academic ivory towers. As Merton and Barber note, two of the great early-20th-century American pioneers of industrial research—Willis Whitney and Irving Langmuir, both of General Electric—made much play of serendipity, in the course of arguing against overly rigid research planning. Langmuir thought that misconceptions about the certainty and ratio-nality of the research process did much harm and that a mature acceptance of uncertainty was far more likely to result in productive research policies. For his own part, Langmuir said that satisfactory outcomes “occurred as though we were just drifting with the wind. These things came about by accident.” If there is no very determinate relationship between cause and effect in research, he said, “then planning does not get us very far.” So, from within the bowels of corporate capitalism came powerful arguments, by way of serendipity, for scientific spontaneity and autonomy. The notion that industry was invariably committed to the regimentation of scientific research just doesn’t wash.</p>
+<p><strong>G</strong> For Merton himself—who one supposes must have been the senior author-serendipity rep-resented the keystone in the arch of his social scientific work. In 1936, as a very young man, Merton wrote a seminal essay on “The Unanticipated Consequences of Purposive Social Action.” It is, he argued, the nature of social action that what one intends is rarely what one gets: Intending to provide resources for buttressing Christian religion, the natural philosophers of the Scientific Revolution laid the groundwork for secularism; people wanting to be alone with nature in Yosemite Valley wind up crowding one another. We just don’t know enough—and we can never know enough—to ensure that the past is an adequate guide to the future: Uncertainty about outcomes, even of our best-laid plans, is endemic. All social action, including that undertaken with the best evidence and formulated according to the most rational criteria, is uncertain in its consequences.</p>
+<p><strong>Questions 27-32</strong>
 Choose the correct letter, A, B, C or D. Choose the most suitable heading for paragraphs A-G from the list of headings below. Write the appropriate number, i-x, in boxes 27-32 on your answer sheet.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i Examples of some scientific discoveries
 ii Horace Walpole’s fairy tale
 iii Resolving the contradiction
@@ -206,39 +262,39 @@ x Illustration of serendipity in the business sector</p>
 30. Paragraph E
 31. Paragraph F
 32. Paragraph G</p>
-<p>Questions 33-37
+<p><strong>Questions 33-37</strong>
 Choose the correct letter, A, B, C or D.</p>
 <p>33. In paragraph A, the word “inductivism” means
-A anticipate results in the beginning.
-B work with prepared premises.
-C accept chance discoveries.
-D look for what you want.</p>
+<strong>A</strong> anticipate results in the beginning.
+<strong>B</strong> work with prepared premises.
+<strong>C</strong> accept chance discoveries.
+<strong>D</strong> look for what you want.</p>
 <p>34. Medawar says “there is no such thing as The Scientific Method” because
-A discoveries are made by people with determined mind.
-B discoveries tend to happen unplanned.
-C the process of discovery is unpleasant.
-D serendipity is not a skill.</p>
+<strong>A</strong> discoveries are made by people with determined mind.
+<strong>B</strong> discoveries tend to happen unplanned.
+<strong>C</strong> the process of discovery is unpleasant.
+<strong>D</strong> serendipity is not a skill.</p>
 <p>35. Many scientists dislike the idea of serendipity because
-A it is easily misunderstood and abused.
-B it is too unpredictable.
-C it is beyond their comprehension.
-D it devalues their scientific expertise.</p>
+<strong>A</strong> it is easily misunderstood and abused.
+<strong>B</strong> it is too unpredictable.
+<strong>C</strong> it is beyond their comprehension.
+<strong>D</strong> it devalues their scientific expertise.</p>
 <p>36. The writer mentions Irving Langmuir to illustrate
-A planned science should be avoided.
-B industrial development needs uncertainty.
-C people tend to misunderstand the relationship between cause and effect.
-D accepting uncertainty can help produce positive results.</p>
+<strong>A</strong> planned science should be avoided.
+<strong>B</strong> industrial development needs uncertainty.
+<strong>C</strong> people tend to misunderstand the relationship between cause and effect.
+<strong>D</strong> accepting uncertainty can help produce positive results.</p>
 <p>37. The example of Yosemite is to show
-A the conflict between reality and expectation.
-B the importance of systematic planning.
-C the intention of social action.
-D the power of anticipation.</p>
-<p>Questions 38-40
-Answer the questions below. Choose NO MORE THAN TWO WORDS from the passage for each answer. Write your answers in boxes 38-40 on your answer sheet.</p>
+<strong>A</strong> the conflict between reality and expectation.
+<strong>B</strong> the importance of systematic planning.
+<strong>C</strong> the intention of social action.
+<strong>D</strong> the power of anticipation.</p>
+<p><strong>Questions 38-40</strong>
+Answer the questions below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer. Write your answers in boxes 38-40 on your answer sheet.</p>
 <p>38. Who is the person that first used the word “serendipity”?
 39. What kind of story does the word come from?
 40. What is the present name of serendipity?</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. True</p>
 <p>2. NG</p>
 <p>3. False</p>
@@ -497,6 +553,29 @@ Answer the questions below. Choose NO MORE THAN TWO WORDS from the passage for e
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -516,12 +595,23 @@ Answer the questions below. Choose NO MORE THAN TWO WORDS from the passage for e
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -533,14 +623,6 @@ Answer the questions below. Choose NO MORE THAN TWO WORDS from the passage for e
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

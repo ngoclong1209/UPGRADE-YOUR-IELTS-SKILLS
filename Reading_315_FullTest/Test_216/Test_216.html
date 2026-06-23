@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,116 +158,116 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_216</h1>
-            <p>IELTS Reading Practice - Test 216</p>
-<p>Money Transfers by Mobile</p>
-<p>A The ping of a text message has never sounded so sweet. In what is being touted as a world first, Kenya’s biggest mobile operator is allowing subscribers to send cash to other phone users by SMS. Known as M-Pesa, or mobile money, the service is expected to revolutionise banking in a country where more than 80% of people are excluded from the formal financial sector. Apart from transferring cash – a service much in demand among urban Kenyans supporting relatives in rural areas – customers of the Safaricom network will be able to keep up to 50,000 shillings (£370) in a “virtual account” on their handsets.</p>
-<p>B Developed by Vodafone, which holds a 35% share in Safaricom, M-Pesa was formally launched in Kenya two weeks ago. More than 10,000 people have signed up for the service, with around 8 million shillings transferred so far, mostly in tiny denominations. Safaricom’s executives are confident that growth will be strong in Kenya, and later across Africa. “We are effectively giving people ATM cards without them ever having to open a real bank account,” said Michael Joseph, chief executive of Safaricom, who called the money transfer concept the “next big thing” in mobile telephony.</p>
-<p>C M-Pesa’s is simple. There is no need for a new handset or SIM card. To send money, you hand over the cash to a registered agent – typically a retailer – who credits your virtual account. You then send between 100 shillings (74p) and 35,000 shillings (£259) via text message to the desired recipient – even someone on a different mobile network – who cashes it at an agent by entering a secret code and showing ID. A commission of up to 170 shillings (£1.25) is paid by the recipient but it compares favourably with fees levied by the major banks, whose services are too expensive for most of the population.</p>
-<p>D Mobile phone growth in Kenya, as in most of Africa, has been remarkable, even among the rural poor. In June 1999, Kenya had 15,000 mobile subscribers. Today, it has nearly 8 million out of a population of 35 million, and the two operators’ networks are as extensive as the access to banks is limited. Safaricom says it is not so much competing with financial services companies as filling a void. In time, M-Pesa will allow people to borrow and repay money, and make purchases. Companies will be able to pay salaries directly into workers’ phones – something that has already attracted the interest of larger employers, such as the tea companies, whose workers often have to be paid in cash as they do not have bank accounts. There are concerns about security, but Safaricom insists that even if someone’s phone is stolen, the PIN system prevents unauthorised withdrawals. Mr. Joseph said the only danger is sending cash to the wrong mobile number and the recipient redeeming it straight away.</p>
-<p>E The project is being watched closely by mobile operators around the world as a way of targeting the multibillion pound international cash transfer industry long dominated by companies such as Western Union and Moneygram. Remittances sent from nearly 200 million migrant workers to developing countries totalled £102 billion last year, according to the World Bank. The GSM Association, which represents more than 700 mobile operators worldwide, believes this could quadruple by 2012 if transfers by SMS become the norm. Vodafone has entered a partnership with Citigroup that will soon allow Kenyans in the UK to send money home via text message. The charge for sending £50 is expected to be about £3, less than a third of what some traditional services charge.</p>
-<p>SECTION 1: Questions 1-4</p>
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 216</strong></h3>
+<h3 class="test-heading"><strong>Money Transfers by Mobile</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> The ping of a text message has never sounded so sweet. In what is being touted as a world first, Kenya’s biggest mobile operator is allowing subscribers to send cash to other phone users by SMS. Known as M-Pesa, or mobile money, the service is expected to revolutionise banking in a country where more than 80% of people are excluded from the formal financial sector. Apart from transferring cash – a service much in demand among urban Kenyans supporting relatives in rural areas – customers of the Safaricom network will be able to keep up to 50,000 shillings (£370) in a “virtual account” on their handsets.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> Developed by Vodafone, which holds a 35% share in Safaricom, M-Pesa was formally launched in Kenya two weeks ago. More than 10,000 people have signed up for the service, with around 8 million shillings transferred so far, mostly in tiny denominations. Safaricom’s executives are confident that growth will be strong in Kenya, and later across Africa. “We are effectively giving people ATM cards without them ever having to open a real bank account,” said Michael Joseph, chief executive of Safaricom, who called the money transfer concept the “next big thing” in mobile telephony.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> M-Pesa’s is simple. There is no need for a new handset or SIM card. To send money, you hand over the cash to a registered agent – typically a retailer – who credits your virtual account. You then send between 100 shillings (74p) and 35,000 shillings (£259) via text message to the desired recipient – even someone on a different mobile network – who cashes it at an agent by entering a secret code and showing ID. A commission of up to 170 shillings (£1.25) is paid by the recipient but it compares favourably with fees levied by the major banks, whose services are too expensive for most of the population.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> Mobile phone growth in Kenya, as in most of Africa, has been remarkable, even among the rural poor. In June 1999, Kenya had 15,000 mobile subscribers. Today, it has nearly 8 million out of a population of 35 million, and the two operators’ networks are as extensive as the access to banks is limited. Safaricom says it is not so much competing with financial services companies as filling a void. In time, M-Pesa will allow people to borrow and repay money, and make purchases. Companies will be able to pay salaries directly into workers’ phones – something that has already attracted the interest of larger employers, such as the tea companies, whose workers often have to be paid in cash as they do not have bank accounts. There are concerns about security, but Safaricom insists that even if someone’s phone is stolen, the PIN system prevents unauthorised withdrawals. Mr. Joseph said the only danger is sending cash to the wrong mobile number and the recipient redeeming it straight away.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> The project is being watched closely by mobile operators around the world as a way of targeting the multibillion pound international cash transfer industry long dominated by companies such as Western Union and Moneygram. Remittances sent from nearly 200 million migrant workers to developing countries totalled £102 billion last year, according to the World Bank. The GSM Association, which represents more than 700 mobile operators worldwide, believes this could quadruple by 2012 if transfers by SMS become the norm. Vodafone has entered a partnership with Citigroup that will soon allow Kenyans in the UK to send money home via text message. The charge for sending £50 is expected to be about £3, less than a third of what some traditional services charge.</p></div></div>
+<h3 class="test-heading"><strong>SECTION 1: Questions 1-4</strong></h3>
 <p>The text has 5 paragraphs (A – E).</p>
 <p>Which paragraph contains each of the following pieces of information?</p>
-<p>Questions 5-8
-Complete the following sentences using NO MORE THAN THREE WORDS from the text for each answer.</p>
+<p><strong>Questions 5-8</strong>
+Complete the following sentences using <strong>NO MORE THAN THREE WORDS</strong> from the text for each answer.</p>
 <p>Safaricom is the (5)………………mobile phone company in Kenya. An M-Pesa account needs to be credited by (6)………………..</p>
 <p>(7)…………………….companies are particularly interested in using M-Pesa. Companies like Moneygram and Western Union have (8)……………….the international money transfer market.</p>
-<p>Questions 9-13
+<p><strong>Questions 9-13</strong>
 Do the statements below agree with the information given in Reading Passage? In boxes 9 – 13 write</p>
-<p>TRUE                       if the statement agrees with the information
-FALSE                     if the statement contradicts the information
-NOT GIVEN         if there is no information on this</p>
+<p><strong>TRUE</strong>                       if the statement agrees with the information
+<strong>FALSE</strong>                     if the statement contradicts the information
+<strong>NOT GIVEN</strong>         if there is no information on this</p>
 <p>9. Most Kenyans working in urban areas have relatives in rural areas.
 10. So far, most of the people using M-Pesa have used it to send small amounts of money.
 11. M-Pesa can only be used by people using one phone network.
 12. M-Pesa can be used to buy products and services.
 13. The GSM Association is a consumer organisation.</p>
-<p>Park the Car Permanently</p>
-<p>A More than a million people are likely to be disappointed by their experience of the Government’s attempts to improve the democratic process. They may have signed an online petition against road pricing, but ministers are determined to push ahead with plans to make it more expensive to drive. The Government is convinced that this is the only way to reduce congestion and the environmental damage caused by motoring.</p>
-<p>B Why wait until you are forced off the road by costly charges? You may enjoy the convenience of your car, but the truth is that for huge numbers of people, owning a car makes little financial sense. You’d be far better off giving it up and relying on other forms of transport. “I’m 47 and I’ve never owned a car, despite having a job that requires me to travel all over the South-East to visit clients,” says Donnachadh McCarthy, an environmental expert who specialises in advising people how to be greener. “A car is a huge financial commitment, as well as being a psychological addiction. Not owning a vehicle is far more practical than most people realise.”</p>
-<p>C It may seem as if cars have never been cheaper. After all, it is now possible to buy a brand new car for less than £4,800 – the Perodua Kelisa, if you’re interested. There are plenty of decent vehicles you can buy straight from the showroom for between £5,000 and £7,000. Of course, if you buy second-hand, the prices will be even lower. However, the falling purchase price of cars masks the fact that it has never been more expensive to own and run a vehicle. The estimate is that the cost of running a car rose by more than ten per cent last year alone. The annual cost of running your own vehicle is put at an average of £5,539, or £107 a week. While drivers who do less or more than the average mileage each year will spend correspondingly less or more, many of the costs of ear ownership are fixed – and therefore unavoidable.</p>
-<p>D Depreciation – the fact that your vehicle loses a large chunk of its resale value each year – is one problem, accounting for £2,420 a year. The cost of finance packages, which most people have to resort to pay for at least part of the price of a new car, has also been rising – to an average of £1,040 a year. Then there’s insurance, maintenance, tax, and breakdown insurance, all of which will cost you broadly the same amount, however many miles you do. Only fuel costs are truly variable. While petrol prices are the most visible indicator of the cost of running a car, for the typical driver they account for less than one fifth of the real costs each year. In other words, leaving aside all the practical and psychological barriers to giving up your car, in financial terms, doing so makes sense for many people.</p>
-<p>E Take the cost of public transport, for example. In London, the most expensive city in the UK, the most expensive annual travel card, allowing travel in any zone at any time, costs just over £1,700. You could give up your car and still have thousands of pounds to spare to spend on occasional car hire. In fact, assuming that you have the most expensive travel card in London, you could hire a cheap car from a company, such as easyCar for about 30 weeks a year, and still be better off overall than if you own your own vehicle. Not that car hire is necessarily the most cost-effective option for people who are prepared to do without a car but may still need to drive occasionally.</p>
-<p>F Streetcar, one of several “car clubs” with growing numbers of members, reckons that using its vehicles twice a week, every week, for a year, would cost you just £700. Streetcar’s model works very similarly to those of its main rivals, Citycarclub and Whizzgo. These three companies, which now operate in 20 of Britain’s towns and cities, charge their members a refundable deposit – £150 at Streetcar – and then provide them with an electronic smart card. This enables members to get into the vehicles, which are left parked in set locations, and the keys are then found in the glove compartment. Members pay an hourly rate for the car – £4.95 is the cost at Streetcar – and return it to the same spot, or to a different designated parking place.</p>
-<p>G Car sharing is an increasingly popular option for people making the same journeys regularly – to and from work, for example. Many companies run schemes that help colleagues who live near to each other and work in the same place to contact each other so they can share the journey to work. Liftshare and Carshare are two national organisations that maintain online databases of people who would be prepared to team up. Other people may be able to replace part or all of their journey to work – or any journeys, for that matter – with low-cost transport such as a bicycle, or even by just walking. The more you can reduce your car use, however you gain access to it, the more you will save.</p>
-<p>Questions 14-17
+<p><strong>Park the Car Permanently</strong></p>
+<p><strong>A</strong> More than a million people are likely to be disappointed by their experience of the Government’s attempts to improve the democratic process. They may have signed an online petition against road pricing, but ministers are determined to push ahead with plans to make it more expensive to drive. The Government is convinced that this is the only way to reduce congestion and the environmental damage caused by motoring.</p>
+<p><strong>B</strong> Why wait until you are forced off the road by costly charges? You may enjoy the convenience of your car, but the truth is that for huge numbers of people, owning a car makes little financial sense. You’d be far better off giving it up and relying on other forms of transport. “I’m 47 and I’ve never owned a car, despite having a job that requires me to travel all over the South-East to visit clients,” says Donnachadh McCarthy, an environmental expert who specialises in advising people how to be greener. “A car is a huge financial commitment, as well as being a psychological addiction. Not owning a vehicle is far more practical than most people realise.”</p>
+<p><strong>C</strong> It may seem as if cars have never been cheaper. After all, it is now possible to buy a brand new car for less than £4,800 – the Perodua Kelisa, if you’re interested. There are plenty of decent vehicles you can buy straight from the showroom for between £5,000 and £7,000. Of course, if you buy second-hand, the prices will be even lower. However, the falling purchase price of cars masks the fact that it has never been more expensive to own and run a vehicle. The estimate is that the cost of running a car rose by more than ten per cent last year alone. The annual cost of running your own vehicle is put at an average of £5,539, or £107 a week. While drivers who do less or more than the average mileage each year will spend correspondingly less or more, many of the costs of ear ownership are fixed – and therefore unavoidable.</p>
+<p><strong>D</strong> Depreciation – the fact that your vehicle loses a large chunk of its resale value each year – is one problem, accounting for £2,420 a year. The cost of finance packages, which most people have to resort to pay for at least part of the price of a new car, has also been rising – to an average of £1,040 a year. Then there’s insurance, maintenance, tax, and breakdown insurance, all of which will cost you broadly the same amount, however many miles you do. Only fuel costs are truly variable. While petrol prices are the most visible indicator of the cost of running a car, for the typical driver they account for less than one fifth of the real costs each year. In other words, leaving aside all the practical and psychological barriers to giving up your car, in financial terms, doing so makes sense for many people.</p>
+<p><strong>E</strong> Take the cost of public transport, for example. In London, the most expensive city in the UK, the most expensive annual travel card, allowing travel in any zone at any time, costs just over £1,700. You could give up your car and still have thousands of pounds to spare to spend on occasional car hire. In fact, assuming that you have the most expensive travel card in London, you could hire a cheap car from a company, such as easyCar for about 30 weeks a year, and still be better off overall than if you own your own vehicle. Not that car hire is necessarily the most cost-effective option for people who are prepared to do without a car but may still need to drive occasionally.</p>
+<p><strong>F</strong> Streetcar, one of several “car clubs” with growing numbers of members, reckons that using its vehicles twice a week, every week, for a year, would cost you just £700. Streetcar’s model works very similarly to those of its main rivals, Citycarclub and Whizzgo. These three companies, which now operate in 20 of Britain’s towns and cities, charge their members a refundable deposit – £150 at Streetcar – and then provide them with an electronic smart card. This enables members to get into the vehicles, which are left parked in set locations, and the keys are then found in the glove compartment. Members pay an hourly rate for the car – £4.95 is the cost at Streetcar – and return it to the same spot, or to a different designated parking place.</p>
+<p><strong>G</strong> Car sharing is an increasingly popular option for people making the same journeys regularly – to and from work, for example. Many companies run schemes that help colleagues who live near to each other and work in the same place to contact each other so they can share the journey to work. Liftshare and Carshare are two national organisations that maintain online databases of people who would be prepared to team up. Other people may be able to replace part or all of their journey to work – or any journeys, for that matter – with low-cost transport such as a bicycle, or even by just walking. The more you can reduce your car use, however you gain access to it, the more you will save.</p>
+<p><strong>Questions 14-17</strong>
 The text has 7 paragraphs (A – G).</p>
 <p>Which paragraph does each of the following headings best fit?</p>
 <p>14. Don’t wait!
 15. Team up
 16. Join a club
 17. Use public transport</p>
-<p>Questions 18-22
+<p><strong>Questions 18-22</strong>
 According to the text, FIVE of the following statements are true.</p>
 <p>Write the corresponding letters in answer boxes 18 to 22 in any order.</p>
-<p>A McCarthy claims people can become addicted to using cars
-B The cost of using a car rose by over ten per cent last year
-C Most British people borrow money to help buy cars
-D Many people need cars to drive in London occasionally
-E Streetcar operates in over 20 cities in Britain
-F Streetcar’s car must be left at specific locations
-G Car sharing is becoming more popular with people who live and work near each other
-H The government wants to encourage people to go to work on foot or by bicycle</p>
-<p>Questions 23-26</p>
+<p><strong>A</strong> McCarthy claims people can become addicted to using cars
+<strong>B</strong> The cost of using a car rose by over ten per cent last year
+<strong>C</strong> Most British people borrow money to help buy cars
+<strong>D</strong> Many people need cars to drive in London occasionally
+<strong>E</strong> Streetcar operates in over 20 cities in Britain
+<strong>F</strong> Streetcar’s car must be left at specific locations
+<strong>G</strong> Car sharing is becoming more popular with people who live and work near each other
+<strong>H</strong> The government wants to encourage people to go to work on foot or by bicycle</p>
+<p><strong>Questions 23-26</strong></p>
 <p>According to the information given in the text, choose the correct answer or answers from the choices given.</p>
 <p>23. The government has decided
-A not to follow protestors’ suggestions
-B to become more democratic
-C to go ahead with charging drivers to use roads</p>
+<strong>A</strong> not to follow protestors’ suggestions
+<strong>B</strong> to become more democratic
+<strong>C</strong> to go ahead with charging drivers to use roads</p>
 <p>24. Cars are often
-A relatively cheap in Britain
-B relatively expensive to operate in Britain
-C sold second-hand in Britain</p>
+<strong>A</strong> relatively cheap in Britain
+<strong>B</strong> relatively expensive to operate in Britain
+<strong>C</strong> sold second-hand in Britain</p>
 <p>25. Fuel costs
-A make up about 20% of the cost of running a car
-B are related to the amount drivers pay for their cars
-C depend on how far you drive</p>
+<strong>A</strong> make up about 20% of the cost of running a car
+<strong>B</strong> are related to the amount drivers pay for their cars
+<strong>C</strong> depend on how far you drive</p>
 <p>26. Using public transport
-A will save money for British motorists except in London
-B and renting a car part of the time can save money
-C costs Londoners about £1,700 a year</p>
-<p>Low-Cost Lamps Light Rural India</p>
+<strong>A</strong> will save money for British motorists except in London
+<strong>B</strong> and renting a car part of the time can save money
+<strong>C</strong> costs Londoners about £1,700 a year</p>
+<p><strong>Low-Cost Lamps Light Rural India</strong></p>
 <p>Until three months ago, life in this humble village without electricity would come to a halt after sunset. Inside his mud-and-clay home, Ganpat Jadhav’s three children used to study in the dim, smoky glow of a kerosene lamp, when their monthly fuel quota of four litres dried up in just a fortnight, they had to strain their eyes using the light from a cooking fire. That all changed with the installation of low-cost, energy-efficient lamps that are powered entirely by the sun. The lights were installed by the Grameen Surya Bijli Foundation (GSBF), an Indian non-governmental organisation focused on bringing light to rural India. Some 100,000 Indian villages do not yet have electricity. The GSBF lamps use LEDs – light emitting diodes – that are four times more efficient than a normal bulb. After a $55 installation cost, solar energy lights the lamp free of charge. LED lighting, like cell phones, is another example of a technology whose low cost could allow the rural poor to leap into the 21st century.</p>
 <p>As many as 1.5 billion people – nearly 80 million in India alone – light their houses using kerosene as the primary lighting media. The fuel is dangerous, dirty, and – despite being subsidised – consumes nearly four per cent of a typical rural Indian household’s budget. A recent report by the Intermediate Technology Development Group suggests that indoor air pollution from such lighting media results in 1.6 million deaths worldwide every year. LED lamps, or more specifically white LEDs, are believed to produce nearly 200 times more useful light than a kerosene lamp and almost 50 times the amount of useful light of a conventional bulb. “This technology can light an entire rural village with less energy than that used by a single conventional 100-watt light bulb,” says Dave Irvine-Halliday, a professor of electrical engineering at the University of Calgary, Canada and the founder of Light up the World Foundation (LUTW). Founded in 1997, LUTW has used LED technology to bring light to nearly 10,000 homes in remote and disadvantaged corners of some 27 countries like India, Nepal, Sri Lanka, Bolivia, and the Philippines.</p>
 <p>The technology, which is not yet widely known in India, faces some scepticism here. “LED systems are revolutionising rural lighting, but this isn’t a magic solution to the world’s energy problems,” says Ashok Jhunjhunwala, head of the electrical engineering department at the Indian Institute of Technology, Madras. In a scenario in which nearly 60 per cent of India’s rural population uses 180 million tons of biomass per year for cooking via primitive wood stoves – which are smoky and provide only 10-15 per cent efficiency in cooking -Jhunjhunwala emphasises the need for a clean energy source, not just for lighting but for other domestic purposes as well. The Indian government in April launched an ambitious project to bring electricity to 112,000 rural villages in the next decade. However, the remote locations of the village will make reaching this goal difficult. A. K. Lakhina, the chairman of India’s Rural Electrification Corporation, says the Indian government recognises the potential of LED lighting powered by solar technology, but expressed reservations about its high costs. “If only LEDs weren’t imported but manufactured locally,” he says, “and in bulk.”</p>
 <p>The lamps installed in nearly 300 homes by GSBF cost nearly half the price of other solar lighting systems. Jasjeet Singh Chaddha, the founder of the NGO, currently imports his LEDs from China. He wants to set up an LED manufacturing unit and a solar panel manufacturing unit in India. If manufactured locally, the cost of his LED lamp could plummet to $22, as they will not incur heavy import duties. “We need close to $5 million for this,” he says. Mr. Chaddha says he has also asked the government to exempt the lamps from such duties, but to no avail. An entrepreneur who made his money in plastics, Chaddha, has poured his own money into the project, providing the initial installations free of charge. As he looks to make the project self-sustainable, he recognises that it is only urban markets -which have also shown an avid interest in LED lighting – that can pay. The rural markets in India cannot afford it, he says, until the prices are brought down. The rural markets would be able to afford it, says Mr. Irvine-Halliday, if they had access to microcredit. He says that in Tembisa, a shanty town in Johannesburg, he found that almost 10,000 homes spent more than $60 each on candles and paraffin every year. As calculations revealed, these families can afford to purchase a solid state lighting system in just over a year of paying per week what they would normally spend on candles and paraffin – if they have access to microcredit. LUTW is in the process of creating such a microcredit facility for South Africa.</p>
 <p>In villages near Khadakwadi, the newly installed LED lamps are a subject of envy, even for those connected to the grid. Those connected to the grid have to face power cuts up to 6 or 7 hours a day. Constant energy shortages and blackouts are a common problem due to a lack of power plants, transmission, and distribution losses caused by old technology and illegal stealing of electricity from the grid. LED systems require far less maintenance, a longer life, and as villagers jokingly say, “no electricity bills”. The lamps provided by GSBF have enough power to provide just four hours of light a day. However, that is enough for people to get their work done in the early hours of the night, and is more reliable than light generated off India’s electrical grid. Villagers are educated by GSBF officials to make the most of the new lamps. An official from GSBF instructs Jadhav and his family to clean the lamp regularly. “Its luminosity and life will diminish if you let the dust settle on it,” he warns them.</p>
-<p>Questions 27-30
+<p><strong>Questions 27-30</strong>
 Choose the correct letter A, B or C.</p>
 <p>27. The GSBF lamps
-A provide light for 100,000 Indian villages
-B are very expensive to install
-C are powered by the sun</p>
+<strong>A</strong> provide light for 100,000 Indian villages
+<strong>B</strong> are very expensive to install
+<strong>C</strong> are powered by the sun</p>
 <p>28. More than half of India’s population uses
-A kerosene as a cooking fuel
-B biomass as a cooking fuel
-C solar power as a cooking fuel</p>
+<strong>A</strong> kerosene as a cooking fuel
+<strong>B</strong> biomass as a cooking fuel
+<strong>C</strong> solar power as a cooking fuel</p>
 <p>29. In India, the GSBF lamps are too expensive for most people
-A in rural areas
-B in urban areas
-C in all areas</p>
+<strong>A</strong> in rural areas
+<strong>B</strong> in urban areas
+<strong>C</strong> in all areas</p>
 <p>30. The GSBF lamps
-A are not as reliable as electricity from the national power grid
-B require skill to use
-C only provide four hours of light a day</p>
-<p>Questions 31-35
-Complete the following sentences using NO MORE THAN THREE WORDS from the text for each answer.</p>
+<strong>A</strong> are not as reliable as electricity from the national power grid
+<strong>B</strong> require skill to use
+<strong>C</strong> only provide four hours of light a day</p>
+<p><strong>Questions 31-35</strong>
+Complete the following sentences using <strong>NO MORE THAN THREE WORDS</strong> from the text for each answer.</p>
 <p>Another example of cheap technology helping poor people in the countryside is (31)…………….</p>
 <p>Kerosene lamps and conventional bulbs give off less (32)……………….than GSBF lamps.</p>
 <p>It is unlikely that the Indian government will achieve its aim of connecting 112,000 villages to electricity because many villages are (33)……………………</p>
 <p>GSBF lamps would be cheaper if it weren’t for (34)………………..</p>
 <p>Users need to wipe (35)…………………from the LED in order to keep it working well.</p>
-<p>Questions 36-40
+<p><strong>Questions 36-40</strong>
 Do the following statements agree with the information given in Reading Passage? In boxes 36 – 40 write</p>
-<p>TRUE                    if the statement agrees with the information
-FALSE                  if the statement contradicts the information
-NOT GIVEN       if there is no information on this</p>
+<p><strong>TRUE</strong>                    if the statement agrees with the information
+<strong>FALSE</strong>                  if the statement contradicts the information
+<strong>NOT GIVEN</strong>       if there is no information on this</p>
 <p>36. Ganpat Jadhav’s monthly ration of kerosene was insufficient.
 37. Kerosene causes many fires in homes in developing countries.
 38. LED systems could solve the world’s energy problems.
 39. Chaddha has so far funded the GSBF lamp project himself.
 40. Microcredit would help to get more people to use LED lamps.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. D</p>
 <p>2. C</p>
 <p>3. E</p>
@@ -470,6 +526,29 @@ NOT GIVEN       if there is no information on this</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -489,12 +568,23 @@ NOT GIVEN       if there is no information on this</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -506,14 +596,6 @@ NOT GIVEN       if there is no information on this</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

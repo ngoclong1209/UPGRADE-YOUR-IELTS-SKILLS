@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,26 +158,26 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_10</h1>
-            <p>IELTS Reading Practice - Test 10</p>
-<p>Making Time for Science</p>
-<p>Chronobiology might sound a little futuristic – like something from a science fiction novel, perhaps – but it’s actually a field of study that concerns one of the oldest processes life on this planet has ever known: short-term rhythms of time and their effect on flora and fauna.</p>
-<p>This can take many forms. Marine life, for example, is influenced by tidal patterns. Animals tend to be active or inactive depending on the position of the sun or moon. Numerous creatures, humans included, are largely diurnal – that is, they like to come out during the hours of sunlight. Nocturnal animals, such as bats and possums, prefer to forage by night. A third group are known as crepuscular: they thrive in the low- light of dawn and dusk and remain inactive at other hours.</p>
-<p>When it comes to humans, chronobiologists are interested in what is known as the circadian rhythm. This is the complete cycle our bodies are naturally geared to undergo within the passage of a twenty-four hour day. Aside from sleeping at night and waking during the day, each cycle involves many other factors such as changes in blood pressure and body temperature. Not everyone has an identical circadian rhythm. ‘Night people’, for example, often describe how they find it very hard to operate during the morning, but become alert and focused by evening. This is a benign variation within circadian rhythms known as a chronotype.</p>
-<p>Scientists have limited abilities to create durable modifications of chronobiological demands. Recent therapeutic developments for humans such as artificial light machines and melatonin administration can reset our circadian rhythms, for example, but our bodies can tell the difference and health suffers when we breach these natural rhythms for extended periods of time. Plants appear no more malleable in this respect; studies demonstrate that vegetables grown in season and ripened on the tree are far higher in essential nutrients than those grown in greenhouses and ripened by laser.</p>
-<p>Knowledge of chronobiological patterns can have many pragmatic implications for our day-to-day lives. While contemporary living can sometimes appear to subjugate biology – after all, who needs circadian rhythms when we have caffeine pills, energy drinks, shift work and cities that never sleep? – keeping in synch with our body clock is important.</p>
-<p>The average urban resident, for example, rouses at the eye-blearing time of 6.04 a.m., which researchers believe to be far too early. One study found that even rising at 7.00 a.m. has deleterious effects on health unless exercise is performed for 30 minutes afterward. The optimum moment has been whittled down to 7.22 a.m.; muscle aches, headaches and moodiness were reported to be lowest by participants in the study who awoke then.</p>
-<p>Once you’re up and ready to go, what then? If you’re trying to shed some extra pounds, dieticians are adamant: never skip breakfast. This disorients your circadian rhythm and puts your body in starvation mode. The recommended course of action is to follow an intense workout with a carbohydrate-rich breakfast; the other way round and weight loss results are not as pronounced.</p>
-<p>Morning is also great for breaking out the vitamins. Supplement absorption by the body is not temporal-dependent, but naturopath Pam Stone notes that the extra boost at breakfast helps us get energised for the day ahead. For improved absorption, Stone suggests pairing supplements with a food in which they are soluble and steering clear of caffeinated beverages. Finally, Stone warns to take care with storage; high potency is best for absorption, and warmth and humidity are known to deplete the potency of a supplement.</p>
-<p>After-dinner espressos are becoming more of a tradition – we have the Italians to thank for that – but to prepare for a good night’s sleep we are better off putting the brakes on caffeine consumption as early as 3 p.m. With a seven hour half-life, a cup of coffee containing 90 mg of caffeine taken at this hour could still leave 45 mg of caffeine in your nervous system at ten o’clock that evening. It is essential that, by the time you are ready to sleep, your body is rid of all traces.</p>
-<p>Evenings are important for winding down before sleep; however, dietician Geraldine Georgeou warns that an after-five carbohydrate-fast is more cultural myth than chronobiological demand. This will deprive your body of vital energy needs. Overloading your gut could lead to indigestion, though. Our digestive tracts do not shut down for the night entirely, but their work slows to a crawl as our bodies prepare for sleep. Consuming a modest snack should be entirely sufficient.</p>
-<p>Questions 1-7
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 10</strong></h3>
+<h3 class="test-heading"><strong>Making Time for Science</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>Chronobiology might sound a little futuristic – like something from a science fiction novel, perhaps – but it’s actually a field of study that concerns one of the oldest processes life on this planet has ever known: short-term rhythms of time and their effect on flora and fauna.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>This can take many forms. Marine life, for example, is influenced by tidal patterns. Animals tend to be active or inactive depending on the position of the sun or moon. Numerous creatures, humans included, are largely diurnal – that is, they like to come out during the hours of sunlight. Nocturnal animals, such as bats and possums, prefer to forage by night. A third group are known as crepuscular: they thrive in the low- light of dawn and dusk and remain inactive at other hours.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>When it comes to humans, chronobiologists are interested in what is known as the circadian rhythm. This is the complete cycle our bodies are naturally geared to undergo within the passage of a twenty-four hour day. Aside from sleeping at night and waking during the day, each cycle involves many other factors such as changes in blood pressure and body temperature. Not everyone has an identical circadian rhythm. ‘Night people’, for example, often describe how they find it very hard to operate during the morning, but become alert and focused by evening. This is a benign variation within circadian rhythms known as a chronotype.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Scientists have limited abilities to create durable modifications of chronobiological demands. Recent therapeutic developments for humans such as artificial light machines and melatonin administration can reset our circadian rhythms, for example, but our bodies can tell the difference and health suffers when we breach these natural rhythms for extended periods of time. Plants appear no more malleable in this respect; studies demonstrate that vegetables grown in season and ripened on the tree are far higher in essential nutrients than those grown in greenhouses and ripened by laser.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>Knowledge of chronobiological patterns can have many pragmatic implications for our day-to-day lives. While contemporary living can sometimes appear to subjugate biology – after all, who needs circadian rhythms when we have caffeine pills, energy drinks, shift work and cities that never sleep? – keeping in synch with our body clock is important.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>The average urban resident, for example, rouses at the eye-blearing time of 6.04 a.m., which researchers believe to be far too early. One study found that even rising at 7.00 a.m. has deleterious effects on health unless exercise is performed for 30 minutes afterward. The optimum moment has been whittled down to 7.22 a.m.; muscle aches, headaches and moodiness were reported to be lowest by participants in the study who awoke then.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>Once you’re up and ready to go, what then? If you’re trying to shed some extra pounds, dieticians are adamant: never skip breakfast. This disorients your circadian rhythm and puts your body in starvation mode. The recommended course of action is to follow an intense workout with a carbohydrate-rich breakfast; the other way round and weight loss results are not as pronounced.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>Morning is also great for breaking out the vitamins. Supplement absorption by the body is not temporal-dependent, but naturopath Pam Stone notes that the extra boost at breakfast helps us get energised for the day ahead. For improved absorption, Stone suggests pairing supplements with a food in which they are soluble and steering clear of caffeinated beverages. Finally, Stone warns to take care with storage; high potency is best for absorption, and warmth and humidity are known to deplete the potency of a supplement.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>After-dinner espressos are becoming more of a tradition – we have the Italians to thank for that – but to prepare for a good night’s sleep we are better off putting the brakes on caffeine consumption as early as 3 p.m. With a seven hour half-life, a cup of coffee containing 90 mg of caffeine taken at this hour could still leave 45 mg of caffeine in your nervous system at ten o’clock that evening. It is essential that, by the time you are ready to sleep, your body is rid of all traces.</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p>Evenings are important for winding down before sleep; however, dietician Geraldine Georgeou warns that an after-five carbohydrate-fast is more cultural myth than chronobiological demand. This will deprive your body of vital energy needs. Overloading your gut could lead to indigestion, though. Our digestive tracts do not shut down for the night entirely, but their work slows to a crawl as our bodies prepare for sleep. Consuming a modest snack should be entirely sufficient.</p></div></div>
+<p><strong>Questions 1-7</strong>
 
 Do the following statements agree with the information given in Reading Passage 1? In boxes 1-7 on your answer sheet, write</p>
-<p>TRUE                    if the statement agrees with the information
+<p><strong>TRUE</strong>                    if the statement agrees with the information
 
-FALSE                  if the statement contradicts the information
+<strong>FALSE</strong>                  if the statement contradicts the information
 
-NOT GIVEN       if there is no information on this</p>
+<strong>NOT GIVEN</strong>       if there is no information on this</p>
 <p>1 Chronobiology is the study of how living things have evolved over time.
 
 2 The rise and fall of sea levels affects how sea creatures behave.
@@ -135,67 +191,67 @@ NOT GIVEN       if there is no information on this</p>
 6 New therapies can permanently change circadian rhythms without causing harm.
 
 7 Naturally-produced vegetables have more nutritional value.</p>
-<p>Questions 8-13
+<p><strong>Questions 8-13</strong>
 
 Choose the correct letter, A, B, C or D.
 
 Write the correct letter in boxes 8-13 on your answer sheet.</p>
 <p>8 What did researchers identify as the ideal time to wake up in the morning?
 
-A 6.04
+<strong>A</strong> 6.04
 
-B 7.00
+<strong>B</strong> 7.00
 
-C 7.22
+<strong>C</strong> 7.22
 
-D 7.30</p>
+<strong>D</strong> 7.30</p>
 <p>9 In order to lose weight, we should
 
-A avoid eating breakfast
+<strong>A</strong> avoid eating breakfast
 
-B eat a low carbohydrate breakfast
+<strong>B</strong> eat a low carbohydrate breakfast
 
-C exercise before breakfast
+<strong>C</strong> exercise before breakfast
 
-D exercise after breakfast</p>
-<p>10 Which is NOT mentioned as a way to improve supplement absorption?
+<strong>D</strong> exercise after breakfast</p>
+<p>10 Which is <strong>NOT</strong> mentioned as a way to improve supplement absorption?
 
-A avoiding drinks containing caffeine while taking supplements
+<strong>A</strong> avoiding drinks containing caffeine while taking supplements
 
-B taking supplements at breakfast
+<strong>B</strong> taking supplements at breakfast
 
-C taking supplements with foods that can dissolve them
+<strong>C</strong> taking supplements with foods that can dissolve them
 
-D storing supplements in a cool, dry environment</p>
+<strong>D</strong> storing supplements in a cool, dry environment</p>
 <p>11 The best time to stop drinking coffee is
 
-A mid-afternoon
+<strong>A</strong> mid-afternoon
 
-B 10 p.m.
+<strong>B</strong> 10 p.m.
 
-C only when feeling anxious
+<strong>C</strong> only when feeling anxious
 
-D after dinner</p>
+<strong>D</strong> after dinner</p>
 <p>12 In the evening, we should
 
-A stay away from carbohydrates
+<strong>A</strong> stay away from carbohydrates
 
-B stop exercising
+<strong>B</strong> stop exercising
 
-C eat as much as possible
+<strong>C</strong> eat as much as possible
 
-D eat a light meal</p>
+<strong>D</strong> eat a light meal</p>
 <p>13 Which of the following phrases best describes the main aim of Reading Passage 1?
 
-A to suggest healthier ways of eating, sleeping and exercising
+<strong>A</strong> to suggest healthier ways of eating, sleeping and exercising
 
-B to describe how modern life has made chronobiology largely irrelevant
+<strong>B</strong> to describe how modern life has made chronobiology largely irrelevant
 
-C to introduce chronobiology and describe some practical applications
+<strong>C</strong> to introduce chronobiology and describe some practical applications
 
-D to plan a daily schedule that can alter our natural chronobiological rhythms</p>
-<p>Cambridge IELTS Test 1 to 17</p>
-<p>The Triune Brain</p>
+<strong>D</strong> to plan a daily schedule that can alter our natural chronobiological rhythms</p>
+<p><strong>Cambridge IELTS Test 1 to 17</strong></p>
+<p><strong>The Triune Brain</strong></p>
 <p>The first of our three brains to evolve is what scientists call the reptilian cortex. This brain sustains the elementary activities of animal survival such as respiration, adequate rest and a beating heart. We are not required to consciously “think” about these activities. The reptilian cortex also houses the “startle centre”, a mechanism that facilitates swift reactions to unexpected occurrences in our surroundings. That panicked lurch you experience when a door slams shut somewhere in the house, or the heightened awareness you feel when a twig cracks in a nearby bush while out on an evening stroll are both examples of the reptilian cortex at work. When it comes to our interaction with others, the reptilian brain offers up only the most basic impulses: aggression, mating, and territorial defence. There is no great difference, in this sense, between a crocodile defending its spot along the river and a turf war between two urban gangs.</p>
 <p>Although the lizard may stake a claim to its habitat, it exerts total indifference toward the well-being of its young. Listen to the anguished squeal of a dolphin separated from its pod or witness the sight of elephants mourning their dead, however, and it is clear that a new development is at play. Scientists have identified this as the limbic cortex. Unique to mammals, the limbic cortex impels creatures to nurture their offspring by delivering feelings of tenderness and warmth to the parent when children are nearby. These same sensations also cause mammals to develop various types of social relations and kinship networks. When we are with others of “our kind” – be it at soccer practice, church, school or a nightclub – we experience positive sensations of togetherness, solidarity and comfort. If we spend too long away from these networks, then loneliness sets in and encourages us to seek companionship.</p>
 <p>Only human capabilities extend far beyond the scope of these two cortexes. Humans eat, sleep and play, but we also speak, plot, rationalise and debate finer points of morality. Our unique abilities are the result of an expansive third brain – the neocortex – which engages with logic, reason and ideas. The power of the neocortex comes from its ability to think beyond the present, concrete moment. While other mammals are mainly restricted to impulsive actions (although some, such as apes, can learn and remember simple lessons), humans can think about the “big picture”. We can string together simple lessons (for example, an apple drops downwards from a tree; hurting others causes unhappiness) to develop complex theories of physical or social phenomena (such as the laws of gravity and a concern for human rights).</p>
@@ -203,15 +259,15 @@ D to plan a daily schedule that can alter our natural chronobiological rhythms</
 <p>Understanding the triune brain can help us appreciate the different natures of brain damage and psychological disorders. The most devastating form of brain damage, for example, is a condition in which someone is understood to be brain dead. In this state a person appears merely unconscious – sleeping, perhaps – but this is illusory. Here, the reptilian brain is functioning on autopilot despite the permanent loss of other cortexes.</p>
 <p>Disturbances to the limbic cortex are registered in a different manner. Pups with limbic damage can move around and feed themselves well enough but do not register the presence of their littermates. Scientists have observed how, after a limbic lobotomy ,“one impaired monkey stepped on his outraged peers as if treading on a log or a rock”. In our own species, limbic damage is closely related to sociopathic behaviour. Sociopaths in possession of fully-functioning neocortexes are often shrewd and emotionally intelligent people but lack any ability to relate to, empathise with or express concern for others.</p>
 <p>One of the neurological wonders of history occurred when a railway worker named Phineas Gage survived an incident during which a metal rod skewered his skull, taking a considerable amount of his neocortex with it. Though Gage continued to live and work as before, his fellow employees observed a shift in the equilibrium of his personality. Gage’s animal propensities were now sharply pronounced while his intellectual abilities suffered; garrulous or obscene jokes replaced his once quick wit. New findings suggest, however, that Gage managed to soften these abrupt changes over time and rediscover an appropriate social manner. This would indicate that reparative therapy has the potential to help patients with advanced brain trauma to gain an improved quality of life.</p>
-<p>Questions 14-22
+<p><strong>Questions 14-22</strong>
 
 Classify the following as typical of
 
-A the reptilian cortex
+<strong>A</strong> the reptilian cortex
 
-B the limbic cortex
+<strong>B</strong> the limbic cortex
 
-C the neocortex</p>
+<strong>C</strong> the neocortex</p>
 <p>Write the correct letter, A, B or C, in boxes 14-22 on your answer sheet.</p>
 <p>14 giving up short-term happiness for future gains
 
@@ -230,9 +286,9 @@ C the neocortex</p>
 21 looking after one’s young
 
 22 responding quickly to sudden movement and noise</p>
-<p>Questions 23-26
+<p><strong>Questions 23-26</strong>
 
-Complete the sentences below. Write NO MORE THAN TWO WORDS from the passage for each answer. Write your answers in boxes 23-26 on your answer sheet.</p>
+Complete the sentences below. Write <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer. Write your answers in boxes 23-26 on your answer sheet.</p>
 <p>23 A person with only a functioning reptilian cortex is known as…………………
 
 24 …………………………in humans is associated with limbic disruption.
@@ -240,14 +296,14 @@ Complete the sentences below. Write NO MORE THAN TWO WORDS from the passage for 
 25 An industrial accident caused Phineas Gage to lose part of his……………………….
 
 26 After his accident, co-workers noticed an imbalance between Gage’s…………………………….and higher-order thinking.</p>
-<p>HELIUM’S FUTURE UP IN THE AIR</p>
-<p>A In recent years we have all been exposed to dire media reports concerning the impending demise of global coal and oil reserves, but the depletion of another key non-renewable resource continues without receiving much press at all. Helium – an inert, odourless, monatomic element known to lay people as the substance that makes balloons float and voices squeak when inhaled – could be gone from this planet within a generation.</p>
-<p>B Helium itself is not rare; there is actually a plentiful supply of it in the cosmos. In fact, 24 per cent of our galaxy’s elemental mass consists of helium, which makes it the second most abundant element in our universe. Because of its lightness, however, most helium vanished from our own planet many years ago. Consequently, only a miniscule proportion – 0.00052%, to be exact – remains in earth’s atmosphere. Helium is the by¬product of millennia of radioactive decay from the elements thorium and uranium. The helium is mostly trapped in subterranean natural gas bunkers and commercially extracted through a method known as fractional distillation.</p>
-<p>C The loss of helium on Earth would affect society greatly. Defying the perception of it as a novelty substance for parties and gimmicks, the element actually has many vital applications in society. Probably the most well known commercial usage is in airships and blimps (non-flammable helium replaced hydrogen as the lifting gas du jour after the Hindenburg catastrophe in 1932, during which an airship burst into flames and crashed to the ground killing some passengers and crew). But helium is also instrumental in deep-sea diving, where it is blended with nitrogen to mitigate the dangers of inhaling ordinary air under high pressure; as a cleaning agent for rocket engines; and, in its most prevalent use, as a coolant for superconducting magnets in hospital MRI (magnetic resonance imaging) scanners.</p>
-<p>D The possibility of losing helium forever poses the threat of a real crisis because its unique qualities are extraordinarily difficult, if not impossible to duplicate (certainly, no biosynthetic ersatz product is close to approaching the point of feasibility for helium, even as similar developments continue apace for oil and coal). Helium is even cheerfully derided as a “loner” element since it does not adhere to other molecules like its cousin, hydrogen. According to Dr. Lee Sobotka, helium is the “most noble of gases, meaning it’s very stable and non-reactive for the most part … it has a closed electronic configuration, a very tightly bound atom. It is this coveting of its own electrons that prevents combination with other elements’. Another important attribute is helium’s unique boiling point, which is lower than that for any other element. The worsening global shortage could render millions of dollars of high-value, life-saving equipment totally useless. The dwindling supplies have already resulted in the postponement of research and development projects in physics laboratories and manufacturing plants around the world. There is an enormous supply and demand imbalance partly brought about by the expansion of high-tech manufacturing in Asia.</p>
-<p>E The source of the problem is the Helium Privatisation Act (HPA), an American law passed in 1996 that requires the U.S. National Helium Reserve to liquidate its helium assets by 2015 regardless of the market price. Although intended to settle the original cost of the reserve by a U.S. Congress ignorant of its ramifications, the result of this fire sale is that global helium prices are so artificially deflated that few can be bothered recycling the substance or using it judiciously. Deflated values also mean that natural gas extractors see no reason to capture helium. Much is lost in the process of extraction. As Sobotka notes: “[t]he government had the good vision to store helium, and the question now is: Will the corporations have the vision to capture it when extracting natural gas, and consumers the wisdom to recycle? This takes long-term vision because present market forces are not sufficient to compel prudent practice”. For Nobel-prize laureate Robert Richardson, the U.S. government must be prevailed upon to repeal its privatisation policy as the country supplies over 80 per cent of global helium, mostly from the National Helium Reserve. For Richardson, a twenty- to fifty-fold increase in prices would provide incentives to recycle.</p>
-<p>F A number of steps need to be taken in order to avert a costly predicament in the coming decades. Firstly, all existing supplies of helium ought to be conserved and released only by permit, with medical uses receiving precedence over other commercial or recreational demands. Secondly, conservation should be obligatory and enforced by a regulatory agency. At the moment some users, such as hospitals, tend to recycle diligently while others, such as NASA, squander massive amounts of helium. Lastly, research into alternatives to helium must begin in earnest.</p>
-<p>Questions 27-31
+<p><strong>HELIUM’S FUTURE UP IN THE AIR</strong></p>
+<p><strong>A</strong> In recent years we have all been exposed to dire media reports concerning the impending demise of global coal and oil reserves, but the depletion of another key non-renewable resource continues without receiving much press at all. Helium – an inert, odourless, monatomic element known to lay people as the substance that makes balloons float and voices squeak when inhaled – could be gone from this planet within a generation.</p>
+<p><strong>B</strong> Helium itself is not rare; there is actually a plentiful supply of it in the cosmos. In fact, 24 per cent of our galaxy’s elemental mass consists of helium, which makes it the second most abundant element in our universe. Because of its lightness, however, most helium vanished from our own planet many years ago. Consequently, only a miniscule proportion – 0.00052%, to be exact – remains in earth’s atmosphere. Helium is the by¬product of millennia of radioactive decay from the elements thorium and uranium. The helium is mostly trapped in subterranean natural gas bunkers and commercially extracted through a method known as fractional distillation.</p>
+<p><strong>C</strong> The loss of helium on Earth would affect society greatly. Defying the perception of it as a novelty substance for parties and gimmicks, the element actually has many vital applications in society. Probably the most well known commercial usage is in airships and blimps (non-flammable helium replaced hydrogen as the lifting gas du jour after the Hindenburg catastrophe in 1932, during which an airship burst into flames and crashed to the ground killing some passengers and crew). But helium is also instrumental in deep-sea diving, where it is blended with nitrogen to mitigate the dangers of inhaling ordinary air under high pressure; as a cleaning agent for rocket engines; and, in its most prevalent use, as a coolant for superconducting magnets in hospital MRI (magnetic resonance imaging) scanners.</p>
+<p><strong>D</strong> The possibility of losing helium forever poses the threat of a real crisis because its unique qualities are extraordinarily difficult, if not impossible to duplicate (certainly, no biosynthetic ersatz product is close to approaching the point of feasibility for helium, even as similar developments continue apace for oil and coal). Helium is even cheerfully derided as a “loner” element since it does not adhere to other molecules like its cousin, hydrogen. According to Dr. Lee Sobotka, helium is the “most noble of gases, meaning it’s very stable and non-reactive for the most part … it has a closed electronic configuration, a very tightly bound atom. It is this coveting of its own electrons that prevents combination with other elements’. Another important attribute is helium’s unique boiling point, which is lower than that for any other element. The worsening global shortage could render millions of dollars of high-value, life-saving equipment totally useless. The dwindling supplies have already resulted in the postponement of research and development projects in physics laboratories and manufacturing plants around the world. There is an enormous supply and demand imbalance partly brought about by the expansion of high-tech manufacturing in Asia.</p>
+<p><strong>E</strong> The source of the problem is the Helium Privatisation Act (HPA), an American law passed in 1996 that requires the U.S. National Helium Reserve to liquidate its helium assets by 2015 regardless of the market price. Although intended to settle the original cost of the reserve by a U.S. Congress ignorant of its ramifications, the result of this fire sale is that global helium prices are so artificially deflated that few can be bothered recycling the substance or using it judiciously. Deflated values also mean that natural gas extractors see no reason to capture helium. Much is lost in the process of extraction. As Sobotka notes: “[t]he government had the good vision to store helium, and the question now is: Will the corporations have the vision to capture it when extracting natural gas, and consumers the wisdom to recycle? This takes long-term vision because present market forces are not sufficient to compel prudent practice”. For Nobel-prize laureate Robert Richardson, the U.S. government must be prevailed upon to repeal its privatisation policy as the country supplies over 80 per cent of global helium, mostly from the National Helium Reserve. For Richardson, a twenty- to fifty-fold increase in prices would provide incentives to recycle.</p>
+<p><strong>F</strong> A number of steps need to be taken in order to avert a costly predicament in the coming decades. Firstly, all existing supplies of helium ought to be conserved and released only by permit, with medical uses receiving precedence over other commercial or recreational demands. Secondly, conservation should be obligatory and enforced by a regulatory agency. At the moment some users, such as hospitals, tend to recycle diligently while others, such as NASA, squander massive amounts of helium. Lastly, research into alternatives to helium must begin in earnest.</p>
+<p><strong>Questions 27-31</strong>
 
 Reading Passage 3 has six paragraphs, A-F.</p>
 <p>Which paragraph contains the following information?</p>
@@ -260,14 +316,14 @@ Reading Passage 3 has six paragraphs, A-F.</p>
 30 a reason why users of helium do not make efforts to conserve it
 
 31 a contrast between helium’s chemical properties and how non-scientists think about it</p>
-<p>Questions 32-35
+<p><strong>Questions 32-35</strong>
 
 Do the following statements agree with the claims of the writer in Reading Passage 3? In boxes 32-35 on your answer sheet, write</p>
-<p>YES                              if the statement agrees with the claims of the writer
+<p><strong>YES</strong>                              if the statement agrees with the claims of the writer
 
-NO                                if the statement contradicts the claims of the writer
+<strong>NO</strong>                                if the statement contradicts the claims of the writer
 
-NOT GIVEN              if it is impossible to say what the writer thinks about this</p>
+<strong>NOT GIVEN</strong>              if it is impossible to say what the writer thinks about this</p>
 <p>32 Helium chooses to be on its own.
 
 33 Helium is a very cold substance.
@@ -275,13 +331,13 @@ NOT GIVEN              if it is impossible to say what the writer thinks 
 34 High-tech industries in Asia use more helium than laboratories and manufacturers in other parts of the world.
 
 35 The US Congress understood the possible consequences of the HPA.</p>
-<p>Questions 36-40
+<p><strong>Questions 36-40</strong>
 
-Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>Sobotka argues that big business and users of helium need to help look after helium stocks because (36)………………… will not be encouraged through buying and selling alone. Richardson believes that the (37)………………………….needs to be withdrawn, as the U.S. provides most of the world’s helium. He argues that higher costs would mean people have (38)…………………………. to use the resource many times over.</p>
 <p>People should need a (39)……………………………… to access helium that we still have. Furthermore, a (40)………………………….. should ensure that helium is used carefully.</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. false</p>
 <p>2. true</p>
 <p>3. not given</p>
@@ -540,6 +596,29 @@ Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for e
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -559,12 +638,23 @@ Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for e
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -576,14 +666,6 @@ Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for e
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,40 +158,40 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_175</h1>
-            <p>IELTS Reading Practice - Test 175</p>
-<p>if you can get used to the tastes</p>
-<p>There is a formal word for it: entomophagy. It means the consumption of insects by us, human beings. Okay, we are not insectivores (eaters of insects), although, it must be admitted, our primate cousins regularly feast on insects. Sure, but those relatives live in trees, and swing from branches, and we don’t. Okay, you say, snails, those slimy garden pests, are relished as a gourmet food, most famously by the French, who are otherwise not interested in garden life. But, I counter, snails are not insects. They are mollusks, and I’d like to think that makes a difference.</p>
-<p>What I’m talking about is eating true insects, those with six legs, three body parts, hard exoskeleton, and two antennae. We can extend this definition to our eight-legged arachnids (spiders and scorpions), as well. These are creatures people just don’t eat. At least, that was what I thought, until I met a personally as well as ecologically-friendly young man, Peter Ferguson, who advocates insects as the ultimate in culinary delight. Why? Peter explains, ‘For a start, there are many insects, about 10 million species, and a huge biomass of high quality calories, and we just ignore them. In a world having trouble feeding itself, that doesn’t make sense.’</p>
-<p>Ignore them we do, at least in Western culture, where we have long had much better alternatives. Animal husbandry has characterised our societies, giving us pork, poultry, and cattle, upon which we regularly feast. Yet other cultures don’t have it so lucky, in Africa, in Asia, and among aboriginal or ethnic groups in Oceania, insects have an equally long history as an important dietary supplement, from butterflies and moths, to bees and wasps, cockroaches and ants, beetle grubs or larvae, caterpillars and worms, scorpions (a delicacy in southern China) and tarantulas. Even the Christian Bible states that John the Baptist lived on locusts and wild honey, locusts being grasshoppers in their swarming stage. These same insects, incidentally, are commonly eaten in Thailand, where a visit to a market there will reveal multitudes, deep-fried in glistening piles for the delectation of passing shoppers.</p>
-<p>Consider the African mopane worm, for example. To begin with, the name is a misnomer. The creature is actually a large colourful caterpillar, which, in the fullness of time, turns into a rather dull-looking moth, although most never reach that stage. The hairy yellow- striped creatures are eagerly sought after, hand-picked from trees in the wild, pinched by the tail-end to squeeze out the slimy green intestinal tract, after which they are most often sun-dried or smoked, thereafter ready for consumption. Tins of mopane worms in brine, or in tomato or chili sauce are common in supermarkets. They can be eaten straight from the can. fried into crunchy snacks, or added as an ingredient to conventional dishes. The harvest and sale of wild mopane worms is now a multi-million dollar industry, feeding millions of people, mostly indigenous Africans.</p>
-<p>Peter is enthusiastically telling me why he does it. ‘Insects have protein, and all the vitamins, minerals, and fat you could want.’ When I remain skeptical, Peter holds up a fried grasshopper. ‘This has lots of calcium’. Then comes the (you guessed it) termite paste, a black smear with the look, smell, and consistency, of an industrial solvent. ‘Iron. Very rich.’ Then comes the grublike larvae of some form of moth. ‘Essential trace elements such as zinc and copper.’ Anything else? ‘Insects don’t produce greenhouse gases, and don’t need antibiotics.’ Peter even cites my mopane worm example. ‘Three kilograms of mopane leaves will feed a kilogram of worms—-a 30% payback. With cattle, it’s less than 10%. Insects are cheap to buy, cheap to breed, and easy to manage.’</p>
-<p>One can’t argue with that. The phenomenal rate at which insects breed is well known, and more than makes up for their small size. A female cricket might be a fraction of the weight of a huge beef cow, but lays up to 1,500 eggs a month, converted into food at 20 times the rate of beef, whilst using only a fraction of the space and water. The ecological argument for entomophagy is undeniable, although there are significant concerns about internal parasites, and the accumulation of pesticides and toxins inside many wild insects. Allergic reactions have also been reported. Cooking insects well is recommended, and their consumption should, of course, be avoided, after intensive pesticide use or commercial spraying of local agricultural lands.</p>
-<p>But what about the taste? Here, Peter hesitates. He finally comes out with a suspicious, ‘You get used to it.’ When I nod skeptically, he comes out with a far more confident, ‘Actually, you’re eating insects already, all the time.’ Yes, apparently, insects find their way into the human food chain, whether we like it or not. For example, most of those who eat rice (as I do) are inadvertently eating not just a few rice weevil larvae, and probably benefited by this, given the additional vitamins these larvae supply. Whole insects, insect parts, insect detritus, larvae, and excrement, appear in all our food, but in such small quantities that they are basically unnoticed and insignificant. Peter smiles. ‘In that sense, we’re already insectivores. We’ve just got to take the next logical step.’</p>
-<p>Questions 1-4
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 175</strong></h3>
+<h3 class="test-heading"><strong>if you can get used to the tastes</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>There is a formal word for it: entomophagy. It means the consumption of insects by us, human beings. Okay, we are not insectivores (eaters of insects), although, it must be admitted, our primate cousins regularly feast on insects. Sure, but those relatives live in trees, and swing from branches, and we don’t. Okay, you say, snails, those slimy garden pests, are relished as a gourmet food, most famously by the French, who are otherwise not interested in garden life. But, I counter, snails are not insects. They are mollusks, and I’d like to think that makes a difference.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>What I’m talking about is eating true insects, those with six legs, three body parts, hard exoskeleton, and two antennae. We can extend this definition to our eight-legged arachnids (spiders and scorpions), as well. These are creatures people just don’t eat. At least, that was what I thought, until I met a personally as well as ecologically-friendly young man, Peter Ferguson, who advocates insects as the ultimate in culinary delight. Why? Peter explains, ‘For a start, there are many insects, about 10 million species, and a huge biomass of high quality calories, and we just ignore them. In a world having trouble feeding itself, that doesn’t make sense.’</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Ignore them we do, at least in Western culture, where we have long had much better alternatives. Animal husbandry has characterised our societies, giving us pork, poultry, and cattle, upon which we regularly feast. Yet other cultures don’t have it so lucky, in Africa, in Asia, and among aboriginal or ethnic groups in Oceania, insects have an equally long history as an important dietary supplement, from butterflies and moths, to bees and wasps, cockroaches and ants, beetle grubs or larvae, caterpillars and worms, scorpions (a delicacy in southern China) and tarantulas. Even the Christian Bible states that John the Baptist lived on locusts and wild honey, locusts being grasshoppers in their swarming stage. These same insects, incidentally, are commonly eaten in Thailand, where a visit to a market there will reveal multitudes, deep-fried in glistening piles for the delectation of passing shoppers.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Consider the African mopane worm, for example. To begin with, the name is a misnomer. The creature is actually a large colourful caterpillar, which, in the fullness of time, turns into a rather dull-looking moth, although most never reach that stage. The hairy yellow- striped creatures are eagerly sought after, hand-picked from trees in the wild, pinched by the tail-end to squeeze out the slimy green intestinal tract, after which they are most often sun-dried or smoked, thereafter ready for consumption. Tins of mopane worms in brine, or in tomato or chili sauce are common in supermarkets. They can be eaten straight from the can. fried into crunchy snacks, or added as an ingredient to conventional dishes. The harvest and sale of wild mopane worms is now a multi-million dollar industry, feeding millions of people, mostly indigenous Africans.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>Peter is enthusiastically telling me why he does it. ‘Insects have protein, and all the vitamins, minerals, and fat you could want.’ When I remain skeptical, Peter holds up a fried grasshopper. ‘This has lots of calcium’. Then comes the (you guessed it) termite paste, a black smear with the look, smell, and consistency, of an industrial solvent. ‘Iron. Very rich.’ Then comes the grublike larvae of some form of moth. ‘Essential trace elements such as zinc and copper.’ Anything else? ‘Insects don’t produce greenhouse gases, and don’t need antibiotics.’ Peter even cites my mopane worm example. ‘Three kilograms of mopane leaves will feed a kilogram of worms—-a 30% payback. With cattle, it’s less than 10%. Insects are cheap to buy, cheap to breed, and easy to manage.’</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>One can’t argue with that. The phenomenal rate at which insects breed is well known, and more than makes up for their small size. A female cricket might be a fraction of the weight of a huge beef cow, but lays up to 1,500 eggs a month, converted into food at 20 times the rate of beef, whilst using only a fraction of the space and water. The ecological argument for entomophagy is undeniable, although there are significant concerns about internal parasites, and the accumulation of pesticides and toxins inside many wild insects. Allergic reactions have also been reported. Cooking insects well is recommended, and their consumption should, of course, be avoided, after intensive pesticide use or commercial spraying of local agricultural lands.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>But what about the taste? Here, Peter hesitates. He finally comes out with a suspicious, ‘You get used to it.’ When I nod skeptically, he comes out with a far more confident, ‘Actually, you’re eating insects already, all the time.’ Yes, apparently, insects find their way into the human food chain, whether we like it or not. For example, most of those who eat rice (as I do) are inadvertently eating not just a few rice weevil larvae, and probably benefited by this, given the additional vitamins these larvae supply. Whole insects, insect parts, insect detritus, larvae, and excrement, appear in all our food, but in such small quantities that they are basically unnoticed and insignificant. Peter smiles. ‘In that sense, we’re already insectivores. We’ve just got to take the next logical step.’</p></div></div>
+<p><strong>Questions 1-4</strong>
 Do the following statements agree with the information given in Reading Passage One?</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
-<p>Questions 5-10
-Complete the table. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>Questions 11-13
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
+<p><strong>Questions 5-10</strong>
+Complete the table. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>Questions 11-13</strong>
 Choose the correct letter, A, B, C, or D.</p>
 <p>11. Mopane worms
-A are appropriately named.
-B usually reach their moth form.
-C are extensively raised for profit.
-D are usually treated before being eaten.</p>
+<strong>A</strong> are appropriately named.
+<strong>B</strong> usually reach their moth form.
+<strong>C</strong> are extensively raised for profit.
+<strong>D</strong> are usually treated before being eaten.</p>
 <p>12. Insects
-A multiply quickly.
-B are best eaten raw.
-C are mostly safe to eat.
-D produce small amounts of greenhouse gas.</p>
+<strong>A</strong> multiply quickly.
+<strong>B</strong> are best eaten raw.
+<strong>C</strong> are mostly safe to eat.
+<strong>D</strong> produce small amounts of greenhouse gas.</p>
 <p>13. The author
-A likes snails.
-B probably eats mopane worms.
-C believes insects can taste good.
-D probably eats rice weevil larvae.</p>
-<p>AC or DC: The War of Currents</p>
+<strong>A</strong> likes snails.
+<strong>B</strong> probably eats mopane worms.
+<strong>C</strong> believes insects can taste good.
+<strong>D</strong> probably eats rice weevil larvae.</p>
+<p><strong>AC or DC: The War of Currents</strong></p>
 <p>Electricity can be delivered in either alternating current (AC), or direct current (DC), and in the late 1880s in America, with electricity delivery in its infancy, it initially seemed clear which system was superior. Thomas Edison, a home-grown American inventor, heavily favoured DC from the start. Yet the limitations of his system would become increasingly obvious, as would the advantages of AC, and despite Edison’s best efforts, his crusade would ultimately be lost.</p>
 <p>In 1879, Edison’s team at Menlo Park had improved the electric light bulb, but Edison needed an efficient electricity distribution system to capitalise on this. Thus, in 1880, he founded the Edison Illuminating Company and constructed a generating station providing 110 volts of direct current. Yet such a system has drawbacks. Due to the low voltage, there Hows correspondingly higher current, meaning that the electrical resistance of the transmission wires significantly reduces the voltage as it travels further afield. Whatever thickness of wire is used, there is a natural limitation in the distance over which the electricity can be economically transmitted.</p>
 <p>There are, however, benefits to using DC. It can allow storage batteries to be directly connected to the electricity grid, giving extra power to meet sudden short-term peaks of demand, or backup during breakdown of supply. Furthermore, during Edison’s time, there were no practical AC motors, only DC ones. Also, most of the load consisted of incandescent light bulbs, which ran well on DC. Perhaps most importantly, Edison had the patents (legal rights) to many associated DC devices which he and his team had invented, such as meters, telegraphic devices, and household machinery. Thus, the widespread adoption of DC across America would see him gain considerably from patent royalties.</p>
@@ -145,23 +201,23 @@ D probably eats rice weevil larvae.</p>
 <p>Edison first strike was to claim that high-voltage systems were too dangerous to use. Certainly they were dangerous, but Westinghouse countered that such risks could be minimised and were considerably outweighed by the benefits. Edison’s next strike was to use his influence on various American state governments to limit power transmission to low voltages, effectively eliminating AC from the competition. When this failed, Edison was prepared to conduct public electrocutions of animals by AC — even on a rogue elephant no longer wanted by its circus owners. In the battle of public opinion, this was even filmed.</p>
 <p>The next logical step was to show AC’s deadliness on human beings themselves. Edison, realising that he was losing the war, again used his influence on government, this time to promote the use of AC for the execution of prisoners. Thus, in 1890, the first ‘electric chair’ was constructed in anticipation of an impending death sentence. Westinghouse countered by hiring the best lawyers of the day to defend the prisoner in question, as well as to prevent the system of execution. Although he failed in both respects, the results were unexpected. Despite a botched execution and the horror of the spectators, the electric chair would remain, but AC would not be stigmatised as the killer Edison’s had hoped.</p>
 <p>Meanwhile, AC’s range and efficiency saw Westinghouse being given high prestige engineering projects, such as the Ames Hydro-electric Generating Plant (1891), and another one on Niagara Falls, culminating in the greatest public relations victory in 1893: the contract to illuminate the Columbian Exposition in Chicago. Here, Tesla and Westinghouse showed the wonders of AC power with various electrical exhibits, such as fluorescent lamps and Tesla’s AC motors, to an awestruck audience and widespread press attention. After that, the war was effectively won, and AC would take over almost completely.</p>
-<p>Questions 14-17
-Complete the table. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>Direct Current</p>
-<p>Questions 18-20
-Choose THREE answers from the list and write the correct letter, A-F, next to the questions.</p>
-<p>Which THREE strategies, A-F, did Edison use to discredit AC current?</p>
-<p>A hired lawyers
-B pressured politicians
-C invented many DC devices
-D used movie cameras
-E scared people
-F invented the electric chair</p>
-<p>Questions 21-26
+<p><strong>Questions 14-17</strong>
+Complete the table. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>Direct Current</strong></p>
+<p><strong>Questions 18-20</strong>
+Choose <strong>THREE</strong> answers from the list and write the correct letter, A-F, next to the questions.</p>
+<p>Which <strong>THREE</strong> strategies, A-F, did Edison use to discredit AC current?</p>
+<p><strong>A</strong> hired lawyers
+<strong>B</strong> pressured politicians
+<strong>C</strong> invented many DC devices
+<strong>D</strong> used movie cameras
+<strong>E</strong> scared people
+<strong>F</strong> invented the electric chair</p>
+<p><strong>Questions 21-26</strong>
 Answer the questions. Choose the correct letter, A, B, or C.</p>
-<p>A Edison and Tesla
-B Edison and Westinghouse
-C Tesla and Westinghouse</p>
+<p><strong>A</strong> Edison and Tesla
+<strong>B</strong> Edison and Westinghouse
+<strong>C</strong> Tesla and Westinghouse</p>
 <p>Who</p>
 <p>21. favoured AC?
 22, started a company?
@@ -169,7 +225,7 @@ C Tesla and Westinghouse</p>
 24. invented many devices?
 25. owned many patents?
 26. was well educated?</p>
-<p>the international space station</p>
+<p><strong>the international space station</strong></p>
 <p>Just before sunrise, on a clear night, look up, and you may be able to see it travelling steadily across the dark starry sky. It will take about four minutes to pass — too fast to be a planet, too slow to be a shooting star. What is it, then? It is the International Space Station (ISS), on one of its 15 orbits per day. The sun’s light has lit it up while you still remain in night’s darkness, but don’t discount that white dot as something inconsequential. About $100 billion has been spent on it so far, and it will need much more money by the time it ceases operation, sometime after 2025.</p>
 <p>This enormous cost could not, of course, be paid by one nation. The ISS was necessarily a joint effort by no less than five different space agencies: America’s NASA, Russia’s RKA, Canada’s CSA, Japan’s JAXA, and the European equivalent, ESA. Similarly, with the difficulty in ferrying payloads into this environment, a project of the scale of the ISS could not be a ready-made station (such as the earliest varieties). The ISS was built module by module, each flown into space and then intricately connected—eventually becoming in appearance an awkward conglomeration, yet when viewed with our planet Earth in the background, a grand and inspiring monument to humankind’s ingenuity.</p>
 <p>Such a construction would immediately break to pieces under the influence of any gravity — but, of course, being in orbit, this force is not felt. The station is constantly freefalling under Earth’s gravitational pull, yet never hitting the planet due to the station’s lateral velocity. This will, however, not continue forever. With its low-earth trajectory, there is an aerodynamic drag from the faint atmosphere through which the station continually ploughs. This results in a small yet steady and perceptible loss of speed, and consequent orbital decay. Contributing to this loss are, surprisingly, tidal forces. Being so large and loosely connected, the parts of the ISS further from the Earth flex more than the parts closer, using up energy.</p>
@@ -177,19 +233,19 @@ C Tesla and Westinghouse</p>
 <p>The station’s interior is no less complicated, and with a six-member crew staying onboard for up to six months, the life-support systems are crucial. Being in the airless and deadly vacuum of space, it goes without saying that atmospheric control — that is, maintaining a stable Earth-like atmosphere — is the most important element. This has, in fact, always presented the greatest challenge in spacecraft design. In 1967, the Apollo 1 craft experimented with pure oxygen, to its regret. Although this allowed a lower air pressure (better from an engineering standpoint), it more easily fuels combustion. A random spark started a fire which raced through the craft, killing all three crew members, after which the experiment has never been tried again.</p>
 <p>The ISS’s main source of oxygen is the ‘ Elektron’ system, which uses an electric current to break apart water molecules. The oxygen produced is vented into the pressurised modules, while the other by-product, hydrogen, is vented into space. This system generates enough supplies for a six-member crew, although it has proven notoriously unreliable, so much that the emergency backups have been regularly required: bottled oxygen (ferried up by unmanned supply craft), a solid-fuel oxygen generator, and a chemical one, in the Zvezda and Zarya Modules, respectively. Their output is circulated with strong (and noisy) fans, without which the air around immobile astronauts would stagnate. A bubble of their own exhaled carbon dioxide would form, leaving them oxygen-deprived and struggling to breathe.</p>
 <p>This indicates that life on the ISS is no pleasure cruise. The close and cramped quarters, the awkward and uncomfortable facilities, the strict eating, hygiene, and two-hour-per-day exercise protocols, the dizziness and fatigue induced in that weightless environment, and the long workday of maintenance and scientific experiments, all create a difficult life. It is this, and the human isolation, that can particularly strain relationships and aggravate tensions. And if this was not enough, there is a direct physical risk from solar radiation due to the periodic flares that erupt from the sun’s surface. As one returning crew member said, “It’s an interesting place for a visit, but you wouldn’t want to live there.”</p>
-<p>Questions 27-31
-Answer the questions. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+<p><strong>Questions 27-31</strong>
+Answer the questions. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>27. What does the ISS physically look like from Earth?
 28. What does the ISS physically look like from space?
 29. What forced the five space agencies to work together on the ISS?
 30. What were the original space stations like?
 31. What stops the ISS from striking the Earth?</p>
-<p>Questions 32-37
-Label the diagram with specific terms. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>Questions 38-40
-Complete the table by giving cause of each effect or incident. Choose NO MORE THAN TWO WORDS from the passage for each cause.</p>
+<p><strong>Questions 32-37</strong>
+Label the diagram with specific terms. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>Questions 38-40</strong>
+Complete the table by giving cause of each effect or incident. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each cause.</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. False</p>
 <p>2. True</p>
 <p>3. False</p>
@@ -448,6 +504,29 @@ Complete the table by giving cause of each effect or incident. Choose NO MORE TH
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -467,12 +546,23 @@ Complete the table by giving cause of each effect or incident. Choose NO MORE TH
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -484,14 +574,6 @@ Complete the table by giving cause of each effect or incident. Choose NO MORE TH
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

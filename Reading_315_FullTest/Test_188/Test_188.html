@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,23 +158,23 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_188</h1>
-            <p>IELTS Reading Practice - Test 188</p>
-<p>Communicating in Colour</p>
-<p>There are more than 160 known species of chameleons. The main distribution is in Africa and Madagascar, and other tropical regions, although some species are also found in parts of southern Europe and Asia. There are introduced populations in Hawaii and probably in California and Florida too.</p>
-<p>New species are still discovered quite frequently. Dr Andrew Marshall, a conservationist from York University, was surveying monkeys in Tanzania, when he stumbled across a twig snake in the Magombera forest which, frightened, coughed up a chameleon and fled. Though a colleague persuaded him not to touch it because of the risk from venom, Marshall suspected it might be a new species, and took a photograph to send to colleagues, who confirmed his suspicions. Kinyongia magomberae, literally “the chameleon from Magombera”, is the result, and the fact it was not easy to identify is precisely what made it unique. The most remarkable feature of chameleons is their ability to change colour, an ability rivalled only by cuttlefish and octopi in the animal kingdom. Because of this, colour is not the best thing for telling chameleons apart and different species are usually identified based on the patterning and shape of the head, and the arrangement of scales. In this case it was the bulge of scales on the chameleon’s nose.</p>
-<p>Chameleons are able to use colour for both communication and camouflage by switching from bright, showy colours to the exact colour of a twig within seconds. They show an extraordinary range of colours, from nearly black to bright blues, oranges, pinks and greens, even several at once. A popular misconception is that chameleons can match whatever background they are placed on, whether a chequered red and yellow shirt or a Smartie box. But each species has a characteristic set of cells containing pigment distributed over their bodies in a specific pattern, which determines the range of colours and patterns they can show. To the great disappointment of many children, placing a chameleon on a Smartie box generally results in a stressed, confused, dark grey or mottled chameleon.</p>
-<p>Chameleons are visual animals with excellent eyesight, and they communicate with colour. When two male dwarf chameleons encounter each other, each shows its brightest colours. They puff out their throats and present themselves side-on with their bodies flattened to appear as large as possible and to show off their colours. This enables them to assess each other from a distance. If one is clearly superior, the other quickly changes to submissive colouration, which is usually a dull combination of greys or browns. If the opponents are closely matched and both maintain their bright colours, the contest can escalate to physical fighting and jaw-locking, each trying to push each other along the branch in a contest of strength. Eventually, the loser will signal his defeat with submissive colouration.</p>
-<p>Females also have aggressive displays used to repel male attempts at courtship. When courting a female, males display the same bright colours that they use during contests. Most of the time, females are unreceptive and aggressively reject males by displaying a contrasting light and dark colour pattern, with their mouths open and moving their bodies rapidly from side to side. If the male continues to court a female, she often chases and bites him until he retreats. The range of colour- change during female displays, although impressive, is not as great as that shown by males.</p>
-<p>Many people assume that colour change evolved to enable chameleons to match a greater variety of backgrounds in their environment. If this was the case, then the ability of chameleons to change colour should be associated with the range of background colours in the chameleon’s habitat, but there is no evidence for such a pattern. For example, forest habitats might have a greater range of brown and green background colours than grasslands, so forest-dwelling species might be expected to have greater powers of colour change. Instead, the males whose display colours are the most eye-catching show the greatest colour change. Their displays are composed of colours that contrast highly with each other as well as with the background vegetation. This suggests that the species that evolved the most impressive capacities for colour change did so to enable them to intimidate rivals or attract mates rather than to facilitate camouflage.</p>
-<p>How do we know that chameleon display colours are eye-catching to another chameleon – or, for that matter, to a predatory bird? Getting a view from the perspective of chameleons or their bird predators requires information on the chameleon s or bird’s visual system and an understanding of how their brains might process visual information. This is because the perceived colour of an object depends as much on die brain’s wiring as on the physical properties of the object itself. Luckily, recent scientific advances have made it possible to obtain such measurements in the field, and information on visual systems of a variety of animals is becoming increasingly available.</p>
-<p>The spectacular diversity of colours and ornaments in nature has inspired biologists for centuries. But if we want to understand the function and evolution of animal colour patterns, we need to know how they are perceived by the animals themselves – or their predators. After all, camouflage and conspicuousness are in the eye of the beholder.</p>
-<p>Questions 1-4
-Answer the questions below. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
-<p>Questions 5-13
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 188</strong></h3>
+<h3 class="test-heading"><strong>Communicating in Colour</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>There are more than 160 known species of chameleons. The main distribution is in Africa and Madagascar, and other tropical regions, although some species are also found in parts of southern Europe and Asia. There are introduced populations in Hawaii and probably in California and Florida too.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>New species are still discovered quite frequently. Dr Andrew Marshall, a conservationist from York University, was surveying monkeys in Tanzania, when he stumbled across a twig snake in the Magombera forest which, frightened, coughed up a chameleon and fled. Though a colleague persuaded him not to touch it because of the risk from venom, Marshall suspected it might be a new species, and took a photograph to send to colleagues, who confirmed his suspicions. Kinyongia magomberae, literally “the chameleon from Magombera”, is the result, and the fact it was not easy to identify is precisely what made it unique. The most remarkable feature of chameleons is their ability to change colour, an ability rivalled only by cuttlefish and octopi in the animal kingdom. Because of this, colour is not the best thing for telling chameleons apart and different species are usually identified based on the patterning and shape of the head, and the arrangement of scales. In this case it was the bulge of scales on the chameleon’s nose.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>Chameleons are able to use colour for both communication and camouflage by switching from bright, showy colours to the exact colour of a twig within seconds. They show an extraordinary range of colours, from nearly black to bright blues, oranges, pinks and greens, even several at once. A popular misconception is that chameleons can match whatever background they are placed on, whether a chequered red and yellow shirt or a Smartie box. But each species has a characteristic set of cells containing pigment distributed over their bodies in a specific pattern, which determines the range of colours and patterns they can show. To the great disappointment of many children, placing a chameleon on a Smartie box generally results in a stressed, confused, dark grey or mottled chameleon.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Chameleons are visual animals with excellent eyesight, and they communicate with colour. When two male dwarf chameleons encounter each other, each shows its brightest colours. They puff out their throats and present themselves side-on with their bodies flattened to appear as large as possible and to show off their colours. This enables them to assess each other from a distance. If one is clearly superior, the other quickly changes to submissive colouration, which is usually a dull combination of greys or browns. If the opponents are closely matched and both maintain their bright colours, the contest can escalate to physical fighting and jaw-locking, each trying to push each other along the branch in a contest of strength. Eventually, the loser will signal his defeat with submissive colouration.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>Females also have aggressive displays used to repel male attempts at courtship. When courting a female, males display the same bright colours that they use during contests. Most of the time, females are unreceptive and aggressively reject males by displaying a contrasting light and dark colour pattern, with their mouths open and moving their bodies rapidly from side to side. If the male continues to court a female, she often chases and bites him until he retreats. The range of colour- change during female displays, although impressive, is not as great as that shown by males.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Many people assume that colour change evolved to enable chameleons to match a greater variety of backgrounds in their environment. If this was the case, then the ability of chameleons to change colour should be associated with the range of background colours in the chameleon’s habitat, but there is no evidence for such a pattern. For example, forest habitats might have a greater range of brown and green background colours than grasslands, so forest-dwelling species might be expected to have greater powers of colour change. Instead, the males whose display colours are the most eye-catching show the greatest colour change. Their displays are composed of colours that contrast highly with each other as well as with the background vegetation. This suggests that the species that evolved the most impressive capacities for colour change did so to enable them to intimidate rivals or attract mates rather than to facilitate camouflage.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>How do we know that chameleon display colours are eye-catching to another chameleon – or, for that matter, to a predatory bird? Getting a view from the perspective of chameleons or their bird predators requires information on the chameleon s or bird’s visual system and an understanding of how their brains might process visual information. This is because the perceived colour of an object depends as much on die brain’s wiring as on the physical properties of the object itself. Luckily, recent scientific advances have made it possible to obtain such measurements in the field, and information on visual systems of a variety of animals is becoming increasingly available.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>The spectacular diversity of colours and ornaments in nature has inspired biologists for centuries. But if we want to understand the function and evolution of animal colour patterns, we need to know how they are perceived by the animals themselves – or their predators. After all, camouflage and conspicuousness are in the eye of the beholder.</p></div></div>
+<p><strong>Questions 1-4</strong>
+Answer the questions below. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
+<p><strong>Questions 5-13</strong>
 Do the following statements agree with the information given in Reading Passage 1? In boxes 5-13 on your answer sheet, write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>5. Few creatures can change colour as effectively as cuttlefish.
 6. Chameleons can imitate a pattern provided there are only two colours.
 7. Chameleons appear to enjoy trying out new colours.
@@ -128,14 +184,14 @@ NOT GIVEN If there is no information on this</p>
 11. The popular explanation of why chameleons change colour has been proved wrong.
 12. There are more predators of chameleons in grassland habitats than in others.
 13. Measuring animals’ visual systems necessitates removing them from their habitat.</p>
-<p>The Pursuit of Happiness</p>
-<p>A In the late 1990; psychologist Martin Seligman of the University of Pennsylvania urged colleagues to observe optimal moods with the same kind of focus with which they had for so long studied illnesses: we would never learn about the full range of human functions unless we knew as much about mental wellness as we do about mental illness. A new generation of psychologists built up a respectable body of research on positive character traits and happiness-boosting practices. At the same time, developments in neuroscience provided new clues to what makes us happy and what that looks like In the brain. Self appointed experts took advantage of the trend with guarantees to eliminate worry, stress, dejection and even boredom. This happiness movement has provoked a great deal of opposition among psychologists who observe that the preoccupation with happiness has come at the cost of sadness, an important feeling that people have tried to banish from their emotional repertoire. Allan Horwitz of Rutgers laments that young people who are naturally weepy after breakups are often urged to medicate themselves instead of working through their sadness. Wake Forest University’s Eric Wilson fumes that the obsession with happiness amounts to a ‘craven disregard” for the melancholic perspective that has given rise to the greatest works of art. “The happy man,” he writes, ‘is a hollow man.’</p>
-<p>B After all people are remarkably adaptable. Following a variable period of adjustment, we bounce back to our previous level of happiness, no matter what happens to us. (There are some scientifically proven exceptions, notably suffering the unexpected loss of a job or the loss of a spouse. Both events tend to permanently knock people back a step.) Our adaptability works in two directions. Because we are so adaptable, points out Professor Sonja J.yubomirsky of the University of California, we quickly get used to many of the accomplishments we strive for in life, such as lauding the big job or getting married. Soon alter we reach a milestone, we start to feel that something is missing. We begin coveting another worldly possession or eyeing a social advancement. But such an approach keeps us tethered to a treadmill where happiness is always just out of reach, one toy or one step away. It’s possible to get off the treadmill entirely by focusing on activities that are dynamic, surprising, and attention-absorbing. and thus less likely to bore us than, say, acquiring shiny new toys.</p>
-<p>C Moreover, happiness is not a reward tor escaping pain. Russ Harris, the author of The Happiness Trap, calls popular conceptions of happiness dangerous because they set people up for a ‘struggle against reality*. They don’t acknowledge that real life is full of disappointments, loss, and inconveniences. ”If you’re going to live a rich and meaningful life.* Harris says, “you’re going to feel a full range of emotions.” Action toward goals other than happiness makes people happy. It is not crossing the finish line that is most rewarding, it is anticipating achieving the goal. University of Wisconsin neuroscientist Richard Davidson has found that working hard toward a goal, and making progress to the point of expecting a goal to be realized, not only activates positive feelings but also suppresses negative emotions such as fear and depression.</p>
-<p>D We are constantly making decisions, ranging from what clothes to put on. to whom we should marry, not to mention all those flavors of ice cream. We base many of our decisions on whether we think a particular preference will increase our well-being. Intuitively, we seem convinced that the more choices we have, the better off we will ultimately be. But our world of unlimited opportunity imprisons us more than it makes us happy. In what Swarthmore psychologist Barrs- Schwartz calls “the paradox of choice.” lacing many possibilities leaves us stressed out – and less satisfied with whatever we do decide. Having too many choices keeps us wondering about all the opportunities missed.</p>
-<p>E Besides, not everyone can put on a happy face. Rirlxira Held, a professor of psychology at Bowdoin College, rails against “the tyranny of the positive attitude”. ‘Looking on the bright side isn’t possible for some people and Is even counterproductive,” she insists. ‘When you put pressure on people to cope in a way that doesn’t fit them, it not only doesn’t work, it makes them feel like a failure on top of already feeling bad.” The one-size-fits-all approach to managing emotional life is misguided, agrees Professor Julie Norem, author of The Positive Power of Negative Thinking. In her research, she has shown that the defensive pessimism that anxious people feel can be harnessed to help them get things done, which in turn makes them happier. A naturally pessimistic architect, for example, can set low expectations for an upcoming presentation and review all of the bad outcomes that she’s imagining, so that she can prepare carefully and increase her chances of success.</p>
-<p>F By contrast, an individual who is not living according to their values, will not be happy, no matter how much they achieve. Some people, however, are not sure what their values are. In that case Harris has a great question: ‘Imagine I could wave a magic wand to ensure that you would have the approval and admiration of everyone on the planet, forever. What, in that case, would you choose to do with your life?” Once this has been answered honestly, you can start taking steps toward your ideal vision of yourself. The actual answer is unimportant, as long as you’re living consciously. The state of happiness is not really a state at all. It’s an ongoing personal experiment.</p>
-<p>Questions 14-19
+<p><strong>The Pursuit of Happiness</strong></p>
+<p><strong>A</strong> In the late 1990; psychologist Martin Seligman of the University of Pennsylvania urged colleagues to observe optimal moods with the same kind of focus with which they had for so long studied illnesses: we would never learn about the full range of human functions unless we knew as much about mental wellness as we do about mental illness. A new generation of psychologists built up a respectable body of research on positive character traits and happiness-boosting practices. At the same time, developments in neuroscience provided new clues to what makes us happy and what that looks like In the brain. Self appointed experts took advantage of the trend with guarantees to eliminate worry, stress, dejection and even boredom. This happiness movement has provoked a great deal of opposition among psychologists who observe that the preoccupation with happiness has come at the cost of sadness, an important feeling that people have tried to banish from their emotional repertoire. Allan Horwitz of Rutgers laments that young people who are naturally weepy after breakups are often urged to medicate themselves instead of working through their sadness. Wake Forest University’s Eric Wilson fumes that the obsession with happiness amounts to a ‘craven disregard” for the melancholic perspective that has given rise to the greatest works of art. “The happy man,” he writes, ‘is a hollow man.’</p>
+<p><strong>B</strong> After all people are remarkably adaptable. Following a variable period of adjustment, we bounce back to our previous level of happiness, no matter what happens to us. (There are some scientifically proven exceptions, notably suffering the unexpected loss of a job or the loss of a spouse. Both events tend to permanently knock people back a step.) Our adaptability works in two directions. Because we are so adaptable, points out Professor Sonja J.yubomirsky of the University of California, we quickly get used to many of the accomplishments we strive for in life, such as lauding the big job or getting married. Soon alter we reach a milestone, we start to feel that something is missing. We begin coveting another worldly possession or eyeing a social advancement. But such an approach keeps us tethered to a treadmill where happiness is always just out of reach, one toy or one step away. It’s possible to get off the treadmill entirely by focusing on activities that are dynamic, surprising, and attention-absorbing. and thus less likely to bore us than, say, acquiring shiny new toys.</p>
+<p><strong>C</strong> Moreover, happiness is not a reward tor escaping pain. Russ Harris, the author of The Happiness Trap, calls popular conceptions of happiness dangerous because they set people up for a ‘struggle against reality*. They don’t acknowledge that real life is full of disappointments, loss, and inconveniences. ”If you’re going to live a rich and meaningful life.* Harris says, “you’re going to feel a full range of emotions.” Action toward goals other than happiness makes people happy. It is not crossing the finish line that is most rewarding, it is anticipating achieving the goal. University of Wisconsin neuroscientist Richard Davidson has found that working hard toward a goal, and making progress to the point of expecting a goal to be realized, not only activates positive feelings but also suppresses negative emotions such as fear and depression.</p>
+<p><strong>D</strong> We are constantly making decisions, ranging from what clothes to put on. to whom we should marry, not to mention all those flavors of ice cream. We base many of our decisions on whether we think a particular preference will increase our well-being. Intuitively, we seem convinced that the more choices we have, the better off we will ultimately be. But our world of unlimited opportunity imprisons us more than it makes us happy. In what Swarthmore psychologist Barrs- Schwartz calls “the paradox of choice.” lacing many possibilities leaves us stressed out – and less satisfied with whatever we do decide. Having too many choices keeps us wondering about all the opportunities missed.</p>
+<p><strong>E</strong> Besides, not everyone can put on a happy face. Rirlxira Held, a professor of psychology at Bowdoin College, rails against “the tyranny of the positive attitude”. ‘Looking on the bright side isn’t possible for some people and Is even counterproductive,” she insists. ‘When you put pressure on people to cope in a way that doesn’t fit them, it not only doesn’t work, it makes them feel like a failure on top of already feeling bad.” The one-size-fits-all approach to managing emotional life is misguided, agrees Professor Julie Norem, author of The Positive Power of Negative Thinking. In her research, she has shown that the defensive pessimism that anxious people feel can be harnessed to help them get things done, which in turn makes them happier. A naturally pessimistic architect, for example, can set low expectations for an upcoming presentation and review all of the bad outcomes that she’s imagining, so that she can prepare carefully and increase her chances of success.</p>
+<p><strong>F</strong> By contrast, an individual who is not living according to their values, will not be happy, no matter how much they achieve. Some people, however, are not sure what their values are. In that case Harris has a great question: ‘Imagine I could wave a magic wand to ensure that you would have the approval and admiration of everyone on the planet, forever. What, in that case, would you choose to do with your life?” Once this has been answered honestly, you can start taking steps toward your ideal vision of yourself. The actual answer is unimportant, as long as you’re living consciously. The state of happiness is not really a state at all. It’s an ongoing personal experiment.</p>
+<p><strong>Questions 14-19</strong>
 Reading Passage 2 has six paragraphs A-F. Which paragraph mentions the following? NB You may use any letter more than once.</p>
 <p>14. the need for individuals to understand what really matters to them
 15. tension resulting from a wide variety of alternatives
@@ -143,78 +199,78 @@ Reading Passage 2 has six paragraphs A-F. Which paragraph mentions the following
 17. people who call themselves specialists
 18. human beings’ capacity for coping with change
 19. doing things which are interesting in themselves</p>
-<p>Questions 20-21
-Choose TWO letters A-E. Write the correct letters in boxes 20-21 on your answer sheet</p>
-<p>Which TWO of the following people argue against aiming for constant happiness?</p>
-<p>A Martin Seligman
-B Eric Wilson
-C Sonja Lyubomirsky
-D Russ Harris
-E Barry Schwartz</p>
-<p>Questions 22-23
-Choose TWO letters A-E. Write the correct letters in boxes 22-23 on your answer sheet.</p>
-<p>Which TWO of the following beliefs are identified as mistaken in the text?</p>
-<p>A inherited wealth brings less happiness than earned wealth
-B social status affects our perception of how happy we are
-C an optimistic outlook ensures success
-D unhappiness can and should be avoided
-E extremes of emotion are normal in the young</p>
-<p>Questions 24-26
-Complete the sentences below. Choose NO MORE THAN ONE WORD from the passage for each answer.</p>
+<p><strong>Questions 20-21</strong>
+Choose <strong>TWO</strong> letters A-E. Write the correct letters in boxes 20-21 on your answer sheet</p>
+<p>Which <strong>TWO</strong> of the following people argue against aiming for constant happiness?</p>
+<p><strong>A</strong> Martin Seligman
+<strong>B</strong> Eric Wilson
+<strong>C</strong> Sonja Lyubomirsky
+<strong>D</strong> Russ Harris
+<strong>E</strong> Barry Schwartz</p>
+<p><strong>Questions 22-23</strong>
+Choose <strong>TWO</strong> letters A-E. Write the correct letters in boxes 22-23 on your answer sheet.</p>
+<p>Which <strong>TWO</strong> of the following beliefs are identified as mistaken in the text?</p>
+<p><strong>A</strong> inherited wealth brings less happiness than earned wealth
+<strong>B</strong> social status affects our perception of how happy we are
+<strong>C</strong> an optimistic outlook ensures success
+<strong>D</strong> unhappiness can and should be avoided
+<strong>E</strong> extremes of emotion are normal in the young</p>
+<p><strong>Questions 24-26</strong>
+Complete the sentences below. Choose <strong>NO MORE THAN ONE WORD</strong> from the passage for each answer.</p>
 <p>In order to have a complete understanding of how people’s minds work, Martin Seligman suggested that research should examine our most positive (24)…………………….as closely as it does our psychological problems. Soon after arriving at a (25)…………………………in their lives, people become accustomed to what they have achieved and have a sense that they are lacking something. People who are (26)………………….by nature are more likely to succeed if they make thorough preparation for a presentation.</p>
-<p>The Deep Sea</p>
+<p><strong>The Deep Sea</strong></p>
 <p>At a time when most think of outer space as the final frontier, we must remember that a great deal of unfinished business remains here on earth. Robots crawl on the surface of Mars, and spacecraft exit our solar system, but most of our own planet has still never been seen by human eyes. It seems ironic that we know more about impact craters on the far side of the moon than about the longest and largest mountain range on earth. It is amazing that human beings crossed a quarter of a million miles of space to visit our nearest celestial neighbor before penetrating just two miles deep into the earths own waters to explore the Midocean Ridge. And it would be hard to imagine a more significant part of our planet to investigate – a chain of volcanic mountains 42,000 miles long where most of the earth’s solid surface was born, and where vast volcanoes continue to create new submarine landscapes.</p>
 <p>The figure we so often see quoted 71% of the earth’s surface – understates the oceans’ importance. If you consider instead three-dimensional volumes, the land dwellers’ share of the planet shrinks even more toward insignificance: less than 1% of the total. Most of the oceans’ enormous volume, lies deep below the familiar surface. The upper sunlit layer, by one estimate, contains only 2 or 3% of the total space available to life. The other 97% of the earth’s biosphere lies deep beneath the water’s surface, where sunlight never penetrates. Until recently, it was impossible to study the deep ocean directly. By the sixteenth century, diving bells allowed people to stay underwater for a short time: they could swim to the hell to breathe air trapped underneath it rather than return all the way to the surface. Later, other devices, including pressurized or armored suits, heavy’ metal helmets, and compressed air supplied through hoses from the surface, allowed at least one diver to reach 500 feet or so. It was 1930 when a biologist named William Beebe and his engineering colleague Otis Barton sealed themselves into a new kind of diving craft, an invention that finally allowed humans to penetrate beyond the shallow sunlit layer of the sea and the history of deep-sea exploration began. Science then was largely incidental – something that happened along the way. In terms of technical ingenuity and human bravery, this part of the story is every’ bit as amazing as the history of early aviation. Yet many of these individuals, and the deep-diving vehicles that they built and tested, are not well known.</p>
 <p>It was not until the 1970s that deep-diving manned submersibles were able to reach the Midocean Ridge and begin making major contributions to a wide range of scientific questions. A burst of discoveries followed in short order. Several of these profoundly changed whole fields of science, and their implications are still not fully understood. For example, biologists may now be seeing – in the strange communities of microbes and animals that live around deep volcanic vents – clues to the origin of life on earth. No one even knew that these communities existed before explorers began diving to the bottom in submersible. Entering the deep, black abyss presents unique challenges for which humans must carefully prepare if the wish to survive. It is an unforgiving environment, both harsh and strangely beautiful, that few who have not experienced it first hand can fully appreciate. Even the most powerful searchlights penetrate only lens of feet. Suspended particles scatter tile light and water itself is for less transparent than air; it absorbs and scatters light. The ocean also swallows other types of electromagnetic radiation, including radio signals. That is why many deep sea vehicles dangle from tethers. Inside those tethers, copper wires or fiber optic strands transmit signals that would dissipate and the if broadcast into open water.</p>
 <p>Another challenge is that the temperature near the bottom in very deep water typically hovers just four degrees above freezing, and submersibles rarely have much insulation. Since water absorbs heat more quickly than air. the cold down below seems to penetrate a diving capsule for more quickly than it would penetrate, say, a control van up above, on the deck of the mother ship. And finally, the abyss clamps down with crushing pressure on anything that enters it. ‘I his force is like air pressure on land, except that water is much heavier than air. At sea level on land, we don’t even notice I atmosphere of pressure, about 15 pounds per square inch, the weight of the earths blanket of air. In the deepest part of the ocean, nearly seven miles down, its about 1,200 atmospheres. 18,000 pounds per square inch. A square-inch column of lead would crush down on your body with equal force if it were 3,600 feet tall.</p>
 <p>Fish that live in the deep don’t feel the pressure, because they are filled with water from their own environment. It has already been compressed by abyssal pressure as much as water can be (which is not much). A diving craft, however, is a hollow chamber, rudely displacing the water around it. That chamber must withstand the full brunt of deep sea pressure – thousands of pounds per square inch. If seawater with that much pressure behind it ever finds a way to break inside, it explodes through the hole with laser-like intensity. It was into such a terrifying environment that the first twentieth-century explorers ventured.</p>
-<p>Questions 27-30
+<p><strong>Questions 27-30</strong>
 Write the correct letter. A. B. C or D, in boxes 27-30 on your answer sheet.</p>
 <p>27. In the first paragraph, the writer finds it surprising that …
-A we send robots to Mars rather than to the sea bed.
-B we choose to explore the least accessible side of the moon.
-C people reached the moon before they explored the deepest parts of the earth’s oceans.
-D spaceships are sent beyond our solar system instead of exploring it.</p>
+<strong>A</strong> we send robots to Mars rather than to the sea bed.
+<strong>B</strong> we choose to explore the least accessible side of the moon.
+<strong>C</strong> people reached the moon before they explored the deepest parts of the earth’s oceans.
+<strong>D</strong> spaceships are sent beyond our solar system instead of exploring it.</p>
 <p>28. The writer argues that saying 71 % of the earth’s surface is ocean is not accurate because it
-A ignores the depth of the world’s oceans.
-B is based on an estimated volume.
-C overlooks the significance of landscape features.
-D refers to the proportion of water in which life is possible.</p>
+<strong>A</strong> ignores the depth of the world’s oceans.
+<strong>B</strong> is based on an estimated volume.
+<strong>C</strong> overlooks the significance of landscape features.
+<strong>D</strong> refers to the proportion of water in which life is possible.</p>
 <p>29. How did the diving bell help divers?
-A It allowed each diver to carry a supply of air underwater.
-B It enabled piped air to reach deep below the surface.
-C It offered access to a reservoir of air below the surface.
-D It meant that they could dive as deep as 500 feet.</p>
+<strong>A</strong> It allowed each diver to carry a supply of air underwater.
+<strong>B</strong> It enabled piped air to reach deep below the surface.
+<strong>C</strong> It offered access to a reservoir of air below the surface.
+<strong>D</strong> It meant that they could dive as deep as 500 feet.</p>
 <p>30. What point does the writer make about scientific discoveries between 1930 and 1970?
-A They were rarely the primary purpose of deep sea exploration.
-B The people who conducted experiments were not professional scientists.
-C Many people refused to believe the discoveries that were made.
-D They involved the use of technologies from other disciplines.</p>
-<p>Questions 31-36
+<strong>A</strong> They were rarely the primary purpose of deep sea exploration.
+<strong>B</strong> The people who conducted experiments were not professional scientists.
+<strong>C</strong> Many people refused to believe the discoveries that were made.
+<strong>D</strong> They involved the use of technologies from other disciplines.</p>
+<p><strong>Questions 31-36</strong>
 Do the following statements agree with the views of the writer in Reading Passage 3? In boxes 31-36 on your answer sheet, write</p>
-<p>YES if the statement agrees with the views of the writer
-NO if the statement contradicts the views of the writer
-NOT GIVEN if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong> if the statement agrees with the views of the writer
+<strong>NO</strong> if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this</p>
 <p>31. The Midocean Ridge is largely the same as when the continents emerged.
 32. We can make an approximate calculation of the percentage of the ocean which sunlight penetrates.
 33. Many unexpected scientific phenomena came to light when exploration of the Midocean Ridge began.
 34. The number of people exploring the abyss has risen sharply in the 21st century.
 35. One danger of the darkness is that deep sea vehicles become entangled in vegetation.
 36. The construction of submersibles offers little protection from the cold at great depths.</p>
-<p>Questions 37-40
+<p><strong>Questions 37-40</strong>
 Complete the summary using the list of words A-I below.</p>
-<p>Deep diving craft</p>
+<p><strong>Deep diving craft</strong></p>
 <p>A diving craft has to be (37)………………enough to cope with the enormous pressure of the abyss, which is capable of crushing almost anything. Unlike creatures that live there, which are not (38)…………………because they contain compressed water, a submersible is filled with (39)………………..If it has a weak spot in its construction, there will be a (40)………………..explosion of water into the craft.</p>
-<p>A ocean
-B air
-C deep
-D hollow
-E sturdy
-F atmosphere
-G energetic
-H violent
-I heavy</p>
-<p>ANSWER KEY</p>
+<p><strong>A</strong> ocean
+<strong>B</strong> air
+<strong>C</strong> deep
+<strong>D</strong> hollow
+<strong>E</strong> sturdy
+<strong>F</strong> atmosphere
+<strong>G</strong> energetic
+<strong>H</strong> violent
+<strong>I</strong> heavy</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Tropical</p>
 <p>2. (a) (twig) snake</p>
 <p>3. (a / the) forest (of Magombera) / Magombera (forest)</p>
@@ -473,6 +529,29 @@ I heavy</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -492,12 +571,23 @@ I heavy</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -509,14 +599,6 @@ I heavy</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,79 +158,79 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_179</h1>
-            <p>IELTS Reading Practice - Test 179</p>
-<p>Coming of Age</p>
-<p>A Three striking facts highlight the dramatic shift in recent years in the relative economic balance of “first-world” and “third-world” economies. Last year, according to our estimates, emerging economies produced slightly more than half of world output measured at purchasing-power parity. Second, they also accounted for more than half of the increase in global GDP in current-dollar terms. And third, perhaps most striking of all, the 32 biggest emerging economies grew in both 2004 and 2005. Every previous year during the past three decades saw at least one country in recession – if not a deep crisis. Some economies will inevitably stumble over the coming years, but, thanks to sounder policies, most can look forward to rapid long-term growth. The young emerging economies have grown up in more ways than one.</p>
-<p>B Such happenings are part of the biggest shift in economic strength since the emergence of the United States more than a century ago. As developing countries and the former Soviet block have embraced market-friendly economic reforms and opened their borders to trade and investment, more countries are industrialising than ever before – and more quickly. During their industrial revolutions, America and Britain took 50 years to double their real incomes per head; today China is achieving that in a single decade. In an open world, it is much easier to catch up by adopting advanced countries’ technology than it is to be an economic leader that has to invent new technologies in order to keep growing. The shift in economic power towards emerging economies is therefore likely to continue. This is returning the world to the sort of state that endured throughout most of its history. People forget that, until the late 19th century, China and India were the world’s two biggest economies and today’s “emerging economies” accounted for the bulk of world production.</p>
-<p>C Many bosses, workers, and politicians in the rich world fear that the success of these newcomers will be at their own expense. However, rich countries will gain more than they lose from the enrichment of others. Fears that the third world will steal rich-world output and jobs are based on the old fallacy that an increase in one country’s output must be at the expense of another’s. But more exports give developing countries more money to spend on imports – mainly from developed economies. Faster growth in poor countries is therefore more likely to increase the output of their richer counterparts than to reduce it. The emerging economies are helping to lift world GDP growth at the very time when the rich world’s ageing populations would otherwise cause growth to slow.</p>
-<p>D Although stronger growth in emerging economies will make developed count lies as a whole better off, not everybody will be a winner. Globalisation is causing the biggest shift in relative prices (of labour, capital, commodities, and goods) for a century, and this in turn is causing a significant redistribution of income. Low-skilled workers in developed economies are losing out relative to skilled workers. And owners of capital are-grabbing a bigger slice of the cake relative to workers as a whole.</p>
-<p>E As a result of China, India, and the former Soviet Union embracing market capitalism, the global labour force has doubled in size. To the extent that this has made labour more abundant, and capital relatively scarcer, it has put downward pressure on wages relative to the return on capital. Throughout the rich world, profits have surged to record levels as a share of national income, while the workers’ slice has fallen. Hence, Western workers as a whole do not appear to have shared fully in the fruits of globalisation; many low-skilled ones may even be worse off. However, this is only part of the story. Workers’ wages may be squeezed, but as consumers they benefit from lower prices. As shareholders and future pensioners, they stand to gain from a more efficient use of global capital. Competition from emerging economies should also help to spur rich-world productivity growth and thus average incomes,</p>
-<p>F To the extent that rich economies as a whole gain from the new wealth of emerging ones, governments have more scope to compensate losers. Governments have another vital role to play, too. The intensifying competition from emerging economies makes flexible labour and product markets even more imperative, so as to speed up the shift from old industries to new ones. That is why Europe and Japan cannot afford to drag their heels over reform or leave workers ill-equipped to take up tomorrow’s jobs. Developed countries that are quick to abandon declining industries and move upmarket into new industries and services will fare best as the emerging economies come of age. Those that resist change can look forward to years of relative decline. Those that embrace it can best share in the emerging economies’ astonishing new wealth.</p>
-<p>Questions 1-4
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 179</strong></h3>
+<h3 class="test-heading"><strong>Coming of Age</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> Three striking facts highlight the dramatic shift in recent years in the relative economic balance of “first-world” and “third-world” economies. Last year, according to our estimates, emerging economies produced slightly more than half of world output measured at purchasing-power parity. Second, they also accounted for more than half of the increase in global GDP in current-dollar terms. And third, perhaps most striking of all, the 32 biggest emerging economies grew in both 2004 and 2005. Every previous year during the past three decades saw at least one country in recession – if not a deep crisis. Some economies will inevitably stumble over the coming years, but, thanks to sounder policies, most can look forward to rapid long-term growth. The young emerging economies have grown up in more ways than one.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> Such happenings are part of the biggest shift in economic strength since the emergence of the United States more than a century ago. As developing countries and the former Soviet block have embraced market-friendly economic reforms and opened their borders to trade and investment, more countries are industrialising than ever before – and more quickly. During their industrial revolutions, America and Britain took 50 years to double their real incomes per head; today China is achieving that in a single decade. In an open world, it is much easier to catch up by adopting advanced countries’ technology than it is to be an economic leader that has to invent new technologies in order to keep growing. The shift in economic power towards emerging economies is therefore likely to continue. This is returning the world to the sort of state that endured throughout most of its history. People forget that, until the late 19th century, China and India were the world’s two biggest economies and today’s “emerging economies” accounted for the bulk of world production.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> Many bosses, workers, and politicians in the rich world fear that the success of these newcomers will be at their own expense. However, rich countries will gain more than they lose from the enrichment of others. Fears that the third world will steal rich-world output and jobs are based on the old fallacy that an increase in one country’s output must be at the expense of another’s. But more exports give developing countries more money to spend on imports – mainly from developed economies. Faster growth in poor countries is therefore more likely to increase the output of their richer counterparts than to reduce it. The emerging economies are helping to lift world GDP growth at the very time when the rich world’s ageing populations would otherwise cause growth to slow.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> Although stronger growth in emerging economies will make developed count lies as a whole better off, not everybody will be a winner. Globalisation is causing the biggest shift in relative prices (of labour, capital, commodities, and goods) for a century, and this in turn is causing a significant redistribution of income. Low-skilled workers in developed economies are losing out relative to skilled workers. And owners of capital are-grabbing a bigger slice of the cake relative to workers as a whole.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> As a result of China, India, and the former Soviet Union embracing market capitalism, the global labour force has doubled in size. To the extent that this has made labour more abundant, and capital relatively scarcer, it has put downward pressure on wages relative to the return on capital. Throughout the rich world, profits have surged to record levels as a share of national income, while the workers’ slice has fallen. Hence, Western workers as a whole do not appear to have shared fully in the fruits of globalisation; many low-skilled ones may even be worse off. However, this is only part of the story. Workers’ wages may be squeezed, but as consumers they benefit from lower prices. As shareholders and future pensioners, they stand to gain from a more efficient use of global capital. Competition from emerging economies should also help to spur rich-world productivity growth and thus average incomes,</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> To the extent that rich economies as a whole gain from the new wealth of emerging ones, governments have more scope to compensate losers. Governments have another vital role to play, too. The intensifying competition from emerging economies makes flexible labour and product markets even more imperative, so as to speed up the shift from old industries to new ones. That is why Europe and Japan cannot afford to drag their heels over reform or leave workers ill-equipped to take up tomorrow’s jobs. Developed countries that are quick to abandon declining industries and move upmarket into new industries and services will fare best as the emerging economies come of age. Those that resist change can look forward to years of relative decline. Those that embrace it can best share in the emerging economies’ astonishing new wealth.</p></div></div>
+<p><strong>Questions 1-4</strong>
 The text has 6 paragraphs (A – F).</p>
 <p>Which paragraph contains each of the following pieces of information?</p>
-<p>Questions 5-8
-Complete the following sentences using NO MORE THAN THREE WORDS from the text for each gap.</p>
+<p><strong>Questions 5-8</strong>
+Complete the following sentences using <strong>NO MORE THAN THREE WORDS</strong> from the text for each gap.</p>
 <p>Developing economies can catch up with developed ones faster because they don’t have to (5)………………..</p>
 <p>Growth in developing countries helps developed economies because of spending (6)………………..</p>
 <p>Capital is being used more efficiently because it is (7)………………….</p>
 <p>Economic (8)…………………..is required in many developed economies.</p>
-<p>Questions 9-13
+<p><strong>Questions 9-13</strong>
 Do the following statements agree with the information given in Reading Passage 1? In boxes 9 – 13 on your answer sheet, write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>9. Large developing economies should not have any problems in the future.
 10. If one country increases production, another country will have to reduce its production.
 11. Globalisation is causing greater differences in income.
 12. Low-skilled workers in developed economies are earning less.
 13. Japan is not spending enough on education.</p>
-<p>British Universities Seek Quantity and Quality</p>
-<p>A Pity the poor British professor. Once upon a time in the halcyon 1960s, his students were a privileged few, an academic elite drawn from the top four per cent of the population. New university arrivals were literate and numerate; crimes against grammar were the exception rather than the rule. According to a new comprehensive survey of British university faculty and staff, all that has changed. “They [incoming students] don’t know how to write essays they just assemble bits from the Internet,” commented a disgruntled Oxford tutor. Even the cream of candidates do not necessarily know how to use an apostrophe,” added another.</p>
-<p>B The decline in student competence parallels a dramatic increase in British university and college enrolment over the past decade, spurred in recent years by Prime Minister Tony Blair’s push to get half of all young Britons a university degree. As professors and business owners alike decry the quality of university students and graduates, more than a few observers are questioning the wisdom of packing ivory towers with the masses. Students themselves may begin to question whether higher education is overvalued, with tuition rales set to rise steeply next fall.</p>
-<p>C British universities and colleges are teeming with almost 2.5 million young adults, a 12- fold increase of 1960s numbers, and up almost fifty per cent over the past decade alone. A report published last month for the Association of Graduate Recruiters found that almost half of the top 200 employers of university graduates were unhappy with the calibre of candidates. The recent survey, conducted by Oxford University and Universities & Colleges Admissions Service (UCAS), listed a catalogue of complaints about freshmen which had led in some cases to year long courses being deferred by a year.</p>
-<p>D “You are getting students going to higher education now who wouldn’t have done so 20 years ago, and in some ways that’s a good thing, as it widens opportunity,” says Geoff Hayward, lecturer at Oxford University’s educational studies department. There were, he adds, “genuine concerns about young people and their capacity to benefit from higher education”. Part of the problem, Mr. Hayward says, lies in the way teenagers are taught in school, prepped assiduously for exams at the expense of broader understanding. Despite the students’ academic failings, the Oxford/UCAS survey did find they were more tech-savvy and better at oral communication than their predecessors.</p>
-<p>E Nevertheless, concerns about the state of Britain’s university system are deepening this year as its funding faces one of its biggest shake-ups in decades. Following the lead of America, Australia, and New Zealand among others, universities will introduce a new annual £3,000 ($6,000) tuition fee for students next year – nearly triple the current fee. The charge, brought in by the government to drum up cash for a perennially under-funded sector, is expected to saddle graduates with debts of at least £12,000 ($24,000), according to the National Union of Students (NUS), making some think twice about whether to study. Already, official figures show the number of university applicants fell this year for the first time in six years, by 3.4 per cent.</p>
-<p>F “We’ve said all along that this policy will deter prospective students from going to university,” says Julian Nicholds, NUS vice president for education. “About 13,000 fewer prospective students have applied this year, and that is only attributable to the threat of debt in the future.” For the government, the fall in applicants is slightly awkward. Tony Blair’s Labour administration has committed itself to boosting the number of young people in higher education to fifty per cent by 2010. That might prove tricky if teenagers – and their parents – are deterred by the burgeoning cost of study.</p>
-<p>G Alison Wolf, an expert at King’s College London and author of a book called “Does Education Matter,” concedes that the added fees might make students think twice but says the price increase won’t turn them away. “When a degree has become as important as ours, all the evidence is that fees will not have an impact because it’s still economically worthwhile to get a degree,” says Ms. Wolf. Estimates suggest graduates will still earn as much as £400,000 ($800,000) more over a lifetime than non- graduates: A little debt will be worth it in the long run, she says.</p>
-<p>H Bill Rammell, higher education minister, says Blair’s target of fifty per cent enrolment is “an economic and social necessity”. He also points out that by 2012, an estimated 6.8 million graduate jobs will have been created, requiring increasing numbers of university- educated workers. “It is therefore crucial that we are able to produce sufficient numbers of highly skilled, employable graduates to fill those posts,” says Mr. Rammell. “Most industrialised countries have targets to expand university numbers.”</p>
-<p>I However, Wolf says the government’s fifty per cent target is “nuts”. “There is no evidence that it is important for economic growth,” she contends. “Switzerland is the richest country in Europe and has one of the lowest numbers of graduates.” A market based society, she says, is capable of working out what kind of workers it needs without government-mandated quotas, which may end up encouraging people to go to university who might do better pursuing vocational endeavours. “It would make more sense for society if lots of people didn’t go to university for the wrong reasons,” she says, “but as long as employers continue to use degrees as a filter device for screening candidates, demand for degrees will remain high.”</p>
-<p>Questions 14-17
+<p><strong>British Universities Seek Quantity and Quality</strong></p>
+<p><strong>A</strong> Pity the poor British professor. Once upon a time in the halcyon 1960s, his students were a privileged few, an academic elite drawn from the top four per cent of the population. New university arrivals were literate and numerate; crimes against grammar were the exception rather than the rule. According to a new comprehensive survey of British university faculty and staff, all that has changed. “They [incoming students] don’t know how to write essays they just assemble bits from the Internet,” commented a disgruntled Oxford tutor. Even the cream of candidates do not necessarily know how to use an apostrophe,” added another.</p>
+<p><strong>B</strong> The decline in student competence parallels a dramatic increase in British university and college enrolment over the past decade, spurred in recent years by Prime Minister Tony Blair’s push to get half of all young Britons a university degree. As professors and business owners alike decry the quality of university students and graduates, more than a few observers are questioning the wisdom of packing ivory towers with the masses. Students themselves may begin to question whether higher education is overvalued, with tuition rales set to rise steeply next fall.</p>
+<p><strong>C</strong> British universities and colleges are teeming with almost 2.5 million young adults, a 12- fold increase of 1960s numbers, and up almost fifty per cent over the past decade alone. A report published last month for the Association of Graduate Recruiters found that almost half of the top 200 employers of university graduates were unhappy with the calibre of candidates. The recent survey, conducted by Oxford University and Universities & Colleges Admissions Service (UCAS), listed a catalogue of complaints about freshmen which had led in some cases to year long courses being deferred by a year.</p>
+<p><strong>D</strong> “You are getting students going to higher education now who wouldn’t have done so 20 years ago, and in some ways that’s a good thing, as it widens opportunity,” says Geoff Hayward, lecturer at Oxford University’s educational studies department. There were, he adds, “genuine concerns about young people and their capacity to benefit from higher education”. Part of the problem, Mr. Hayward says, lies in the way teenagers are taught in school, prepped assiduously for exams at the expense of broader understanding. Despite the students’ academic failings, the Oxford/UCAS survey did find they were more tech-savvy and better at oral communication than their predecessors.</p>
+<p><strong>E</strong> Nevertheless, concerns about the state of Britain’s university system are deepening this year as its funding faces one of its biggest shake-ups in decades. Following the lead of America, Australia, and New Zealand among others, universities will introduce a new annual £3,000 ($6,000) tuition fee for students next year – nearly triple the current fee. The charge, brought in by the government to drum up cash for a perennially under-funded sector, is expected to saddle graduates with debts of at least £12,000 ($24,000), according to the National Union of Students (NUS), making some think twice about whether to study. Already, official figures show the number of university applicants fell this year for the first time in six years, by 3.4 per cent.</p>
+<p><strong>F</strong> “We’ve said all along that this policy will deter prospective students from going to university,” says Julian Nicholds, NUS vice president for education. “About 13,000 fewer prospective students have applied this year, and that is only attributable to the threat of debt in the future.” For the government, the fall in applicants is slightly awkward. Tony Blair’s Labour administration has committed itself to boosting the number of young people in higher education to fifty per cent by 2010. That might prove tricky if teenagers – and their parents – are deterred by the burgeoning cost of study.</p>
+<p><strong>G</strong> Alison Wolf, an expert at King’s College London and author of a book called “Does Education Matter,” concedes that the added fees might make students think twice but says the price increase won’t turn them away. “When a degree has become as important as ours, all the evidence is that fees will not have an impact because it’s still economically worthwhile to get a degree,” says Ms. Wolf. Estimates suggest graduates will still earn as much as £400,000 ($800,000) more over a lifetime than non- graduates: A little debt will be worth it in the long run, she says.</p>
+<p><strong>H</strong> Bill Rammell, higher education minister, says Blair’s target of fifty per cent enrolment is “an economic and social necessity”. He also points out that by 2012, an estimated 6.8 million graduate jobs will have been created, requiring increasing numbers of university- educated workers. “It is therefore crucial that we are able to produce sufficient numbers of highly skilled, employable graduates to fill those posts,” says Mr. Rammell. “Most industrialised countries have targets to expand university numbers.”</p>
+<p><strong>I</strong> However, Wolf says the government’s fifty per cent target is “nuts”. “There is no evidence that it is important for economic growth,” she contends. “Switzerland is the richest country in Europe and has one of the lowest numbers of graduates.” A market based society, she says, is capable of working out what kind of workers it needs without government-mandated quotas, which may end up encouraging people to go to university who might do better pursuing vocational endeavours. “It would make more sense for society if lots of people didn’t go to university for the wrong reasons,” she says, “but as long as employers continue to use degrees as a filter device for screening candidates, demand for degrees will remain high.”</p>
+<p><strong>Questions 14-17</strong>
 The text has 9 paragraphs (A -I).</p>
 <p>Which paragraph does each of the following headings best fit?</p>
 <p>14. Higher fees
 15. Many employers unhappy
 16. Government’s push for numbers
 17. Paying is worth it.</p>
-<p>Questions 18-22
-According to the text, FIVE of the following statements are true.</p>
-<p>A higher education is overvalued
-B certain students have had to postpone taking courses
-C students nowadays are better at using technology
-D the number of university applications has declined this year
-E the government wants 50% of young people in higher education
-F Alison Wolf agrees with Julian Nichols
-G Bill Rammell agrees with Tony Blair
-H Switzerland is following Britain’s example</p>
-<p>Questions 23-26
+<p><strong>Questions 18-22</strong>
+According to the text, <strong>FIVE</strong> of the following statements are true.</p>
+<p><strong>A</strong> higher education is overvalued
+<strong>B</strong> certain students have had to postpone taking courses
+<strong>C</strong> students nowadays are better at using technology
+<strong>D</strong> the number of university applications has declined this year
+<strong>E</strong> the government wants 50% of young people in higher education
+<strong>F</strong> Alison Wolf agrees with Julian Nichols
+<strong>G</strong> Bill Rammell agrees with Tony Blair
+<strong>H</strong> Switzerland is following Britain’s example</p>
+<p><strong>Questions 23-26</strong>
 According to the information given in the text, choose the correct answer or answers from the choices given.</p>
 <p>23. University students nowadays are criticised for their lack of
-A mathematical ability
-B essay writing ability
-C criminal behavior</p>
+<strong>A</strong> mathematical ability
+<strong>B</strong> essay writing ability
+<strong>C</strong> criminal behavior</p>
 <p>24. Geoff Hayward is concerned about
-A the quality of students
-B the ability of students to communicate properly
-C there being too much focus on examinations at shcools</p>
+<strong>A</strong> the quality of students
+<strong>B</strong> the ability of students to communicate properly
+<strong>C</strong> there being too much focus on examinations at shcools</p>
 <p>25. Bill Rammell points out that
-A Britain does not have enough graduates
-B there are 6.8 million graduates in Britain
-C other countries want to increase the number of graduates</p>
+<strong>A</strong> Britain does not have enough graduates
+<strong>B</strong> there are 6.8 million graduates in Britain
+<strong>C</strong> other countries want to increase the number of graduates</p>
 <p>26. Wolf believes
-A Switzerland is better than Britain
-B market forces should determine how many people go to university
-C employers use degrees to shorten lists of applicants</p>
-<p>Are You Experienced?</p>
+<strong>A</strong> Switzerland is better than Britain
+<strong>B</strong> market forces should determine how many people go to university
+<strong>C</strong> employers use degrees to shorten lists of applicants</p>
+<p><strong>Are You Experienced?</strong></p>
 <p>How we spend our money is changing. In the new “experience economy”, we pay to do things, not have things. Trevor Beattie, the advertising supremo, has earned millions by devising original and controversial publicity campaigns. His agency assembled the arresting FCUK logo for French Connection. However, he doesn’t believe in amassing expensive emblems of success, instead lavishing his fortune on such ephemeral things as flights in a MiG jet, or flying his mum on Concorde. He says that buying a Porsche is the saddest thing in the history of money.</p>
 <p>Beattie is not alone in prizing memories above materialism. For a truly special birthday party, a Ferrari in a ribbon will no longer cut it. What the super-rich really want is their own private . Rolling Stones concert (cost: £2 million) or a trip into space (£100,000, courtesy of Virgin Galactic). Even the rest of us don’t particularly want stuff any more: we’d rather enjoy a day at the races, a massage, a ride in a hot-air balloon, or a weekend cookery course run by a Michelin-starred chef. These are all symptomatic of the growing “experience economy”, which has evolved out of a culture of mass affluence. With our basic needs satisfied – the disposable income of Britons is double what it was in 1980 – we are becoming increasingly choosy about how we spend our money.</p>
 <p>Rather than upgrading our car or television, we’ll spend the cash in coffee shops, hotels, restaurants, sports clubs, and theme parks. We’ll splash out on European city breaks or walking the Inca Trail. Experiences, in other words, the amount that British people spend on retail goods as a proportion of consumer spending has gone down in the past ten years. That money has migrated to restaurants, leisure and budget travel, as well as mobile phone calls.</p>
@@ -184,42 +240,42 @@ C employers use degrees to shorten lists of applicants</p>
 <p>The idea is to foster an emotional attachment between company and consumer, and hope that “guests” will want to acquire a memento that reminds them of the warm fuzzy feelings they had during the experience. The hippest companies of the moment – Starbucks, Apple and, on a smaller scale, the drinks company Innocent – are all admired within the business industry for their ability to connect emotionally with their consumers and for proving that people will pay a premium to buy into their world. An Innocent fruit smoothie, for example, costs about £2, much more than a non-branded smoothie. Magazine reviews of the Apple iPod, which always criticise its battery life and exorbitant price tag, are inevitably forgiving because of the iPod’s iconic design and an enduring affection for the company’s perceived ability to do things differently. Visitors to Apple’s six British stores are encouraged to use an “online concierge” to help them to plan their trip, showing that progressive companies have bought in fully to the hospitality concept.</p>
 <p>The conveyor belt of business publishing also attests to the increasing importance of the customer experience. Pine and Gilmore’s groundbreaking offering was followed by such tomes as Priceless: Turning Ordinary Products into Extraordinary Experiences (which became required reading at IBM, Estee Lauder and Pizza Hut) and Making Meaning: How Successful Businesses Deliver Meaningful Customer Experiences. They all preach the same gospel: that, contrary to what companies think, not all consumers are focused on bagging the cheapest product. The buying experience is critical (which is why we have not all switched to Internet shopping or no-frills airlines).</p>
 <p>The most notable aspect of the experience economy is how much we are prepared to pay for a purely non-material experience, such as a day in a spa or a trip to Prague. A collision of social trends is responsible. This era is unique in the coming together of various trends such as globalism, multiculturalism, and a demographic shift in terms of longevity. There are more leisure activities around today than twenty years ago. We are aware of these other activities and cultures, and we now have the money to experience them. Now that we are living longer, we have more time to try different things.</p>
-<p>Questions 27-30
-For each question, only ONE of the choices is correct.</p>
+<p><strong>Questions 27-30</strong>
+For each question, only <strong>ONE</strong> of the choices is correct.</p>
 <p>27. Trevor Beattie is least likely to
-A think of a good way of advertising something.
-B fly in a military plane.
-C buy a nice, fast car.</p>
+<strong>A</strong> think of a good way of advertising something.
+<strong>B</strong> fly in a military plane.
+<strong>C</strong> buy a nice, fast car.</p>
 <p>28. An “experience economy” has grown in Britain because
-A most people have enough things.
-B people like new ideas.
-C buying things has become too expensive.</p>
+<strong>A</strong> most people have enough things.
+<strong>B</strong> people like new ideas.
+<strong>C</strong> buying things has become too expensive.</p>
 <p>29. Shopping malls such as Bluewater
-A are changing the way they present themselves.
-B have been slow to recognise changes in consumer behaviour.
-C are unhappy with the idea of an “experience economy”.</p>
+<strong>A</strong> are changing the way they present themselves.
+<strong>B</strong> have been slow to recognise changes in consumer behaviour.
+<strong>C</strong> are unhappy with the idea of an “experience economy”.</p>
 <p>30. Retailers focusing more on “experiences” still aim to make sales through
-A better marketing techniques.
-B calling customers “guests”.
-C selling customers things that remind them of their experiences.</p>
-<p>Questions 31-35
-Complete the following sentences using NO MORE THAN TWO WORDS from the text for each gap.</p>
+<strong>A</strong> better marketing techniques.
+<strong>B</strong> calling customers “guests”.
+<strong>C</strong> selling customers things that remind them of their experiences.</p>
+<p><strong>Questions 31-35</strong>
+Complete the following sentences using <strong>NO MORE THAN TWO WORDS</strong> from the text for each gap.</p>
 <p>James Gilmore thinks that people become more creative when subjected to (31)……………..</p>
 <p>Starbucks is a company that has managed to develop an (32)…………………..with its customers.</p>
 <p>Pine and Gilmore’s books suggest that not all consumers focus on buying the (33)…………………</p>
 <p>Internet shopping lacks the (34)…………………….</p>
 <p>People have time for more experiences partly because they are (35)…………………</p>
-<p>Questions 36-40
+<p><strong>Questions 36-40</strong>
 Do the following statements agree with the information given in Reading Passage 3? In boxes 36 – 40 on your answer sheet, write:</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>36. In Britain, the total amount of money spent on buying things has gone down in the last ten years.
 37. Some shopping malls have a cinema to enhance people’s shopping experience.
 38. iPods are often criticised for being too expensive.
 39. Apple is considered to be a creative company.
 40. Companies believe there is a clear limit to how much people will pay for “experience”.</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. F</p>
 <p>2. B</p>
 <p>3. A</p>
@@ -478,6 +534,29 @@ NOT GIVEN If there is no information on this</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -497,12 +576,23 @@ NOT GIVEN If there is no information on this</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -514,14 +604,6 @@ NOT GIVEN If there is no information on this</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

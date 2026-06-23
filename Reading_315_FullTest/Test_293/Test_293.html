@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,84 +158,84 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_293</h1>
-            <p>IELTS Reading Practice - Test 293</p>
-<p>The Industrial Revolution in Britain</p>
-<p>The Industrial Revolution began in Britain in the mid-1700s and by the 1830s and 1840s had spread to many other parts of the world, including the United States. In Britain, it was a period when a largely rural, agrarian society was transformed into an industrialised, urban one. Goods that had once been crafted by hand started to be produced in mass quantities by machines in factories, thanks to the invention of steam power and the introduction of new machines and manufacturing techniques in textiles, iron-making and other industries.</p>
-<p>The foundations of the Industrial Revolution date back to the early 1700s, when the English inventor Thomas Newcomen designed the first modern steam engine. Called the ‘atmospheric steam engine’, Newcomen’s invention was originally used to power machines that pumped water out of mines. In the 1760s, the Scottish engineer James Watt started to adapt one of Newcomen’s models, and succeeded in making it far more efficient. Watt later worked with the English manufacturer Matthew Boulton to invent a new steam engine driven by both the forward and backward strokes of the piston, while the gear mechanism it was connected to produced rotary motion. It was a key innovation that would allow steam power to spread across British industries.</p>
-<p>The demand for coal, which was a relatively cheap energy source, grew rapidly during the Industrial Revolution, as it was needed to run not only the factories used to produce manufactured goods, but also steam-powered transportation. In the early 1800s, the English engineer Richard Trevithick built a steam-powered locomotive, and by 1830 goods and passengers were being transported between the industrial centres of Manchester and Liverpool. In addition, steam-powered boats and ships were widely used to carry goods along Britain’s canals as well as across the Atlantic.</p>
-<p>Britain had produced textiles like wool, linen and cotton, for hundreds of years, but prior to the Industrial Revolution, the British textile business was a true ‘cottage industry’, with the work performed in small workshops or even homes by individual spinners, weavers and dyers. Starting in the mid-1700s, innovations like the spinning jenny and the power loom made weaving cloth and spinning yarn and thread much easier. With these machines, relatively little labour was required to produce cloth, and the new, mechanised textile factories that opened around the country were quickly able to meet customer demand for cloth both at home and abroad.</p>
-<p>The British iron industry also underwent major change as it adopted new innovations. Chief among the new techniques was the smelting of iron ore with coke (a material made by heating coal) instead of the traditional charcoal. This method was cheaper and produced metals that were of a higher quality, enabling Britain’s iron and steel production to expand in response to demand created by the Napoleonic Wars (1803-15) and the expansion of the railways from the 1830s.</p>
-<p>The latter part of the Industrial Revolution also saw key advances in communication methods, as people increasingly saw the need to communicate efficiently over long distances. In 1837, British inventors William Cooke and Charles Wheatstone patented the first commercial telegraphy system. In the 1830s and 1840s, Samuel Morse and other inventors worked on their own versions in the United States. Cooke and Wheatstone’s system was soon used for railway signalling in the UK. As the speed of the new locomotives increased, it was essential to have a fast and effective means of avoiding collisions.</p>
-<p>The impact of the Industrial Revolution on people’s lives was immense. Although many people in Britain had begun moving to the cities from rural areas before the Industrial Revolution, this accelerated dramatically with industrialisation, as the rise of large factories turned smaller towns into major cities in just a few decades. This rapid urbanisation brought significant challenges, as overcrowded cities suffered from pollution and inadequate sanitation.</p>
-<p>Although industrialisation increased the country’s economic output overall and improved the standard of living for the middle and upper classes, many poor people continued to struggle. Factory workers had to work long hours in dangerous conditions for extremely low wages. These conditions along with the rapid pace of change fuelled opposition to industrialisation. A group of British workers who became known as ‘Luddites’ were British weavers and textile workers who objected to the increased use of mechanised looms and knitting frames. Many had spent years learning their craft, and they feared that unskilled machine operators were robbing them of their livelihood, A few desperate weavers began breaking into factories and smashing textile machines. They called themselves Luddites after Ned Ludd, a young apprentice who was rumoured to have wrecked a textile machine in 1779.</p>
-<p>The first major instances of machine breaking took place in 1811 in the city of Nottingham, and the practice soon spread across the country. Machine-breaking Luddites attacked and burned factories, and in some cases they even exchanged gunfire with company guards and soldiers. The workers wanted employers to stop installing new machinery, but the British government responded to the uprisings by making machine-breaking punishable by death. The unrest finally reached its peak in April 1812, when a few Luddites were shot during an attack on a mill near Huddersfield. In the days that followed, other Luddites were arrested, and dozens were hanged or transported to Australia. By 1813, the Luddite resistance had all but vanished.</p>
-<p>Questions 1-7
-Complete the notes below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 1-7 on your answer sheet.</p>
-<p>Britain’s Industrial Revolution</p>
-<p>Steam power
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 293</strong></h3>
+<h3 class="test-heading"><strong>The Industrial Revolution in Britain</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>The Industrial Revolution began in Britain in the mid-1700s and by the 1830s and 1840s had spread to many other parts of the world, including the United States. In Britain, it was a period when a largely rural, agrarian society was transformed into an industrialised, urban one. Goods that had once been crafted by hand started to be produced in mass quantities by machines in factories, thanks to the invention of steam power and the introduction of new machines and manufacturing techniques in textiles, iron-making and other industries.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>The foundations of the Industrial Revolution date back to the early 1700s, when the English inventor Thomas Newcomen designed the first modern steam engine. Called the ‘atmospheric steam engine’, Newcomen’s invention was originally used to power machines that pumped water out of mines. In the 1760s, the Scottish engineer James Watt started to adapt one of Newcomen’s models, and succeeded in making it far more efficient. Watt later worked with the English manufacturer Matthew Boulton to invent a new steam engine driven by both the forward and backward strokes of the piston, while the gear mechanism it was connected to produced rotary motion. It was a key innovation that would allow steam power to spread across British industries.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>The demand for coal, which was a relatively cheap energy source, grew rapidly during the Industrial Revolution, as it was needed to run not only the factories used to produce manufactured goods, but also steam-powered transportation. In the early 1800s, the English engineer Richard Trevithick built a steam-powered locomotive, and by 1830 goods and passengers were being transported between the industrial centres of Manchester and Liverpool. In addition, steam-powered boats and ships were widely used to carry goods along Britain’s canals as well as across the Atlantic.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>Britain had produced textiles like wool, linen and cotton, for hundreds of years, but prior to the Industrial Revolution, the British textile business was a true ‘cottage industry’, with the work performed in small workshops or even homes by individual spinners, weavers and dyers. Starting in the mid-1700s, innovations like the spinning jenny and the power loom made weaving cloth and spinning yarn and thread much easier. With these machines, relatively little labour was required to produce cloth, and the new, mechanised textile factories that opened around the country were quickly able to meet customer demand for cloth both at home and abroad.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>The British iron industry also underwent major change as it adopted new innovations. Chief among the new techniques was the smelting of iron ore with coke (a material made by heating coal) instead of the traditional charcoal. This method was cheaper and produced metals that were of a higher quality, enabling Britain’s iron and steel production to expand in response to demand created by the Napoleonic Wars (1803-15) and the expansion of the railways from the 1830s.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>The latter part of the Industrial Revolution also saw key advances in communication methods, as people increasingly saw the need to communicate efficiently over long distances. In 1837, British inventors William Cooke and Charles Wheatstone patented the first commercial telegraphy system. In the 1830s and 1840s, Samuel Morse and other inventors worked on their own versions in the United States. Cooke and Wheatstone’s system was soon used for railway signalling in the UK. As the speed of the new locomotives increased, it was essential to have a fast and effective means of avoiding collisions.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>The impact of the Industrial Revolution on people’s lives was immense. Although many people in Britain had begun moving to the cities from rural areas before the Industrial Revolution, this accelerated dramatically with industrialisation, as the rise of large factories turned smaller towns into major cities in just a few decades. This rapid urbanisation brought significant challenges, as overcrowded cities suffered from pollution and inadequate sanitation.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>Although industrialisation increased the country’s economic output overall and improved the standard of living for the middle and upper classes, many poor people continued to struggle. Factory workers had to work long hours in dangerous conditions for extremely low wages. These conditions along with the rapid pace of change fuelled opposition to industrialisation. A group of British workers who became known as ‘Luddites’ were British weavers and textile workers who objected to the increased use of mechanised looms and knitting frames. Many had spent years learning their craft, and they feared that unskilled machine operators were robbing them of their livelihood, A few desperate weavers began breaking into factories and smashing textile machines. They called themselves Luddites after Ned Ludd, a young apprentice who was rumoured to have wrecked a textile machine in 1779.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>The first major instances of machine breaking took place in 1811 in the city of Nottingham, and the practice soon spread across the country. Machine-breaking Luddites attacked and burned factories, and in some cases they even exchanged gunfire with company guards and soldiers. The workers wanted employers to stop installing new machinery, but the British government responded to the uprisings by making machine-breaking punishable by death. The unrest finally reached its peak in April 1812, when a few Luddites were shot during an attack on a mill near Huddersfield. In the days that followed, other Luddites were arrested, and dozens were hanged or transported to Australia. By 1813, the Luddite resistance had all but vanished.</p></div></div>
+<p><strong>Questions 1-7</strong>
+Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer. Write your answers in boxes 1-7 on your answer sheet.</p>
+<p><strong>Britain’s Industrial Revolution</strong></p>
+<p><strong>Steam power</strong>
 • Newcomen’s steam engine was used in mines to remove water.
 • In Watt and Boulton’s steam engine, the movement of the (1) ……………… was linked to a gear system.
 • A greater supply of (2) ………………… was required to power steam engines.</p>
-<p>Textile industry
+<p><strong>Textile industry</strong>
 • Before the Industrial Revolution, spinners and weavers worked at home and in (3) ……………….
 • Not as much (4) ………………… was needed to produce cloth once the spinning jenny and power loom were invented.</p>
-<p>Iron industry
+<p><strong>Iron industry</strong>
 • Smelting of iron ore with coke resulted in material that was better (5) ………………
 • Demand for iron increased with the growth of the (6) …………………</p>
-<p>Communications
+<p><strong>Communications</strong>
 • Cooke and Wheatstone patented the first telegraphy system.
 • The telegraphy system was used to prevent locomotives colliding.</p>
-<p>Urbanisation
+<p><strong>Urbanisation</strong>
 • Small towns turned into cities very quickly.
 • The new cities were dirty, crowded and lacked sufficient (7) ……………</p>
-<p>Questions 8-13
+<p><strong>Questions 8-13</strong>
 Do the following statements agree with the information given in reading passage? In boxes 8-13 on your answer sheet, write</p>
-<p>TRUE                            if the statement agrees with the information
-FALSE                          if the statement contradicts the information
-NOT GIVEN               if there is no information on this</p>
+<p><strong>TRUE</strong>                            if the statement agrees with the information
+<strong>FALSE</strong>                          if the statement contradicts the information
+<strong>NOT GIVEN</strong>               if there is no information on this</p>
 <p>8. Britain’s canal network grew rapidly so that more goods could be transported around the country.
 9. Costs in the iron industry rose when the technique of smelting iron ore with coke was introduced.
 10. Samuel Morse’s communication system was more reliable than that developed by William Cooke and Charles Wheatstone.
 11. The economic benefits of industrialisation were limited to certain sectors of society.
 12. Some skilled weavers believed that the introduction of the new textile machines would lead to job losses.
 13. There was some sympathy among local people for the Luddites who were arrested near Huddersfield.</p>
-<p>Athletes and stress</p>
-<p>A It isn’t easy being a professional athlete. Not only are the physical demands greater than most people could handle, athletes also face intense psychological pressure during competition. This is something that British tennis player Emma Raducanu wrote about on social media following her withdrawal from the 2021 Wimbledon tournament. Though the young player had been doing well in the tournament, she began having difficulty regulating her breathing and heart rate during a match, which she later attributed to ‘the accumulation of the excitement and the buzz’.</p>
-<p>B For athletes, some level of performance stress is almost unavoidable. But there are many different factors that dictate just how people’s minds and bodies respond to stressful events. Typically, stress is the result of an exchange between two factors: demands and resources. An athlete may feel stressed about an event if they feel the demands on them are greater than they can handle. These demands include the high level of physical and mental effort required to succeed, and also the athlete’s concerns about the difficulty of the event, their chance of succeeding, and any potential dangers such as injury. Resources, on the other hand, are a person’s ability to cope with these demands. These include factors such as the competitor’s degree of confidence, how much they believe they can control the situation’s outcome, and whether they’re looking forward to the event or not.</p>
-<p>C Each new demand or change in circumstances affects whether a person responds positively or negatively to stress. Typically, the more resources a person feels they have in handling the situation, the more positive their stress response. This positive stress response is called a challenge state. But should the person feel there are too many demands placed on them, the more likely they are to experience a negative stress response – known as a threat state. Research shows that the challenge states lead to good performance, while threat states lead to poorer performance, So, in Emma Raducanu’s case, a much larger audience, higher expectations and facing a more skilful opponent, may all have led her to feel there were greater demands being placed on her at Wimbledon – but she didn’t have the resources to tackle them. This led to her experiencing a threat response.</p>
-<p>D Our challenge and threat responses essentially influence how our body responds to stressful situations, as both affect the production of adrenaline and cortisol – also known as ‘stress hormones’. During a challenge state, adrenaline increases the amount of blood pumped from the heart and expands the blood vessels, which allows more energy to be delivered to the muscles and brain. This increase of blood and decrease of pressure in the blood vessels has been consistently related to superior sport performance in everything from cricket batting, to golf putting and football penalty taking. But during a threat state, cortisol inhibits the positive effect of adrenaline, resulting in tighter blood vessels, higher blood pressure, slower psychological responses, and a faster heart rate. In short, a threat state makes people more anxious – they make worse decisions and perform more poorly. In tennis players, cortisol has been associated with more unsuccessful serves and greater anxiety.</p>
-<p>E That said, anxiety is also a common experience for athletes when they’re under pressure. Anxiety can increase heart rate and perspiration, cause heart palpitations, muscle tremors and shortness of breath, as well as headaches, nausea, stomach pain, weakness and a desire to escape in more extreme cases. Anxiety can also reduce concentration and self-control and cause overthinking. The intensity with which a person experiences anxiety depends on the demands and resources they have. Anxiety may also manifest itself in the form of excitement or nervousness depending on the stress response. Negative stress responses can be damaging to both physical and mental health – and repeated episodes of anxiety coupled with negative responses can increase risk of heart disease and depression.</p>
-<p>F But there are many ways athletes can ensure they respond positively under pressure. Positive stress responses can be promoted through the language that they and others – such as coaches or parents – use. Psychologists can also help athletes change how they see their physiological responses – such as helping them see a higher heart rate as excitement, rather than nerves. Developing psychological skills, such as visualisation, can also help decrease physiological responses to threat. Visualisation may involve the athlete recreating a mental picture of a time when they performed well, or picturing themselves doing well in the future. This can help create a feeling of control over the stressful event. Recreating competitive pressure during training can also help athletes learn how to deal with stress. An example of this might be scoring athletes against their peers to create a sense of competition. This would increase the demands which players experience compared to a normal training session, while still allowing them to practise coping with stress.</p>
-<p>Questions 14-18
+<p><strong>Athletes and stress</strong></p>
+<p><strong>A</strong> It isn’t easy being a professional athlete. Not only are the physical demands greater than most people could handle, athletes also face intense psychological pressure during competition. This is something that British tennis player Emma Raducanu wrote about on social media following her withdrawal from the 2021 Wimbledon tournament. Though the young player had been doing well in the tournament, she began having difficulty regulating her breathing and heart rate during a match, which she later attributed to ‘the accumulation of the excitement and the buzz’.</p>
+<p><strong>B</strong> For athletes, some level of performance stress is almost unavoidable. But there are many different factors that dictate just how people’s minds and bodies respond to stressful events. Typically, stress is the result of an exchange between two factors: demands and resources. An athlete may feel stressed about an event if they feel the demands on them are greater than they can handle. These demands include the high level of physical and mental effort required to succeed, and also the athlete’s concerns about the difficulty of the event, their chance of succeeding, and any potential dangers such as injury. Resources, on the other hand, are a person’s ability to cope with these demands. These include factors such as the competitor’s degree of confidence, how much they believe they can control the situation’s outcome, and whether they’re looking forward to the event or not.</p>
+<p><strong>C</strong> Each new demand or change in circumstances affects whether a person responds positively or negatively to stress. Typically, the more resources a person feels they have in handling the situation, the more positive their stress response. This positive stress response is called a challenge state. But should the person feel there are too many demands placed on them, the more likely they are to experience a negative stress response – known as a threat state. Research shows that the challenge states lead to good performance, while threat states lead to poorer performance, So, in Emma Raducanu’s case, a much larger audience, higher expectations and facing a more skilful opponent, may all have led her to feel there were greater demands being placed on her at Wimbledon – but she didn’t have the resources to tackle them. This led to her experiencing a threat response.</p>
+<p><strong>D</strong> Our challenge and threat responses essentially influence how our body responds to stressful situations, as both affect the production of adrenaline and cortisol – also known as ‘stress hormones’. During a challenge state, adrenaline increases the amount of blood pumped from the heart and expands the blood vessels, which allows more energy to be delivered to the muscles and brain. This increase of blood and decrease of pressure in the blood vessels has been consistently related to superior sport performance in everything from cricket batting, to golf putting and football penalty taking. But during a threat state, cortisol inhibits the positive effect of adrenaline, resulting in tighter blood vessels, higher blood pressure, slower psychological responses, and a faster heart rate. In short, a threat state makes people more anxious – they make worse decisions and perform more poorly. In tennis players, cortisol has been associated with more unsuccessful serves and greater anxiety.</p>
+<p><strong>E</strong> That said, anxiety is also a common experience for athletes when they’re under pressure. Anxiety can increase heart rate and perspiration, cause heart palpitations, muscle tremors and shortness of breath, as well as headaches, nausea, stomach pain, weakness and a desire to escape in more extreme cases. Anxiety can also reduce concentration and self-control and cause overthinking. The intensity with which a person experiences anxiety depends on the demands and resources they have. Anxiety may also manifest itself in the form of excitement or nervousness depending on the stress response. Negative stress responses can be damaging to both physical and mental health – and repeated episodes of anxiety coupled with negative responses can increase risk of heart disease and depression.</p>
+<p><strong>F</strong> But there are many ways athletes can ensure they respond positively under pressure. Positive stress responses can be promoted through the language that they and others – such as coaches or parents – use. Psychologists can also help athletes change how they see their physiological responses – such as helping them see a higher heart rate as excitement, rather than nerves. Developing psychological skills, such as visualisation, can also help decrease physiological responses to threat. Visualisation may involve the athlete recreating a mental picture of a time when they performed well, or picturing themselves doing well in the future. This can help create a feeling of control over the stressful event. Recreating competitive pressure during training can also help athletes learn how to deal with stress. An example of this might be scoring athletes against their peers to create a sense of competition. This would increase the demands which players experience compared to a normal training session, while still allowing them to practise coping with stress.</p>
+<p><strong>Questions 14-18</strong>
 Reading passage has six paragraphs, A-F. Which paragraph contains the following information? Write the correct letter, A-F, in boxes 14-18 on your answer sheet. NB You may use any letter more than once.</p>
 <p>14. reference to two chemical compounds which impact on performance
 15. examples of strategies for minimising the effects of stress
 16. how a sportsperson accounted for their own experience of stress
 17. study results indicating links between stress responses and performance
 18. mention of people who can influence how athletes perceive their stress responses</p>
-<p>Questions 19-22
-Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 19-22 on your answer sheet.</p>
+<p><strong>Questions 19-22</strong>
+Complete the sentences below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer. Write your answers in boxes 19-22 on your answer sheet.</p>
 <p>19. Performance stress involves many demands on the athlete, for example, coping with the possible risk of ………………
 20. Cortisol can cause tennis players to produce fewer good ………………
 21. Psychologists can help athletes to view their physiological responses as the effect of a positive feeling such as ……………….
 22 ……………………….is an example of a psychological technique which can reduce an athlete’s stress responses.</p>
-<p>Questions 23 and 24
+<p><strong>Questions 23 and 24</strong>
 Choose TWO letters, A-E. Write the correct letters in boxes 23 and 24 on your answer sheet.</p>
 <p>Which TWO facts about Emma Raducanu’s withdrawal from the Wimbledon tournament are mentioned in the text?</p>
-<p>A the stage at which she dropped out of the tournament
-B symptoms of her performance stress at the tournament
-C measures which she had taken to manage her stress levels
-D aspects of the Wimbledon tournament which increased her stress levels
-E reactions to her social media posts about her experience at Wimbledon</p>
-<p>Questions 25 and 26
+<p><strong>A</strong> the stage at which she dropped out of the tournament
+<strong>B</strong> symptoms of her performance stress at the tournament
+<strong>C</strong> measures which she had taken to manage her stress levels
+<strong>D</strong> aspects of the Wimbledon tournament which increased her stress levels
+<strong>E</strong> reactions to her social media posts about her experience at Wimbledon</p>
+<p><strong>Questions 25 and 26</strong>
 Choose TWO letters, A-E. Write the correct letters in boxes 25 and 26 on your answer sheet.</p>
 <p>Which TWO facts about anxiety are mentioned in Paragraph E of the text?</p>
-<p>A the factors which determine how severe it may be
-B how long it takes for its effects to become apparent
-C which of its symptoms is most frequently encountered
-D the types of athletes who are most likely to suffer from it
-E the harm that can result if athletes experience it too often</p>
-<p>An inquiry into the existence of the gifted child</p>
+<p><strong>A</strong> the factors which determine how severe it may be
+<strong>B</strong> how long it takes for its effects to become apparent
+<strong>C</strong> which of its symptoms is most frequently encountered
+<strong>D</strong> the types of athletes who are most likely to suffer from it
+<strong>E</strong> the harm that can result if athletes experience it too often</p>
+<p><strong>An inquiry into the existence of the gifted child</strong></p>
 <p>Let us start by looking at a modern ‘genius’, Maryam Mirzakhani, who died at the early age of 40. She was the only woman to win the Fields Medal – the mathematical equivalent of a Nobel prize. It would be easy to assume that someone as special as Mirzakhani must have been one of those ‘gifted’ children, those who have an extraordinary ability in a specific sphere of activity or knowledge. But look closer and a different story emerges. Mirzakhani was born in Tehran, Iran. She went to a highly selective girls’ school but maths wasn’t her interest – reading was. She loved novels and would read anything she could lay her hands on. As for maths, she did rather poorly at it for the first couple of years in her middle school, but became interested when her elder brother told her about what he’d learned. He shared a famous maths problem from a magazine that fascinated her – and she was hooked.</p>
 <p>In adult life it is clear that she was curious, excited by what she did and also resolute in the face of setbacks. One of her comments sums it up. ‘Of course, the most rewarding part is the “Aha” moment, the excitement of discovery and enjoyment of understanding something new. But most of the time, doing mathematics for me is like being on a long hike with no trail and no end in sight. ’That trail took her to the heights of original research into mathematics.</p>
 <p>Is her background unusual? Apparently not. Most Nobel prize winners were unexceptional in childhood. Einstein was slow to talk as a baby. He failed the general part of the entry test to Zurich Polytechnic though they let him in because of high physics and maths scores. He struggled at work initially, but he kept plugging away and eventually rewrote the laws of Newtonian mechanics with his theory of relativity.</p>
@@ -189,49 +245,49 @@ E the harm that can result if athletes experience it too often</p>
 <p>But it is perhaps the work of Benjamin Bloom, another distinguished American educationist working in the 1980s, that gives the most pause for thought. Bloom’s team looked at a group of extraordinarily high achieving people in disciplines as varied as ballet, swimming, piano, tennis, maths, sculpture and neurology, lie found a pattern of parents encouraging and supporting their children, often in areas they enjoyed themselves. Bloom’s outstanding people had worked very hard and consistently at something they had become hooked on when at a young age, and their parents all emerged as having strong work ethics themselves.</p>
 <p>Eyre says we know how high performers learn. From that she has developed a high performing learning approach. She is working on this with a group of schools, both in Britain and abroad. Some spin-off research, which looked in detail at 24 of the 3,000 children being studied who were succeeding despite difficult circumstances, found something remarkable. Half were getting free school meals because of poverty, more than half were living with a single parent, and four in five were living in disadvantaged areas. Interviews uncovered strong evidence of an adult or adults in the child’s life who valued and supported education, either in the immediate or extended family or in the child’s wider community. Children talked about the need to work hard at school, to listen in class and keep trying.</p>
 <p>Let us end with Einstein, the epitome of a genius, He clearly had curiosity, character and determination. He struggled against rejection in early life but was undeterred. Did he think he was a genius or even gifted? He once wrote: ‘It’s not that I’m so smart, it’s just that 1 stay with problems longer. Most people say it is the intellect which makes a great scientist. They are wrong: it is character,’</p>
-<p>Questions 27-32
+<p><strong>Questions 27-32</strong>
 Complete the summary using the list of phrases, A-K, below. Write the correct letter, A-K, in boxes 27-32 on your answer sheet.</p>
-<p>Maryann Mirzakhani</p>
+<p><strong>Maryann Mirzakhani</strong></p>
 <p>Maryam Mirzakhani is regarded as (27) …………… in the field of mathematics because she was the only female holder of the prestigious Fields Medal – a record that she retained at the time of her death. However, maths held little (28) ……………… for her as a child and in fact her performance was below average until she was (29) …………….by a difficult puzzle that one of her siblings showed her. Later, as a professional mathematician, she had an inquiring mind and proved herself to be (30) ……………… when things did not go smoothly. She said she got the greatest (31) ……………… from making ground-breaking discoveries and in fact she was responsible for some extremely (32) ……………… mathematical studies.</p>
-<p>A appeal
-B determined
-C intrigued
-D single
-E achievement
-F devoted
-G involved
-H unique
-I innovative
-J satisfaction
-K intent</p>
-<p>Questions 33-37
+<p><strong>A</strong> appeal
+<strong>B</strong> determined
+<strong>C</strong> intrigued
+<strong>D</strong> single
+<strong>E</strong> achievement
+<strong>F</strong> devoted
+<strong>G</strong> involved
+<strong>H</strong> unique
+<strong>I</strong> innovative
+<strong>J</strong> satisfaction
+<strong>K</strong> intent</p>
+<p><strong>Questions 33-37</strong>
 Do the following statements agree with the claims of the writer in reading passage? In boxes 33-37 on your answer sheet, write</p>
-<p>YES                                 if the statement agrees with the claims of the writer
-NO                                   if the statement contradicts the claims of the writer
-NOT GIVEN               if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                                 if the statement agrees with the claims of the writer
+<strong>NO</strong>                                   if the statement contradicts the claims of the writer
+<strong>NOT GIVEN</strong>               if it is impossible to say what the writer thinks about this</p>
 <p>33. Many people who ended up winning prestigious intellectual prizes only reached an average standard when young,
 34. Einstein’s failures as a young man were due to his lack of confidence.
 35. It is difficult to reach agreement on whether some children are actually born gifted.
 36. Einstein was upset by the public’s view of his life’s work.
 37. Einstein put his success down to the speed at which he dealt with scientific questions.</p>
-<p>Questions 38-40
+<p><strong>Questions 38-40</strong>
 Choose the correct letter, A, B, C or D. Write the correct letter in boxes 38-40 on your answer sheet.</p>
 <p>38. What does Eyre believe is needed for children to equal ‘gifted’ standards?
-A strict discipline from the teaching staff
-B assistance from their peers in the classroom
-C the development of a spirit of inquiry towards their studies
-D the determination to surpass everyone else’s achievements</p>
+<strong>A</strong> strict discipline from the teaching staff
+<strong>B</strong> assistance from their peers in the classroom
+<strong>C</strong> the development of a spirit of inquiry towards their studies
+<strong>D</strong> the determination to surpass everyone else’s achievements</p>
 <p>39. What is the result of Ericsson’s research?
-A Very gifted students do not need to work on improving memory skills.
-B Being born with a special gift is not the key factor in becoming expert.
-C Including time for physical exercise is crucial in raising performance.
-D 10,000 hours of relevant and demanding work will create a genius.</p>
+<strong>A</strong> Very gifted students do not need to work on improving memory skills.
+<strong>B</strong> Being born with a special gift is not the key factor in becoming expert.
+<strong>C</strong> Including time for physical exercise is crucial in raising performance.
+<strong>D</strong> 10,000 hours of relevant and demanding work will create a genius.</p>
 <p>40. In the penultimate paragraph, it is stated the key to some deprived children’s success is
-A a regular and nourishing diet at home.
-B the loving support of more than one parent.
-C a community which has well-funded facilities for learning.
-D the guidance of someone who recognises the benefits of learning.</p>
-<p>ANSWER KEY</p>
+<strong>A</strong> a regular and nourishing diet at home.
+<strong>B</strong> the loving support of more than one parent.
+<strong>C</strong> a community which has well-funded facilities for learning.
+<strong>D</strong> the guidance of someone who recognises the benefits of learning.</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. Piston</p>
 <p>2. Coal</p>
 <p>3. Workshops</p>
@@ -490,6 +546,29 @@ D the guidance of someone who recognises the benefits of learning.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -509,12 +588,23 @@ D the guidance of someone who recognises the benefits of learning.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -526,14 +616,6 @@ D the guidance of someone who recognises the benefits of learning.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,19 +158,19 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_30</h1>
-            <p>IELTS Reading Practice - Test 30</p>
-<p>SPOKEN CORPUS COMES TO LIFE</p>
-<p>A The compiling of dictionaries has been historically the provenance of studious professorial types – usually bespectacled – who love to pore over weighty tomes and make pronouncements on the finer nuances of meaning. They were probably good at crosswords and definitely knew a lot of words, but the image was always rather dry and dusty. The latest technology, and simple technology at that, is revolutionising the content of dictionaries and the way they are put together.</p>
-<p>B For the first time, dictionary publishers are incorporating real, spoken English into their data. It gives lexicographers (people who write dictionaries) access to a more vibrant, up-to-date vernacular language which has never really been studied before. In one project, 150 volunteers each agreed to discreetly tie a Walkman recorder to their waist and leave it running for anything up to two weeks. Every conversation they had was recorded. When the data was collected, the length of tapes was 35 times the depth of the Atlantic Ocean. Teams of audio typists transcribed the tapes to produce a computerised database of ten million words.</p>
-<p>C This has been the basis – along with an existing written corpus – for the Language Activator dictionary, described by lexicographer Professor Randolph Quirk as “the book the world has been waiting for”. It shows advanced foreign learners of English how the language is really used. In the dictionary, key words such as “eat” are followed by related phrases such as “wolf down” or “be a picky eater”, allowing the student to choose the appropriate phrase.</p>
-<p>D “This kind of research would be impossible without computers,” said Delia Summers, a director of dictionaries. “It has transformed the way lexicographers work. If you look at the word “like”, you may intuitively think that the first and most frequent meaning is the verb, as in “I like swimming”. It is not. It is the preposition, as in: “she walked like a duck”. Just because a word or phrase is used doesn’t mean it ends up in a dictionary. The sifting out process is as vital as ever. But the database does allow lexicographers to search for a word and find out how frequently it is used – something that could only be guessed at intuitively before.</p>
-<p>E Researchers have found that written English works in a very different way to spoken English. The phrase “say what you like” literally means “feel free to say anything you want”, but in reality it is used, evidence shows, by someone to prevent the other person voicing disagreement. The phrase “it’s a question of crops up on the database over and over again. It has nothing to do with enquiry, but it’s one of the most frequent English phrases which has never been in a language learner’s dictionary before: it is now.</p>
-<p>F The Spoken Corpus computer shows how inventive and humorous people are when they are using language by twisting familiar phrases for effect. It also reveals the power of the pauses and noises we use to play for time, convey emotion, doubt and irony.</p>
-<p>G For the moment, those benefiting most from the Spoken Corpus are foreign learners. “Computers allow lexicographers to search quickly through more examples of real English,” said Professor Geoffrey Leech of Lancaster University. “They allow dictionaries to be more accurate and give a feel for how language is being used.” The Spoken Corpus is part of the larger British National Corpus, an initiative carried out by several groups involved in the production of language learning materials: publishers, universities and the British Library.</p>
-<p>Questions 1-6
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 30</strong></h3>
+<h3 class="test-heading"><strong>SPOKEN CORPUS COMES TO LIFE</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> The compiling of dictionaries has been historically the provenance of studious professorial types – usually bespectacled – who love to pore over weighty tomes and make pronouncements on the finer nuances of meaning. They were probably good at crosswords and definitely knew a lot of words, but the image was always rather dry and dusty. The latest technology, and simple technology at that, is revolutionising the content of dictionaries and the way they are put together.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> For the first time, dictionary publishers are incorporating real, spoken English into their data. It gives lexicographers (people who write dictionaries) access to a more vibrant, up-to-date vernacular language which has never really been studied before. In one project, 150 volunteers each agreed to discreetly tie a Walkman recorder to their waist and leave it running for anything up to two weeks. Every conversation they had was recorded. When the data was collected, the length of tapes was 35 times the depth of the Atlantic Ocean. Teams of audio typists transcribed the tapes to produce a computerised database of ten million words.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> This has been the basis – along with an existing written corpus – for the Language Activator dictionary, described by lexicographer Professor Randolph Quirk as “the book the world has been waiting for”. It shows advanced foreign learners of English how the language is really used. In the dictionary, key words such as “eat” are followed by related phrases such as “wolf down” or “be a picky eater”, allowing the student to choose the appropriate phrase.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> “This kind of research would be impossible without computers,” said Delia Summers, a director of dictionaries. “It has transformed the way lexicographers work. If you look at the word “like”, you may intuitively think that the first and most frequent meaning is the verb, as in “I like swimming”. It is not. It is the preposition, as in: “she walked like a duck”. Just because a word or phrase is used doesn’t mean it ends up in a dictionary. The sifting out process is as vital as ever. But the database does allow lexicographers to search for a word and find out how frequently it is used – something that could only be guessed at intuitively before.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> Researchers have found that written English works in a very different way to spoken English. The phrase “say what you like” literally means “feel free to say anything you want”, but in reality it is used, evidence shows, by someone to prevent the other person voicing disagreement. The phrase “it’s a question of crops up on the database over and over again. It has nothing to do with enquiry, but it’s one of the most frequent English phrases which has never been in a language learner’s dictionary before: it is now.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> The Spoken Corpus computer shows how inventive and humorous people are when they are using language by twisting familiar phrases for effect. It also reveals the power of the pauses and noises we use to play for time, convey emotion, doubt and irony.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> For the moment, those benefiting most from the Spoken Corpus are foreign learners. “Computers allow lexicographers to search quickly through more examples of real English,” said Professor Geoffrey Leech of Lancaster University. “They allow dictionaries to be more accurate and give a feel for how language is being used.” The Spoken Corpus is part of the larger British National Corpus, an initiative carried out by several groups involved in the production of language learning materials: publishers, universities and the British Library.</p></div></div>
+<p><strong>Questions 1-6</strong>
 Reading Passage 1 has seven paragraphs (A-G). Choose the most suitable heading for each paragraph from the list of headings below. Write the appropriate numbers (i-xi) in boxes 1-6 on your answer sheet. Paragraph C has been done for you as an example.
 NB There are more headings than paragraphs so you will not use all of them. You may use any heading more than once.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i. Grammar is corrected
 ii. New method of research
 iii. Technology learns from dictionaries
@@ -132,29 +188,29 @@ xi Alternative expressions provided</p>
 4 Paragraph E
 5 Paragraph F
 6 Paragraph G</p>
-<p>Questions 7-11
-The diagram below illustrates the information provided in paragraphs B-F of Reading Passage 1 Complete the labels on the diagram with an appropriate word or words. Use NO MORE THAN THREE WORDS for each space.</p>
-<p>Question 12
+<p><strong>Questions 7-11</strong>
+The diagram below illustrates the information provided in paragraphs B-F of Reading Passage 1 Complete the labels on the diagram with an appropriate word or words. Use <strong>NO MORE THAN THREE WORDS</strong> for each space.</p>
+<p><strong>Question 12</strong>
 Choose the appropriate letter A-D and write it in box 12 on your answer sheet</p>
 <p>12 Why was this article written?
-A To give an example of a current dictionary
-B To announce a new approach to dictionary writing
-C To show how dictionaries have progressed over the years
-D To compare the content of different dictionaries</p>
+<strong>A</strong> To give an example of a current dictionary
+<strong>B</strong> To announce a new approach to dictionary writing
+<strong>C</strong> To show how dictionaries have progressed over the years
+<strong>D</strong> To compare the content of different dictionaries</p>
 <p>Cambridge IELTS Test 1 to 17</p>
-<p>Moles happy as homes go underground</p>
-<p>A The first anybody knew about Dutchman Frank Siegmund and his family was when workmen tramping through a field found a narrow steel chimney protruding through the grass. Closer inspection revealed a chink of sky-light window among the thistles, and when amazed investigators moved down the side of the hill they came across a pine door complete with leaded diamond glass and a brass knocker set into an underground building. The Siegmunds had managed to live undetected for six years outside the border town of Breda, in Holland. They are the latest in a clutch of individualistic homemakers who have burrowed underground in search of tranquility.</p>
-<p>B Most, falling foul of strict building regulations, have been forced to dismantle their individualistic homes and return to more conventional lifestyles. But subterranean suburbia, Dutch-style, is about to become respectable and chic. Seven luxury homes cosseted away inside a high earth-covered noise embankment next to the main Tilburg city road recently went on the market for $296,500 each. The foundations had yet to be dug, but customers queued up to buy the unusual part-submerged houses, whose back wall consists of a grassy mound and whose front is a long glass gallery.</p>
-<p>C The Dutch are not the only would-be moles. Growing numbers of Europeans are burrowing below ground to create houses, offices, discos and shopping malls. It is already proving a way of life in extreme climates; in winter months in Montreal, Canada, for instance, citizens can escape the cold in an underground complex complete with shops and even health clinics. In Tokyo builders are planning a massive underground city to be begun in the next decade, and underground shopping malls are already common in Japan, where 90 percent of the population is squeezed into 20 percent of the land space.</p>
-<p>D Building big commercial buildings underground can be a way to avoid disfiguring or threatening a beautiful or environmentally sensitive landscape. Indeed many of the buildings which consume most land -such as cinemas, supermarkets, theatres, warehouses or libraries -have no need to be on the surface since they do not need windows.</p>
-<p>E There are big advantages, too, when it comes to private homes. A development of 194 houses which would take up 14 hectares of land above ground would occupy 2.7 hectares below it, while the number of roads would be halved. Under several metres of earth, noise is minimal and insulation is excellent. “We get 40 to 50 enquiries a week”, says Peter Carpenter, secretary of the British Earth Sheltering Association, which builds similar homes in Britain. “People see this as a way of building for the future.” An underground dweller himself, Carpenter has never paid a heating bill, thanks to solar panels and natural insulation.</p>
-<p>F In Europe the obstacle has been conservative local authorities and developers who prefer to ensure quick sales with conventional mass produced housing. But the Dutch development was greeted with undisguised relief by South Limburg planners because of Holland’s chronic shortage of land. It was the Tilburg architect Jo Hurkmans who hit on the idea of making use of noise embankments on main roads. His twofloored, four-bedroomed, two-bathroomed detached homes are now taking shape. “They are not so much below the earth as in it,” he says. “All the light will come through the glass front, which runs from the second floor ceiling to the ground. Areas which do not need much natural lighting are at the back. The living accommodation is to the front so nobody notices that the back is dark.”</p>
-<p>G In the US, where energy-efficient homes became popular after the oil crisis of 1973, 10,000 underground houses have been built. A terrace of five homes, Britain’s first subterranean development, is under way in Nottinghamshire. Italy’s outstanding example of subterranean architecture is the Olivetti residential centre in Ivrea. Commissioned by Roberto Olivetti in 1969, it comprises 82 one-bedroomed apartments and 12 maisonettes and forms a house/ hotel for Olivetti employees. It is built into a hill and little can be seen from outside except a glass facade. Patnzia Vallecchi, a resident since 1992, says it is little different from living in a conventional apartment.</p>
-<p>H Not everyone adapts so well, and in Japan scientists at the Shimizu Corporation have developed “space creation” systems which mix light, sounds, breezes and scents to stimulate people who spend long periods below ground. Underground offices in Japan are being equipped with “virtual” windows and mirrors, while underground departments in the University of Minnesota have periscopes to reflect views and light.</p>
-<p>I But Frank Siegmund and his family love their hobbit lifestyle. Their home evolved when he dug a cool room for his bakery business in a hill he had created. During a heatwave they took to sleeping there. “We felt at peace and so close to nature,” he says. “Gradually I began adding to the rooms. It sounds strange but we are so close to the earth we draw strength from its vibrations. Our children love it; not every child can boast of being watched through their playroom windows by rabbits.</p>
-<p>Questions 13-20
+<p><strong>Moles happy as homes go underground</strong></p>
+<p><strong>A</strong> The first anybody knew about Dutchman Frank Siegmund and his family was when workmen tramping through a field found a narrow steel chimney protruding through the grass. Closer inspection revealed a chink of sky-light window among the thistles, and when amazed investigators moved down the side of the hill they came across a pine door complete with leaded diamond glass and a brass knocker set into an underground building. The Siegmunds had managed to live undetected for six years outside the border town of Breda, in Holland. They are the latest in a clutch of individualistic homemakers who have burrowed underground in search of tranquility.</p>
+<p><strong>B</strong> Most, falling foul of strict building regulations, have been forced to dismantle their individualistic homes and return to more conventional lifestyles. But subterranean suburbia, Dutch-style, is about to become respectable and chic. Seven luxury homes cosseted away inside a high earth-covered noise embankment next to the main Tilburg city road recently went on the market for $296,500 each. The foundations had yet to be dug, but customers queued up to buy the unusual part-submerged houses, whose back wall consists of a grassy mound and whose front is a long glass gallery.</p>
+<p><strong>C</strong> The Dutch are not the only would-be moles. Growing numbers of Europeans are burrowing below ground to create houses, offices, discos and shopping malls. It is already proving a way of life in extreme climates; in winter months in Montreal, Canada, for instance, citizens can escape the cold in an underground complex complete with shops and even health clinics. In Tokyo builders are planning a massive underground city to be begun in the next decade, and underground shopping malls are already common in Japan, where 90 percent of the population is squeezed into 20 percent of the land space.</p>
+<p><strong>D</strong> Building big commercial buildings underground can be a way to avoid disfiguring or threatening a beautiful or environmentally sensitive landscape. Indeed many of the buildings which consume most land -such as cinemas, supermarkets, theatres, warehouses or libraries -have no need to be on the surface since they do not need windows.</p>
+<p><strong>E</strong> There are big advantages, too, when it comes to private homes. A development of 194 houses which would take up 14 hectares of land above ground would occupy 2.7 hectares below it, while the number of roads would be halved. Under several metres of earth, noise is minimal and insulation is excellent. “We get 40 to 50 enquiries a week”, says Peter Carpenter, secretary of the British Earth Sheltering Association, which builds similar homes in Britain. “People see this as a way of building for the future.” An underground dweller himself, Carpenter has never paid a heating bill, thanks to solar panels and natural insulation.</p>
+<p><strong>F</strong> In Europe the obstacle has been conservative local authorities and developers who prefer to ensure quick sales with conventional mass produced housing. But the Dutch development was greeted with undisguised relief by South Limburg planners because of Holland’s chronic shortage of land. It was the Tilburg architect Jo Hurkmans who hit on the idea of making use of noise embankments on main roads. His twofloored, four-bedroomed, two-bathroomed detached homes are now taking shape. “They are not so much below the earth as in it,” he says. “All the light will come through the glass front, which runs from the second floor ceiling to the ground. Areas which do not need much natural lighting are at the back. The living accommodation is to the front so nobody notices that the back is dark.”</p>
+<p><strong>G</strong> In the US, where energy-efficient homes became popular after the oil crisis of 1973, 10,000 underground houses have been built. A terrace of five homes, Britain’s first subterranean development, is under way in Nottinghamshire. Italy’s outstanding example of subterranean architecture is the Olivetti residential centre in Ivrea. Commissioned by Roberto Olivetti in 1969, it comprises 82 one-bedroomed apartments and 12 maisonettes and forms a house/ hotel for Olivetti employees. It is built into a hill and little can be seen from outside except a glass facade. Patnzia Vallecchi, a resident since 1992, says it is little different from living in a conventional apartment.</p>
+<p><strong>H</strong> Not everyone adapts so well, and in Japan scientists at the Shimizu Corporation have developed “space creation” systems which mix light, sounds, breezes and scents to stimulate people who spend long periods below ground. Underground offices in Japan are being equipped with “virtual” windows and mirrors, while underground departments in the University of Minnesota have periscopes to reflect views and light.</p>
+<p><strong>I</strong> But Frank Siegmund and his family love their hobbit lifestyle. Their home evolved when he dug a cool room for his bakery business in a hill he had created. During a heatwave they took to sleeping there. “We felt at peace and so close to nature,” he says. “Gradually I began adding to the rooms. It sounds strange but we are so close to the earth we draw strength from its vibrations. Our children love it; not every child can boast of being watched through their playroom windows by rabbits.</p>
+<p><strong>Questions 13-20</strong>
 Reading Passage 2 has nine paragraphs (A-I). Choose the most suitable heading for each paragraph from the list of headings below. Write the appropriate numbers (i-xii) in boxes 13 20 on your answer sheet. Paragraph A has been done for you as an example. NB There are more headings than paragraphs so you will not use all of them.</p>
-<p>List of Headings
+<p><strong>List of Headings</strong>
 i. A designer describes his houses
 ii. Most people prefer conventional housing
 iii. Simulating a natural environment
@@ -175,15 +231,15 @@ xii. An underground home is discovered</p>
 18 Paragraph G
 19 Paragraph H
 20 Paragraph I</p>
-<p>Questions 21-26
-Complete the sentences below after reading the passage. Use NO MORE THAN THREE WORDS for each answer. Write your answers in boxes 21-26 on your answer sheet.</p>
+<p><strong>Questions 21-26</strong>
+Complete the sentences below after reading the passage. Use <strong>NO MORE THAN THREE WORDS</strong> for each answer. Write your answers in boxes 21-26 on your answer sheet.</p>
 <p>21 Many developers prefer mass-produced houses because they …
 22 The Dutch development was welcomed by …
 23 Hurkmans’ houses are built into …
 24 The Ivrea centre was developed for …
 25 Japanese scientists are helping people … underground life.
 26 Frank Siegmund’s first underground room was used for …</p>
-<p>A Workaholic Economy</p>
+<p><strong>A Workaholic Economy</strong></p>
 <p>FOR THE first century or so of the industrial revolution, increased productivity led to decreases in working hours. Employees who had been putting in 12-hour days, six days a week, found their time on the job shrinking to 10 hours daily, then, finally, to eight hours, five days a week. Only a generation ago social planners worried about what people would do with all this new-found free time. In the US, at least, it seems they need not have bothered.</p>
 <p>Although the output per hour of work has more than doubled since 1945, leisure seems reserved largely for the unemployed and underemployed. Those who work full-time spend as much time on the job as they did at the end of World War II. In fact, working hours have increased noticeably since 1970 — perhaps because real wages have stagnated since that year. Bookstores now abound with manuals describing how to manage time and cope with stress.</p>
 <p>There are several reasons for lost leisure. Since 1979, companies have responded to improvements in the business climate by having employees work overtime rather than by hiring extra personnel, says economist Juliet B. Schor of Harvard University. Indeed, the current economic recovery has gained a certain amount of notoriety for its “jobless” nature: increased production has been almost entirely decoupled from employment. Some firms are even downsizing as their profits climb. “All things being equal, we’d be better off spreading around the work,’ observes labour economist Ronald G. Ehrenberg of Cornell University.</p>
@@ -194,46 +250,46 @@ Complete the sentences below after reading the passage. Use NO MORE THAN THREE W
 <p>“Although the image of the good worker is the one whose life belongs to the company,” Bailyn says, “it doesn’t fit the facts.’ She cites both quantitative and qualitative studies that show increased productivity for part-time workers: they make better use of the time they have, and they are less likely to succumb to fatigue in stressful jobs. Companies that employ more workers for less time also gain from the resulting redundancy, she asserts. “The extra people can cover the contingencies that you know are going to happen, such as when crises take people away from the workplace.’ Positive experiences with reduced hours have begun to change the more-is-better culture at some companies, Schor reports.</p>
 <p>Larger firms, in particular, appear to be more willing to experiment with flexible working arrangements…</p>
 <p>It may take even more than changes in the financial and cultural structures of employment for workers successfully to trade increased productivity and money for leisure time, Schor contends. She says the U.S. market for goods has become skewed by the assumption of full-time, two-career households. Automobile makers no longer manufacture cheap models, and developers do not build the tiny bungalows that served the first postwar generation of home buyers. Not even the humblest household object is made without a microprocessor. As Schor notes, the situation is a curious inversion of the “appropriate technology” vision that designers have had for developing countries: U.S. goods are appropriate only for high incomes and long hours.</p>
-<p>Questions 27-32
+<p><strong>Questions 27-32</strong>
 Do the following statements agree with the views of the writer in Reading Passage 3? In boxes 27-32 write</p>
-<p>YES                         if the statement agrees with the views of the writer
-NO                           if the statement contradicts the views of the writer
-NOT GIVEN        if it is impossible to say what the writer thinks about this</p>
+<p><strong>YES</strong>                         if the statement agrees with the views of the writer
+<strong>NO</strong>                           if the statement contradicts the views of the writer
+<strong>NOT GIVEN</strong>        if it is impossible to say what the writer thinks about this</p>
 <p>27 Today, employees are facing a reduction in working hours.
 28 Social planners have been consulted about US employment figures.
 29 Salaries have not risen significantly since the 1970s.
 30 The economic recovery created more jobs.
 31 Bailyn’s research shows that part-time employees work more efficiently.
 32 Increased leisure time would benefit two-career households.</p>
-<p>Questions 33 and 34
+<p><strong>Questions 33 and 34</strong>
 Choose the appropriate letters A-D and write them in boxes 33 and 34 on your answer sheet.</p>
 <p>33 Bailyn argues that it is better for a company to employ more workers because
-A it is easy to make excess staff redundant.
-B crises occur if you are under-staffed.
-C people are available to substitute for absent staff.
-D they can project a positive image at work.</p>
+<strong>A</strong> it is easy to make excess staff redundant.
+<strong>B</strong> crises occur if you are under-staffed.
+<strong>C</strong> people are available to substitute for absent staff.
+<strong>D</strong> they can project a positive image at work.</p>
 <p>34 Schor thinks it will be difficult for workers in the US to reduce their working hours because
-A they would not be able to afford cars or homes.
-B employers are offering high incomes for long hours.
-C the future is dependent on technological advances.
-D they do not wish to return to the humble post-war era.</p>
-<p>Questions 35-38
+<strong>A</strong> they would not be able to afford cars or homes.
+<strong>B</strong> employers are offering high incomes for long hours.
+<strong>C</strong> the future is dependent on technological advances.
+<strong>D</strong> they do not wish to return to the humble post-war era.</p>
+<p><strong>Questions 35-38</strong>
 The writer mentions a number of factors that have resulted, in employees working longer hours. Which FOUR of the following factors are mentioned? Write your answers (A-H) in boxes 35-38 on your answer sheet.</p>
-<p>List of Factors
-A Books are available to help employees cope with stress.
-B Extra work is offered to existing employees.
-C Increased production has led to joblessness.
-D Benefits and hours spent on the job are not linked.
-E Overworked employees require longer to do their work.
-F Longer hours indicate greater commitment to the firm.
-G Managers estimate staff productivity in terms of hours worked.
-H Employees value a career more than a family.</p>
-<p>Questions 39 and 40
-Complete the sentences below with words from the reading passage. Write NO MORE THAN ONE WORD.</p>
+<p><strong>List of Factors</strong>
+<strong>A</strong> Books are available to help employees cope with stress.
+<strong>B</strong> Extra work is offered to existing employees.
+<strong>C</strong> Increased production has led to joblessness.
+<strong>D</strong> Benefits and hours spent on the job are not linked.
+<strong>E</strong> Overworked employees require longer to do their work.
+<strong>F</strong> Longer hours indicate greater commitment to the firm.
+<strong>G</strong> Managers estimate staff productivity in terms of hours worked.
+<strong>H</strong> Employees value a career more than a family.</p>
+<p><strong>Questions 39 and 40</strong>
+Complete the sentences below with words from the reading passage. Write <strong>NO MORE THAN ONE WORD.</strong></p>
 <p>39. Returns from overburdened employees decreases with time because they lose……..
 40. Employees give more work to their existing employees because for them it is……….</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. vi</p>
 <p>2. ii</p>
 <p>3. x</p>
@@ -492,6 +548,29 @@ Complete the sentences below with words from the reading passage. Write NO MORE 
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -511,12 +590,23 @@ Complete the sentences below with words from the reading passage. Write NO MORE 
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -528,14 +618,6 @@ Complete the sentences below with words from the reading passage. Write NO MORE 
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

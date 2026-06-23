@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,86 +158,86 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_141</h1>
-            <p>IELTS Reading Practice - Test 141</p>
-<p>The Connection Between Culture and Thought</p>
-<p>A The world’s population has surpassed 7 billion and continues to grow. Across the globe, humans have many differences. These differences can be influenced by factors such as geography, climate, politics, nationality, and many more. Culture is one such aspect that can change the way people behave.</p>
-<p>B Your culture may influence your clothing, your language, and many aspects of your life. But is culture influential enough to change the way an individual thinks? It has long been believed that people from different cultures would think differently. For example, a young boy from a farm would talk about cows while a boy from New York will talk about cars. If two young children from different countries are asked about their thoughts about a painting, they would answer differently because of their cultural backgrounds.</p>
-<p>C In recent years, there has been new research that changed this long-held belief; However, this new research is not the first to explore the idea that culture can change the way we think. Earlier research has provided valuable insight to the question. One of the earliest research projects was carried out in the Soviet Union. This project was designed to find out whether culture would affect peopled way of thought processing. The researchers focused on how living environment and nationality might influence how people think. The experiment led by Bessett aimed to question such awareness of cognitive psychology. Bessett conducted several versions of the experiment to test different cognitive processes.</p>
-<p>D One experiment led by Bessett and Masuku showed an animated video picturing a big fish swimming among smaller fish and other sea creatures. Subjects were asked to describe the scene. The Japanese participants tended to focus on the aquatic background, such as the plants and colour of the water, as well as the relationship between the big and small fish. American participants tended to focus on individual fishes, mainly the larger, more unique looking fish. The experiment suggested that members of Eastern cultures focus more on the overall picture, while members of Western culture focus more on the individuals.</p>
-<p>E In another experiment performed by Bessett and Choi, the subjects were presented with some very convincing evidence for a position. Both the Korean and the American showed strong support. And after they were given some evidence opposing the position, the Korean started to modified or decreased their support. However, the American began to give more support to the former argument. This project suggested that in Korean culture, support for arguments is based on context. Ideas and conclusions are changeable and flexible, so an individual may be more willing to change his or her mind. For Americans, they were less willing to change their original conclusion.</p>
-<p>F Bessett and Ara devised an experiment to test the thought processing of both oriental and occidental worlds. Test subject was given an argument “All animals with furs hibernate. Rabbit has fur. Therefore, rabbit hibernate”. People from the eastern world questioned the argument as not being logical, because in their knowledge some furry animals just don’t hibernate. But the American think the statement is right. They assume the logic deduction is based on a correct argument, thus the conclusion is right since the logic is right.</p>
-<p>G From these early experiments in the Soviet Union, one might conclude that our original premise— that culture can impact the way we think—was still correct. However, recent research criticises this view, as well as Bessett’s early experiments. Though these experiments changed the original belief on thought processing, how much does it result from all factors needs further discussion. Fischer thinks Bessett’s experiments provide valuable information because his research only provides qualitative descriptions, not results from controlled environment. Chang partly agrees with him, because there are some social factors that might influence the results.</p>
-<p>H Another criticism of Bessett’s experiments is that culture was studied as a sub-factor of nationality. The experiments assumed that culture would be the same among all members of a nationality. For example, every American that participated in the experiments could be assumed to have the same culture. In reality, culture is much more complicated than nationality. These early experiments did not control for other factors, such as socioeconomic status, education, ethnicity, and regional differences in culture. All of these factors could have a big effect on the individual’s response.</p>
-<p>I A third criticism of Bessett’s experiment is that the content itself should have been more abstract, such as a puzzle or an IQ test. With objective content, such as nature and animals, people from different countries of the world might have different pre-conceived ideas about these animals. Prior knowledge based on geographic location would further complicate the results. A test that is more abstract, or more quantitative, would provide a more controlled study of how cognitive processing works for different groups of people.</p>
-<p>J The research on culture’s effect on cognitive processing still goes on today, and while some criticisms exist of Bessett’s early studies, the projects still provide valuable insight. It is important for future research projects to control carefully for the variables, such as culture. Something like culture is complex and difficult to define. It can also be influenced by many other variables, such as geography or education styles. When studying a variable like culture, it is critical that the researcher create a clear definition for what is—and what is not—considered culture.</p>
-<p>K Another important aspect of modern research is the ethical impact of the research. A researcher must consider carefully whether the results of the research will negatively impact any of the groups involved. In an increasingly globalised job economy, generalisations made about nationalities can be harmful to prospective employees. This information could also impact the way tests and university admissions standards are designed, which would potentially favor one group or create a disadvantage for another. When conducting any research about culture and nationality, researchers should consider all possible effects, positive or negative, that their conclusions may have when published for the world to see.</p>
-<p>Questions 1-5
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 141</strong></h3>
+<h3 class="test-heading"><strong>The Connection Between Culture and Thought</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> The world’s population has surpassed 7 billion and continues to grow. Across the globe, humans have many differences. These differences can be influenced by factors such as geography, climate, politics, nationality, and many more. Culture is one such aspect that can change the way people behave.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> Your culture may influence your clothing, your language, and many aspects of your life. But is culture influential enough to change the way an individual thinks? It has long been believed that people from different cultures would think differently. For example, a young boy from a farm would talk about cows while a boy from New York will talk about cars. If two young children from different countries are asked about their thoughts about a painting, they would answer differently because of their cultural backgrounds.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> In recent years, there has been new research that changed this long-held belief; However, this new research is not the first to explore the idea that culture can change the way we think. Earlier research has provided valuable insight to the question. One of the earliest research projects was carried out in the Soviet Union. This project was designed to find out whether culture would affect peopled way of thought processing. The researchers focused on how living environment and nationality might influence how people think. The experiment led by Bessett aimed to question such awareness of cognitive psychology. Bessett conducted several versions of the experiment to test different cognitive processes.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> One experiment led by Bessett and Masuku showed an animated video picturing a big fish swimming among smaller fish and other sea creatures. Subjects were asked to describe the scene. The Japanese participants tended to focus on the aquatic background, such as the plants and colour of the water, as well as the relationship between the big and small fish. American participants tended to focus on individual fishes, mainly the larger, more unique looking fish. The experiment suggested that members of Eastern cultures focus more on the overall picture, while members of Western culture focus more on the individuals.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> In another experiment performed by Bessett and Choi, the subjects were presented with some very convincing evidence for a position. Both the Korean and the American showed strong support. And after they were given some evidence opposing the position, the Korean started to modified or decreased their support. However, the American began to give more support to the former argument. This project suggested that in Korean culture, support for arguments is based on context. Ideas and conclusions are changeable and flexible, so an individual may be more willing to change his or her mind. For Americans, they were less willing to change their original conclusion.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> Bessett and Ara devised an experiment to test the thought processing of both oriental and occidental worlds. Test subject was given an argument “All animals with furs hibernate. Rabbit has fur. Therefore, rabbit hibernate”. People from the eastern world questioned the argument as not being logical, because in their knowledge some furry animals just don’t hibernate. But the American think the statement is right. They assume the logic deduction is based on a correct argument, thus the conclusion is right since the logic is right.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> From these early experiments in the Soviet Union, one might conclude that our original premise— that culture can impact the way we think—was still correct. However, recent research criticises this view, as well as Bessett’s early experiments. Though these experiments changed the original belief on thought processing, how much does it result from all factors needs further discussion. Fischer thinks Bessett’s experiments provide valuable information because his research only provides qualitative descriptions, not results from controlled environment. Chang partly agrees with him, because there are some social factors that might influence the results.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>H</strong> Another criticism of Bessett’s experiments is that culture was studied as a sub-factor of nationality. The experiments assumed that culture would be the same among all members of a nationality. For example, every American that participated in the experiments could be assumed to have the same culture. In reality, culture is much more complicated than nationality. These early experiments did not control for other factors, such as socioeconomic status, education, ethnicity, and regional differences in culture. All of these factors could have a big effect on the individual’s response.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p><strong>I</strong> A third criticism of Bessett’s experiment is that the content itself should have been more abstract, such as a puzzle or an IQ test. With objective content, such as nature and animals, people from different countries of the world might have different pre-conceived ideas about these animals. Prior knowledge based on geographic location would further complicate the results. A test that is more abstract, or more quantitative, would provide a more controlled study of how cognitive processing works for different groups of people.</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p><strong>J</strong> The research on culture’s effect on cognitive processing still goes on today, and while some criticisms exist of Bessett’s early studies, the projects still provide valuable insight. It is important for future research projects to control carefully for the variables, such as culture. Something like culture is complex and difficult to define. It can also be influenced by many other variables, such as geography or education styles. When studying a variable like culture, it is critical that the researcher create a clear definition for what is—and what is not—considered culture.</p></div></div>
+<div class="para-row"><div class="para-label">K</div><div class="para-text"><p><strong>K</strong> Another important aspect of modern research is the ethical impact of the research. A researcher must consider carefully whether the results of the research will negatively impact any of the groups involved. In an increasingly globalised job economy, generalisations made about nationalities can be harmful to prospective employees. This information could also impact the way tests and university admissions standards are designed, which would potentially favor one group or create a disadvantage for another. When conducting any research about culture and nationality, researchers should consider all possible effects, positive or negative, that their conclusions may have when published for the world to see.</p></div></div>
+<p><strong>Questions 1-5</strong>
 Reading Passage 1 has eleven paragraphs, A-K. Which paragraph contains the following information?
 NB You may use any letter more than once.</p>
-<p>Questions 6-9
+<p><strong>Questions 6-9</strong>
 Look at the following statements (Questions 6-9) and the list of researchers below. Match each statement with the correct researcher, A-C. Write the correct letter, A-C, in boxes 6-9 on your answer sheet. NB You may use any letter more than once.</p>
-<p>A Bessett & Masuku
-B Bessett & Choi
-C Bessett & Ara</p>
+<p><strong>A</strong> Bessett & Masuku
+<strong>B</strong> Bessett & Choi
+<strong>C</strong> Bessett & Ara</p>
 <p>6. Geographical location affects people’s position on certain arguments.
 7. Animated images reveal different process strategies.
 8. Eastern people challenge a deduction because they knew it is not true.
 9. Eastern people find more difficulty when asked to identify the same object.</p>
-<p>Questions 10-13
-Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer</p>
+<p><strong>Questions 10-13</strong>
+Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer</p>
 <p>Researchers in the Soviet Union wanted to find out how (10)……………………and nationality will control the way people think.</p>
 <p>Bessett and Ara’s experiment shows, for Americans, so long as the logic deduction is based on a correct argument, the (11)………………………….should be right.</p>
 <p>Fischer thinks Bessett’s research is quite valuable because it is conducted in a (12)……………………way rather than in controlled environment.</p>
 <p>Future researchers on culture’s effect on cognitive processing should start with a (13)……………………of culture as a variable.</p>
-<p>Eco-Resort Management Practices</p>
+<p><strong>Eco-Resort Management Practices</strong></p>
 <p>Ecotourism is often regarded as a form of nature-based tourism and has become an important alternative source of tourists. In addition to providing the traditional resort-leisure product, it has been argued that ecotourism resort management should have a particular focus on best-practice environmental management. an educational and interpretive component, and direct and indirect contributions to the conservation of the natural and cultural environment (Ayala. I996).</p>
 <p>Conran Cove Island Resort is a large integrated ecotourism-based resort located south of Brisbane on the Gold Coast, Queensland. Australia. As the world’s population becomes increasingly urbanised, the demand for tourist attractions which are environmentally friendly, serene and offer amenities of a unique nature has grown rapidly. Couran Cove Resort, which is one such tourist attractions, is located on South Stradbroke Island, occupying approximately 150 hectares of the island. South Stradbroke Island is separated from die mainland by the Broadwater, a stretch of sea.’ kilometres wide. More than a century ago. there was only one Stradbroke Island, and there were at least four Aboriginal tribes living and limiting on the island. Regrettably, most of the original island dwellers were eventually killed by diseases such as tuberculosis, smallpox and influenza by the end of the 19th century. The second ship wrecked on the island in 1894, and the subsequent destruction of the ship (the Cambus Wallace) because it contained dynamite, caused a large crater in the sandhills on Stradbroke Island. Eventually. the ocean bloke through the weakened land form and Stradbroke became two islands. Conran Cove Island Resort is built on one of the world’s lew naturally -occurring sand lands, which is home to a wide range of plant communities and one of the largest remaining remnants of the rare livistona rainforest left on the Gold Coast. Many mangrove and rainforest areas, and Malaleuca Wetlands on South Stradbroke Island (and in Queensland), have been cleared, drained or filled for residential, industrial, agricultural or urban development in the first half of the 20th century. Farmers and graziers finally abandoned South Stradbroke Island in 1959 because the vegetation and the soil conditions there were not suitable for agricultural activities.</p>
-<p>SUSTAINABLE PRACTICES OF COUKAN COVE RESORT
+<p><strong>SUSTAINABLE PRACTICES OF COUKAN COVE RESORT</strong>
 Being located on an offshore island, the resort is only accessible by means of water transport. The resort provides hourly ferry service from the marina on the mainland to and from the island. Within the resort. transport modes include walking trails, bicycle tracks and the beach train. The reception area is the counter of the shop which has not changed for 8 years at least. The accommodation is an octagonal “Bure’’. These are large rooms that are clean but the equipment is tiled and in some cases just working. Our ceiling fan only worked on high speed for example. Beds are hard but clean. There is a television, a radio, an old air conditioner and a small fridge. These “Bures” are right on top of each other and night noises do carry. So he careful what you say and do. The only tiling is the mosquitoes, but if you forget to bring mosquito repellent they sell some oil the island. As an ecotourism-based resort most of the planning and development of the attraction lies been concentrated on the need to co-exist with the fragile natural environment of South Stradbroke Island to achieve sustainable development.</p>
-<p>WATER AND ENERGY MANAGEMENT
+<p><strong>WATER AND ENERGY MANAGEMENT</strong>
 South Stradbroke Island has groundwater at the centre of the island, which has a maximum height of 3 metres above sea level. The water supply is recharged by rainfall and is commonly known as an unconfined freshwater aquifer. Couran Cove Island Resort obtains its water supply by tapping into this aquifer and extracting it via a bore system. Some of the problems which have threatened the island’s freshwater supply include pollution, contamination and over-consumption. In order to minimise some of these problems, all laundry activities are carried out on the mainland. The resort considers washing machines as onerous to the island’s freshwater supply, and that the detergents contain a high level of phosphates which are a major source of water pollution. The resort uses LPG-power generation rather than a diesel-powered plant for its energy supply, supplemented by wind turbine, which has reduced greenhouse emissions by 70% of diesel-equivalent generation methods. Excess heat recovered from the generator is used to heat the swimming pool. Hot water in the eco-cabins and for some of the resort’s vehicles are solar-powered. Water efficient fittings are also installed in showers and toilets. However, not all the appliances used by the resort arc energy efficient, such as refrigera­tors. Visitors who stay at the resort are encouraged to monitor their water and energy usage via the in-house television systems, and are rewarded with prizes (such as a free return trip to the resort) accordingly if their usage level is low.</p>
-<p>CONCLUDING REMARKS
+<p><strong>CONCLUDING REMARKS</strong>
 We examined a case study of good management practice and a pro-active sustainable tourism stance of an eco-resort. In three years of operation, Couran Cove Island Resort has won 23 international and national awards, including the 2001 Australian Tourism Award in the 4-Star Accommodation category. The resort has embraced and has effectively implemented contem­porary environmental management practices. It has been argued that the successful implemen­tation of the principles of sustainability should promote long-term social, economic and envi­ronmental benefits, while ensuring and enhancing the prospects of continued viability for the tourism enterprise. Couran Cove Island Resort does not conform to the characteristics of the Resort Development Spectrum, as proposed by Pridcaux (2000). According to Pridcaux. the resort should be at least at Phase 3 of the model (the National tourism phase), which describes an integrated resort providing 3-4 star hotel-type accommodation. The primary tourist market in Phase 3 of the model consists mainly of interstate visitors. However, the number of interstate and international tourists visiting the resort is small, with the principal visitor markets com­prising locals and residents front nearby towns and the Gold Coast region. The carrying capacity of Couran Cove does not seem to be of any concern to the Resort management. Given that it is a private commercial ecotourist enterprise, regulating the number of visitors to the resort to minimise damage done to the natural environment on South Stradbrokc Island is not a binding constraint. However, the Resort’s growth will eventually be constrained by its carrying capacity, and quantity control should be incorporated in the management strategy of the resort.</p>
-<p>Questions 14-18
+<p><strong>Questions 14-18</strong>
 Choose the correct letter, A, B, C or D. Write the correct letter in boxes 14-18 on your answer sheet.</p>
 <p>14. The Stradbroke became two islands
-A by an intended destruction of the ship of the Cambus Wallace.
-B by an explosion of dynamite on a ship and following nature erosion.
-C by the movement sandhills on Stradbroke Island.
-D by the volcanic eruption on island.</p>
+<strong>A</strong> by an intended destruction of the ship of the Cambus Wallace.
+<strong>B</strong> by an explosion of dynamite on a ship and following nature erosion.
+<strong>C</strong> by the movement sandhills on Stradbroke Island.
+<strong>D</strong> by the volcanic eruption on island.</p>
 <p>15. Why are laundry activities for the resort carried out on the mainland?
-A to obtain its water supply via a bore system
-B to preserve the water and anti-pollution
-C to save the cost of installing onerous washing machines
-D to reduce the level of phosphates in water around</p>
+<strong>A</strong> to obtain its water supply via a bore system
+<strong>B</strong> to preserve the water and anti-pollution
+<strong>C</strong> to save the cost of installing onerous washing machines
+<strong>D</strong> to reduce the level of phosphates in water around</p>
 <p>16. The major water supplier in South Stradbroke Island is by
-A desalining the sea water.
-B collecting the rainfall.
-C transporting from the mainland.
-D boring ground water.</p>
+<strong>A</strong> desalining the sea water.
+<strong>B</strong> collecting the rainfall.
+<strong>C</strong> transporting from the mainland.
+<strong>D</strong> boring ground water.</p>
 <p>17. What is applied for heating water on Couran Cove Island Resort?
-A the LPG-power
-B a diesel-powered plant
-C the wind power
-D the solar-power</p>
+<strong>A</strong> the LPG-power
+<strong>B</strong> a diesel-powered plant
+<strong>C</strong> the wind power
+<strong>D</strong> the solar-power</p>
 <p>18. What does, as the managers of resorts believe, the prospective future focus on?
-A more awards for resort’s accommodation
-B sustainable administration and development in a long run
-C economic and environmental benefits for the tourism enterprise
-D successful implementation of the Resort Development Spectrum</p>
-<p>Questions 19-23
-Complete the summary below. Choose NO MORE THAN TWO WORDS from the Passage for each answer. Write your answers in boxes 19-23 on your answer sheet.</p>
+<strong>A</strong> more awards for resort’s accommodation
+<strong>B</strong> sustainable administration and development in a long run
+<strong>C</strong> economic and environmental benefits for the tourism enterprise
+<strong>D</strong> successful implementation of the Resort Development Spectrum</p>
+<p><strong>Questions 19-23</strong>
+Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the Passage for each answer. Write your answers in boxes 19-23 on your answer sheet.</p>
 <p>Being located away from the mainland, tourists can attain the resort only by (19)……………………in a regular service provided by the resort itself. Within the resort, transports include trails for walking or tracks for both (20)……………………………and the beach train. The on-island equipment is old-fashioned which is barely working such as the (21)………………………overhead. There is television, radio, an old (22)……………………..and a small fridge. And you can buy the repellent for (23)………………………..if you forget to bring some.</p>
-<p>Questions 24-26
-Choose THREE letters, A-E.</p>
+<p><strong>Questions 24-26</strong>
+Choose <strong>THREE</strong> letters, A-E.</p>
 <p>Write the correct letters in boxes 24-26 on your answer sheet.</p>
-<p>Which THREE of the following statements are true as to the contemporary situation of Couran Cove Island Resort in the last paragraph?</p>
-<p>A Couran Cove island resort goes for more eco friendly practices
-B The accommodation standard only conforms to the Resort Development Spectrum of phase 3
-C Couran Cove island resort should raise the accommodation standard and build more facilities
-D The principal group visiting the resort is international tourists
-E Its carrying will restrict the future businesses’ expansion</p>
-<p>The future of the World’s Language</p>
+<p>Which <strong>THREE</strong> of the following statements are true as to the contemporary situation of Couran Cove Island Resort in the last paragraph?</p>
+<p><strong>A</strong> Couran Cove island resort goes for more eco friendly practices
+<strong>B</strong> The accommodation standard only conforms to the Resort Development Spectrum of phase 3
+<strong>C</strong> Couran Cove island resort should raise the accommodation standard and build more facilities
+<strong>D</strong> The principal group visiting the resort is international tourists
+<strong>E</strong> Its carrying will restrict the future businesses’ expansion</p>
+<p><strong>The future of the World’s Language</strong></p>
 <p>Of the world’s 6,500 living languages, around half are expected to the out by the end of this century, according to UNESCO. Just 11 are spoken by more than half of the earth’s population, so it is little wonder that those used by only a few are being left behind as we become a more homogenous, global society. In short, 95 percent of the world’s languages are spoken by only five percent of its population—a remarkable level of linguistic diversity stored in tiny pockets of speakers around the world. Mark Turin, a university professor, has launched WOLP (World Oral Language Project) to prevent the language from the brink of extinction.</p>
 <p>He is trying to encourage indigenous communities to collaborate with anthropologists around the world to record what he calls “oral literature” through video cameras, voice recorders and other multimedia tools by awarding grants from a £30,000 pot that the project has secured this year. The idea is to collate this literature in a digital archive that can be accessed on demand and will make the nuts and bolts of lost cultures readily available.</p>
 <p>For many of these communities, the oral tradition is at the heart of their culture. The stories they tell are creative as well as communicative. Unlike the languages with celebrated written traditions, such as Sanskrit, Hebrew and Ancient Greek, few indigenous communities have recorded their own languages or ever had them recorded until now.</p>
@@ -193,56 +249,56 @@ E Its carrying will restrict the future businesses’ expansion</p>
 <p>Yet, despite the struggles facing initiatives such as the World Oral Literature Project, there are historical examples that point to the possibility that language restoration is no mere academic pipe dream. The revival of a modern form of Hebrew in the 19th century is often cited as one of the best proofs that languages long dead, belonging to small communities, can be resurrected and embraced by a large number of people. By the 20th century, Hebrew was well on its way to becoming the main language of the Jewish population of both Ottoman and British Palestine. It is now spoken by more than seven million people in Israel.</p>
 <p>Yet, despite the difficulties these communities face in saving their languages, Dr Turin believes that the fate of the world’s endangered languages is not sealed, and globalisation is not necessarily the nefarious perpetrator of evil it is often presented to be. “I call it the globalisation paradox: on the one hand globalisation and rapid socio-economic change are the things that are eroding and challenging diversity But on the other, globalisation is providing us with new and very exciting tools and facilities to get to places to document those things that globalisation is eroding. Also, the communities at the coal-face of change are excited by what globalisation has to offer.”</p>
 <p>In the meantime, the race is on to collect and protect as many of the languages as possible, so that the Rai Shaman in eastern Nepal and those in the generations that follow him can continue their traditions and have a sense of identity. And it certainly is a race: Turin knows his project’s limits and believes it inevitable that a large number of those languages will disappear. “We have to be wholly realistic. A project like ours is in no position, and was not designed, to keep languages alive. The only people who can help languages survive are the people in those communities themselves. They need to be reminded that it’s good to speak their own language and I think we can help them do that—becoming modem doesn’t mean you have to lose your language.”</p>
-<p>Questions 27-31
+<p><strong>Questions 27-31</strong>
 Complete the summary using the list of words, A-J, below. Write the correct letter, A-J, in boxes 27-31 on your answer sheet.</p>
 <p>Of the world’s 6,500 living languages, about half of them are expected to be extinct. Most of the world’s languages are spoken by a (27)…………………of people. However, Professor Turin set up a project WOLP to prevent (28)……………….of the languages. The project provides the community with (29)………………….to enable people to record their endangered languages. The oral tradition has great cultural (30)……………….. An important (31)………………..between languages spoken by few people and languages with celebrated written documents existed in many communities.</p>
-<p>A similarity
-B significance
-C funding
-D minority
-E education
-F difference
-G education
-H diversity
-I majority
-J disappearance</p>
-<p>Questions 32-35
+<p><strong>A</strong> similarity
+<strong>B</strong> significance
+<strong>C</strong> funding
+<strong>D</strong> minority
+<strong>E</strong> education
+<strong>F</strong> difference
+<strong>G</strong> education
+<strong>H</strong> diversity
+<strong>I</strong> majority
+<strong>J</strong> disappearance</p>
+<p><strong>Questions 32-35</strong>
 Do the following statements agree with the information given in Reading Passage 3? In boxes 32-35 on you answer sheet, write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>32. Turin argued that anthropologists and linguists usually think carefully before selecting an area to research.
 33. Turin concluded that the Thangmi language had few similarities with other languages.
 34. Turin has written that 1000-page document was inappropriate for Thangmi community;
 35. Some Nepalese schools lack resources to devote to language teaching.</p>
-<p>Questions 36-40
+<p><strong>Questions 36-40</strong>
 Choose the correct letter, A, B, C or D. Write the correct letter in boxes 36-40 on your answer sheet.</p>
 <p>36. Why does Turin say people do PhDs on the apostrophe in French?
-A He believes that researchers have limited role in the research of languages.
-B He compares the methods of research into languages.
-C He thinks research should result in a diverse cultural outlook.
-D He holds that research into French should focus on more general aspects.</p>
+<strong>A</strong> He believes that researchers have limited role in the research of languages.
+<strong>B</strong> He compares the methods of research into languages.
+<strong>C</strong> He thinks research should result in a diverse cultural outlook.
+<strong>D</strong> He holds that research into French should focus on more general aspects.</p>
 <p>37. What is discussed in the ninth paragraph?
-A Forces driving people to believe endangered languages can survive.
-B The community where people distrust language revival.
-C The methods of research that have improved language restoration.
-D Initiatives the World Oral Literature Project is bringing to Israel.</p>
+<strong>A</strong> Forces driving people to believe endangered languages can survive.
+<strong>B</strong> The community where people distrust language revival.
+<strong>C</strong> The methods of research that have improved language restoration.
+<strong>D</strong> Initiatives the World Oral Literature Project is bringing to Israel.</p>
 <p>38. How is the WOLP’s prospect?
-A It would not raise enough funds to achieve its aims.
-B It will help keep languages alive.
-C It will be embraced by a large number of people.
-D It has chance to succeed to protect the engendered languages.</p>
+<strong>A</strong> It would not raise enough funds to achieve its aims.
+<strong>B</strong> It will help keep languages alive.
+<strong>C</strong> It will be embraced by a large number of people.
+<strong>D</strong> It has chance to succeed to protect the engendered languages.</p>
 <p>39. What is Turin’s main point of globalisation?
-A Globalisation is the main reason for endangered language.
-B Globalisation has both advantages and disadvantages.
-C We should have a more critical view of globalisation.
-D We should foremost protect our identity in face of globalisation.</p>
+<strong>A</strong> Globalisation is the main reason for endangered language.
+<strong>B</strong> Globalisation has both advantages and disadvantages.
+<strong>C</strong> We should have a more critical view of globalisation.
+<strong>D</strong> We should foremost protect our identity in face of globalisation.</p>
 <p>40. What does Turin suggest that community people should do?
-A Learn other languages.
-B Only have a sense of identity.
-C Keep up with the modem society without losing their language.
-D Join the race to protect as many languages as possible but be realistic.</p>
-<p>ANSWER KEY</p>
+<strong>A</strong> Learn other languages.
+<strong>B</strong> Only have a sense of identity.
+<strong>C</strong> Keep up with the modem society without losing their language.
+<strong>D</strong> Join the race to protect as many languages as possible but be realistic.</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. E</p>
 <p>2. G</p>
 <p>3. D</p>
@@ -501,6 +557,29 @@ D Join the race to protect as many languages as possible but be realistic.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -520,12 +599,23 @@ D Join the race to protect as many languages as possible but be realistic.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -537,14 +627,6 @@ D Join the race to protect as many languages as possible but be realistic.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

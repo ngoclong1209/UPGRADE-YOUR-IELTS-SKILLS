@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,126 +158,126 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_104</h1>
-            <p>IELTS Listening Practice - Test 104</p>
-<p>Part 1: Questions 1-4
-Complete the form below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
+            <h3 class="test-heading"><strong>IELTS Listening Practice - Test 104</strong></h3>
+<p><strong>Part 1: </strong><strong>Questions 1-4</strong>
+Complete the form below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
 <p>Model – Ford Fiesta</p>
-<p>Registration: 3R1 (1)  _______ 
-Current mileage: (2)  _______  miles
+<p>Registration: 3R1 <strong>(1)</strong>  _______ 
+Current mileage: <strong>(2)</strong>  _______  miles
 Estimated yearly mileage: 6,000 a year
-Overnight parking: (3)  _______ 
-Cover: third party (4)  _______ 
+Overnight parking: <strong>(3)</strong>  _______ 
+Cover: third party <strong>(4)</strong>  _______ 
 No claim bonus: 6 years</p>
-<p>Questions 5-7
-Choose THREE letters A-G.</p>
+<p><strong>Questions 5-7</strong>
+Choose <strong>THREE</strong> letters A-G.</p>
 <p>Which additional cover does Liam want?</p>
-<p>[ ]  A legal
-[ ]  B 14 day cover courtesy car
-[ ]  C driver injury
-[ ]  D protected no claim bonus
-[ ]  E breakdown
-[ ]  F lost car key
-[ ]  G windscreen</p>
-<p>Questions 8-10
-Complete the form below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
+<p><strong>[ ] </strong><strong> A</strong> legal
+<strong>[ ] </strong><strong> B</strong> 14 day cover courtesy car
+<strong>[ ] </strong><strong> C</strong> driver injury
+<strong>[ ] </strong><strong> D</strong> protected no claim bonus
+<strong>[ ] </strong><strong> E</strong> breakdown
+<strong>[ ] </strong><strong> F</strong> lost car key
+<strong>[ ] </strong><strong> G</strong> windscreen</p>
+<p><strong>Questions 8-10</strong>
+Complete the form below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
 <p>Name: Liam Byrd
 Address: 35 Bottiville Crescent, Birmingham
-Postcode: (8)  _______ 
+Postcode: <strong>(8)</strong>  _______ 
 Date of birth: 11/11/1969
 Telephone: 0121 677 9887
-Payment by: (9)  _______ 
+Payment by: <strong>(9)</strong>  _______ 
 Card number: **** 1551
 Security number: ***
-How did the customer hear about Hartline? (10)  _______</p>
-<p>Part 2: Questions 11-14
-Complete the sentences below. Write NO MORE THAN THREE WORDS AND/ OR A NUMBER for each answer.</p>
+How did the customer hear about Hartline? <strong>(10)</strong>  _______</p>
+<p><strong>Part 2: Questions 11-14</strong>
+Complete the sentences below. Write <strong>NO MORE THAN THREE WORDS AND/ OR A NUMBER</strong> for each answer.</p>
 <p>11. Every year more than  _______  people try to climb Mont Blanc.
 12. Approximately  _______  reach the top every day in the summer months.
 13. In July 2007 there were 30 fatalities, chiefly due to  _______ 
 14. One danger is  _______  caused by other climbers.</p>
-<p>Questions 15-17
+<p><strong>Questions 15-17</strong>
 Choose the correct letter A, B or C.</p>
 <p>15. How did Katherine do her most recent climb?
-[ ]  A in a group
-[ ]  B with a guide
-[ ]  C on her own</p>
+<strong>[ ] </strong><strong> A</strong> in a group
+<strong>[ ] </strong><strong> B</strong> with a guide
+<strong>[ ] </strong><strong> C</strong> on her own</p>
 <p>16. Why did Katherine find her first climb on Mont Blanc difficult?
-[ ]  A because of poor weather conditions
-[ ]  B because of the time she was climbing
-[ ]  C because the route was crowded</p>
+<strong>[ ] </strong><strong> A</strong> because of poor weather conditions
+<strong>[ ] </strong><strong> B</strong> because of the time she was climbing
+<strong>[ ] </strong><strong> C</strong> because the route was crowded</p>
 <p>17. What did Katherine do on her second climb that made it easier?
-[ ]  A she spent a few days in Charnonix beforehand
-[ ]  B she did the climb over two days
-[ ]  C she climbed smaller peaks for training</p>
-<p>Questions 18-20
-Choose THREE letters A-F.</p>
+<strong>[ ] </strong><strong> A</strong> she spent a few days in Charnonix beforehand
+<strong>[ ] </strong><strong> B</strong> she did the climb over two days
+<strong>[ ] </strong><strong> C</strong> she climbed smaller peaks for training</p>
+<p><strong>Questions 18-20</strong>
+Choose <strong>THREE</strong> letters A-F.</p>
 <p>What has experience taught Katherine about climbing Mont Blanc?</p>
-<p>[ ]  A be in good physical condition
-[ ]  B have the right climbing equipment
-[ ]  C wear several layers of clothing
-[ ]  D protect yourself from the sun
-[ ]  E climb with others
-[ ]  F acclimatize yourself to the altitude first</p>
-<p>Part 3: Questions 21-23
-Write NO MORE THAN THREE WORDS for each answer.</p>
+<p><strong>[ ] </strong><strong> A</strong> be in good physical condition
+<strong>[ ] </strong><strong> B</strong> have the right climbing equipment
+<strong>[ ] </strong><strong> C</strong> wear several layers of clothing
+<strong>[ ] </strong><strong> D</strong> protect yourself from the sun
+<strong>[ ] </strong><strong> E</strong> climb with others
+<strong>[ ] </strong><strong> F</strong> acclimatize yourself to the altitude first</p>
+<p><strong>Part 3: Questions 21-23</strong>
+Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
 <p>21. When do Elaine and Adam decide to meet for revision?  _______</p>
 <p>22. What item does Adam think will help them work independently on revision?  _______</p>
 <p>23. How does Elaine suggest they spend their revision time between meetings?  _______</p>
-<p>Questions 24-28
-Complete the sentences below. Write NO MORE THAN THREE WORDS for each answer.</p>
+<p><strong>Questions 24-28</strong>
+Complete the sentences below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
 <p>24. It’s best to avoid notes  _______</p>
 <p>25. Relate  _______  to key theories and arguments.</p>
 <p>26. Using diagrams can help keep a lot of information  _______</p>
 <p>27. Bullet points can enable you to highlight  _______</p>
 <p>28. Keep a record of your sources, such as the  _______</p>
-<p>Questions 29 and 30
+<p><strong>Questions 29 and 30</strong>
 Choose the correct letter A, B or C.</p>
 <p>29. In future revision sessions Adam suggests using past papers
-[ ]  A to try to predict future exam questions
-[ ]  B to test each other
-[ ]  C to discuss the questions</p>
+<strong>[ ] </strong><strong> A</strong> to try to predict future exam questions
+<strong>[ ] </strong><strong> B</strong> to test each other
+<strong>[ ] </strong><strong> C</strong> to discuss the questions</p>
 <p>30. Elaine suggests
-[ ]  A adding essay practice to the timetable
-[ ]  B doing essays under exam conditions
-[ ]  C asking a tutor to mark their essays</p>
-<p>Part 4: Questions 31-33
+<strong>[ ] </strong><strong> A</strong> adding essay practice to the timetable
+<strong>[ ] </strong><strong> B</strong> doing essays under exam conditions
+<strong>[ ] </strong><strong> C</strong> asking a tutor to mark their essays</p>
+<p><strong>Part 4: Questions 31-33</strong>
 Choose the correct letter A, B or C.</p>
 <p>31. According to the text, shared space
-[ ]  A is very popular in the Netherlands
-[ ]  B reduces the number of cars in an area
-[ ]  C improves the dynamic between drivers and pedestrians</p>
+<strong>[ ] </strong><strong> A</strong> is very popular in the Netherlands
+<strong>[ ] </strong><strong> B</strong> reduces the number of cars in an area
+<strong>[ ] </strong><strong> C</strong> improves the dynamic between drivers and pedestrians</p>
 <p>32. Shared space design results in
-[ ]  A fewer road signs
-[ ]  B stronger boundaries between pedestrians and motorists
-[ ]  C increased local employment</p>
+<strong>[ ] </strong><strong> A</strong> fewer road signs
+<strong>[ ] </strong><strong> B</strong> stronger boundaries between pedestrians and motorists
+<strong>[ ] </strong><strong> C</strong> increased local employment</p>
 <p>33. Supporters of shared space argue that it
-[ ]  A leads to new businesses opening
-[ ]  B makes people happier to shop in the area
-[ ]  C encourages wildlife</p>
-<p>Questions 34-37
+<strong>[ ] </strong><strong> A</strong> leads to new businesses opening
+<strong>[ ] </strong><strong> B</strong> makes people happier to shop in the area
+<strong>[ ] </strong><strong> C</strong> encourages wildlife</p>
+<p><strong>Questions 34-37</strong>
 Match the groups A-D with their concerns about shared space 34-37.</p>
-<p>A Motorists
-B Blind people
-C Cyclists
-D Supporters of shared space</p>
+<p><strong>A</strong> Motorists
+<strong>B</strong> Blind people
+<strong>C</strong> Cyclists
+<strong>D</strong> Supporters of shared space</p>
 <p>34. Insufficient experience amongst planners  _______ 
 35. A lack of important signage  _______ 
 36. Intimidation by motorists  _______ 
 37. The loss of familiar street furniture  _______</p>
-<p>Questions 38 and 39
-Choose TWO letters A-D.</p>
+<p><strong>Questions 38 and 39</strong>
+Choose <strong>TWO</strong> letters A-D.</p>
 <p>People will be able to answer the questions</p>
-<p>[ ]  A on the internet
-[ ]  B at the local library
-[ ]  C at the proposed site
-[ ]  D at home</p>
-<p>Question 40
+<p><strong>[ ] </strong><strong> A</strong> on the internet
+<strong>[ ] </strong><strong> B</strong> at the local library
+<strong>[ ] </strong><strong> C</strong> at the proposed site
+<strong>[ ] </strong><strong> D</strong> at home</p>
+<p><strong>Question 40</strong>
 Choose the correct letter A, B or C.</p>
 <p>40. Questions must be designed so that they
-[ ]  A do not reflect the views of the campaign group
-[ ]  B do not require an understanding of shared space
-[ ]  C are easy to answer.</p>
-<p>ANSWER KEY</p>
+<strong>[ ] </strong><strong> A</strong> do not reflect the views of the campaign group
+<strong>[ ] </strong><strong> B</strong> do not require an understanding of shared space
+<strong>[ ] </strong><strong> C</strong> are easy to answer.</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. JTW</p>
 <p>2. 90,000</p>
 <p>3. on the road</p>
@@ -480,6 +536,29 @@ Choose the correct letter A, B or C.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -499,12 +578,23 @@ Choose the correct letter A, B or C.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -516,14 +606,6 @@ Choose the correct letter A, B or C.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

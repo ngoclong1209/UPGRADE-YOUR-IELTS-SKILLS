@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,44 +158,44 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_127</h1>
-            <p>IELTS Reading Practice - Test 127</p>
-<p>FINDING THE LOST FREEDOM</p>
-<p>1. The private car is assumed to have widened our horizons and increased our mobility. When we consider our children’s mobility, they can be driven to more places (and more distant places) than they could visit without access to a motor vehicle. However, allowing our cities to be dominated by cars has progressively eroded children’s independent mobility. Children have lost much of their freedom to explore their own neighbourhood or city without adult supervision. In recent surveys, when parents in some cities were asked about their own childhood experiences, the majority remembered having more, or far more, opportunities for going out on their own, compared with their own children today. They had more freedom to explore their own environment.</p>
-<p>2. Children’s independent access to their local streets may be important for their own personal, mental and psychological development. Allowing them to get to know their own neighbourhood and community gives them a ‘sense of place’. This depends on active exploration’, which is not provided for when children are passengers in cars. (Such children may see more, but they learn less.) Not only is it important that children be able to get to local play areas by themselves, but walking and cycling journeys to school and to other destinations provide genuine play activities in themselves.</p>
-<p>3. There are very significant time and money costs for parents associated with transporting their children to school, sport and to other locations. Research in the United Kingdom estimated that this cost, in 1990, was between 10 billion and 20 billion pounds.</p>
-<p>4. The reduction in children’s freedom may also contribute to a weakening of the sense of local community. As fewer children and adults use the streets as pedestrians, these streets become less sociable places. There is less opportunity for children and adults to have the spontaneous of the community. This in itself may exacerbate fears associated with assault and molestation of children, because there are fewer adults available who know their neighbours’ children, and who can look out for their safety.</p>
-<p>5. The extra traffic involved in transporting children results in increased traffic congestion, pollution and accident risk. As our roads become more dangerous, more parents drive their children to more places, thus contributing to increased levels of danger for the remaining pedestrians. Anyone who has experienced either the reduced volume of traffic in peak hour during school holidays, or the traffic jams near schools at the end of a school day, will not need convincing about these points. Thus, there are also important environmental implications of children’s loss of freedom.</p>
-<p>6. As individuals, parents strive to provide the best upbringing they can for their children. However, in doing so, (e.g. by driving their children to sport, school or recreation) parents may be contributing to a more dangerous environment for children generally. The idea that ‘streets are for cars and backyards and playgrounds are for children’ is a strongly held belief, and parents have little choice as individuals but to keep their children off the streets if they want to protect their safety.</p>
-<p>7. In many parts of Dutch cities, and some traffic calmed precincts in Germany, residential streets are now places where cars must give way to pedestrians. In these areas, residents are accepting the view that the function of streets is not solely to provide mobility for cars. Streets may also be for social interaction, walking, cycling and playing. One of the most important aspects of these European cities, in terms of giving cities back to children, has been a range of ‘traffic calming’ initiatives, aimed at reducing the volume and speed of traffic. These initiatives have had complex interactive effects, leading to a sense that children have been able to ‘recapture’ their local neighbourhood, and more importantly, that they have been able to do this in safety. Recent research has demonstrated that children in many German cities have significantly higher levels of freedom to travel to places in their own neighbourhood or city than children in other cities in the world.</p>
-<p>8. Modifying cities in order to enhance children’s freedom will not only benefit children. Such cities will become more environmentally sustainable, as well as more sociable and more livable for all city residents. Perhaps it will be our concern for our children’s welfare that convinces us that we need to challenge the dominance of the car in our cities.</p>
-<p>Questions 1 – 5
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 127</strong></h3>
+<h3 class="test-heading"><strong>FINDING THE LOST FREEDOM</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>1</strong>. The private car is assumed to have widened our horizons and increased our mobility. When we consider our children’s mobility, they can be driven to more places (and more distant places) than they could visit without access to a motor vehicle. However, allowing our cities to be dominated by cars has progressively eroded children’s independent mobility. Children have lost much of their freedom to explore their own neighbourhood or city without adult supervision. In recent surveys, when parents in some cities were asked about their own childhood experiences, the majority remembered having more, or far more, opportunities for going out on their own, compared with their own children today. They had more freedom to explore their own environment.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>2</strong>. Children’s independent access to their local streets may be important for their own personal, mental and psychological development. Allowing them to get to know their own neighbourhood and community gives them a ‘sense of place’. This depends on active exploration’, which is not provided for when children are passengers in cars. (Such children may see more, but they learn less.) Not only is it important that children be able to get to local play areas by themselves, but walking and cycling journeys to school and to other destinations provide genuine play activities in themselves.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>3</strong>. There are very significant time and money costs for parents associated with transporting their children to school, sport and to other locations. Research in the United Kingdom estimated that this cost, in 1990, was between 10 billion and 20 billion pounds.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>4</strong>. The reduction in children’s freedom may also contribute to a weakening of the sense of local community. As fewer children and adults use the streets as pedestrians, these streets become less sociable places. There is less opportunity for children and adults to have the spontaneous of the community. This in itself may exacerbate fears associated with assault and molestation of children, because there are fewer adults available who know their neighbours’ children, and who can look out for their safety.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>5</strong>. The extra traffic involved in transporting children results in increased traffic congestion, pollution and accident risk. As our roads become more dangerous, more parents drive their children to more places, thus contributing to increased levels of danger for the remaining pedestrians. Anyone who has experienced either the reduced volume of traffic in peak hour during school holidays, or the traffic jams near schools at the end of a school day, will not need convincing about these points. Thus, there are also important environmental implications of children’s loss of freedom.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>6</strong>. As individuals, parents strive to provide the best upbringing they can for their children. However, in doing so, (e.g. by driving their children to sport, school or recreation) parents may be contributing to a more dangerous environment for children generally. The idea that ‘streets are for cars and backyards and playgrounds are for children’ is a strongly held belief, and parents have little choice as individuals but to keep their children off the streets if they want to protect their safety.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>7</strong>. In many parts of Dutch cities, and some traffic calmed precincts in Germany, residential streets are now places where cars must give way to pedestrians. In these areas, residents are accepting the view that the function of streets is not solely to provide mobility for cars. Streets may also be for social interaction, walking, cycling and playing. One of the most important aspects of these European cities, in terms of giving cities back to children, has been a range of ‘traffic calming’ initiatives, aimed at reducing the volume and speed of traffic. These initiatives have had complex interactive effects, leading to a sense that children have been able to ‘recapture’ their local neighbourhood, and more importantly, that they have been able to do this in safety. Recent research has demonstrated that children in many German cities have significantly higher levels of freedom to travel to places in their own neighbourhood or city than children in other cities in the world.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p><strong>8</strong>. Modifying cities in order to enhance children’s freedom will not only benefit children. Such cities will become more environmentally sustainable, as well as more sociable and more livable for all city residents. Perhaps it will be our concern for our children’s welfare that convinces us that we need to challenge the dominance of the car in our cities.</p></div></div>
+<p><strong>Questions 1 – 5</strong>
 Read statements 1-5 which relate to Paragraphs 1, 2, and 3 of the reading passage. Write
-TRUE                        if the statement is true
-FALSE                     if the statement is false
-NOT GIVEN           if there is no information given in the passage.</p>
-<p>Questions 6 – 9
-In Paragraphs 4 and 5, there are FOUR problems stated. These problems, numbered as questions 6-9, are listed below.
+<strong>TRUE</strong>                        if the statement is true
+<strong>FALSE                     </strong>if the statement is false
+<strong>NOT GIVEN</strong>           if there is no information given in the passage.</p>
+<p><strong>Questions 6 – 9</strong>
+In Paragraphs 4 and 5, there are <strong>FOUR</strong> problems stated. These problems, numbered as questions 6-9, are listed below.
 Each of these problems has a cause, listed A – G.</p>
 <p>Find the correct cause for each of the problems.</p>
 <p>Write the corresponding letter A -G, in the spaces numbered 6 – 9 on the answer sheet.</p>
 <p>One has been done for you as an example.</p>
 <p>There are more causes than problems so you will not use all of them and you may use any cause more than once</p>
-<p>Problem</p>
+<p><strong>Problem</strong></p>
 <p>Example: low sense of community feeling</p>
 <p>6. streets become less sociable
 7. fewer chances for meeting friends
 8. fears of danger for children
 9. higher accident risk</p>
-<p>Causes</p>
+<p><strong>Causes</strong></p>
 <p>Answer: F</p>
-<p>A few adults know local children
-B fewer people use the streets
-C increased pollution
-D streets are less friendly
-E less traffic in school holidays
-F reduced freedom for children
-G more children driven to school</p>
-<p>Questions 10 – 14
+<p><strong>A</strong> few adults know local children
+<strong>B</strong> fewer people use the streets
+<strong>C</strong> increased pollution
+<strong>D</strong> streets are less friendly
+<strong>E</strong> less traffic in school holidays
+<strong>F</strong> reduced freedom for children
+<strong>G</strong> more children driven to school</p>
+<p><strong>Questions 10 – 14</strong>
 Questions 10 -14 are statement beginnings which represent information given in Paragraphs 6, 7 and 8.
 In the box below, there are some statement endings numbered i-x.
 Choose the correct ending for each statement.</p>
@@ -152,7 +208,7 @@ There are more statement endings than you will need.</p>
 12. Streets should also be used for …
 13. Reducing the amount of traffic and the speed is …
 14. All people who live in the city will benefit if cities are …</p>
-<p>List of statement endings</p>
+<p><strong>List of statement endings</strong></p>
 <p>i … a dangerous environment.
 ii … modified.
 iii …on residential streets.
@@ -163,16 +219,16 @@ vii …in backyards.
 viii …for cars.
 ix … traffic calming.
 x … residential</p>
-<p>Investigating Children’s Language</p>
-<p>A For over 200 years, there has been an interest in the way children learn to speak and understand their first language. Scholars carried out several small-scale studies, especially towards the end of the 19th century, using data they recorded in parental diaries. But detailed, systematic investigation did not begin until the middle decades of the 20th century when the tape recorder came into routine use. This made it possible to keep a permanent record of samples of child speech so that analysts could listen repeatedly to obscure extracts, and thus produce a detailed and accurate description. Since then, the subject has attracted enormous multi-disciplinary interest, notably from linguists and psychologists, who have used a variety of observational and experimental techniques to study the process of language acquisition in depth.</p>
-<p>B Central to the success of this rapidly emerging field lies the ability of researchers to devise satisfactory methods for eliciting linguistic data from children. The problems that have to be faced are quite different from those encountered when working with adults. Many of the linguist’s routine techniques of enquiry cannot be used with children. It is not possible to carry out certain kinds of experiments, because aspects of children’s cognitive development – such as their ability to pay attention or to remember instructions – may not be sufficiently advanced. Nor is it easy to get children to make systematic judgments about language, a task that is virtually impossible below the age of three. And anyone who has tried to obtain even the most basic kind of data – a tape recording of a representative sample of a child’s speech – knows how frustrating this can be. Some children, it seems, are innately programmed to switch off as soon as they notice a tape recorder being switched on.</p>
-<p>C Since the 1960s, however, several sophisticated recording techniques and experimental designs have been devised. Children can be observed and recorded through one-way-vision windows or using radio microphones so that the effects of having an investigator in the same room as the child can be eliminated. Large-scale sampling programmes have been carried out, with children sometimes being recorded for several years. Particular attention has been paid to devising experimental techniques that fall well within a child’s intellectual level and social experience. Even pre-linguistic infants have been brought into the research: acoustic techniques are used to analyse their vocalisations, and their ability to perceive the world around them is monitored using special recording equipment. The result has been a growing body of reliable data on the stages of language acquisition from birth until puberty.</p>
-<p>D There is no single way of studying children’s language. Linguistics and psychology have each brought their own approach to the subject, and many variations have been introduced to cope with the variety of activities in which children engage, and the great age range that they present. Two main research paradigms are found.</p>
-<p>E One of these is known as ‘naturalistic sampling’. A sample of a child’s spontaneous use of language is recorded in familiar and comfortable surroundings. One of the best places to make the recording is in the child’s own home, but it is not always easy to maintain good acoustic quality, and the presence of the researcher or the recording equipment can be a distraction (especially if the proceedings are being filmed). Alternatively, the recording can be made in a research centre, where the child is allowed to play freely with toys while talking to parents or other children, and the observers and their equipment are unobtrusive.</p>
-<p>F A good quality, representative, naturalistic sample is generally considered an ideal datum for child language study. However, the method has several limitations. These samples are informative about speech production, but they give little guidance about children’s comprehension of what they hear around them. Moreover, samples cannot contain everything, and they can easily miss some important features of a child’s linguistic ability. They may also not provide enough instances of a developing feature to enable the analyst to make a decision about the way the child is learning. For such reasons, the description of samples of child speech has to be supplemented by other methods.</p>
-<p>G The other main approach is through experimentation, and the methods of experimental psychology have been widely applied to child language research. The investigator formulates a specific hypothesis about children’s ability to use or understand an aspect of language and devises a relevant task for a group of subjects to undertake. A statistical analysis is made of the subjects’ behaviour, and the results provide evidence that supports or falsifies the original hypothesis.</p>
-<p>H Using this approach, as well as other methods of controlled observation, researchers have come up with many detailed findings about the production and comprehension of groups of children. However, it is not easy to generalise the findings of these studies. What may obtain in a carefully controlled setting may not apply in the rush of daily interaction. Different kinds of subjects, experimental situations, and statistical procedures may produce different results or interpretations. Experimental research is, therefore, a slow, painstaking business; it may take years before researchers are convinced that all variables have been considered and a finding is genuine.</p>
-<p>Questions 15 – 19
+<p><strong>Investigating Children’s Language</strong></p>
+<p><strong>A</strong> For over 200 years, there has been an interest in the way children learn to speak and understand their first language. Scholars carried out several small-scale studies, especially towards the end of the 19th century, using data they recorded in parental diaries. But detailed, systematic investigation did not begin until the middle decades of the 20th century when the tape recorder came into routine use. This made it possible to keep a permanent record of samples of child speech so that analysts could listen repeatedly to obscure extracts, and thus produce a detailed and accurate description. Since then, the subject has attracted enormous multi-disciplinary interest, notably from linguists and psychologists, who have used a variety of observational and experimental techniques to study the process of language acquisition in depth.</p>
+<p><strong>B</strong> Central to the success of this rapidly emerging field lies the ability of researchers to devise satisfactory methods for eliciting linguistic data from children. The problems that have to be faced are quite different from those encountered when working with adults. Many of the linguist’s routine techniques of enquiry cannot be used with children. It is not possible to carry out certain kinds of experiments, because aspects of children’s cognitive development – such as their ability to pay attention or to remember instructions – may not be sufficiently advanced. Nor is it easy to get children to make systematic judgments about language, a task that is virtually impossible below the age of three. And anyone who has tried to obtain even the most basic kind of data – a tape recording of a representative sample of a child’s speech – knows how frustrating this can be. Some children, it seems, are innately programmed to switch off as soon as they notice a tape recorder being switched on.</p>
+<p><strong>C</strong> Since the 1960s, however, several sophisticated recording techniques and experimental designs have been devised. Children can be observed and recorded through one-way-vision windows or using radio microphones so that the effects of having an investigator in the same room as the child can be eliminated. Large-scale sampling programmes have been carried out, with children sometimes being recorded for several years. Particular attention has been paid to devising experimental techniques that fall well within a child’s intellectual level and social experience. Even pre-linguistic infants have been brought into the research: acoustic techniques are used to analyse their vocalisations, and their ability to perceive the world around them is monitored using special recording equipment. The result has been a growing body of reliable data on the stages of language acquisition from birth until puberty.</p>
+<p><strong>D</strong> There is no single way of studying children’s language. Linguistics and psychology have each brought their own approach to the subject, and many variations have been introduced to cope with the variety of activities in which children engage, and the great age range that they present. Two main research paradigms are found.</p>
+<p><strong>E</strong> One of these is known as ‘naturalistic sampling’. A sample of a child’s spontaneous use of language is recorded in familiar and comfortable surroundings. One of the best places to make the recording is in the child’s own home, but it is not always easy to maintain good acoustic quality, and the presence of the researcher or the recording equipment can be a distraction (especially if the proceedings are being filmed). Alternatively, the recording can be made in a research centre, where the child is allowed to play freely with toys while talking to parents or other children, and the observers and their equipment are unobtrusive.</p>
+<p><strong>F</strong> A good quality, representative, naturalistic sample is generally considered an ideal datum for child language study. However, the method has several limitations. These samples are informative about speech production, but they give little guidance about children’s comprehension of what they hear around them. Moreover, samples cannot contain everything, and they can easily miss some important features of a child’s linguistic ability. They may also not provide enough instances of a developing feature to enable the analyst to make a decision about the way the child is learning. For such reasons, the description of samples of child speech has to be supplemented by other methods.</p>
+<p><strong>G</strong> The other main approach is through experimentation, and the methods of experimental psychology have been widely applied to child language research. The investigator formulates a specific hypothesis about children’s ability to use or understand an aspect of language and devises a relevant task for a group of subjects to undertake. A statistical analysis is made of the subjects’ behaviour, and the results provide evidence that supports or falsifies the original hypothesis.</p>
+<p><strong>H</strong> Using this approach, as well as other methods of controlled observation, researchers have come up with many detailed findings about the production and comprehension of groups of children. However, it is not easy to generalise the findings of these studies. What may obtain in a carefully controlled setting may not apply in the rush of daily interaction. Different kinds of subjects, experimental situations, and statistical procedures may produce different results or interpretations. Experimental research is, therefore, a slow, painstaking business; it may take years before researchers are convinced that all variables have been considered and a finding is genuine.</p>
+<p><strong>Questions 15 – 19</strong>
 Reading Passage has eight paragraphs, A-H.
 Which paragraphs contains the following information?</p>
 <p>Write the correct letter A-H in boxes 1-5 on your answer sheet.</p>
@@ -182,22 +238,22 @@ Which paragraphs contains the following information?</p>
 17 the differences between analysing children’s and adults’ language
 18 the ability to record children without them seeing the researcher
 19 the drawbacks of recording children in an environment they know</p>
-<p>Questions 20 – 23
+<p><strong>Questions 20 – 23</strong>
 Do the following statements agree with the information given in Reading Passage?</p>
 <p>In boxes 20-23 on your answer sheet, write</p>
-<p>TRUE                         if the statement agrees with the information
-FALSE                       if the statement contradicts the information
-NOT GIVEN           if there is no information on this</p>
+<p><strong>TRUE</strong>                         if the statement agrees with the information
+<strong>FALSE</strong>                       if the statement contradicts the information
+<strong>NOT GIVEN</strong>           if there is no information on this</p>
 <p>20 In the 19th century, researchers studied their own children’s language.
 21 Attempts to elicit very young children’s opinions about language are likely to fail.
 22 Radio microphones are used because they enable researchers to communicate with a number of children in different rooms.
 23 Many children enjoy the interaction with the researcher.</p>
-<p>Question 24 – 28
-Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
+<p><strong>Question 24 – 28</strong>
+Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p>Write your answers in boxes 24-28 on your answer sheet.</p>
 <p>Ways of investigating children’s language
 One method of carrying out research is to record children’s spontaneous language use. This can be done in their homes, where, however, it may be difficult to ensure that the recording is of acceptable 24………………… Another venue which is often used is a 25……………….., where the researcher can avoid distracting the child. A drawback of this method is that it does not allow children to demonstrate their comprehension. An alternative approach is to use methodology from the field of 26………………… In this case, a number of children are asked to carry out a 27 ……………….., and the results are subjected to a 28…………………</p>
-<p>An Era of Abundance</p>
+<p><strong>An Era of Abundance</strong></p>
 <p>Our knowledge of the complex pathways underlying digestive processes is rapidly expanding, although there is still a great deal we do not fully understand. On the one hand, digestion, like any other major human biological system, is astonishing in its intricacy and cleverness. Our bodies manage to extract the complex resources needed to survive, despite sharply varying conditions, while at the same time, filtering out a multiplicity of toxins.</p>
 <p>On the other hand, our bodies evolved in a very different era. Our digestive processes, in particular, are optimized for a situation that is dramatically dissimilar to the one we find ourselves in. For most of our biological heritage, there was a high likelihood that the next foraging or hunting season (and for a brief, relatively recent period, the next planting season) might be catastrophically lean. So it made sense for our bodies to hold on to every possible calorie. Today, this biological strategy is extremely counterproductive. Our outdated metabolic programming underlies our contemporary epidemic of obesity and fuels pathological processes of degenerative disease such as coronary artery disease, and type II diabetes.</p>
 <p>Up until recently (on an evolutionary time scale), it was not in the interest of the species for old people like myself (I was born in 1948) to use up the limited resources of the clan. Evolution favored a short life span – life expectancy was 37 years only two centuries ago – so these restricted reserves could be devoted to the young, those caring for them, and laborers strong enough to perform intense physical work.</p>
@@ -207,24 +263,24 @@ One method of carrying out research is to record children’s spontaneous langua
 <p>In an intermediate phase, nanobots in the digestive tract and bloodstream will intelligently extract the precise nutrients we need, call for needed additional nutrients and supplements through our personal wireless local area network, and send the rest of the food we eat on its way to be passed through for elimination.</p>
 <p>If this seems futuristic, keep in mind that intelligent machines are already making their way into our blood stream. There are dozens of projects underway to create blood -stream-based “biological microelectromechanical systems” (bioMEMS) with a wide range of diagnostic and therapeutic applications. BioMEMS devices are being designed to intelligently scout out pathogens and deliver medications in very precise ways.</p>
 <p>For example, a researcher at the University of Illinois at Chicago has created a tiny capsule with pores measuring only seven nanometers. The pores let insulin out in a controlled manner but prevent antibodies from invading the pancreatic Islet cells inside the capsule. These nanoengineered devices have cured rats with type I diabetes, and there is no reason that the same methodology would fail to work in humans. Similar systems could precisely deliver dopamine to the brain for Parkinson’s patients, provide blood – clotting factors for patients with hemophilia, and deliver cancer drugs directly to tumor sites. A new design provides up to 20 substance- containing reservoirs that can release their cargo at programmed times and locations in the body. A new world is on the horizon and you will be part of it.</p>
-<p>Questions 29 – 36
-Complete the summary below. Choose NO MORE THAN THREE WORDS from the passage for each answer.</p>
+<p><strong>Questions 29 – 36</strong>
+Complete the summary below. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.</p>
 <p>In the past it was essential to hoard our calories for as long as possible because our food source was mainly restricted to 29 __________ and 30__________ which brought in irregular supplies. However, these reserves were intended for 31__________ because they had the power and energy to work hard. Nowadays, the focus has moved away from jobs on 32__________ and in 33__________ to jobs that weren’t available 34__________ . Through technology, it has now become possible to replace many body 35__________ and as techniques improve we will be able to develop better 36__________ .</p>
-<p>Questions 37 – 40
+<p><strong>Questions 37 – 40</strong>
 Complete the summary using the list of words, A-J, below.</p>
 <p>In the future, a nanobot’s ability to redesign our digestive system will be 37__________ . One function is the intelligent 38__________ of the exact nutritional requirements needed. If this all seems to be fantasy, consider a tiny machine already developed that has now been used in the treatment of 39__________ However, this has not been tried on 40__________</p>
-<p>A Parkinson’s
-B haemophilia
-C diabetes
-D humans
-E radical
-F rats
-G extract
-H radically
-I extraction
-J cells</p>
+<p><strong>A</strong> Parkinson’s
+<strong>B</strong> haemophilia
+<strong>C</strong> diabetes
+<strong>D</strong> humans
+<strong>E</strong> radical
+<strong>F</strong> rats
+<strong>G</strong> extract
+<strong>H</strong> radically
+<strong>I</strong> extraction
+<strong>J</strong> cells</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. False</p>
 <p>2. True</p>
 <p>3. Not Given</p>
@@ -483,6 +539,29 @@ J cells</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -502,12 +581,23 @@ J cells</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -519,14 +609,6 @@ J cells</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

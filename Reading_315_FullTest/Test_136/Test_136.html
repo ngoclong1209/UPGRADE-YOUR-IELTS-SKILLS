@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,27 +158,27 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_136</h1>
-            <p>IELTS Reading Practice - Test 136</p>
-<p>GOING NOWHERE FAST</p>
-<p>THIS is ludicrous! ‘We can talk to people anywhere in the world or fly to meet them in a few hours. e can even send probes to other planets. But when it comes to getting around our cities, we depend on systems that have scarcely changed since the days of Gottlieb Daimler.</p>
-<p>In recent years, the pollution belched out by millions of vehicles has dominated the debate about transport. The problem has even persuaded California – that home of car culture – to curb traffic growth. But no matter how green they become, cars are unlikely to get us around crowded cities any faster. And persuading people to use trains and buses w ill always be an uphill struggle. Cars, after all, are popular for very good reasons, as anyone with small children or heavy shopping knows.</p>
-<p>So politicians should be trying to lure people out of their cars, not forcing them out. There’s certainly no shortage of alternatives. Perhaps the most attractive is the concept known as personal rapid transit (PRT), independently invented in the US and Europe in the 1950s.</p>
-<p>The idea is to go to one of many stations and hop into a computer-controlled car, which can whisk you to your destination along a network of guideways. You wouldn’t have to share your space with strangers, and with no traffic lights, pedestrians or parked cars to slow things down, PRT guideways can carry far more traffic, non stop, than any inner city road.</p>
-<p>It’s a wonderful vision, but the odds are stacked against PRT for a number of reasons. The first cars ran on existing roads, and it was only after they became popular — and after governments started earning revenue from them-that a road network designed specifically for motor vehicles was built. With PRT, the infrastructure would have to come first-and that would cost megabucks. What’s more, any transport system that threatened the car’s dominance would be up against all those with a stake in maintaining the status quo, from private car owners to manufacturers and oil multinationals. Even if PRTs were spectacularly successful in trials, it might not make much difference. Superior technology doesn’t always triumph, as the VHS versus Betamax and Windows versus Apple Mac battles showed.</p>
-<p>But “dual-mode” systems might just succeed where PRT seems doomed to fail. The Danish RUF system envisaged by Palle Jensen, for example, resembles PRT but with one key difference: vehicles have wheels as well as a slot allowing them to travel on a monorail, so they can drive off the rail onto a normal road. Once on a road, the occupant would take over from the computer, and the RUF vehicle – the term comes from a Danish saying meaning to “go fast” – would become an electric car.</p>
-<p>Build a fast network of guideways in a busy city centre and people would have a strong incentive not just to use public RUF vehicles, but also to buy their own dual-mode vehicle. Commuters could drive onto the guideway, sit back and read as they are chauffeured into the city. At work, they would jump out, leaving their vehicles to park themselves. Unlike PRT, such a system could grow organically, as each network would serve a large area around it and people nearby could buy into it. And a dual-mode system might even win the support of car manufacturers, who could easily switch to producing dual-mode vehicles.</p>
-<p>Of course, creating a new transport system will not be cheap or easy. But unlike adding a dedicated bus lane here or extending the underground railway there, an innovative system such as Jensen’s could transform cities.</p>
-<p>And it’s not just a matter of saving a few minutes a day. According to the Red Cross, more than 30 million people have died in road accidents in the past century-three times the number killed in the First World War-and the annual death toll is rising. And what’s more, the Red Cross believes road accidents will become the third biggest cause of death and disability by 2020, ahead of diseases such as AIDS and tuberculosis. Surely we can find a better way to get around?</p>
-<p>Questions 1-6
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 136</strong></h3>
+<h3 class="test-heading"><strong>GOING NOWHERE FAST</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>THIS is ludicrous! ‘We can talk to people anywhere in the world or fly to meet them in a few hours. e can even send probes to other planets. But when it comes to getting around our cities, we depend on systems that have scarcely changed since the days of Gottlieb Daimler.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>In recent years, the pollution belched out by millions of vehicles has dominated the debate about transport. The problem has even persuaded California – that home of car culture – to curb traffic growth. But no matter how green they become, cars are unlikely to get us around crowded cities any faster. And persuading people to use trains and buses w ill always be an uphill struggle. Cars, after all, are popular for very good reasons, as anyone with small children or heavy shopping knows.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>So politicians should be trying to lure people out of their cars, not forcing them out. There’s certainly no shortage of alternatives. Perhaps the most attractive is the concept known as personal rapid transit (PRT), independently invented in the US and Europe in the 1950s.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>The idea is to go to one of many stations and hop into a computer-controlled car, which can whisk you to your destination along a network of guideways. You wouldn’t have to share your space with strangers, and with no traffic lights, pedestrians or parked cars to slow things down, PRT guideways can carry far more traffic, non stop, than any inner city road.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>It’s a wonderful vision, but the odds are stacked against PRT for a number of reasons. The first cars ran on existing roads, and it was only after they became popular — and after governments started earning revenue from them-that a road network designed specifically for motor vehicles was built. With PRT, the infrastructure would have to come first-and that would cost megabucks. What’s more, any transport system that threatened the car’s dominance would be up against all those with a stake in maintaining the status quo, from private car owners to manufacturers and oil multinationals. Even if PRTs were spectacularly successful in trials, it might not make much difference. Superior technology doesn’t always triumph, as the VHS versus Betamax and Windows versus Apple Mac battles showed.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>But “dual-mode” systems might just succeed where PRT seems doomed to fail. The Danish RUF system envisaged by Palle Jensen, for example, resembles PRT but with one key difference: vehicles have wheels as well as a slot allowing them to travel on a monorail, so they can drive off the rail onto a normal road. Once on a road, the occupant would take over from the computer, and the RUF vehicle – the term comes from a Danish saying meaning to “go fast” – would become an electric car.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>Build a fast network of guideways in a busy city centre and people would have a strong incentive not just to use public RUF vehicles, but also to buy their own dual-mode vehicle. Commuters could drive onto the guideway, sit back and read as they are chauffeured into the city. At work, they would jump out, leaving their vehicles to park themselves. Unlike PRT, such a system could grow organically, as each network would serve a large area around it and people nearby could buy into it. And a dual-mode system might even win the support of car manufacturers, who could easily switch to producing dual-mode vehicles.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>Of course, creating a new transport system will not be cheap or easy. But unlike adding a dedicated bus lane here or extending the underground railway there, an innovative system such as Jensen’s could transform cities.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>And it’s not just a matter of saving a few minutes a day. According to the Red Cross, more than 30 million people have died in road accidents in the past century-three times the number killed in the First World War-and the annual death toll is rising. And what’s more, the Red Cross believes road accidents will become the third biggest cause of death and disability by 2020, ahead of diseases such as AIDS and tuberculosis. Surely we can find a better way to get around?</p></div></div>
+<p><strong>Questions 1-6</strong>
 DO the following statements agree with the information given in Reading Passage</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN if there is no information on this</p>
-<p>Questions 7-12
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> if there is no information on this</p>
+<p><strong>Questions 7-12</strong>
 Classify the following descriptions as referring to</p>
-<p>A PRT only
-B RUF only
-C both PRT and RUF</p>
+<p><strong>A</strong> PRT only
+<strong>B</strong> RUF only
+<strong>C</strong> both PRT and RUF</p>
 <p>Write the correct letter, A, B, or C in boxes 7-12 on your answer sheet.</p>
 <p>7. It is likely to be resisted by both individuals and manufacturers.
 8. It can run at high speed in cities.
@@ -130,50 +186,50 @@ C both PRT and RUF</p>
 10. It is always controlled by a computer.
 11. It can run on existing roads.
 12. It can be bought by private buyers.</p>
-<p>Question 13
-Choose THREE letters, A-G.</p>
-<p>Which THREE of the following are advantages of the new transport system?</p>
-<p>A. economy
-B. space
-C. low pollution
-D. suitability for families
-E. speed
-F. safety
-G. suitability for children</p>
-<p>The Seedhunters</p>
-<p>A With quarter of the world’s plants set to vanish within the next 50 years, Dough Alexander reports on the scientists working against the clock the preserve the Earth’s botanical heritage. They travel the four comers of the globe, scouring jungles, forests and savannas. But they’re not looking for ancient artefacts, lost treasure or undiscovered tombs. Just pods. It may lack the romantic allure of archaeology, or the whiff of danger that accompanies going after big game, but seed hunting is an increasingly serious business. Some seek seeds for profit—hunters in the employ of biotechnology firms, pharmaceutical companies and private corporations on the lookout for species that will yield the drugs or crops of the future. Others collect to conserve, working to halt the sad slide into extinction facing so many plant species.</p>
-<p>B Among the pioneers of this botanical treasure hunt was John Tradescant, an English royal gardener who brought back plants and seeds from his journeys abroad in the early 1600s. Later, the English botanist Sir Joseph Banks-who was the first director of the Royal Botanic Gardens at Kew and travelled with Captain James Cook on his voyages near the end of the 18th century—was so driven to expand his collections that he sent botanists around the world at his own expense.</p>
-<p>C Those heady days of exploration and discovery may be over, but they have been replaced by a pressing need to preserve our natural history for the future. This modem mission drives hunters such as Dr Michiel van Slageren, a good-natured Dutchman who often sports a wide-brimmed hat in the field—he could easily be mistaken for the cinematic hero Indiana Jones. He and three other seed hunters work at the Millennium Seed Bank, an 80 million [pounds sterling] international conservation project that aims to protect the world’s most endangered wild plant species</p>
-<p>D The group’s headquarters are in a modem glass-and-concrete structure on a 200-hectare Estate at Wakehurst Place in the West Sussex countryside. Within its underground vaults are 260 million dried seeds from 122 countries, all stored at -20 Celsius to survive for centuries. Among the 5，100 species represented are virtually all of Britain’s 1,400 native seed-bearing plants, the most complete such collection of any country’s flora.</p>
-<p>E Overseen by the Royal botanic gardens, the Millennium Seed Bank is the world’s largest wild-plant depository. It aims to collect 24,000 species by 2010. The reason is simple: thanks to humanity’s efforts, an estimated 25 per cent of the world’s plants are on the verge of extinction and may vanish within 50 years. We’re currently responsible for habitat destruction on an unprecedented scale, and during the past 400 years, plant species extinction rates have been about 70 times greater than those indicated by the geological record as being ’normal’. Experts predict that during the next 50 years a further one billion hectares of wilderness will be converted to farmland in developing countries alone.</p>
-<p>F The implications of this loss are enormous. Besides providing staple food crops, plants are a source of many machines and the principal supply of fuel and building materials in many parts of the world. They also protect soil and help regulate the climate. Yet, across the globe, plant species are being driven to extinction before their potential benefits are discovered.</p>
-<p>G The world Conservation Union has listed 5,714 threatened species is sure to be much higher. In the UK alone, 300 wild plant species are classified as endangered. The Millennium Seed Bank aims to ensure that even if a plant becomes extinct in the wild，it won’t be lost forever. Stored seeds can be used the help restore damaged or destroyed environment or in scientific research to find new benefits for society- in medicine, agriculture or local industry- that would otherwise be lost.</p>
-<p>H Seed banks are an insurance policy to protect the world’s plant heritage for the future, explains Dr Paul Smith, another Kew seed hunter. “Seed conservation techniques were originally developed by farmers/’ he says. “Storage is the basis what we do, conserving seeds until you can use them-just as in farming.” Smith says there’s no reason why any plant species should become extinct, given today’s technology. But he admits that the biggest challenge is finding, naming and _ categorising all the world’s plants. And someone has to gather these seeds before it’s too late. “There aren’t a lot of people out there doing this,” he says” The key is to know the flora from a particular area, and that knowledge takes years to acquire.”</p>
-<p>I There are about 1,470 seed banks scattered around the globe, with a combined total of 5.4 million samples, of which perhaps two million are distinct non-duplicates. Most preserve genetic material for agriculture use in order to ensure crop diversity; others aim to conserve wild species, although only 15 per cent of all banked plants are wild.</p>
-<p>J Imperial College, London, examined crop collections from 151 countries and found that while the number of plant samples had increased in two thirds of the countries, budget had been cut in a quarter and remained static in another 35 per cent. Th UN’s Food and Agriculture Organization and the Consultative Group on International Agricultural Research has since set up the Global Conservation Trust, which aims to raise US $260 million to protect seed banks in perpetuity.</p>
-<p>Questions 14-18
-Use NO MORE THAN THREE WORDS from the Reading Passage.</p>
+<p><strong>Question 13</strong>
+Choose <strong>THREE</strong> letters, A-G.</p>
+<p>Which <strong>THREE</strong> of the following are advantages of the new transport system?</p>
+<p><strong>A</strong>. economy
+<strong>B</strong>. space
+<strong>C</strong>. low pollution
+<strong>D</strong>. suitability for families
+<strong>E</strong>. speed
+<strong>F</strong>. safety
+<strong>G</strong>. suitability for children</p>
+<p><strong>The Seedhunters</strong></p>
+<p><strong>A</strong> With quarter of the world’s plants set to vanish within the next 50 years, Dough Alexander reports on the scientists working against the clock the preserve the Earth’s botanical heritage. They travel the four comers of the globe, scouring jungles, forests and savannas. But they’re not looking for ancient artefacts, lost treasure or undiscovered tombs. Just pods. It may lack the romantic allure of archaeology, or the whiff of danger that accompanies going after big game, but seed hunting is an increasingly serious business. Some seek seeds for profit—hunters in the employ of biotechnology firms, pharmaceutical companies and private corporations on the lookout for species that will yield the drugs or crops of the future. Others collect to conserve, working to halt the sad slide into extinction facing so many plant species.</p>
+<p><strong>B</strong> Among the pioneers of this botanical treasure hunt was John Tradescant, an English royal gardener who brought back plants and seeds from his journeys abroad in the early 1600s. Later, the English botanist Sir Joseph Banks-who was the first director of the Royal Botanic Gardens at Kew and travelled with Captain James Cook on his voyages near the end of the 18th century—was so driven to expand his collections that he sent botanists around the world at his own expense.</p>
+<p><strong>C</strong> Those heady days of exploration and discovery may be over, but they have been replaced by a pressing need to preserve our natural history for the future. This modem mission drives hunters such as Dr Michiel van Slageren, a good-natured Dutchman who often sports a wide-brimmed hat in the field—he could easily be mistaken for the cinematic hero Indiana Jones. He and three other seed hunters work at the Millennium Seed Bank, an 80 million [pounds sterling] international conservation project that aims to protect the world’s most endangered wild plant species</p>
+<p><strong>D</strong> The group’s headquarters are in a modem glass-and-concrete structure on a 200-hectare Estate at Wakehurst Place in the West Sussex countryside. Within its underground vaults are 260 million dried seeds from 122 countries, all stored at -20 Celsius to survive for centuries. Among the 5，100 species represented are virtually all of Britain’s 1,400 native seed-bearing plants, the most complete such collection of any country’s flora.</p>
+<p><strong>E</strong> Overseen by the Royal botanic gardens, the Millennium Seed Bank is the world’s largest wild-plant depository. It aims to collect 24,000 species by 2010. The reason is simple: thanks to humanity’s efforts, an estimated 25 per cent of the world’s plants are on the verge of extinction and may vanish within 50 years. We’re currently responsible for habitat destruction on an unprecedented scale, and during the past 400 years, plant species extinction rates have been about 70 times greater than those indicated by the geological record as being ’normal’. Experts predict that during the next 50 years a further one billion hectares of wilderness will be converted to farmland in developing countries alone.</p>
+<p><strong>F</strong> The implications of this loss are enormous. Besides providing staple food crops, plants are a source of many machines and the principal supply of fuel and building materials in many parts of the world. They also protect soil and help regulate the climate. Yet, across the globe, plant species are being driven to extinction before their potential benefits are discovered.</p>
+<p><strong>G</strong> The world Conservation Union has listed 5,714 threatened species is sure to be much higher. In the UK alone, 300 wild plant species are classified as endangered. The Millennium Seed Bank aims to ensure that even if a plant becomes extinct in the wild，it won’t be lost forever. Stored seeds can be used the help restore damaged or destroyed environment or in scientific research to find new benefits for society- in medicine, agriculture or local industry- that would otherwise be lost.</p>
+<p><strong>H</strong> Seed banks are an insurance policy to protect the world’s plant heritage for the future, explains Dr Paul Smith, another Kew seed hunter. “Seed conservation techniques were originally developed by farmers/’ he says. “Storage is the basis what we do, conserving seeds until you can use them-just as in farming.” Smith says there’s no reason why any plant species should become extinct, given today’s technology. But he admits that the biggest challenge is finding, naming and _ categorising all the world’s plants. And someone has to gather these seeds before it’s too late. “There aren’t a lot of people out there doing this,” he says” The key is to know the flora from a particular area, and that knowledge takes years to acquire.”</p>
+<p><strong>I</strong> There are about 1,470 seed banks scattered around the globe, with a combined total of 5.4 million samples, of which perhaps two million are distinct non-duplicates. Most preserve genetic material for agriculture use in order to ensure crop diversity; others aim to conserve wild species, although only 15 per cent of all banked plants are wild.</p>
+<p><strong>J</strong> Imperial College, London, examined crop collections from 151 countries and found that while the number of plant samples had increased in two thirds of the countries, budget had been cut in a quarter and remained static in another 35 per cent. Th UN’s Food and Agriculture Organization and the Consultative Group on International Agricultural Research has since set up the Global Conservation Trust, which aims to raise US $260 million to protect seed banks in perpetuity.</p>
+<p><strong>Questions 14-18</strong>
+Use <strong>NO MORE THAN THREE WORDS</strong> from the Reading Passage.</p>
 <p>Some people collect seeds for the purpose of protecting certain species from (14)_________ ; others collect seeds for their ability to produce (15)_____________ . They are called seed hunters. The (16)_____________ of them included both gardeners and botanists,such as (17)_____________ ，who financially supported collectors out of his own pocket. The seeds collected are usually stored in seed banks, one of which is the famous millennium seed bank, where seeds are all stored in the (18)___________ at a low temperature.</p>
-<p>Questions 19-24
+<p><strong>Questions 19-24</strong>
 Do the following statements agree with the information given in Reading Passage 2? Write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN if there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> if there is no information on this</p>
 <p>19. The reason to collect seeds is different from the past.
 20. The Millennium Seed Bank is one of the earliest seed banks.
 21. A major reason for plant species extinction is farmland expansion.
 22. The method scientists use to store seeds is similar to that used by farmers.
 23. Technological development is the only hope to save plant species.
 24. The works of seed conservation are often limited by insufficient financial resources.</p>
-<p>Questions 25-26
+<p><strong>Questions 25-26</strong>
 Choose the correct letter, A-E.</p>
-<p>Which TWO of the followings are provided by plants to the human ?
-A food
-B fuels
-C clothes
-D energy
-E commercial products</p>
-<p>Assessing the Risk</p>
+<p>Which <strong>TWO</strong> of the followings are provided by plants to the human ?
+<strong>A</strong> food
+<strong>B</strong> fuels
+<strong>C</strong> clothes
+<strong>D</strong> energy
+<strong>E</strong> commercial products</p>
+<p><strong>Assessing the Risk</strong></p>
 <p>As a title for a supposedly unprejudiced debate on scientific progress, “Panic attack: interrogating our obsession with risk” did not bode well. Held last week at the Royal Institution in London, the event brought together scientists from across the world to ask why society is so obsessed with risk and to call for a “more rational” approach. “We seem to be organising society around the grandmotherly maxim of ‘better safe than sorry’,” exclaimed Spiked, the online publication that organised the event. “What are the consequences of this overbearing concern with risks?”</p>
 <p>The debate was preceded by a survey of 40 scientists who were invited to describe how awful our lives would be if the “precautionary principle” had been allowed to prevail in the past. Their response was: no heart surgery or antibiotics, and hardly any drugs at all; no aeroplanes, bicycles or high-voltage power grids; no pasteurisation, pesticides or bio-technology; no quantum mechanics; no wheel; no “discovery” of America. In short, their message was: no risk, no gain.</p>
 <p>They have absolutely missed the point. The precautionary principle is a subtle idea. It has various forms, but all of them generally include some notion of cost- effectiveness. Thus the point is not simply to ban things that are not known to be absolutely safe. Rather, it says: “Of course you can make no progress without risk. But if there is no obvious gain from taking the risk, then don’t take it.”</p>
@@ -181,32 +237,32 @@ E commercial products</p>
 <p>If the precautionary principle had been in place, the scientists tell us, we would not have antibiotics. But of course we would — if the version of the principle that sensible people now understand had been applied. When penicillin was discovered in the 1920s, infective bacteria were laying waste to the world. Children died from diphtheria and whooping cough, every open drain brought the threat of typhoid, and any wound could lead to septicaemia and even gangrene.</p>
 <p>Penicillin was turned into a practical drug during the Second World War, when the many pestilences that result from war threatened to kill more people than the bombs. Of course antibiotics were a priority. Of course the risks, such as they could be perceived, were worth taking.</p>
 <p>And so with the other items on the scientists’ list: electric light bulbs, blood transfusions, CAT scans, knives, the measles vaccine — the precautionary principle would have prevented all of them, they tell us. But this is just plain wrong. If the precautionary principle had been applied properly, all these creations would have passed muster, because all offered incomparable advantages compared to the risks perceived at the time.</p>
-<p>Section 2
+<p><strong>Section 2</strong>
 Another issue is at stake here. Statistics are not the only concept people use when weighing up risk. Human beings, subtle and evolved creatures that we are, do not survive to threescore years and ten simply by thinking like pocket calculators. A crucial issue is consumer’s choice. In deciding whether to pursue the development of a new technology, the consumer’s right to choose should be considered alongside considerations of risk and benefit. Clearly, skiing is more dangerous than genetically modified tomatoes. But people who ski choose to do so; they do not have skiing thrust upon them by portentous experts of the kind who now feel they have the right to reconstruct our crops. Even with skiing, there is the matter of cost effectiveness to consider: skiing, I am told, is exhilarating. Where is the exhilaration in GM soya?</p>
 <p>Indeed, in contrast to all the other items on Spiked’s list, GM crops stand out as an example of a technology whose benefits are far from clear. Some of the risks can at least be defined. But in the present economic climate, the benefits that might accrue from them seem dubious. Promoters of GM crops believe that the future population of the world cannot be fed without them. That is untrue. The crops that really matter are wheat and rice, and there is no GM research in the pipeline that will seriously affect the yield of either. GM is used to make production cheaper and hence more profitable, which is an extremely questionable ambition.</p>
 <p>The precautionary principle provides the world with a very important safeguard. If it had been in place in the past, it might, for example, have prevented insouciant miners from polluting major rivers with mercury. We have come to a sorry pass when scientists, who should above all be dispassionate scholars, feel they should misrepresent such a principle for the purposes of commercial and political propaganda. People at large continue to mistrust science and the high technologies it produces, partly because they doubt the wisdom of scientists. On such evidence as this, these doubts are fully justified.</p>
-<p>Questions 27-32
+<p><strong>Questions 27-32</strong>
 Do the following statements agree with the information given in Reading Passage 3?</p>
-<p>TRUE if the statement is true
-FALSE if the statement is false
-NOT GIVEN if the information is not given in the passage</p>
+<p><strong>TRUE</strong> if the statement is true
+<strong>FALSE</strong> if the statement is false
+<strong>NOT GIVEN</strong> if the information is not given in the passage</p>
 <p>27. The title of the debate is not unbiased.
 28. All the scientists invited to the debate were from the field of medicine.
 29. The message those scientists who conducted the survey were sending was people shouldn’t take risks.
 30. All the 40 listed technologies are riskier than other technologies.
 31. It was worth taking the risks to invent antibiotics.
 32. All the other inventions on the list were also judged by the precautionary principle.</p>
-<p>Questions 33-39
-Complete the following summary of the paragraphs of Reading Passage using NO MORE THAN THREE WORDS from the Reading Passage for each answer. Write your answers in boxes 33-39 on your answer sheet.</p>
+<p><strong>Questions 33-39</strong>
+Complete the following summary of the paragraphs of Reading Passage using <strong>NO MORE THAN THREE WORDS </strong>from the Reading Passage for each answer. Write your answers in boxes 33-39 on your answer sheet.</p>
 <p>When applying precautionary principle to decide whether to invent a new technology, people should also consideration of the……………. 33…………….. ，along with the usual consideration of…………………… 34……………….. For example, though risky and dangerous enough, people still enjoy …………………… 35…………….. for the excitement it provides. On the other hand, experts believe that future population desperately needs………………… 36……………… in spite of their undefined risks. However，the researches conducted so far have not been directed towards increasing the yield of…………………… 37…………….. ，but to reduce the cost of ………………. 38…………… and to bring more profit out of it. In the end, such selfish use of precautionary principle for business and political gain has often led people to ………………….. 39…………….. science for they believe scientists are not to be trusted.</p>
-<p>Questions 40
+<p><strong>Questions 40</strong>
 Choose the correct letter, A，B，C or D.</p>
 <p>40 What is the main theme of the passage?
-A people have right to doubt science and technologies
-B the precautionary principle could have prevented the development of science and technology
-C there are not enough people who truly understand the precautionary principle
-D the precautionary principle bids us to take risks at all costs</p>
-<p>ANSWER KEY</p>
+<strong>A</strong> people have right to doubt science and technologies
+<strong>B</strong> the precautionary principle could have prevented the development of science and technology
+<strong>C</strong> there are not enough people who truly understand the precautionary principle
+<strong>D</strong> the precautionary principle bids us to take risks at all costs</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. TRUE</p>
 <p>2. FALSE</p>
 <p>3. NOT GIVEN</p>
@@ -465,6 +521,29 @@ D the precautionary principle bids us to take risks at all costs</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -484,12 +563,23 @@ D the precautionary principle bids us to take risks at all costs</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -501,14 +591,6 @@ D the precautionary principle bids us to take risks at all costs</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

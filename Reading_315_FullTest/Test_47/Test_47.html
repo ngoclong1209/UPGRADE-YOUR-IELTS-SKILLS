@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,20 +158,20 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_47</h1>
-            <p>IELTS Reading Practice - Test 47</p>
-<p>ocean acidification</p>
-<p>A few years ago, biologist, Victoria Fabry, saw the future of the world’s oceans in ajar. She was aboard a research ship in the North Pacific, carrying out experiments on a species of pteropod – small molluscs with shells up to a centimetre long, which swim in a way that resembles butterfly flight, propelled by small flaps. Something strange was happening in Fabry’s jars. ‘The pteropods were still swimming, but their shells were visibly dissolving,’ says Fabry. She realised that the animals’ respiration had increased the carbon dioxide (CO2) in the jars, which had been sealed for 48 hours, changing the water’s chemistry to a point where the calcium carbonate in the pteropods’ shells had started to dissolve. What Fabry had stumbled on was a hint of ‘the other CO2 problem’.</p>
-<p>It has taken several decades for climate change to be recognised as a serious threat. But another result of our fossil-fuel habit – ocean acidification – has only begun to be researched in the last few years. Its impact could be momentous, says Joanie Kleypas of the National Centre for Atmospheric Research in Boulder, Colorado.</p>
-<p>CO2 forms carbonic acid when it dissolves in water, and the oceans are soaking up more and more of it. Recent studies show that the seas have absorbed about a third of all the fossil-fuel carbon released into the atmosphere since the beginning of the industrial revolution in the mid-eighteenth century, and they will soak up much more over the next century. Yet until quite recently many people dismissed the idea that humanity could alter the acidity of the oceans, which cover 71% of the planet’s surface to an average depth of about four kilometres. The ocean’s natural buffering capacity was assumed to be capable of preventing any changes in acidity even with a massive increase in CO2 levels.</p>
-<p>And it is – but only if the increase happens slowly, over hundreds of thousands of years. Over this timescale, the release of carbonates from rocks on land and from ocean sediments can neutralise the dissolved CO2, just like dropping chalk in an acid. Levels of CO2 are now rising so fast that they are overwhelming the oceans’ buffering capacity.</p>
-<p>In 2003 Ken Caldeira of the Carnegie Institution in Stanford, and Michael Wickett at the Lawrence Livermore National Laboratory, calculated that the absorption of fossil CO2 could make the oceans more acidic over the next few centuries than they have been for 300 million years, with the possible exception of rare catastrophic events. The potential seriousness of the effect was underlined in 2005 by the work of James Zachos of the University of California and his colleagues, who studied one of those rare catastrophic events. They showed that the mass extinction of huge numbers of deep-sea creatures around 55 million years ago was caused by ocean acidification after the release of around 4500 gigatonnes of carbon. It took over 100,000 years for the oceans to return to their normal state.</p>
-<p>Around the same time as the Zachos paper, the UK’s Royal Society published the first comprehensive report on ocean acidification. It makes grim reading, concluding that ocean acidification is inevitable without drastic cuts in emissions. Marine ecosystems, especially coral reefs, are likely to be affected, with fishing and tourism based around reefs losing billions of dollars each year. Yet the report also stressed that there is huge uncertainty about the effects on marine life.</p>
-<p>The sea creatures most likely to be affected are those that make their shells or skeletons from calcium carbonate, including tiny plankton and huge corals. Their shells and skeletons do not dissolve only because the upper layers of the oceans are supersaturated with calcium carbonate. Acidification reduces carbonate ion concentrations, making it harder for organisms to build their shells or skeletons. When the water drops below the saturation point, these structures will start to dissolve. Calcium carbonate comes in two different forms, aragonite and calcite, aragonite being more soluble. So organisms with aragonite structures, such as corals, will be hardest hit.</p>
-<p>So far the picture looks relentlessly gloomy, but could there actually be some positive results from adding so much CO2 to the seas? One intriguing finding, says Ulf Riebesell of the Leibniz Institute of Marine Sciences in Kiel, Germany, concerns gases that influence climate. A few experiments suggest that in more acidic conditions, microbes will produce more volatile organic compounds such as dimethyl sulphide, some of which escapes to the atmosphere and causes clouds to develop. More clouds would mean cooler conditions, which could potentially slow global warming.</p>
-<p>Calculating the effect of ocean acidification on people and economies is virtually impossible, but it could be enormous. Take the impact on tropical corals, assuming that warming and other pressures such as pollution do not decimate them first. Reefs protect the shorelines of many countries. Acidification could start eating away at reefs just when they are needed more than ever because of rising sea levels.</p>
-<p>‘No serious scientist believes the oceans will be devoid of life,’ says Caldeira. ‘Wherever there is light and nutrients something will live. A likely outcome will be a radical simplification of the ecosystem.’ Taking this and other scientists’ views into account, it seems clear that acidification will mean the loss of many species, so our children will not see the amazingly beautiful things that we can. It is important to tell them to go and see the corals now before it is too late.</p>
-<p>Questions 1-7
-Answer the questions below. Choose NO MORE THAN THREE WORDS AND/OR A NUMBER from the passage for each answer.</p>
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 47</strong></h3>
+<h3 class="test-heading"><strong>ocean acidification</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p>A few years ago, biologist, Victoria Fabry, saw the future of the world’s oceans in ajar. She was aboard a research ship in the North Pacific, carrying out experiments on a species of pteropod – small molluscs with shells up to a centimetre long, which swim in a way that resembles butterfly flight, propelled by small flaps. Something strange was happening in Fabry’s jars. ‘The pteropods were still swimming, but their shells were visibly dissolving,’ says Fabry. She realised that the animals’ respiration had increased the carbon dioxide (CO2) in the jars, which had been sealed for 48 hours, changing the water’s chemistry to a point where the calcium carbonate in the pteropods’ shells had started to dissolve. What Fabry had stumbled on was a hint of ‘the other CO2 problem’.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p>It has taken several decades for climate change to be recognised as a serious threat. But another result of our fossil-fuel habit – ocean acidification – has only begun to be researched in the last few years. Its impact could be momentous, says Joanie Kleypas of the National Centre for Atmospheric Research in Boulder, Colorado.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p>CO2 forms carbonic acid when it dissolves in water, and the oceans are soaking up more and more of it. Recent studies show that the seas have absorbed about a third of all the fossil-fuel carbon released into the atmosphere since the beginning of the industrial revolution in the mid-eighteenth century, and they will soak up much more over the next century. Yet until quite recently many people dismissed the idea that humanity could alter the acidity of the oceans, which cover 71% of the planet’s surface to an average depth of about four kilometres. The ocean’s natural buffering capacity was assumed to be capable of preventing any changes in acidity even with a massive increase in CO2 levels.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p>And it is – but only if the increase happens slowly, over hundreds of thousands of years. Over this timescale, the release of carbonates from rocks on land and from ocean sediments can neutralise the dissolved CO2, just like dropping chalk in an acid. Levels of CO2 are now rising so fast that they are overwhelming the oceans’ buffering capacity.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p>In 2003 Ken Caldeira of the Carnegie Institution in Stanford, and Michael Wickett at the Lawrence Livermore National Laboratory, calculated that the absorption of fossil CO2 could make the oceans more acidic over the next few centuries than they have been for 300 million years, with the possible exception of rare catastrophic events. The potential seriousness of the effect was underlined in 2005 by the work of James Zachos of the University of California and his colleagues, who studied one of those rare catastrophic events. They showed that the mass extinction of huge numbers of deep-sea creatures around 55 million years ago was caused by ocean acidification after the release of around 4500 gigatonnes of carbon. It took over 100,000 years for the oceans to return to their normal state.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p>Around the same time as the Zachos paper, the UK’s Royal Society published the first comprehensive report on ocean acidification. It makes grim reading, concluding that ocean acidification is inevitable without drastic cuts in emissions. Marine ecosystems, especially coral reefs, are likely to be affected, with fishing and tourism based around reefs losing billions of dollars each year. Yet the report also stressed that there is huge uncertainty about the effects on marine life.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p>The sea creatures most likely to be affected are those that make their shells or skeletons from calcium carbonate, including tiny plankton and huge corals. Their shells and skeletons do not dissolve only because the upper layers of the oceans are supersaturated with calcium carbonate. Acidification reduces carbonate ion concentrations, making it harder for organisms to build their shells or skeletons. When the water drops below the saturation point, these structures will start to dissolve. Calcium carbonate comes in two different forms, aragonite and calcite, aragonite being more soluble. So organisms with aragonite structures, such as corals, will be hardest hit.</p></div></div>
+<div class="para-row"><div class="para-label">H</div><div class="para-text"><p>So far the picture looks relentlessly gloomy, but could there actually be some positive results from adding so much CO2 to the seas? One intriguing finding, says Ulf Riebesell of the Leibniz Institute of Marine Sciences in Kiel, Germany, concerns gases that influence climate. A few experiments suggest that in more acidic conditions, microbes will produce more volatile organic compounds such as dimethyl sulphide, some of which escapes to the atmosphere and causes clouds to develop. More clouds would mean cooler conditions, which could potentially slow global warming.</p></div></div>
+<div class="para-row"><div class="para-label">I</div><div class="para-text"><p>Calculating the effect of ocean acidification on people and economies is virtually impossible, but it could be enormous. Take the impact on tropical corals, assuming that warming and other pressures such as pollution do not decimate them first. Reefs protect the shorelines of many countries. Acidification could start eating away at reefs just when they are needed more than ever because of rising sea levels.</p></div></div>
+<div class="para-row"><div class="para-label">J</div><div class="para-text"><p>‘No serious scientist believes the oceans will be devoid of life,’ says Caldeira. ‘Wherever there is light and nutrients something will live. A likely outcome will be a radical simplification of the ecosystem.’ Taking this and other scientists’ views into account, it seems clear that acidification will mean the loss of many species, so our children will not see the amazingly beautiful things that we can. It is important to tell them to go and see the corals now before it is too late.</p></div></div>
+<p><strong>Questions 1-7</strong>
+Answer the questions below. Choose <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> from the passage for each answer.</p>
 <p>1 What does the pteropod use to move itself through the water?
 2 Which part of the pteropods was being damaged by increased acidification?
 3 What proportion of the carbon released over the last 200 years has been taken in by the oceans?
@@ -123,18 +179,18 @@ Answer the questions below. Choose NO MORE THAN THREE WORDS AND/OR A NUMBER from
 5 How long did the oceans need to recover after the destruction of marine life by acidification 55 million years ago?
 6 Which businesses will suffer if reefs are damaged?
 7 What type of creatures make their skeletons out of aragonite?</p>
-<p>Questions 8-12
-Complete the flow chart below. Write NO MORE THAN TWO WORDS from the passage.</p>
-<p>A possible benefit from increased CO2 levels in the sea</p>
-<p>Question 13
+<p><strong>Questions 8-12</strong>
+Complete the flow chart below. Write <strong>NO MORE THAN TWO WORDS</strong> from the passage.</p>
+<p><strong>A possible benefit from increased CO2 levels in the sea</strong></p>
+<p><strong>Question 13</strong>
 Choose the correct letter; A, B, C or D. Write the correct letter in box 13 on your answer sheet.</p>
 <p>13 Which of the following best summarises the writer’s view in the passage?
-A We will have to wait and see if acidification has serious effects.
-B It is clear that acidification will cause huge damage to marine life.
-C It is likely that increased CO2 will change marine ecosystems considerably.
-D The theory that increased CO2 could have positive results is believable.</p>
+<strong>A</strong> We will have to wait and see if acidification has serious effects.
+<strong>B</strong> It is clear that acidification will cause huge damage to marine life.
+<strong>C</strong> It is likely that increased CO2 will change marine ecosystems considerably.
+<strong>D</strong> The theory that increased CO2 could have positive results is believable.</p>
 <p>Cambridge IELTS Test 1 to 17</p>
-<p>a new fair trade organisation</p>
+<p><strong>a new fair trade organisation</strong></p>
 <p>Trade has, so far, proved ineffective in solving the major problems faced by most nations. However, the answer to the injustices of the existing trade regime is not no trade, but fair trade.</p>
 <p>The existing regime forbids poor nations from following the path taken by the rich. With the exceptions of Switzerland, Belgium and the Netherlands, all the nations that have become independently wealthy did so with the help of a mechanism economists call ‘infant industry protection’: defending new sectors from foreign competition until they are big enough to compete on equal terms. The textile industry in Britain, for example, on which the Industrial Revolution was built in the nineteenth century, was nurtured and promoted by means of tariffs (or trade taxes) and the outright prohibition of competing goods. Between 1864 and 1913, the US was the most heavily protected nation on earth. Only when these countries had established technological and commercial superiority did they suddenly discover the virtues of unimpeded competition.</p>
 <p>For nations to develop in direct competition with countries with established industries is like learning to swim in a fast-flowing river: you are likely to be swept away and drowned long before you acquire the necessary expertise. Your competitors have experience, legal rights and established marketing networks on their side; your infant industries have none of these. It is all but impossible, in other words, for poor nations to extract money from the rich unless they can safeguard some key parts of their economies.</p>
@@ -146,43 +202,43 @@ D The theory that increased CO2 could have positive results is believable.</p>
 <p>One other precondition of justice is that producers and consumers should carry their own costs, rather than dumping them on other people. The monitors deployed by the FTO could determine whether or not companies are paying a fair price for the resources they use. Companies would, among other costs, have to buy enough of a nation’s carbon quota to cover the fossil fuel they consume.</p>
 <p>One of the many beneficial impacts of such full-cost accounting would be that everything that could be processed in the country of origin would be. No multinational company would export logs, coffee beans or cotton, as it requires far more (costly) energy to transport these bulky resources from one place to another than would be involved in exporting the finished products – furniture, instant coffee and T-shirts (all currently manufactured on the other side of the world). Those nations which are currently locked into the export of raw materials would become the most favoured locations for manufacturing.</p>
 <p>Under this scheme, export growth comes to measure something quite different. At present it represents a mixture of gains and losses, which are misleadingly compounded into a single figure. The loss of natural resources is ‘added’ to the genuine addition of value provided by the application of labour. The FTO system would effectively separate these measures. The extraction and export of natural resources would in most cases be accounted as a loss. The application of human labour would be measured as a gain. Nations would be able to see immediately whether they were being enriched or impoverished through trade. To introduce these measures in the face of the resistance of the world’s most powerful governments and companies would require severe and unusual methods. But the goal of universal fair trade would permit the global economic levelling without which there can be no justice.</p>
-<p>Questions 14-19
+<p><strong>Questions 14-19</strong>
 Choose the correct letter; A, B, C or D. Write the correct letter in boxes 14 – 19 on your answer sheet.</p>
 <p>14 The writer refers to textile production in Britain in order to
-A point out how differently industries were financed in the past.
-B show how unnecessary tariff barriers are for countries today.
-C help the reader understand how infant industry protection works.
-D compare European trade development with that of the United States.</p>
+<strong>A</strong> point out how differently industries were financed in the past.
+<strong>B</strong> show how unnecessary tariff barriers are for countries today.
+<strong>C</strong> help the reader understand how infant industry protection works.
+<strong>D</strong> compare European trade development with that of the United States.</p>
 <p>15 What is the writer’s main point in the third paragraph?
-A Businesses will succeed if they learn from established companies.
-B Detailed market research is often neglected in developing countries.
-C You have to be prepared to adapt your products quickly to follow fashion.
-D New industries in poor countries will probably fail without protection.</p>
+<strong>A</strong> Businesses will succeed if they learn from established companies.
+<strong>B</strong> Detailed market research is often neglected in developing countries.
+<strong>C</strong> You have to be prepared to adapt your products quickly to follow fashion.
+<strong>D</strong> New industries in poor countries will probably fail without protection.</p>
 <p>16 According to the writer, a fair trade system could have the effect of
-A improving safety in the majority of workplaces around the world.
-B preventing the continued destruction of endangered wildlife habitats.
-C encouraging states to work together in a more even-handed way.
-D making politicians agree to more representative systems of government.</p>
+<strong>A</strong> improving safety in the majority of workplaces around the world.
+<strong>B</strong> preventing the continued destruction of endangered wildlife habitats.
+<strong>C</strong> encouraging states to work together in a more even-handed way.
+<strong>D</strong> making politicians agree to more representative systems of government.</p>
 <p>17 What point is the writer making in the sixth paragraph?
-A The trades unions’ aim is to help foreign workers gain better conditions.
-B The trades unions are concerned about the effects of imports on local jobs.
-C Workers in poor countries are grateful for the trades unions’ support.
-D Campaigners are right to suggest imposing tariffs against bad treatment.</p>
+<strong>A</strong> The trades unions’ aim is to help foreign workers gain better conditions.
+<strong>B</strong> The trades unions are concerned about the effects of imports on local jobs.
+<strong>C</strong> Workers in poor countries are grateful for the trades unions’ support.
+<strong>D</strong> Campaigners are right to suggest imposing tariffs against bad treatment.</p>
 <p>18 According to the writer, what is one of the benefits of full-cost accounting?
-A Factories would be set up and jobs created in the country of origin.
-B Multinational companies would consume fewer natural resources.
-C The export of finished products around the world would decrease.
-D Countries would be able to keep their resources for the domestic market.</p>
+<strong>A</strong> Factories would be set up and jobs created in the country of origin.
+<strong>B</strong> Multinational companies would consume fewer natural resources.
+<strong>C</strong> The export of finished products around the world would decrease.
+<strong>D</strong> Countries would be able to keep their resources for the domestic market.</p>
 <p>19 What conclusion does the writer come to about the FTO system?
-A It would help to combat injustice in its many different forms.
-B It would be difficult to introduce but would be worth the effort.
-C States all over the world would earn more through trade as a result of it.
-D Multinationals would accept it because it measures exports more precisely.</p>
-<p>Questions 20-26
-Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</p>
-<p>A Proposal for Regulating Multinational Corporations</p>
+<strong>A</strong> It would help to combat injustice in its many different forms.
+<strong>B</strong> It would be difficult to introduce but would be worth the effort.
+<strong>C</strong> States all over the world would earn more through trade as a result of it.
+<strong>D</strong> Multinationals would accept it because it measures exports more precisely.</p>
+<p><strong>Questions 20-26</strong>
+Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+<p><strong>A Proposal for Regulating Multinational Corporations</strong></p>
 <p>The FTO would determine the (20)………………………for the multinational corporations to follow. In this way, a multinational corporation would have to prove that all aspects of the way it produced its goods and the systems for their (21)……………………………to customers was in line with FTO requirements. Similarly it would need to satisfy the FTO that the processes employed by any (22)…………………………that it used were also acceptable. As an illustration, in order to source cocoa from Africa, a corporation would have to ensure that no illegal (23)…………………………were being used by the (24)………………………….during cultivation and that they had not taken over land from (25)………………………..It would not be sufficient for multinational corporations to say that these points had been checked. Their conduct would have to be inspected by (26)……………………………..appointed by the FTO.</p>
-<p>the first antigravity machine</p>
+<p><strong>the first antigravity machine</strong></p>
 <p>It was one of the biggest science stories of the 1990s. Even now, the facts behind it remain hotly disputed. And small wonder, for if the claims made for the small disc, the focus of the controversy, are true, it may be possible to break through one of the great barriers in the scientific world and control the most potent of cosmic forces: gravity. Huge innovations in flight and space travel could arise from that.</p>
 <p>The first gravity-blocking system to be taken seriously by scientists appeared in a laboratory in Tampere University of Technology, Finland. A Russian scientist named Dr Evgeny Podkletnov created a disc 275mm across, made from a substance which combined copper, barium and the ‘rare Earth metal’ called yttrium, which is known to be a high-temperature superconductor (a substance that conducts electricity without resistance). When chilled with liquid nitrogen at -196° C (a high temperature compared with other superconductors), this material loses all its electrical resistance, and can levitate (lift) in a magnetic field. That may seem amazing for a ceramic-like material – and it won a Nobel Prize for the scientists, Karl Muller and Johannes Bednorz, who first demonstrated it in the 1980s. But according to Podkletnov, the disc had another far more astounding property.</p>
 <p>In 1992, while experimenting with rotating superconductors, Podkletnov noticed that pipe-smoke from a nearby researcher was drifting into a vertical column above the spinning disc. Intrigued by this phenomenon, he decided to devise an experiment to investigate further. A superconductive disc, surrounded by liquid nitrogen was magnetically levitated and rotated at high speed – up to 5,000 revolutions per minute (rpm) in a magnetic field. An object was suspended from a sensitive balance above the disc. It was enclosed in a glass tube to shield it from any effects of air currents. During the course of a series of tests, Podkletnov was able to observe that the object lost a variable amount of weight from less than 0.5 percent to 2 percent of its total weight. This effect was noted with a range of materials from ceramics to wood. The effect was slight, yet the implications were revolutionary: the disc appeared to be partly shielding the object from the gravitational pull of the Earth.</p>
@@ -192,31 +248,31 @@ Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for e
 <p>One instance of this occurred in the late 1980s when scientists at Tohoku University, Japan, made headlines with research suggesting that apparatus, known as a gyroscope, lost 0.01 percent of its weight when spinning at up to 13,000 rpm. Oddly the effect only appeared if the gyroscope was spinning anticlockwise – raising suspicions that some mechanical peculiarity was to blame. Attempts by scientists at the University of Colorado to replicate the effect failed.</p>
 <p>Then Professor Giovanni Modanese, an Italian theoretical physicist, became interested. He had read an earlier paper by Podkletnov, hinting at a connection between superconductivity and gravity shielding. Modanese wondered if the magnetic fields surrounding the superconductive disc might somehow assimilate part of the gravitational field under it. He published some calculations based on his idea in 1995 – and soon discovered that taking ‘antigravity’ seriously was a career-limiting move.</p>
 <p>The revelations about Podkletnov’s antigravity research led to reports of major corporations setting up their own studies. In 2000, the UK defence contractor BAE Systems was said to have launched ‘Project Greenglow’ to investigate Podkletnov’s gravity shield effect. Then it emerged that the US aircraft builder Boeing was also investigating, suggesting it too had an interest in the effect. Groups in other countries were also rumoured to be carrying out studies. Yet not one of the teams has reported confirmation of the original findings. Some projects have been wound up without producing results either way. So for the time being, it seems that the dream of controlling gravity will remain precisely that.</p>
-<p>Questions 27-30
-Label the diagram below. Choose NO MORE THAN THREE WORDS OR A NUMBER from the passage.</p>
-<p>Questions 31-35
+<p><strong>Questions 27-30</strong>
+Label the diagram below. Choose <strong>NO MORE THAN THREE WORDS OR A NUMBER</strong> from the passage.</p>
+<p><strong>Questions 31-35</strong>
 Classify the following findings as belonging to</p>
-<p>A Podkletnov
-B Tohoku University
-C Modanese</p>
+<p><strong>A</strong> Podkletnov
+<strong>B</strong> Tohoku University
+<strong>C</strong> Modanese</p>
 <p>Write the correct letter, A, B or C in boxes 31-35 on your answer sheet.
 31 The experiment only works if the equipment moves in a particular direction.
 32 Varying amounts of weight are lost as a result of the test.
 33 Gravity could be absorbed by a magnetic field.
 34 Superconductive material seems to screen an object from gravity.
 35 Weight loss occurs when the equipment rotates at speeds reaching 13,000 rpm.</p>
-<p>Questions 36-40
+<p><strong>Questions 36-40</strong>
 Do the following statements agree with information given in Reading Passage 3?</p>
-<p>TRUE                          if the statement agrees with the information
-FALSE                        if the statement contradicts the information
-NOT GIVEN            if there is no information on this.</p>
+<p><strong>TRUE</strong>                          if the statement agrees with the information
+<strong>FALSE</strong>                        if the statement contradicts the information
+<strong>NOT GIVEN</strong>            if there is no information on this.</p>
 <p>36 Podkletnov won a prize for his initial work on superconductive substances.
 37 A chance observation led Podkletnov to experiment with gravity blocking.
 38 Einstein challenged earlier experiments on antigravity.
 39 Modanese suffered professionally after following up Podkletnov’s findings.
 40 An aircraft company announced that it had replicated Podkletnov’s results.</p>
 <p>_______  _______  _______</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. flaps</p>
 <p>2. shells</p>
 <p>3. 1/3</p>
@@ -475,6 +531,29 @@ NOT GIVEN            if there is no information on this.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -494,12 +573,23 @@ NOT GIVEN            if there is no information on this.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -511,14 +601,6 @@ NOT GIVEN            if there is no information on this.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>

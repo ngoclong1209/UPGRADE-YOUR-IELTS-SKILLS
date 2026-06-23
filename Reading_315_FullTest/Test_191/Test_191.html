@@ -30,10 +30,7 @@
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255,133,162,0.5); }
-        .resizer::after {
-            content: '⋮';
-            color: #ff85a2; font-size: 20px;
-        }
+        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
             background: linear-gradient(145deg, #ffffff, #fff0f5);
@@ -41,6 +38,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
         }
+        
+        /* New Typography and Formatting Styles */
+        .test-heading {
+            color: #ff5e7e; font-family: 'Fredoka', sans-serif;
+            margin-top: 30px; margin-bottom: 15px; text-transform: uppercase;
+        }
+        .para-row {
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            background: #fffafb; padding: 15px; border-radius: 12px;
+            border-left: 4px solid #ffccd5; transition: all 0.3s ease;
+        }
+        .para-row:hover { border-left-color: #ff5e7e; background: #fff5f7; }
+        .para-label {
+            background: #ff85a2; color: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0; margin-right: 15px; font-family: 'Fredoka', sans-serif;
+        }
+        .para-text p { margin: 0; }
+        strong { color: #d6336c; }
+        u { text-decoration-color: #ff85a2; }
+        
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
             background: white; padding: 10px 15px; border-radius: 12px;
@@ -70,15 +88,46 @@
             padding: 10px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 1000;
         }
+        .audio-warning {
+            color: #d6336c; font-weight: bold; text-align: center;
+            padding: 10px; border-radius: 10px; background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+        }
         audio { width: 100%; max-width: 800px; display: block; margin: 0 auto; outline: none; }
         
         
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .login-box { background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; }
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
         .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
         .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
         .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif; }
         .login-input:focus { border-color: #ff85a2; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
 
     </style>
 </head>
@@ -92,8 +141,15 @@
                 <input type="text" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." autofocus>
                 <button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
             </div>
-            <div id="login-loading-fields" style="display: none; padding: 20px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; margin-bottom: 15px;">Đang kết nối...</div>
+            
+            <div id="login-loading-fields" style="display: none; padding: 10px 0;">
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -102,29 +158,29 @@
     <div class="main-layout" style="display: none;">
         <div class="passage-pane" id="left-pane">
             <h1 style="color: #ff5e7e; font-family: 'DynaPuff', cursive; margin-top: 0;">Test_191</h1>
-            <p>IELTS Reading Practice - Test 191</p>
-<p>weathering in the desert</p>
-<p>A In the deserts, as elsewhere, rocks at the earth’s surface are changed by weathering, which may be defined as the disintegration of rocks where they lie. Weathering processes are either chemical, when alteration of some of the constituent particles is involved; or mechanical, when there is merely the physical breaking apart and fragmentation of rocks. Which process will dominate depends primarily on the mineralogy and texture of the rock and the local climate, but several individual processes usually work together to the common end of rock disintegration.</p>
-<p>B The great daily changes in temperature of deserts have long been supposed to be responsible for the disintegration of rocks, either by the differential heating of the various rock-forming minerals or by differential heating between the outer and inner parts of rock masses. However, both field observations and laboratory experiments have led to a reassessment of the importance of ’ exposure to the sun’s rays in desert weathering. Almost half a century ago Barton remarked that the buried parts of some of the ancient monuments in Egypt were more weathered than were those parts fully exposed to the sun’s rays, and attributed this to the effects of water absorption below the ground surface. Laboratory experiments have shown that rocks subjected to many cycles of large temperature oscillations (larger than those experienced in nature) display no evidence of fissuring or fragmentation, as a result. However, when marked fluctuations of temperature occur in moist conditions small rock fragments quickly form.</p>
-<p>C The expansive action of crystallising salts is often alleged to exert sufficient force to disintegrate rocks. Few would dispute that this mechanism is capable of disrupting fissile or well-cleaved rocks or rocks already weakened by other weathering agencies; wood is splintered, terracotta tiles disintegrated and clays disturbed by the mechanism, but its importance when acting upon fresh and cohesive crystalline rocks remains uncertain.</p>
-<p>D Weathering achieves more than the disintegration of rocks, though this is its most important geomorphic effect. It causes specific landforms to develop. Many boulders possess a superficial hard layer of iron oxide and/or silica, substances which have migrated in solution from the inside of the block towards the surface. Not only is the exterior thus case-hardened but the depleted interior disintegrates easily. When weathering penetrates the shell the inside is rapidly attacked and only the hard outer layer remains to give hollowed or ‘tortoiseshell’ rocks.</p>
-<p>E Another superficial layer, the precise nature of which is little understood, is the well-known desert varnish or patina, a shiny coat on the surface of rocks and pebbles and characteristic of arid environments. Some varnishes are colourless, others light brown, yet others so dark a brown as to be virtually black. It’s origin is unknown but is significant, for it has been suggested that the varnish grows darker with the passage of time; obviously before such a criterion could be used with confidence as a chronological tool its origin must be known with precision. Its formation is so slow that in Egypt, for example, it has been estimated that a light brown coating requires between 2,000 and 5,000 years to develop, a fully formed blackish veneer between 20,000 and 50,000 years.</p>
-<p>F The development of relatively impermeable soil horizons that are subsequently exposed at the surface because of erosion of once overlying, easily eroded materials, and which thus become surface crusts, is widespread in arid regions, although it is also known outside the deserts, and indeed many of the examples in arid lands probably originated in former periods of humid climate. The crusts prevent the waters of occasional torrential downpours from penetrating deeply into the soil, and thus they contribute to the rapid run-off associated with desert storms. Also, after erosion has cut through the crust and exposed underlying soil layers, the hard layer forms a resistant capping (duricrust) on plateaux and mesas, such as are common in many parts of arid and semi-arid Australia.</p>
-<p>G Some duricrust layers have been used as time markers for landforms and geological formations. The necessary conditions for this are that the crust forms fairly rapidly, and that it is sufficiently distinct in appearance to preclude the possibility of confusion with other crusts formed at other times. The Barrilaco calcrete of Mexico for instance is believed to date from about 7,000 B.C. The main silcrete of the northern districts of South Australia is believed to date from the Lower Miocene, the laterite of northern Australia to be of the Lower or Middle Miocene age.</p>
-<p>Questions 1-7
+            <h3 class="test-heading"><strong>IELTS Reading Practice - Test 191</strong></h3>
+<h3 class="test-heading"><strong>weathering in the desert</strong></h3>
+<div class="para-row"><div class="para-label">A</div><div class="para-text"><p><strong>A</strong> In the deserts, as elsewhere, rocks at the earth’s surface are changed by weathering, which may be defined as the disintegration of rocks where they lie. Weathering processes are either chemical, when alteration of some of the constituent particles is involved; or mechanical, when there is merely the physical breaking apart and fragmentation of rocks. Which process will dominate depends primarily on the mineralogy and texture of the rock and the local climate, but several individual processes usually work together to the common end of rock disintegration.</p></div></div>
+<div class="para-row"><div class="para-label">B</div><div class="para-text"><p><strong>B</strong> The great daily changes in temperature of deserts have long been supposed to be responsible for the disintegration of rocks, either by the differential heating of the various rock-forming minerals or by differential heating between the outer and inner parts of rock masses. However, both field observations and laboratory experiments have led to a reassessment of the importance of ’ exposure to the sun’s rays in desert weathering. Almost half a century ago Barton remarked that the buried parts of some of the ancient monuments in Egypt were more weathered than were those parts fully exposed to the sun’s rays, and attributed this to the effects of water absorption below the ground surface. Laboratory experiments have shown that rocks subjected to many cycles of large temperature oscillations (larger than those experienced in nature) display no evidence of fissuring or fragmentation, as a result. However, when marked fluctuations of temperature occur in moist conditions small rock fragments quickly form.</p></div></div>
+<div class="para-row"><div class="para-label">C</div><div class="para-text"><p><strong>C</strong> The expansive action of crystallising salts is often alleged to exert sufficient force to disintegrate rocks. Few would dispute that this mechanism is capable of disrupting fissile or well-cleaved rocks or rocks already weakened by other weathering agencies; wood is splintered, terracotta tiles disintegrated and clays disturbed by the mechanism, but its importance when acting upon fresh and cohesive crystalline rocks remains uncertain.</p></div></div>
+<div class="para-row"><div class="para-label">D</div><div class="para-text"><p><strong>D</strong> Weathering achieves more than the disintegration of rocks, though this is its most important geomorphic effect. It causes specific landforms to develop. Many boulders possess a superficial hard layer of iron oxide and/or silica, substances which have migrated in solution from the inside of the block towards the surface. Not only is the exterior thus case-hardened but the depleted interior disintegrates easily. When weathering penetrates the shell the inside is rapidly attacked and only the hard outer layer remains to give hollowed or ‘tortoiseshell’ rocks.</p></div></div>
+<div class="para-row"><div class="para-label">E</div><div class="para-text"><p><strong>E</strong> Another superficial layer, the precise nature of which is little understood, is the well-known desert varnish or patina, a shiny coat on the surface of rocks and pebbles and characteristic of arid environments. Some varnishes are colourless, others light brown, yet others so dark a brown as to be virtually black. It’s origin is unknown but is significant, for it has been suggested that the varnish grows darker with the passage of time; obviously before such a criterion could be used with confidence as a chronological tool its origin must be known with precision. Its formation is so slow that in Egypt, for example, it has been estimated that a light brown coating requires between 2,000 and 5,000 years to develop, a fully formed blackish veneer between 20,000 and 50,000 years.</p></div></div>
+<div class="para-row"><div class="para-label">F</div><div class="para-text"><p><strong>F</strong> The development of relatively impermeable soil horizons that are subsequently exposed at the surface because of erosion of once overlying, easily eroded materials, and which thus become surface crusts, is widespread in arid regions, although it is also known outside the deserts, and indeed many of the examples in arid lands probably originated in former periods of humid climate. The crusts prevent the waters of occasional torrential downpours from penetrating deeply into the soil, and thus they contribute to the rapid run-off associated with desert storms. Also, after erosion has cut through the crust and exposed underlying soil layers, the hard layer forms a resistant capping (duricrust) on plateaux and mesas, such as are common in many parts of arid and semi-arid Australia.</p></div></div>
+<div class="para-row"><div class="para-label">G</div><div class="para-text"><p><strong>G</strong> Some duricrust layers have been used as time markers for landforms and geological formations. The necessary conditions for this are that the crust forms fairly rapidly, and that it is sufficiently distinct in appearance to preclude the possibility of confusion with other crusts formed at other times. The Barrilaco calcrete of Mexico for instance is believed to date from about 7,000 B.C. The main silcrete of the northern districts of South Australia is believed to date from the Lower Miocene, the laterite of northern Australia to be of the Lower or Middle Miocene age.</p></div></div>
+<p><strong>Questions 1-7</strong>
 Reading Passage 1 has seven sections, A-G. Which paragraph contains the following information?</p>
-<p>Questions 8-13
+<p><strong>Questions 8-13</strong>
 Do the following statements agree with the information given in Reading Passage 1? In boxes 8-13 on your answer sheet, write</p>
-<p>TRUE if the statement agrees with the information
-FALSE if the statement contradicts the information
-NOT GIVEN If there is no information on this</p>
+<p><strong>TRUE</strong> if the statement agrees with the information
+<strong>FALSE</strong> if the statement contradicts the information
+<strong>NOT GIVEN</strong> If there is no information on this</p>
 <p>8. Desert rocks can become weathered when there is a chemical reaction within the rock.
 9. The parts of Egyptian monuments exposed to sunlight were found to be affected by the weather more than those below the ground.
 10. Granite which has been subjected to huge temperature swings tends not to exhibit any signs of disintegration as a result.
 11. It is estimated that dark patina originated between 2,000 and 5,000 years ago.
 12. Because of surface crusts, water from torrential rains cannot be fully absorbed into the ground and as a result causes run offs in arid regions.
 13. Duricrust layering is no longer used as an indicator of time because of the confusion with similar crusts.</p>
-<p>fashion and society: a historical perspective</p>
+<p><strong>fashion and society: a historical perspective</strong></p>
 <p>In all societies the body is ‘dressed’, and everywhere dress and adornment play symbolic and aesthetic roles. The colour of clothing often has special meaning: a white wedding dress symbolising purity; or black clothing indicating remembrance for a dead relative. Uniforms symbolise association with a particular profession. For many centuries purple, the colour representing royalty, was to be worn by no one else. And of course, dress has always been used to emphasise the wearer’s beauty, although beauty has taken many different forms in different societies. In the 16th century in Europe, for example, Flemish painters celebrated women with bony shoulders, protruding stomachs and long faces, while women shaved or plucked their hairlines to obtain the fashionable egg-domed forehead. These traits are considered ugly by today’s fashion.</p>
 <p>The earliest forms of ‘clothing’ seem to have been adornments such as body painting, ornaments, scarifications (scarring), tattooing, masks and often constricting neck and waist bands. Many of these deformed, reformed or otherwise modified the body. The bodies of men and of children, not just those of women, were altered: there seems to be a widespread human desire to transcend the body’s limitations, to make it what it is, by nature, not.</p>
 <p>Dress in general seems then to fulfil a number of social functions. This is true of modern as of ancient dress. What is added to dress as we ourselves know it in the west is fashion, of which the key feature is rapid and continual changing of styles. The growth of the European city in the 14th century saw the birth of fashion. Previously, loose robes had been worn by both sexes, and styles were simple and unchanging. Dress distinguished rich from poor, rulers from ruled, only in that working people wore more wool and no silk, rougher materials and less ornamentation than their masters.</p>
@@ -134,30 +190,30 @@ NOT GIVEN If there is no information on this</p>
 <p>Looked at in historical perspective, the styles of fashion display a mad relativism. At one time the rich wear cloth of gold embroidered with pearls, at another beige cashmere and grey suiting. In one epoch men parade in elaborately curled hair, high heels and rouge, at another to do so is to court outcast status and physical abuse. It is in some sense inherently ironic that a new fashion starts from rejection of the old and often an eager embracing of what was previously considered ugly. A case in point is the outlandish, fashion statement made by the non-conforming, rebellious youth of today who have tattoos, metal studs and body piercings. They defied mainstream fashion only to see their defiance become the fashion of the day in the broader community. Moreover, having once defined style in centuries past, these adornments have now come full circle.</p>
 <p>Despite its apparent irrationality, fashion cements social solidarity and imposes group norms. It forces us to recognise that the human body is not only a biological entity, but an organism in culture. To dress the way that others do is to signal that we share many of their morals and values. Conversely, deviations in dress are usually considered shocking and disturbing. In western countries a man wearing a pink suit to a job interview would not be considered for a position at a bank. He would not be taken seriously. Likewise, even in these ‘liberated’ times, a man in a skirt in many western cultures causes considerable anxiety, hostility or laughter.</p>
 <p>However, while fashion in every age is normative, there is still room for clothing to express individual taste. In any period, within the range of stylish clothing, there is some choice of colour, fabric and style. This was even more true last century, because in the 20th century, fashion, without losing its obsession with the new and the different, was mass produced. Originally, fashion was largely for the rich, but since the industrial period the mass production of fashionably styled clothes has made possible the use of fashion as a means of self-enhancement and self-expression for the majority.</p>
-<p>Questions 14-19
-Complete the table below. Use NO MORE THAN THREE WORDS AND/OR A NUMBER from the passage for each answer.</p>
-<p>Questions 20-23
+<p><strong>Questions 14-19</strong>
+Complete the table below. Use <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> from the passage for each answer.</p>
+<p><strong>Questions 20-23</strong>
 Complete each sentence with the appropriate ending, A-J, below.</p>
 <p>20. The styling of apparel
 21. Wearing outdated clothing
 22. The impact of fashion
 23. Mass production of fashionable clothing</p>
-<p>A allowed the less affluent to buy styled clothes.
-B was fell by top designers seeing fake, less expensive designer clothing on the market.
-C was made possible with the development of tailored and fitted clothing.
-D gave the individual a means of self-expression.
-E caused anxiety and hostility in western cultures.
-F was made possible with the increase in sophistication of the royal courts.
-G was seen as something shameful in earlier times.
-H had little effect on nonconforming youth.
-I distinguished the rich from the poor in earlier times.
-J was felt in the workforce with the change to informal wear.</p>
-<p>Questions 24-26
-Answer the questions below. Choose NO MORE THAN ONE WORDS from the passage for each answer. Write your answers in boxes 24-26 on your answer sheet.</p>
+<p><strong>A</strong> allowed the less affluent to buy styled clothes.
+<strong>B</strong> was fell by top designers seeing fake, less expensive designer clothing on the market.
+<strong>C</strong> was made possible with the development of tailored and fitted clothing.
+<strong>D</strong> gave the individual a means of self-expression.
+<strong>E</strong> caused anxiety and hostility in western cultures.
+<strong>F</strong> was made possible with the increase in sophistication of the royal courts.
+<strong>G</strong> was seen as something shameful in earlier times.
+<strong>H</strong> had little effect on nonconforming youth.
+<strong>I</strong> distinguished the rich from the poor in earlier times.
+<strong>J</strong> was felt in the workforce with the change to informal wear.</p>
+<p><strong>Questions 24-26</strong>
+Answer the questions below. Choose <strong>NO MORE THAN ONE WORDS</strong> from the passage for each answer. Write your answers in boxes 24-26 on your answer sheet.</p>
 <p>24. A kind of adornment worn by defiant young people these days besides body piercings and metal studs
 25. What was a symbol of wealth in medieval times?
 26. Name ONE group of people who protested against the social values of the fashionable.</p>
-<p>mass production</p>
+<p><strong>mass production</strong></p>
 <p>Car manufacturer Henry Ford s 1908 Model T automobile was his twentieth design over a five-year period that began with the production of the original Model A in 1903. With his Model T, Ford finally achieved two objectives. He had a car that was designed for manufacture, and one that was easily operated and maintained by the owner. These two achievements laid the groundwork for the revolutionary change in direction for the entire motor vehicle industry.</p>
 <p>The key to mass production wasn’t the moving, or continuous, assembly line. Rather, it was the complete and consistent interchangeability of parts and the simplicity of attaching them to each other. These were the manufacturing innovations that made the assembly line possible. To achieve interchangeability, Ford insisted that the same gauging system be used for every part all the way through the entire manufacturing process. Previously, each part had been made to a slightly different gauge, so skilled fitters had to file each part individually to fit onto the other parts of the car. Ford’s insistence on working to gauge throughout was driven by his realisation of the payoff he would get in the form of savings on assembly costs. Ford also benefited from recent advances in machine tools able to work on pre-hardened metals. The warping or distortion that occurred as machined parts were being hardened had been the bane of previous attempts to standardise parts. Once the warping problem was solved, Ford was able to develop innovative designs that reduced the number of parts needed and made these parts easy to attach. For example, Ford’s four-cylinder engine block consisted of a single, complex casting. Competitors cast each cylinder separately and bolted the four together. Taken together, interchangeability, simplicity, and ease of attachment gave Ford tremendous advantages over his competition.</p>
 <p>Ford’s first efforts to assemble his cars, beginning in 1903, involved setting up assembly stands on which a whole car was built, often by one fitter. In 1908, on the eve of the introduction of the Model T, a Ford assembler’s average task cycle, that is the amount of time he worked before repeating the same operations, totalled 514 minutes, or 8.56 hours. Each worker would assemble a large part of a car before moving on to the next. For example, a worker might put all the mechanical parts, such as wheels, springs, motor, transmission and generator, on the chassis (body), a set of activities that took a whole day to complete. The assembler/fitters performed the same set of activities over and over at their stationary assembly stands. They had to get the necessary parts, file them down so they would fit (Ford hadn’t yet achieved perfect interchangeability of parts), then bolt them in place.</p>
@@ -167,40 +223,40 @@ Answer the questions below. Choose NO MORE THAN ONE WORDS from the passage for e
 <p>Even more striking, Ford’s discovery simultaneously reduced the amount of human effort needed to assemble an automobile. What’s more, the more vehicles Ford produced, the more the cost per vehicle fell. Even when it was introduced in 1908, Ford’s Model T, with its fully interchangeable parts, cost less than its rivals. By the time Ford reached peak production volume of 2 million identical vehicles a year in the early 1920s, he had cut the real cost to the consumer by an additional two-thirds.</p>
 <p>To appeal to his target market of average consumers, Ford had also designed unprecedented ease of operation and maintainability into his car. He assumed that his buyer would be a farmer with a modest tool kit and the kinds of mechanical skills needed for fixing farm machinery. So the Model T’s owner’s manual explained in 64 pages how the owner could use simple tools to solve any of the 140 problems likely to occur with the car.</p>
 <p>Ford’s competitors were as amazed by this designed-in repairability as by the moving assembly line. This combination of competitive advantages catapulted Ford to the head of the world’s motor industry and virtually eliminated craft-production companies unable to match its manufacturing economies.</p>
-<p>Questions 27-32
-Complete the flow chart below. Choose NO MORE THAN THREE WORDS from the passage for each answer. Write your answers in boxes 27-32 on your answer sheet.</p>
-<p>IMPROVING PRODUCTIVITY
+<p><strong>Questions 27-32</strong>
+Complete the flow chart below. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer. Write your answers in boxes 27-32 on your answer sheet.</p>
+<p><strong>IMPROVING PRODUCTIVITY</strong>
 • Manufacturing innovations gave Ford a huge advantage over the (27)…………………</p>
-<p>ASSEMBLING THE CAR
+<p><strong>ASSEMBLING THE CAR</strong>
 • Assembly stands set up
 • (28)………………………..performed repeatedly.</p>
-<p>MAKING THE PROCESS MORE EFFICIENT
+<p><strong>MAKING THE PROCESS MORE EFFICIENT</strong>
 • Parts delivered to (29)…………………….
 • Fitter remained stationary all day.</p>
-<p>ACHIEVING PERFECT (30)………………
+<p><strong>ACHIEVING PERFECT (30)………………</strong>
 • Fitter carried out a single task only.
 • Assembler moved around the hall from car to car.
 • Reduction in the (31)…………………….increased productivity.</p>
-<p>INTRODUCING THE MOVING ASSEMBLY LINE
+<p><strong>INTRODUCING THE MOVING ASSEMBLY LINE</strong>
 • Vehicle moved from one workstation to the next
 • Increase in (32)……………………….implemented because of the stationary assembler.</p>
-<p>Questions 33-37
+<p><strong>Questions 33-37</strong>
 According to the passage, classify the following characteristics of mass production as relating to</p>
-<p>A an advantage
-B a disadvantage
-C neither an advantage nor a disadvantage</p>
+<p><strong>A</strong> an advantage
+<strong>B</strong> a disadvantage
+<strong>C</strong> neither an advantage nor a disadvantage</p>
 <p>33. shaping each part to fit individually with all other parts
 34. having a single, complex casting for the four-cylinder engine block
 35. designing 20 Ford automobiles within a five-year period
 36. hardening of machined parts for standardisation
 37. using identical gauges for each part throughout the production</p>
-<p>Questions 38-40
+<p><strong>Questions 38-40</strong>
 Choose the appropriate letter, A, B, C or D.</p>
 <p>38. Which graph best describes the change in task time resulting from workers performing a single task only?</p>
 <p>39. Which graph best describes the cost of building a moving assembly line in comparison to the money saved?</p>
 <p>40. Which graph best describes the relationship between the number of vehicles produced and the cost of the vehicles?</p>
 <p>_______  _______  _______ Show Answers</p>
-<p>ANSWER KEY</p>
+<p><strong>ANSWER KEY</strong></p>
 <p>1. C</p>
 <p>2. B</p>
 <p>3. F</p>
@@ -459,6 +515,29 @@ Choose the appropriate letter, A, B, C or D.</p>
     
 <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let sid = localStorage.getItem('youpass_student_id');
+        if(sid) {
+            document.getElementById('nickname-input').value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.getElementById('login-overlay').style.backgroundImage = `url(${randomBg})`;
+    });
 
     async function grantAccess() {
         const input = document.getElementById('nickname-input');
@@ -478,12 +557,23 @@ Choose the appropriate letter, A, B, C or D.</p>
             let data = await loginRes.json();
 
             if (data.status === 'success') {
-                document.getElementById('loading-status').innerText = "Thành công!";
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                // Animate progress bar
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                // Wait for progress bar to finish (2 seconds)
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = "none";
                     document.querySelector('.main-layout').style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                }, 500);
+                }, 2200);
+                
             } else {
                 alert("Lỗi: " + data.message);
                 document.getElementById('login-loading-fields').style.display = "none";
@@ -495,14 +585,6 @@ Choose the appropriate letter, A, B, C or D.</p>
             document.getElementById('login-form-fields').style.display = "block";
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        if(sid) {
-            document.getElementById('login-overlay').style.display = "none";
-            document.querySelector('.main-layout').style.display = "flex";
-        }
-    });
 </script>
 
     <script src="../../Assets/highlighter.js"></script>
