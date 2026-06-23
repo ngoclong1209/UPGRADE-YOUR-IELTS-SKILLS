@@ -1,0 +1,252 @@
+<USER_REQUEST>
+THÔI, CỨ THAO TÁC TRÊN MẠNG ggsheet cho tiện, đây là scripts cũ, tôi cần update ngay toàn bộ link bài đọc nhé: 
+// 1. TẠO MENU CÔNG CỤ
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  ui.createMenu('Youpass Tool')
+      .addItem('Đồng bộ Dữ liệu Học Viên', 'syncStudents')
+      .addItem('Dọn dẹp & Di cư dữ liệu PTE cũ', 'migrateOldSubmissions')
+      .addToUi();
+}
+
+// 2. TỰ ĐỘNG CHẠY KHI THÊM / XOÁ HỌC VIÊN
+function onEdit(e) {
+  if (!e || !e.range) return;
+  var sheet = e.range.getSheet();
+  if (sheet.getName() === "Students" && (e.range.getColumn() === 1 || e.range.getColumn() === 2)) {
+    syncStudents();
+  }
+}
+
+// 3. HÀM ĐỒNG BỘ: TẠO SHEET RIÊNG & HYPERLINK
+function syncStudents() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var studentSheet = ss.getSheetByName("Students");
+  
+  // Đảm bảo có cột Device ID (Cột C)
+  if (studentSheet.getRange("C1").getValue() !== "Device ID") {
+    studentSheet.getRange("C1").setValue("Device ID").setFontWeight("bold");
+  }
+
+  var allSheets = ss.getSheets();
+  var studentData = studentSheet.getDataRange().getValues();
+  var validStudentIds = [];
+  var idToRowMap = {};
+  
+  for (var i = 1; i < studentData.length; i++) {
+    var studentId = studentData[i][0] ? studentData[i][0].toString().trim().toUpperCase() : "";
+    if (studentId) {
+      validStudentIds.push(studentId);
+      idToRowMap[studentId] = i + 1;
+    }
+  }
+  
+  // Quét toàn bộ tab hiện có, xoá tab của học viên đã bị xoá
+  for (var i = 0; i < allSheets.length; i++) {
+    var sheetName = allSheets[i].getName();
+    if (sheetName.indexOf("HV_") === 0) {
+      var sId = sheetName.substring(3);
+      if (validStudentIds.indexOf(sId) === -1) {
+        ss.deleteSheet(allSheets[i]);
+      }
+    }
+  }
+  
+  // Duyệt tạo tab cá nhân và chèn link vào tên
+  for (var i = 0; i < validStudentIds.length; i++) {
+    var sId = validStudentIds[i];
+    var sheetName = "HV_" + sId;
+    var personalSheet = ss.getSheetByName(sheetName);
+    
+    if (!personalSheet) {
+      personalSheet = ss.insertSheet(sheetName);
+      personalSheet.appendRow(['Tên Bài Tập', 'Lần 1', 'Lần 2', 'Lần 3', 'Lần 4', 'Lần 5']);
+      personalSheet.getRange("A1:F1").setFontWeight("bold").setBackground("#d9ead3");
+      personalSheet.setColumnWidth(1, 200);
+    }
+    
+    var sheetId = personalSheet.getSheetId();
+    var cell = studentSheet.getRange(idToRowMap[sId], 1); 
+    var link = '#gid=' + sheetId;
+    
+    var richValue = SpreadsheetApp.newRichTextValue()
+      .setText(cell.getValue().toString())
+      .setLinkUrl(link)
+      .build();
+    cell.setRichTextValue(richValue);
+  }
+}
+
+// 4. HÀM DỌN DẸP & DI CƯ DỮ LIỆU CŨ TỪ SUBMISSIONS
+function migrateOldSubmissions() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var subSheet = ss.getSheetByName("Submissions");
+  if (!subSheet) return;
+
+  var data = subSheet.getDataRange().getValues();
+  if (data.length <= 1) return; // Chỉ có header hoặc trống
+
+  // Đảm bảo syncStudents đã chạy
+  syncStudents();
+
+  // Parse từ dưới lên trên để dễ xoá dòng
+  var rowsToDelete = [];
+
+  for (var i = data.length - 1; i >= 1; i--) {
+    var row = data[i];
+    var studentId = row[1] ? row[1].toString().trim().toUpperCase() : "";
+    var testName = row[2] ? row[2].toString().trim() : "";
+    var part = row[3] ? row[3].toString().trim() : "";
+    var attempt = row[4] ? row[4].toString().trim() : "";
+    var score = row[5] ? row[5].toString().trim() : "";
+
+    if (studentId && testName && score) {
+      var lessonId = testName + (part ? " " + part : "");
+      var finalScore = score + (attempt ? " (Attempt " + attempt + ")" : "");
+      
+      var pSheetName = "HV_" + studentId;
+      var pSheet = ss.getSheetByName(pSheetName);
+      
+      if (pSheet) {
+        // Ghi vào personal sheet
+        const pData = pSheet.getDataRange().getValues();
+        let targetRow = -1;
+        
+        for (let r = 1; r < pData.length; r++) {
+          if (pData[r][0] === lessonId) {
+            targetRow = r + 1;
+            break;
+          }
+        }
+        
+        if (targetRow === -1) {
+          pSheet.appendRow([lessonId, finalScore]);
+        } else {
+          const rowData = pData[targetRow - 1];
+          let targetCol = 2;
+          while (targetCol <= rowData.length && rowData[targetCol - 1] !== "") {
+            targetCol++;
+          }
+          pSheet.getRange(targetRow, targetCol).setValue(finalScore);
+        }
+        
+        // Đánh dấu dòng này để xoá khỏi Submissions
+        rowsToDelete.push(i + 1);
+      }
+    }
+  }
+
+  // Xoá các dòng đã xử lý
+  for (var k = 0; k < rowsToDelete.length; k++) {
+    subSheet.deleteRow(rowsToDelete[k]);
+  }
+}
+
+// 5. HÀM XỬ LÝ POST (LOGIN & SUBMIT SCORE)
+function doPost(e) {
+  // Add CORS headers automatically if executed as Web App
+  try {
+    const data = JSON.parse(e.postData.contents);
+    const action = data.action; // 'login' or 'submit'
+    const userId = data.userId ? data.userId.trim().toUpperCase() : "";
+    const deviceId = data.deviceId ? data.deviceId.trim() : "";
+
+    if (!userId) throw new Error("Thiếu userId");
+
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const studentSheet = ss.getSheetByName("Students");
+    const studentData = studentSheet.getDataRange().getValues();
+    
+    let userRow = -1;
+    let storedDeviceId = "";
+    
+    // Check if user exists
+    for (let i = 1; i < studentData.length; i++) {
+      if (studentData[i][0] && studentData[i][0].toString().trim().toUpperCase() === userId) {
+        userRow = i + 1;
+        storedDeviceId = studentData[i][2] ? studentData[i][2].toString().trim() : "";
+        break;
+      }
+    }
+    
+    if (userRow === -1) {
+      return ContentService.createTextOutput(JSON.stringify({"status": "error", "message": "Tài khoản không tồn tại. Vui lòng liên hệ Giáo viên!"}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    // HÀM GHI NHẬN LỊCH SỬ
+    function logToStudentSheet(ss, userId, lessonId, resultString) {
+      if (!lessonId) return;
+      const sheetName = "HV_" + userId;
+      let personalSheet = ss.getSheetByName(sheetName);
+      
+      if (!personalSheet) {
+        personalSheet = ss.insertSheet(sheetName);
+        personalSheet.appendRow(['Tên Bài Tập', 'Lần 1', 'Lần 2', 'Lần 3', 'Lần 4', 'Lần 5']);
+        personalSheet.getRange("A1:F1").setFontWeight("bold").setBackground("#d9ead3");
+      }
+      
+      const pData = personalSheet.getDataRange().getValues();
+      let targetRow = -1;
+      
+      for (let i = 1; i < pData.length; i++) {
+        if (pData[i][0] === lessonId) {
+          targetRow = i + 1;
+          break;
+        }
+      }
+      
+      if (targetRow === -1) {
+        personalSheet.appendRow([lessonId, resultString]);
+      } else {
+        const rowData = pData[targetRow - 1];
+        let targetCol = 2; // Cột Lần 1 (index 1)
+        while (targetCol <= rowData.length && rowData[targetCol - 1] !== "") {
+          targetCol++;
+        }
+        personalSheet.getRange(targetRow, targetCol).setValue(resultString);
+      }
+    }
+
+    // DEVICE BINDING LOGIC
+    if (storedDeviceId === "") {
+      studentSheet.getRange(userRow, 3).setValue(deviceId);
+      storedDeviceId = deviceId;
+    } else if (storedDeviceId !== deviceId) {
+      // Đăng nhập thất bại -> Ghi nhận lại nếu có lessonId
+      if (data.lessonId) {
+         logToStudentSheet(ss, userId, data.lessonId, "Đăng nhập thất bại (Sai thiết bị)");
+      }
+      return ContentService.createTextOutput(JSON.stringify({"status": "error", "message": "Tài khoản này đã được đăng nhập trên một thiết bị khác! Hành vi chia sẻ tài khoản bị nghiêm cấm."}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    if (action === "login") {
+      if (data.lessonId) {
+         logToStudentSheet(ss, userId, data.lessonId, "0/0");
+      }
+      return ContentService.createTextOutput(JSON.stringify({"status": "success", "message": "Đăng nhập thành công!"}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    if (action === "submit") {
+      const lessonId = data.lessonId;
+      const finalScore = data.score + " (" + data.percent + "%)";
+      logToStudentSheet(ss, userId, lessonId, finalScore);
+
+      return ContentService.createTextOutput(JSON.stringify({"status": "success"}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    throw new Error("Invalid action");
+
+  } catch(err) {
+    return ContentService.createTextOutput(JSON.stringify({"status": "error", "message": err.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+hiện nay toàn bộ danh sách link bài nghe với github đã không hoạt động 404, bạn hãy cấu hình lại, tôi tải lại file excel xuống cho bạn xem, chúng ta viết script để chỉ thực hiện nhập học viên trên mạng '/Users/vungoclong/Desktop/Antigravity/UPGRADE YOUR ILETS LISTENING/UPGRADE YOUR ILETS SKILLS.xlsx'
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-22T11:50:49+07:00.
+</ADDITIONAL_METADATA>
