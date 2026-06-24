@@ -15,7 +15,7 @@
             display: flex; height: 100vh; width: 100vw;
         }
         .passage-pane {
-            flex: 0 0 60%; overflow-y: auto; padding: 30px;
+            flex: 0 0 83.33%; overflow-y: auto; padding: 30px;
             background: white; border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             font-size: 1.15rem; line-height: 1.8;
@@ -628,7 +628,7 @@ Complete the notes below. Write <strong>ONE WORD OR A NUMBER</strong> for each a
             if (!isResizing) return;
             let containerWidth = document.querySelector('.main-layout').offsetWidth;
             let newLeftWidth = (e.clientX / containerWidth) * 100;
-            if (newLeftWidth > 20 && newLeftWidth < 80) {
+            if (newLeftWidth > 20 && newLeftWidth < 95) {
                 leftPane.style.flex = `0 0 ${newLeftWidth}%`;
                 rightPane.style.flex = `1 1 0%`;
             }
@@ -654,7 +654,7 @@ Complete the notes below. Write <strong>ONE WORD OR A NUMBER</strong> for each a
             let touch = e.touches[0];
             let containerWidth = document.querySelector('.main-layout').offsetWidth;
             let newLeftWidth = (touch.clientX / containerWidth) * 100;
-            if (newLeftWidth > 20 && newLeftWidth < 80) {
+            if (newLeftWidth > 20 && newLeftWidth < 95) {
                 leftPane.style.flex = `0 0 ${newLeftWidth}%`;
                 rightPane.style.flex = `1 1 0%`;
             }
@@ -676,9 +676,25 @@ Complete the notes below. Write <strong>ONE WORD OR A NUMBER</strong> for each a
             btn.disabled = true;
 
             let answers = [];
+            let uncompleted = [];
             for (let i = 1; i <= 40; i++) {
-                let val = document.getElementById('q' + i).value.trim();
-                answers.push(val);
+                let el = document.getElementById('q' + i);
+                if (el) {
+                    let val = el.value.trim();
+                    if (!val) uncompleted.push(i);
+                    answers.push(val);
+                }
+            }
+            
+            if (uncompleted.length > 0) {
+                try {
+                    const sfxError = new Audio('../../Listening_102_Basic/assets/sfx/incorrectanswersfx.mp3');
+                    sfxError.play().catch(e => console.log(e));
+                } catch(err) {}
+                alert("Bạn phải hoàn thành đủ 40 câu mới được nộp bài! (Còn trống: " + uncompleted.join(", ") + ")");
+                btn.innerText = "SUBMIT ANSWERS 🌸";
+                btn.disabled = false;
+                return;
             }
 
             let payload = {

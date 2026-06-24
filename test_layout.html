@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.main-layout { display: flex; }
+</style>
+</head>
+<body>
+    <div class="login-overlay" id="login-overlay"></div>
+    <div class="main-layout" style="display: none;">MAIN LAYOUT</div>
+    <script>
+        let mainLayout = document.querySelector('.main-layout') || document.querySelector('.container') || document.body.firstElementChild;
+        console.log("mainLayout:", mainLayout.className);
+        console.log("mainLayout.id !== 'login-overlay':", mainLayout.id !== 'login-overlay');
+        
+        let orig = mainLayout.style.display;
+        if (orig === 'none' || orig === '') {
+            orig = mainLayout.classList.contains('main-layout') ? 'flex' : 'block';
+        }
+        mainLayout.setAttribute('data-original-display', orig);
+        mainLayout.style.display = 'none';
+        
+        setTimeout(() => {
+            let mainLayout2 = document.querySelector('.main-layout') || document.querySelector('.container') || document.body.firstElementChild;
+            let targetDisplay = mainLayout2.getAttribute('data-original-display') || 'block';
+            if(targetDisplay === 'none') {
+                targetDisplay = mainLayout2.classList.contains('main-layout') ? 'flex' : 'block';
+            }
+            mainLayout2.style.display = targetDisplay;
+            console.log("Final display:", mainLayout2.style.display);
+        }, 100);
+    </script>
+</body>
+</html>
