@@ -2,53 +2,40 @@ import os
 import glob
 from bs4 import BeautifulSoup
 
-LOGIN_CSS = """
-    <style>
-        /* [COPYING CSS FROM build_full_tests.py] */
-        .login-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: rgba(0, 0, 0, 0.85); background-size: cover; background-position: center;
-            display: flex; justify-content: center; align-items: center; z-index: 9999;
-            backdrop-filter: blur(8px);
+LOGIN_CSS = """<style>
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
         }
-        .login-box {
-            background: rgba(255, 255, 255, 0.95); padding: 50px 40px; border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; max-width: 450px; width: 90%;
-            border: 2px solid #ffb6c1; position: relative; overflow: hidden;
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
         }
-        .login-header {
-            font-family: 'DynaPuff', cursive; font-size: 2.5rem; color: #ff5e7e;
-            margin-bottom: 10px; text-shadow: 2px 2px 0px #ffe4e1;
+        .login-box { 
+            background: #d7ccc8; padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
         }
-        .login-subheader { font-size: 1.1rem; color: #555; margin-bottom: 30px; font-weight: 500; }
-        .login-input {
-            width: 100%; padding: 15px; border: 2px solid #ffb6c1; border-radius: 12px;
-            font-size: 1.1rem; margin-bottom: 25px; outline: none; transition: all 0.3s ease;
-            text-align: center; box-sizing: border-box; font-family: 'Quicksand', sans-serif;
-            font-weight: bold; color: #333;
-        }
-        .login-input:focus { border-color: #ff5e7e; box-shadow: 0 0 10px rgba(255, 94, 126, 0.3); }
-        .submit-btn {
-            background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
-            color: white; border: none; padding: 15px 30px; font-size: 1.3rem;
-            border-radius: 30px; cursor: pointer; font-family: 'DynaPuff', cursive;
-            transition: all 0.3s ease; width: 100%; box-shadow: 0 5px 15px rgba(255, 94, 126, 0.4);
-        }
-        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(255, 94, 126, 0.6); }
+        .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #2e7d32; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
+        .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
+        .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 5px solid #8d6e63; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #ffffff; font-family: 'Quicksand', sans-serif; }
+        .login-input:focus { border-color: #2e7d32; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
         .progress-container {
-            width: 100%; background: #f0f0f0; border-radius: 10px;
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
             overflow: hidden; margin-top: 15px; display: none; height: 20px;
         }
         .progress-bar {
             height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
-            width: 0%; transition: width 2s ease-in-out;
+            width: 0%; transition: width 5s ease-in-out;
         }
         .payment-message {
-            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            color: #e65100; font-weight: bold; font-size: 1.1rem; 
             margin-top: 20px; display: none; line-height: 1.5;
         }
-    </style>
-"""
+</style>"""
 
 LOGIN_HTML_TMPL = """
     <div class="login-overlay" id="login-overlay">
@@ -61,7 +48,7 @@ LOGIN_HTML_TMPL = """
             </div>
             
             <div id="login-loading-fields" style="display: none; padding: 10px 0;">
-                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #ff5e7e;">Đang kiểm tra ID...</div>
+                <div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #4caf50;">Đang kiểm tra ID...</div>
                 <div class="payment-message" id="payment-message">
                     Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
                 </div>
@@ -100,6 +87,16 @@ LOGIN_JS = """
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+        const btnSfx = new Audio('../../Listening_102_Basic/assets/sfx/collectcoins.mp3');
+        document.body.addEventListener('click', (e) => {
+            if(e.target.tagName === 'BUTTON' || e.target.classList.contains('submit-btn')) {
+                try {
+                    btnSfx.currentTime = 0;
+                    btnSfx.play().catch(e => console.log(e));
+                } catch(err) {}
+            }
+        });
+        
         let sid = localStorage.getItem('youpass_student_id');
         let overlay = document.getElementById('login-overlay');
         
@@ -149,6 +146,11 @@ LOGIN_JS = """
                 document.getElementById('payment-message').style.display = "block";
                 document.getElementById('progress-container').style.display = "block";
                 
+                try {
+                    const sfxSuccess = new Audio('../../Listening_102_Basic/assets/sfx/freesound_community-medieval-fanfare-6826.mp3');
+                    sfxSuccess.play().catch(e => console.log(e));
+                } catch(e) {}
+                
                 setTimeout(() => {
                     document.getElementById('progress-bar').style.width = "100%";
                 }, 100);
@@ -170,7 +172,7 @@ LOGIN_JS = """
                     // Show audio container explicitly if it was handled specially
                     let audioContainer = document.querySelector('.audio-fixed-bottom');
                     if (audioContainer) audioContainer.style.display = 'block';
-                }, 2200);
+                }, 5100);
                 
             } else {
                 alert("Lỗi: " + data.message);

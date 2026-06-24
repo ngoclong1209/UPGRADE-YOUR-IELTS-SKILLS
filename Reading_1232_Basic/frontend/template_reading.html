@@ -121,7 +121,7 @@
         }
 
         .passage-pane {
-            flex: 1;
+            flex: 0 0 60%;
             overflow-y: auto;
             padding: 2.5rem 3.5rem;
             padding-bottom: 40px;
@@ -148,7 +148,7 @@
         }
 
         .answer-pane {
-            flex: 2;
+            flex: 1 1 40%;
             overflow-y: auto;
             padding: 2.5rem 2rem;
             display: flex;
@@ -910,13 +910,13 @@
             background: rgba(0, 0, 0, 0.2);
         }
         .passage-pane {
-            flex: 0 0 66.66%;
+            flex: 0 0 60%;
             max-width: 90%;
             min-width: 20%;
             overflow-y: auto;
         }
         .answer-pane {
-            flex: 1;
+            flex: 1 1 40%;
             overflow-y: auto;
             min-width: 20%;
         }
@@ -1121,13 +1121,13 @@
             background: rgba(0, 0, 0, 0.2);
         }
         .passage-pane {
-            flex: 0 0 66.66%;
+            flex: 0 0 60%;
             max-width: 90%;
             min-width: 20%;
             overflow-y: auto;
         }
         .answer-pane {
-            flex: 1;
+            flex: 1 1 40%;
             overflow-y: auto;
             min-width: 20%;
         }
@@ -1533,38 +1533,108 @@
         }
         
     </style>
-</head>
+<style>
+        /* [COPYING CSS FROM build_full_tests.py] */
+        .login-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: rgba(0, 0, 0, 0.85); background-size: cover; background-position: center;
+            display: flex; justify-content: center; align-items: center; z-index: 9999;
+            backdrop-filter: blur(8px);
+        }
+        .login-box {
+            background: rgba(255, 255, 255, 0.95); padding: 50px 40px; border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; max-width: 450px; width: 90%;
+            border: 2px solid #ffb6c1; position: relative; overflow: hidden;
+        }
+        .login-header {
+            font-family: 'DynaPuff', cursive; font-size: 2.5rem; color: #ff5e7e;
+            margin-bottom: 10px; text-shadow: 2px 2px 0px #ffe4e1;
+        }
+        .login-subheader { font-size: 1.1rem; color: #555; margin-bottom: 30px; font-weight: 500; }
+        .login-input {
+            width: 100%; padding: 15px; border: 2px solid #ffb6c1; border-radius: 12px;
+            font-size: 1.1rem; margin-bottom: 25px; outline: none; transition: all 0.3s ease;
+            text-align: center; box-sizing: border-box; font-family: 'Quicksand', sans-serif;
+            font-weight: bold; color: #333;
+        }
+        .login-input:focus { border-color: #ff5e7e; box-shadow: 0 0 10px rgba(255, 94, 126, 0.3); }
+        .submit-btn {
+            background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            color: white; border: none; padding: 15px 30px; font-size: 1.3rem;
+            border-radius: 30px; cursor: pointer; font-family: 'DynaPuff', cursive;
+            transition: all 0.3s ease; width: 100%; box-shadow: 0 5px 15px rgba(255, 94, 126, 0.4);
+        }
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(255, 94, 126, 0.6); }
+        .progress-container {
+            width: 100%; background: #f0f0f0; border-radius: 10px;
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 2s ease-in-out;
+        }
+        .payment-message {
+            color: #d6336c; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
+    </style>
+<style>
+        .login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background-size: cover; background-position: center; 
+            z-index: 99999; display: flex; align-items: center; justify-content: center; 
+        }
+        .login-overlay::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: -1;
+        }
+        .login-box { 
+            background: #d7ccc8; padding: 40px; border-radius: 30px; 
+            width: 90%; max-width: 450px; text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5; 
+            backdrop-filter: blur(10px);
+        }
+        .login-header { font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #2e7d32; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2); }
+        .login-subheader { font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif; }
+        .login-input { width: 85%; padding: 18px 25px; font-size: 1.2rem; border: 5px solid #8d6e63; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #ffffff; font-family: 'Quicksand', sans-serif; }
+        .login-input:focus { border-color: #2e7d32; box-shadow: 0 0 15px rgba(255,133,162,0.3); }
+        
+        .progress-container {
+            width: 100%; background-color: #f3f3f3; border-radius: 20px; 
+            overflow: hidden; margin-top: 15px; display: none; height: 20px;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
+            width: 0%; transition: width 5s ease-in-out;
+        }
+        .payment-message {
+            color: #e65100; font-weight: bold; font-size: 1.1rem; 
+            margin-top: 20px; display: none; line-height: 1.5;
+        }
+</style></head>
 <body>
-<!-- UNIFIED LOGIN OVERLAY -->
-<div class="login-overlay" id="login-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px);">
-<div class="login-box" style="background: linear-gradient(145deg, #ffffff, #fff0f5); padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 4px solid #ffccd5;">
-<div class="login-header" style="font-family: 'DynaPuff', cursive; font-size: 2.2rem; color: #ff85a2; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(255,133,162,0.2);">🍭 Study Room 🍭</div>
-<div class="login-subheader" style="font-size: 1rem; color: #8c6d7d; margin-bottom: 25px; font-family: 'Quicksand', sans-serif;">Hệ thống: 1232 bài luyện tập đọc hiểu ✨</div>
+<div class="login-overlay" id="login-overlay">
+<div class="login-box">
+<div class="login-header">🍭 Study Room 🍭</div>
+<div class="login-subheader">Hệ thống: 1232 bài thi Reading Basic ✨</div>
 <div id="login-form-fields">
-<input autofocus="" class="login-input" id="nickname-input" onblur="this.style.borderColor='#ffccd5'; this.style.boxShadow='none';" onfocus="this.style.borderColor='#ff85a2'; this.style.boxShadow='0 0 15px rgba(255,133,162,0.3)';" placeholder="Nhập ID học viên của bạn..." style="width: 100%; padding: 18px 25px; font-size: 1.2rem; border: 3px solid #ffccd5; border-radius: 25px; outline: none; transition: 0.3s; margin-bottom: 25px; text-align: center; color: #5c404d; background: #fffafb; font-family: 'Quicksand', sans-serif;" type="text"/>
-<button class="check-btn" onclick="grantAccess()" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(255,94,126,0.3)';" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 25px rgba(255,94,126,0.4)';" style="width: 100%; padding: 18px 30px; font-size: 1.2rem; color: white; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%); border: none; border-radius: 25px; cursor: pointer; font-weight: 700; transition: 0.3s; box-shadow: 0 10px 20px rgba(255,94,126,0.3); font-family: 'Quicksand', sans-serif;">
-                    LET'S GO! 🌸
-                </button>
+<input autofocus="" class="login-input" id="nickname-input" placeholder="Nhập ID học viên..." type="text"/>
+<button class="submit-btn" onclick="grantAccess()">LET'S GO! 🌸</button>
 </div>
-<div id="login-loading-fields" style="display: none; padding: 20px 0;">
-<div class="loading-status" id="loading-status" style="font-family: 'Quicksand', sans-serif; font-size: 1.15rem; font-weight: 600; margin-bottom: 15px; color: #333;">Đang kết nối hệ thống...</div>
-<div class="progress-bar-container" style="width: 100%; height: 20px; background: rgba(0, 0, 0, 0.1); border-radius: 10px; overflow: hidden; margin-bottom: 25px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.15);">
-<div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%; height: 100%; background: linear-gradient(90deg, #ff758c 0%, #ff7eb3 100%); border-radius: 10px; transition: width 0.1s linear;"></div>
-</div>
-<div class="payment-card" style="background: rgba(255, 255, 255, 0.95); border: 2.5px solid #e5e7eb; border-radius: 20px; padding: 20px; text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.05); font-family: 'Quicksand', sans-serif;">
-<div style="font-size: 1.1rem; font-weight: 700; color: #ff5e7e; margin-bottom: 12px; border-bottom: 2px dashed rgba(0,0,0,0.1); padding-bottom: 8px; text-align: center;">🎫 THÔNG TIN THANH TOÁN</div>
-<div style="font-size: 0.95rem; line-height: 1.6; color: #333;">
-<p style="margin: 6px 0;">💵 <b>Nội dung khoá học:</b> <span style="color: #2b9348; font-weight: bold;">1232 bài tập Đọc hiểu, 102 bài tập Nghe, 204 bài thi Listening Full, 315 bài thi Reading Full</span></p>
-<p style="margin: 6px 0;">💰 <b>Giá trị:</b> <span style="color: #e91e63; font-weight: bold;">1,599,000 VND</span></p>
-<p style="margin: 6px 0;">👤 <b>Đã được trả phí bởi:</b> <span style="color: #0077b6; font-weight: bold;">VŨ NGỌC LONG</span> <span id="payment-nickname-badge" style="font-size: 0.8rem; background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 12px; font-weight: 700; margin-left: 5px;"></span></p>
-<p style="margin: 6px 0; font-size: 0.85rem; color: #666; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 8px;">⏱️ <b>Thời hạn sử dụng:</b> 1 năm.</p>
-</div>
+<div id="login-loading-fields" style="display: none; padding: 10px 0;">
+<div id="loading-status" style="font-size: 1.15rem; font-weight: 600; color: #4caf50;">Đang kiểm tra ID...</div>
+<div class="payment-message" id="payment-message">
+                    Khoá học của bạn có giá 1,599,000 VND đã được thanh toán bởi VŨ NGỌC LONG.
+                </div>
+<div class="progress-container" id="progress-container">
+<div class="progress-bar" id="progress-bar"></div>
 </div>
 </div>
 </div>
 </div>
 
 
+<!-- UNIFIED LOGIN OVERLAY -->
 <!-- UNIFIED LOGIN OVERLAY -->
 <!-- UNIFIED LOGIN OVERLAY -->
 <!-- UNIFIED LOGIN OVERLAY -->
@@ -1601,16 +1671,11 @@
 </div>
 </div>
 <!-- Hidden audio elements for SFX -->
-
-
-
-
-    <audio id="sfx-start" preload="auto" src="../assets/sfx/freesound_community-medieval-fanfare-6826.mp3"></audio>
-    <audio id="sfx-click" preload="auto" src="../assets/sfx/collectcoins.mp3"></audio>
-    <audio id="sfx-win" preload="auto" src="../assets/sfx/winningholliwood.mp3"></audio>
-    <audio id="sfx-win2" preload="auto" src="../assets/sfx/gamewinner.mp3"></audio>
-    <audio id="sfx-tick" loop preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
-
+<audio id="sfx-start" preload="auto" src="../assets/sfx/freesound_community-medieval-fanfare-6826.mp3"></audio>
+<audio id="sfx-click" preload="auto" src="../assets/sfx/collectcoins.mp3"></audio>
+<audio id="sfx-win" preload="auto" src="../assets/sfx/winningholliwood.mp3"></audio>
+<audio id="sfx-win2" preload="auto" src="../assets/sfx/gamewinner.mp3"></audio>
+<audio id="sfx-tick" loop="" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
 <script>
 
         const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec';
@@ -1907,124 +1972,145 @@
 <button class="hl-btn" data-color="#f2b0d0" style="background: #f2b0d0;" title="Pink"></button>
 <button class="hl-action" id="hl-remove" title="Remove highlight">❌</button>
 </div>
- <script src="../../Assets/highlighter.js"></script>
+<script src="../../Assets/highlighter.js"></script>
 <script>
-    const APP_URL = "https://script.google.com/macros/s/AKfycbx7lOgaMcHm0ofxpG3V9bi52rMbL7wBXIzAHovP5xBrp9XbyuZp7QNKbSg2-UTJoauyOg/exec";
-
-    function getDeviceId() {
-        let did = localStorage.getItem('youpass_device_id');
-        if(!did) {
-            let fp = btoa(navigator.userAgent + screen.width + screen.height + navigator.language).substring(0, 15);
-            did = fp + '_' + Math.random().toString(36).substr(2, 5);
-            localStorage.setItem('youpass_device_id', did);
-        }
-        return did;
-    }
-    
-    function playSfx(id) {
-        try { let a = document.getElementById(id); if(a) { a.currentTime = 0; a.play().catch(e=>{}); } } catch(e){}
-    }
-
-    async function grantAccess() {
-        const input = document.getElementById('nickname-input');
-        let nickname = input ? input.value.trim().toUpperCase() : '';
-        if (!nickname) { alert("Vui lòng nhập ID học viên của bạn! 🌸"); return; }
-        
-        playSfx('sfx-click');
-        let formFields = document.getElementById('login-form-fields');
-        if(formFields) formFields.style.display = "none";
-        let loadFields = document.getElementById('login-loading-fields');
-        if(loadFields) loadFields.style.display = "block";
-        let badge = document.getElementById('payment-nickname-badge');
-        if(badge) badge.innerText = nickname;
-        
-        const progressFill = document.getElementById('progress-bar-fill');
-        const statusText = document.getElementById('loading-status');
-        let deviceId = getDeviceId();
-        
-        if(progressFill) progressFill.style.width = '10%';
-        if(statusText) statusText.innerText = "Đang kiểm tra thiết bị & IP...";
-
-        try {
-            let ipData = {};
-            try {
-                let ipRes = await fetch('https://api.ipify.org?format=json');
-                ipData = await ipRes.json();
-            } catch(e) { console.log("IP fetch failed", e); }
-            
-            if(progressFill) progressFill.style.width = '40%';
-            if(statusText) statusText.innerText = "Đang xác thực tài khoản qua máy chủ an toàn...";
-
-            let loginRes = await fetch(APP_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ action: 'login', student_id: nickname, device_id: deviceId, ip: ipData.ip || 'unknown' })
-            });
-            
-            let data = await loginRes.json();
-            if(progressFill) progressFill.style.width = '100%';
-
-            if (data.status === 'success') {
-                if(statusText) statusText.innerText = "Xác nhận thành công! Chuẩn bị phòng học...";
-                setTimeout(() => {
-                    let overlay = document.getElementById('login-overlay');
-                    if(overlay) overlay.style.display = "none";
-                    let mainLayout = document.querySelector('.main-layout');
-                    if(mainLayout) mainLayout.style.display = "flex";
-                    localStorage.setItem('youpass_student_id', nickname);
-                    playSfx('sfx-start');
-                    if(typeof startTimer === 'function') startTimer();
-                }, 500);
-            } else {
-                if(statusText) statusText.innerText = "LỖI: " + data.message;
-                if(statusText) statusText.style.color = "red";
-                alert(data.message);
-                setTimeout(() => {
-                    if(loadFields) loadFields.style.display = "none";
-                    if(formFields) formFields.style.display = "block";
-                    if(progressFill) progressFill.style.width = '0%';
-                }, 2000);
-            }
-        } catch(err) {
-            alert("Lỗi kết nối máy chủ! Vui lòng kiểm tra lại đường truyền.");
-            if(loadFields) loadFields.style.display = "none";
-            if(formFields) formFields.style.display = "block";
-        }
-    }
-
-    
-        document.addEventListener('click', function(e) {
-            if (e.target.tagName === 'INPUT' && (e.target.type === 'radio' || e.target.type === 'text')) {
-                const sfx = document.getElementById('sfx-click');
-                if (sfx) { sfx.currentTime = 0; sfx.play().catch(e=>{}); }
-            }
-        });
-        
-        window.addEventListener('DOMContentLoaded', () => {
-        let sid = localStorage.getItem('youpass_student_id');
-        let overlay = document.getElementById('login-overlay');
-        let mainLayout = document.querySelector('.main-layout');
-        if(sid) {
-            if(overlay) overlay.style.display = "none";
-            if(mainLayout) mainLayout.style.display = "flex";
-            if(typeof startTimer === 'function') startTimer();
-        } else {
-            if(overlay) overlay.style.display = "flex";
-            if(mainLayout) mainLayout.style.display = "none";
-        }
-    });
-</script>    <script>
         // Auto-format blanks and badges
         let leftPane = document.getElementById('left-pane') || document.querySelector('.passage-pane');
         if (leftPane) {
             let html = leftPane.innerHTML;
             // Match (1), (40), 1., 40. and turn into badges
-            html = html.replace(/(?<!<[^>]*)\b([1-3]?[0-9]|40)\.(?![^<]*>)/g, '<span class="cloud-badge">$1</span>');
-            html = html.replace(/(?<!<[^>]*)\(([1-3]?[0-9]|40)\)(?![^<]*>)/g, '<span class="cloud-badge">$1</span>');
+            html = html.replace(/(?<!<[^>]*)\b([0-9]{1,2})\.(?![^<]*>)/g, '<span class="cloud-badge">$1</span>');
+            html = html.replace(/(?<!<[^>]*)\(([0-9]{1,2})\)(?![^<]*>)/g, '<span class="cloud-badge">$1</span>');
             // Match ____ or .... and turn into blanks
-            html = html.replace(/_{3,}|\.{3,}/g, '<span class="cloud-blank"></span>');
+            html = html.replace(/_{2,}|\.{3,}/g, '<span class="cloud-blank"></span>');
             leftPane.innerHTML = html;
         }
     </script>
-</body>
+<script>
+
+    const APP_URL = "https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec";
+    
+    const backgrounds = [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1506744626753-140081bb41cd?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1470071131384-001b85755536?auto=format&fit=crop&w=1920&q=80",
+        "https://images.unsplash.com/photo-1458668383970-8ddd3927dded?auto=format&fit=crop&w=1920&q=80"
+    ];
+
+    function getDeviceId() {
+        let id = localStorage.getItem('youpass_device_id');
+        if (!id) {
+            id = 'device_' + Math.random().toString(36).substr(2, 9) + Date.now();
+            localStorage.setItem('youpass_device_id', id);
+        }
+        return id;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const btnSfx = new Audio('../../Listening_102_Basic/assets/sfx/collectcoins.mp3');
+        document.body.addEventListener('click', (e) => {
+            if(e.target.tagName === 'BUTTON' || e.target.classList.contains('submit-btn')) {
+                try {
+                    btnSfx.currentTime = 0;
+                    btnSfx.play().catch(e => console.log(e));
+                } catch(err) {}
+            }
+        });
+        
+        let sid = localStorage.getItem('youpass_student_id');
+        let overlay = document.getElementById('login-overlay');
+        
+        // Hide all body children except login-overlay
+        let children = document.body.children;
+        for (let i = 0; i < children.length; i++) {
+            let el = children[i];
+            if (el.id !== 'login-overlay' && el.tagName !== 'SCRIPT' && el.tagName !== 'STYLE') {
+                el.style.display = 'none';
+            }
+        }
+        
+        if(sid) {
+            let nickInput = document.getElementById('nickname-input');
+            if(nickInput) nickInput.value = sid;
+        }
+        
+        let randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        if(overlay) overlay.style.backgroundImage = `url(${randomBg})`;
+        
+        // Auto-focus logic
+        let nickInput = document.getElementById('nickname-input');
+        if(nickInput) nickInput.focus();
+    });
+
+    async function grantAccess() {
+        const input = document.getElementById('nickname-input');
+        let nickname = input ? input.value.trim().toUpperCase() : '';
+        if (!nickname) { alert("Vui lòng nhập ID!"); return; }
+        
+        document.getElementById('login-form-fields').style.display = "none";
+        document.getElementById('login-loading-fields').style.display = "block";
+        document.getElementById('loading-status').innerText = "Đang kiểm tra ID...";
+
+        try {
+            let loginRes = await fetch(APP_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'login', student_id: nickname, device_id: getDeviceId() })
+            });
+            let data = await loginRes.json();
+
+            if (data.status === 'success') {
+                localStorage.setItem('youpass_student_id', nickname);
+                
+                document.getElementById('loading-status').style.display = "none";
+                document.getElementById('payment-message').style.display = "block";
+                document.getElementById('progress-container').style.display = "block";
+                
+                try {
+                    const sfxSuccess = new Audio('../../Listening_102_Basic/assets/sfx/freesound_community-medieval-fanfare-6826.mp3');
+                    sfxSuccess.play().catch(e => console.log(e));
+                } catch(e) {}
+                
+                setTimeout(() => {
+                    document.getElementById('progress-bar').style.width = "100%";
+                }, 100);
+                
+                setTimeout(() => {
+                    document.getElementById('login-overlay').style.display = "none";
+                    
+                    // Unhide all body children
+                    let children = document.body.children;
+                    for (let i = 0; i < children.length; i++) {
+                        let el = children[i];
+                        if (el.id !== 'login-overlay' && el.tagName !== 'SCRIPT' && el.tagName !== 'STYLE') {
+                            el.style.display = '';
+                            el.style.visibility = 'visible';
+                            el.style.opacity = '1';
+                        }
+                    }
+                    
+                    // Show audio container explicitly if it was handled specially
+                    let audioContainer = document.querySelector('.audio-fixed-bottom');
+                    if (audioContainer) audioContainer.style.display = 'block';
+                }, 5100);
+                
+            } else {
+                alert("Lỗi: " + data.message);
+                document.getElementById('login-loading-fields').style.display = "none";
+                document.getElementById('login-form-fields').style.display = "block";
+            }
+        } catch(err) {
+            alert("Lỗi kết nối máy chủ! Có thể Apps Script chưa được cấp quyền 'Anyone' (Bất kỳ ai). Vui lòng báo Admin.");
+            console.error("Fetch error:", err);
+            document.getElementById('login-loading-fields').style.display = "none";
+            document.getElementById('login-form-fields').style.display = "block";
+        }
+    }
+</script></body>
 </html>

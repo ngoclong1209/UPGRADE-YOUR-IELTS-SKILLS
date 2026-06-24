@@ -48,10 +48,10 @@ def parse_docx_to_html(docx_path, module_type):
             import re
             if in_questions:
                 # Replace blanks
-                p_html = re.sub(r'(_{3,}|\.{3,})', r'<span class="cloud-blank"></span>', p_html)
+                p_html = re.sub(r'(_{2,}|\.{3,})', r'<span class="cloud-blank"></span>', p_html)
                 # Replace question numbers (badge)
-                p_html = re.sub(r'(?<!<[^>])\b([1-3]?[0-9]|40)\.(?![^<]*>)', r'<span class="cloud-badge">\g<1></span>', p_html)
-                p_html = re.sub(r'(?<!<[^>])\(([1-3]?[0-9]|40)\)(?![^<]*>)', r'<span class="cloud-badge">\g<1></span>', p_html)
+                p_html = re.sub(r'(?<!<[^>])\b([0-9]{1,2})\.(?![^<]*>)', r'<span class="cloud-badge">\g<1></span>', p_html)
+                p_html = re.sub(r'(?<!<[^>])\(([0-9]{1,2})\)(?![^<]*>)', r'<span class="cloud-badge">\g<1></span>', p_html)
             
             if len(text) < 100 and not text.endswith('.') and not in_questions and "<strong>" in p_html:
                 html_content += f'<h3 class="test-heading">{p_html}</h3>\n'
@@ -87,7 +87,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             display: flex; height: 100vh; width: 100vw;
         }
         .passage-pane {
-            flex: 0 0 75%; overflow-y: auto; padding: 30px;
+            flex: 0 0 60%; overflow-y: auto; padding: 30px;
             background: rgba(255, 255, 255, 0.95); border: 5px solid #ffb6c1; border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             font-size: 1.15rem; line-height: 1.8;
