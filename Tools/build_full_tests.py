@@ -88,7 +88,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         }
         .passage-pane {
             flex: 0 0 60%; overflow-y: auto; padding: 30px;
-            background: rgba(255, 255, 255, 0.95); border: 5px solid #ffb6c1; border-radius: 20px;
+            background: #d7ccc8; border: 5px solid #ffb6c1; border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             font-size: 1.15rem; line-height: 1.8;
             padding-bottom: 100px;
@@ -102,10 +102,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             transition: background 0.3s;
         }
         .resizer:hover { background: rgba(255, 182, 193, 0.8); }
-        .resizer::after { content: '⋮'; color: #ff85a2; font-size: 20px; }
+        .resizer::after { content: '⋮'; color: #2e7d32; font-size: 20px; }
         .answer-pane {
             flex: 1 1 0%; overflow-y: auto; padding: 30px;
-            background: rgba(255, 255, 255, 0.95); border: 5px solid #ffb6c1;
+            background: #d7ccc8; border: 5px solid #ffb6c1;
             margin: 10px 10px 10px 0; border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             padding-bottom: 100px;
