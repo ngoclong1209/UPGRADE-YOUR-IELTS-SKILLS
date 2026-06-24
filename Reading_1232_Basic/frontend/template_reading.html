@@ -121,11 +121,24 @@
         }
 
         .passage-pane {
-            flex: 1;
+            flex: 0 0 60%;
             overflow-y: auto;
             padding: 2.5rem 3.5rem;
             padding-bottom: 40px;
         }
+
+        .resizer {
+            flex: 0 0 10px;
+            cursor: col-resize;
+            background: rgba(129, 199, 132, 0.5);
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.3s;
+            border-radius: 10px;
+            z-index: 10;
+        }
+        .resizer:hover { background: rgba(76, 175, 80, 0.8); }
+        .resizer::after { content: '⋮'; color: #2e7d32; font-size: 20px; }
+
 
         /* Magical floating starlight animation */
         @keyframes magicWave {
@@ -148,7 +161,7 @@
         }
 
         .answer-pane {
-            flex: 2;
+            flex: 1 1 0%;
             overflow-y: auto;
             padding: 2.5rem 2rem;
             display: flex;
@@ -1483,7 +1496,7 @@
 <a class="nav-back" href="index.html" style="text-decoration: none; font-weight: bold; color: var(--accent-hover); border: 2px solid var(--accent-hover); padding: 5px 15px; border-radius: 20px;">← Quản lý bài thi (Index)</a>
 </div>
 </header>
-<div class="main-layout" id="main-layout" style="display: flex;"><div class="passage-pane fairytale-panel">
+<div class="main-layout" id="main-layout" style="display: flex;"><div class="passage-pane fairytale-panel" id="left-pane">
 <div class="hud-header">
 <span>📖 READING PASSAGE</span><button id="btn-clear-highlights" style="margin-left: 15px; background: none; border: 1px solid #ccc; padding: 3px 8px; border-radius: 12px; font-size: 0.8rem; cursor: pointer;">🧹 Clear Highlights</button>
 <span class="hud-status"><span class="neon-timer" id="timer-display">⏱ 10:00</span></span>
@@ -1492,8 +1505,8 @@
                 {{PASSAGE_HTML}}
             </div>
 </div>
-<div class="resizer" id="dragMe"></div>
-<div class="answer-pane fairytale-panel">
+<div class="resizer" id="resizer"></div>
+<div class="answer-pane fairytale-panel" id="right-pane">
 <div class="sheet-title">✏️ Answer Sheet</div>
 <div class="answer-grid" id="quiz-container">
                 {{QUESTIONS_HTML}}
@@ -1915,5 +1928,35 @@
             if(mainLayout) mainLayout.style.display = "none";
         }
     });
+        const resizer = document.getElementById('resizer');
+        const leftPane = document.getElementById('left-pane');
+        const rightPane = document.getElementById('right-pane');
+        let isResizing = false;
+
+        resizer.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            document.body.style.cursor = 'col-resize';
+            leftPane.style.pointerEvents = 'none';
+            rightPane.style.pointerEvents = 'none';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+            let containerWidth = document.querySelector('.main-layout').offsetWidth;
+            let newLeftWidth = (e.clientX / containerWidth) * 100;
+            if (newLeftWidth > 20 && newLeftWidth < 95) {
+                leftPane.style.flex = `0 0 ${newLeftWidth}%`;
+                rightPane.style.flex = `1 1 0%`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isResizing) {
+                isResizing = false;
+                document.body.style.cursor = 'default';
+                leftPane.style.pointerEvents = 'auto';
+                rightPane.style.pointerEvents = 'auto';
+            }
+        });
 </script></body>
 </html>
