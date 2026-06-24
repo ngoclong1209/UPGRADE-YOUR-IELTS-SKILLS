@@ -1,6 +1,7 @@
 import os
 import glob
 import docx
+import json
 
 BASE_DIR = "/Users/vungoclong/Desktop/Antigravity/UPGRADE YOUR ILETS SKILLS"
 READING_OUT_DIR = os.path.join(BASE_DIR, "Reading_315_FullTest")
@@ -12,8 +13,8 @@ def parse_docx_to_html(docx_path, module_type):
         html_content = ""
         letter_index = 0
         in_questions = False
-        
         in_answers = False
+        answers_dict = {}
         
         for para in doc.paragraphs:
             text = para.text.strip()
@@ -25,8 +26,14 @@ def parse_docx_to_html(docx_path, module_type):
                 
             if "ANSWER KEY" in text.upper() and not in_answers:
                 in_answers = True
-                html_content += '<div id="answer-key-content" style="display: none; opacity: 0; transition: opacity 1s; background: #fffdfc; padding: 20px; border-radius: 12px; border: 2px dashed #ff85a2; margin-top: 20px;">\n'
+                html_content += '<div id="answer-key-content" style="display: none; opacity: 0; transition: opacity 1s; background: #fffdfc; padding: 20px; border-radius: 12px; border: 2px dashed #a1c4fd; margin-top: 20px;">\n'
                 
+            if in_answers:
+                import re
+                m = re.match(r'^(\d+)\.\s*(.*)', text)
+                if m:
+                    answers_dict[m.group(1)] = m.group(2).strip()
+
             p_html = ""
             for run in para.runs:
                 run_text = run.text.replace("<", "&lt;").replace(">", "&gt;")
@@ -37,6 +44,13 @@ def parse_docx_to_html(docx_path, module_type):
                 p_html += run_text
                 
             p_html = p_html.strip()
+            
+            import re
+            if in_questions:
+                # Replace blanks
+                p_html = re.sub(r'(_{3,}|\.{3,})', r'<span class="cloud-blank"></span>', p_html)
+                # Replace question numbers (badge)
+                p_html = re.sub(r'(?<!<[^>])\b([1-3][0-9]|40|[1-9])\.(?![^<]*>)', r'<span class="cloud-badge">\1</span>', p_html)
             
             if len(text) < 100 and not text.endswith('.') and not in_questions and "<strong>" in p_html:
                 html_content += f'<h3 class="test-heading">{p_html}</h3>\n'
@@ -50,10 +64,10 @@ def parse_docx_to_html(docx_path, module_type):
                     
         if in_answers:
             html_content += "</div>\n"
-        return html_content
+        return html_content, answers_dict
     except Exception as e:
         print(f"Error reading docx {docx_path}: {e}")
-        return "<p>Nội dung đang được cập nhật...</p>"
+        return "<p>Nội dung đang được cập nhật...</p>", {}
 
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
@@ -115,6 +129,19 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .para-text p { margin: 0; }
         strong { color: #d6336c; }
         u { text-decoration-color: #ff85a2; }
+        
+        .cloud-badge {
+            display: inline-block; background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            color: #1a4a7b; font-weight: bold; font-size: 0.9em; padding: 2px 12px;
+            border-radius: 20px; box-shadow: 0 4px 10px rgba(161, 196, 253, 0.4);
+            margin: 0 5px; vertical-align: text-bottom; font-family: 'DynaPuff', cursive;
+        }
+        .cloud-blank {
+            display: inline-block; width: 60px; height: 24px;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            border: 2px dashed #a1c4fd; border-radius: 12px; margin: 0 5px;
+            vertical-align: bottom; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+        }
         
         .q-row {
             display: flex; align-items: center; margin-bottom: 15px;
@@ -237,6 +264,51 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         });
 
         // Submit Logic
+        const CORRECT_ANSWERS = {CORRECT_ANSWERS_JSON};
+        function calculateScore(module, rawScore) {
+            if (module.includes('Listening')) {
+                if (rawScore >= 39) return 9.0; if (rawScore >= 37) return 8.5;
+                if (rawScore >= 35) return 8.0; if (rawScore >= 32) return 7.5;
+                if (rawScore >= 30) return 7.0; if (rawScore >= 26) return 6.5;
+                if (rawScore >= 23) return 6.0; if (rawScore >= 18) return 5.5;
+                if (rawScore >= 16) return 5.0; if (rawScore >= 13) return 4.5;
+                if (rawScore >= 10) return 4.0; if (rawScore >= 8) return 3.5;
+                if (rawScore >= 6) return 3.0; if (rawScore >= 4) return 2.5; return 0;
+            } else {
+                if (rawScore >= 39) return 9.0; if (rawScore >= 37) return 8.5;
+                if (rawScore >= 35) return 8.0; if (rawScore >= 33) return 7.5;
+                if (rawScore >= 30) return 7.0; if (rawScore >= 27) return 6.5;
+                if (rawScore >= 23) return 6.0; if (rawScore >= 19) return 5.5;
+                if (rawScore >= 15) return 5.0; if (rawScore >= 13) return 4.5;
+                if (rawScore >= 10) return 4.0; if (rawScore >= 8) return 3.5;
+                if (rawScore >= 6) return 3.0; if (rawScore >= 4) return 2.5; return 0;
+            }
+        }
+        function normalizeAnswer(ans) { return ans.toUpperCase().replace(/[.,!?;:]/g, "").trim(); }
+        function isCorrect(userAns, correctAnsStr) {
+            if (!correctAnsStr) return false;
+            let u = normalizeAnswer(userAns);
+            if (u === 'T' && normalizeAnswer(correctAnsStr) === 'TRUE') return true;
+            if (u === 'F' && normalizeAnswer(correctAnsStr) === 'FALSE') return true;
+            if (u === 'NG' && normalizeAnswer(correctAnsStr) === 'NOT GIVEN') return true;
+            if (u === 'Y' && normalizeAnswer(correctAnsStr) === 'YES') return true;
+            if (u === 'N' && normalizeAnswer(correctAnsStr) === 'NO') return true;
+            
+            let possibleAnswers = correctAnsStr.toUpperCase().replace(' OR ', '/').split('/');
+            for (let pa of possibleAnswers) {
+                pa = pa.trim();
+                if (pa.includes('(') && pa.includes(')')) {
+                    let withoutBrackets = pa.replace(/\(.*\)/g, '').trim();
+                    let contentInside = pa.match(/\((.*?)\)/)[1];
+                    let withBracketsContent = pa.replace(/\(.*\)/g, contentInside).trim();
+                    if (normalizeAnswer(withoutBrackets) === u || normalizeAnswer(withBracketsContent) === u) return true;
+                } else {
+                    if (normalizeAnswer(pa) === u) return true;
+                }
+            }
+            return false;
+        }
+
         document.getElementById('btn-submit').addEventListener('click', async () => {
             let btn = document.getElementById('btn-submit');
             let resultMsg = document.getElementById('result-msg');
@@ -290,7 +362,32 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                         const sfxWin = new Audio('../../Listening_102_Basic/assets/sfx/gamewinner.mp3');
                         sfxWin.play().catch(e => console.log(e));
                     } catch(err) {}
-                    resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
+                    let rawScore = 0;
+                    for (let i = 1; i <= 40; i++) {
+                        let el = document.getElementById('q' + i);
+                        if (el) {
+                            let isC = isCorrect(el.value, CORRECT_ANSWERS[i]);
+                            if (isC) {
+                                el.style.backgroundColor = '#d4edda';
+                                el.style.color = '#155724';
+                                rawScore++;
+                            } else {
+                                el.style.backgroundColor = '#f8d7da';
+                                el.style.color = '#721c24';
+                                if (CORRECT_ANSWERS[i]) {
+                                    let correctSpan = document.createElement('span');
+                                    correctSpan.innerText = " ➔ " + CORRECT_ANSWERS[i];
+                                    correctSpan.style.color = '#d6336c';
+                                    correctSpan.style.fontWeight = 'bold';
+                                    correctSpan.style.fontSize = '0.9em';
+                                    el.parentNode.appendChild(correctSpan);
+                                }
+                            }
+                            el.readOnly = true;
+                        }
+                    }
+                    let bandScore = calculateScore('{MODULE_TYPE}', rawScore);
+                    resultMsg.innerHTML = `✅ Bạn đã đúng <b>${rawScore}/40</b> câu. Ước tính IELTS Band Score: <b>${bandScore}</b>`;
                     resultMsg.style.display = 'block';
                     btn.innerText = "SUBMITTED!";
                     
@@ -529,7 +626,7 @@ def build_tests(base_dir, module_type, module_text):
         name = os.path.basename(docx_path).replace('.docx', '')
         print(f"Building {name} from {docx_path}...")
         
-        doc_html = parse_docx_to_html(docx_path, module_type)
+        doc_html, answers_dict = parse_docx_to_html(docx_path, module_type)
         
         out_dir = os.path.dirname(docx_path)
         out_file = os.path.join(out_dir, f"{name}.html")
@@ -537,6 +634,7 @@ def build_tests(base_dir, module_type, module_text):
         html = HTML_TEMPLATE.replace("{MODULE_TYPE}", module_type)
         html = html.replace("{TEST_NAME}", name)
         html = html.replace("{DOC_CONTENT}", doc_html)
+        html = html.replace("{CORRECT_ANSWERS_JSON}", json.dumps(answers_dict))
         html = html.replace("{QUESTIONS_HTML}", q_html)
         html = html.replace("{LOGIN_CSS}", LOGIN_CSS)
         html = html.replace("{LOGIN_HTML}", LOGIN_HTML_TMPL.replace("{MODULE_TEXT}", module_text))
