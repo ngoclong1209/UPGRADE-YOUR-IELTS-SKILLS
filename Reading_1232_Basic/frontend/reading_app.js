@@ -402,7 +402,7 @@ function submitReadingTest(data) {
 
     // Play SFX based on score
     if (score === totalQuestions) {
-        playSfx('sfx-win');
+        playSfx(Math.random() > 0.5 ? 'sfx-win' : 'sfx-win2');
     } else {
         playSfx('sfx-wrong');
     }

@@ -517,9 +517,16 @@
 </div>
 </div>
 <script src="index_app.js"></script>
-<audio id="sfx-tick" loop="" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
-<audio id="sfx-click" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
-<audio id="sfx-success" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3"></audio>
+
+
+
+
+    <audio id="sfx-start" preload="auto" src="../assets/sfx/freesound_community-medieval-fanfare-6826.mp3"></audio>
+    <audio id="sfx-click" preload="auto" src="../assets/sfx/collectcoins.mp3"></audio>
+    <audio id="sfx-win" preload="auto" src="../assets/sfx/winningholliwood.mp3"></audio>
+    <audio id="sfx-win2" preload="auto" src="../assets/sfx/gamewinner.mp3"></audio>
+    <audio id="sfx-tick" loop preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+
 <script>
         let timeLeft = 60 * 60;
         let timerInterval;
@@ -614,7 +621,7 @@
                     let mainLayout = document.querySelector('.main-layout');
                     if(mainLayout) mainLayout.style.display = "flex";
                     localStorage.setItem('youpass_student_id', nickname);
-                    playSfx('sfx-success');
+                    playSfx('sfx-start');
                     if(typeof startTimer === 'function') startTimer();
                 }, 500);
             } else {
@@ -634,7 +641,15 @@
         }
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
+    
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'INPUT' && (e.target.type === 'radio' || e.target.type === 'text')) {
+                const sfx = document.getElementById('sfx-click');
+                if (sfx) { sfx.currentTime = 0; sfx.play().catch(e=>{}); }
+            }
+        });
+        
+        window.addEventListener('DOMContentLoaded', () => {
         let sid = localStorage.getItem('youpass_student_id');
         let overlay = document.getElementById('login-overlay');
         let mainLayout = document.querySelector('.main-layout');

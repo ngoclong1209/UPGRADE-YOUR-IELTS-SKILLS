@@ -1374,11 +1374,18 @@
 </div>
 </div>
 <div class="audio-fixed-bottom" id="audio-player-container" style="">
-<audio controls="" src="{{AUDIO_URL}}"></audio>
+
 </div>
 <!-- Hidden audio elements for SFX -->
-<audio id="sfx-win" preload="auto" src="../../assets/sfx/gamewinner.mp3"></audio>
-<audio id="sfx-wrong" preload="auto" src="../../assets/sfx/incorrectanswersfx.mp3"></audio>
+
+
+
+    <audio id="sfx-start" preload="auto" src="../assets/sfx/freesound_community-medieval-fanfare-6826.mp3"></audio>
+    <audio id="sfx-click" preload="auto" src="../assets/sfx/collectcoins.mp3"></audio>
+    <audio id="sfx-win" preload="auto" src="../assets/sfx/winningholliwood.mp3"></audio>
+    <audio id="sfx-win2" preload="auto" src="../assets/sfx/gamewinner.mp3"></audio>
+    <audio id="sfx-tick" loop preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+
 <script>
 
         const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwK8uWktQHrSoCVdiBzqAZj0SsT5_FxxCksG2s0Iga-Ye1DF40l7h5-xgI_7Kk40YLn/exec';
@@ -1613,7 +1620,7 @@
                 resultDiv.innerHTML = `🎉 Perfect! ${score} / ${total} (100%) 🎉`;
                 resultDiv.style.backgroundColor = 'var(--success-bg)';
                 resultDiv.style.color = '#279e6d';
-                document.getElementById('sfx-win').play().catch(e=>{});
+                document.getElementById(Math.random() > 0.5 ? 'sfx-win' : 'sfx-win2').play().catch(e=>{});
                 sendScoreToGoogle(score, total);
                 unlockTranscript();
                 this.disabled = true;
@@ -1652,9 +1659,9 @@
         });
         
     </script>
-<audio id="sfx-tick" loop="" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
-<audio id="sfx-click" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
-<audio id="sfx-success" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3"></audio>
+
+
+
 <script>
         let timeLeft = 60 * 60;
         let timerInterval;
@@ -1749,7 +1756,7 @@
                     let mainLayout = document.querySelector('.main-layout');
                     if(mainLayout) mainLayout.style.display = "flex";
                     localStorage.setItem('youpass_student_id', nickname);
-                    playSfx('sfx-success');
+                    playSfx('sfx-start');
                     if(typeof startTimer === 'function') startTimer();
                 }, 500);
             } else {
@@ -1769,7 +1776,15 @@
         }
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
+    
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'INPUT' && (e.target.type === 'radio' || e.target.type === 'text')) {
+                const sfx = document.getElementById('sfx-click');
+                if (sfx) { sfx.currentTime = 0; sfx.play().catch(e=>{}); }
+            }
+        });
+        
+        window.addEventListener('DOMContentLoaded', () => {
         let sid = localStorage.getItem('youpass_student_id');
         let overlay = document.getElementById('login-overlay');
         let mainLayout = document.querySelector('.main-layout');
