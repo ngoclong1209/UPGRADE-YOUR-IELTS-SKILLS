@@ -1861,7 +1861,16 @@
                 action: 'submit',
                 userId: localStorage.getItem('student_id') || "UNKNOWN",
                 deviceId: getDeviceId(),
-                lessonId: window.lessonData ? window.lessonData.title : 'Unknown',
+                lessonId: (function(){
+                    let fileParam = new URLSearchParams(window.location.search).get('file');
+                    if(fileParam) {
+                        let parts = fileParam.split('/');
+                        if(parts.length === 2) {
+                            return "Reading " + parts[0] + " - " + parts[1].replace('.js', '');
+                        }
+                    }
+                    return window.lessonData ? window.lessonData.title : 'Unknown';
+                })(),
                 score: `${score}/${total}`,
                 percent: percent
             };
