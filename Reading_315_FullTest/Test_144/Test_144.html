@@ -122,7 +122,7 @@
         }
         .progress-bar {
             height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
-            width: 0%; transition: width 2s ease-in-out;
+            width: 0%; transition: width 5s ease-in-out;
         }
         .payment-message {
             color: #d6336c; font-weight: bold; font-size: 1.1rem; 
@@ -267,6 +267,7 @@ Choose the correct letter, A, B, C or D. Write the correct letter in box 40 on y
 <strong>B</strong> to illustrate the society lacks of deep comprehension of educational approach
 <strong>C</strong> to explain the ideas of quantitative research and the characteristics of the related criticisms
 <strong>D</strong> to imply qualitative research is a flawless method compared with quantitative one</p>
+<div id="answer-key-content" style="display: none; opacity: 0; transition: opacity 1s; background: #fffdfc; padding: 20px; border-radius: 12px; border: 2px dashed #ff85a2; margin-top: 20px;">
 <p><strong>ANSWER KEY</strong></p>
 <p>1. C</p>
 <p>2. D</p>
@@ -308,6 +309,7 @@ Choose the correct letter, A, B, C or D. Write the correct letter in box 40 on y
 <p>38. B, E, F</p>
 <p>39. B, E, F</p>
 <p>40. C</p>
+</div>
 
         </div>
         <div class="resizer" id="resizer"></div>
@@ -551,6 +553,16 @@ Choose the correct letter, A, B, C or D. Write the correct letter in box 40 on y
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+        const btnSfx = new Audio('../../Listening_102_Basic/assets/sfx/collectcoins.mp3');
+        document.body.addEventListener('click', (e) => {
+            if(e.target.tagName === 'BUTTON' || e.target.classList.contains('submit-btn')) {
+                try {
+                    btnSfx.currentTime = 0;
+                    btnSfx.play().catch(e => console.log(e));
+                } catch(err) {}
+            }
+        });
+        
         let sid = localStorage.getItem('youpass_student_id');
         let overlay = document.getElementById('login-overlay');
         
@@ -600,6 +612,11 @@ Choose the correct letter, A, B, C or D. Write the correct letter in box 40 on y
                 document.getElementById('payment-message').style.display = "block";
                 document.getElementById('progress-container').style.display = "block";
                 
+                try {
+                    const sfxSuccess = new Audio('../../Listening_102_Basic/assets/sfx/freesound_community-medieval-fanfare-6826.mp3');
+                    sfxSuccess.play().catch(e => console.log(e));
+                } catch(e) {}
+                
                 setTimeout(() => {
                     document.getElementById('progress-bar').style.width = "100%";
                 }, 100);
@@ -621,7 +638,7 @@ Choose the correct letter, A, B, C or D. Write the correct letter in box 40 on y
                     // Show audio container explicitly if it was handled specially
                     let audioContainer = document.querySelector('.audio-fixed-bottom');
                     if (audioContainer) audioContainer.style.display = 'block';
-                }, 2200);
+                }, 5100);
                 
             } else {
                 alert("Lỗi: " + data.message);
@@ -718,6 +735,11 @@ Choose the correct letter, A, B, C or D. Write the correct letter in box 40 on y
             };
 
             try {
+                try {
+                    const sfxSubmit = new Audio('../../Listening_102_Basic/assets/sfx/fireworkwhistle.mp3');
+                    sfxSubmit.play().catch(e => console.log(e));
+                } catch(err) {}
+
                 let res = await fetch(APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -725,10 +747,24 @@ Choose the correct letter, A, B, C or D. Write the correct letter in box 40 on y
                 });
                 let data = await res.json();
                 if (data.status === 'success') {
+                    try {
+                        const sfxWin = new Audio('../../Listening_102_Basic/assets/sfx/gamewinner.mp3');
+                        sfxWin.play().catch(e => console.log(e));
+                    } catch(err) {}
                     resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
                     resultMsg.style.display = 'block';
                     btn.innerText = "SUBMITTED!";
+                    
+                    let ak = document.getElementById('answer-key-content');
+                    if (ak) {
+                        ak.style.display = 'block';
+                        setTimeout(() => ak.style.opacity = '1', 50);
+                    }
                 } else {
+                    try {
+                        const sfxError = new Audio('../../Listening_102_Basic/assets/sfx/incorrectanswersfx.mp3');
+                        sfxError.play().catch(e => console.log(e));
+                    } catch(err) {}
                     alert("Lỗi: " + data.message);
                     btn.innerText = "SUBMIT ANSWERS 🌸";
                     btn.disabled = false;

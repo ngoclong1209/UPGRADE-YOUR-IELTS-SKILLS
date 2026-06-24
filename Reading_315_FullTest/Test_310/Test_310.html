@@ -122,7 +122,7 @@
         }
         .progress-bar {
             height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
-            width: 0%; transition: width 2s ease-in-out;
+            width: 0%; transition: width 5s ease-in-out;
         }
         .payment-message {
             color: #d6336c; font-weight: bold; font-size: 1.1rem; 
@@ -358,6 +358,7 @@ Do the following statements agree with the information given in reading passage?
 <p><strong>Question 11</strong>. Questions 11-13 talk about the protection of kakapo and it is being discussed in paragraph number 4 onwards. The keywords in blank number 11 are definite, female kakapo and Rakiura island. You can find all these keywords in sixth paragraph. Rakiura island, females and confirmed which is a synonym of definite. Now the paragraph says that in 1980 the presence of female kakapo was confirmed hence our answer is year 1980.</p>
 <p><strong>Question 12</strong>. It talks about recovery plan and something which it included to increase. So, look for the paragraph which talks about recovery plan and you can find that it is being discussed in the 8th paragraph. Now the passage says that this plan called for a higher amount of funding and higher is synonymous to increase, so the plan included higher or increase in funding, hence our answer is funding.</p>
 <p><strong>Question 13</strong>. The keywords in this question are current goal of recovery plan and involvement. The first line of the last paragraph talks about today which is synonymous to current and key goals. Now look for a word which talk about involvement or is synonymous to involvement and that word is engaged. The passage says that today’s goal or one of the current goals of recovery plan is to ensure stakeholder continue to be engaged so it talks about the involvement of the stakeholders, hence our answer is stakeholder.</p>
+<div id="answer-key-content" style="display: none; opacity: 0; transition: opacity 1s; background: #fffdfc; padding: 20px; border-radius: 12px; border: 2px dashed #ff85a2; margin-top: 20px;">
 <p><strong>ANSWER KEY</strong></p>
 <p>1. False</p>
 <p>2. False</p>
@@ -399,6 +400,7 @@ Do the following statements agree with the information given in reading passage?
 <p>38. No</p>
 <p>39. Yes</p>
 <p>40. Yes</p>
+</div>
 
         </div>
         <div class="resizer" id="resizer"></div>
@@ -642,6 +644,16 @@ Do the following statements agree with the information given in reading passage?
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+        const btnSfx = new Audio('../../Listening_102_Basic/assets/sfx/collectcoins.mp3');
+        document.body.addEventListener('click', (e) => {
+            if(e.target.tagName === 'BUTTON' || e.target.classList.contains('submit-btn')) {
+                try {
+                    btnSfx.currentTime = 0;
+                    btnSfx.play().catch(e => console.log(e));
+                } catch(err) {}
+            }
+        });
+        
         let sid = localStorage.getItem('youpass_student_id');
         let overlay = document.getElementById('login-overlay');
         
@@ -691,6 +703,11 @@ Do the following statements agree with the information given in reading passage?
                 document.getElementById('payment-message').style.display = "block";
                 document.getElementById('progress-container').style.display = "block";
                 
+                try {
+                    const sfxSuccess = new Audio('../../Listening_102_Basic/assets/sfx/freesound_community-medieval-fanfare-6826.mp3');
+                    sfxSuccess.play().catch(e => console.log(e));
+                } catch(e) {}
+                
                 setTimeout(() => {
                     document.getElementById('progress-bar').style.width = "100%";
                 }, 100);
@@ -712,7 +729,7 @@ Do the following statements agree with the information given in reading passage?
                     // Show audio container explicitly if it was handled specially
                     let audioContainer = document.querySelector('.audio-fixed-bottom');
                     if (audioContainer) audioContainer.style.display = 'block';
-                }, 2200);
+                }, 5100);
                 
             } else {
                 alert("Lỗi: " + data.message);
@@ -809,6 +826,11 @@ Do the following statements agree with the information given in reading passage?
             };
 
             try {
+                try {
+                    const sfxSubmit = new Audio('../../Listening_102_Basic/assets/sfx/fireworkwhistle.mp3');
+                    sfxSubmit.play().catch(e => console.log(e));
+                } catch(err) {}
+
                 let res = await fetch(APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -816,10 +838,24 @@ Do the following statements agree with the information given in reading passage?
                 });
                 let data = await res.json();
                 if (data.status === 'success') {
+                    try {
+                        const sfxWin = new Audio('../../Listening_102_Basic/assets/sfx/gamewinner.mp3');
+                        sfxWin.play().catch(e => console.log(e));
+                    } catch(err) {}
                     resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
                     resultMsg.style.display = 'block';
                     btn.innerText = "SUBMITTED!";
+                    
+                    let ak = document.getElementById('answer-key-content');
+                    if (ak) {
+                        ak.style.display = 'block';
+                        setTimeout(() => ak.style.opacity = '1', 50);
+                    }
                 } else {
+                    try {
+                        const sfxError = new Audio('../../Listening_102_Basic/assets/sfx/incorrectanswersfx.mp3');
+                        sfxError.play().catch(e => console.log(e));
+                    } catch(err) {}
                     alert("Lỗi: " + data.message);
                     btn.innerText = "SUBMIT ANSWERS 🌸";
                     btn.disabled = false;

@@ -122,7 +122,7 @@
         }
         .progress-bar {
             height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
-            width: 0%; transition: width 2s ease-in-out;
+            width: 0%; transition: width 5s ease-in-out;
         }
         .payment-message {
             color: #d6336c; font-weight: bold; font-size: 1.1rem; 
@@ -264,6 +264,7 @@ Use the information in the passage to match the people (listed A-F) with opinion
 Complete the following summary of the paragraphs of reading passage. Using <strong>NO MORE THAN THREE WORDS</strong> from the Reading Passage for each answer.</p>
 <p><strong>Iron bridge Coalbrookdale, England</strong></p>
 <p>In the late eighteenth century, as artists began to capture the artistic attractiveness incorporated into architecture via engineering and technology were captured in numerous serene landscape paintings. One good example, the engineer called (37)………………….. had designed the first iron bridge in the world and changed to using irons yet earlier bridges in the countryside were constructed using materials such as (38)………………. and wood. This first Iron bridge which across the (39)………………. was much significant in the industrial revolution period and it functioned for centuries. Numerous spectacular paintings and sculpture of Iron Bridge are collected and exhibited locally in (40)…………………, showing the iron structure as a theme on the landscape.</p>
+<div id="answer-key-content" style="display: none; opacity: 0; transition: opacity 1s; background: #fffdfc; padding: 20px; border-radius: 12px; border: 2px dashed #ff85a2; margin-top: 20px;">
 <p><strong>ANSWER KEY</strong></p>
 <p>1. A</p>
 <p>2. C</p>
@@ -305,6 +306,7 @@ Complete the following summary of the paragraphs of reading passage. Using <stro
 <p>38. Stone</p>
 <p>39. River</p>
 <p>40. Coalbrookdale Museum</p>
+</div>
 
         </div>
         <div class="resizer" id="resizer"></div>
@@ -548,6 +550,16 @@ Complete the following summary of the paragraphs of reading passage. Using <stro
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+        const btnSfx = new Audio('../../Listening_102_Basic/assets/sfx/collectcoins.mp3');
+        document.body.addEventListener('click', (e) => {
+            if(e.target.tagName === 'BUTTON' || e.target.classList.contains('submit-btn')) {
+                try {
+                    btnSfx.currentTime = 0;
+                    btnSfx.play().catch(e => console.log(e));
+                } catch(err) {}
+            }
+        });
+        
         let sid = localStorage.getItem('youpass_student_id');
         let overlay = document.getElementById('login-overlay');
         
@@ -597,6 +609,11 @@ Complete the following summary of the paragraphs of reading passage. Using <stro
                 document.getElementById('payment-message').style.display = "block";
                 document.getElementById('progress-container').style.display = "block";
                 
+                try {
+                    const sfxSuccess = new Audio('../../Listening_102_Basic/assets/sfx/freesound_community-medieval-fanfare-6826.mp3');
+                    sfxSuccess.play().catch(e => console.log(e));
+                } catch(e) {}
+                
                 setTimeout(() => {
                     document.getElementById('progress-bar').style.width = "100%";
                 }, 100);
@@ -618,7 +635,7 @@ Complete the following summary of the paragraphs of reading passage. Using <stro
                     // Show audio container explicitly if it was handled specially
                     let audioContainer = document.querySelector('.audio-fixed-bottom');
                     if (audioContainer) audioContainer.style.display = 'block';
-                }, 2200);
+                }, 5100);
                 
             } else {
                 alert("Lỗi: " + data.message);
@@ -715,6 +732,11 @@ Complete the following summary of the paragraphs of reading passage. Using <stro
             };
 
             try {
+                try {
+                    const sfxSubmit = new Audio('../../Listening_102_Basic/assets/sfx/fireworkwhistle.mp3');
+                    sfxSubmit.play().catch(e => console.log(e));
+                } catch(err) {}
+
                 let res = await fetch(APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -722,10 +744,24 @@ Complete the following summary of the paragraphs of reading passage. Using <stro
                 });
                 let data = await res.json();
                 if (data.status === 'success') {
+                    try {
+                        const sfxWin = new Audio('../../Listening_102_Basic/assets/sfx/gamewinner.mp3');
+                        sfxWin.play().catch(e => console.log(e));
+                    } catch(err) {}
                     resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
                     resultMsg.style.display = 'block';
                     btn.innerText = "SUBMITTED!";
+                    
+                    let ak = document.getElementById('answer-key-content');
+                    if (ak) {
+                        ak.style.display = 'block';
+                        setTimeout(() => ak.style.opacity = '1', 50);
+                    }
                 } else {
+                    try {
+                        const sfxError = new Audio('../../Listening_102_Basic/assets/sfx/incorrectanswersfx.mp3');
+                        sfxError.play().catch(e => console.log(e));
+                    } catch(err) {}
                     alert("Lỗi: " + data.message);
                     btn.innerText = "SUBMIT ANSWERS 🌸";
                     btn.disabled = false;

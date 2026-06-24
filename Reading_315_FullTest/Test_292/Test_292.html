@@ -122,7 +122,7 @@
         }
         .progress-bar {
             height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
-            width: 0%; transition: width 2s ease-in-out;
+            width: 0%; transition: width 5s ease-in-out;
         }
         .payment-message {
             color: #d6336c; font-weight: bold; font-size: 1.1rem; 
@@ -342,6 +342,7 @@ Do the following statements agree with the claims of the writer in reading passa
 
 40. The need to keep up with new information is hugely exaggerated in today’s world.</p>
 <p>_______  _______  _______ Show Answers</p>
+<div id="answer-key-content" style="display: none; opacity: 0; transition: opacity 1s; background: #fffdfc; padding: 20px; border-radius: 12px; border: 2px dashed #ff85a2; margin-top: 20px;">
 <p><strong>ANSWER KEY</strong></p>
 <p>1. False</p>
 <p>2. False</p>
@@ -383,6 +384,7 @@ Do the following statements agree with the claims of the writer in reading passa
 <p>38. Not given</p>
 <p>39. No</p>
 <p>40. Not given</p>
+</div>
 
         </div>
         <div class="resizer" id="resizer"></div>
@@ -626,6 +628,16 @@ Do the following statements agree with the claims of the writer in reading passa
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+        const btnSfx = new Audio('../../Listening_102_Basic/assets/sfx/collectcoins.mp3');
+        document.body.addEventListener('click', (e) => {
+            if(e.target.tagName === 'BUTTON' || e.target.classList.contains('submit-btn')) {
+                try {
+                    btnSfx.currentTime = 0;
+                    btnSfx.play().catch(e => console.log(e));
+                } catch(err) {}
+            }
+        });
+        
         let sid = localStorage.getItem('youpass_student_id');
         let overlay = document.getElementById('login-overlay');
         
@@ -675,6 +687,11 @@ Do the following statements agree with the claims of the writer in reading passa
                 document.getElementById('payment-message').style.display = "block";
                 document.getElementById('progress-container').style.display = "block";
                 
+                try {
+                    const sfxSuccess = new Audio('../../Listening_102_Basic/assets/sfx/freesound_community-medieval-fanfare-6826.mp3');
+                    sfxSuccess.play().catch(e => console.log(e));
+                } catch(e) {}
+                
                 setTimeout(() => {
                     document.getElementById('progress-bar').style.width = "100%";
                 }, 100);
@@ -696,7 +713,7 @@ Do the following statements agree with the claims of the writer in reading passa
                     // Show audio container explicitly if it was handled specially
                     let audioContainer = document.querySelector('.audio-fixed-bottom');
                     if (audioContainer) audioContainer.style.display = 'block';
-                }, 2200);
+                }, 5100);
                 
             } else {
                 alert("Lỗi: " + data.message);
@@ -793,6 +810,11 @@ Do the following statements agree with the claims of the writer in reading passa
             };
 
             try {
+                try {
+                    const sfxSubmit = new Audio('../../Listening_102_Basic/assets/sfx/fireworkwhistle.mp3');
+                    sfxSubmit.play().catch(e => console.log(e));
+                } catch(err) {}
+
                 let res = await fetch(APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -800,10 +822,24 @@ Do the following statements agree with the claims of the writer in reading passa
                 });
                 let data = await res.json();
                 if (data.status === 'success') {
+                    try {
+                        const sfxWin = new Audio('../../Listening_102_Basic/assets/sfx/gamewinner.mp3');
+                        sfxWin.play().catch(e => console.log(e));
+                    } catch(err) {}
                     resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
                     resultMsg.style.display = 'block';
                     btn.innerText = "SUBMITTED!";
+                    
+                    let ak = document.getElementById('answer-key-content');
+                    if (ak) {
+                        ak.style.display = 'block';
+                        setTimeout(() => ak.style.opacity = '1', 50);
+                    }
                 } else {
+                    try {
+                        const sfxError = new Audio('../../Listening_102_Basic/assets/sfx/incorrectanswersfx.mp3');
+                        sfxError.play().catch(e => console.log(e));
+                    } catch(err) {}
                     alert("Lỗi: " + data.message);
                     btn.innerText = "SUBMIT ANSWERS 🌸";
                     btn.disabled = false;

@@ -122,7 +122,7 @@
         }
         .progress-bar {
             height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
-            width: 0%; transition: width 2s ease-in-out;
+            width: 0%; transition: width 5s ease-in-out;
         }
         .payment-message {
             color: #d6336c; font-weight: bold; font-size: 1.1rem; 
@@ -253,6 +253,7 @@ Look at the following places and the list of descriptions below. Match each desc
 Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
 <p><strong>The reasons why howler monkeys survive better in local region than other two species</strong></p>
 <p>Howlers live between in La Pacifica since they can feed themselves with leaves when (36)………………….is not easily found. Howlers have better ability to alleviate the (37)…………………… which old and young trees used to protect themselves. When compared to that of spider monkeys and capuchin monkeys, the (38)………………….rate of howlers is relatively faster (round for just every 2 years). The monkeys can survive away from open streams and water holes as the leaves howlers eat hold high content of (39)…………………….which helps them to resist the continuous (40)…………………….in Guanacaste.</p>
+<div id="answer-key-content" style="display: none; opacity: 0; transition: opacity 1s; background: #fffdfc; padding: 20px; border-radius: 12px; border: 2px dashed #ff85a2; margin-top: 20px;">
 <p><strong>ANSWER KEY</strong></p>
 <p>1. Yes</p>
 <p>2. No</p>
@@ -294,6 +295,7 @@ Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> fro
 <p>38. reproductive/birth</p>
 <p>39. water</p>
 <p>40. drought</p>
+</div>
 
         </div>
         <div class="resizer" id="resizer"></div>
@@ -537,6 +539,16 @@ Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> fro
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+        const btnSfx = new Audio('../../Listening_102_Basic/assets/sfx/collectcoins.mp3');
+        document.body.addEventListener('click', (e) => {
+            if(e.target.tagName === 'BUTTON' || e.target.classList.contains('submit-btn')) {
+                try {
+                    btnSfx.currentTime = 0;
+                    btnSfx.play().catch(e => console.log(e));
+                } catch(err) {}
+            }
+        });
+        
         let sid = localStorage.getItem('youpass_student_id');
         let overlay = document.getElementById('login-overlay');
         
@@ -586,6 +598,11 @@ Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> fro
                 document.getElementById('payment-message').style.display = "block";
                 document.getElementById('progress-container').style.display = "block";
                 
+                try {
+                    const sfxSuccess = new Audio('../../Listening_102_Basic/assets/sfx/freesound_community-medieval-fanfare-6826.mp3');
+                    sfxSuccess.play().catch(e => console.log(e));
+                } catch(e) {}
+                
                 setTimeout(() => {
                     document.getElementById('progress-bar').style.width = "100%";
                 }, 100);
@@ -607,7 +624,7 @@ Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> fro
                     // Show audio container explicitly if it was handled specially
                     let audioContainer = document.querySelector('.audio-fixed-bottom');
                     if (audioContainer) audioContainer.style.display = 'block';
-                }, 2200);
+                }, 5100);
                 
             } else {
                 alert("Lỗi: " + data.message);
@@ -704,6 +721,11 @@ Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> fro
             };
 
             try {
+                try {
+                    const sfxSubmit = new Audio('../../Listening_102_Basic/assets/sfx/fireworkwhistle.mp3');
+                    sfxSubmit.play().catch(e => console.log(e));
+                } catch(err) {}
+
                 let res = await fetch(APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -711,10 +733,24 @@ Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> fro
                 });
                 let data = await res.json();
                 if (data.status === 'success') {
+                    try {
+                        const sfxWin = new Audio('../../Listening_102_Basic/assets/sfx/gamewinner.mp3');
+                        sfxWin.play().catch(e => console.log(e));
+                    } catch(err) {}
                     resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
                     resultMsg.style.display = 'block';
                     btn.innerText = "SUBMITTED!";
+                    
+                    let ak = document.getElementById('answer-key-content');
+                    if (ak) {
+                        ak.style.display = 'block';
+                        setTimeout(() => ak.style.opacity = '1', 50);
+                    }
                 } else {
+                    try {
+                        const sfxError = new Audio('../../Listening_102_Basic/assets/sfx/incorrectanswersfx.mp3');
+                        sfxError.play().catch(e => console.log(e));
+                    } catch(err) {}
                     alert("Lỗi: " + data.message);
                     btn.innerText = "SUBMIT ANSWERS 🌸";
                     btn.disabled = false;

@@ -122,7 +122,7 @@
         }
         .progress-bar {
             height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
-            width: 0%; transition: width 2s ease-in-out;
+            width: 0%; transition: width 5s ease-in-out;
         }
         .payment-message {
             color: #d6336c; font-weight: bold; font-size: 1.1rem; 
@@ -240,6 +240,7 @@ Complete the notes below using <strong>NO MORE THAN TWO WORDS</strong> from the 
 Having accumulated a great fortune in his business, Nobel’s father determined to give his son the best education and sent him abroad to be trained in (33)……………during Nobel’s study in Paris, he worked in a private laboratory, where he came in contact with a young engineer (34)……………..and his invention nitroglycerine, a more powerful explosive than (35)……………..</p>
 <p><strong>Benefits in construction works:</strong>
 Nobel became really interested in this new explosive and experimented on it. But nitroglycerine was too dangerous and was banned for experiments within the city of (36)…………….. So Nobel had to move his experiments to a lake. To make nitroglycerine easily usable, Nobel invented dynamite along with (37)………….while in the meantime (38)……………….became popular, all of which dramatically lowered the (39)…………..of construction works.</p>
+<div id="answer-key-content" style="display: none; opacity: 0; transition: opacity 1s; background: #fffdfc; padding: 20px; border-radius: 12px; border: 2px dashed #ff85a2; margin-top: 20px;">
 <p><strong>ANSWER KEY</strong></p>
 <p>1. E</p>
 <p>2. A</p>
@@ -280,6 +281,7 @@ Nobel became really interested in this new explosive and experimented on it. But
 <p>37. Detonator</p>
 <p>38. Pneumatic drill</p>
 <p>39. Cost</p>
+</div>
 
         </div>
         <div class="resizer" id="resizer"></div>
@@ -523,6 +525,16 @@ Nobel became really interested in this new explosive and experimented on it. But
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+        const btnSfx = new Audio('../../Listening_102_Basic/assets/sfx/collectcoins.mp3');
+        document.body.addEventListener('click', (e) => {
+            if(e.target.tagName === 'BUTTON' || e.target.classList.contains('submit-btn')) {
+                try {
+                    btnSfx.currentTime = 0;
+                    btnSfx.play().catch(e => console.log(e));
+                } catch(err) {}
+            }
+        });
+        
         let sid = localStorage.getItem('youpass_student_id');
         let overlay = document.getElementById('login-overlay');
         
@@ -572,6 +584,11 @@ Nobel became really interested in this new explosive and experimented on it. But
                 document.getElementById('payment-message').style.display = "block";
                 document.getElementById('progress-container').style.display = "block";
                 
+                try {
+                    const sfxSuccess = new Audio('../../Listening_102_Basic/assets/sfx/freesound_community-medieval-fanfare-6826.mp3');
+                    sfxSuccess.play().catch(e => console.log(e));
+                } catch(e) {}
+                
                 setTimeout(() => {
                     document.getElementById('progress-bar').style.width = "100%";
                 }, 100);
@@ -593,7 +610,7 @@ Nobel became really interested in this new explosive and experimented on it. But
                     // Show audio container explicitly if it was handled specially
                     let audioContainer = document.querySelector('.audio-fixed-bottom');
                     if (audioContainer) audioContainer.style.display = 'block';
-                }, 2200);
+                }, 5100);
                 
             } else {
                 alert("Lỗi: " + data.message);
@@ -690,6 +707,11 @@ Nobel became really interested in this new explosive and experimented on it. But
             };
 
             try {
+                try {
+                    const sfxSubmit = new Audio('../../Listening_102_Basic/assets/sfx/fireworkwhistle.mp3');
+                    sfxSubmit.play().catch(e => console.log(e));
+                } catch(err) {}
+
                 let res = await fetch(APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -697,10 +719,24 @@ Nobel became really interested in this new explosive and experimented on it. But
                 });
                 let data = await res.json();
                 if (data.status === 'success') {
+                    try {
+                        const sfxWin = new Audio('../../Listening_102_Basic/assets/sfx/gamewinner.mp3');
+                        sfxWin.play().catch(e => console.log(e));
+                    } catch(err) {}
                     resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
                     resultMsg.style.display = 'block';
                     btn.innerText = "SUBMITTED!";
+                    
+                    let ak = document.getElementById('answer-key-content');
+                    if (ak) {
+                        ak.style.display = 'block';
+                        setTimeout(() => ak.style.opacity = '1', 50);
+                    }
                 } else {
+                    try {
+                        const sfxError = new Audio('../../Listening_102_Basic/assets/sfx/incorrectanswersfx.mp3');
+                        sfxError.play().catch(e => console.log(e));
+                    } catch(err) {}
                     alert("Lỗi: " + data.message);
                     btn.innerText = "SUBMIT ANSWERS 🌸";
                     btn.disabled = false;

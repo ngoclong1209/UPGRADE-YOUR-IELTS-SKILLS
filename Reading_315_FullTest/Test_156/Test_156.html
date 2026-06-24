@@ -122,7 +122,7 @@
         }
         .progress-bar {
             height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
-            width: 0%; transition: width 2s ease-in-out;
+            width: 0%; transition: width 5s ease-in-out;
         }
         .payment-message {
             color: #d6336c; font-weight: bold; font-size: 1.1rem; 
@@ -268,6 +268,7 @@ Complete the sentences below. Choose <strong>ONE WORD ONLY</strong> from the pas
 <p><strong>Questions 37-40</strong>
 Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
 <p>There are many different types of dunes, two of which are most commonly found in deserts throughout the world, the linear dune and the (37)…………………..dune, some times also known as the crescentic dune. It’s been long known that in some places dunes can even sing and the answer lies in the sand itself. To produce singing sand in lab, all the sands must have similar (38)……………………….. And scientists have discovered that the size of the sand can affect the (39)………………………………of the sound. But the function of the varnish composed by a mixture of (40)………………………….still remains puzzling.</p>
+<div id="answer-key-content" style="display: none; opacity: 0; transition: opacity 1s; background: #fffdfc; padding: 20px; border-radius: 12px; border: 2px dashed #ff85a2; margin-top: 20px;">
 <p><strong>ANSWER KEY</strong></p>
 <p>1. Nest</p>
 <p>2. Tortoises</p>
@@ -309,6 +310,7 @@ Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passa
 <p>38. shape</p>
 <p>39. tone</p>
 <p>40. minerals</p>
+</div>
 
         </div>
         <div class="resizer" id="resizer"></div>
@@ -552,6 +554,16 @@ Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passa
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+        const btnSfx = new Audio('../../Listening_102_Basic/assets/sfx/collectcoins.mp3');
+        document.body.addEventListener('click', (e) => {
+            if(e.target.tagName === 'BUTTON' || e.target.classList.contains('submit-btn')) {
+                try {
+                    btnSfx.currentTime = 0;
+                    btnSfx.play().catch(e => console.log(e));
+                } catch(err) {}
+            }
+        });
+        
         let sid = localStorage.getItem('youpass_student_id');
         let overlay = document.getElementById('login-overlay');
         
@@ -601,6 +613,11 @@ Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passa
                 document.getElementById('payment-message').style.display = "block";
                 document.getElementById('progress-container').style.display = "block";
                 
+                try {
+                    const sfxSuccess = new Audio('../../Listening_102_Basic/assets/sfx/freesound_community-medieval-fanfare-6826.mp3');
+                    sfxSuccess.play().catch(e => console.log(e));
+                } catch(e) {}
+                
                 setTimeout(() => {
                     document.getElementById('progress-bar').style.width = "100%";
                 }, 100);
@@ -622,7 +639,7 @@ Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passa
                     // Show audio container explicitly if it was handled specially
                     let audioContainer = document.querySelector('.audio-fixed-bottom');
                     if (audioContainer) audioContainer.style.display = 'block';
-                }, 2200);
+                }, 5100);
                 
             } else {
                 alert("Lỗi: " + data.message);
@@ -719,6 +736,11 @@ Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passa
             };
 
             try {
+                try {
+                    const sfxSubmit = new Audio('../../Listening_102_Basic/assets/sfx/fireworkwhistle.mp3');
+                    sfxSubmit.play().catch(e => console.log(e));
+                } catch(err) {}
+
                 let res = await fetch(APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -726,10 +748,24 @@ Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passa
                 });
                 let data = await res.json();
                 if (data.status === 'success') {
+                    try {
+                        const sfxWin = new Audio('../../Listening_102_Basic/assets/sfx/gamewinner.mp3');
+                        sfxWin.play().catch(e => console.log(e));
+                    } catch(err) {}
                     resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
                     resultMsg.style.display = 'block';
                     btn.innerText = "SUBMITTED!";
+                    
+                    let ak = document.getElementById('answer-key-content');
+                    if (ak) {
+                        ak.style.display = 'block';
+                        setTimeout(() => ak.style.opacity = '1', 50);
+                    }
                 } else {
+                    try {
+                        const sfxError = new Audio('../../Listening_102_Basic/assets/sfx/incorrectanswersfx.mp3');
+                        sfxError.play().catch(e => console.log(e));
+                    } catch(err) {}
                     alert("Lỗi: " + data.message);
                     btn.innerText = "SUBMIT ANSWERS 🌸";
                     btn.disabled = false;

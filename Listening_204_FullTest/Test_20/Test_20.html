@@ -122,7 +122,7 @@
         }
         .progress-bar {
             height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
-            width: 0%; transition: width 2s ease-in-out;
+            width: 0%; transition: width 5s ease-in-out;
         }
         .payment-message {
             color: #d6336c; font-weight: bold; font-size: 1.1rem; 
@@ -271,6 +271,7 @@ Choose the correct letter A, B or C.</p>
 <p><strong>Questions 36-40</strong>
 Complete the sentences with <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
 <p>People usually buy <strong>(36)</strong>  _______  because they recognize the name of the manufacture. The speaker says that Shell has purchased a <strong>(37)</strong>  _______  and marketed a beer they called <strong> (38)</strong>  _______  San Fran Video Store handed out cards with a <strong>(39)</strong>  _______  and a <strong> (40)</strong>  _______  Of the store locations of them.</p>
+<div id="answer-key-content" style="display: none; opacity: 0; transition: opacity 1s; background: #fffdfc; padding: 20px; border-radius: 12px; border: 2px dashed #ff85a2; margin-top: 20px;">
 <p><strong>ANSWER KEY</strong></p>
 <p>1. C</p>
 <p>2. next monday</p>
@@ -312,6 +313,7 @@ Complete the sentences with <strong>NO MORE THAN THREE WORDS</strong> for each a
 <p>38. grandads old air</p>
 <p>39. message</p>
 <p>40. list</p>
+</div>
 
         </div>
         <div class="resizer" id="resizer"></div>
@@ -525,7 +527,7 @@ Complete the sentences with <strong>NO MORE THAN THREE WORDS</strong> for each a
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_20.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
+    <div class="audio-fixed-bottom"><audio controls src="audio_20.mp3"></audio></div>
 
     
 <script>
@@ -555,6 +557,16 @@ Complete the sentences with <strong>NO MORE THAN THREE WORDS</strong> for each a
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+        const btnSfx = new Audio('../../Listening_102_Basic/assets/sfx/collectcoins.mp3');
+        document.body.addEventListener('click', (e) => {
+            if(e.target.tagName === 'BUTTON' || e.target.classList.contains('submit-btn')) {
+                try {
+                    btnSfx.currentTime = 0;
+                    btnSfx.play().catch(e => console.log(e));
+                } catch(err) {}
+            }
+        });
+        
         let sid = localStorage.getItem('youpass_student_id');
         let overlay = document.getElementById('login-overlay');
         
@@ -604,6 +616,11 @@ Complete the sentences with <strong>NO MORE THAN THREE WORDS</strong> for each a
                 document.getElementById('payment-message').style.display = "block";
                 document.getElementById('progress-container').style.display = "block";
                 
+                try {
+                    const sfxSuccess = new Audio('../../Listening_102_Basic/assets/sfx/freesound_community-medieval-fanfare-6826.mp3');
+                    sfxSuccess.play().catch(e => console.log(e));
+                } catch(e) {}
+                
                 setTimeout(() => {
                     document.getElementById('progress-bar').style.width = "100%";
                 }, 100);
@@ -625,7 +642,7 @@ Complete the sentences with <strong>NO MORE THAN THREE WORDS</strong> for each a
                     // Show audio container explicitly if it was handled specially
                     let audioContainer = document.querySelector('.audio-fixed-bottom');
                     if (audioContainer) audioContainer.style.display = 'block';
-                }, 2200);
+                }, 5100);
                 
             } else {
                 alert("Lỗi: " + data.message);
@@ -722,6 +739,11 @@ Complete the sentences with <strong>NO MORE THAN THREE WORDS</strong> for each a
             };
 
             try {
+                try {
+                    const sfxSubmit = new Audio('../../Listening_102_Basic/assets/sfx/fireworkwhistle.mp3');
+                    sfxSubmit.play().catch(e => console.log(e));
+                } catch(err) {}
+
                 let res = await fetch(APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -729,10 +751,24 @@ Complete the sentences with <strong>NO MORE THAN THREE WORDS</strong> for each a
                 });
                 let data = await res.json();
                 if (data.status === 'success') {
+                    try {
+                        const sfxWin = new Audio('../../Listening_102_Basic/assets/sfx/gamewinner.mp3');
+                        sfxWin.play().catch(e => console.log(e));
+                    } catch(err) {}
                     resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
                     resultMsg.style.display = 'block';
                     btn.innerText = "SUBMITTED!";
+                    
+                    let ak = document.getElementById('answer-key-content');
+                    if (ak) {
+                        ak.style.display = 'block';
+                        setTimeout(() => ak.style.opacity = '1', 50);
+                    }
                 } else {
+                    try {
+                        const sfxError = new Audio('../../Listening_102_Basic/assets/sfx/incorrectanswersfx.mp3');
+                        sfxError.play().catch(e => console.log(e));
+                    } catch(err) {}
                     alert("Lỗi: " + data.message);
                     btn.innerText = "SUBMIT ANSWERS 🌸";
                     btn.disabled = false;

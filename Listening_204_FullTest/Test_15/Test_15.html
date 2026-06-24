@@ -122,7 +122,7 @@
         }
         .progress-bar {
             height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
-            width: 0%; transition: width 2s ease-in-out;
+            width: 0%; transition: width 5s ease-in-out;
         }
         .payment-message {
             color: #d6336c; font-weight: bold; font-size: 1.1rem; 
@@ -260,8 +260,10 @@ Match the person with their actions (A-G).</p>
 Complete the summary below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
 <p><strong>The development of e-signature</strong></p>
 <p>E-signatures have made the hand-writing signature <strong>(36)</strong>  _______  Technologies such as fax and internet created a need for contracts and agreements to be signed without the presence of the signer. E-signatures did not satisfy previous basic law requirements for handwritten signatures as they did not create a <strong>(37)</strong>  _______  The UN created a <strong>(38)</strong>  _______  in 1996 that set out rules that allowed electronic business to go ahead as e-contracts and paper contracts would meet with <strong>(39)</strong>  _______  in law. Although online businesses can use click-to-agree there is still demand for an electronic hand written signature as it can help <strong>(40)</strong>  _______  in law and create human touch. This kind of hand written signature is available on software used to create electronic signatures.</p>
+<div id="answer-key-content" style="display: none; opacity: 0; transition: opacity 1s; background: #fffdfc; padding: 20px; border-radius: 12px; border: 2px dashed #ff85a2; margin-top: 20px;">
 <p><strong>ANSWER KEY</strong></p>
 <p>1. Melissa 2. 30 3. cinema 4. 11,000 5. 14 nights 6. flights 7. lectures 8. (travel) insurance 9. 9,000 10. (swimming) pool 11. low income 12. hospitals 13. website 14. a dollar 15. immigrant 16. B 17. A 18. C 19. D 20. G 21. oil prices 22. citations 23. (guidance) sheet 24. immigration 25. revision 26. A 27. B 28. B 29. A 30. C 31. D 32. C 33. F 34. E 35. A 36. obsolete 37. (physical) mark 38. framework 39. equal treatment 40. (legal) verification</p>
+</div>
 
         </div>
         <div class="resizer" id="resizer"></div>
@@ -475,7 +477,7 @@ Complete the summary below. Write <strong>NO MORE THAN TWO WORDS</strong> for ea
         </div>
     </div>
 
-    <div class="audio-fixed-bottom"><div class="audio-warning">⚠️ Audio file (audio_15.mp3) is missing. Vui lòng tải file âm thanh lên thư mục này.</div></div>
+    <div class="audio-fixed-bottom"><audio controls src="audio_15.mp3"></audio></div>
 
     
 <script>
@@ -505,6 +507,16 @@ Complete the summary below. Write <strong>NO MORE THAN TWO WORDS</strong> for ea
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+        const btnSfx = new Audio('../../Listening_102_Basic/assets/sfx/collectcoins.mp3');
+        document.body.addEventListener('click', (e) => {
+            if(e.target.tagName === 'BUTTON' || e.target.classList.contains('submit-btn')) {
+                try {
+                    btnSfx.currentTime = 0;
+                    btnSfx.play().catch(e => console.log(e));
+                } catch(err) {}
+            }
+        });
+        
         let sid = localStorage.getItem('youpass_student_id');
         let overlay = document.getElementById('login-overlay');
         
@@ -554,6 +566,11 @@ Complete the summary below. Write <strong>NO MORE THAN TWO WORDS</strong> for ea
                 document.getElementById('payment-message').style.display = "block";
                 document.getElementById('progress-container').style.display = "block";
                 
+                try {
+                    const sfxSuccess = new Audio('../../Listening_102_Basic/assets/sfx/freesound_community-medieval-fanfare-6826.mp3');
+                    sfxSuccess.play().catch(e => console.log(e));
+                } catch(e) {}
+                
                 setTimeout(() => {
                     document.getElementById('progress-bar').style.width = "100%";
                 }, 100);
@@ -575,7 +592,7 @@ Complete the summary below. Write <strong>NO MORE THAN TWO WORDS</strong> for ea
                     // Show audio container explicitly if it was handled specially
                     let audioContainer = document.querySelector('.audio-fixed-bottom');
                     if (audioContainer) audioContainer.style.display = 'block';
-                }, 2200);
+                }, 5100);
                 
             } else {
                 alert("Lỗi: " + data.message);
@@ -672,6 +689,11 @@ Complete the summary below. Write <strong>NO MORE THAN TWO WORDS</strong> for ea
             };
 
             try {
+                try {
+                    const sfxSubmit = new Audio('../../Listening_102_Basic/assets/sfx/fireworkwhistle.mp3');
+                    sfxSubmit.play().catch(e => console.log(e));
+                } catch(err) {}
+
                 let res = await fetch(APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -679,10 +701,24 @@ Complete the summary below. Write <strong>NO MORE THAN TWO WORDS</strong> for ea
                 });
                 let data = await res.json();
                 if (data.status === 'success') {
+                    try {
+                        const sfxWin = new Audio('../../Listening_102_Basic/assets/sfx/gamewinner.mp3');
+                        sfxWin.play().catch(e => console.log(e));
+                    } catch(err) {}
                     resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
                     resultMsg.style.display = 'block';
                     btn.innerText = "SUBMITTED!";
+                    
+                    let ak = document.getElementById('answer-key-content');
+                    if (ak) {
+                        ak.style.display = 'block';
+                        setTimeout(() => ak.style.opacity = '1', 50);
+                    }
                 } else {
+                    try {
+                        const sfxError = new Audio('../../Listening_102_Basic/assets/sfx/incorrectanswersfx.mp3');
+                        sfxError.play().catch(e => console.log(e));
+                    } catch(err) {}
                     alert("Lỗi: " + data.message);
                     btn.innerText = "SUBMIT ANSWERS 🌸";
                     btn.disabled = false;

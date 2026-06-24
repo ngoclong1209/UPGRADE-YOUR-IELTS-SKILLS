@@ -122,7 +122,7 @@
         }
         .progress-bar {
             height: 100%; background: linear-gradient(135deg, #ff85a2 0%, #ff5e7e 100%);
-            width: 0%; transition: width 2s ease-in-out;
+            width: 0%; transition: width 5s ease-in-out;
         }
         .payment-message {
             color: #d6336c; font-weight: bold; font-size: 1.1rem; 
@@ -247,6 +247,7 @@ Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from 
 <p><strong>Synchrony</strong>
 There is a human desire to co-ordinate (33)……………………….in an effort to be ‘in harmony’. This co-ordination can be seen in conversations when speakers alter the speed and extent of their speech in order to facilitate (34)……………………………. This is often achieved within milliseconds: only tiny pauses take place when a conversation flows; when it doesn’t, there are (35)…………………………….. and silences, or people talk at the same time. Our desire to (36)……………………………. Is also an important element of conversation flow. According to research, our (37)…………………………………….. increase even if silences are brief. Humans have a basic need to be part of a group, and they experience a sense of (38)……………………………. If silences exclude them. People also attempt to co-ordinate their opinions in conversation. In an experiment, participants’ judgement of the overall (39)………………………………. among speakers was tested using videos of a fluent and a slightly disrupted conversation. The results showed that the (40)………………………………..of the speakers’ discussion was less important than the perceived synchrony of the speakers.</p>
 <p>_______  _______  _______ Show Answers</p>
+<div id="answer-key-content" style="display: none; opacity: 0; transition: opacity 1s; background: #fffdfc; padding: 20px; border-radius: 12px; border: 2px dashed #ff85a2; margin-top: 20px;">
 <p><strong>ANSWER KEY</strong></p>
 <p>1. false</p>
 <p>2. false</p>
@@ -288,6 +289,7 @@ There is a human desire to co-ordinate (33)……………………….in an eff
 <p>38. rejection</p>
 <p>39. agreement</p>
 <p>40. content</p>
+</div>
 
         </div>
         <div class="resizer" id="resizer"></div>
@@ -531,6 +533,16 @@ There is a human desire to co-ordinate (33)……………………….in an eff
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+        const btnSfx = new Audio('../../Listening_102_Basic/assets/sfx/collectcoins.mp3');
+        document.body.addEventListener('click', (e) => {
+            if(e.target.tagName === 'BUTTON' || e.target.classList.contains('submit-btn')) {
+                try {
+                    btnSfx.currentTime = 0;
+                    btnSfx.play().catch(e => console.log(e));
+                } catch(err) {}
+            }
+        });
+        
         let sid = localStorage.getItem('youpass_student_id');
         let overlay = document.getElementById('login-overlay');
         
@@ -580,6 +592,11 @@ There is a human desire to co-ordinate (33)……………………….in an eff
                 document.getElementById('payment-message').style.display = "block";
                 document.getElementById('progress-container').style.display = "block";
                 
+                try {
+                    const sfxSuccess = new Audio('../../Listening_102_Basic/assets/sfx/freesound_community-medieval-fanfare-6826.mp3');
+                    sfxSuccess.play().catch(e => console.log(e));
+                } catch(e) {}
+                
                 setTimeout(() => {
                     document.getElementById('progress-bar').style.width = "100%";
                 }, 100);
@@ -601,7 +618,7 @@ There is a human desire to co-ordinate (33)……………………….in an eff
                     // Show audio container explicitly if it was handled specially
                     let audioContainer = document.querySelector('.audio-fixed-bottom');
                     if (audioContainer) audioContainer.style.display = 'block';
-                }, 2200);
+                }, 5100);
                 
             } else {
                 alert("Lỗi: " + data.message);
@@ -698,6 +715,11 @@ There is a human desire to co-ordinate (33)……………………….in an eff
             };
 
             try {
+                try {
+                    const sfxSubmit = new Audio('../../Listening_102_Basic/assets/sfx/fireworkwhistle.mp3');
+                    sfxSubmit.play().catch(e => console.log(e));
+                } catch(err) {}
+
                 let res = await fetch(APP_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -705,10 +727,24 @@ There is a human desire to co-ordinate (33)……………………….in an eff
                 });
                 let data = await res.json();
                 if (data.status === 'success') {
+                    try {
+                        const sfxWin = new Audio('../../Listening_102_Basic/assets/sfx/gamewinner.mp3');
+                        sfxWin.play().catch(e => console.log(e));
+                    } catch(err) {}
                     resultMsg.innerText = "✅ Đáp án của bạn đã được ghi nhận!";
                     resultMsg.style.display = 'block';
                     btn.innerText = "SUBMITTED!";
+                    
+                    let ak = document.getElementById('answer-key-content');
+                    if (ak) {
+                        ak.style.display = 'block';
+                        setTimeout(() => ak.style.opacity = '1', 50);
+                    }
                 } else {
+                    try {
+                        const sfxError = new Audio('../../Listening_102_Basic/assets/sfx/incorrectanswersfx.mp3');
+                        sfxError.play().catch(e => console.log(e));
+                    } catch(err) {}
                     alert("Lỗi: " + data.message);
                     btn.innerText = "SUBMIT ANSWERS 🌸";
                     btn.disabled = false;
