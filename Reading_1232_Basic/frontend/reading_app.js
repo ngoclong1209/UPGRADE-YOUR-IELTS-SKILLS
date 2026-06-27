@@ -160,24 +160,34 @@ function renderReadingTest(data) {
                 let optionsObj = q.options || {};
                 let parasObj = q.paragraphs || {};
                 
-                // Extract answer keys from options
-                if (Array.isArray(optionsObj)) {
-                    optionsObj.forEach((opt, idx) => {
-                        const match = opt.match(/^([A-Z0-9ivxlcIVXLC]+)[\.\)]\s*(.*)$/);
-                        if (match) selectOptions.push(match[1]);
-                        else selectOptions.push(String(idx + 1));
-                    });
-                } else if (Object.keys(optionsObj).length > 0) {
-                    selectOptions = Object.keys(optionsObj);
-                } else if (Array.isArray(parasObj)) {
-                    parasObj.forEach((p, idx) => selectOptions.push(String(idx + 1)));
-                } else if (Object.keys(parasObj).length > 0) {
-                    selectOptions = Object.keys(parasObj);
+                // Extract answer keys from options intelligently based on the actual answers
+                if (q.answers && typeof q.answers === 'object') {
+                    let sampleAns = Object.values(q.answers)[0];
+                    if (sampleAns !== undefined) {
+                        if (Object.keys(parasObj).includes(String(sampleAns))) {
+                            selectOptions = Object.keys(parasObj);
+                        } else if (Object.keys(optionsObj).includes(String(sampleAns))) {
+                            selectOptions = Object.keys(optionsObj);
+                        } else {
+                            selectOptions = [...new Set(Object.values(q.answers))].sort();
+                        }
+                    }
                 }
                 
-                // Fallback: if no options or paragraphs were found, try to use unique values from answers
-                if (selectOptions.length === 0 && q.answers && typeof q.answers === 'object') {
-                    selectOptions = [...new Set(Object.values(q.answers))].sort();
+                if (selectOptions.length === 0) {
+                    if (Array.isArray(optionsObj)) {
+                        optionsObj.forEach((opt, idx) => {
+                            const match = opt.match(/^([A-Z0-9ivxlcIVXLC]+)[\.\)]\s*(.*)$/);
+                            if (match) selectOptions.push(match[1]);
+                            else selectOptions.push(String(idx + 1));
+                        });
+                    } else if (Object.keys(optionsObj).length > 0) {
+                        selectOptions = Object.keys(optionsObj);
+                    } else if (Array.isArray(parasObj)) {
+                        parasObj.forEach((p, idx) => selectOptions.push(String(idx + 1)));
+                    } else if (Object.keys(parasObj).length > 0) {
+                        selectOptions = Object.keys(parasObj);
+                    }
                 }
                 
                 if (selectOptions.length === 0 && !q.answers) {
