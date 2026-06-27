@@ -281,7 +281,7 @@ function checkGroupAnswers(group, btnEl) {
             Object.keys(q.answers).forEach(subQ => {
                 const userAnswer = formData.get(`${q.id}_${subQ}`);
                 const correctAnswer = q.answers[subQ];
-                const isCorrect = userAnswer && userAnswer.toString().trim().toUpperCase() === correctAnswer.toString().trim().toUpperCase();
+                const isCorrect = userAnswer && userAnswer.toString().trim().toUpperCase().replace(/_/g, ' ') === correctAnswer.toString().trim().toUpperCase().replace(/_/g, ' ');
                 if (!isCorrect) allCorrect = false;
                 
                 feedbackStr += `
@@ -306,7 +306,7 @@ function checkGroupAnswers(group, btnEl) {
             // Standard single answer question
             const userAnswer = formData.get(`${q.id}`);
             const correctAnswer = q.answer;
-            const isCorrect = userAnswer && userAnswer.toString().trim().toUpperCase() === correctAnswer.toString().trim().toUpperCase();
+            const isCorrect = userAnswer && userAnswer.toString().trim().toUpperCase().replace(/_/g, ' ') === correctAnswer.toString().trim().toUpperCase().replace(/_/g, ' ');
             
             containerEl.style.backgroundColor = isCorrect ? '#f8fff9' : '#fff8f8';
             containerEl.style.borderLeft = `4px solid ${isCorrect ? '#28a745' : '#dc3545'}`;
@@ -349,7 +349,7 @@ function submitReadingTest(data) {
                 totalQuestions++;
                 const userAnswer = formData.get(`${q.id}_${subQ}`);
                 const correctAnswer = q.answers[subQ];
-                const isCorrect = userAnswer && userAnswer.toString().trim().toUpperCase() === correctAnswer.toString().trim().toUpperCase();
+                const isCorrect = userAnswer && userAnswer.toString().trim().toUpperCase().replace(/_/g, ' ') === correctAnswer.toString().trim().toUpperCase().replace(/_/g, ' ');
                 
                 if (isCorrect) score++;
                 else allCorrect = false;
@@ -374,7 +374,7 @@ function submitReadingTest(data) {
             totalQuestions++;
             const userAnswer = formData.get(`${q.id}`);
             const correctAnswer = q.answer;
-            const isCorrect = userAnswer && userAnswer.toString().trim().toUpperCase() === correctAnswer.toString().trim().toUpperCase();
+            const isCorrect = userAnswer && userAnswer.toString().trim().toUpperCase().replace(/_/g, ' ') === correctAnswer.toString().trim().toUpperCase().replace(/_/g, ' ');
 
             if (isCorrect) score++;
 
