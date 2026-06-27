@@ -1,0 +1,145 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_128",
+  "title": "Robots in Our Daily Lives",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Robots in Our Daily Lives</h2><p>Today, robots are very common in our world. Some robots work in large factories. They help people build cars, computers, and other big machines. These factory robots are very strong and fast. They do not get tired, and they can work all day and all night without sleeping. This helps companies make things quickly and cheaply.</p><p>We also have small robots in our homes. The most popular home robot is the vacuum cleaner robot. This robot is round and flat. It moves around the living room floor and cleans up dust and dirt. It has special sensors, so it does not hit walls, tables, or chairs. When its battery is low, the robot goes back to its charging station by itself. Many busy people buy this robot because it saves them a lot of time.</p><p>In some modern restaurants, there are robot waiters. These robots carry plates of food and drinks from the kitchen to the tables. They have a computer screen that shows a happy face. Many customers like to look at them and take photos with them. However, these robots cannot talk to customers like real human waiters. They can only do simple tasks.</p><p>There are also robots that go to dangerous places. For example, some robots can go deep under the sea or inside active volcanoes. They take photos and collect information for scientists. These robots are very useful because they keep human workers safe from harm.</p><p>In the future, scientists will make even smarter robots. Some companies are building robot helpers for elderly people. These robots can help old people carry heavy bags, clean the house, or remind them to take their medicine. Robots will make our lives much easier, but they can never replace real human friends and family.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Where do strong and fast robots work?",
+      "options": {
+        "A": "In large factories",
+        "B": "In schools",
+        "C": "In offices",
+        "D": "In parks"
+      },
+      "answer": "A",
+      "explanation": "Paragraph 1 states: 'Some robots work in large factories. They help people build cars, computers, and other big machines. These factory robots are very strong and fast.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the most popular home robot?",
+      "options": {
+        "A": "A cooking robot",
+        "B": "A vacuum cleaner robot",
+        "C": "A gardening robot",
+        "D": "A washing robot"
+      },
+      "answer": "B",
+      "explanation": "Paragraph 2 states: 'The most popular home robot is the vacuum cleaner robot.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why do robot waiters have screens?",
+      "options": {
+        "A": "To play movies",
+        "B": "To show a happy face",
+        "C": "To take orders",
+        "D": "To play music"
+      },
+      "answer": "B",
+      "explanation": "Paragraph 3 states: 'They have a computer screen that shows a happy face.'"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why do robots go deep under the sea?",
+      "options": {
+        "A": "To catch fish",
+        "B": "To clean the water",
+        "C": "To take photos and collect information",
+        "D": "To find lost treasure"
+      },
+      "answer": "C",
+      "explanation": "Paragraph 4 states: 'For example, some robots can go deep under the sea or inside active volcanoes. They take photos and collect information for scientists.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "Factory robots need to sleep at night.",
+      "answer": "FALSE",
+      "explanation": "Paragraph 1 states: 'They do not get tired, and they can work all day and all night without sleeping.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "The vacuum cleaner robot can find its charging station when the battery is low.",
+      "answer": "TRUE",
+      "explanation": "Paragraph 2 states: 'When its battery is low, the robot goes back to its charging station by itself.'"
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "Robot waiters can talk nicely to customers.",
+      "answer": "FALSE",
+      "explanation": "Paragraph 3 states: 'However, these robots cannot talk to customers like real human waiters.'"
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "Robot helpers for elderly people are very expensive to buy.",
+      "answer": "NOT GIVEN",
+      "explanation": "The text mentions that companies are building robot helpers for elderly people, but it does not mention how much they cost."
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Vacuum cleaner robots have special ______ so they do not hit walls or tables.",
+      "answer": "sensors",
+      "explanation": "Paragraph 2 states: 'It has special sensors, so it does not hit walls, tables, or chairs.'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Robot helpers can remind elderly people to take their ______.",
+      "answer": "medicine",
+      "explanation": "Paragraph 5 states: 'These robots can help old people carry heavy bags, clean the house, or remind them to take their medicine.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Robots go to dangerous places to keep human workers ______.",
+      "answer": "safe",
+      "explanation": "Paragraph 4 states: 'These robots are very useful because they keep human workers safe from harm.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "factory",
+      "meaning": "A building where people make things with machines."
+    },
+    {
+      "word": "sensor",
+      "meaning": "A tool that helps a robot feel or see things around it."
+    },
+    {
+      "word": "waiter",
+      "meaning": "A person (or robot) who serves food and drinks in a restaurant."
+    },
+    {
+      "word": "elderly",
+      "meaning": "Old people."
+    },
+    {
+      "word": "dangerous",
+      "meaning": "Not safe; can cause hurt or damage."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (A1-A2)</h2><p><b>1. Tìm từ khóa trực tiếp:</b> Ở trình độ này, câu hỏi sử dụng từ ngữ giống hệt trong bài đọc (ít paraphrase). Hãy tìm các từ nổi bật như 'sensors', 'medicine', 'charging station' trực tiếp trong đoạn văn.</p><p><b>2. Kỹ thuật True/False/Not Given:</b> Nếu thông tin trong câu hỏi trái ngược hoàn toàn với bài đọc, chọn FALSE. Nếu bài đọc không hề nhắc đến (ví dụ như giá tiền của robot), chọn NOT GIVEN.</p><p><b>3. Điền từ vào chỗ trống:</b> Chú ý giới hạn từ (NO MORE THAN TWO WORDS). Từ cần điền phải được chép chính xác từ trong bài ra, không tự ý thay đổi dạng từ (số ít/số nhiều).</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

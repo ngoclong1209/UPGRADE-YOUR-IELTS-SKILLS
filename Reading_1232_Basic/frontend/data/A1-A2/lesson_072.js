@@ -1,0 +1,145 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_072",
+  "title": "Robots and AI in Our Daily Lives",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Robots and AI in Our Daily Lives</h2><p>Today, robots and Artificial Intelligence (AI) are everywhere. Many people use them every day at home, at school, and at work. They help us do many things faster and easier.</p><p>In our homes, we have small robots. A very popular robot is the robot vacuum cleaner. This robot cleans the floor. It moves around the living room and cleans the dust. It can work when we are asleep or when we are at work. There are also smart speakers. You can speak to these devices, and they can play music or tell you the weather. Some smart fridges can even tell you when you need to buy more milk.</p><p>In schools, students use computers with AI. These computers help students learn English, science, and math. The computer program can talk to the student and correct their mistakes. Teachers also use AI to make fun games for the classroom.</p><p>In factories, big robots make many products. They assemble cars, mobile phones, and toys. These robots are very fast, and they do not get tired. They can work all day and all night without a break. They are very strong and can lift heavy boxes. This helps companies make things quickly and cheaply.</p><p>In hospitals, doctors use robots to help patients. Some robots can help doctors during difficult operations. Other robots carry medicine and food to the patients' rooms. They can also clean the floors of the hospital very quickly. These robots help keep the hospital clean and safe for everyone.</p><p>In supermarkets, some robots help customers. They can show people where the food is. Some supermarkets also have automatic checkouts. Customers can scan their food and pay without a worker. This makes shopping very fast.</p><p>In the future, we will see more robots. Some people think robots will drive cars and buses. Other people think robots will cook food in restaurants. Robots and AI will continue to change our world.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does a robot vacuum cleaner do?",
+      "options": {
+        "A": "It cooks food.",
+        "B": "It cleans the floor.",
+        "C": "It plays music.",
+        "D": "It drives a car."
+      },
+      "answer": "B",
+      "explanation": "Paragraph 2 states: 'A very popular robot is the robot vacuum cleaner. This robot cleans the floor.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "How do computers with AI help students?",
+      "options": {
+        "A": "They clean classrooms.",
+        "B": "They make food.",
+        "C": "They help them learn.",
+        "D": "They drive buses."
+      },
+      "answer": "C",
+      "explanation": "Paragraph 3 states: 'These computers help students learn English, science, and math.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why do factories use robots?",
+      "options": {
+        "A": "Because they are fast and do not get tired.",
+        "B": "Because they can speak English.",
+        "C": "Because they are cheap to buy.",
+        "D": "Because they can cook food."
+      },
+      "answer": "A",
+      "explanation": "Paragraph 4 states: 'These robots are very fast, and they do not get tired.'"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do robots do in supermarkets?",
+      "options": {
+        "A": "They make cars.",
+        "B": "They clean the doctors' tools.",
+        "C": "They show customers where food is.",
+        "D": "They teach math."
+      },
+      "answer": "C",
+      "explanation": "Paragraph 6 states: 'In supermarkets, some robots help customers. They can show people where the food is.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Smart speakers can play music.",
+      "answer": "TRUE",
+      "explanation": "Paragraph 2 states: 'There are also smart speakers. You can speak to these devices, and they can play music...'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Robots in factories only work during the day.",
+      "answer": "FALSE",
+      "explanation": "Paragraph 4 states: 'They can work all day and all night without a break.' This contradicts the statement that they only work during the day."
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Doctors use robots to help during some operations.",
+      "answer": "TRUE",
+      "explanation": "Paragraph 5 states: 'Some robots can help doctors during difficult operations.'"
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Robots can cook food better than human chefs.",
+      "answer": "NOT GIVEN",
+      "explanation": "Paragraph 7 states: 'Other people think robots will cook food in restaurants.' However, the text does not compare their cooking skills to human chefs."
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Some smart fridges can tell you when you need to buy more ______.",
+      "answer": "MILK",
+      "explanation": "Paragraph 2 states: 'Some smart fridges can even tell you when you need to buy more milk.'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Computer programs with AI can talk to students and correct their ______.",
+      "answer": "MISTAKES",
+      "explanation": "Paragraph 3 states: 'The computer program can talk to the student and correct their mistakes.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "In supermarkets, customers can scan their food and pay without a ______.",
+      "answer": "WORKER",
+      "explanation": "Paragraph 6 states: 'Customers can scan their food and pay without a worker.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "vacuum cleaner",
+      "meaning": "a machine that cleans floors by sucking up dust and dirt."
+    },
+    {
+      "word": "device",
+      "meaning": "a small tool or machine that does a special job."
+    },
+    {
+      "word": "assemble",
+      "meaning": "to put together different parts to make a product."
+    },
+    {
+      "word": "operation",
+      "meaning": "a medical process where a doctor cuts open a body to make it well."
+    },
+    {
+      "word": "customer",
+      "meaning": "a person who buys things in a shop or store."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài đạt điểm cao (A1-A2)</h2><p><b>1. Dạng bài Multiple Choice:</b> Đọc kỹ câu hỏi để tìm từ khóa chính (ví dụ: 'vacuum cleaner', 'AI help students'). Quét nhanh (scanning) đoạn văn chứa từ khóa đó và chọn đáp án có từ ngữ giống hệt trong bài.</p><p><b>2. Dạng bài True/False/Not Given:</b> Chú ý các từ chỉ tần suất hoặc thời gian (như 'only during the day'). Đối chiếu trực tiếp với thông tin trong bài. Nếu bài viết không đưa ra sự so sánh hay đánh giá (ví dụ: 'better than'), hãy chọn 'Not Given'.</p><p><b>3. Dạng bài Sentence Completion:</b> Đọc kỹ giới hạn từ cho phép (NO MORE THAN TWO WORDS). Hãy tìm từ khóa đứng trước khoảng trống trong câu hỏi, tìm câu chứa từ khóa đó trong bài đọc và điền chính xác từ còn thiếu mà không thay đổi dạng từ.</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

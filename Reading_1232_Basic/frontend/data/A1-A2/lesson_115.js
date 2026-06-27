@@ -1,0 +1,150 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_115",
+  "title": "Our Warming Earth",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Our Warming Earth</h2><p>Our Earth is getting warmer. This change is called global warming. The temperature of the Earth goes up every year. This is a big problem for everyone.</p><p>Why is this happening? First, people burn too much coal, oil, and gas. We call these fossil fuels. We use them to drive cars, run factories, and make electricity for our houses. When we burn fossil fuels, it makes a gas called carbon dioxide. This gas goes into the air. It acts like a warm blanket around the Earth. It keeps the heat inside, and the Earth gets hotter.</p><p>Second, people cut down many trees. Forests are very important for our planet. Trees take in bad gases from the air and make clean air for us to breathe. When we cut down trees to build houses or farms, there are fewer trees. This means more bad gases stay in the air.</p><p>Global warming causes many big problems. The ice in cold places is melting fast. When the ice melts, it turns into water and goes into the ocean. This makes the sea level rise. Some cities near the ocean can have floods. Also, the weather changes. Some places become very dry with no rain. Other places get too much rain and dangerous storms. Animals also lose their homes because of these changes.</p><p>What can we do to help? We can do simple things every day. We can turn off the lights when we leave a room. This saves electricity. We can ride bicycles or walk instead of driving cars. We can also plant more trees in our gardens. If we all work together, we can protect our beautiful Earth and keep it cool.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main cause of the Earth getting warmer?",
+      "options": {
+        "A": "Burning fossil fuels",
+        "B": "Planting more trees",
+        "C": "Riding bicycles",
+        "D": "Cold weather"
+      },
+      "answer": "A",
+      "explanation": "The text states: 'First, people burn too much coal, oil, and gas... the Earth gets hotter.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What acts like a warm blanket around the Earth?",
+      "options": {
+        "A": "Forests",
+        "B": "Carbon dioxide gas",
+        "C": "Ice in cold places",
+        "D": "Oceans"
+      },
+      "answer": "B",
+      "explanation": "The text states: 'When we burn fossil fuels, it makes a gas called carbon dioxide... It acts like a warm blanket around the Earth.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why are trees important for our planet?",
+      "options": {
+        "A": "They make the sea level rise.",
+        "B": "They make electricity.",
+        "C": "They make clean air.",
+        "D": "They make big storms."
+      },
+      "answer": "C",
+      "explanation": "The text states: 'Trees take in bad gases from the air and make clean air for us to breathe.'"
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "The temperature of the Earth goes up every year.",
+      "options": {
+        "TRUE": "If the statement agrees with the information",
+        "FALSE": "If the statement contradicts the information",
+        "NOT GIVEN": "If there is no information on this"
+      },
+      "answer": "TRUE",
+      "explanation": "The text directly states: 'The temperature of the Earth goes up every year.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Coal, oil, and gas are fossil fuels.",
+      "options": {
+        "TRUE": "If the statement agrees with the information",
+        "FALSE": "If the statement contradicts the information",
+        "NOT GIVEN": "If there is no information on this"
+      },
+      "answer": "TRUE",
+      "explanation": "The text directly states: 'First, people burn too much coal, oil, and gas. We call these fossil fuels.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Melting ice makes the sea level go down.",
+      "options": {
+        "TRUE": "If the statement agrees with the information",
+        "FALSE": "If the statement contradicts the information",
+        "NOT GIVEN": "If there is no information on this"
+      },
+      "answer": "FALSE",
+      "explanation": "The text states: 'When the ice melts... This makes the sea level rise.' Therefore, it does not go down."
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "People in cities like to ride bicycles more than cars.",
+      "options": {
+        "TRUE": "If the statement agrees with the information",
+        "FALSE": "If the statement contradicts the information",
+        "NOT GIVEN": "If there is no information on this"
+      },
+      "answer": "NOT GIVEN",
+      "explanation": "The passage suggests riding bicycles instead of driving cars to help, but it does not mention if people in cities like to do this more than driving."
+    },
+    {
+      "id": "q8",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "When we leave a room, we can turn off the ______ to save electricity.",
+      "options": null,
+      "answer": "lights",
+      "explanation": "The text states: 'We can turn off the lights when we leave a room. This saves electricity.'"
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Melting ice can cause ______ in cities near the ocean.",
+      "options": null,
+      "answer": "floods",
+      "explanation": "The text states: 'Some cities near the ocean can have floods.'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "We can plant more ______ in our gardens to help the Earth.",
+      "options": null,
+      "answer": "trees",
+      "explanation": "The text states: 'We can also plant more trees in our gardens.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "Fossil fuels",
+      "meaning": "Sources of energy like coal, oil, and gas."
+    },
+    {
+      "word": "Carbon dioxide",
+      "meaning": "A gas made when burning fossil fuels that traps heat."
+    },
+    {
+      "word": "Melting",
+      "meaning": "Changing from ice (solid) into water (liquid)."
+    },
+    {
+      "word": "Protect",
+      "meaning": "To keep safe from harm or damage."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (Tactics)</h2><p>1. <b>Tìm từ khóa trực tiếp:</b> Với trình độ A1-A2, các từ trong câu hỏi thường giống hệt 100% các từ trong bài đọc. Hãy tìm các từ như 'blanket', 'fossil fuels', hoặc 'lights' trong văn bản để tìm đáp án nhanh nhất.</p><p>2. <b>True/False/Not Given:</b> Chú ý các từ chỉ xu hướng như 'rise' (lên) và 'go down' (xuống). Nếu bài nói 'rise' mà câu hỏi nói 'go down', đáp án chắc chắn là FALSE.</p><p>3. <b>Điền từ vào chỗ trống:</b> Luôn kiểm tra giới hạn từ (NO MORE THAN TWO WORDS). Từ điền vào phải được lấy chính xác từ trong bài, không thay đổi dạng từ.</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

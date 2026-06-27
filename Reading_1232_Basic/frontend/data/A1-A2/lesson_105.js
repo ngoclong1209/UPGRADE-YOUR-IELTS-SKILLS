@@ -1,0 +1,177 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_105",
+  "title": "Choosing Your Path: University or Job School?",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Choosing Your Path: University or Job School?</h2><p>After finishing high school, young people have to make a big decision about their future. Some students choose higher education. This means they go to a university. At university, they study academic subjects like science, history, business, or languages. Students spend a lot of time in classrooms. They listen to professors, write essays, and read many books. This study usually takes three or four years. When they finish, they get a university degree. This degree helps them find jobs in offices, schools, or hospitals. Many people think university is the only way to get a good job, but this is not true.</p><p>Other students choose vocational training. This is also called job training or trade school. In these schools, students learn practical skills for a specific job. For example, they can learn to be car mechanics, electricians, cooks, or builders. Students in vocational training do not read as many books. Instead, they practice doing the job with their hands in workshops. This training is often shorter than university. It usually takes only one or two years. After finishing, students can start working and earning money quickly.</p><p>Both choices are very good, but they are different. University is great for people who love reading, writing, and researching. It is necessary for professional jobs like doctors, lawyers, or school teachers. On the other hand, vocational training is perfect for people who like active work and want to learn a real trade. These jobs are very important for our world. We always need good builders to make houses and good mechanics to fix cars. Students should think about what they like to do before they choose.</p><p>Cost is also an important difference. University can be very expensive, and some students have to take big loans. Vocational training is usually much cheaper. Because the courses are shorter, students spend less money on tuition. This means they do not have big debts when they finish their studies.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do university students do a lot?",
+      "options": {
+        "A": "Practice fixing cars",
+        "B": "Read many books",
+        "C": "Build houses",
+        "D": "Cook food"
+      },
+      "answer": "B",
+      "explanation": "Paragraph 1 says that university students 'listen to professors, write essays, and read many books.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "How long does university study usually take?",
+      "options": {
+        "A": "One or two years",
+        "B": "Three or four years",
+        "C": "Five or six years",
+        "D": "Ten years"
+      },
+      "answer": "B",
+      "explanation": "Paragraph 1 states: 'This study usually takes three or four years.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is another name for vocational training?",
+      "options": {
+        "A": "Higher education",
+        "B": "High school",
+        "C": "Trade school",
+        "D": "University"
+      },
+      "answer": "C",
+      "explanation": "Paragraph 2 states: 'This is also called job training or trade school.'"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which job needs vocational training according to the text?",
+      "options": {
+        "A": "Doctor",
+        "B": "Lawyer",
+        "C": "School teacher",
+        "D": "Car mechanic"
+      },
+      "answer": "D",
+      "explanation": "Paragraph 2 lists 'car mechanics, electricians, cooks, or builders' as jobs learned in vocational training."
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "University is the only way to get a good job.",
+      "options": {
+        "A": "TRUE",
+        "B": "FALSE",
+        "C": "NOT GIVEN"
+      },
+      "answer": "FALSE",
+      "explanation": "Paragraph 1 says: 'Many people think university is the only way to get a good job, but this is not true.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "Vocational training usually takes one or two years.",
+      "options": {
+        "A": "TRUE",
+        "B": "FALSE",
+        "C": "NOT GIVEN"
+      },
+      "answer": "TRUE",
+      "explanation": "Paragraph 2 states: 'It usually takes only one or two years.'"
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "Vocational training is more expensive than university.",
+      "options": {
+        "A": "TRUE",
+        "B": "FALSE",
+        "C": "NOT GIVEN"
+      },
+      "answer": "FALSE",
+      "explanation": "Paragraph 4 states: 'Vocational training is usually much cheaper [than university].'"
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "Most vocational students study in London.",
+      "options": {
+        "A": "TRUE",
+        "B": "FALSE",
+        "C": "NOT GIVEN"
+      },
+      "answer": "NOT GIVEN",
+      "explanation": "There is no mention of London or where the students study in the passage."
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "University students get a ______ when they finish their studies.",
+      "options": null,
+      "answer": "degree",
+      "explanation": "Paragraph 1 says: 'When they finish, they get a university degree.'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Vocational students practice doing jobs with their ______.",
+      "options": null,
+      "answer": "hands",
+      "explanation": "Paragraph 2 says: 'Instead, they practice doing the job with their hands in workshops.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "University is necessary for jobs like doctors, ______ , or school teachers.",
+      "options": null,
+      "answer": "lawyers",
+      "explanation": "Paragraph 3 says: 'It is necessary for professional jobs like doctors, lawyers, or school teachers.'"
+    },
+    {
+      "id": "q12",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Vocational training is cheaper because the courses are ______.",
+      "options": null,
+      "answer": "shorter",
+      "explanation": "Paragraph 4 states: 'Because the courses are shorter, students spend less money on tuition.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "higher education",
+      "meaning": "education at a college or university level"
+    },
+    {
+      "word": "vocational training",
+      "meaning": "education and training that teaches skills for a specific job"
+    },
+    {
+      "word": "degree",
+      "meaning": "a qualification given to student after finishing university"
+    },
+    {
+      "word": "practical",
+      "meaning": "relating to real actions and hands-on experience rather than ideas"
+    },
+    {
+      "word": "tuition",
+      "meaning": "the money paid to a school or university for teaching"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (Tactics)</h2><p><strong>1. Dạng bài Multiple Choice:</strong> Tìm từ khóa trong câu hỏi (ví dụ: 'how long', 'university study'). Sau đó quét nhanh đoạn văn để tìm các con số thời gian tương ứng. Ở cấp độ A1-A2, thông tin sẽ xuất hiện trực tiếp mà không bị thay đổi nhiều.</p><p><strong>2. Dạng bài True/False/Not Given:</strong> Đối chiếu trực tiếp câu hỏi với câu trong bài đọc. Nếu thông tin trái ngược hoàn toàn (ví dụ: bài đọc bảo 'cheaper' nhưng câu hỏi bảo 'more expensive'), chọn FALSE. Nếu thông tin không hề có trong bài (như địa danh 'London'), chọn NOT GIVEN.</p><p><strong>3. Dạng bài Sentence Completion:</strong> Đọc kỹ giới hạn từ cho phép (NO MORE THAN TWO WORDS). Tìm từ loại thích hợp để điền vào chỗ trống (danh từ, động từ, tính từ). Từ cần điền nằm chính xác trong văn bản, không cần tự biến đổi đuôi từ.</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

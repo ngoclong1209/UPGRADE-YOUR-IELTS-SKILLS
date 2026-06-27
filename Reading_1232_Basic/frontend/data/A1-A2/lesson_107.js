@@ -1,0 +1,161 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_107",
+  "title": "Our Warming Earth",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Our Warming Earth</h2><p>Our Earth is getting warmer. This is called global warming. The temperature of the planet is going up every year. Why is this happening?</p><p>The main reason is human activity. We burn coal, oil, and gas to make energy. We use this energy to drive cars, heat our homes, and run large factories. When we burn these things, they make greenhouse gases. These gases go up into the air. They act like a big blanket around the Earth. The blanket traps heat from the sun. This makes the Earth warmer.</p><p>We also cut down many trees around the world. Trees are very important because they clean the air. They take in bad gases and give us clean oxygen to breathe. When we cut down trees, there are fewer trees to clean the air. This makes global warming worse.</p><p>Global warming causes many big problems. First, the weather is changing. Some places become very hot and dry. Other places have too much rain and bad floods. Second, the ice in very cold places is melting. This ice melts into water and goes into the oceans. Because of this, the sea level is rising. This is dangerous for people living near the beach. Many animals are also losing their homes.</p><p>We can do simple things to help our planet. We can turn off the lights when we leave a room. This saves a lot of energy. We can also walk, run, or ride a bicycle instead of driving a car. Planting new trees in our gardens is also a great idea. If we work together, we can protect our beautiful Earth.</p><p>In conclusion, global warming is a real problem today. Everyone can help. Small actions can make a big difference for our future.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main reason for global warming?",
+      "options": {
+        "A": "Cold weather",
+        "B": "Human activity",
+        "C": "Too many trees",
+        "D": "Ocean water"
+      },
+      "answer": "B",
+      "explanation": "The text states directly: 'The main reason is human activity.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What acts like a big blanket around the Earth?",
+      "options": {
+        "A": "Large factories",
+        "B": "Greenhouse gases",
+        "C": "Cold ice",
+        "D": "Beautiful gardens"
+      },
+      "answer": "B",
+      "explanation": "The text states: 'When we burn these things, they make greenhouse gases... They act like a big blanket around the Earth.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why are trees important for our planet?",
+      "options": {
+        "A": "They make the weather hot",
+        "B": "They make energy",
+        "C": "They clean the air",
+        "D": "They rise the sea level"
+      },
+      "answer": "C",
+      "explanation": "The text says: 'Trees are very important because they clean the air.'"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What happens when ice in cold places melts?",
+      "options": {
+        "A": "The sea level is rising",
+        "B": "The weather gets colder",
+        "C": "People plant more trees",
+        "D": "Factories close down"
+      },
+      "answer": "A",
+      "explanation": "The text states: 'This ice melts into water and goes into the oceans. Because of this, the sea level is rising.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the Reading Passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "The temperature of the Earth is going up every year.",
+      "answer": "TRUE",
+      "explanation": "The text states: 'The temperature of the planet is going up every year.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the Reading Passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "We use energy to drive cars and heat our homes.",
+      "answer": "TRUE",
+      "explanation": "The text states: 'We use this energy to drive cars, heat our homes...'"
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the Reading Passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Cutting down trees makes global warming better.",
+      "answer": "FALSE",
+      "explanation": "The text states: 'When we cut down trees... This makes global warming worse.' Therefore, it makes it worse, not better."
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the Reading Passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "People in America plant the most trees.",
+      "answer": "NOT GIVEN",
+      "explanation": "The text mentions planting new trees is a great idea, but does not mention America or who plants the most trees."
+    },
+    {
+      "id": "q9",
+      "type": "short_answer",
+      "instruction": "Answer the question below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "What do we burn to make energy besides coal and gas?",
+      "answer": "oil",
+      "explanation": "The text states: 'We burn coal, oil, and gas to make energy.'"
+    },
+    {
+      "id": "q10",
+      "type": "short_answer",
+      "instruction": "Answer the question below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "What do trees give us to breathe?",
+      "answer": "oxygen",
+      "explanation": "The text states: 'They take in bad gases and give us clean oxygen to breathe.' 'clean oxygen' is also a correct two-word answer."
+    },
+    {
+      "id": "q11",
+      "type": "short_answer",
+      "instruction": "Answer the question below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "What is rising because ice is melting into the oceans?",
+      "answer": "sea level",
+      "explanation": "The text states: 'Because of this, the sea level is rising.'"
+    },
+    {
+      "id": "q12",
+      "type": "short_answer",
+      "instruction": "Answer the question below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "What can we ride instead of driving a car to save energy?",
+      "answer": "bicycle",
+      "explanation": "The text states: 'We can also walk, run, or ride a bicycle instead of driving a car.' 'a bicycle' is also correct."
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "global warming",
+      "meaning": "sự nóng lên toàn cầu (the Earth getting warmer)"
+    },
+    {
+      "word": "human activity",
+      "meaning": "hoạt động của con người"
+    },
+    {
+      "word": "greenhouse gases",
+      "meaning": "khí nhà kính (gases that trap heat)"
+    },
+    {
+      "word": "blanket",
+      "meaning": "tấm chăn"
+    },
+    {
+      "word": "melt",
+      "meaning": "tan chảy (ice changing into water)"
+    },
+    {
+      "word": "sea level",
+      "meaning": "mực nước biển"
+    },
+    {
+      "word": "protect",
+      "meaning": "bảo vệ (to keep safe)"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (Tactics)</h2><p><b>1. Dành cho phần Multiple Choice:</b> Định vị từ khóa chính trong câu hỏi (ví dụ: 'main reason', 'blanket') rồi quét nhanh trong bài đọc để tìm câu chứa từ khóa đó. Đáp án đúng thường sử dụng từ ngữ giống hệt trong bài đọc.</p><p><b>2. Dành cho phần True/False/Not Given:</b> Đọc kỹ thông tin trong câu hỏi. Nếu thông tin hoàn toàn trùng khớp với bài đọc, chọn TRUE. Nếu thông tin ngược lại hoàn toàn (ví dụ: 'better' so với 'worse' trong bài), chọn FALSE. Nếu bài đọc không đề cập đến chi tiết đó (ví dụ: 'America'), chọn NOT GIVEN.</p><p><b>3. Dành cho phần Short-answer Questions:</b> Đảm bảo giới hạn từ là <b>KHÔNG QUÁ HAI TỪ</b>. Viết chính xác từ xuất hiện trong bài đọc, không tự ý thay đổi dạng từ (ví dụ: giữ nguyên 'oil', 'oxygen', 'sea level').</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

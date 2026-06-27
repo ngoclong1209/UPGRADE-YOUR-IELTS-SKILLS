@@ -1,0 +1,147 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_079",
+  "title": "Our Warming Earth: Understanding Climate Change",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Our Warming Earth</h2><p>Our planet Earth is getting warmer. This warming is called global warming. The temperature of the air and the oceans is going up. Why is this happening? It is happening because of greenhouse gases. These gases are in the air. They act like a blanket around the Earth. They keep the heat of the sun inside. Without these gases, the Earth would be too cold. But now, there are too many greenhouse gases. This makes the Earth too hot.</p><p>Humans are the main cause of this change. We use energy every day. We burn oil, coal, and gas to drive cars, heat houses, and make electricity in factories. When we burn these things, we make a gas called carbon dioxide. This gas goes into the air. We also cut down many trees. Trees are important because they clean the air. They take carbon dioxide out of the air. When we cut down trees, more carbon dioxide stays in the air.</p><p>Global warming changes our world. First, the ice in cold places is melting. This ice turns into water and goes into the oceans. So, the sea level is rising. This can cause floods in cities near the sea. Second, the weather is changing. Some places are getting very dry with no rain. Other places have very strong storms and heavy rain. Animals and plants are also in danger because their homes are changing too fast.</p><p>But we can help. We can use less energy. We can turn off the lights when we leave a room. We can walk or ride bicycles instead of driving cars. We can also plant more trees. Finally, we can use clean energy. Clean energy comes from the sun and the wind. This energy does not make greenhouse gases. If we work together, we can protect our Earth.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "The temperature of the air and the oceans is going up.",
+      "options": {
+        "A": "TRUE",
+        "B": "FALSE",
+        "C": "NOT GIVEN"
+      },
+      "answer": "TRUE",
+      "explanation": "The passage directly states: 'The temperature of the air and the oceans is going up.'"
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Greenhouse gases keep the heat of the sun inside.",
+      "options": {
+        "A": "TRUE",
+        "B": "FALSE",
+        "C": "NOT GIVEN"
+      },
+      "answer": "TRUE",
+      "explanation": "The passage states: 'They act like a blanket around the Earth. They keep the heat of the sun inside.'"
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Coal and oil are very cheap to buy.",
+      "options": {
+        "A": "TRUE",
+        "B": "FALSE",
+        "C": "NOT GIVEN"
+      },
+      "answer": "NOT GIVEN",
+      "explanation": "The passage mentions that we burn oil, coal, and gas, but it does not say anything about their price or if they are cheap."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Trees clean the air by taking carbon dioxide out.",
+      "options": {
+        "A": "TRUE",
+        "B": "FALSE",
+        "C": "NOT GIVEN"
+      },
+      "answer": "TRUE",
+      "explanation": "The passage states: 'Trees are important because they clean the air. They take carbon dioxide out of the air.'"
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "When we burn oil and coal, we make a gas called ______.",
+      "options": null,
+      "answer": "carbon dioxide",
+      "explanation": "The passage says: 'When we burn these things, we make a gas called carbon dioxide.'"
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Ice in cold places is ______ because of global warming.",
+      "options": null,
+      "answer": "melting",
+      "explanation": "The passage states: 'First, the ice in cold places is melting.'"
+    },
+    {
+      "id": "q7",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Rising sea levels can cause ______ in cities near the sea.",
+      "options": null,
+      "answer": "floods",
+      "explanation": "The passage states: 'So, the sea level is rising. This can cause floods in cities near the sea.'"
+    },
+    {
+      "id": "q8",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Clean energy comes from the sun and the ______.",
+      "options": null,
+      "answer": "wind",
+      "explanation": "The passage states: 'Clean energy comes from the sun and the wind.'"
+    },
+    {
+      "id": "q9",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, or C.",
+      "text": "Why are trees important for our air?",
+      "options": {
+        "A": "They make the wind blow.",
+        "B": "They take carbon dioxide out of the air.",
+        "C": "They keep the sun heat inside."
+      },
+      "answer": "B",
+      "explanation": "The passage says: 'Trees are important because they clean the air. They take carbon dioxide out of the air.'"
+    },
+    {
+      "id": "q10",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, or C.",
+      "text": "What is one way we can save energy?",
+      "options": {
+        "A": "Turn off the lights when we leave a room.",
+        "B": "Drive cars more often.",
+        "C": "Cut down more trees."
+      },
+      "answer": "A",
+      "explanation": "The passage states: 'We can use less energy. We can turn off the lights when we leave a room.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "temperature",
+      "meaning": "How hot or cold something is"
+    },
+    {
+      "word": "blanket",
+      "meaning": "A warm cover used to keep heat inside"
+    },
+    {
+      "word": "melting",
+      "meaning": "Turning from ice (solid) into water (liquid)"
+    },
+    {
+      "word": "floods",
+      "meaning": "Large amounts of water covering an area that is usually dry"
+    },
+    {
+      "word": "protect",
+      "meaning": "To keep something safe from danger"
+    }
+  ],
+  "tactics": "<h2>Mẹo Làm Bài Đọc A1-A2</h2><p><b>1. Tìm Từ Khóa Trực Tiếp:</b> Ở trình độ này, các câu hỏi sử dụng từ ngữ giống hệt trong bài đọc. Hãy tìm các từ nổi bật như 'melting', 'floods', 'carbon dioxide' trong bài để tìm ra câu trả lời nhanh nhất.</p><p><b>2. Chú Ý Giới Hạn Từ:</b> Với dạng Sentence Completion, chú ý yêu cầu 'NO MORE THAN TWO WORDS'. Không viết quá 2 từ, và lấy từ chính xác từ bài đọc (không tự đổi dạng từ).</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,141 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_045",
+  "title": "Choosing a Path: University or Vocational School?",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Choosing a Path: University or Vocational School?</h2><p>After high school, young people must make an important decision about their future. They have two main choices. They can go to university for higher education, or they can go to a vocational school for job training. Both paths have good points, but they are very different.</p><p>University is a very popular choice for many students. At university, students study academic subjects like history, science, language, or business. They usually spend three to four years in classrooms. Students read many books, write essays, and listen to lectures from professors. University helps students learn how to think, analyze information, and solve general problems. Many professional jobs, like being a doctor, a lawyer, or a high school teacher, require a university degree. However, university can be very expensive, and students do not get much practical work experience before they graduate.</p><p>Vocational training is different because it focuses on practical work. It is also called trade school or technical school. Here, students learn specific skills for a direct job. Examples of these jobs are plumbers, electricians, car mechanics, chefs, and hair stylists. Vocational programs are usually short. They last from six months to two years. Students spend most of their time doing hands-on practice in workshops, not reading books in classrooms. They learn by doing. This training is often cheaper than university, and students can start working and earning money quickly.</p><p>In conclusion, both choices have great benefits. University is good for people who want to study academic subjects and work in offices. Vocational training is perfect for people who like to work with their hands and want to start a career quickly. Students should choose the path that matches their interests and goals.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "How long do students usually spend studying at university?",
+      "options": {
+        "A": "Six months",
+        "B": "One year",
+        "C": "Three to four years",
+        "D": "Ten years"
+      },
+      "answer": "C",
+      "explanation": "The passage states: 'They usually spend three to four years in classrooms.' This matches option C."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which job requires a university degree according to the text?",
+      "options": {
+        "A": "Plumber",
+        "B": "Doctor",
+        "C": "Car mechanic",
+        "D": "Chef"
+      },
+      "answer": "B",
+      "explanation": "The passage says: 'Many professional jobs, like being a doctor, a lawyer, or a high school teacher, require a university degree.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is another name for vocational training?",
+      "options": {
+        "A": "High school",
+        "B": "Higher education",
+        "C": "Trade school",
+        "D": "Language school"
+      },
+      "answer": "C",
+      "explanation": "The passage states: 'Vocational training is different... It is also called trade school or technical school.'"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "How do vocational students spend most of their time?",
+      "options": {
+        "A": "Reading books",
+        "B": "Writing essays",
+        "C": "Listening to lectures",
+        "D": "Doing hands-on practice"
+      },
+      "answer": "D",
+      "explanation": "The passage states: 'Students spend most of their time doing hands-on practice in workshops...'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "University students get a lot of practical work experience before graduating.",
+      "answer": "FALSE",
+      "explanation": "The text directly contradicts this by saying: 'students do not get much practical work experience before they graduate.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Vocational training is usually more expensive than university.",
+      "answer": "FALSE",
+      "explanation": "The text states: 'This training is often cheaper than university', which means it is less expensive, not more."
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Some vocational programs can finish in six months.",
+      "answer": "TRUE",
+      "explanation": "The text mentions vocational programs: 'They last from six months to two years.' Therefore, some can finish in six months."
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Most vocational students go on to study at university later.",
+      "answer": "NOT GIVEN",
+      "explanation": "The text does not mention whether vocational students go to university later in life."
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "University is a very popular choice for many ______.",
+      "answer": "STUDENTS",
+      "explanation": "The passage says: 'University is a very popular choice for many students.'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Vocational students learn specific ______ for a direct job.",
+      "answer": "SKILLS",
+      "explanation": "The passage says: 'Here, students learn specific skills for a direct job.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Vocational training is perfect for people who like to work with their ______.",
+      "answer": "HANDS",
+      "explanation": "The passage says: 'Vocational training is perfect for people who like to work with their hands...'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "academic",
+      "meaning": "related to subjects studied in school or university"
+    },
+    {
+      "word": "practical",
+      "meaning": "relating to real activities and hands-on experience rather than ideas"
+    },
+    {
+      "word": "vocational",
+      "meaning": "related to training for a specific job or skill"
+    },
+    {
+      "word": "career",
+      "meaning": "a job or profession that someone does for a long time"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (Tactics)</h2><p><strong>1. Kỹ thuật Scanning (Tìm thông tin nhanh):</strong> Ở trình độ A1-A2, các câu hỏi sử dụng từ ngữ gần như giống hệt trong bài đọc. Hãy tìm các từ khóa nổi bật như tên nghề nghiệp (doctor, plumber), con số (three to four years, six months) để định vị đoạn văn chứa câu trả lời.</p><p><strong>2. Tránh bẫy True/False/Not Given:</strong> Nếu thông tin trong câu hỏi ngược hoàn toàn với bài đọc (ví dụ: 'more expensive' so với 'cheaper'), chọn FALSE. Nếu thông tin không được nhắc đến (như việc học sinh trường nghề có học tiếp đại học không), chọn NOT GIVEN.</p><p><strong>3. Điền từ chính xác:</strong> Đối với dạng bài Sentence Completion, hãy chép chính xác từ trong bài đọc, không thay đổi dạng từ (ví dụ: giữ nguyên số nhiều 'students', 'hands').</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,147 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_071",
+  "title": "Our Warming Earth",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Our Warming Earth</h2><p>Our planet Earth is getting warmer every year. This rise in temperature is called global warming. It is a big part of climate change. Today, our Earth is warmer than it was one hundred years ago.</p><p>Why is the Earth getting warmer? It is because of human activities. People burn coal, oil, and gas to make energy. We use this energy to drive cars, run big factories, and heat our houses. When we burn these things, they make greenhouse gases. These gases go high up into the sky. They act like a warm blanket around the Earth. They trap the heat from the sun. This makes our planet hotter.</p><p>Global warming changes our weather. In some areas, the weather is very hot and dry. This causes dangerous forest fires. In other areas, there is too much rain. This causes big floods.</p><p>Ice in very cold places is also melting. In the Arctic, the ice is turning into water. This water goes into the sea. Because of this, the sea level is rising every year. Some small islands and cities near the sea are in danger of flooding.</p><p>Animals are also in trouble because of climate change. Polar bears live on the ice. When the ice melts, they lose their homes and cannot find enough food. Many plants and other animals cannot live in very hot weather.</p><p>But we can help the Earth. We can save energy at home. For example, we can turn off the lights when we leave a room. We can walk, run, or ride a bicycle instead of driving cars. We can also plant more trees. Trees are very good because they clean the air. Another way to help is recycling. We can reuse paper, plastic, and glass. This means factories do not need to make as many new things, which saves energy. Every small action helps.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the Reading Passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "The Earth is warmer now than it was one hundred years ago.",
+      "options": null,
+      "answer": "TRUE",
+      "explanation": "The passage states: 'Today, our Earth is warmer than it was one hundred years ago.'"
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the Reading Passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Greenhouse gases act like a warm blanket around the Earth.",
+      "options": null,
+      "answer": "TRUE",
+      "explanation": "The passage states: 'These gases go high up into the sky. They act like a warm blanket around the Earth.'"
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the Reading Passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Hot and dry weather can cause forest fires.",
+      "options": null,
+      "answer": "TRUE",
+      "explanation": "The passage states: 'In some areas, the weather is very hot and dry. This causes dangerous forest fires.'"
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the Reading Passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Polar bears are moving to cities to find food.",
+      "options": null,
+      "answer": "NOT GIVEN",
+      "explanation": "The passage mentions that polar bears lose their homes and cannot find enough food, but it does not say they are moving to cities."
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the Reading Passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Planting trees makes the air dirty.",
+      "options": null,
+      "answer": "FALSE",
+      "explanation": "The passage states: 'Trees are very good because they clean the air.' This contradicts the statement."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "People burn coal, oil, and gas to make ______.",
+      "options": null,
+      "answer": "energy",
+      "explanation": "The passage states: 'People burn coal, oil, and gas to make energy.'"
+    },
+    {
+      "id": "q7",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "When ice melts in the Arctic, the water goes into the ______.",
+      "options": null,
+      "answer": "sea",
+      "explanation": "The passage states: 'In the Arctic, the ice is turning into water. This water goes into the sea.'"
+    },
+    {
+      "id": "q8",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "We can ______ paper, plastic, and glass to help the Earth.",
+      "options": null,
+      "answer": "reuse",
+      "explanation": "The passage states: 'We can reuse paper, plastic, and glass.'"
+    },
+    {
+      "id": "q9",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why do we use energy?",
+      "options": {
+        "A": "To make the air clean",
+        "B": "To drive cars and run factories",
+        "C": "To plant more trees",
+        "D": "To make the Earth colder"
+      },
+      "answer": "B",
+      "explanation": "The passage states: 'We use this energy to drive cars, run big factories, and heat our houses.'"
+    },
+    {
+      "id": "q10",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What happens when the sea level rises?",
+      "options": {
+        "A": "Some small islands are in danger of flooding.",
+        "B": "Forest fires happen more often.",
+        "C": "Polar bears get more food.",
+        "D": "The weather becomes very cold."
+      },
+      "answer": "A",
+      "explanation": "The passage states: 'Because of this, the sea level is rising every year. Some small islands and cities near the sea are in danger of flooding.'"
+    },
+    {
+      "id": "q11",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is a good way to save energy at home?",
+      "options": {
+        "A": "Driving cars more often",
+        "B": "Turning off the lights when leaving a room",
+        "C": "Burning more coal",
+        "D": "Making new plastic things"
+      },
+      "answer": "B",
+      "explanation": "The passage states: 'For example, we can turn off the lights when we leave a room.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "global warming",
+      "meaning": "the increase in the Earth's temperature"
+    },
+    {
+      "word": "greenhouse gases",
+      "meaning": "gases that trap heat in the atmosphere"
+    },
+    {
+      "word": "melting",
+      "meaning": "changing from ice to water because of heat"
+    },
+    {
+      "word": "flooding",
+      "meaning": "becoming covered with water"
+    },
+    {
+      "word": "recycling",
+      "meaning": "collecting and treating rubbish to use it again"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài</h2><p>Với trình độ A1-A2, các em nên áp dụng các bước sau để đạt điểm cao:</p><ul><li><b>Tìm từ khóa trực tiếp:</b> Đề thi ở mức độ này không dùng nhiều từ đồng nghĩa phức tạp. Hãy tìm đúng từ xuất hiện trong câu hỏi ở trên bài đọc (ví dụ: 'one hundred years ago', 'warm blanket', 'polar bears').</li><li><b>Đọc kỹ yêu cầu số lượng từ:</b> Đối với dạng điền từ, chú ý giới hạn 'NO MORE THAN TWO WORDS'. Chỉ điền từ lấy trực tiếp từ bài đọc, không tự ý đổi dạng từ.</li><li><b>Loại trừ đáp án sai rõ ràng:</b> Trong phần trắc nghiệm, các phương án nhiễu thường có thông tin ngược hoàn toàn hoặc không hề xuất hiện trong bài.</li></ul>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

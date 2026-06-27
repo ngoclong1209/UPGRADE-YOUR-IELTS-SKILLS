@@ -1,0 +1,173 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_062",
+  "title": "Learning from Home",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Learning from Home</h2><p>Online learning is very popular today. Many students do not go to a traditional school building every day. Instead, they study at home using a computer and the internet. People also call this distance education. Today, millions of children and adults around the world take online classes.</p><p>To study online, a student needs a few simple things. First, they need a good computer or a laptop. Second, they need a fast internet connection. Some students also use a tablet or a smartphone to watch lessons. Finally, they need a quiet room. In this room, they can listen to their teachers and do their homework without any loud noise.</p><p>Online learning has many good points. First, students can study at any time they want. Some students like to study early in the morning, and others like to study late at night. Second, they do not need to travel to school. This saves a lot of time and money because they do not buy bus tickets or gas. Third, students can learn from teachers in different countries. For example, a student in Vietnam can learn English from a teacher in London.</p><p>However, online learning also has some problems. Sometimes, the internet connection stops working. When this happens, students cannot see or hear their teachers. Also, many students feel lonely because they do not see their classmates. They cannot talk or play games together during break times. Finally, it is very easy to get distracted by video games or television when studying at home.</p><p>A typical online student, like 12-year-old Anna from Sweden, starts her day at 9:00 AM. She opens her laptop and logs into her virtual classroom. She has three lessons every day. Each lesson is 45 minutes long. She has a lunch break at 12:00 PM, and then she finishes her homework by 3:00 PM.</p><p>In conclusion, online learning is a great way to learn for many people. It is very flexible and cheap, but students must work hard and stay focused to get the best results.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do students use to study at home?",
+      "options": {
+        "A": "Only books",
+        "B": "A computer and the internet",
+        "C": "A television",
+        "D": "A school bus"
+      },
+      "answer": "B",
+      "explanation": "Paragraph 1 states: 'Instead, they study at home using a computer and the internet.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why does online learning save money?",
+      "options": {
+        "A": "Because students do not buy bus tickets or gas.",
+        "B": "Because computers are very cheap.",
+        "C": "Because teachers do not get paid.",
+        "D": "Because books are free."
+      },
+      "answer": "A",
+      "explanation": "Paragraph 3 states: 'This saves a lot of time and money because they do not buy bus tickets or gas.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Where is the English teacher from in the Vietnamese student example?",
+      "options": {
+        "A": "Sweden",
+        "B": "Vietnam",
+        "C": "London",
+        "D": "America"
+      },
+      "answer": "C",
+      "explanation": "Paragraph 3 states: 'For example, a student in Vietnam can learn English from a teacher in London.'"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What time does Anna start her day?",
+      "options": {
+        "A": "8:00 AM",
+        "B": "9:00 AM",
+        "C": "12:00 PM",
+        "D": "3:00 PM"
+      },
+      "answer": "B",
+      "explanation": "Paragraph 5 states: '...starts her day at 9:00 AM.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Online learning is also called distance education.",
+      "options": {
+        "TRUE": "If the statement agrees with the information",
+        "FALSE": "If the statement contradicts the information",
+        "NOT GIVEN": "If there is no information on this"
+      },
+      "answer": "TRUE",
+      "explanation": "Paragraph 1 says: 'People also call this distance education.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "All students must study only in the morning.",
+      "options": {
+        "TRUE": "If the statement agrees with the information",
+        "FALSE": "If the statement contradicts the information",
+        "NOT GIVEN": "If there is no information on this"
+      },
+      "answer": "FALSE",
+      "explanation": "Paragraph 3 states: 'Some students like to study early in the morning, and others like to study late at night.' This means they do not have to study only in the morning."
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Students can play games with classmates during online classes.",
+      "options": {
+        "TRUE": "If the statement agrees with the information",
+        "FALSE": "If the statement contradicts the information",
+        "NOT GIVEN": "If there is no information on this"
+      },
+      "answer": "FALSE",
+      "explanation": "Paragraph 4 states: 'They cannot talk or play games together during break times.'"
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Anna's favorite school subject is mathematics.",
+      "options": {
+        "TRUE": "If the statement agrees with the information",
+        "FALSE": "If the statement contradicts the information",
+        "NOT GIVEN": "If there is no information on this"
+      },
+      "answer": "NOT GIVEN",
+      "explanation": "The text mentions Anna has three lessons and finishes her homework, but does not state her favorite subject."
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "To study online, a student needs a quiet ________ to study without noise.",
+      "answer": "room",
+      "explanation": "Paragraph 2 states: 'Finally, they need a quiet room... without any loud noise.'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Sometimes, the ________ connection stops working.",
+      "answer": "internet",
+      "explanation": "Paragraph 4 states: 'Sometimes, the internet connection stops working.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Students can feel ________ because they do not see their classmates.",
+      "answer": "lonely",
+      "explanation": "Paragraph 4 states: 'Also, many students feel lonely because they do not see their classmates.'"
+    },
+    {
+      "id": "q12",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Anna lives in ________.",
+      "answer": "Sweden",
+      "explanation": "Paragraph 5 states: '...12-year-old Anna from Sweden...'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "traditional",
+      "meaning": "following ideas or methods that have existed for a long time (truyền thống)"
+    },
+    {
+      "word": "distance education",
+      "meaning": "a system of education in which students study at home and communicate with their teachers over the internet (học từ xa)"
+    },
+    {
+      "word": "connection",
+      "meaning": "a state of being joined or linked (sự kết nối)"
+    },
+    {
+      "word": "distracted",
+      "meaning": "unable to concentrate or pay attention to something (bị xao nhãng)"
+    },
+    {
+      "word": "flexible",
+      "meaning": "able to change easily to suit different situations (linh hoạt)"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài cho trình độ A1-A2</h2><p><b>1. Tìm từ khóa trực tiếp:</b> Ở trình độ này, các câu hỏi sử dụng từ ngữ gần như giống hệt trong bài đọc. Hãy tìm các từ khóa nổi bật như tên riêng (Anna, Sweden, London), số giờ (9:00 AM), hoặc các danh từ cụ thể (internet, room, money) để định vị thông tin nhanh chóng.</p><p><b>2. Đọc kỹ yêu cầu số lượng từ:</b> Đối với dạng bài điền từ (Sentence Completion), chú ý giới hạn từ là 'NO MORE THAN TWO WORDS'. Hãy chọn từ chính xác xuất hiện trong bài đọc và không tự ý thay đổi dạng từ.</p><p><b>3. Phân biệt False và Not Given:</b> Nếu thông tin trong câu hỏi trái ngược trực tiếp với bài đọc, chọn FALSE. Nếu thông tin đó hoàn toàn không được nhắc tới trong bài (ví dụ môn học yêu thích của Anna), chọn NOT GIVEN.</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

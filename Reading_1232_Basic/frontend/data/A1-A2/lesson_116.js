@@ -1,0 +1,139 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_116",
+  "title": "Smart Robots in Our World",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Robots in Our Lives</h2><p>Robots are smart machines. Today, we have many different kinds of robots. Some robots work in big factories. They can build cars and make electronic products. These robots work very fast and they do not get tired. They can work all day and all night without a break. This helps companies make things quickly and cheaply.</p><p>We also have robots in our homes. Many people have a small vacuum cleaner robot. This robot cleans the floor of the house. It moves around the rooms and cleans up dust and dirt. It is very quiet and can work when you are sleeping or working. It can go back to its station to charge its battery when it is low on power.</p><p>In some hospitals, robots help doctors and nurses. These medical robots can carry heavy food trays and medicine to patients. They also help to keep the hospital rooms clean. This gives doctors and nurses more time to care for sick people. In some modern schools, small robots help young children learn new languages. Children like talking to these robots because they are very friendly and fun.</p><p>Some robots also go to dangerous places. For example, scientists send robots to space. Robots can walk on Mars and take photos of rocks and dirt. They send these photos back to Earth. This is safe because humans do not have to travel to dangerous places in space. Robots can also go deep under the ocean to study fish and plants.</p><p>In the future, we will see many more smart robots. Some robots will drive cars and buses safely. Other robots will cook delicious food in restaurants. Scientists are working hard every day to make robots smarter. However, robots still need humans. Humans must program them and fix them when they break. Robots cannot think like humans, but they are very helpful in our daily lives.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Where do robots work to build cars?",
+      "options": {
+        "A": "In hospitals",
+        "B": "In schools",
+        "C": "In factories",
+        "D": "Under the ocean"
+      },
+      "answer": "C",
+      "explanation": "Đoạn 1 nêu rõ: 'Some robots work in big factories. They can build cars...'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why do children like talking to school robots?",
+      "options": {
+        "A": "Because they are cheap",
+        "B": "Because they are friendly and fun",
+        "C": "Because they can cook food",
+        "D": "Because they are very fast"
+      },
+      "answer": "B",
+      "explanation": "Đoạn 3 có câu: 'Children like talking to these robots because they are very friendly and fun.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do space robots do on Mars?",
+      "options": {
+        "A": "They build cars",
+        "B": "They clean the floor",
+        "C": "They take photos of rocks",
+        "D": "They cook food"
+      },
+      "answer": "C",
+      "explanation": "Đoạn 4 nêu rõ: 'Robots can walk on Mars and take photos of rocks and dirt.'"
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "Robots in factories get tired after working all day.",
+      "answer": "FALSE",
+      "explanation": "Đoạn 1 ghi: 'These robots work very fast and they do not get tired.' Do đó thông tin đề bài là sai."
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "The vacuum cleaner robot can charge its own battery.",
+      "answer": "TRUE",
+      "explanation": "Đoạn 2 ghi: 'It can go back to its station to charge its battery when it is low on power.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "Hospital robots can perform difficult surgeries on patients.",
+      "answer": "NOT GIVEN",
+      "explanation": "Đoạn 3 chỉ nói robot bệnh viện vận chuyển đồ ăn, thuốc và dọn dẹp, không đề cập đến việc phẫu thuật (surgeries)."
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "Robots can think exactly like human beings.",
+      "answer": "FALSE",
+      "explanation": "Đoạn cuối ghi rõ: 'Robots cannot think like humans...'"
+    },
+    {
+      "id": "q8",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Factory robots help companies make things quickly and ______.",
+      "answer": "cheaply",
+      "explanation": "Đoạn 1 có câu: 'This helps companies make things quickly and cheaply.'"
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "The home robot cleans up ______ and dirt.",
+      "answer": "dust",
+      "explanation": "Đoạn 2 có câu: 'It moves around the rooms and cleans up dust and dirt.'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Robots help children learn new ______ in some schools.",
+      "answer": "languages",
+      "explanation": "Đoạn 3 có câu: '...small robots help young children learn new languages.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Humans must program robots and ______ them when they break.",
+      "answer": "fix",
+      "explanation": "Đoạn cuối có câu: 'Humans must program them and fix them when they break.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "factory",
+      "meaning": "nhà máy (nơi sản xuất hàng hóa)"
+    },
+    {
+      "word": "vacuum cleaner",
+      "meaning": "máy hút bụi"
+    },
+    {
+      "word": "patient",
+      "meaning": "bệnh nhân"
+    },
+    {
+      "word": "program",
+      "meaning": "lập trình (chỉ dẫn cho máy tính/robot làm việc)"
+    },
+    {
+      "word": "fix",
+      "meaning": "sửa chữa"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn chiến thuật làm bài (A1-A2)</h2><p>1. <b>Tìm từ khóa trực tiếp:</b> Với trình độ A1-A2, đề thi hầu như không paraphrase nhiều. Hãy tìm từ khóa giống hệt trong câu hỏi và định vị chúng trong bài đọc.</p><p>2. <b>Chú ý giới hạn từ:</b> Với dạng Sentence Completion, luôn kiểm tra yêu cầu số lượng từ (ví dụ: 'NO MORE THAN TWO WORDS'). Hãy viết đúng từ vựng tìm được trong bài đọc, không tự ý thay đổi dạng của từ.</p><p>3. <b>Phân biệt FALSE và NOT GIVEN:</b> Nếu thông tin trong câu hỏi trái ngược hoàn toàn với bài đọc, chọn FALSE. Nếu thông tin hoàn toàn không được nhắc tới (như việc robot làm phẫu thuật), chọn NOT GIVEN.</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

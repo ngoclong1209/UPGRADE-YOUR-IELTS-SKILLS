@@ -1,0 +1,145 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_094",
+  "title": "Learning from Home: The New Way to Study",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Learning from Home: The New Way to Study</h2><p>Today, millions of students around the world do not go to a traditional school building. Instead, they study at home using computers, tablets, and the internet. This popular way of studying is called online learning or distance education.</p><p>In online classes, how do students learn? Usually, they watch videos of their teachers. The teachers explain lessons like math, English, history, and science. After watching the videos, students do their homework on special school websites. If they do not understand a lesson, they can send an email to their teachers. The teachers usually write back quickly to help them.</p><p>There are many great things about online learning. First, students can choose when they want to study. Some students like to study early in the morning, while other students prefer to study in the evening. Second, students do not need to travel to a school. This saves a lot of time and money because they do not need to walk, take buses, or ride trains every day. They can study in their comfortable bedrooms.</p><p>However, online learning also has some problems. Many students feel lonely because they do not see their friends and classmates. They cannot talk or play games together during breaks. Also, technology can be a problem. Sometimes the internet connection is very slow or stops working. When this happens, students cannot watch the video lessons or send their homework to their teachers.</p><p>Let us look at David, a 12-year-old student from London. He has online classes every day. David wakes up at 8:00 AM, has breakfast, and starts his computer. He likes online learning because his desk is very comfortable. But he says, \"I miss my friends. I want to play football with them at lunchtime.\"</p><p>In conclusion, online learning is a very useful way to study for many people, but it is not always easy. To be successful, students need to work hard and have a good computer at home.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do students use to study at home?",
+      "options": {
+        "A": "Only paper books",
+        "B": "Computers and tablets",
+        "C": "Only mobile phones",
+        "D": "Television programs"
+      },
+      "answer": "B",
+      "explanation": "Paragraph 1 states: 'Instead, they study at home using computers, tablets, and the internet.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "How do students contact their teachers if they have questions?",
+      "options": {
+        "A": "They call them on the phone.",
+        "B": "They go to their houses.",
+        "C": "They send an email.",
+        "D": "They write a letter."
+      },
+      "answer": "C",
+      "explanation": "Paragraph 2 states: 'If they do not understand a lesson, they can send an email to their teachers.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why does online learning save money for students?",
+      "options": {
+        "A": "Because they do not need to travel.",
+        "B": "Because computers are free.",
+        "C": "Because they do not buy lunch.",
+        "D": "Because they do not buy books."
+      },
+      "answer": "A",
+      "explanation": "Paragraph 3 states: 'This saves a lot of time and money because they do not need to walk, take buses, or ride trains every day.'"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What time does David start his computer?",
+      "options": {
+        "A": "At 7:00 AM",
+        "B": "At 8:00 AM",
+        "C": "At 9:00 AM",
+        "D": "At 10:00 AM"
+      },
+      "answer": "B",
+      "explanation": "Paragraph 5 states: 'David wakes up at 8:00 AM, has breakfast, and starts his computer.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Teachers explain science lessons in the video classes.",
+      "answer": "TRUE",
+      "explanation": "Paragraph 2 states: 'The teachers explain lessons like math, English, history, and science.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "All students prefer to study at night.",
+      "answer": "FALSE",
+      "explanation": "Paragraph 3 states: 'Some students like to study early in the morning, while other students prefer to study in the evening.'"
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "David's favorite school subject is history.",
+      "answer": "NOT GIVEN",
+      "explanation": "The text mentions David and his routine, but it does not say what his favorite subject is."
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "A slow internet connection can stop students from watching video lessons.",
+      "answer": "TRUE",
+      "explanation": "Paragraph 4 states: 'When this happens, students cannot watch the video lessons...'"
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "After watching videos, students do their homework on special school ______.",
+      "answer": "WEBSITES",
+      "explanation": "Paragraph 2 states: 'After watching the videos, students do their homework on special school websites.'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Many students feel ______ because they do not see their classmates.",
+      "answer": "LONELY",
+      "explanation": "Paragraph 4 states: 'Many students feel lonely because they do not see their friends and classmates.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "David wants to play ______ with his friends at lunchtime.",
+      "answer": "FOOTBALL",
+      "explanation": "Paragraph 5 states: 'I want to play football with them at lunchtime.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "distance education",
+      "meaning": "a system of education where students study at home using the internet"
+    },
+    {
+      "word": "traditional",
+      "meaning": "following ways of behaving or doing things that have continued for a long time"
+    },
+    {
+      "word": "prefer",
+      "meaning": "to like one thing or person better than another"
+    },
+    {
+      "word": "lonely",
+      "meaning": "sad because you are alone or do not have friends around you"
+    },
+    {
+      "word": "successful",
+      "meaning": "achieving the results that you wanted"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (A1-A2)</h2><p>Đây là bài đọc mức độ cơ bản. Để đạt điểm cao, hãy áp dụng các mẹo sau:</p><ul><li><b>Tìm từ khóa trực tiếp:</b> Ở trình độ này, câu hỏi sử dụng từ vựng giống hệt trong bài đọc (ít paraphrase). Hãy tìm đúng từ khóa đó trong bài để xác định đáp án.</li><li><b>Kỹ thuật Scanning:</b> Đối với câu hỏi về David (Q4, Q11), hãy lướt nhanh mắt tìm từ viết hoa 'David' để tìm thông tin nhanh nhất.</li><li><b>Lưu ý giới hạn từ:</b> Với dạng Sentence Completion, chú ý yêu cầu 'NO MORE THAN TWO WORDS' (Không quá hai từ). Việc viết thừa từ sẽ bị tính là sai.</li></ul>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

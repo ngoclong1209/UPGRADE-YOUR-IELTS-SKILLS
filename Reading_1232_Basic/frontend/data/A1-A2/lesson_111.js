@@ -1,0 +1,160 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_111",
+  "title": "Our Changing Planet: Understanding Global Warming",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Our Changing Planet</h2><p>Our Earth is getting warmer. This warmer weather is called global warming. Scientists say that the temperature of the Earth is rising every year. This change is causing many problems for people, plants, and animals.</p><p>Why is the Earth getting warmer? The main reason is human activity. People burn coal, oil, and gas to make energy. We use energy to drive cars, heat our homes, and run big factories. When we burn these things, they make greenhouse gases. These gases go into the air and trap heat from the sun. This is like a warm blanket around the Earth. Because of this blanket, the Earth cannot cool down.</p><p>Global warming is changing our weather. In some places, the weather is becoming very hot and dry. This causes droughts, where there is not enough water. In other places, there is too much rain, which causes big floods. Also, the ice in very cold places like the Arctic is melting. When the ice melts, it turns into water and goes into the sea. This makes the sea levels rise. Many cities near the sea are now in danger of flooding.</p><p>Animals are also having a difficult time. For example, polar bears live on the ice. Because the ice is melting, they cannot find enough food. Many plants cannot grow because the weather is too hot or too dry.</p><p>But we can help our planet. We can use less energy. We can turn off the lights when we leave a room. We can walk or ride bicycles instead of driving cars. We can also plant more trees. Trees are very good because they clean the air and take away greenhouse gases. If we all work together, we can protect our Earth.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "The Earth is getting colder every year.",
+      "options": null,
+      "answer": "FALSE",
+      "explanation": "The passage says 'Our Earth is getting warmer' and 'the temperature of the Earth is rising every year', which means it is getting warmer, not colder."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "Burning coal, oil, and gas makes greenhouse gases.",
+      "options": null,
+      "answer": "TRUE",
+      "explanation": "The passage states: 'When we burn these things [coal, oil, and gas], they make greenhouse gases.'"
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "Greenhouse gases trap heat from the sun.",
+      "options": null,
+      "answer": "TRUE",
+      "explanation": "The passage states: 'These gases go into the air and trap heat from the sun.'"
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "Polar bears are finding more food now.",
+      "options": null,
+      "answer": "FALSE",
+      "explanation": "The passage says: 'Because the ice is melting, they cannot find enough food.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "Planting trees is very expensive.",
+      "options": null,
+      "answer": "NOT GIVEN",
+      "explanation": "The passage mentions that we can plant more trees and that trees are good for the air, but it does not mention if planting trees is expensive or cheap."
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "We use energy to drive cars, heat our _________ and run factories.",
+      "options": null,
+      "answer": "homes",
+      "explanation": "The passage says: 'We use energy to drive cars, heat our homes, and run big factories.'"
+    },
+    {
+      "id": "q7",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "When ice melts, it turns into water and goes into the _________.",
+      "options": null,
+      "answer": "sea",
+      "explanation": "The passage states: 'When the ice melts, it turns into water and goes into the sea.'"
+    },
+    {
+      "id": "q8",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Polar bears live on the _________.",
+      "options": null,
+      "answer": "ice",
+      "explanation": "The passage states: 'For example, polar bears live on the ice.'"
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Trees can clean the _________ and take away greenhouse gases.",
+      "options": null,
+      "answer": "air",
+      "explanation": "The passage states: 'Trees are very good because they clean the air and take away greenhouse gases.'"
+    },
+    {
+      "id": "q10",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main reason the Earth is getting warmer?",
+      "options": {
+        "A": "Animals are moving.",
+        "B": "Human activity.",
+        "C": "Plants are growing.",
+        "D": "The sun is bigger."
+      },
+      "answer": "B",
+      "explanation": "The passage clearly states: 'Why is the Earth getting warmer? The main reason is human activity.'"
+    },
+    {
+      "id": "q11",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What happens when there is not enough water in hot and dry places?",
+      "options": {
+        "A": "Droughts.",
+        "B": "Floods.",
+        "C": "Ice melting.",
+        "D": "Clean air."
+      },
+      "answer": "A",
+      "explanation": "The passage states: 'This causes droughts, where there is not enough water.'"
+    },
+    {
+      "id": "q12",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is one way we can help the planet?",
+      "options": {
+        "A": "Burn more coal.",
+        "B": "Drive cars more.",
+        "C": "Use less energy.",
+        "D": "Cut down trees."
+      },
+      "answer": "C",
+      "explanation": "The passage states: 'But we can help our planet. We can use less energy.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "global warming",
+      "meaning": "the increase in the Earth's temperature"
+    },
+    {
+      "word": "human activity",
+      "meaning": "things that people do"
+    },
+    {
+      "word": "greenhouse gases",
+      "meaning": "gases that trap heat in the atmosphere"
+    },
+    {
+      "word": "droughts",
+      "meaning": "long periods of time with no rain or water"
+    },
+    {
+      "word": "floods",
+      "meaning": "large amounts of water covering an area that is usually dry"
+    },
+    {
+      "word": "protect",
+      "meaning": "to keep something safe from harm"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (Test-taking Tips)</h2><p><strong>1. True/False/Not Given:</strong> Đối với trình độ A1-A2, các câu hỏi sẽ sử dụng từ vựng gần như giống hệt trong bài đọc. Hãy tìm từ khóa chính (ví dụ: 'polar bears', 'greenhouse gases') trong bài đọc rồi so sánh trực tiếp thông tin.</p><p><strong>2. Sentence Completion:</strong> Chú ý giới hạn từ (NO MORE THAN TWO WORDS). Hãy tìm từ còn thiếu nằm ngay trước hoặc sau các từ khóa trong câu hỏi. Tất cả các từ cần điền đều xuất hiện nguyên vẹn trong bài đọc, bạn không cần phải thay đổi dạng của từ.</p><p><strong>3. Multiple Choice:</strong> Đọc kỹ câu hỏi để xác định thông tin cần tìm (Ví dụ: 'main reason', 'not enough water'). Sau đó đối chiếu trực tiếp với các câu văn tương ứng trong bài đọc để chọn đáp án đúng nhất.</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

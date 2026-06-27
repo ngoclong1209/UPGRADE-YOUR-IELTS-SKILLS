@@ -1,0 +1,154 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_112",
+  "title": "Robots in Our Lives",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Robots in Our Lives</h2><p>Robots are very useful machines. Today, we can find robots in many places like homes, schools, and hospitals. They help humans do many different jobs every day.</p><p>In many homes, people use small robots to clean the floor. These robot vacuum cleaners move around the rooms and clean up dust. They are small and round. People do not need to control them because they have smart sensors. The sensors help them avoid hitting chairs, tables, and walls. These robots save a lot of time for busy families.</p><p>In some schools, robots help teachers and students. For example, some small robots teach English to young children. They can sing simple songs, read stories, and play learning games with students. Children like learning with robots because they are funny and friendly. In some countries, students also learn how to build their own small robots in science classes.</p><p>In hospitals, robots are also very important. They can carry medicine and food to patients. This helps doctors and nurses have more time for other important work. Some special robots can also clean hospital rooms to make them safe. They use a special light to kill germs on the walls and floors.</p><p>Finally, there are also toy robots for children. These toys can walk, talk, and dance. Children can control them with a remote control or a smartphone. Toy robots are very popular birthday gifts in many countries.</p><p>In the future, we will see many more robots. Scientists are working on new robots that can cook hot meals, drive cars, and help old people at home. Robots will make our lives much easier and happier.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Where do robot vacuum cleaners clean?",
+      "options": {
+        "A": "In the garden",
+        "B": "On the floor",
+        "C": "On the roof",
+        "D": "In the car"
+      },
+      "answer": "B",
+      "explanation": "Paragraph 2 states: 'In many homes, people use small robots to clean the floor. These robot vacuum cleaners move around...'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why do children like learning with school robots?",
+      "options": {
+        "A": "Because they are big",
+        "B": "Because they are expensive",
+        "C": "Because they are funny and friendly",
+        "D": "Because they can run fast"
+      },
+      "answer": "C",
+      "explanation": "Paragraph 3 states: 'Children like learning with robots because they are funny and friendly.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do hospital robots use to kill germs?",
+      "options": {
+        "A": "Water",
+        "B": "Soap",
+        "C": "A special light",
+        "D": "Medicine"
+      },
+      "answer": "C",
+      "explanation": "Paragraph 4 states: 'They use a special light to kill germs on the walls and floors.'"
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "Robot vacuum cleaners have smart sensors.",
+      "options": {
+        "TRUE": "If the statement agrees with the information",
+        "FALSE": "If the statement contradicts the information",
+        "NOT GIVEN": "If there is no information on this"
+      },
+      "answer": "TRUE",
+      "explanation": "Paragraph 2 says: 'People do not need to control them because they have smart sensors.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "All schools in the world have robots to teach English.",
+      "options": {
+        "TRUE": "If the statement agrees with the information",
+        "FALSE": "If the statement contradicts the information",
+        "NOT GIVEN": "If there is no information on this"
+      },
+      "answer": "FALSE",
+      "explanation": "Paragraph 3 says 'In some schools, robots help teachers and students', not all schools in the world."
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "Hospital robots can carry medicine and food to patients.",
+      "options": {
+        "TRUE": "If the statement agrees with the information",
+        "FALSE": "If the statement contradicts the information",
+        "NOT GIVEN": "If there is no information on this"
+      },
+      "answer": "TRUE",
+      "explanation": "Paragraph 4 states: 'They can carry medicine and food to patients.'"
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE or NOT GIVEN.",
+      "text": "Toy robots are very expensive.",
+      "options": {
+        "TRUE": "If the statement agrees with the information",
+        "FALSE": "If the statement contradicts the information",
+        "NOT GIVEN": "If there is no information on this"
+      },
+      "answer": "NOT GIVEN",
+      "explanation": "Paragraph 5 mentions that toy robots are popular birthday gifts, but it does not say if they are cheap or expensive."
+    },
+    {
+      "id": "q8",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "People do not need to ______ robot vacuum cleaners because they have sensors.",
+      "options": null,
+      "answer": "control",
+      "explanation": "Paragraph 2 states: 'People do not need to control them because they have smart sensors.'"
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Children can control toy robots with a remote control or a ______.",
+      "options": null,
+      "answer": "smartphone",
+      "explanation": "Paragraph 5 states: 'Children can control them with a remote control or a smartphone.'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "In the future, scientists are working on robots that can drive ______.",
+      "options": null,
+      "answer": "cars",
+      "explanation": "Paragraph 6 states: 'Scientists are working on new robots that can cook hot meals, drive cars...'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "useful",
+      "meaning": "helping you to do or get what you want."
+    },
+    {
+      "word": "sensor",
+      "meaning": "a piece of equipment that can find or measure things like heat, light, or movement."
+    },
+    {
+      "word": "patient",
+      "meaning": "a person who is receiving medical treatment in a hospital."
+    },
+    {
+      "word": "germ",
+      "meaning": "a very small living thing that can cause disease and illness."
+    },
+    {
+      "word": "popular",
+      "meaning": "liked or enjoyed by a large number of people."
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (A1-A2)</h2><p><b>1. Chiến thuật Scanning (Tìm thông tin nhanh):</b> Vì mức độ từ vựng A1-A2 rất sát với bài đọc, bạn chỉ cần tìm các từ khóa chính (keywords) trong câu hỏi xuất hiện ở đoạn nào trong bài. Ví dụ: Từ 'germs' chỉ xuất hiện ở Đoạn 4, hãy tập trung đọc đoạn này để tìm câu trả lời.</p><p><b>2. Lưu ý số lượng từ:</b> Đọc kỹ yêu cầu đề bài 'NO MORE THAN TWO WORDS' (Không quá hai từ). Nếu bạn viết ba từ, câu trả lời sẽ bị tính là sai.</p><p><b>3. Phân biệt False và Not Given:</b> Nếu thông tin trong bài ngược lại hoàn toàn với câu hỏi, chọn FALSE. Nếu bài đọc không hề nhắc tới thông tin đó (ví dụ như giá tiền của robot đồ chơi đắt hay rẻ), chọn NOT GIVEN.</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,145 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_065",
+  "title": "Choosing Your Path: University or Vocational School?",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Choosing Your Path: University or Vocational School?</h2><p>After finishing high school, young people must choose their next step. Some students choose to go to university. Other students choose to go to a vocational school. Both choices are good, but they are very different.</p><p>University is also called higher education. It usually takes three or four years to finish. At university, students study academic subjects like business, science, history, or languages. They spend a lot of time reading books, writing reports, and listening to teachers in large classrooms. After they finish their studies, students get a university degree. This degree helps them get professional jobs in offices, schools, or hospitals.</p><p>Vocational school is different. It is also called vocational training. It is much shorter than university, usually taking only one or two years. At a vocational school, students do not read as many books. Instead, they learn practical skills. They learn how to do a specific job. For example, they learn how to fix cars, cook food, build houses, or style hair. They practice doing these jobs with their hands in workshops.</p><p>University and vocational school have different costs. University is often very expensive, and many students have to pay a lot of money for books and classes. Vocational school is usually cheaper. Also, vocational school students can start working and earning money faster because their training is short.</p><p>In conclusion, both paths are very useful. If a student likes reading, writing, and studying in a classroom, university is a good choice. If a student likes working with their hands and wants to start a job quickly, vocational training is a great choice.</p><p>For example, David wants to be a doctor, so he goes to university for many years. His brother, Tom, wants to fix cars, so he goes to a vocational school for one year. Today, both brothers have good jobs they love.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "How long does university usually take to finish?",
+      "options": {
+        "A": "One year",
+        "B": "Three or four years",
+        "C": "Five or six years",
+        "D": "Ten years"
+      },
+      "answer": "B",
+      "explanation": "The passage states: 'It usually takes three or four years to finish.' Therefore, B is the correct answer."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do university students get after they finish their studies?",
+      "options": {
+        "A": "A car",
+        "B": "A degree",
+        "C": "A house",
+        "D": "A workshop"
+      },
+      "answer": "B",
+      "explanation": "The passage states: 'After they finish their studies, students get a university degree.' Therefore, B is the correct answer."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do students learn at a vocational school?",
+      "options": {
+        "A": "Practical skills",
+        "B": "History and science",
+        "C": "How to write long reports",
+        "D": "How to teach at university"
+      },
+      "answer": "A",
+      "explanation": "The passage states: 'Instead, they learn practical skills.' Therefore, A is the correct answer."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why can vocational school students start earning money faster?",
+      "options": {
+        "A": "Because university is cheap",
+        "B": "Because they work in hospitals",
+        "C": "Because their training is short",
+        "D": "Because they read many books"
+      },
+      "answer": "C",
+      "explanation": "The passage states: 'vocational school students can start working and earning money faster because their training is short.' Therefore, C is the correct answer."
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "University is also called higher education.",
+      "answer": "TRUE",
+      "explanation": "The passage explicitly states: 'University is also called higher education.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Vocational school is usually more expensive than university.",
+      "answer": "FALSE",
+      "explanation": "The passage states: 'University is often very expensive... Vocational school is usually cheaper.' This directly contradicts the statement."
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Vocational school students learn how to style hair.",
+      "answer": "TRUE",
+      "explanation": "The passage states: 'For example, they learn how to fix cars, cook food, build houses, or style hair.'"
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Tom went to university to become a doctor.",
+      "answer": "FALSE",
+      "explanation": "The passage states: 'David wants to be a doctor, so he goes to university... His brother, Tom... goes to a vocational school for one year.' This means Tom did not go to university to be a doctor."
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "At university, students spend a lot of time reading ______.",
+      "answer": "BOOKS",
+      "explanation": "The passage states: 'They spend a lot of time reading books, writing reports...'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Vocational school students practice doing jobs with their ______.",
+      "answer": "HANDS",
+      "explanation": "The passage states: 'They practice doing these jobs with their hands in workshops.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "David went to university because he wants to be a ______.",
+      "answer": "DOCTOR",
+      "explanation": "The passage states: 'For example, David wants to be a doctor, so he goes to university...'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "higher education",
+      "meaning": "giáo dục đại học / giáo dục bậc cao"
+    },
+    {
+      "word": "vocational training",
+      "meaning": "đào tạo nghề"
+    },
+    {
+      "word": "degree",
+      "meaning": "bằng cấp (đại học)"
+    },
+    {
+      "word": "practical skills",
+      "meaning": "kỹ năng thực tế / thực hành"
+    },
+    {
+      "word": "expensive",
+      "meaning": "đắt đỏ, tốn kém"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (Tactics)</h2><p><strong>1. Dạng bài Multiple Choice:</strong> Đọc kỹ câu hỏi để xác định từ khóa (ví dụ: 'how long', 'university'). Định vị đoạn văn chứa thông tin và chọn đáp án khớp chính xác với từ ngữ trong bài đọc.</p><p><strong>2. Dạng bài True/False/Not Given:</strong> Đối với trình độ A1-A2, thông tin được viết rất trực diện. Hãy so sánh các từ khóa trong câu hỏi với bài đọc. Nếu thông tin trái ngược hoàn toàn (ví dụ: đắt hơn vs rẻ hơn), chọn FALSE. Nếu giống hệt, chọn TRUE.</p><p><strong>3. Dạng bài Sentence Completion:</strong> Chú ý giới hạn từ (NO MORE THAN TWO WORDS). Tìm câu chứa từ khóa xung quanh chỗ trống trong bài đọc và điền chính xác từ xuất hiện trong văn bản (không tự ý đổi dạng từ).</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

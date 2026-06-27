@@ -1,0 +1,145 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_075",
+  "title": "Our Warming Earth: Climate Change Explained Simply",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Our Changing Earth</h2><p>Our Earth is getting warmer. This is called global warming. The weather is changing because of this. Many scientists study this problem every day.</p><p>Why is the Earth getting warmer? People burn coal, oil, and gas to make energy. We use energy for cars, factories, and lights in our homes. When we burn these things, they make greenhouse gases. These gases go up into the air. They act like a warm blanket around the Earth. They hold the heat from the sun. This makes the world hotter.</p><p>Global warming is changing our world. In cold places, the ice is melting. This ice turns into water and goes into the oceans. Because of this, sea levels are rising. Some small islands and coastal cities might have floods in the future. Also, the weather is becoming more extreme. Some places have very hot summers with no rain. Other places have too much rain and big storms.</p><p>Animals and plants are also in danger. For example, polar bears live on ice in the Arctic. When the ice melts, they cannot find food easily. Many plants cannot grow because the weather is too hot or too dry.</p><p>What can we do to help? We can do small things every day. We can turn off the lights when we leave a room. We can walk or ride a bicycle instead of driving cars. We can also plant more trees. Trees are very good because they clean the air and take away greenhouse gases. If we all work together, we can protect our beautiful Earth.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main problem described in the first paragraph?",
+      "options": {
+        "A": "The Earth is getting colder.",
+        "B": "The Earth is getting warmer.",
+        "C": "There are no scientists on Earth.",
+        "D": "People do not use energy."
+      },
+      "answer": "B",
+      "explanation": "The first paragraph directly states: 'Our Earth is getting warmer. This is called global warming.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why do people burn coal, oil, and gas?",
+      "options": {
+        "A": "To clean the air",
+        "B": "To make energy",
+        "C": "To cool the Earth",
+        "D": "To plant trees"
+      },
+      "answer": "B",
+      "explanation": "The second paragraph states: 'People burn coal, oil, and gas to make energy.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What acts like a warm blanket around the Earth?",
+      "options": {
+        "A": "Ice",
+        "B": "Trees",
+        "C": "Greenhouse gases",
+        "D": "Big storms"
+      },
+      "answer": "C",
+      "explanation": "The second paragraph states: 'When we burn these things, they make greenhouse gases... They act like a warm blanket around the Earth.'"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Where do polar bears live?",
+      "options": {
+        "A": "In warm deserts",
+        "B": "On ice in the Arctic",
+        "C": "In big cities",
+        "D": "In deep oceans"
+      },
+      "answer": "B",
+      "explanation": "The fourth paragraph states: 'For example, polar bears live on ice in the Arctic.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Burning coal, oil, and gas makes greenhouse gases.",
+      "answer": "TRUE",
+      "explanation": "The passage says: 'When we burn these things [coal, oil, and gas], they make greenhouse gases.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Sea levels are rising because ice is melting.",
+      "answer": "TRUE",
+      "explanation": "The third paragraph says: 'In cold places, the ice is melting. This ice turns into water and goes into the oceans. Because of this, sea levels are rising.'"
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Polar bears find food easily when ice melts.",
+      "answer": "FALSE",
+      "explanation": "The fourth paragraph states: 'When the ice melts, they cannot find food easily.'"
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Planting trees is very expensive.",
+      "answer": "NOT GIVEN",
+      "explanation": "The passage mentions 'We can also plant more trees,' but it does not say if it is expensive or cheap."
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "We can walk or ride a ______ instead of driving cars.",
+      "answer": "BICYCLE",
+      "explanation": "The fifth paragraph says: 'We can walk or ride a bicycle instead of driving cars.'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Trees clean the air and take away ______.",
+      "answer": "GREENHOUSE GASES",
+      "explanation": "The fifth paragraph says: 'Trees are very good because they clean the air and take away greenhouse gases.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "In cold places, the ______ is melting.",
+      "answer": "ICE",
+      "explanation": "The third paragraph says: 'In cold places, the ice is melting.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "global warming",
+      "meaning": "sự nóng lên toàn cầu (the Earth getting warmer)"
+    },
+    {
+      "word": "greenhouse gases",
+      "meaning": "khí nhà kính (gases that hold heat in the air)"
+    },
+    {
+      "word": "melt",
+      "meaning": "tan chảy (ice turning into water)"
+    },
+    {
+      "word": "extreme",
+      "meaning": "khắc nghiệt, cực đoan (very strong or unusual weather)"
+    },
+    {
+      "word": "protect",
+      "meaning": "bảo vệ (to keep safe)"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (A1-A2)</h2><p><b>1. Tìm từ khóa trực tiếp:</b> Ở trình độ này, các câu hỏi sử dụng từ ngữ giống hệt trong bài đọc. Hãy khoanh vùng từ khóa (ví dụ: 'polar bears', 'blanket', 'melt') rồi tìm đúng dòng chứa từ đó trong bài.</p><p><b>2. Điền từ chính xác:</b> Với dạng bài Sentence Completion, hãy copy từ trực tiếp từ bài đọc, không thay đổi dạng của từ (ví dụ: 'bicycle', 'greenhouse gases'). Không viết quá số từ quy định (NO MORE THAN TWO WORDS).</p><p><b>3. Phân biệt False và Not Given:</b> Nếu thông tin trong câu hỏi ngược hoàn toàn với bài đọc, chọn FALSE. Nếu bài đọc không nhắc đến thông tin đó (ví dụ: việc trồng cây đắt hay rẻ), chọn NOT GIVEN.</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

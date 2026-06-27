@@ -1,0 +1,141 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_069",
+  "title": "Choosing Your Path: University or Vocational School?",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Choosing Your Path: University or Vocational School?</h2><p>After finishing high school, young people must choose their next step. Some students choose to go to university. Other students choose to go to a vocational school. Both choices are very good, but they are different in many ways.</p><p>University is a place for higher education. At university, students study academic subjects like science, history, or literature. They usually spend three to four years studying. Students spend a lot of time in classrooms. They listen to professors, write long essays, and read many books in the library. After they finish their studies, they get a university degree. This degree helps them get jobs such as teachers, doctors, or office managers. However, university can be very expensive, and students must study for a long time before they can work.</p><p>Vocational school is different. It is also called a trade school. At a vocational school, students learn practical skills for a specific job. They study to become mechanics, electricians, cooks, or plumbers. These courses are much shorter. They usually take only one or two years. Students at vocational schools do not write many essays. Instead, they practice with their hands. For example, a student mechanic works on real car engines in a workshop. This helps them learn the job quickly.</p><p>Vocational school is often cheaper than university. Because the courses are short, students can start working and earning money quickly. Many companies need workers with practical skills today.</p><p>In conclusion, university is good for people who like reading books and want professional careers. Vocational school is great for people who want to learn hands-on skills and start working soon. Both paths help students find a good job for their future.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "How long do students usually study at university?",
+      "options": {
+        "A": "One year",
+        "B": "Two years",
+        "C": "Three to four years",
+        "D": "Five to six years"
+      },
+      "answer": "C",
+      "explanation": "The passage states: 'They usually spend three to four years studying' at university."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do university students do in the library?",
+      "options": {
+        "A": "Work on cars",
+        "B": "Read many books",
+        "C": "Cook food",
+        "D": "Teach classes"
+      },
+      "answer": "B",
+      "explanation": "The text says university students 'read many books in the library'."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which job can you get with a university degree?",
+      "options": {
+        "A": "Mechanic",
+        "B": "Plumber",
+        "C": "Teacher",
+        "D": "Electrician"
+      },
+      "answer": "C",
+      "explanation": "The text mentions a university degree helps students get jobs such as 'teachers, doctors, or office managers'."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is another name for a vocational school?",
+      "options": {
+        "A": "High school",
+        "B": "Trade school",
+        "C": "Library",
+        "D": "University"
+      },
+      "answer": "B",
+      "explanation": "The text says: 'Vocational school is different. It is also called a trade school.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "University is usually cheaper than vocational school.",
+      "answer": "FALSE",
+      "explanation": "The passage states: 'Vocational school is often cheaper than university.' Therefore, the statement is False."
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Students at vocational schools practice with their hands.",
+      "answer": "TRUE",
+      "explanation": "The text says: 'Instead, they practice with their hands.' This matches the statement exactly."
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "All vocational school courses take five years to finish.",
+      "answer": "FALSE",
+      "explanation": "The text states: 'They usually take only one or two years.' Therefore, five years is incorrect."
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Most vocational school students live with their parents.",
+      "answer": "NOT GIVEN",
+      "explanation": "The text does not mention where vocational school students live."
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "A student mechanic works on real ______ in a workshop.",
+      "answer": "CAR ENGINES",
+      "explanation": "The passage says: 'For example, a student mechanic works on real car engines in a workshop.'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "University is a place for higher ______.",
+      "answer": "EDUCATION",
+      "explanation": "The text states: 'University is a place for higher education.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Students at vocational school learn ______ skills for a specific job.",
+      "answer": "PRACTICAL",
+      "explanation": "The text states: 'At a vocational school, students learn practical skills for a specific job.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "vocational school",
+      "meaning": "a school where students learn skills for a specific job (like fixing cars or cooking)"
+    },
+    {
+      "word": "degree",
+      "meaning": "an official paper you get when you finish university"
+    },
+    {
+      "word": "practical",
+      "meaning": "relating to real activities and hands-on work rather than ideas"
+    },
+    {
+      "word": "expensive",
+      "meaning": "costing a lot of money"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (Test-taking Tips)</h2><p><b>1. Tìm từ khóa trực tiếp:</b> Ở trình độ A1-A2, các câu hỏi sử dụng từ ngữ giống hệt trong bài đọc. Hãy tìm các từ khóa như 'car engines', 'higher', 'trade school' trong bài đọc để tìm ra đáp án nhanh nhất.</p><p><b>2. Lưu ý giới hạn từ:</b> Với dạng bài điền từ (Sentence Completion), chú ý luật 'NO MORE THAN TWO WORDS'. Nếu điền 3 từ, bạn sẽ bị mất điểm.</p><p><b>3. Phân biệt False và Not Given:</b> Nếu thông tin trong câu hỏi ngược lại hoàn toàn với bài đọc, chọn FALSE. Nếu bài đọc hoàn toàn không nói đến thông tin đó (ví dụ: 'live with parents'), chọn NOT GIVEN.</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

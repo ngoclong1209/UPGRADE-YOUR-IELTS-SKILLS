@@ -1,0 +1,147 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_035",
+  "title": "Our Warming Earth",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Our Warming Earth</h2><p>Our Earth is getting warmer every year. This rise in temperature is called global warming. The Earth is getting hotter because of things that humans do.</p><p>For many years, people have burned coal, oil, and gas. We use these things to make electricity for our homes and to run our cars. When we burn them, they release gases into the air. These are called greenhouse gases. These gases act like a warm blanket around the Earth. They trap the heat from the sun, and this makes the planet warmer.</p><p>This warming is changing the weather in many parts of the world. In some places, summers are now extremely hot. There is very little rain, so the ground becomes dry and farmers cannot grow food. In other places, there is too much rain. This causes big floods that damage houses and roads.</p><p>The ice in very cold places, like the Arctic and Antarctica, is melting quickly. When this ice melts, it turns into water and goes into the oceans. Because of this, the sea level is rising. This is dangerous for cities near the sea. Also, animals like polar bears are losing their homes because they need the ice to live and hunt for food.</p><p>However, we can do simple things to help our planet. First, we can save energy at home. We should turn off the lights and TVs when we do not use them. Second, we can walk, ride a bicycle, or use buses instead of driving cars. This keeps the air clean. Third, we can plant more trees. Trees are very important because they take bad gases out of the air and give us clean oxygen. If we all work together, we can protect our beautiful Earth.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "The Earth is getting warmer because of human activities.",
+      "options": null,
+      "answer": "TRUE",
+      "explanation": "The passage states: 'The Earth is getting hotter because of things that humans do.'"
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Greenhouse gases act like a cold blanket around the Earth.",
+      "options": null,
+      "answer": "FALSE",
+      "explanation": "The passage states: 'These gases act like a warm blanket around the Earth.'"
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Farmers in dry areas are moving to big cities.",
+      "options": null,
+      "answer": "NOT GIVEN",
+      "explanation": "The passage says 'farmers cannot grow food' in dry areas, but it does not mention if they are moving to big cities."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Polar bears need ice to live and find food.",
+      "options": null,
+      "answer": "TRUE",
+      "explanation": "The passage says: 'polar bears are losing their homes because they need the ice to live and hunt for food.'"
+    },
+    {
+      "id": "q5",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Burning coal, oil, and gas produces ___________ for our homes.",
+      "options": null,
+      "answer": "electricity",
+      "explanation": "The passage states: 'We use these things to make electricity for our homes...'"
+    },
+    {
+      "id": "q6",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Too much rain can cause big ___________ that damage houses.",
+      "options": null,
+      "answer": "floods",
+      "explanation": "The passage states: 'This causes big floods that damage houses and roads.'"
+    },
+    {
+      "id": "q7",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "When ice melts in cold places, the ___________ is rising.",
+      "options": null,
+      "answer": "sea level",
+      "explanation": "The passage states: 'Because of this, the sea level is rising.'"
+    },
+    {
+      "id": "q8",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Planting trees is helpful because they give us clean ___________.",
+      "options": null,
+      "answer": "oxygen",
+      "explanation": "The passage states: 'Trees are very important because they... give us clean oxygen.'"
+    },
+    {
+      "id": "q9",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is global warming?",
+      "options": {
+        "A": "The Earth getting colder.",
+        "B": "The Earth getting warmer.",
+        "C": "The Earth getting bigger.",
+        "D": "The Earth getting wetter."
+      },
+      "answer": "B",
+      "explanation": "The passage states: 'Our Earth is getting warmer every year. This rise in temperature is called global warming.'"
+    },
+    {
+      "id": "q10",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why does the sea level rise?",
+      "options": {
+        "A": "Because of heavy rain in the ocean.",
+        "B": "Because people use too much water.",
+        "C": "Because ice in cold places is melting.",
+        "D": "Because trees are being cut down."
+      },
+      "answer": "C",
+      "explanation": "The passage states: 'When this ice melts, it turns into water and goes into the oceans. Because of this, the sea level is rising.'"
+    },
+    {
+      "id": "q11",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "How can we keep the air clean according to the text?",
+      "options": {
+        "A": "By planting fewer trees.",
+        "B": "By leaving the lights on.",
+        "C": "By walking or riding a bicycle.",
+        "D": "By building bigger houses."
+      },
+      "answer": "C",
+      "explanation": "The passage states: 'Second, we can walk, ride a bicycle, or use buses instead of driving cars. This keeps the air clean.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "temperature",
+      "meaning": "how hot or cold something is"
+    },
+    {
+      "word": "greenhouse gases",
+      "meaning": "gases that trap heat in the atmosphere and make the Earth warmer"
+    },
+    {
+      "word": "floods",
+      "meaning": "large amounts of water covering an area that is usually dry"
+    },
+    {
+      "word": "melting",
+      "meaning": "changing from solid ice to liquid water because of heat"
+    },
+    {
+      "word": "protect",
+      "meaning": "to keep someone or something safe from harm or danger"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (A1-A2)</h2><p><b>1. Tìm từ khóa trực tiếp:</b> Vì đây là đề thi trình độ A1-A2, các từ khóa trong câu hỏi sẽ xuất hiện gần như giống hệt trong bài đọc (ít paraphrase). Hãy dùng kỹ năng quét từ (scanning) để tìm các từ như 'blanket', 'polar bears', 'oxygen', 'floods' trong bài.</p><p><b>2. True/False/Not Given:</b> Đọc kỹ thông tin trong bài. Nếu câu hỏi có từ trái ngược hoàn toàn (ví dụ: 'cold blanket' thay vì 'warm blanket'), chọn FALSE. Nếu thông tin không hề được nhắc tới (như việc người nông dân di cư ra thành phố), chọn NOT GIVEN.</p><p><b>3. Điền từ vào chỗ trống:</b> Chú ý giới hạn từ (NO MORE THAN TWO WORDS). Từ cần điền phải được lấy chính xác từ trong bài đọc, không thay đổi dạng của từ.</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,141 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_082",
+  "title": "Learning from Home: The Rise of Online Education",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Learning from Home</h2><p>Today, online learning is very popular around the world. Many students do not go to a traditional school building. Instead, they study at home using a computer and the internet. This is also called distance education. Millions of children and adults take online courses every year to learn new things.</p><p>There are many good reasons to choose online learning. First, students can study at any time of the day. For example, some students like to study early in the morning, while others prefer to study late at night. Second, students do not need to travel to a school. This saves them a lot of time and money because they do not have to buy bus or train tickets every day.</p><p>To study online successfully, students need some important tools. They must have a quiet room in their house so they can focus on their work. They also need a good computer and a fast internet connection. Without a fast connection, it is very difficult to watch video lessons or download homework. Teachers also use emails to send feedback to their students.</p><p>However, online learning also has some problems. Sometimes, the technology does not work, and students cannot join their virtual classes. Another common problem is that some students feel lonely. They do not see their classmates or teachers in person, so they miss playing and talking with friends during lunch breaks.</p><p>In conclusion, online learning is a great way to study for many people. It gives students freedom and saves money. However, students must work hard and have the right technology to succeed in their online classes.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Where do online students study?",
+      "options": {
+        "A": "In a traditional school building",
+        "B": "At home using a computer",
+        "C": "In a library with friends",
+        "D": "On a bus or train"
+      },
+      "answer": "B",
+      "explanation": "Paragraph 1 states: 'Instead, they study at home using a computer and the internet.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why do online students save money?",
+      "options": {
+        "A": "Because they do not buy bus or train tickets",
+        "B": "Because they do not buy books",
+        "C": "Because online courses are always free",
+        "D": "Because they do not eat lunch"
+      },
+      "answer": "A",
+      "explanation": "Paragraph 2 states: 'This saves them a lot of time and money because they do not have to buy bus or train tickets every day.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What must students have in their house to focus?",
+      "options": {
+        "A": "A television",
+        "B": "A big table",
+        "C": "A quiet room",
+        "D": "A lot of books"
+      },
+      "answer": "C",
+      "explanation": "Paragraph 3 states: 'They must have a quiet room in their house so they can focus on their work.'"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why do some students feel lonely?",
+      "options": {
+        "A": "They do not have computers.",
+        "B": "They do not see their classmates in person.",
+        "C": "They have too much homework.",
+        "D": "Their teachers do not send emails."
+      },
+      "answer": "B",
+      "explanation": "Paragraph 4 states: 'They do not see their classmates or teachers in person, so they miss playing and talking with friends...'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Distance education is another name for online learning.",
+      "answer": "TRUE",
+      "explanation": "Paragraph 1 says: 'Instead, they study at home using a computer and the internet. This is also called distance education.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Students can only study in the morning.",
+      "answer": "FALSE",
+      "explanation": "Paragraph 2 states: 'students can study at any time of the day.'"
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Online teachers are friendlier than traditional school teachers.",
+      "answer": "NOT GIVEN",
+      "explanation": "The passage does not compare the friendliness of online teachers and traditional school teachers."
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Technology problems can stop students from joining virtual classes.",
+      "answer": "TRUE",
+      "explanation": "Paragraph 4 states: 'Sometimes, the technology does not work, and students cannot join their virtual classes.'"
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Without a fast __________, it is difficult to watch video lessons.",
+      "answer": "internet connection",
+      "explanation": "Paragraph 3 states: 'Without a fast connection, it is very difficult to watch video lessons...'. The passage also states they need a 'fast internet connection'."
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Teachers send feedback to students using __________.",
+      "answer": "emails",
+      "explanation": "Paragraph 3 states: 'Teachers also use emails to send feedback to their students.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Students miss playing and talking with friends during __________.",
+      "answer": "lunch breaks",
+      "explanation": "Paragraph 4 states: '...so they miss playing and talking with friends during lunch breaks.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "popular",
+      "meaning": "liked by many people"
+    },
+    {
+      "word": "traditional",
+      "meaning": "following ideas or methods that have existed for a long time"
+    },
+    {
+      "word": "focus",
+      "meaning": "to give all your attention to something"
+    },
+    {
+      "word": "lonely",
+      "meaning": "sad because you are not with other people"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (Tactics)</h2><p>1. <b>Tìm từ khóa trực tiếp:</b> Ở trình độ A1-A2, đề thi ít paraphrase. Hãy tìm các từ khóa giống hệt trong câu hỏi xuất hiện ở đoạn văn (ví dụ: 'traditional school', 'lunch breaks', 'emails').</p><p>2. <b>True/False/Not Given:</b> Nếu thông tin hoàn toàn không được nhắc tới hoặc so sánh trong bài (ví dụ: sự thân thiện của giáo viên), hãy chọn ngay NOT GIVEN.</p><p>3. <b>Sentence Completion:</b> Chú ý giới hạn từ (NO MORE THAN TWO WORDS). Viết đúng chính tả từ vựng lấy trực tiếp từ bài đọc.</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

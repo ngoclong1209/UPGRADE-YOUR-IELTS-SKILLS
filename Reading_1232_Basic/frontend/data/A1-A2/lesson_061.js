@@ -1,0 +1,152 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_061",
+  "title": "University or Vocational Training: Which is Best for You?",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>University or Vocational Training?</h2><p>Choosing what to do after high school is a big decision. Many students have two main choices: they can go to university or they can choose vocational training.</p><p>University is often called higher education. At university, students study academic subjects. They learn about history, science, language, or business. Students spend a lot of time in classrooms. They listen to teachers, read many books, and write essays. A university course is long. It usually takes three to four years to finish. After they graduate, students get a university degree. This degree helps them get jobs like teachers, office managers, or scientists. University can be very expensive, and students often have to pay a lot of money for books and classes.</p><p>Vocational training is different. It is also called trade school. At a vocational school, students learn practical skills for a specific job. They do not spend all their time reading books. Instead, they practice doing the actual work. For example, they learn how to fix cars, build houses, cook food, or style hair. Vocational courses are much shorter. They usually take only one or two years. When they finish, students get a certificate. This certificate helps them get a job quickly. Vocational training is often cheaper than university.</p><p>Both choices are good, but they are for different people. University is great for students who love studying and want to work in an office. Vocational training is perfect for students who like to work with their hands and want to start earning money fast. Students should think about their hobbies and their money before they choose.</p><p>In conclusion, there is no single best choice. Some people prefer the academic life at university, while others prefer the practical learning at vocational school. Both paths can lead to a happy and successful life.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "How long does a university course usually take?",
+      "options": {
+        "A": "One year",
+        "B": "Two years",
+        "C": "Three to four years",
+        "D": "Five years"
+      },
+      "answer": "C",
+      "explanation": "The text states: 'A university course is long. It usually takes three to four years to finish.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do university students get after they graduate?",
+      "options": {
+        "A": "A certificate",
+        "B": "A degree",
+        "C": "A business",
+        "D": "A trade school"
+      },
+      "answer": "B",
+      "explanation": "The text states: 'After they graduate, students get a university degree.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is another name for vocational training?",
+      "options": {
+        "A": "Higher education",
+        "B": "Trade school",
+        "C": "High school",
+        "D": "University course"
+      },
+      "answer": "B",
+      "explanation": "The text states: 'Vocational training is different. It is also called trade school.'"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Which option is usually cheaper?",
+      "options": {
+        "A": "University",
+        "B": "Vocational training",
+        "C": "Both are the same price",
+        "D": "Both are very expensive"
+      },
+      "answer": "B",
+      "explanation": "The text states: 'Vocational training is often cheaper than university.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "University students write many essays.",
+      "options": null,
+      "answer": "TRUE",
+      "explanation": "The text states: 'They listen to teachers, read many books, and write essays.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Vocational training takes five years to finish.",
+      "options": null,
+      "answer": "FALSE",
+      "explanation": "The text states that vocational courses 'usually take only one or two years', not five years."
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Students at vocational schools can learn how to style hair.",
+      "options": null,
+      "answer": "TRUE",
+      "explanation": "The text mentions: 'For example, they learn how to fix cars, build houses, cook food, or style hair.'"
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Most vocational students become rich very quickly.",
+      "options": null,
+      "answer": "NOT GIVEN",
+      "explanation": "The text mentions that vocational training helps students 'start earning money fast', but it does not say they become 'rich'."
+    },
+    {
+      "id": "q9",
+      "type": "short_answer",
+      "instruction": "Answer the question below. Choose NO MORE THAN TWO WORDS from the passage for the answer.",
+      "text": "What is university often called?",
+      "options": null,
+      "answer": "higher education",
+      "explanation": "The text states: 'University is often called higher education.'"
+    },
+    {
+      "id": "q10",
+      "type": "short_answer",
+      "instruction": "Answer the question below. Choose NO MORE THAN TWO WORDS from the passage for the answer.",
+      "text": "Where do university students spend a lot of their time?",
+      "options": null,
+      "answer": "classrooms",
+      "explanation": "The text states: 'Students spend a lot of time in classrooms.'"
+    },
+    {
+      "id": "q11",
+      "type": "short_answer",
+      "instruction": "Answer the question below. Choose NO MORE THAN TWO WORDS from the passage for the answer.",
+      "text": "What do vocational students get when they finish their courses?",
+      "options": null,
+      "answer": "a certificate",
+      "explanation": "The text states: 'When they finish, students get a certificate.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "decision",
+      "meaning": "a choice that you make after thinking about several possibilities"
+    },
+    {
+      "word": "academic",
+      "meaning": "related to subjects that involve thinking and studying, rather than practical skills"
+    },
+    {
+      "word": "degree",
+      "meaning": "a qualification given to students who finish their university studies"
+    },
+    {
+      "word": "practical",
+      "meaning": "relating to real activities and hands-on work rather than ideas or theories"
+    },
+    {
+      "word": "certificate",
+      "meaning": "an official document proving you have completed a course of study or training"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài đạt điểm cao (A1-A2)</h2><p><strong>1. Tìm từ khóa trực tiếp:</strong> Ở trình độ A1-A2, câu hỏi hầu như không thay đổi từ vựng so với bài đọc. Hãy tìm các từ khóa chính như 'essay', 'classroom', 'certificate' trong bài đọc để tìm ra đáp án nhanh nhất.</p><p><strong>2. Cảnh giác với True/False/Not Given:</strong> Nếu thông tin trong câu hỏi hoàn toàn không xuất hiện hoặc không thể tìm thấy trong bài (ví dụ: 'become rich'), hãy chọn 'NOT GIVEN'. Không tự suy luận.</p><p><strong>3. Chú ý giới hạn từ:</strong> Đối với dạng Short-answer, hãy đọc kỹ yêu cầu 'NO MORE THAN TWO WORDS'. Nếu viết 3 từ, bạn sẽ mất điểm hoàn toàn dù từ đó có đúng nghĩa.</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

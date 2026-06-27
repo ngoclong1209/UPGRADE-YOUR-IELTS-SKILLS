@@ -1,0 +1,131 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_059",
+  "title": "Our Warming Planet",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Our Changing Earth</h2><p>Our planet Earth is getting warmer. This warming is called global warming. The temperature of the air and the oceans is going up every year. This happens because of human activities. We burn coal, oil, and gas to make electricity and run cars. This burning makes greenhouse gases. These gases go high into the air and trap heat from the sun. The gases act like a warm blanket around the Earth and make it hotter.</p><p>Global warming changes our weather. In some places, the weather is very hot and dry. There is not enough rain, and plants cannot grow. This dry weather is called a drought. In other places, there is too much rain. This causes big floods, and water covers the streets and houses. Storms are also becoming stronger and more dangerous than before.</p><p>The ice in cold places is melting very fast. In the Arctic, huge ice sheets are turning into water. This extra water goes into the oceans. Because of this, the sea level is rising. Many small islands and cities near the sea are in danger of flooding. Animals like polar bears are also losing their homes because they need ice to live and hunt for food.</p><p>We can do simple things every day to help our planet. First, we can save energy. We should turn off the lights and TVs when we do not use them. Second, we can walk or ride bicycles instead of driving cars. Third, we can plant more trees. Trees are very important because they clean the air and take in greenhouse gases. If we all work together, we can protect our Earth and keep it safe.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the warming of the Earth called?",
+      "options": {
+        "A": "Global warming",
+        "B": "Cold weather",
+        "C": "Green energy",
+        "D": "Ocean storm"
+      },
+      "answer": "A",
+      "explanation": "The passage states in the first paragraph: 'This warming is called global warming.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why do greenhouse gases trap heat?",
+      "options": {
+        "A": "Because they are like a warm blanket",
+        "B": "Because they are very cold",
+        "C": "Because they make rain",
+        "D": "Because they clean the air"
+      },
+      "answer": "A",
+      "explanation": "The passage states: 'The gases act like a warm blanket around the Earth and make it hotter.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What happens during a drought?",
+      "options": {
+        "A": "There is too much rain.",
+        "B": "The weather is hot and dry.",
+        "C": "There are many trees.",
+        "D": "The sea level falls."
+      },
+      "answer": "B",
+      "explanation": "The passage states: 'In some places, the weather is very hot and dry... This dry weather is called a drought.'"
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Burning coal, oil, and gas makes greenhouse gases.",
+      "answer": "TRUE",
+      "explanation": "The passage states: 'We burn coal, oil, and gas to make electricity and run cars. This burning makes greenhouse gases.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Storms are becoming weaker than before.",
+      "answer": "FALSE",
+      "explanation": "The passage states: 'Storms are also becoming stronger and more dangerous than before.' This contradicts the statement."
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Polar bears are losing their homes because of melting ice.",
+      "answer": "TRUE",
+      "explanation": "The passage states: 'Animals like polar bears are also losing their homes because they need ice to live and hunt for food.'"
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Planting trees is very expensive.",
+      "answer": "NOT GIVEN",
+      "explanation": "The passage mentions planting trees to clean the air, but it does not mention whether it is expensive or cheap."
+    },
+    {
+      "id": "q8",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "When the ice melts in the Arctic, the ______ is rising.",
+      "answer": "sea level",
+      "explanation": "The passage states: 'In the Arctic, huge ice sheets are turning into water... Because of this, the sea level is rising.'"
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "We can save energy by turning off lights and ______ when we do not use them.",
+      "answer": "TVs",
+      "explanation": "The passage states: 'We should turn off the lights and TVs when we do not use them.'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Trees are important because they clean the air and take in ______.",
+      "answer": "greenhouse gases",
+      "explanation": "The passage states: 'Trees are very important because they clean the air and take in greenhouse gases.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "warming",
+      "meaning": "becoming hotter"
+    },
+    {
+      "word": "greenhouse gases",
+      "meaning": "gases that trap heat in the atmosphere"
+    },
+    {
+      "word": "drought",
+      "meaning": "a long period of time with no rain"
+    },
+    {
+      "word": "floods",
+      "meaning": "large amounts of water covering an area that is usually dry"
+    },
+    {
+      "word": "melting",
+      "meaning": "changing from ice to water because of heat"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (A1-A2)</h2><p><b>1. Tìm từ khóa trực tiếp:</b> Ở trình độ này, các câu hỏi sử dụng từ ngữ giống hệt trong bài đọc (ít paraphrase). Hãy gạch chân từ khóa trong câu hỏi (ví dụ: 'drought', 'TVs', 'polar bears') rồi tìm đúng từ đó trong bài đọc.</p><p><b>2. Kỹ thuật điền từ (Sentence Completion):</b> Đọc kỹ giới hạn từ cho phép (NO MORE THAN TWO WORDS). Từ cần điền phải được lấy chính xác từ bài đọc, không thay đổi dạng từ.</p><p><b>3. Phân biệt False và Not Given:</b> Nếu thông tin trong câu hỏi ngược lại hoàn toàn với bài đọc, chọn FALSE. Nếu bài đọc không nhắc đến thông tin đó (ví dụ: chi phí trồng cây 'expensive'), chọn NOT GIVEN.</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

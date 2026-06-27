@@ -1,0 +1,168 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_043",
+  "title": "Our Warming Earth: Understanding Climate Change",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Our Warming Earth</h2><p>Earth is getting warmer. This is called global warming. The temperature of our planet is going up every year. Why is this happening? It is because of human activities.</p><p>We burn coal, oil, and gas to make electricity and run cars. When we burn these things, they make greenhouse gases. Carbon dioxide is the most common greenhouse gas. These gases go up into the air. They form a thick blanket around the Earth. This blanket traps heat from the sun. Because the heat cannot escape, the Earth gets hotter.</p><p>This warming causes many problems. First, the weather is changing. Some places are getting very dry, and there is no rain. Other places have too much rain and big floods. Storms are also getting stronger.</p><p>Second, the ice in cold places is melting. In the Arctic and Antarctic, huge blocks of ice are turning into water. This water goes into the oceans. Because of this, the sea level is rising. In the future, some coastal cities and small islands might be under water.</p><p>Third, animals are in danger. Polar bears live on the ice. When the ice melts, they lose their homes and cannot find food. Many other animals and plants are also losing their places to live.</p><p>We can help our planet. We can use less energy. For example, we can turn off lights when we leave a room. We can walk or ride bicycles instead of driving cars. We can also plant more trees. Trees are very good because they clean the air and absorb carbon dioxide. If we work together, we can protect the Earth.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why is the Earth getting warmer?",
+      "options": {
+        "A": "Because of human activities.",
+        "B": "Because of cold weather.",
+        "C": "Because of the ocean.",
+        "D": "Because of trees."
+      },
+      "answer": "A",
+      "explanation": "Paragraph 1 states: 'Why is this happening? It is because of human activities.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the most common greenhouse gas?",
+      "options": {
+        "A": "Oxygen",
+        "B": "Water",
+        "C": "Carbon dioxide",
+        "D": "Nitrogen"
+      },
+      "answer": "C",
+      "explanation": "Paragraph 2 states: 'Carbon dioxide is the most common greenhouse gas.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What happens when the ice in cold places melts?",
+      "options": {
+        "A": "The weather gets colder.",
+        "B": "The sea level rises.",
+        "C": "Forests grow.",
+        "D": "Polar bears get more food."
+      },
+      "answer": "B",
+      "explanation": "Paragraph 4 states: 'Because of this, the sea level is rising.'"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why are trees good for the Earth?",
+      "options": {
+        "A": "They make the weather cold.",
+        "B": "They turn off lights.",
+        "C": "They clean the air and absorb carbon dioxide.",
+        "D": "They make cars run faster."
+      },
+      "answer": "C",
+      "explanation": "Paragraph 6 states: 'Trees are very good because they clean the air and absorb carbon dioxide.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Burning coal, oil, and gas makes greenhouse gases.",
+      "options": {
+        "TRUE": "The statement agrees with the information.",
+        "FALSE": "The statement contradicts the information.",
+        "NOT GIVEN": "There is no information on this."
+      },
+      "answer": "TRUE",
+      "explanation": "Paragraph 2 states: 'We burn coal, oil, and gas... they make greenhouse gases.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "The heat from the sun can escape easily through the gas blanket.",
+      "options": {
+        "TRUE": "The statement agrees with the information.",
+        "FALSE": "The statement contradicts the information.",
+        "NOT GIVEN": "There is no information on this."
+      },
+      "answer": "FALSE",
+      "explanation": "Paragraph 2 states: 'This blanket traps heat from the sun. Because the heat cannot escape, the Earth gets hotter.'"
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Many coastal cities are already completely under water today.",
+      "options": {
+        "TRUE": "The statement agrees with the information.",
+        "FALSE": "The statement contradicts the information.",
+        "NOT GIVEN": "There is no information on this."
+      },
+      "answer": "NOT GIVEN",
+      "explanation": "Paragraph 4 states that 'In the future, some coastal cities... might be under water.' It does not say they are already completely under water today."
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Polar bears are losing their homes because the ice is melting.",
+      "options": {
+        "TRUE": "The statement agrees with the information.",
+        "FALSE": "The statement contradicts the information.",
+        "NOT GIVEN": "There is no information on this."
+      },
+      "answer": "TRUE",
+      "explanation": "Paragraph 5 states: 'When the ice melts, they lose their homes...'"
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Carbon dioxide is trapped by a thick _______ around the Earth.",
+      "options": null,
+      "answer": "blanket",
+      "explanation": "Paragraph 2 states: 'They form a thick blanket around the Earth.'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Some places are getting very dry because there is no _______.",
+      "options": null,
+      "answer": "rain",
+      "explanation": "Paragraph 3 states: 'Some places are getting very dry, and there is no rain.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "To help the planet, we can walk or ride _______ instead of driving cars.",
+      "options": null,
+      "answer": "bicycles",
+      "explanation": "Paragraph 6 states: 'We can walk or ride bicycles instead of driving cars.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "global warming",
+      "meaning": "the increase in the Earth's temperature"
+    },
+    {
+      "word": "greenhouse gases",
+      "meaning": "gases that trap heat in the atmosphere"
+    },
+    {
+      "word": "blanket",
+      "meaning": "a thick cover"
+    },
+    {
+      "word": "trap",
+      "meaning": "to keep something in a place so it cannot escape"
+    },
+    {
+      "word": "melt",
+      "meaning": "to turn from ice into water"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (A1-A2)</h2><p>1. <b>Tìm từ khóa trực tiếp:</b> Ở trình độ này, các câu hỏi sử dụng từ vựng giống hệt trong bài đọc (ít paraphrase). Hãy tìm các từ nổi bật như 'blanket', 'bicycles', 'polar bears' để định vị đoạn văn nhanh chóng.</p><p>2. <b>Cảnh giác với mốc thời gian:</b> Đối với câu hỏi True/False/Not Given, hãy chú ý từ chỉ thời gian như 'today' (hiện tại) đối lập với 'in the future' (tương lai) trong bài đọc để tránh chọn sai.</p><p>3. <b>Giới hạn số từ:</b> Luôn đọc kỹ yêu cầu số lượng từ (NO MORE THAN TWO WORDS) để điền chính xác từ vựng lấy trực tiếp từ bài đọc.</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,148 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_049",
+  "title": "Choosing Your Path: University or Vocational School?",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Choosing Your Path: University or Vocational School?</h2><p>After finishing high school, young people must choose their next step. Many students go to a university. This is called higher education. Other students go to a vocational school. This is vocational training. Both choices are very good, but they are different in many ways.</p><p>University is usually four years long. At university, students study subjects like history, science, and languages. They read many books and write long reports. University students learn a lot of theory. They spend a lot of time in classrooms and libraries. Many universities also have beautiful campuses with sports clubs, big libraries, and student housing. After four years, students get a university degree. This degree helps them find jobs in offices, schools, or hospitals. Popular university jobs are school teachers, doctors, and business managers. University can be very expensive, and students often pay a lot of money for their classes.</p><p>Vocational training is different. It is much shorter, usually only one or two years. At a vocational school, students learn practical skills for one specific job. They do not read many books. Instead, they practice with their hands. For example, they learn how to fix cars, build houses, or cook food. Some students also get a job while they study at vocational school. This is called an apprenticeship, where they work and learn at the same time. Popular vocational jobs are car mechanics, builders, electricians, and chefs. Vocational school is usually cheaper than university. Students can finish their studies quickly and start earning money soon.</p><p>In conclusion, university is good for people who love reading and want office jobs. Vocational school is perfect for people who like to work with their hands and want to get a job fast. Both paths help people have successful lives.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "University is usually four years long.",
+      "options": {},
+      "answer": "TRUE",
+      "explanation": "Paragraph 2 states: 'University is usually four years long.' This is a direct match."
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "University students spend a lot of time in libraries.",
+      "options": {},
+      "answer": "TRUE",
+      "explanation": "Paragraph 2 states: 'They spend a lot of time in classrooms and libraries.' This matches the statement."
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Vocational training is longer than university.",
+      "options": {},
+      "answer": "FALSE",
+      "explanation": "Paragraph 3 states: 'It is much shorter, usually only one or two years.' Therefore, vocational training is shorter, not longer than university."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "All vocational school students live with their parents.",
+      "options": {},
+      "answer": "NOT GIVEN",
+      "explanation": "The passage does not mention where vocational school students live."
+    },
+    {
+      "id": "q5",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, or C.",
+      "text": "What is another name for higher education?",
+      "options": {
+        "A": "High school",
+        "B": "University",
+        "C": "Vocational training"
+      },
+      "answer": "B",
+      "explanation": "Paragraph 1 states: 'Many students go to a university. This is called higher education.'"
+    },
+    {
+      "id": "q6",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, or C.",
+      "text": "Which job is a popular university job?",
+      "options": {
+        "A": "Car mechanic",
+        "B": "Chef",
+        "C": "School teacher"
+      },
+      "answer": "C",
+      "explanation": "Paragraph 2 states: 'Popular university jobs are school teachers, doctors, and business managers.'"
+    },
+    {
+      "id": "q7",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, or C.",
+      "text": "How do students at a vocational school learn?",
+      "options": {
+        "A": "By practicing with their hands",
+        "B": "By writing long reports",
+        "C": "By reading many books"
+      },
+      "answer": "A",
+      "explanation": "Paragraph 3 states: 'They do not read many books. Instead, they practice with their hands.'"
+    },
+    {
+      "id": "q8",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, or C.",
+      "text": "What is an apprenticeship?",
+      "options": {
+        "A": "Working and learning at the same time",
+        "B": "Writing long essays at university",
+        "C": "Playing sports on a university campus"
+      },
+      "answer": "A",
+      "explanation": "Paragraph 3 states: 'This is called an apprenticeship, where they work and learn at the same time.'"
+    },
+    {
+      "id": "q9",
+      "type": "short_answer",
+      "instruction": "Answer the questions below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "What do university students get after four years?",
+      "options": {},
+      "answer": "university degree",
+      "explanation": "Paragraph 2 states: 'After four years, students get a university degree.'"
+    },
+    {
+      "id": "q10",
+      "type": "short_answer",
+      "instruction": "Answer the questions below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "What is vocational school usually cheaper than?",
+      "options": {},
+      "answer": "university",
+      "explanation": "Paragraph 3 states: 'Vocational school is usually cheaper than university.'"
+    },
+    {
+      "id": "q11",
+      "type": "short_answer",
+      "instruction": "Answer the questions below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "What kind of jobs is university good for?",
+      "options": {},
+      "answer": "office jobs",
+      "explanation": "Paragraph 4 states: '...university is good for people who love reading and want office jobs.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "higher education",
+      "meaning": "education at a college or university level"
+    },
+    {
+      "word": "vocational training",
+      "meaning": "learning skills and doing practical work for a specific job"
+    },
+    {
+      "word": "degree",
+      "meaning": "a qualification given to student after they finish university"
+    },
+    {
+      "word": "practical skills",
+      "meaning": "skills related to real activities and working with hands, not just theory"
+    },
+    {
+      "word": "apprenticeship",
+      "meaning": "a period of time working for an employer to learn the skills needed for a job"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài cho trình độ A1-A2</h2><p><b>1. Dạng bài True/False/Not Given:</b> Hãy tìm các từ khóa trực tiếp trong câu hỏi và định vị chúng trong bài đọc. Ở trình độ này, thông tin sẽ xuất hiện gần như giống hệt, không bị biến đổi nhiều. Nếu thông tin trái ngược hoàn toàn, chọn FALSE. Nếu không tìm thấy thông tin đó trong bài, chọn NOT GIVEN.</p><p><b>2. Dạng bài Multiple Choice:</b> Đọc kỹ câu hỏi để xác định đối tượng cần tìm (ví dụ: 'higher education' hay 'vocational school'). Loại trừ các phương án có thông tin sai lệch rõ ràng hoặc không có trong bài.</p><p><b>3. Dạng bài Short-answer Questions:</b> Chú ý giới hạn từ (NO MORE THAN TWO WORDS). Tìm từ khóa chính trong câu hỏi, định vị đoạn văn chứa từ khóa đó và sao chép chính xác từ trong bài đọc vào ô trả lời mà không thay đổi dạng từ.</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

@@ -1,0 +1,147 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_052",
+  "title": "Robots in Our Daily Lives",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Robots in Our Daily Lives</h2><p>Robots are machines. They can do many jobs to help humans. Today, we can find robots in many different places like homes, schools, and hospitals. They make our lives easier and safer.</p><p>In homes, some robots help with daily cleaning. For example, there is a small round robot that cleans the floor. It moves around the living room and sweeps up dust. This robot has sensors. Sensors are like eyes for the robot. They help the robot see walls, tables, and chairs so it does not hit them. Many families love this robot because it saves them time.</p><p>In schools, teachers use small robots to teach young children. These robots help children learn how to code. Coding is how we give instructions to computers and robots. Children like playing with these robots because they can make them move, turn, and make funny sounds. It makes learning science and technology fun.</p><p>In hospitals, robots are very useful. Some robots carry medicine and food to patients in their beds. This helps nurses have more time to talk to patients. Other robots can clean hospital rooms with a special blue light. This light kills bad germs and keeps the hospital clean and safe. There are also doctor robots that help doctors during difficult operations.</p><p>In the future, we will see many more robots. Some scientists are making robots that look like real humans. These are called humanoid robots. They can walk, talk, and even smile. Some people think robots will do all our work in fifty years. But other people think robots are only helper machines. They believe robots cannot think like real humans because they do not have feelings.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Robots can help clean floors in homes.",
+      "options": null,
+      "answer": "TRUE",
+      "explanation": "Paragraph 2 states: 'there is a small round robot that cleans the floor.'"
+    },
+    {
+      "id": "q2",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Sensors help the cleaning robot avoid hitting tables and chairs.",
+      "options": null,
+      "answer": "TRUE",
+      "explanation": "Paragraph 2 states: 'They help the robot see walls, tables, and chairs so it does not hit them.'"
+    },
+    {
+      "id": "q3",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Children learn how to cook with the help of small robots.",
+      "options": null,
+      "answer": "FALSE",
+      "explanation": "Paragraph 3 states: 'These robots help children learn how to code' (not cook)."
+    },
+    {
+      "id": "q4",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Humanoid robots feel happy when they smile.",
+      "options": null,
+      "answer": "NOT GIVEN",
+      "explanation": "Paragraph 5 says humanoid robots can walk, talk, and smile, but it also says they do not have feelings. It does not mention if they feel happy when they smile."
+    },
+    {
+      "id": "q5",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do sensors do for the cleaning robot?",
+      "options": {
+        "A": "They make sounds.",
+        "B": "They act like eyes.",
+        "C": "They clean the dust.",
+        "D": "They charge the battery."
+      },
+      "answer": "B",
+      "explanation": "Paragraph 2 states: 'Sensors are like eyes for the robot.'"
+    },
+    {
+      "id": "q6",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why do hospital robots carry medicine and food?",
+      "options": {
+        "A": "To help nurses save time.",
+        "B": "To eat the food themselves.",
+        "C": "To make children laugh.",
+        "D": "To clean the rooms."
+      },
+      "answer": "A",
+      "explanation": "Paragraph 4 states: 'Some robots carry medicine and food to patients... This helps nurses have more time...'"
+    },
+    {
+      "id": "q7",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Humanoid robots are robots that look like",
+      "options": {
+        "A": "animals.",
+        "B": "computers.",
+        "C": "humans.",
+        "D": "cars."
+      },
+      "answer": "C",
+      "explanation": "Paragraph 5 states: 'Some scientists are making robots that look like real humans. These are called humanoid robots.'"
+    },
+    {
+      "id": "q8",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Coding is how people give ______ to computers and robots.",
+      "options": null,
+      "answer": "INSTRUCTIONS",
+      "explanation": "Paragraph 3 states: 'Coding is how we give instructions to computers and robots.'"
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "In hospitals, robots use a special ______ to clean rooms and kill germs.",
+      "options": null,
+      "answer": "BLUE LIGHT",
+      "explanation": "Paragraph 4 states: 'Other robots can clean hospital rooms with a special blue light.'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Robots that look like humans are called ______ robots.",
+      "options": null,
+      "answer": "HUMANOID",
+      "explanation": "Paragraph 5 states: 'Some scientists are making robots that look like real humans. These are called humanoid robots.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Some people believe robots cannot think like humans because they do not have ______.",
+      "options": null,
+      "answer": "FEELINGS",
+      "explanation": "Paragraph 5 states: 'They believe robots cannot think like real humans because they do not have feelings.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "sensors",
+      "meaning": "devices that can see or feel things to help a machine move safely"
+    },
+    {
+      "word": "code",
+      "meaning": "to write instructions for a computer or robot"
+    },
+    {
+      "word": "germs",
+      "meaning": "very small living things that can make people sick"
+    },
+    {
+      "word": "humanoid",
+      "meaning": "having a shape or appearance like a human"
+    },
+    {
+      "word": "instructions",
+      "meaning": "information or rules that tell you how to do something"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (A1-A2)</h2><p><b>1. Tìm từ khóa trực tiếp:</b> Ở trình độ này, câu hỏi sử dụng từ ngữ gần như giống hệt trong bài đọc. Hãy tìm các từ khóa nổi bật như 'sensors', 'hospitals', 'humanoid' để định vị đúng đoạn văn.</p><p><b>2. Kỹ thuật điền từ:</b> Đối với câu hỏi hoàn thành câu, chú ý giới hạn từ (NO MORE THAN TWO WORDS). Hãy chép chính xác từ trong bài đọc, không cần thay đổi dạng từ.</p><p><b>3. Phân biệt False và Not Given:</b> Nếu thông tin trong câu hỏi ngược hoàn toàn với bài đọc (ví dụ: 'learn to cook' so với 'learn to code'), chọn FALSE. Nếu thông tin không hề được nhắc tới hoặc không thể kiểm chứng (ví dụ: robot cảm thấy vui khi cười), chọn NOT GIVEN.</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

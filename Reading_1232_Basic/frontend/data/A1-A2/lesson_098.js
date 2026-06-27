@@ -1,0 +1,168 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_098",
+  "title": "Learning from Home: The New Way to Study",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Learning from Home: The New Way to Study</h2><p>Online learning is very popular today. Many students do not go to a traditional school building. Instead, they study at home using a computer and the internet. This is also called distance education.</p><p>Anna is a fifteen-year-old student from Canada. She does not go to a regular school. She studies online at home. Every morning, Anna wakes up at 7:30 AM. She has breakfast with her family. At 8:30 AM, she opens her laptop. Her classes start at 9:00 AM.</p><p>Anna has different subjects like English, Math, and Science. She watches live videos of her teachers. The teachers talk and write on a digital whiteboard. Anna can ask questions by typing in a chat box. Sometimes, she speaks to her classmates in a video call. This helps her practice her English and communication skills.</p><p>There are many good things about online learning. First, Anna does not need to travel to school. This saves her two hours every day. Second, she can study in a quiet and comfortable room. Third, she can learn at her own speed. If she does not understand a math lesson, she can watch the video again.</p><p>However, online learning can also be difficult. Anna sometimes feels lonely because she does not see her friends in person. She also needs to be very disciplined. This means she must focus on her work and not play computer games during class time.</p><p>Anna's parents help her a lot. Her father built a small desk for her in the living room. Her mother helps her plan her daily study schedule. Anna loves online learning because it is comfortable, but she also hopes to visit her school friends next month.</p><p>In conclusion, online learning is a great choice for many students. It has some problems, but with good technology and family support, students can learn very well from home.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "How old is Anna?",
+      "options": {
+        "A": "Ten years old",
+        "B": "Twelve years old",
+        "C": "Fifteen years old",
+        "D": "Twenty years old"
+      },
+      "answer": "C",
+      "explanation": "Paragraph 2 states: 'Anna is a fifteen-year-old student from Canada.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What time do Anna's online classes start?",
+      "options": {
+        "A": "7:30 AM",
+        "B": "8:30 AM",
+        "C": "9:00 AM",
+        "D": "10:00 AM"
+      },
+      "answer": "C",
+      "explanation": "Paragraph 2 states: 'Her classes start at 9:00 AM.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "How can Anna ask her teachers questions during class?",
+      "options": {
+        "A": "By calling on the phone",
+        "B": "By writing an email",
+        "C": "By typing in a chat box",
+        "D": "By visiting their house"
+      },
+      "answer": "C",
+      "explanation": "Paragraph 3 states: 'Anna can ask questions by typing in a chat box.'"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why does Anna sometimes feel lonely?",
+      "options": {
+        "A": "She has no computer",
+        "B": "She does not see her friends in person",
+        "C": "She does not like her teachers",
+        "D": "She studies in the kitchen"
+      },
+      "answer": "B",
+      "explanation": "Paragraph 5 states: 'Anna sometimes feels lonely because she does not see her friends in person.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Anna lives in Canada.",
+      "options": {
+        "TRUE": "If the statement agrees with the information",
+        "FALSE": "If the statement contradicts the information",
+        "NOT GIVEN": "If there is no information on this"
+      },
+      "answer": "TRUE",
+      "explanation": "Paragraph 2 directly says: 'Anna is a fifteen-year-old student from Canada.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Online learning saves Anna two hours of travel time every day.",
+      "options": {
+        "TRUE": "If the statement agrees with the information",
+        "FALSE": "If the statement contradicts the information",
+        "NOT GIVEN": "If there is no information on this"
+      },
+      "answer": "TRUE",
+      "explanation": "Paragraph 4 says: 'Anna does not need to travel to school. This saves her two hours every day.'"
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Anna plays computer games during her math classes.",
+      "options": {
+        "TRUE": "If the statement agrees with the information",
+        "FALSE": "If the statement contradicts the information",
+        "NOT GIVEN": "If there is no information on this"
+      },
+      "answer": "FALSE",
+      "explanation": "Paragraph 5 states: 'This means she must focus on her work and not play computer games during class time.' This shows she is not supposed to, and does not play games."
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE, FALSE, or NOT GIVEN.",
+      "text": "Anna's brother helps her with her science homework.",
+      "options": {
+        "TRUE": "If the statement agrees with the information",
+        "FALSE": "If the statement contradicts the information",
+        "NOT GIVEN": "If there is no information on this"
+      },
+      "answer": "NOT GIVEN",
+      "explanation": "The text mentions her father and mother helping her, but there is no mention of a brother."
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Anna's father built a small ________ for her in the living room.",
+      "options": {},
+      "answer": "desk",
+      "explanation": "Paragraph 6 states: 'Her father built a small desk for her in the living room.'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Her mother helps her plan her daily study ________.",
+      "options": {},
+      "answer": "schedule",
+      "explanation": "Paragraph 6 states: 'Her mother helps her plan her daily study schedule.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Online learning is also called ________ education.",
+      "options": {},
+      "answer": "distance",
+      "explanation": "Paragraph 1 states: 'This is also called distance education.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "traditional",
+      "meaning": "theo truyền thống, lâu đời (ví dụ: trường học truyền thống)"
+    },
+    {
+      "word": "distance education",
+      "meaning": "giáo dục từ xa, học từ xa"
+    },
+    {
+      "word": "digital",
+      "meaning": "kỹ thuật số"
+    },
+    {
+      "word": "disciplined",
+      "meaning": "có tính kỷ luật"
+    },
+    {
+      "word": "schedule",
+      "meaning": "lịch trình, thời khóa biểu"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài đạt điểm cao (A1-A2)</h2><p><strong>1. Kỹ thuật quét thông tin (Scanning):</strong> Hãy chú ý đến các từ khóa dễ tìm như con số (7:30, 9:00, 15 tuổi) hoặc tên riêng viết hoa (Anna, Canada) để định vị nhanh đoạn văn chứa câu trả lời.</p><p><strong>2. Tránh bẫy True/False/Not Given:</strong> Đối với trình độ A1-A2, các câu hỏi True/False thường sử dụng từ ngữ giống hệt trong bài. Nếu thông tin hoàn toàn không được nhắc đến (như người em trai 'brother' ở câu 8), hãy chọn ngay <strong>NOT GIVEN</strong>.</p><p><strong>3. Điền từ chính xác:</strong> Ở phần Sentence Completion, bạn chỉ được điền tối đa 2 từ (NO MORE THAN TWO WORDS). Hãy chép lại chính xác từ vựng trong bài đọc (ví dụ: 'desk', 'schedule'), không tự ý thay đổi dạng từ hay sửa chính tả.</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

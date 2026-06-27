@@ -1,0 +1,149 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_091",
+  "title": "Our Changing Earth",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Our Changing Earth</h2><p>Our planet Earth is getting warmer. This warming is called global warming. For many years, the temperature of the Earth has gone up. This changes the weather in many places. Some places become very hot and dry. Other places have too much rain and big floods. We call these big changes \"climate change\".</p><p>Why is the Earth getting warmer? Humans use a lot of energy every day. We burn coal, oil, and gas to make electricity for our homes and schools. We also use gas to run our cars, buses, and planes. This burning makes greenhouse gases. These gases go up into the sky. They act like a warm blanket around the Earth. They keep the heat inside, so the Earth gets warmer and warmer.</p><p>Global warming is a big problem for animals and plants. In cold places like the Arctic, the ice is melting very fast. Polar bears live on this ice. Now, they cannot find enough food because the ice is disappearing. In the oceans, the water is getting warmer too. This is bad for fish and coral reefs. Many plants cannot grow because the weather is too hot and dry.</p><p>But we can help our Earth. First, we can save energy at home. We can turn off the lights and computers when we do not use them. We can walk or ride bicycles to school instead of driving cars. Second, we can plant more trees. Trees take bad gases out of the air and make clean oxygen for us. Third, we can recycle paper, plastic, and glass. We must not throw away things that we can use again. Every small action can help make our planet healthy again.</p><p>Many schools are now teaching children about global warming. Children learn how to protect nature. If we work together, we can save the Earth for the future.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What is the main name for the Earth getting warmer?",
+      "options": {
+        "A": "Global warming",
+        "B": "Big floods",
+        "C": "Cold weather",
+        "D": "Clean air"
+      },
+      "answer": "A",
+      "explanation": "The passage says: 'Our planet Earth is getting warmer. This warming is called global warming.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What do humans burn to make electricity for homes and schools?",
+      "options": {
+        "A": "Water and wind",
+        "B": "Coal, oil, and gas",
+        "C": "Paper and plastic",
+        "D": "Trees and plants"
+      },
+      "answer": "B",
+      "explanation": "The passage states: 'We burn coal, oil, and gas to make electricity for our homes and schools.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What acts like a warm blanket around the Earth?",
+      "options": {
+        "A": "Ice",
+        "B": "Trees",
+        "C": "Greenhouse gases",
+        "D": "Oceans"
+      },
+      "answer": "C",
+      "explanation": "The passage says: 'This burning makes greenhouse gases... They act like a warm blanket around the Earth.'"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Why are polar bears having trouble finding food?",
+      "options": {
+        "A": "The water is too cold.",
+        "B": "The ice is melting fast.",
+        "C": "People are catching them.",
+        "D": "There are too many trees."
+      },
+      "answer": "B",
+      "explanation": "The passage states: 'In cold places like the Arctic, the ice is melting very fast... Now, they cannot find enough food because the ice is disappearing.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the Reading Passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "The temperature of the Earth has gone up for many years.",
+      "answer": "TRUE",
+      "explanation": "The text directly says: 'For many years, the temperature of the Earth has gone up.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the Reading Passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Polar bears live in hot deserts.",
+      "answer": "FALSE",
+      "explanation": "The text states that polar bears live in 'cold places like the Arctic' on the ice, not in hot deserts."
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the Reading Passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Planting trees helps take bad gases out of the air.",
+      "answer": "TRUE",
+      "explanation": "The text says: 'Trees take bad gases out of the air and make clean oxygen for us.'"
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the Reading Passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+      "text": "Solar energy is the cheapest energy source.",
+      "answer": "NOT GIVEN",
+      "explanation": "The passage mentions saving energy, but it does not mention solar energy or its cost."
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Big changes in the weather are called ____________.",
+      "answer": "climate change",
+      "explanation": "The passage states: 'We call these big changes \"climate change\".'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Greenhouse gases go up into the ____________.",
+      "answer": "sky",
+      "explanation": "The passage says: 'These gases go up into the sky.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Warming oceans are bad for fish and ____________.",
+      "answer": "coral reefs",
+      "explanation": "The passage states: 'In the oceans, the water is getting warmer too. This is bad for fish and coral reefs.'"
+    },
+    {
+      "id": "q12",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "We can walk or ride ____________ to school instead of driving cars.",
+      "answer": "bicycles",
+      "explanation": "The passage says: 'We can walk or ride bicycles to school instead of driving cars.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "global warming",
+      "meaning": "sự nóng lên toàn cầu (the Earth getting warmer)"
+    },
+    {
+      "word": "greenhouse gases",
+      "meaning": "khí nhà kính (gases that trap heat in the air)"
+    },
+    {
+      "word": "melting",
+      "meaning": "tan chảy (ice turning into water)"
+    },
+    {
+      "word": "recycle",
+      "meaning": "tái chế (using old things to make new things)"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (Tactics)</h2><p>Đối với trình độ A1-A2, các từ khóa trong câu hỏi và bài đọc gần như giống hệt nhau. Hãy áp dụng các bước sau:</p><ul><li><b>Bước 1:</b> Đọc kỹ câu hỏi để xác định từ khóa chính (ví dụ: 'polar bears', 'electricity', 'blanket').</li><li><b>Bước 2:</b> Dùng kỹ thuật quét thông tin (Scanning) để tìm từ khóa đó trong bài đọc.</li><li><b>Bước 3:</b> So sánh trực tiếp câu chứa từ khóa với câu hỏi để chọn đáp án đúng hoặc điền từ thích hợp. Không cần suy luận sâu xa.</li><li><b>Lưu ý:</b> Với dạng điền từ, hãy chú ý giới hạn từ cho phép (NO MORE THAN TWO WORDS) và chép chính xác từ trong bài ra, không thay đổi dạng từ.</li></ul>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);

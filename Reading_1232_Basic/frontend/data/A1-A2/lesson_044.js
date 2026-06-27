@@ -1,0 +1,145 @@
+window.lessonData = {
+  "test_id": "reading_a1_a2_044",
+  "title": "Meet the Robots: Our Helpful New Friends",
+  "level": "A1-A2",
+  "time_limit": 1200,
+  "passage": "<h2>Meet the Robots: Our Helpful New Friends</h2><p>Robots are everywhere today. Many people have robots in their homes. A very popular home robot is the vacuum cleaner robot. This small, round robot cleans the floor. It moves around the room by itself. It can go under tables and chairs. When it has low battery, it goes back to its charger. It helps people save time because they do not have to clean every day.</p><p>There are also robots in schools. Some schools use small robots to teach children. Children learn how to build and program these robots. This helps them learn science and computer skills. Some robots can also speak. They help students learn new languages like English or Spanish. Students can talk to the robot, and the robot answers their questions in a friendly voice.</p><p>In some hospitals, robots help doctors and nurses. These robots are often tall. They carry heavy medicine and food to patients' rooms. This is good because doctors and nurses are very busy. The robots do not get tired. They can work all day and night without sleeping.</p><p>We also have robots in big factories. These robots are very strong. They can build cars and pack big boxes. They do the same job many times without making mistakes. This helps companies make things fast and cheap.</p><p>In the future, we will see many more robots. Some scientists are making robots that look like humans. These are called humanoid robots. They have arms, legs, and a face. They can walk, run, and talk. Some people think robots will be our best friends in the future. Other people think robots will do all the difficult work for us. Robots make our lives easier and more interesting.</p>",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What does the vacuum cleaner robot do?",
+      "options": {
+        "A": "It cooks food.",
+        "B": "It cleans the floor.",
+        "C": "It teaches languages.",
+        "D": "It builds cars."
+      },
+      "answer": "B",
+      "explanation": "In paragraph 1, the text says: 'This small, round robot cleans the floor.'"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "Where does the vacuum cleaner robot go when its battery is low?",
+      "options": {
+        "A": "Under the table.",
+        "B": "To the school.",
+        "C": "To its charger.",
+        "D": "To the hospital."
+      },
+      "answer": "C",
+      "explanation": "In paragraph 1, the text says: 'When it has low battery, it goes back to its charger.'"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "How do robots help students learn languages?",
+      "options": {
+        "A": "They talk to students.",
+        "B": "They build computer games.",
+        "C": "They clean the classroom.",
+        "D": "They carry heavy books."
+      },
+      "answer": "A",
+      "explanation": "In paragraph 2, the text says: 'Students can talk to the robot, and the robot answers their questions...'"
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "instruction": "Choose the correct letter, A, B, C or D.",
+      "text": "What can factory robots do?",
+      "options": {
+        "A": "Teach science.",
+        "B": "Build cars.",
+        "C": "Talk like humans.",
+        "D": "Nurse sick people."
+      },
+      "answer": "B",
+      "explanation": "In paragraph 4, the text says: 'They can build cars and pack big boxes.'"
+    },
+    {
+      "id": "q5",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage?\nWrite TRUE if the statement agrees with the information,\nFALSE if the statement contradicts the information,\nNOT GIVEN if there is no information on this.",
+      "text": "Hospital robots can work all day and night without sleeping.",
+      "answer": "TRUE",
+      "explanation": "Paragraph 3 states: 'They can work all day and night without sleeping.'"
+    },
+    {
+      "id": "q6",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage?\nWrite TRUE if the statement agrees with the information,\nFALSE if the statement contradicts the information,\nNOT GIVEN if there is no information on this.",
+      "text": "Humanoid robots look like animals.",
+      "answer": "FALSE",
+      "explanation": "Paragraph 5 states: 'Some scientists are making robots that look like humans. These are called humanoid robots.'"
+    },
+    {
+      "id": "q7",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage?\nWrite TRUE if the statement agrees with the information,\nFALSE if the statement contradicts the information,\nNOT GIVEN if there is no information on this.",
+      "text": "Some schools use small robots to teach kids how to make food.",
+      "answer": "NOT GIVEN",
+      "explanation": "Paragraph 2 mentions that schools use robots to teach children science, computer skills, and languages, but there is no mention of teaching them how to make food."
+    },
+    {
+      "id": "q8",
+      "type": "true_false_not_given",
+      "instruction": "Do the following statements agree with the information given in the reading passage?\nWrite TRUE if the statement agrees with the information,\nFALSE if the statement contradicts the information,\nNOT GIVEN if there is no information on this.",
+      "text": "Factory robots are very strong.",
+      "answer": "TRUE",
+      "explanation": "Paragraph 4 states: 'We also have robots in big factories. These robots are very strong.'"
+    },
+    {
+      "id": "q9",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "When the vacuum cleaner has a ________, it goes back to its charger.",
+      "answer": "LOW BATTERY",
+      "explanation": "Paragraph 1 says: 'When it has low battery, it goes back to its charger.'"
+    },
+    {
+      "id": "q10",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "In hospitals, robots carry medicine and ________ to patients.",
+      "answer": "FOOD",
+      "explanation": "Paragraph 3 says: 'They carry heavy medicine and food to patients' rooms.'"
+    },
+    {
+      "id": "q11",
+      "type": "sentence_completion",
+      "instruction": "Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+      "text": "Robots that look like humans are called ________ robots.",
+      "answer": "HUMANOID",
+      "explanation": "Paragraph 5 says: 'Some scientists are making robots that look like humans. These are called humanoid robots.'"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "vacuum cleaner",
+      "meaning": "a machine that cleans floors by sucking up dust and dirt"
+    },
+    {
+      "word": "charger",
+      "meaning": "a piece of equipment used to put electricity into a battery"
+    },
+    {
+      "word": "program",
+      "meaning": "to give a computer or robot a set of instructions to do something"
+    },
+    {
+      "word": "humanoid",
+      "meaning": "having a shape or appearance like a human"
+    },
+    {
+      "word": "factory",
+      "meaning": "a large building where machines are used to make things"
+    }
+  ],
+  "tactics": "<h2>Hướng dẫn làm bài (Tactics)</h2><p><b>1. Định vị từ khóa (Scanning):</b> Trình độ A1-A2 có các câu hỏi sử dụng từ ngữ giống hệt trong bài. Hãy tìm các từ khóa nổi bật như 'charger', 'hospital', 'humanoid', 'factory' để tìm đoạn văn chứa câu trả lời nhanh nhất.</p><p><b>2. Đọc kỹ yêu cầu số lượng từ:</b> Đối với dạng bài điền từ (Sentence Completion), hãy chú ý giới hạn từ: <i>NO MORE THAN TWO WORDS</i> (Không quá 2 từ). Ví dụ, câu 9 đáp án là 'low battery' (2 từ) là hợp lệ.</p><p><b>3. Phân biệt False và Not Given:</b> Nếu thông tin trong câu hỏi ngược lại hoàn toàn với bài đọc, chọn <b>FALSE</b> (ví dụ: robot giống người chứ không phải giống động vật). Nếu bài đọc hoàn toàn không nói đến thông tin đó, chọn <b>NOT GIVEN</b> (ví dụ: việc học nấu ăn bằng robot).</p>"
+};
+if(typeof onLessonDataLoaded === "function") onLessonDataLoaded(window.lessonData);
