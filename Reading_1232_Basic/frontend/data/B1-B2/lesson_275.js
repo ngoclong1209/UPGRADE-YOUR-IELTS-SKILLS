@@ -24,7 +24,7 @@ window.lessonData = {
       "type": "true_false_not_given",
       "instruction": "Write T for True, F for False, or NG for Not Given.",
       "text": "NASA's Artemis program plans to send humans to Mars by 2024.",
-      "answer": "F",
+      "answer": "FALSE",
       "explanation": "The passage mentions that the Artemis program aims to return humans to the Moon by 2024, not Mars."
     },
     {
@@ -32,7 +32,7 @@ window.lessonData = {
       "type": "yes_no_not_given",
       "instruction": "Write Y for Yes, N for No, or NG for Not Given.",
       "text": "The passage states that private companies are not involved in space exploration.",
-      "answer": "N",
+      "answer": "NO",
       "explanation": "The passage discusses how private companies like SpaceX and Blue Origin are actively involved in space exploration."
     },
     {

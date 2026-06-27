@@ -24,7 +24,7 @@ window.lessonData = {
       "type": "true_false_not_given",
       "instruction": "Write T for True, F for False, or NG for Not Given.",
       "text": "Tourism has no negative effects on local ecosystems.",
-      "answer": "F",
+      "answer": "FALSE",
       "explanation": "The passage discusses the degradation of local ecosystems due to tourism, indicating that the statement is false."
     },
     {
