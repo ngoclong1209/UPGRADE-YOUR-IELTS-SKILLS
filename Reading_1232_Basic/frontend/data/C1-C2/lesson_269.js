@@ -32,7 +32,7 @@ window.lessonData = {
       "type": "yes_no_not_given",
       "instruction": "Write Y for Yes, N for No, or NG for Not Given.",
       "text": "The author believes that tourists should take responsibility for their environmental impact.",
-      "answer": "Y",
+      "answer": "YES",
       "explanation": "The passage suggests that tourists need to engage in conscientious travel, supporting the idea that they should take responsibility."
     },
     {
