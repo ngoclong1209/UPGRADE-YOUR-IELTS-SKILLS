@@ -7,7 +7,7 @@ directories = [
     "/Users/vungoclong/Desktop/Antigravity/UPGRADE YOUR ILETS SKILLS/Listening_204_FullTest"
 ]
 
-NEW_URL = "https://script.google.com/macros/s/AKfycbw8ggCZFiONZQ6eSuMczrjEyIKcsGk1ZNeK8CUjdsiiAgDon_bz7m5WmA61_ESoiuJb/exec"
+NEW_URL = "https://script.google.com/macros/s/AKfycbwZV0v_osCIN3-6lZuXwmxaFlaMdNTFi4t0RYMxXL6Z6eUkPqpe2B4RJKJg2amP9uRJSg/exec"
 
 url_pattern = re.compile(r'https://script\.google\.com/macros/s/[a-zA-Z0-9_-]+/exec')
 

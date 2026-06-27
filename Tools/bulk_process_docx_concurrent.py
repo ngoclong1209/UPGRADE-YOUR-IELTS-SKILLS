@@ -15,11 +15,10 @@ DIRECTORIES = [
 ]
 
 MODEL_POOL = [
-    "tllm/GPT_5_4",
-    "tllm/GPT_4o",
-    "oc/qwen3.6-plus-free",
-    "tllm/claude_sonnet_4",
-    "tllm/claude_haiku_3_5"
+    "oc/deepseek-v4-flash-free",
+    "oc/minimax-m3-free",
+    "oc/ling-2.6-1t-free",
+    "oc/nemotron-3-super-free"
 ]
 
 MAX_WORKERS = 5

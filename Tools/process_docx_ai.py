@@ -6,7 +6,7 @@ import requests
 
 API_KEY = "sk-92d3ef3c86e600b6-ef9847-d92a108c"
 API_URL = "http://localhost:20128/v1/chat/completions"
-MODEL_ID = "tllm/GPT_5_4"
+MODEL_ID = "oc/deepseek-v4-flash-free"
 
 SYSTEM_PROMPT = """You are an expert IELTS data processor.
 Your task is to take messy, raw text extracted from an IELTS test document (Listening or Reading) and convert it into a perfectly structured JSON object.

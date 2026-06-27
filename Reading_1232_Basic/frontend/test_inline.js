@@ -1,5 +1,5 @@
 
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw8ggCZFiONZQ6eSuMczrjEyIKcsGk1ZNeK8CUjdsiiAgDon_bz7m5WmA61_ESoiuJb/exec';
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwZV0v_osCIN3-6lZuXwmxaFlaMdNTFi4t0RYMxXL6Z6eUkPqpe2B4RJKJg2amP9uRJSg/exec';
 
         document.addEventListener('DOMContentLoaded', () => {
             console.log('DOM Loaded!');
